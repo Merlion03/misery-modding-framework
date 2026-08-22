@@ -42,6 +42,7 @@ question → method → evidence → finding → confidence → persistent artif
 | C-08 | Не обходить DRM / licensing / access control | **D-02 принято:** encryption key основного контейнера не извлекается, контейнер не расшифровывается. Разрешённые источники — только те, что не требуют обхода шифрования (§10.5) |
 | C-11 | Не выдавать один источник за другой | Каждый факт помечается тем oracle, из которого получен (§10.5). Наличие имени в `global.ucas` **не** является доказательством существования или структуры asset-а из `/Game` |
 | C-12 | Не переписывать экосистему Unreal целиком | Наши парсеры — только для минимальных воспроизводимых метаданных. Официальные UE-инструменты и проверенные open-source инструменты допустимы как **независимый oracle для cross-validation**, но не как runtime-зависимости framework (§17.3) |
+| C-13 | Репозиторий публичный — ничего личного и ничего производного от расшифрованного контента | Репозиторий опубликован как `Merlion03/misery-modding-framework` под MIT. Следствия: (1) не коммитить игровые бинарники, ассеты и любые данные, производные от расшифрованных контейнеров — при принятом D-02 таких данных у нас и не появляется, и это теперь не только методологическое, но и юридическое требование; (2) не коммитить локальные пути с именем пользователя, Steam ID, токены и содержимое `%LOCALAPPDATA%`; (3) машинно-специфичные пути в документах писать через переменные окружения (`%USERPROFILE%`, `%LOCALAPPDATA%`), а не буквально |
 | C-09 | Multiplayer research ≠ cheat framework | См. §12. Все multiplayer-эксперименты — только в приватных сессиях, где хост это мы |
 | C-10 | Не удалять существующую работу | `AGENTS.md` неприкосновенен; `research/` только дополняется, ревизии через git-историю |
 
@@ -91,7 +92,7 @@ D:\Games\Steam\steamapps\common\MISERY\
     └── Plugins\SteamCorePro\Source\ThirdParty\SteamLibrary\redistributable_bin\win64\steam_api64.dll
 ```
 
-Всего файлов: **54**.
+Всего файлов: **54** на момент recon-прохода, из которых `AGENTS.md` — единственный добавленный человеком. **Уточнение по факту выполнения R-01 (2026-08-22):** после переноса `AGENTS.md` и `plan.md` в репозиторий чистая установка содержит **53 файла**. Именно 53 — целевое число для baseline-инвентаря (R-05) и для `verify_install.py`.
 
 ### 1.2 Чего НЕТ (OBSERVED, confidence 1.00)
 
@@ -124,7 +125,7 @@ D:\Games\Steam\steamapps\common\MISERY\
 | R-02 | Создать скелет knowledge base (§9) | Создание директорий и seed-файлов | Все файлы из §9.2 существуют, пусть и с заголовками-заглушками |
 | R-03 | Зафиксировать текущий audit как артефакт | Записать §1.1–1.3 в `research/repo-audit.md` | Файл существует, содержит только OBSERVED-факты с датой |
 | R-04 | Реализовать модель безопасности (§1.5) | Отдельный workspace + анализ копий + hash/inventory verification | Все три слоя §1.5 действуют; `verify-install.py` детектирует искусственно внесённое изменение в тестовой копии дерева |
-| R-05 | Зафиксировать baseline-инвентарь установки | `tools/inventory/snapshot_install.py` → путь + размер + mtime + sha256 по всем 54 файлам | `research/builds/<build-id>/install-inventory.json` |
+| R-05 | Зафиксировать baseline-инвентарь установки | `tools/inventory/snapshot_install.py` → путь + размер + mtime + sha256 по всем **53** файлам | `research/builds/<build-id>/install-inventory.json` |
 
 **Зависимости:** R-01 → R-02 → (R-03, R-04, R-05).
 
@@ -1363,7 +1364,7 @@ MISERY
 | git | `C:\Program Files\Git\cmd\git.exe` | — | было |
 | Python | `C:\Python314\python.exe` | 3.14.0 | было |
 | .NET SDK | `C:\Program Files\dotnet\dotnet.exe` | — | было |
-| Rust / cargo | `C:\Users\Anton\.cargo\bin\` | — | было |
+| Rust / cargo | `%USERPROFILE%\.cargo\bin\` | — | было |
 | Node / npm | `C:\nvm4w\nodejs\` | — | было (не обязателен) |
 | CMake | `D:\Program Files\CMake\bin\cmake.exe` | — | было |
 | MSVC toolset | `D:\Program Files\VisualStudio` (`VC.Tools.x86.x64`) | VS 2022 | было. **Не в PATH** — для сборки C/C++ расширений Python нужен `vcvars64.bat` |
