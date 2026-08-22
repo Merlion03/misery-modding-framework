@@ -1,0 +1,1813 @@
+# MISERY Modding Framework — Phase 1 Research Plan
+
+**Статус документа:** **DRAFT v2** — утверждённый план исследования, не отчёт о результатах.
+**Дата составления:** 2026-08-22
+**Автор прохода:** Claude Code (agent), recon + ревизия по решениям владельца проекта
+**Область:** Phase 1 — Research. Реализация Mod Loader / Bootstrap / MiseryRuntime / public SDK **вне области** этого документа.
+**Исполнение:** M0 не начат. Первое действие исполнения — R-01 (создание репозитория в `D:\Dev\MiseryFramework`).
+
+**История ревизий**
+
+| Версия | Дата | Что изменилось |
+|---|---|---|
+| v1 | 2026-08-22 | Первая редакция по итогам read-only recon-прохода |
+| **v2** | 2026-08-22 | Консолидированная ревизия перед началом исполнения. Включает: (а) фактическую установку toolchain (Ghidra 12.1.3, Temurin JDK 21, PyGhidra 3.1.0) и §14.7 — многоуровневую стратегию производства контента, снявшую блокировку на UE; (б) принятие решений D-01/D-02/D-04/D-05; (в) разделение Probe на External Inspector и In-Process Probe; (г) новый критический трек §14A «Mod Kit / Cooking Against MISERY Classes»; (д) детализацию content-экспериментов до E-1..E-7; (е) перенос Early Content Feasibility до широкого subsystem-research; (ж) §10.5 «границы источников»; (з) обновлённый граф, milestones и риски. Подробный changelog — Приложение D |
+
+> Этот файл — единственный источник истины по последовательности Phase 1.
+> Любой сильный инженер или AI-агент должен уметь продолжить работу, прочитав только `AGENTS.md` + `plan.md` + `research/RESEARCH_LOG.md`.
+
+---
+
+## 0. Как читать и использовать этот план
+
+### 0.1 Инвариант исследования
+
+```
+question → method → evidence → finding → confidence → persistent artifact → next question
+```
+
+Ни один вывод не считается зафиксированным, пока он не записан в `research/` как файл. Знание, существующее только в контексте диалога, считается несуществующим.
+
+### 0.2 Жёсткие ограничения (наследуются из AGENTS.md, повторены здесь намеренно)
+
+| # | Ограничение | Практическое следствие |
+|---|---|---|
+| C-01 | Не изменять файлы оригинальной установки MISERY | Все операции над `D:\Games\Steam\steamapps\common\MISERY\**` (кроме файлов, созданных нами) — только чтение. Никаких `>`, `>>`, `Set-Content`, `Move-Item`, `Remove-Item`, `attrib` по путям игры |
+| C-02 | Не патчить executable на диске | Любой патчинг — только в копии внутри research workspace, и только если это реально понадобится |
+| C-03 | Не заменять оригинальные containers | Никаких манипуляций с `MISERY-Windows.utoc/.ucas/.pak`, `global.utoc/.ucas` |
+| C-04 | UE4SS не является фундаментом будущего framework | UE4SS допустим **только** как источник публичной документации по структурам UE и как независимая точка сверки гипотез. Не как runtime dependency и не как код, встроенный в наш продукт |
+| C-05 | Не строить production loader в Phase 1 | ERI ≠ IPP ≠ MiseryRuntime (см. §8.1) |
+| C-06 | Не декомпилировать бинарник целиком | Только семантически направленный анализ (см. §7) |
+| C-07 | Не называть догадки фактами | Обязательна модель evidence + confidence (см. §10) |
+| C-08 | Не обходить DRM / licensing / access control | **D-02 принято:** encryption key основного контейнера не извлекается, контейнер не расшифровывается. Разрешённые источники — только те, что не требуют обхода шифрования (§10.5) |
+| C-11 | Не выдавать один источник за другой | Каждый факт помечается тем oracle, из которого получен (§10.5). Наличие имени в `global.ucas` **не** является доказательством существования или структуры asset-а из `/Game` |
+| C-12 | Не переписывать экосистему Unreal целиком | Наши парсеры — только для минимальных воспроизводимых метаданных. Официальные UE-инструменты и проверенные open-source инструменты допустимы как **независимый oracle для cross-validation**, но не как runtime-зависимости framework (§17.3) |
+| C-09 | Multiplayer research ≠ cheat framework | См. §12. Все multiplayer-эксперименты — только в приватных сессиях, где хост это мы |
+| C-10 | Не удалять существующую работу | `AGENTS.md` неприкосновенен; `research/` только дополняется, ревизии через git-историю |
+
+### 0.3 Точки решения
+
+Решения D-01, D-02, D-04, D-05 **приняты владельцем проекта 2026-08-22** и с этого момента являются обязательными ограничениями, а не открытыми вопросами. D-03 и D-06 остаются открытыми по замыслу — они должны быть результатом исследования, а не его предпосылкой.
+
+| ID | Решение | Статус | Содержание |
+|---|---|---|---|
+| **D-01** | Расположение репозитория framework | ✅ **ПРИНЯТО** | Репозиторий framework: **`D:\Dev\MiseryFramework`**. Папка `D:\Games\Steam\steamapps\common\MISERY` — **исключительно read-only research target**, в неё ничего не пишется. Следствия: (1) `plan.md` и `AGENTS.md` переезжают в репозиторий первым действием M0 (R-01); (2) после переезда в папке игры не должно остаться наших файлов; (3) снимается RISK-01 (потеря работы при переустановке игры) |
+| **D-02** | Политика в отношении шифрования контейнеров | ✅ **ПРИНЯТО** | **Не извлекать encryption key и не расшифровывать основной контейнер игры.** Разрешённые источники: `global.ucas` (незашифрован, A-08), незашифрованный `.pak`, runtime reflection, AssetRegistry и любые другие методы, не требующие обхода шифрования. Границы того, что каждый источник может доказывать — §10.5 |
+| **D-03** | Механизм bootstrap | ⏳ открыто **по замыслу** | Не выбирать заранее. Результат M7 — сравнительная таблица + аргументированная рекомендация. Кандидаты в §13 |
+| **D-04** | Использование второго `MISERY.exe` (282 МБ) | ✅ **ПРИНЯТО** | Разрешено исследовать **read-only как oracle** для сопоставления имён и структур. **Запрещено:** (1) называть его Development build без доказательства — это остаётся HYPOTHESIS (A-05); (2) использовать его как target для production bindings — bindings нацеливаются только на то, что реально запускает Steam (`MISERY-Win64-Shipping.exe`); (3) любой вывод, полученный на нём, обязан быть перепроверен на Shipping-бинарнике перед фиксацией |
+| **D-05** | Политика multiplayer-тестов | ✅ **ПРИНЯТО** | Multiplayer-тесты **только в полностью контролируемых private sessions**, где все участники — мы. Никаких экспериментов в публичных лобби и никаких сессий с посторонними игроками |
+| **D-06** | Ставить ли локально Unreal Engine 5.4.x | ⏳ открыто, по триггеру | Решение принимается по триггеру §14.7, после того как M5a даст вердикт по mounting. Свободного места на `D:` достаточно (100 ГБ на 2026-08-22), но тратить его до ответа на главный вопрос преждевременно. Связано с RISK-15 (совместимость stock-cooker-а) |
+
+---
+
+## 1. Repository audit
+
+### 1.1 Что реально есть сейчас (OBSERVED, confidence 1.00)
+
+Корень «репозитория» = `D:\Games\Steam\steamapps\common\MISERY` — это **сама папка установки игры**. Никакого отдельного проекта-репозитория не существует.
+
+```
+D:\Games\Steam\steamapps\common\MISERY\
+├── AGENTS.md                          ← ЕДИНСТВЕННЫЙ файл, добавленный человеком
+├── MISERY.exe                         ← UE BootstrapPackagedGame shim, 422 400 B
+├── Manifest_NonUFSFiles_Win64.txt
+├── steam_input_manifest.vdf
+├── controller_*.vdf                   ← 9 файлов Steam Input
+├── Engine\
+│   ├── Binaries\ThirdParty\{DbgHelp,MsQuic,NVIDIA,Ogg,Vorbis,Vulkan,Windows}
+│   ├── Binaries\Win64\EOSSDK-Win64-Shipping.dll
+│   ├── Content\{Renderer,Slate,SlateDebug}
+│   └── Extras\{GPUDumpViewer,Redist}
+└── MISERY\
+    ├── Binaries\Win64\
+    │   ├── MISERY-Win64-Shipping.exe   ← 134 658 048 B  (реальная цель)
+    │   ├── MISERY.exe                  ← 282 826 240 B  (АНОМАЛИЯ, см. A-05)
+    │   ├── OpenImageDenoise.dll, tbb*.dll
+    │   └── D3D12\{D3D12Core.dll,d3d12SDKLayers.dll}
+    ├── Content\Paks\
+    │   ├── global.utoc (623 B) + global.ucas (2 269 168 B)
+    │   ├── MISERY-Windows.utoc (2 916 142 B) + .ucas (4 335 197 536 B)
+    │   └── MISERY-Windows.pak (117 656 684 B)
+    └── Plugins\SteamCorePro\Source\ThirdParty\SteamLibrary\redistributable_bin\win64\steam_api64.dll
+```
+
+Всего файлов: **54**.
+
+### 1.2 Чего НЕТ (OBSERVED, confidence 1.00)
+
+* Нет git-репозитория (`.git` отсутствует).
+* Нет `research/`, `docs/`, `tools/`, `src/`, `build/`.
+* Нет `Mods/` — целевая пользовательская папка ещё не существует нигде.
+* Нет ранее существовавших заметок, дампов, скриптов, SDK-генераторов.
+* Нет установленного UE4SS или любого другого mod loader (нет `dwmapi.dll`, `xinput1_3.dll`, `ue4ss/`, `Mods/`, `dsound.dll` рядом с exe).
+* Нет `MISERY/Config/` в установке — конфиги игры целиком внутри контейнеров.
+* Нет `.pdb`, `.map`, символов.
+* Нет `MISERY/Content/Movies`, `MISERY/AssetRegistry.bin` как отдельного файла на диске.
+
+### 1.3 Что можно переиспользовать
+
+| Ресурс | Ценность | Примечание |
+|---|---|---|
+| `AGENTS.md` | Единственный существующий проектный документ | Основной набор правил |
+| `Manifest_NonUFSFiles_Win64.txt` | Точный список non-UFS файлов «как их упаковал разработчик» | Позволяет обнаружить файлы, которых в манифесте нет → аномалии (см. A-05) |
+| `steamapps/appmanifest_2119830.acf` | Steam buildid, depot id, manifest id, размер | Ключ к версионированию: buildid меняется при патче |
+| `%LOCALAPPDATA%\MISERY\Saved\Crashes\*\CrashContext.runtime-xml` | 30+ crash-отчётов с полными метаданными сборки и списком модулей | Независимый источник подтверждения версии UE, конфигурации, командной строки, `BaseDir` |
+| `%LOCALAPPDATA%\MISERY\Saved\Config\Windows\*.ini` | `Engine.ini`, `GameUserSettings.ini`, `Input.ini` | Точка расширения конфигов пользователя, важна для §13/§14 |
+| `MISERY/Content/Paks/global.ucas` | **Незашифрованный** глобальный FName-пул + script objects | Крупнейший найденный ускоритель: статическая карта reflected-типов без runtime-инъекции (см. A-08) |
+| `MISERY/Content/Paks/MISERY-Windows.pak` | Незашифрованный индекс, loose staged files (`*.uplugin` и др.) | Список плагинов сборки |
+
+### 1.4 Задачи этапа Repository audit (входит в M0)
+
+| ID | Задача | Метод | Exit criterion |
+|---|---|---|---|
+| R-01 | Создать репозиторий по принятому D-01 | `git init D:\Dev\MiseryFramework`; **переместить** туда `AGENTS.md` и `plan.md` из папки игры; настроить remote | Репозиторий существует с первым коммитом, содержащим `AGENTS.md` + `plan.md`; в папке игры **не осталось ни одного нашего файла** |
+| R-02 | Создать скелет knowledge base (§9) | Создание директорий и seed-файлов | Все файлы из §9.2 существуют, пусть и с заголовками-заглушками |
+| R-03 | Зафиксировать текущий audit как артефакт | Записать §1.1–1.3 в `research/repo-audit.md` | Файл существует, содержит только OBSERVED-факты с датой |
+| R-04 | Реализовать модель безопасности (§1.5) | Отдельный workspace + анализ копий + hash/inventory verification | Все три слоя §1.5 действуют; `verify-install.py` детектирует искусственно внесённое изменение в тестовой копии дерева |
+| R-05 | Зафиксировать baseline-инвентарь установки | `tools/inventory/snapshot_install.py` → путь + размер + mtime + sha256 по всем 54 файлам | `research/builds/<build-id>/install-inventory.json` |
+
+**Зависимости:** R-01 → R-02 → (R-03, R-04, R-05).
+
+### 1.5 Модель безопасности исходной установки
+
+Отдельного «guard»-слоя, перехватывающего файловые операции, **не строим** — это сложный механизм с иллюзией надёжности. Вместо него три простых слоя, каждый из которых проверяем:
+
+| Слой | Механизм | Почему работает |
+|---|---|---|
+| **1. Изоляция** | Вся работа идёт в `D:\Dev\MiseryFramework` и `D:\Dev\MiseryFramework\workspace\`. Папка игры по D-01 — read-only research target. Ни один инструмент не принимает путь внутри установки игры как output-путь | Устраняет саму возможность ошибки вместо её перехвата |
+| **2. Работа с копиями** | Любой бинарник, который нужно открыть инструментом, способным писать (Ghidra, любой патчер, любой распаковщик), сначала копируется в `workspace/bin/`. Оригинал открывается только потоковым чтением для хэширования и парсинга | Ghidra уже проверена на этом сценарии (§17.1) |
+| **3. Верификация** | `tools/inventory/verify_install.py` сравнивает текущее состояние установки с `install-inventory.json` (путь + размер + mtime + sha256) и печатает diff. Запускается: после каждого milestone (§18.3), до и после любой сессии с запущенной игрой, до и после первого использования Probe | Обнаруживает факт изменения, даже если оно произошло не по нашей вине (патч Steam, сторонний софт) |
+
+Дополнительно: `install-inventory.json` служит и baseline для детекта обновлений игры (§16, `build_key`/`content_key`), так что этот слой всё равно нужен по другим причинам — он не является чистым overhead.
+
+---
+
+## 2. Game installation discovery
+
+Цель: детерминированный, воспроизводимый, read-only способ найти установку MISERY на произвольной машине. Это нужно и для research-инструментов, и позже для установщика framework.
+
+### 2.1 Алгоритм обнаружения (проектируется, реализуется в M0)
+
+```
+1. Явный override           : переменная окружения MISERY_GAME_DIR или research/config/local.json
+2. Steam registry            : HKCU\Software\Valve\Steam\SteamPath
+                               HKLM\SOFTWARE\WOW6432Node\Valve\Steam\InstallPath
+3. Steam library enumeration : <SteamPath>\steamapps\libraryfolders.vdf  → все "path"
+4. App manifest              : <library>\steamapps\appmanifest_2119830.acf
+                                 → "installdir", "buildid", "InstalledDepots"
+5. Install dir               : <library>\steamapps\common\<installdir>
+6. Validation                : наличие MISERY\Binaries\Win64\MISERY-Win64-Shipping.exe
+                               наличие MISERY\Content\Paks\global.utoc
+7. Fallback (не Steam)       : Uninstall registry keys; полнодисковый поиск — только по явной просьбе
+```
+
+### 2.2 Что фиксируется как результат обнаружения
+
+Файл `research/builds/<build-id>/install.json`:
+
+```jsonc
+{
+  "discovered_at": "ISO-8601 UTC",
+  "method": "steam-libraryfolders",
+  "steam_path": "D:\\Games\\Steam",
+  "app_id": 2119830,
+  "depots": { "2119831": { "manifest": "...", "size": 5057001973 } },
+  "shared_depots": ["228989", "228990", "229007"],
+  "steam_buildid": 24826585,
+  "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "primary_executable": "MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+  "launcher_shim": "MISERY.exe",
+  "secondary_executables": ["MISERY\\Binaries\\Win64\\MISERY.exe"],
+  "paks_dir": "MISERY\\Content\\Paks",
+  "containers": [ /* см. §3 */ ],
+  "user_config_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\Config\\Windows",
+  "user_save_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\SaveGames",
+  "crash_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\Crashes",
+  "log_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\Logs"
+}
+```
+
+### 2.3 Вопросы, на которые обязан ответить этот этап
+
+| ID | Вопрос | Текущий статус |
+|---|---|---|
+| Q-2.1 | Какой exe реально стартует Steam? | **OBSERVED**: корневой `MISERY.exe` — это UE `BootstrapPackagedGame`, внутри ссылается на `MISERY\Binaries\Win64\MISERY-Win64-Shipping.exe`. Требуется подтверждение того, что Steam запускает именно корневой shim (см. A-04) |
+| Q-2.2 | Существует ли `MISERY/Config/*.ini` на диске? | **OBSERVED: нет.** Конфиги внутри контейнеров. Следствие: пользовательский `Engine.ini` в `Saved/Config/Windows` — единственная незапакованная точка влияния на конфиг |
+| Q-2.3 | Читает ли игра `-pak`/дополнительные контейнеры из `Paks/` автоматически? | UNKNOWN — исследуется в M5a. **Ответ определяет, нужен ли уровень 2 вообще** (Q-8.5) |
+| Q-2.4 | Есть ли у сборки поддержка `Paks/*_P.pak` (patch pak) chunk-приоритетов? | UNKNOWN |
+| Q-2.5 | Меняется ли `installdir` между версиями/языками? | UNKNOWN, низкий приоритет |
+
+**Exit criteria этапа:** `tools/discovery/find-misery.ps1` (и/или Python-аналог) детерминированно находит установку, ничего не пишет в папку игры, покрыт unit-тестом на разобранный `libraryfolders.vdf`, и производит валидный `install.json`.
+
+**Зависимости:** R-01, R-02.
+
+---
+
+## 3. Build fingerprinting
+
+Цель: любая находка в knowledge base должна быть привязана к конкретной сборке. Без этого база знаний устареет молча.
+
+### 3.1 Состав fingerprint
+
+`research/builds/<build-id>/fingerprint.json`:
+
+| Группа | Поля | Источник |
+|---|---|---|
+| Identity | `build_id`, `generated_at`, `generator_version` | вычисляется |
+| Steam | `app_id`, `depot_id`, `depot_manifest_id`, `steam_buildid`, `size_on_disk`, `last_updated_epoch` | `appmanifest_2119830.acf` |
+| Executable (для каждого exe) | `path`, `size`, `sha256`, `sha1`, `md5`, `pe.machine`, `pe.timestamp`, `pe.characteristics`, `pe.subsystem`, `pe.checksum`, `pe.image_base`, `pe.entry_point`, `pe.sections[] {name, vsize, rsize, rva, characteristics}`, `pe.debug_directory`, `pe.pdb_path_if_any`, `pe.rich_header`, `pe.imports[]`, `pe.exports[]`, `pe.tls`, `pe.has_reloc`, `pe.version_info` | PE-парсер |
+| Engine | `engine_version`, `engine_cl`, `engine_branch`, `build_configuration`, `is_source_distribution`, `is_perforce_build`, `build_machine_path_leak` | §4 |
+| Game | `game_name`, `project_module_name`, `game_version_string_if_any` | §4 |
+| Modules | список всех DLL рядом с игрой: путь, размер, sha256, version info | обход `Engine/Binaries`, `MISERY/Binaries`, `MISERY/Plugins` |
+| Containers | для каждого `.utoc`: `toc_version`, `header_size`, `entry_count`, `compressed_block_count`, `compression_block_size`, `compression_method_names[]`, `directory_index_size`, `partition_count`, `container_id`, `encryption_key_guid`, `container_flags`, `perfect_hash_seed_count`. Для каждого `.pak`: `pak_version`, `index_offset`, `index_size`, `encrypted_index`, `encryption_key_guid`, `mount_point` | §5 |
+| Plugins | список `*.uplugin`, найденных в незашифрованных контейнерах | §5 |
+| Layout | нормализованное дерево установки: путь → размер → sha256 | R-05 |
+| Anomalies | список файлов на диске, отсутствующих в `Manifest_NonUFSFiles_Win64.txt` | сравнение |
+
+### 3.2 Предлагаемый `build-id`
+
+Требования: стабильность, читаемость, устойчивость к тому, что Steam buildid может меняться без изменения exe (и наоборот).
+
+```
+build_key   = sha256( MISERY-Win64-Shipping.exe )          ← первичная, каноническая идентичность
+build_id    = "misery-" + <steam_buildid> + "-ue" + <engine_version> + "-" + <build_key[0:12]>
+```
+
+Пример формы (значения не подставлены — sha256 ещё не вычислен):
+`misery-24826585-ue5.4.4-UNKNOWN_SHA12`
+
+Правила:
+* Директория знаний — по `build_id`.
+* Все записи в базе знаний ссылаются на `build_key` (не на `build_id`), потому что `build_key` не меняется при переименованиях.
+* Если exe не изменился, а контейнеры изменились — заводится **суффикс контента**: `content_key = sha256(concat(sha256 всех .utoc))`, отдельное поле, отдельный индекс. Это позволяет различать «патч только контента» и «патч кода».
+* `research/builds/index.json` — реестр: `build_key → {build_id, aliases, first_seen, last_seen, steam_buildids[]}`.
+
+### 3.3 Задачи
+
+| ID | Задача | Exit criterion |
+|---|---|---|
+| F-01 | `tools/fingerprint/pe_info.py` — read-only PE-парсер (без внешних бинарников) | Корректно печатает секции/импорты/exports/debug dir для всех трёх exe |
+| F-02 | `tools/fingerprint/container_info.py` — парсер заголовков `.utoc` и футера `.pak` | Поля из §3.1 «Containers» заполнены, значения совпадают с ручным hexdump-контролем |
+| F-03 | `tools/fingerprint/fingerprint.py` — сборка полного `fingerprint.json` | Файл валиден по JSON-схеме `research/schema/fingerprint.schema.json` |
+| F-04 | Хэширование крупных файлов потоково, без записи в папку игры | Пиковое потребление памяти < 64 МБ на 4.3 ГБ файле |
+| F-05 | Детектор аномалий «файл есть на диске, но нет в non-UFS манифесте» | Аномалия A-05 воспроизводится автоматически |
+| F-06 | JSON-схема для fingerprint | Схема существует, CI-проверка проходит |
+
+**Зависимости:** §2 (M0) → M1.
+**Exit criteria M1:** `fingerprint.json` + `install-inventory.json` существуют, воспроизводимы (два запуска дают идентичный вывод, кроме `generated_at`), и все поля либо заполнены, либо явно `null` с записью в `unknowns.md`.
+
+---
+
+## 4. Unreal Engine version identification
+
+Правило: **минимум три независимых источника**, и они должны совпасть. Один источник = HYPOTHESIS, не факт.
+
+### 4.1 Планируемые независимые методы
+
+| ID | Метод | Что даёт | Инвазивность | Статус |
+|---|---|---|---|---|
+| V-01 | UTF-16 строки в exe: `++UE5+Release-*`, `*-CL-*`, `D:\build\++UE5\Sync\...` | branch, CL, путь build-машины | нулевая | **выполнено в recon**, см. A-06 |
+| V-02 | `CrashContext.runtime-xml` из `Saved/Crashes` | `EngineVersion`, `EngineCompatibleVersion`, `BuildVersion`, `BuildConfiguration`, `GameName`, `IsSourceDistribution` | нулевая | **выполнено в recon**, см. A-06 |
+| V-03 | PE `VS_VERSIONINFO` ресурс exe | FileVersion/ProductVersion | нулевая | выполнено частично — поля пустые, см. A-03. Требует разбора `.rsrc` напрямую, а не через `Get-Item().VersionInfo` |
+| V-04 | Версии сторонних DLL (`EOSSDK`, `msquic v220`, `D3D12Core`, `OpenImageDenoise`, `tbb12`) | косвенное сужение диапазона релиза UE | нулевая | планируется в M1 |
+| V-05 | IoStore TOC version + Zen package format | подтверждение поколения UE5.x по формату контейнера | нулевая | планируется в M2 |
+| V-06 | `FPackageFileVersion` / `EUnrealEngineObjectUE5Version` значения, найденные в exe как константы | подтверждение UE5-минора по serialization-версиям | низкая (статический анализ) | планируется в M2/M3 |
+| V-07 | Список engine-плагинов и модулей (`/Script/*`), сопоставленный с известным составом релизов UE | подтверждение минора | нулевая | планируется в M2 (данные из `global.ucas`) |
+| V-08 | Наличие/отсутствие known-структурных изменений между 5.3/5.4/5.5 (например состав `FUObjectItem`, layout `FNameEntry`) | подтверждение на уровне runtime-структур | средняя (статический анализ) | планируется в M3 |
+| V-09 | Строки `.uedbg`-секции второго exe | возможные имена модулей/символов | нулевая | планируется в M1 (при D-04 = yes) |
+
+### 4.2 Стратегия cross-validation
+
+```
+V-01 (strings)        ─┐
+V-02 (crash xml)      ─┼→  PRIMARY CLAIM: engine_version, engine_cl
+V-03 (PE version)     ─┘        │
+                                ▼
+V-05, V-06, V-07  ───────→ INDEPENDENT CORROBORATION (формат данных, а не текст)
+                                │
+                                ▼
+V-08  ───────────────────→ STRUCTURAL CORROBORATION (layout структур)
+```
+
+Правила фиксации:
+* `engine_version` получает `confidence ≥ 0.90` только если совпали ≥1 текстовый источник и ≥1 источник формата данных (V-05/V-06/V-07).
+* `confidence = 1.00` не присваивается никогда — оставляем место для «разработчик собрал кастомный движок из 5.4 с backport-ами».
+* Отдельный флаг `engine_is_vanilla`: UNKNOWN до M3. Даже при `IsSourceDistribution=false` возможны модификации.
+* **Особая осторожность:** crash-отчёты в `Saved/Crashes` могли быть созданы предыдущей версией игры. Каждый crash-отчёт при использовании обязан сопровождаться его mtime, и вывод «версия текущей сборки» не может опираться только на них. Требуется совпадение с V-01 по текущему exe на диске.
+
+### 4.3 Артефакты
+
+* `research/unreal/engine-version.md` — семантический разбор, все источники, даты, confidence.
+* `research/unreal/engine-version.json` — machine-readable.
+* `research/evidence/V-01..V-09/` — сырые выдержки (строки, XML-фрагменты, hexdump-и) с указанием файла и смещения.
+
+**Зависимости:** M1 (fingerprint tooling) — частично параллелен.
+**Exit criteria:** `engine-version.json` содержит `engine_version`, `engine_cl`, `engine_branch`, `build_configuration` с confidence ≥ 0.90 и минимум тремя независимыми источниками, перечисленными по ID.
+
+---
+
+## 5. Asset and package research
+
+### 5.1 Что нужно определить
+
+| ID | Вопрос | Метод | Приоритет |
+|---|---|---|---|
+| A-5.1 | Pak или IoStore — что первично? | Заголовки контейнеров + порядок mount в runtime | **высокий** |
+| A-5.2 | Точные значения полей `FIoStoreTocHeader` (version, flags, container id, encryption key guid, compression) | Свой парсер + ручная сверка hexdump | **высокий** |
+| A-5.3 | Зашифрован ли directory index / chunk data основного контейнера | Энтропийный анализ + `ContainerFlags` | **высокий** (гейт для D-02) |
+| A-5.4 | Mount points: какой mount point у `.pak`, какие в IoStore | Парсинг `.pak` index; runtime-наблюдение | **высокий** |
+| A-5.5 | Где AssetRegistry — внутри контейнера, отдельным чанком, каким форматом | Поиск чанка типа `AssetRegistry` в TOC; runtime-запрос к `IAssetRegistry` | **высокий** |
+| A-5.6 | Полный список package names (`/Game/...`, `/Engine/...`, plugin mount roots) | Предпочтительно **runtime** через AssetRegistry (не требует расшифровки). Fallback — из незашифрованных контейнеров | **высокий** |
+| A-5.7 | Состав плагинов сборки (`*.uplugin`) | Индекс `.pak` (незашифрован) | средний |
+| A-5.8 | Blueprint assets: какие BP-классы существуют, как называются, как связаны | AssetRegistry tags + reflection map | **высокий** |
+| A-5.9 | DataAssets / DataTables: какие есть, какие структуры строк | AssetRegistry + reflection | **высокий** |
+| A-5.10 | Niagara systems | AssetRegistry | средний |
+| A-5.11 | Static/Skeletal meshes, animations, sounds, maps | AssetRegistry (только перепись, без извлечения) | средний |
+| A-5.12 | Dependency graph между пакетами | AssetRegistry dependency data | средний |
+| A-5.13 | Chunk IDs / chunking стратегия сборки | TOC chunk ids | низкий |
+| A-5.14 | Поддерживает ли билд `.pak`/`.utoc` из произвольной директории (mod-контейнеры) | статический анализ + runtime-эксперимент | **критический**, см. §14 |
+
+### 5.2 Приоритетный вопрос всей секции
+
+> Можно ли позже добавлять собственный cooked content **без изменения оригинальных контейнеров игры**?
+
+Разложение на подвопросы:
+1. Может ли runtime смонтировать дополнительный контейнер? (mechanism)
+2. Откуда он его берёт? (discovery: `Paks/`, командная строка, наш код)
+3. Обязателен ли для нашего контейнера тот же ключ шифрования, что у игры? (совместимость)
+4. Совместим ли формат Zen/IoStore package, произведённый сторонним cooker-ом, с этой сборкой? (compat)
+5. Как runtime выбирает приоритет при коллизии имён? (ordering)
+6. Что произойдёт, если наш контейнер собран другой минорной версией UE? (version tolerance)
+
+### 5.3 Спроектированные эксперименты (только дизайн; выполнение — M5b, для E-3b — M5c)
+
+Все эксперименты выполняются в **research workspace**, оригинальные контейнеры не трогаются. Наши тестовые контейнеры кладутся в отдельную директорию; монтирование наблюдается сначала внешне (ERI, I-14) и лишь при необходимости инициируется изнутри (IPP, P-03 — по эскалации §8.4).
+
+| Эксперимент | Гипотеза | Минимальный артефакт | Критерий успеха | Критерий провала |
+|---|---|---|---|---|
+| **E-1** Texture | Простейший cooked asset (`Texture2D`) монтируется и загружается | контейнер с одной текстурой в собственном mount root, например `/MiseryMods/Test/T_Probe` | `LoadObject`-эквивалент возвращает валидный объект, размеры/формат совпадают | ошибка mount / ошибка десериализации / crash |
+| **E-2a** StaticMesh + существующий материал | Меш с материалом **из движка или из игры** монтируется и рендерится | контейнер с `StaticMesh`, материал — движковый (`/Engine/...`) | меш загружается и виден в кадре | загрузился, но не рендерится → отдельная запись, это другой класс проблемы |
+| **E-2b** Custom Material | **Собственный** материал требует собственных cooked shader-артефактов и их регистрации | контейнер с `Material` + сопутствующая shader library | материал компилируется/подхватывается и рендерится корректно | материал загружается, но рендерится как default/чёрный → это **успех загрузки при провале shader-пути**, фиксировать отдельно (RISK-16) |
+| **E-3a** Blueprint : `AActor` | Cooked BP-класс, унаследованный от **движкового** `AActor`, регистрируется в reflection и спавнится | контейнер с минимальным `BP_ProbeActor` без родителя из MISERY | `UClass` найден по имени, spawn успешен, `BeginPlay` выполнился | класс не найден в reflection → отрицательный результат, но **не финальный вердикт по проекту** |
+| **E-3b** Blueprint : native MISERY class | **ГЛАВНЫЙ ГЕЙТ ПРОЕКТА.** Cooked BP, унаследованный от настоящего native-класса из `/Script/MISERY`, грузится в оригинальную игру и работает | контейнер с BP, чей родитель — реальный native-класс MISERY; требует mod-kit из §14A | класс загружается, наследование корректно, унаследованные native-свойства и функции доступны, spawn работает | любой из: cooker отказывается / пакет не грузится / свойства «съезжают» / crash. Каждый исход диагностируется отдельно — см. §14A |
+| **E-3c** Blueprint : MISERY Blueprint class | Наследование от **Blueprint**-класса игры (а не native) — если это технически достижимо | контейнер с BP, чей родитель — BP-класс из `/Game` игры | загружается и работает | **предполагаемая сложность выше E-3b**: требует, чтобы редактор видел родительский BP-asset, а он лежит в зашифрованном контейнере (D-02). Вероятный вердикт — `blocked by D-02`; зафиксировать честно, а не обходить |
+| **E-4** Niagara / custom shaders | Niagara System из внешнего контейнера воспроизводится | контейнер с минимальной Niagara System | эффект спавнится и виден | как и E-2b, отдельно различать «загрузился» и «отрендерился» (RISK-16) |
+| **E-5** Audio | Звуковой asset (`SoundWave`/MetaSound) монтируется и проигрывается | контейнер с одним звуком | звук воспроизводится | сборка использует MetaSound (плагин присутствует, A-09) — возможна отдельная цепочка требований |
+| **E-6** override-конфликт | Что происходит при совпадении package name с оригинальным | контейнер с package name, совпадающим с существующим в игре | детерминированное, документированное поведение | **этот эксперимент не должен становиться механизмом «замены» оригинального контента по умолчанию** — цель только понять правила приоритета |
+| **E-7** версионная толерантность | Контейнер, приготовленный другим минором UE, отклоняется/принимается | тот же asset, cooked двумя разными версиями UE (если доступны) | ясно документированный диапазон совместимости | связано с RISK-15 |
+
+**Приоритет доказательной силы.** `E-3b` важнее `E-3a` как доказательство жизнеспособности проекта. `E-3a` доказывает лишь то, что движок в принципе грузит внешний BP. Но осмысленный мод для MISERY почти всегда должен наследоваться от **игровых** классов — иначе мод не может ни расширить оружие, ни предмет, ни персонажа, и остаётся декоративным. Поэтому:
+
+* `E-3a` = **необходимое** условие;
+* `E-3b` = **достаточное** условие для утверждения «meaningful custom content возможен»;
+* прохождение только `E-3a` при провале `E-3b` — это отдельный, гораздо более скромный вердикт по проекту, и он должен быть назван таковым, а не выдан за успех.
+
+Прежние идентификаторы `E-5 override` и `E-6 версионная толерантность` из v1 переименованы в `E-6` и `E-7`, чтобы освободить `E-5` под Audio по решению владельца. Старые ссылки в knowledge base (если появятся) обязаны обновляться, а не сосуществовать.
+
+**Важное ограничение по E-1..E-7:** части этих экспериментов нужен способ приготовить cooked content под UE 5.4.x, а UE на машине не установлен. **Ограничение частично снято — см. §14.7**, где работа разложена по уровням Tier A/B/C/D: вопрос mounting (и критичный CL-08) закрывается вообще без UE. Реальный cooker требуется для E-2a/E-2b/E-3a/E-3b/E-3c/E-4/E-5/E-7. Установка UE привязана к триггеру §14.7, а не к началу работ.
+
+**Ограничение по E-3b:** этот эксперимент невозможен без mod-kit-цепочки, спроектированной в **§14A**. Это не «ещё один эксперимент», а отдельный критический research track.
+
+### 5.4 Артефакты
+
+```
+research/packages/containers.md          — разбор форматов, поля, флаги
+research/packages/containers.json
+research/packages/mount-points.md
+research/packages/asset-registry.md
+research/packages/plugins.json           — список *.uplugin сборки
+research/packages/package-index.jsonl    — по одной строке на package (может быть большим → см. §9 SQLite)
+research/packages/experiments/E-1..E-7/  — план, входные данные, вывод, verdict
+docs/content-feasibility.md              — синтез (M5b deliverable)
+docs/modkit-feasibility.md               — синтез §14A (M5c deliverable)
+```
+
+**Зависимости:** M1 → M2. E-1..E-7 требуют M3/M4 (возможность загрузить и заспавнить) → выполняются в M5b; E-3b — в M5c (§14A).
+
+---
+
+## 6. Unreal Reflection research
+
+Цель: получить **машинно-читаемую карту reflected game classes** этой сборки, не используя UE4SS как runtime dependency.
+
+### 6.1 Целевые сущности
+
+```
+UObject, UClass, UStruct, UScriptStruct, UFunction, UEnum
+FProperty (все подклассы), FField
+FName / FNamePool
+GUObjectArray (FUObjectArray) или эквивалент
+UWorld, UGameInstance, ULocalPlayer, APlayerController, APawn/ACharacter
+UEngine / GEngine
+UObject::ProcessEvent, StaticFindObject, StaticClass-паттерны
+```
+
+### 6.2 Порядок от наименее инвазивного к более глубокому
+
+**Уровень 0 — полностью офлайн, ноль вмешательства в процесс игры.**
+
+| ID | Метод | Что даёт | Почему это первое |
+|---|---|---|---|
+| RF-01 | Разбор незашифрованного `global.ucas` (script objects + global FName pool) | Имена всех `/Script/<Module>`, имён классов, функций, свойств, енумов сборки — включая игровые (`/Script/MISERY`) | Recon уже подтвердил, что данные там есть в открытом виде (A-08). Это даёт **имена** без единого байта инъекции |
+| RF-02 | Сопоставление имён из RF-01 с известным составом UE 5.4 | Разделение «движковое» vs «игровое» | Резко сужает объём дальнейшей работы |
+| RF-03 | Извлечение строк UTF-8/UTF-16 из exe и сопоставление с RF-01 | Кандидатные адреса `FName`-литералов и таблиц | Основа для §7 |
+
+**Уровень 1 — статический анализ бинарника (файл только читается).**
+
+| ID | Метод | Что даёт |
+|---|---|---|
+| RF-04 | Поиск известных строк-якорей (`"UObjectBase"`, `"None"`, `"ProcessEvent"`, `"CoreUObject"`, `"/Script/CoreUObject"`, assert-строки с путями `Engine\Source\Runtime\CoreUObject\...`) и их xrefs | Кандидатные функции инициализации reflection |
+| RF-05 | Идентификация `GUObjectArray` через паттерны доступа в функциях, использующих assert-строки из `UObjectHash.cpp` / `UObjectArray.cpp` | Кандидатный адрес хранилища объектов |
+| RF-06 | Идентификация `FName` runtime (`FName::ToString`, name pool base) через строки из `NameTypes.cpp` | Кандидатные адреса |
+| RF-07 | Идентификация `GEngine`, `GWorld`-подобных глобалов через строки из `UnrealEngine.cpp`, `World.cpp` | Кандидатные адреса |
+| RF-08 | Восстановление layout структур (`UObjectBase`, `UStruct`, `UClass`, `FField`, `FProperty`) по последовательностям обращений в найденных функциях | offsets (build-specific!) |
+| RF-09 | Использование второго exe (`MISERY.exe`, признаки не-Shipping) как **oracle**: сравнение сигнатур и, возможно, наличие большего числа строк/`.uedbg`-метаданных | Ускорение RF-04..RF-08, при D-04 = yes |
+
+**Уровень 2 — runtime-наблюдение через External Read-Only Inspector (§8.2).** Только после того, как Уровень 1 дал проверяемые гипотезы. Все RF-10..RF-13 достижимы уровнем 1 инструментария (ERI) — in-process код для них не требуется.
+
+| ID | Метод | Что даёт |
+|---|---|---|
+| RF-10 | Probe читает кандидатный `GUObjectArray` и итерирует объекты | Подтверждение/опровержение RF-05 |
+| RF-11 | Probe разрешает `FName` в строку и сверяет с RF-01 | Подтверждение RF-06 и layout `FNameEntry` |
+| RF-12 | Probe обходит `UClass` → `UFunction` → `FProperty` и дампит карту | Целевой deliverable §6 |
+| RF-13 | Probe сверяет дамп с RF-01 (имена из `global.ucas`) | Двусторонняя валидация: статика ↔ runtime |
+
+### 6.3 Deliverable — формат карты reflection
+
+`research/reflection/<build_key>/classes.jsonl` (одна строка = одна сущность):
+
+```jsonc
+{
+  "kind": "class",                       // class | struct | function | enum | property
+  "raw_name": "BP_PlayerCharacter_C",
+  "package": "/Game/Characters/BP_PlayerCharacter",
+  "super": "MiseryCharacter",
+  "flags_raw": "0x...",
+  "size": 4096,                          // UNKNOWN если не подтверждено
+  "source": ["RF-01", "RF-12"],          // какие методы дали эту запись
+  "evidence_level": "OBSERVED",
+  "confidence": 0.95,
+  "build_key": "sha256:...",
+  "semantic_alias": null                 // заполняется позже, §15
+}
+```
+
+Отдельно: `properties.jsonl`, `functions.jsonl`, `enums.jsonl`, `relations.jsonl` (наследование, владение, ссылки).
+
+Правило: **офсеты (`offset` у property) фиксируются только при `evidence_level = OBSERVED` из runtime-дампа и всегда с привязкой к `build_key`.** Офсет из статического анализа = HYPOTHESIS.
+
+**Зависимости:** RF-01..RF-03 требуют только M1. RF-04..RF-09 требуют M1 + toolchain (§17). RF-10..RF-13 требуют M3 (Probe).
+**Exit criteria M3:** существует `classes.jsonl` с ≥95% совпадением имён между RF-01 (статика) и RF-12 (runtime) для модуля `/Script/MISERY`, и расхождения объяснены.
+
+---
+
+## 7. Static binary research
+
+### 7.1 Принцип
+
+Никакой массовой декомпиляции. Только семантически направленный поиск:
+
+```
+известный reflected-класс / известная строка
+        ↓
+xrefs на строку или на FName-литерал
+        ↓
+кандидатная функция
+        ↓
+callers / callees, соседние данные
+        ↓
+гипотеза о назначении
+        ↓
+runtime-валидация через Probe
+        ↓
+запись в knowledge base с confidence
+```
+
+### 7.2 Целевой инструментарий
+
+Основной: **Ghidra 12.1.3** — установлена и проверена (§17.1). Альтернатива для сверки — независимый дизассемблер, если понадобится второй источник.
+
+**Скрипты пишутся на Python через PyGhidra**, а не на Java. PyGhidra 3.1.0 установлен и проверен, работает на Python 3.14. Причины: единый язык со всем остальным нашим инструментарием (§3, §5, §14.7), отсутствие шага компиляции, возможность запускать анализ как обычный Python-скрипт из того же venv, что и парсеры контейнеров. Java-скрипты остаются резервным вариантом, если какой-то API окажется недоступен через мост jpype.
+
+Требования к pipeline:
+* Проект Ghidra создаётся **из копии** exe в research workspace (C-02), никогда не из файла в папке игры. Проверено на smoke-тесте: анализировалась копия в `D:\Tools\ghidra-workspace\bin\`.
+* Анализ запускается headless (`analyzeHeadless` или `pyghidra`) скриптом, чтобы результат был воспроизводим и попадал в git как набор скриптов + экспортов, а не как бинарный проект. Сама БД проекта — в gitignore.
+* Экспорты — текстовые/JSON, чтобы их можно было хранить и диффить.
+* Полный автоанализ 134-МБ бинарника — отдельная задача с бюджетом (T-05, RISK-13). Первый импорт делается с `-noanalysis`, затем анализаторы включаются выборочно.
+
+### 7.3 Планируемые инструменты (наши обёртки над Ghidra/локальные)
+
+| ID | Инструмент | Назначение | Артефакт |
+|---|---|---|---|
+| S-01 | `tools/static/extract_strings.py` | Извлечение ASCII/UTF-16 строк с смещениями и RVA | `strings.jsonl` |
+| S-02 | `tools/static/ghidra_import.py` | Импорт копии exe, управляемый набор анализаторов, headless | Ghidra project (не в git) + лог + отчёт о времени/размере |
+| S-03 | `pyghidra_scripts/dump_xrefs_for_string.py` | xrefs по строке | `xrefs/<string>.json` |
+| S-04 | `pyghidra_scripts/dump_function.py` | Декомпиляция одной функции по адресу/имени | `functions/<addr>.c` |
+| S-05 | `pyghidra_scripts/dump_callgraph.py` | callers/callees на N уровней от адреса | `callgraph/<addr>.json` |
+| S-06 | `tools/static/sigmake.py` | Генерация byte-pattern сигнатуры для функции (с маской для relocations/immediates) | `signatures/<name>.json` |
+| S-07 | `tools/static/sigscan.py` | Проверка уникальности сигнатуры в бинарнике; повторная проверка на новой сборке | verdict `unique` / `multiple` / `none` |
+| S-08 | `tools/static/find_constants.py` | Поиск характерных констант (serialization versions, FNV/CRC-таблицы, magic-и) | `constants.json` |
+| S-09 | `tools/static/vtable_scan.py` | Поиск vtable-кандидатов в `.rdata` по указателям в `.text` | `vtables.jsonl` |
+| S-10 | `tools/static/rtti_scan.py` | Есть ли MSVC RTTI (`.?AV...@@`) — если да, это огромное ускорение идентификации классов | `rtti.jsonl` или запись «RTTI отсутствует» |
+
+> S-10 выполнить **рано** (в M1): наличие RTTI меняет стоимость всего §7 на порядок. Текущий статус: UNKNOWN.
+
+### 7.4 Приоритетные цели статического анализа (в порядке)
+
+1. RTTI / vtable инвентарь (S-09, S-10).
+2. Reflection bootstrap: `UObjectBase` init, `GUObjectArray`, `FName` pool (RF-04..RF-06).
+3. `UObject::ProcessEvent` — центральная точка для наблюдения вызовов BP/UFunction.
+4. `UEngine`/`GEngine`, `UWorld` доступ (RF-07).
+5. IoStore/pak mount API: `FPakPlatformFile::Mount`, `FIoDispatcher`, `FIoStoreEnvironment` — вход в §14.
+6. `IAssetRegistry` доступ.
+7. Игровые точки входа: `/Script/MISERY` классы из RF-01.
+
+### 7.5 Правила гигиены
+
+* Каждая найденная функция получает запись в `research/systems/<subsystem>.md` с: адресом, RVA, сигнатурой, обоснованием, confidence, и **обязательной пометкой, что адрес привязан к `build_key`**.
+* Никакой публичный будущий binding не строится на «сырой адрес» без сигнатуры.
+* Декомпилированный код не коммитится дословно и в больших объёмах: в git идут адреса, сигнатуры, выводы и минимальные необходимые фрагменты для обоснования.
+
+**Зависимости:** M1 (fingerprint, копия exe) + toolchain (Ghidra + JDK). Идёт параллельно с M2.
+**Exit criteria:** для каждой цели из §7.4 есть либо подтверждённая запись (`OBSERVED`/`INFERRED` с confidence ≥ 0.7 и сигнатурой), либо явная запись в `unknowns.md` с описанием, что именно заблокировало.
+
+---
+
+## 8. Research instrumentation: два уровня
+
+Инструмент наблюдения за живой игрой разделён на **два независимых уровня**. Это не одна программа с флагами — это два разных инструмента с разной степенью вмешательства, разными рисками и разными правилами допуска.
+
+```
+Уровень 1:  External Read-Only Inspector   (ERI)   ← начинаем здесь, по умолчанию
+Уровень 2:  In-Process Research Probe      (IPP)   ← только по обоснованию
+```
+
+### 8.1 Главное разграничение
+
+```
+ERI  !=  IPP  !=  MiseryRuntime
+```
+
+| | External Read-Only Inspector | In-Process Research Probe | MiseryRuntime (Phase 2+) |
+|---|---|---|---|
+| Где исполняется | отдельный процесс | внутри процесса игры | внутри процесса игры |
+| Может ли изменить состояние игры | **нет** (архитектурно) | да | да |
+| Может ли уронить игру | практически нет | да | недопустимо |
+| Цель | ответить на вопросы исследования | ответить на вопросы, недостижимые извне | обслуживать сторонние моды |
+| Срок жизни | одноразовый, выбрасываемый | одноразовый, выбрасываемый | долгоживущий продукт |
+| Стабильность API | никакой | никакой | обязательна |
+| Обработка ошибок | падать громко и сразу | падать громко и сразу | деградировать безопасно |
+| Право стать архитектурой продукта | **нет** | **нет** | — |
+
+Правило: **ни ERI, ни IPP не наследуются продуктом.** Код обоих живёт в `research/instruments/` (а не в `src/`), помечен `RESEARCH ONLY — NOT PRODUCTION`, и в Phase 2 создаётся **новый** проект, а не рефакторинг любого из них. В `docs/phase1-report.md` обязателен раздел «чему из ERI/IPP нельзя подражать».
+
+Отдельно: тот факт, что IPP каким-то способом попадает в процесс игры, **не является** ответом на §13 (bootstrap). Способ доставки исследовательского инструмента выбирается по критерию «дешевле всего для research», а не «годится для пользователей». Смешивать эти два выбора запрещено.
+
+### 8.2 Уровень 1 — External Read-Only Inspector (ERI)
+
+Отдельный процесс. Открывает процесс игры с правами только на чтение (`PROCESS_QUERY_INFORMATION | PROCESS_VM_READ`), перечисляет модули, читает память. **Ничего не пишет, ничего не инжектит, не ставит хуков, не вызывает функций игры.**
+
+| ID | Возможность | Обслуживает |
+|---|---|---|
+| I-01 | Найти процесс, получить базовый адрес и размер образа `MISERY-Win64-Shipping.exe` | всё |
+| I-02 | Перечислить объекты через кандидатный `GUObjectArray` | RF-10 |
+| I-03 | Разрешить `FName` → строка (обход `FNamePool`) | RF-11 |
+| I-04 | Дамп `UClass` с иерархией наследования | RF-12 |
+| I-05 | Дамп `UFunction` (имя, флаги, параметры) | RF-12 |
+| I-06 | Дамп `FProperty` (имя, тип, offset, размер, флаги, порядок в классе) | RF-12, §14A |
+| I-07 | Найти `UWorld` | M4 |
+| I-08 | Найти `UGameInstance` и его subsystems | M4 |
+| I-09 | Найти `ULocalPlayer` / локальный `APlayerController` | M4 |
+| I-10 | Найти локального player character (Pawn) | M4 |
+| I-11 | Читать значения свойств конкретного объекта | M6 |
+| I-12 | Читать `Role` / `RemoteRole` / `NetMode` / ownership | M8 |
+| I-13 | Периодические снимки + diff между ними (наблюдение динамики без вмешательства) | M6, M8 |
+| I-14 | Прочитать список смонтированных контейнеров / состояние pak-платформы | **M5a** |
+| I-15 | Прочитать содержимое AssetRegistry в памяти | M2, M5b, CR-01 |
+| I-16 | Экспорт всего собранного в `research/` как JSONL | всё |
+
+**Ключевое следствие для §14.7.** I-14 позволяет проверить факт монтирования внешнего контейнера **не запуская код внутри игры**: положить тестовый контейнер туда, где игра его сама подхватит, запустить игру обычным способом и прочитать список смонтированных контейнеров извне. Если автоматическое обнаружение контейнеров работает, весь M5a закрывается на уровне 1. Если не работает — обнаружение придётся инициировать самим, и это первый обоснованный кандидат на уровень 2.
+
+**Ожидаемое покрытие уровня 1:** M3, M4, M8 полностью; M5a — при условии автоматического обнаружения контейнеров; M6 — в части чтения состояния.
+
+### 8.3 Уровень 2 — In-Process Research Probe (IPP)
+
+Код, исполняющийся внутри процесса игры. Используется **только** для задач, объективно недостижимых внешним чтением.
+
+| ID | Возможность | Почему невозможно снаружи | Обслуживает |
+|---|---|---|---|
+| P-01 | Наблюдать вызовы `ProcessEvent` (лог имён вызываемых UFunction) | требует перехвата исполнения | M6 |
+| P-02 | Вызвать безопасную read-only UFunction для проверки гипотезы | требует исполнения в контексте процесса | M6 |
+| P-03 | Инициировать mount тестового контейнера | требует вызова API движка | M5a (если I-14 показал, что авто-обнаружения нет) |
+| P-04 | Загрузить asset (`LoadObject`-эквивалент) | требует вызова API движка | M5b |
+| P-05 | Заспавнить тестовый Actor | требует вызова API движка | M5b, M5c |
+| P-06 | Проверить корректность наследования и доступа к native-членам у cooked BP из внешнего контейнера | требует загрузки и инстанцирования | **M5c / E-3b** |
+
+### 8.4 Критерии эскалации с уровня 1 на уровень 2
+
+Переход на IPP разрешён **только** при выполнении всех условий, и каждый переход документируется:
+
+1. Сформулирован конкретный вопрос, на который уровень 1 ответить **не может**, с объяснением почему (а не «так удобнее»).
+2. Показано, что вопрос нельзя обойти комбинацией «статический анализ + ERI + внешнее наблюдение».
+3. Q-8.2 и Q-8.3 (анти-отладка, анти-чит) закрыты с ответом «отсутствует» либо получено явное решение владельца о рисках.
+4. Записана запись в `research/decisions.md`: какой вопрос, почему уровень 1 недостаточен, какая минимальная возможность включается.
+5. Включается **минимально необходимая** возможность из §8.3, а не весь набор.
+
+Правило по умолчанию: **если задачу можно решить уровнем 1 хотя бы дороже — она решается уровнем 1.** Экономия времени исследователя не является основанием для эскалации.
+
+### 8.5 Правила безопасности (действуют для обоих уровней)
+
+* Оба инструмента запускаются **только** против полностью контролируемых сессий (D-05 принято). Никаких публичных лобби.
+* Все дампы пишутся в `D:\Dev\MiseryFramework\research\`, никогда в папку игры (D-01 принято).
+* IPP по умолчанию не имеет права вызывать функции и спавнить объекты: возможности включаются отдельными явными флагами (`--allow-call`, `--allow-mount`, `--allow-spawn`), по одной.
+* Ни один инструмент не устанавливается «навсегда»: постоянное присутствие файлов в папке игры запрещено.
+* Каждый запуск пишет `research/instrument-runs/<timestamp>/manifest.json`: уровень (ERI/IPP), `build_key`, аргументы, версия инструмента, какие I-*/P-* были включены, состояние `verify_install.py` до и после.
+* До и после любой сессии с IPP запускается `verify_install.py` (§1.5, слой 3).
+
+### 8.6 Открытые вопросы
+
+| ID | Вопрос | Статус |
+|---|---|---|
+| Q-8.1 | Язык/технология ERI | UNKNOWN. Кандидаты: Python + `ReadProcessMemory` через `ctypes` (самый быстрый путь к первому дампу, тот же язык, что и вся остальная оснастка), Rust, C++. Выбирается в M3 по критерию «минимальная стоимость до первого дампа» |
+| Q-8.1b | Язык/технология IPP | UNKNOWN, решается **позже** и только при эскалации. Не выбирать заранее |
+| Q-8.2 | Есть ли у игры анти-отладочная/анти-инъекционная защита | UNKNOWN — проверяется в M1 (импорты, TLS-callbacks, строки) |
+| Q-8.3 | Есть ли анти-чит (EAC/BattlEye) | UNKNOWN. В recon в папке игры их файлов не найдено, но это не доказательство отсутствия. **Гейт**: при наличии анти-чита уровень 2 пересматривается целиком, уровень 1 — оценивается отдельно |
+| Q-8.4 | Достаточно ли уровня 1 для M3/M4 | **Больше не открытый вопрос, а проектное решение:** начинаем с уровня 1 и считаем его достаточным для M3/M4, пока не доказано обратное конкретной задачей |
+| Q-8.5 | Достаточно ли уровня 1 для M5a (через I-14) | UNKNOWN — зависит от того, обнаруживает ли сборка контейнеры автоматически (CL-03/Q-2.3) |
+
+**Зависимости:** M3 требует RF-04..RF-08 (гипотезы для валидации) + ответ на Q-8.2/Q-8.3.
+**Exit criteria M3:** **ERI** выдаёт `classes.jsonl` с непустым `/Script/MISERY`, воспроизводимо, без единой записи в память процесса и без записи чего-либо в папку игры.
+
+---
+
+## 9. Knowledge Base
+
+### 9.1 Принципы
+
+* **JSON/JSONL** — для машинно-читаемого (fingerprints, reflection, package index).
+* **Markdown** — для семантической документации и рассуждений.
+* **SQLite** — когда сущностей становится слишком много для комфортной работы с JSONL (ориентир: >50 000 записей reflection). База данных **строится из** JSONL и считается кэшем, а не первоисточником, чтобы всё оставалось диффабельным в git.
+* Каждый факт хранит: `raw identifier`, `semantic alias`, `evidence`, `confidence`, `build_key`, `relationships`.
+* Ничего не перезаписывается «молча»: изменение вывода = новая запись в `RESEARCH_LOG.md` со ссылкой на предыдущую.
+
+### 9.2 Предлагаемая структура
+
+```
+D:\Dev\MiseryFramework\               ← корень репозитория (D-01 ПРИНЯТО)
+├── AGENTS.md                         ← перемещается сюда в R-01
+├── plan.md                           ← этот файл, перемещается сюда в R-01
+├── README.md                         ← как войти в проект с нуля
+├── research/
+│   ├── RESEARCH_LOG.md               ← append-only журнал: дата, вопрос, метод, вывод, confidence
+│   ├── unknowns.md                   ← реестр открытых вопросов с владельцем и блокировками
+│   ├── decisions.md                  ← ADR-подобный журнал решений (D-01..D-nn + эскалации §8.4)
+│   ├── evidence-model.md             ← §10, включая §10.5 границы источников
+│   ├── repo-audit.md
+│   ├── builds/
+│   │   ├── index.json                ← реестр build_key → build_id
+│   │   └── <build-id>/
+│   │       ├── install.json
+│   │       ├── fingerprint.json
+│   │       ├── install-inventory.json
+│   │       ├── anomalies.md
+│   │       └── notes.md
+│   ├── unreal/
+│   │   ├── engine-version.md / .json
+│   │   ├── structures.md             ← восстановленные layout-ы, всегда с build_key
+│   │   └── reflection-access.md
+│   ├── reflection/<build_key>/
+│   │   ├── classes.jsonl
+│   │   ├── functions.jsonl
+│   │   ├── properties.jsonl
+│   │   ├── enums.jsonl
+│   │   ├── relations.jsonl
+│   │   └── reflection.sqlite         ← производное, gitignore
+│   ├── packages/                     ← см. §5.4
+│   ├── systems/
+│   │   ├── world.md
+│   │   ├── gameinstance.md
+│   │   ├── localplayer.md
+│   │   ├── playercontroller.md
+│   │   ├── playercharacter.md
+│   │   ├── components.md
+│   │   ├── inventory.md
+│   │   ├── items.md
+│   │   ├── weapons.md
+│   │   ├── spawning.md
+│   │   ├── damage.md
+│   │   ├── interaction.md
+│   │   ├── effects.md
+│   │   ├── ai.md
+│   │   ├── time.md
+│   │   ├── weather.md
+│   │   ├── save.md
+│   │   ├── networking.md
+│   │   └── ui.md
+│   ├── modkit/                       ← §14A: CK-*, журнал MK-1..MK-5, generated stubs
+│   ├── evidence/                     ← сырые выдержки, по ID метода
+│   │   └── <method-id>/<artifact>
+│   ├── instruments/
+│   │   ├── eri/                      ← External Read-Only Inspector (RESEARCH ONLY)
+│   │   └── ipp/                      ← In-Process Research Probe (RESEARCH ONLY, по эскалации §8.4)
+│   ├── instrument-runs/<timestamp>/
+│   └── schema/                       ← JSON-схемы всех machine-readable артефактов
+├── tools/
+│   ├── discovery/  fingerprint/  static/  inventory/  content/  modkit/  kb/
+├── pyghidra_scripts/
+├── docs/
+│   ├── bootstrap-feasibility.md
+│   ├── content-feasibility.md
+│   ├── modkit-feasibility.md         ← §14A
+│   ├── reflection-feasibility.md
+│   ├── networking-model.md
+│   ├── version-compatibility.md
+│   ├── toolchain.md
+│   ├── risks.md
+│   └── phase1-report.md
+└── workspace/                        ← gitignore: копии бинарников, Ghidra-проекты, крупные дампы,
+                                        UE-проект mod-kit (если D-06 будет положительным)
+```
+
+Папка `D:\Games\Steam\steamapps\common\MISERY` в этой структуре **не участвует вовсе**: по D-01 она является исключительно read-only research target и в неё ничего не пишется.
+
+### 9.3 Формат записи в `RESEARCH_LOG.md`
+
+```markdown
+## 2026-08-2X — <краткий вопрос>
+- **ID:** LOG-0042
+- **Question:** ...
+- **Method:** RF-05 (Ghidra xrefs на строку из UObjectArray.cpp)
+- **Evidence:** research/evidence/RF-05/xrefs-uobjectarray.json
+- **Finding:** ...
+- **Evidence level:** INFERRED
+- **Confidence:** 0.65
+- **Build:** build_key=sha256:abc123...
+- **Supersedes:** LOG-0031
+- **Next question:** ...
+```
+
+### 9.4 Задачи
+
+| ID | Задача | Exit criterion |
+|---|---|---|
+| K-01 | Создать структуру §9.2 | Все директории и seed-файлы существуют |
+| K-02 | Написать JSON-схемы для `fingerprint`, `install`, `classes.jsonl`, `properties.jsonl` | Схемы валидируют существующие артефакты |
+| K-03 | `tools/kb/validate.py` — валидация всей базы по схемам | Запуск на CI, нулевые ошибки |
+| K-04 | `tools/kb/build_sqlite.py` — JSONL → SQLite | Воспроизводимо, БД в gitignore |
+| K-05 | `tools/kb/new_log_entry.py` — генератор записи журнала с автоинкрементом ID | Уменьшает шанс, что вывод не будет записан |
+
+**Зависимости:** R-01 → K-01 → остальное.
+
+---
+
+## 10. Evidence model
+
+### 10.1 Уровни
+
+| Уровень | Определение | Примеры |
+|---|---|---|
+| `OBSERVED` | Прямо измерено/прочитано; воспроизводимо; есть сохранённый сырой артефакт | размер файла; строка по конкретному смещению; значение поля в дампе Probe |
+| `INFERRED` | Логически выведено из ≥1 OBSERVED без прямого наблюдения самого утверждения | «структура X имеет layout Y, потому что код обращается по офсетам A,B,C» |
+| `HYPOTHESIS` | Правдоподобное предположение, ещё не проверенное | «функция по адресу 0x… — это ProcessEvent» |
+| `UNKNOWN` | Явно неизвестно. **Обязательно записывается**, а не опускается | «есть ли анти-чит — неизвестно» |
+
+Дополнительно: `REFUTED` — гипотеза проверена и опровергнута. Опровержения хранятся, а не удаляются: они дороже всего добывать заново.
+
+### 10.2 Confidence 0.00–1.00
+
+| Диапазон | Смысл | Что разрешено |
+|---|---|---|
+| 0.00–0.29 | Догадка | Только `unknowns.md`, никаких выводов |
+| 0.30–0.59 | Слабое подтверждение (один источник, не проверено) | Можно планировать эксперимент |
+| 0.60–0.79 | Одно сильное или два слабых независимых подтверждения | Можно использовать внутри research-инструментов |
+| 0.80–0.94 | Два+ независимых подтверждения, включая одно runtime-наблюдение | Можно писать в `research/systems/*.md` как рабочий факт |
+| 0.95–0.99 | Множественные независимые подтверждения + воспроизводимость + отсутствие контрпримеров | **Минимум для того, чтобы факт мог лечь в основу будущего публичного binding** |
+| 1.00 | Не используется | — |
+
+### 10.3 Критерии подтверждения (правила, не пожелания)
+
+Утверждение может получить `confidence ≥ 0.95` только если выполнены **все** пункты:
+
+1. ≥2 **независимых** метода (независимых = используют разные источники данных, а не два прочтения одного файла).
+2. ≥1 из методов — runtime-наблюдение (для утверждений о runtime-структурах/поведении) или проверка формата данных (для утверждений о форматах).
+3. Есть сохранённый сырой артефакт в `research/evidence/`.
+4. Воспроизведено дважды (для runtime — в двух разных запусках игры).
+5. Явно указан `build_key`.
+6. Проведена попытка опровержения, и она описана («что бы мы увидели, если бы это было неверно»).
+
+Дополнительное правило для публичного API:
+> Никакой элемент будущего публичного SDK не может опираться на факт с `confidence < 0.95` или на факт, не имеющий стабильного идентификатора (§16).
+
+### 10.4 Задачи
+
+| ID | Задача | Exit criterion |
+|---|---|---|
+| EV-01 | Записать модель в `research/evidence-model.md` | Файл существует и на него ссылаются все остальные артефакты |
+| EV-02 | Внести поля `evidence_level`, `confidence`, `sources[]`, `build_key` во все JSON-схемы | K-03 валидирует их как обязательные |
+| EV-03 | Линтер: любая запись с `confidence ≥ 0.8` обязана иметь ≥2 записи в `sources[]` | Проверка в `tools/kb/validate.py` |
+| EV-04 | Внести поле `oracle` (§10.5) в схемы и линтер соответствия «тип утверждения ↔ допустимые oracle» | Валидатор отклоняет запись, где тип утверждения не подтверждён нужным oracle |
+
+### 10.5 Границы источников (oracle boundaries)
+
+У нас четыре принципиально разных источника знания. Каждый доказывает **свой** класс утверждений и не доказывает остальные. Смешивание — главная причина, по которой исследование начинает считать догадки фактами.
+
+Каждая запись в knowledge base обязана нести поле `oracle` с одним или несколькими из: `global-ucas`, `asset-registry`, `runtime-reflection`, `binary-analysis`, `container-metadata`, `external-doc`.
+
+| Oracle | Роль | ЧТО доказывает | Что **НЕ** доказывает |
+|---|---|---|---|
+| **`global.ucas`** | native / script-object **metadata** oracle | Существование в сборке имён: `/Script/<Module>`, native-классов, структур, енумов, функций, свойств, `Default__`-записей CDO | **Ничего** о `/Game`-ассетах. Ничего о структуре Blueprint-ов. Ничего об офсетах, размерах и порядке свойств в памяти. Ничего о том, используется ли класс. Ничего о том, чем именно является имя — пул строк плоский, без разделителей |
+| **AssetRegistry** | asset / package oracle | Какие packages и assets существуют, их классы, теги, зависимости, primary asset types | Ничего о раскладке в памяти. Ничего о том, загружено ли это сейчас. Ничего о native-реализации. Получается **runtime-чтением** (I-15), не расшифровкой контейнеров (D-02) |
+| **Runtime reflection** (через ERI) | loaded runtime **type/object** oracle | `UClass`/`UFunction`/`FProperty` в том виде, в каком их видит движок: офсеты, размеры, флаги, **порядок свойств**; живой граф объектов; что фактически загружено | Ничего о том, что существует, но не загружено. Ничего о семантике native-кода. Ничего о содержимом контейнеров на диске |
+| **Binary analysis** (Ghidra) | native **implementation** oracle | Что делает native-код; адреса функций; сигнатуры; константы; структурные layout-ы, восстановленные из кода | Ничего о существовании BP-ассетов. Ничего о конкретных runtime-значениях. Ничего о содержимом ассетов |
+| **Container metadata** (наши парсеры `.utoc`/`.pak`) | container-level oracle | Формат, версии, флаги, счётчики, mount point, статус шифрования | Ничего о содержимом зашифрованных чанков (D-02). Ничего о том, что игра реально монтирует в runtime |
+| **External doc** (публичная документация UE, исходники UE, проверенные open-source инструменты) | reference oracle | Как устроен формат/структура **в vanilla UE** | Ничего о том, что именно в **этой** сборке. Всегда требует подтверждения одним из источников выше (C-12) |
+
+#### Обязательное правило (следствие, зафиксированное отдельно)
+
+> **Наличие имени в `global.ucas` НЕ является доказательством существования Blueprint-asset-а из `/Game`, и тем более — его структуры.**
+
+Практически это значит:
+* Имя вида `BP_Something_C`, найденное в пуле имён, даёт только `HYPOTHESIS` о существовании соответствующего asset-а, с confidence ≤ 0.4.
+* Утверждение «в игре есть Blueprint-класс X» требует **AssetRegistry** или **runtime reflection**.
+* Утверждение «у класса X есть свойство Y по офсету Z» требует **runtime reflection**; из `global.ucas` это невыводимо в принципе.
+* Утверждение «функция X реализована так-то» требует **binary analysis**.
+
+#### Матрица «тип утверждения → необходимые oracle»
+
+| Тип утверждения | Минимально необходимые oracle | Достаточно ли одного |
+|---|---|---|
+| «в сборке есть native-класс X» | `global.ucas` **или** `runtime-reflection` | да (для факта существования имени) |
+| «в игре есть asset/package X» | `asset-registry` **или** `runtime-reflection` | да |
+| «класс X наследуется от Y» | `runtime-reflection` | да |
+| «у X есть свойство Y, тип T, офсет O, порядковый номер N» | `runtime-reflection` | да, но офсет всегда привязан к `build_key` |
+| «функция X делает Z» | `binary-analysis` + подтверждение через `runtime-reflection` наблюдением | **нет**, нужны оба |
+| «контейнер имеет флаг/формат F» | `container-metadata` | да |
+| «игра монтирует контейнер C в runtime» | `runtime-reflection` (I-14) | да; `container-metadata` этого не доказывает |
+| «игра регистрирует item definitions способом M» (CR-01) | `runtime-reflection` + `asset-registry`, желательно + `binary-analysis` | **нет**, нужны минимум два |
+| «cooked BP из внешнего контейнера работает» (E-3b) | эксперимент + `runtime-reflection` | **нет**, только фактический запуск |
+
+---
+
+## 11. Gameplay subsystem research
+
+> **Приоритетное правило (v2).** Широкое исследование подсистем — это **M6**, и он идёт **после** Early Content Feasibility (M5a/M5b/M5c). Не тратить время на глубокий research AI, погоды, save-системы, эффектов и UI, пока не доказана или не опровергнута возможность meaningful custom content.
+> Подсистемы 1–5 (World → PlayerCharacter) — исключение: они входят в **M4** и нужны раньше, потому что без них не работает ни один инструмент наблюдения и ни один content-эксперимент.
+> Глубина M6 **соразмерна вердикту M5c** (§14A.7): при `E-3b fail` подсистемы 13–17 сокращаются до обзорного уровня, поскольку меняется сам продукт.
+
+Правило: **строго последовательно**. Не начинать следующую подсистему, пока предыдущая не имеет заполненного `research/systems/<name>.md`.
+
+Для каждой подсистемы фиксируется одинаковый шаблон:
+
+```markdown
+# <Subsystem>
+## Questions to answer
+## Data to collect
+## Method
+## Findings (evidence level, confidence, build_key)
+## What is "enough" (definition of done)
+## Implications for future SDK
+## Open unknowns
+```
+
+### 11.1 Последовательность и содержание
+
+| # | Подсистема | Ключевые вопросы | Данные | «Достаточно» = | Что нужно будущему SDK |
+|---|---|---|---|---|---|
+| 1 | **World** | Как получить текущий `UWorld`? Как отличить главный мир от others? Как узнать текущий уровень/карту? Есть ли world partition / level streaming? | адрес/путь доступа к World; имя карты; список загруженных levels | Probe стабильно получает World в 3 разных игровых состояниях (меню, одиночная сессия, co-op) | точка входа для почти всех API; понятие «сессия активна» |
+| 2 | **GameInstance** | Какой класс? Есть ли игровые subsystems (`UGameInstanceSubsystem`)? Что в них? | класс, список subsystems, их свойства | Перечислены все subsystems с классами | естественное место для регистрации mod-сервисов |
+| 3 | **LocalPlayer** | Сколько local players? Как получить локального? Как отличается в co-op? | класс, число, путь доступа | Подтверждено в single и co-op | понятие «я» для мода |
+| 4 | **PlayerController** | Класс игрового PC; ключевые свойства/функции; input-стек (EnhancedInput присутствует в сборке) | класс, иерархия, список UFunction, input mapping contexts | Найден локальный PC, прочитаны ≥5 осмысленных свойств | ввод, HUD, camera, команды |
+| 5 | **PlayerCharacter** | Класс pawn/character; C++ база vs BP-класс; компоненты | иерархия класса, список компонентов, ключевые свойства (позиция, здоровье и др.) | Полный список компонентов + подтверждённые офсеты ≥3 свойств | ядро большинства модов |
+| 6 | **Components** | Какие кастомные `UActorComponent` есть в `/Script/MISERY` и в BP; как они связаны с персонажем | список классов компонентов, владельцы | Составлена карта «actor → components» для игрока | композиционная модель API |
+| 7 | **Inventory** | Где живёт инвентарь (компонент? subsystem?); как представлены слоты/стеки; как выдаются предметы | классы, структуры, DataAssets/DataTables | Прочитан реальный инвентарь живого персонажа | одна из самых востребованных областей моддинга |
+| 8 | **Items** | Определение предмета: DataAsset? DataTable row? BP-класс? Как связан item definition ↔ item instance | список item definitions, схема структуры | Перечислены все item definitions сборки | добавление предметов — ключевой use case |
+| 9 | **Weapons** | Отдельная система или подтип items; как описан урон/боеприпасы/attachments | классы, структуры | Разобрано минимум одно оружие end-to-end | второй ключевой use case |
+| 10 | **Actor spawning** | Как игра спавнит акторов; есть ли фабрики/pooling; какие требования к authority | функции, ограничения | Probe успешно спавнит безопасный тестовый актор | обязательное условие §14 |
+| 11 | **Damage** | Модель урона: UE Damage events или своя; где обрабатывается | функции, структуры | Прослежен путь урона от источника до изменения здоровья | боевые моды |
+| 12 | **Interaction** | Как реализовано взаимодействие с миром (интерфейсы? traces? компоненты?) | классы, интерфейсы | Разобран один интерактивный объект | контент-моды |
+| 13 | **Effects** | Niagara/GameplayCues/собственная система статусов | классы, ассеты | Разобран один эффект end-to-end | визуальные моды |
+| 14 | **AI** | Behavior Trees / StateTree / своё; классы NPC; спавн | классы, ассеты | Перечислены классы AI и способ спавна | моды на NPC |
+| 15 | **Time** | Есть ли игровой цикл суток; кто им владеет | классы/свойства | Найдено и прочитано текущее игровое время | геймплейные моды |
+| 16 | **Weather** | Система погоды, кто владеет, как переключается | классы/свойства | Прочитано текущее состояние погоды | геймплейные моды |
+| 17 | **Save system** | Формат save; `USaveGame`-классы; где лежит; версионируется ли | классы, путь, структура файла | Понятна структура save и риск поломки модами | **критично для безопасности пользователя**: моды не должны рушить сейвы |
+| 18 | **Networking / Replication** | см. §12 | — | см. §12 | архитектура API |
+| 19 | **UI** | UMG/Slate; есть ли CommonUI; как добавляются виджеты; `MiseryFocusSubsystem`, `MiseryGameViewportClient` (найдены в recon) | классы виджетов, точки расширения | Probe находит существующий виджет и его класс | UI-моды |
+
+### 11.2 Правило остановки
+
+Для каждой подсистемы заранее фиксируется «достаточно», чтобы избежать бесконечного погружения. Если ответ на вопрос требует >1 рабочей сессии — вопрос дробится и переносится в `unknowns.md`.
+
+**Зависимости:** 1→2→3→4→5 строго. 6..17 требуют 1..5. 18 требует 1..5 и §12. 19 независим после 1..4 (можно параллелить с 6..17 при необходимости).
+**Exit criteria:** подсистемы 1–5 (`world.md`, `gameinstance.md`, `localplayer.md`, `playercontroller.md`, `playercharacter.md`) — в **M4**. Подсистемы 6–12 (`components.md`, `inventory.md`, `items.md`, `weapons.md`, `spawning.md`, `damage.md`, `interaction.md`) и 19 (`ui.md`) — в **M6**, каждый с ≥1 фактом уровня OBSERVED и confidence ≥ 0.8. Подсистемы 13–17 — в M6 с глубиной, соразмерной вердикту M5c.
+
+---
+
+## 12. Multiplayer and replication
+
+MISERY — multiplayer/co-op. Нельзя проектировать API так, будто игра одиночная: мод, который «просто меняет значение локально», в co-op либо не сработает, либо рассинхронизирует сессию.
+
+### 12.1 Вопросы
+
+| ID | Вопрос |
+|---|---|
+| N-01 | Модель сети: listen server (host — игрок) / dedicated / P2P через Steam / EOS? В сборке присутствуют и `steam_api64.dll`, и `EOSSDK-Win64-Shipping.dll`, и `msquic` — роль каждого UNKNOWN |
+| N-02 | Как определить authority у объекта в runtime (`GetNetMode`, `HasAuthority`, `RemoteRole`/`Role`) |
+| N-03 | Какие акторы реплицируются; какие свойства помечены replicated |
+| N-04 | Какие RPC существуют (`NetMulticast`, `Server`, `Client`) и на каких классах |
+| N-05 | Ownership: как определить, что актор принадлежит локальному игроку |
+| N-06 | Local vs remote players: как перечислить всех игроков и отличить локального |
+| N-07 | Что делает сборка при рассинхронизации/невалидных данных (важно для безопасности модов) |
+| N-08 | Есть ли серверная валидация действий клиента |
+| N-09 | Как игра обрабатывает несовпадение версий контента между хостом и клиентом — **критически важно** для §14: если у хоста есть мод, а у клиента нет |
+
+### 12.2 Метод
+
+1. Статически: найти `UActorChannel`, `NetDriver`, `RepLayout`-связанные функции; найти generated `GetLifetimeReplicatedProps` в игровых классах.
+2. Через reflection: `FProperty` флаги содержат признак репликации — собрать список replicated properties из дампа M3.
+3. Через reflection: `UFunction` флаги `Net`, `NetServer`, `NetClient`, `NetMulticast` — собрать список RPC.
+4. Runtime: Probe читает `Role`/`RemoteRole`/`NetMode` в **самостоятельно поднятой приватной сессии** (D-05), где мы одновременно хост и клиент (две машины или host + второй аккаунт — способ уточняется).
+5. Ответ на N-09 — через контролируемый эксперимент с тестовым контейнером (после M6).
+
+### 12.3 Явное ограничение
+
+Цель — **архитектура корректных multiplayer-модов**: понимание, какие изменения допустимы на клиенте, какие требуют authority, и как мод должен вести себя, если он есть только у части участников.
+
+Не разрабатываются: обходы серверной валидации, средства влияния на других игроков без их согласия, механизмы скрытия модификаций от хоста. Любой эксперимент проводится только в сессии, полностью принадлежащей нам.
+
+### 12.4 Артефакты
+
+* `research/systems/networking.md`
+* `research/reflection/<build_key>/replicated-properties.jsonl`
+* `research/reflection/<build_key>/rpcs.jsonl`
+* `docs/networking-model.md` — синтез: что мод может и не может делать в каждой роли.
+
+**Зависимости:** M3 (reflection дамп даёт флаги) + M4 (найдены World/PC) → M8.
+**Exit criteria M8:** `docs/networking-model.md` отвечает на N-01..N-09 либо содержит явные UNKNOWN с описанием блокировки; для N-01, N-02, N-05, N-06, N-09 требуется confidence ≥ 0.8.
+
+---
+
+## 13. Bootstrap feasibility research
+
+Целевой UX (Variant B): пользователь запускает MISERY обычным способом через Steam, небольшой bootstrap автоматически поднимает наш runtime.
+
+**Механизм не выбран.** Задача Phase 1 — сравнить кандидатов и дать аргументированную рекомендацию.
+
+### 13.1 Важный recon-факт, влияющий на всю секцию
+
+Корневой `MISERY.exe` — это UE **BootstrapPackagedGame** shim (422 КБ), который внутри ссылается на `MISERY\Binaries\Win64\MISERY-Win64-Shipping.exe` и на `Engine\Extras\Redist\en-us\UEPrereqSetup_x64.exe` (OBSERVED, A-04). То есть в игре **уже есть** двухступенчатый запуск. Это меняет пространство решений: цепочку запуска не нужно изобретать, нужно понять, куда в неё можно встроиться, **не изменяя оригинальные файлы** (C-01).
+
+Открытый вопрос **Q-13.0 (UNKNOWN):** что именно Steam указывает как launch executable для AppID 2119830 — корневой shim или сразу Shipping exe? Это определяет, какие варианты вообще применимы. Метод проверки: наблюдение дерева процессов при обычном запуске из Steam (read-only), плюс проверка того, что Steam-оверлей/`steam_appid` видит.
+
+### 13.2 Кандидаты (перечисление, не выбор)
+
+| ID | Подход | Кратко |
+|---|---|---|
+| B-1 | **Steam Launch Options** (`%command%`-обёртка) | Пользователь один раз прописывает launch options; наш лаунчер стартует, поднимает runtime, запускает игру |
+| B-2 | **Отдельный лаунчер вне Steam** | Пользователь запускает наш `.exe`, тот стартует игру через Steam URL и внедряет runtime |
+| B-3 | **DLL, подхватываемая loader-ом ОС из директории игры** (proxy/known-DLL подход, как это делают многие mod loader-ы) | Файл кладётся рядом с exe; **добавление** нового файла, а не изменение существующего |
+| B-4 | **Плагин/модульный путь UE** (если сборка умеет грузить modular-плагины из `Binaries`/`Plugins`) | Требует проверки: сборка, вероятно, монолитная |
+| B-5 | **Внешний сервис/наблюдатель**, который замечает запуск процесса и подключается | Не требует файлов в папке игры вовсе |
+| B-6 | **Конфигурационная точка расширения UE** (например, влияние через `%LOCALAPPDATA%\MISERY\Saved\Config\Windows\Engine.ini` — единственный незапакованный конфиг, OBSERVED) | Наименее инвазивно, но UNKNOWN, достаточно ли этого для загрузки нашего кода |
+| B-7 | **Steam Shortcut / отдельная запись в библиотеке** | Пользователь запускает «MISERY (Modded)» |
+
+### 13.3 Матрица сравнения (заполняется в M7 — сейчас все ячейки UNKNOWN)
+
+| Критерий | B-1 | B-2 | B-3 | B-4 | B-5 | B-6 | B-7 |
+|---|---|---|---|---|---|---|---|
+| Надёжность | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN |
+| Сложность реализации | UNKNOWN | … | … | … | … | … | … |
+| Steam compatibility (оверлей, ачивки, Steam Input, облако) | UNKNOWN | … | … | … | … | … | … |
+| Требует изменения оригинальных файлов? | UNKNOWN | … | … | … | … | … | … |
+| Требует **добавления** файлов в папку игры? | UNKNOWN | … | … | … | … | … | … |
+| Выживаемость после обновления игры | UNKNOWN | … | … | … | … | … | … |
+| Момент инициализации (насколько рано в жизни процесса) | UNKNOWN | … | … | … | … | … | … |
+| Uninstall experience (насколько чисто удаляется) | UNKNOWN | … | … | … | … | … | … |
+| Поведение при краше (в т.ч. крашится ли игра без модов) | UNKNOWN | … | … | … | … | … | … |
+| Совместимость с multiplayer / hosting | UNKNOWN | … | … | … | … | … | … |
+| Соответствие целевому UX «просто запусти через Steam» | UNKNOWN | … | … | … | … | … | … |
+| Риск ложного срабатывания антивируса | UNKNOWN | … | … | … | … | … | … |
+
+### 13.4 Метод исследования
+
+1. Ответить на Q-13.0 (что запускает Steam) — наблюдение дерева процессов.
+2. Определить точку, в которой runtime обязан быть жив, чтобы успеть сделать своё дело (зависит от §14: mount контейнеров должен произойти до того, как игра начнёт грузить контент). Это даёт жёсткое требование «момент инициализации» и может исключить часть кандидатов.
+3. Для каждого кандидата — оценка **по документам и статическому анализу**, без сборки прототипов. Прототип максимум один, для самого перспективного кандидата, и он остаётся в `research/` (не в `src/`).
+4. Оценить взаимодействие с обновлениями Steam: что происходит с добавленными нами файлами при обновлении и при «Проверке целостности файлов игры».
+5. Оценить uninstall: полное удаление framework не должно оставлять игру в нерабочем состоянии.
+
+### 13.5 Deliverable
+
+`docs/bootstrap-feasibility.md`:
+* заполненная матрица §13.3 с источниками;
+* жёсткие требования, выведенные из §14 (момент инициализации);
+* **аргументированная рекомендация** одного основного и одного резервного подхода;
+* явный список того, что рекомендация НЕ покрывает;
+* риски и способы их снижения.
+
+**Зависимости:** M7 требует M1 (какой exe цель), **M5a** (когда именно нужен mount — CL-08; полный content-feasibility не нужен, см. §14.7), Q-8.2/Q-8.3 (наличие защиты).
+**Exit criteria M7:** матрица заполнена без UNKNOWN в строках «Требует изменения оригинальных файлов», «Момент инициализации», «Выживаемость после обновления», и есть рекомендация с обоснованием + записанное решение D-03.
+
+---
+
+## 14. Content loading feasibility
+
+Один из двух самых важных вопросов проекта (второй — §6).
+
+### 14.1 Целевая цепочка
+
+```
+Mods/MyWeapon/Content/...
+        ↓  (1) discovery      — runtime находит папку мода
+        ↓  (2) mount          — контейнер/директория становится видимой для файловой системы движка
+        ↓  (3) asset discovery — движок/AssetRegistry знает, что asset существует
+        ↓  (4) load           — asset десериализуется в UObject
+        ↓  (5) register       — asset становится доступен геймплею (item в списке, оружие в таблице, BP-класс в реестре)
+        ↓  (6) use / spawn
+```
+
+### 14.2 Два разных класса задач — исследуются отдельно
+
+| | **Mounting asset** (шаги 1–4) | **Registering asset in gameplay** (шаги 5–6) |
+|---|---|---|
+| Природа проблемы | Формат контейнеров, файловая система движка, версия сериализации, шифрование, порядок mount | Игровая логика: как MISERY узнаёт о существовании предмета/оружия/NPC |
+| Где ответы | IoStore/pak API, `FPakPlatformFile`, `FIoDispatcher`, AssetRegistry | `/Script/MISERY` классы, DataAssets, DataTables, AssetManager, primary asset types |
+| Возможный вердикт | «технически возможно / невозможно / возможно с ограничениями» | «возможно через X / требует патча логики / невозможно без изменения оригинальных данных» |
+| Риск | средний | **высокий** — игра может использовать закрытые статические списки |
+| Артефакт | `research/packages/mounting.md` | `research/packages/registration.md` |
+
+**Ключевая опасность:** легко получить «asset монтируется» и решить, что задача решена, хотя мод всё равно невозможен, потому что игра не имеет механизма узнать о новом предмете. Поэтому §14 не считается закрытой, пока не отвечены **оба** вопроса.
+
+### 14.3 Вопросы mounting
+
+| ID | Вопрос | Статус |
+|---|---|---|
+| CL-01 | Какие API mount доступны в этой сборке (pak? IoStore? оба?) | UNKNOWN |
+| CL-02 | Требует ли IoStore-mount ключа шифрования игры для **нашего** контейнера, если наш контейнер не зашифрован | UNKNOWN — гейт для D-02 |
+| CL-03 | Можно ли смонтировать **директорию** (loose files) вместо контейнера; поддерживает ли Shipping-сборка `-pak`/loose file fallback | UNKNOWN. Если да — резко упрощает весь content pipeline |
+| CL-04 | Какой mount point использовать для мод-контента, чтобы не пересекаться с `/Game` | UNKNOWN |
+| CL-05 | Порядок/приоритет mount, поведение при коллизии | UNKNOWN |
+| CL-06 | Принимает ли сборка контейнеры, cooked другой минорной версией UE | UNKNOWN |
+| CL-07 | Есть ли проверка подписи/целостности контейнеров (pak signing) | UNKNOWN — проверяется в M2 |
+| CL-08 | В какой момент запуска mount ещё возможен, а когда уже поздно | UNKNOWN — жёсткое требование к §13 |
+| CL-09 | Есть ли у сборки `ChunkDownloader` / поддержка внешних контейнеров как штатная возможность | HYPOTHESIS: `ChunkDownloader.uplugin` присутствует в списке плагинов (OBSERVED, A-09), но факт наличия `.uplugin` не означает, что модуль включён в сборку. Требует проверки |
+
+### 14.4 Вопросы registration
+
+| ID | Вопрос | Статус |
+|---|---|---|
+| CR-01 | Как MISERY получает список предметов и прочих content definitions: DataTable? DataAsset? `UAssetManager` PrimaryAssetType? собственный registry? жёстко закодированный список? | UNKNOWN — **самый важный вопрос §14 и один из первых по срокам**, см. врезку ниже |
+| CR-02 | Можно ли расширить этот список в runtime без изменения оригинальных данных | UNKNOWN |
+| CR-03 | Использует ли игра `UAssetManager` и `PrimaryAssetLabel`/`AssetBundles` | UNKNOWN |
+| CR-04 | Как регистрируются BP-классы; будет ли внешний cooked BP-класс виден через reflection | UNKNOWN — эксперименты E-3a / E-3b |
+| CR-05 | Есть ли в игре собственная система «регистрации контента» (subsystem, registry, modular gameplay) | UNKNOWN |
+| CR-06 | Как это работает в co-op: должен ли мод-контент быть у всех участников (см. N-09) | UNKNOWN |
+| CR-07 | Требуют ли `Material`/Niagara отдельных cooked shader-артефактов (shader library, `.ushaderbytecode`) и отдельной runtime-регистрации — даже если Texture/StaticMesh уже работают | UNKNOWN — **отдельный класс проблемы**, см. RISK-16 и эксперименты E-2b / E-4 |
+| CR-08 | Требует ли audio отдельной цепочки (MetaSound-регистрация, audio banks) | UNKNOWN — эксперимент E-5 |
+
+> **CR-01 исследуется как можно раньше — сразу после получения reflection map, не дожидаясь M5b.**
+> Причина: ответ на CR-01 определяет, возможен ли осмысленный контентный моддинг в принципе, и при отрицательном ответе меняет форму всего проекта. При этом первый проход по CR-01 **не требует** ни cooker-а, ни экспериментов: игровые registry/manager-классы видны в reflection map сразу, как только он получен.
+> Порядок: **первый проход в M3** (по одному reflection map, `oracle = runtime-reflection`, целевая confidence 0.5–0.7) → **подтверждение в M5b** (добавляется `asset-registry`, при необходимости `binary-analysis`, целевая confidence ≥ 0.8).
+
+### 14.5 Метод
+
+1. Статически найти mount-API и точки их вызова (§7.4 п.5).
+2. Из reflection-дампа (M3) найти игровые registry/manager-классы (CR-01, CR-05).
+3. Собрать минимальный тестовый контейнер — уровень выбирается по §14.7 (Tier A не требует cooker-а вообще).
+4. Через Probe выполнить E-1..E-4 (§5.3), фиксируя, на каком именно шаге цепочки §14.1 всё останавливается.
+5. Отдельно проверить registration: даже если mount работает, попытаться сделать так, чтобы игра «увидела» новый item/weapon **без изменения оригинальных данных**.
+
+### 14.6 Deliverable
+
+`docs/content-feasibility.md`:
+* вердикт по mounting: возможно / невозможно / возможно с ограничениями + список ограничений;
+* вердикт по registration: отдельный, с тем же набором вариантов;
+* на каком шаге §14.1 цепочка рвётся, если рвётся;
+* минимальные требования к будущему Runtime;
+* минимальные требования к будущему mod-формату (`Mods/<Name>/...`);
+* влияние на multiplayer (N-09, CR-06);
+* оценка реалистичности целевого UX.
+
+### 14.7 Стратегия производства тестового контента (обход зависимости от Unreal Engine)
+
+**Проблема.** Эксперименты E-1..E-7 сформулированы так, будто для каждого нужен полноценный cook в UE 5.4.4. Установка UE — порядка **40 ГБ** (движок в минимальной конфигурации: только Windows-платформа, без Starter Content, без шаблонов, без debug-символов; плюс Epic Games Launcher и DDC при кукинге). Это дорого и, что важнее, **преждевременно**: если сборка вообще откажется монтировать внешние контейнеры, 40 ГБ будут потрачены до получения ответа на главный вопрос.
+
+**Ключевое наблюдение, которое разблокирует работу.** Цепочка §14.1 состоит из шагов с *разной* стоимостью инструментария:
+
+| Шаг §14.1 | Нужен cooked asset? | Нужен UE? |
+|---|---|---|
+| 1. discovery (runtime находит папку мода) | нет | нет |
+| 2. mount (контейнер принят движком) | **нет** | **нет** |
+| 3. asset discovery (файл виден файловой системе движка) | **нет** | **нет** |
+| 4. load (десериализация в UObject) | да | зависит от типа asset |
+| 5. register (геймплей узнаёт о контенте) | да | да |
+| 6. use / spawn | да | да |
+
+Шаги 1–3 — это и есть ответ на CL-01..CL-05, CL-07 и, главное, **CL-08 (в какой момент запуска mount ещё возможен)**, который является жёстким входным требованием для §13 (bootstrap). Их можно закрыть **вообще без cooked-контента**: достаточно контейнера с произвольным файлом-полезной-нагрузкой.
+
+Два подкрепляющих факта из recon:
+
+* В установке присутствует `MISERY-Windows.pak` рядом с IoStore-контейнерами (OBSERVED). То есть **legacy pak-путь в этой сборке живой**, а не отключён. Что он реально монтируется в runtime — пока INFERRED (confidence 0.8), подлежит проверке в M2/M5a (через I-14).
+* Футер `.pak` уже разобран: version 11, индекс не зашифрован, mount point `../../../` (OBSERVED, A-09). Формат pak v11 документирован и прост — **написать собственный writer на Python это работа ограниченного объёма**, а не проект.
+
+#### Уровни (Tier) производства тестового контента
+
+| Tier | Что производим | Чем | UE нужен? | Что закрывает | Оценка сложности |
+|---|---|---|---|---|---|
+| **A** | `.pak` v11 с произвольным **не-asset** файлом (например `.ini`, `.txt`, `.uplugin`) в собственном mount root | свой Python-writer `tools/content/pak_writer.py` | **нет** | CL-01, CL-02, CL-03, CL-04, CL-05, CL-07, **CL-08** + шаги 1–3 цепочки | низкая-средняя |
+| **B** | минимальный cooked package в **legacy** формате (`.uasset` + `.uexp`) простейшего типа — объект без сложных зависимостей | ручной сериализатор `tools/content/mini_cook.py` на основе формата UE 5.4 | **нет** | шаг 4 (load) частично, CL-06 (версионная толерантность), E-1 | средняя-высокая |
+| **C** | реальные cooked-ассеты: StaticMesh, Material, Blueprint, Niagara, Audio | UE 5.4.4, минимальная установка | **да** | E-2a, E-2b, E-3a, **E-3b (§14A)**, E-4, E-5, E-7, шаги 5–6, CR-04, CR-07, CR-08 | низкая (инструмент делает всё), но дорогая по диску |
+| **D** | то же, что C, но cook выполняется **вне этой машины** (второй ПК / временная облачная VM / CI-раннер) | UE 5.4.4 где-то ещё, артефакт переносится файлом | нет локально | то же, что C | средняя, зависит от доступности |
+
+Важные уточнения по Tier B:
+* В UE 5.4 при включённом IoStore пакеты внутри `.pak` продолжают использовать **legacy**-раскладку (`.uasset`/`.uexp`), тогда как IoStore использует Zen-заголовки в `.ucas`. Legacy-формат существенно проще для ручного авторинга. Это делает Tier B реалистичным.
+* Tier B **не масштабируется** на меши, материалы и особенно Blueprint: bytecode BP и сериализация generated-класса вручную не авторятся в разумные сроки. Пытаться не надо.
+* Tier B **не заменяет** §14A: наследование от native-классов MISERY требует настоящего редактора и cooker-а.
+
+#### SP-1 — статический прокси для самых дорогих вопросов
+
+Самые дорогие эксперименты — E-3a и особенно **E-3b**, потому что они железно требуют Tier C. Но часть вопроса за ними можно приблизить **без всякого cook**:
+
+* Вопрос «зависит ли регистрация `UClass` от происхождения контейнера» решается статическим анализом: если в UE загрузка пакета идёт общим путём независимо от обслуживающего контейнера, ответ по E-3a получает confidence ~0.7 до установки UE.
+* Ключевой подвопрос §14A — **CK-04** (запекаются ли офсеты дочерних свойств при cook или пересчитываются при `Link()`) — тоже отвечается статическим анализом. От него зависит, насколько точным должен быть stub, а значит и реалистичность всего mod-kit-трека.
+* Это **не заменяет** E-3a/E-3b (по §10.3 для публичного API нужно ≥0.95 и runtime-подтверждение), но позволяет решать про 40 ГБ, зная ожидаемый результат.
+* Артефакт: `research/packages/sp1-static-proxy.md`.
+
+> Прежнее обозначение этого прокси в v1 было `E-3a`. Переименовано в `SP-1`, потому что `E-3a` теперь занят экспериментом «Blueprint : AActor».
+
+#### Правило порядка (обязательное)
+
+```
+Tier A  →  SP-1 (статический прокси, включая CK-04)  →  Tier B  →  [ТРИГГЕР]  →  Tier C или D  →  §14A / MK-1..MK-5
+```
+
+**Триггер установки UE 5.4.x:** ставить движок только тогда, когда одновременно верно:
+1. Tier A дал вердикт «внешний контейнер монтируется» (иначе ветка content-modding меняет форму целиком, и UE не нужен);
+2. известно требование по моменту mount (CL-08), то есть §13 не заблокирована;
+3. SP-1 не дал уверенного отрицательного ответа ни по E-3a, ни по CK-04;
+4. на диске есть ≥60 ГБ свободно с запасом.
+
+Если пункт 1 даст «не монтируется» — UE не ставится вовсе, а Phase 1 переходит к вопросу «какие вообще виды модов возможны без нового контента» (реально это тогда: изменение поведения через reflection, но не добавление ассетов).
+
+#### Влияние на milestones
+
+* **M5a не блокируется отсутствием UE** и выполняется силами уровня 1 (§8.2, I-14), если сборка обнаруживает контейнеры автоматически.
+* Early Content Feasibility (M5a/M5b/M5c) поднята **до** широкого subsystem-research (теперь M6). Причина: нет смысла глубоко разбирать AI, погоду и save-систему, пока не известно, возможен ли осмысленный custom content вообще.
+* Это снимает установку UE с критического пути к M7 (bootstrap).
+
+#### Новые задачи
+
+| ID | Задача | Tier | Exit criterion |
+|---|---|---|---|
+| CT-01 | `tools/content/pak_writer.py` — writer `.pak` v11 (незашифрованный индекс, настраиваемый mount point) | A | Сгенерированный pak корректен по нашему parser-у (`container_info.py`); футер и индекс сходятся; **дополнительно сверен независимым oracle** (§17.3) |
+| CT-02 | Round-trip тест: writer → parser → сверка | A | Автотест зелёный |
+| CT-03 | Тестовый контейнер с не-asset payload + сценарий наблюдения через ERI (I-14) | A | Есть чёткий наблюдаемый признак «смонтировано / не смонтировано» без вмешательства в процесс |
+| CT-04 | **SP-1**: статический анализ независимости регистрации `UClass` от контейнера + ответ на CK-04 | — | `sp1-static-proxy.md` с confidence и обоснованием по обоим вопросам |
+| CT-05 | `tools/content/mini_cook.py` — минимальный legacy-сериализатор | B | Производит пакет, который сборка принимает **или** даёт диагностируемую ошибку (оба исхода — валидный результат) |
+| CT-06 | Решение по триггеру §14.7 и, если да, минимальная установка UE 5.4.4 | C | Записано в `decisions.md` как D-06 с обоснованием и фактическим расходом диска |
+| CT-07 | Проверить воспроизводимость cook-настроек игры в нашем проекте (CK-06) | C | Настройки сопоставлены с наблюдаемыми флагами контейнеров игры; расхождения перечислены |
+
+**Зависимости:** M5a требует M2 (форматы контейнеров) + M3 (ERI умеет наблюдать, I-14) + CT-01..CT-03. M5b требует M5a + M4 + триггер §14.7. M5c требует M5b + §14A.
+**Exit criteria (M5a+M5b):** оба вердикта (mounting и registration) записаны с confidence ≥ 0.8; для каждого из E-1..E-7 есть запись `pass` / `fail` / `blocked` с указанием шага §14.1, использованного Tier и сохранённым артефактом. Для экспериментов со статусом `blocked` явно указано, какой Tier или какой пункт §14A их разблокирует.
+
+---
+
+## 14A. Mod Kit / Cooking Against MISERY Classes — критический research track
+
+> Это **не** подраздел §14 и **не** «ещё один эксперимент». Это отдельный трек, и он является одним из главных гейтов всего проекта.
+> Нумерация `14A` выбрана намеренно, чтобы не сдвигать существующие §15–§21 и не ломать ссылки внутри knowledge base.
+
+### 14A.1 Почему это гейт
+
+§14 отвечает на вопрос «может ли игра загрузить наш контейнер и наш asset». Это необходимо, но **недостаточно**.
+
+Осмысленный мод для MISERY почти всегда должен наследоваться от **игровых** классов: чтобы добавить оружие — унаследоваться от класса оружия MISERY; чтобы добавить предмет — от класса предмета; чтобы расширить персонажа — от его класса. Blueprint, унаследованный от чистого движкового `AActor` (E-3a), не умеет ничего из этого — он декоративен.
+
+В нормальном моддинг-SDK студия выдаёт headers своих native-классов, и редактор видит их как валидных родителей для Blueprint. У нас headers нет. Значит вопрос звучит так:
+
+> Можно ли **синтезировать** editor-side представление native-классов MISERY из reflection-данных настолько точно, чтобы stock-редактор UE позволил сделать от них Blueprint, cooker согласился его приготовить, а оригинальная игра — корректно загрузить?
+
+### 14A.2 Исследуемая цепочка
+
+```
+runtime reflection  (I-04..I-06: классы, функции, свойства, порядок, размеры)
+        ↓  генерация
+generated MISERY class stubs   (C++ headers: UCLASS/USTRUCT/UPROPERTY/UFUNCTION)
+        ↓  сборка
+Unreal Editor mod-kit plugin   (модуль, называющийся ровно MISERY)
+        ↓  авторинг
+Blueprint : /Script/MISERY.<NativeClass>
+        ↓  cook
+cooked package  (.utoc/.ucas или .pak)
+        ↓  mount + load
+оригинальная игра
+```
+
+Замечание по D-02: stub-и генерируются **из reflection-метаданных живого процесса**, а не из расшифрованных контейнеров. Это метаданные интероперабельности (имена, типы, порядок), а не извлечённый контент. Никакого обхода шифрования цепочка не требует.
+
+### 14A.3 Почему это в принципе может работать — и где именно может сломаться
+
+Одно обстоятельство работает в нашу пользу: cooked-пакет ссылается на родительский класс как на **import по имени** — package `/Script/MISERY`, объект `<ClassName>`. При загрузке в игре этот import резолвится по имени в настоящий native-класс. Адреса и указатели в пакете не хранятся. Значит stub-у достаточно воспроизвести **тот же путь имени**, а не тот же код.
+
+Но дальше начинаются реальные опасности, и именно они составляют содержание этого трека:
+
+| # | Опасность | Почему серьёзно | Как проверяется |
+|---|---|---|---|
+| 1 | **Unversioned property serialization** | В cooked-пакетах UE5 свойства при включённом `bUseUnversionedPropertySerialization` идентифицируются **порядком/индексом**, а не именем. Если набор и порядок свойств в stub-е не совпадёт с настоящим классом — данные будут прочитаны не туда: тихая порча или crash | Сначала определить, какой режим у сборки (CK-01). Затем сверить порядок свойств stub-а с reflection (I-06 даёт порядок) |
+| 2 | **Размер родительского класса** | Свойства дочернего BP-класса располагаются после родителя. Если офсеты дочерних свойств запекаются на этапе cook, а размер родителя в stub-е не совпадает с настоящим — всё поедет | CK-04: выяснить, запекаются офсеты или пересчитываются при `Link()` во время загрузки. Это **решающий подвопрос** трека |
+| 3 | **Сигнатуры native-функций** | BP-байткод вызывает native UFunction, раскладывая параметры по её property-списку. Несовпадение порядка/типов параметров = порча стека вызова | Сверка сигнатур stub-а с reflection (I-05) |
+| 4 | **Custom versions** | Модули игры могут регистрировать свои custom version GUID-ы. Наш пакет понесёт версии движка и нашего stub-модуля, но не настоящих модулей игры | CK-05 + RISK-15 |
+| 5 | **Настройки cook** | Stock-cooker может выдать пакет с другими настройками, чем у игры (IoStore вкл/выкл, компрессия, unversioned properties, форматы шейдеров) | Сверить с наблюдаемыми настройками контейнеров игры (§3.1) |
+| 6 | **Версия редактора** | Пакет, приготовленный не тем минором UE, может быть отвергнут | Использовать ровно версию сборки (5.4.4); связано с E-7 |
+| 7 | **Полнота stub-ов** | Класс может ссылаться на другие native-типы (структуры, енумы, интерфейсы, делегаты), которые тоже надо сгенерировать. Транзитивное замыкание может оказаться большим | CK-07: измерить размер транзитивного замыкания для одного целевого класса |
+
+### 14A.4 Вопросы трека
+
+| ID | Вопрос | Приоритет | Oracle |
+|---|---|---|---|
+| CK-01 | Использует ли сборка unversioned property serialization в cooked-пакетах? | **критический** | `binary-analysis` + `container-metadata` |
+| CK-02 | Можно ли в editor-проекте создать модуль с именем ровно `MISERY`, чтобы получить package-путь `/Script/MISERY`? | высокий | `external-doc` + практическая проверка |
+| CK-03 | Достаточно ли reflection-данных (I-04..I-06) для генерации компилируемого stub-а: имена, типы, флаги, порядок, размеры, `USTRUCT`/`UENUM`-зависимости? | **критический** | `runtime-reflection` |
+| CK-04 | Офсеты свойств дочернего BP-класса **запекаются** при cook или пересчитываются при загрузке (`Link()`)? | **решающий** | `binary-analysis` |
+| CK-05 | Какие custom versions регистрируют модули игры и требуются ли они при загрузке пакета? | высокий | `binary-analysis` |
+| CK-06 | Какие настройки cook у игры (IoStore, компрессия, шифрование, платформа, форматы шейдеров) и воспроизводимы ли они в нашем проекте? | высокий | `container-metadata` |
+| CK-07 | Каков транзитивный набор типов, который надо сгенерировать для одного осмысленного целевого класса? | средний | `runtime-reflection` |
+| CK-08 | Проверяет ли игра происхождение/целостность загружаемых классов? | средний | `binary-analysis` |
+| CK-09 | Возможен ли E-3c (наследование от **Blueprint**-класса игры), учитывая, что родительский asset лежит в зашифрованном контейнере (D-02)? | средний | анализ + вердикт |
+| CK-10 | Масштабируется ли генерация stub-ов на весь модуль `/Script/MISERY` или только на выборочные классы? | низкий (после MK-3) | практика |
+
+### 14A.5 Стадии (строго последовательно, каждая — гейт для следующей)
+
+| ID | Стадия | Что делаем | Успех | Провал означает |
+|---|---|---|---|---|
+| **MK-1** | Один stub | Сгенерировать stub для **одного** простого native-класса MISERY, собрать editor-модуль `MISERY`, открыть редактор | Редактор показывает класс как валидного родителя для Blueprint | либо reflection-данных недостаточно (CK-03), либо имя модуля недостижимо (CK-02) |
+| **MK-2** | Минимальный BP + cook | Создать BP от этого класса **без переопределения унаследованного**, с одним собственным свойством; приготовить | Cook проходит; наши парсеры видят в пакете import `/Script/MISERY.<Class>` | stock-cooker несовместим → RISK-15 |
+| **MK-3** | **E-3b: загрузка в игре** | Смонтировать и загрузить пакет в оригинальной игре, инстанцировать | Класс загружен, наследование корректно, унаследованные native-свойства читаются осмысленно | **главный отрицательный результат проекта** — см. §14A.7 |
+| **MK-4** | Эскалация | Переопределить унаследованное свойство; вызвать унаследованную native-функцию из BP | Работает без порчи данных | указывает конкретно на опасность 1/2/3 из §14A.3 |
+| **MK-5** | Масштаб | Оценить генерацию stub-ов на весь `/Script/MISERY` | Механически воспроизводимо | сужает будущий mod kit до выборочных классов |
+
+Важно: **MK-2 даёт частичный ответ ещё до запуска игры.** Наши парсеры контейнеров могут проверить структуру приготовленного пакета и import-путь, не запуская MISERY вообще. Это дешёвая точка контроля посередине трека.
+
+### 14A.6 Что здесь НЕ делается в Phase 1
+
+* Не строится публичный mod kit для сторонних авторов — это Phase 2+.
+* Не генерируются stub-ы для всего модуля «на всякий случай» (MK-5 — это **оценка**, а не производство).
+* Не пишется UI, установщик и документация для мод-авторов.
+* Цель Phase 1 — **вердикт с обоснованием**, а не работающий продукт.
+
+### 14A.7 Семантика гейта
+
+Результат MK-3 (то есть E-3b) прямо определяет смысл всего проекта:
+
+| Исход | Что это значит | Что делать |
+|---|---|---|
+| `E-3b pass` | Meaningful custom content возможен. Проект имеет полный смысл | Phase 2 включает mod kit как основной компонент |
+| `E-3b fail`, `E-3a pass` | Возможен только контент, не наследующийся от игровых классов: косметика, отдельные ассеты, но не расширение геймплейных сущностей контентом | Проект переориентируется на behaviour-моддинг через reflection; это **другой, гораздо более скромный продукт**, и это надо назвать вслух |
+| `E-3a fail` тоже | Внешний контент не грузится вовсе | Остаётся только runtime-моддинг поведения; вопрос §14 закрывается отрицательно |
+| `blocked` | Не хватило инструментов/времени | Явно указать, чего именно не хватило, и не выдавать за отрицательный результат |
+
+**Deliverable трека:** `docs/modkit-feasibility.md` — ответы на CK-01..CK-10, журнал MK-1..MK-5, вердикт по §14A.7 с confidence, и раздел «что это означает для будущего публичного mod kit».
+
+**Зависимости:** §14A требует M3 (reflection map: I-04..I-06 — особенно **порядок и размеры** свойств), M5a (mount работает), M5b (asset грузится), UE 5.4.4 (Tier C, D-06).
+**Milestone:** M5c.
+
+---
+
+## 15. Future SDK implications
+
+Правило: SDK **не проектируется заранее**. Он возникает из понимания игры.
+
+### 15.1 Механизм
+
+К каждому файлу `research/systems/<name>.md` обязателен раздел:
+
+```markdown
+## Implications for future SDK
+| Raw (build-specific) | Potential public API | Stability class (§16) | Confidence | Blocking unknowns |
+|---|---|---|---|---|
+| BP_PlayerCharacter_C.HealthComponent.CurrentHealth | player.GetHealth() | reflected-identifier | 0.9 | требует authority-семантики (§12) |
+```
+
+### 15.2 Правила
+
+* Запись в этой таблице — **кандидат**, а не обещание API.
+* Кандидат не может иметь `confidence ≥ 0.95`, пока не пройдены критерии §10.3.
+* Каждый кандидат обязан иметь поле «что произойдёт с этим API в multiplayer» — иначе он не кандидат.
+* Каждый кандидат обязан иметь поле **«зависит ли от исхода E-3b»**. Кандидаты, требующие наследования от native-классов MISERY (то есть почти весь контентный API), при `E-3b fail` вычёркиваются целиком, а не «переносятся на потом».
+* Каждый кандидат несёт `oracle` (§10.5) для факта, на котором держится.
+* Никакой кодогенерации wrapper-ов в Phase 1 (C-05).
+* В конце Phase 1 все кандидаты собираются в `docs/sdk-candidates.md` — это **входные данные** для Phase 2, а не спецификация.
+
+### 15.3 Артефакт
+
+`docs/sdk-candidates.md` — агрегированная таблица всех кандидатов с обратными ссылками на `research/systems/*.md`.
+
+---
+
+## 16. Version compatibility strategy
+
+### 16.1 Классы идентификаторов, от самого стабильного к самому хрупкому
+
+| Класс | Пример | Стабильность при патче игры | Использование в публичном API |
+|---|---|---|---|
+| `reflected-identifier` | имя класса `MiseryCharacter`, имя свойства `CurrentHealth`, имя функции | высокая | **предпочтительно** |
+| `structural-relationship` | «компонент типа X у актора класса Y», «единственный `ULocalPlayer` у `UGameInstance`» | высокая | предпочтительно |
+| `asset-path` | `/Game/Characters/BP_PlayerCharacter` | средняя | допустимо с проверкой |
+| `signature` (byte pattern) | сигнатура функции `ProcessEvent` | средняя | только внутри Runtime, не в публичном API |
+| `version-specific-binding` | таблица «для build_key=X, offset=0x…» | низкая, но управляемая | только внутри Runtime |
+| `raw-offset` | «здоровье по +0x2A8» | **очень низкая** | **никогда** в публичном API |
+
+### 16.2 Целевая схема
+
+```
+Mod
+ ↓ (только stable identifiers)
+Stable Misery API
+ ↓
+Runtime
+ ↓ (version-specific bindings, сигнатуры, офсеты)
+Bindings for current game build
+ ↓
+MISERY
+```
+
+Цель: после патча игры обновляется Runtime/Bindings, а не все существующие моды.
+
+### 16.3 Что нужно исследовать в Phase 1
+
+| ID | Вопрос | Метод |
+|---|---|---|
+| VC-01 | Какие идентификаторы фактически стабильны в этой игре | Нужно ≥2 сборки для сравнения. Сейчас доступна одна → **явное ограничение Phase 1** |
+| VC-02 | Насколько устойчивы сигнатуры функций между сборками | То же ограничение; частично оценивается сравнением Shipping exe и второго exe (D-04) как двух разных компиляций |
+| VC-03 | Меняются ли имена BP-классов/свойств между патчами | UNKNOWN до появления второй сборки |
+| VC-04 | Как автоматически детектировать «сборка изменилась» | `build_key` + `content_key` (§3.2) — реализуемо уже сейчас |
+| VC-05 | Как хранить bindings, чтобы добавление новой сборки не требовало правки кода | Дизайн формата `bindings/<build_key>.json`, декларативно |
+
+### 16.4 Важное ограничение Phase 1 (записать честно)
+
+> На момент составления плана доступна **одна** сборка игры (`steam_buildid 24826585`). Утверждения о стабильности идентификаторов между версиями остаются `HYPOTHESIS` до появления второй сборки. Поэтому Phase 1 обязана: (a) сохранить полный fingerprint текущей сборки, (b) построить инструменты так, чтобы сравнение двух сборок стало дешёвым, (c) не выдавать выводы о версионной устойчивости за факты.
+
+Дополнительная задача: `tools/kb/diff_builds.py` — дифф двух fingerprint/reflection-дампов. Написать **сейчас**, применить при первом патче.
+
+**Артефакт:** `docs/version-compatibility.md`.
+
+---
+
+## 17. Toolchain
+
+### 17.1 Фактическое состояние toolchain (проверено 2026-08-22)
+
+Всё ниже — OBSERVED, проверено запуском.
+
+| Инструмент | Путь | Версия | Статус |
+|---|---|---|---|
+| git | `C:\Program Files\Git\cmd\git.exe` | — | было |
+| Python | `C:\Python314\python.exe` | 3.14.0 | было |
+| .NET SDK | `C:\Program Files\dotnet\dotnet.exe` | — | было |
+| Rust / cargo | `C:\Users\Anton\.cargo\bin\` | — | было |
+| Node / npm | `C:\nvm4w\nodejs\` | — | было (не обязателен) |
+| CMake | `D:\Program Files\CMake\bin\cmake.exe` | — | было |
+| MSVC toolset | `D:\Program Files\VisualStudio` (`VC.Tools.x86.x64`) | VS 2022 | было. **Не в PATH** — для сборки C/C++ расширений Python нужен `vcvars64.bat` |
+| **Ghidra** | `D:\Tools\ghidra_12.1.3_PUBLIC` | **12.1.3** (build 2026-08-17) | **установлено.** Официальный релиз `NationalSecurityAgency/ghidra`, файл `ghidra_12.1.3_PUBLIC_20260817.zip` (569 445 154 B), SHA-256 `93a5d11a9ad510622acaaf908c556a7b9b764d338e78a7567f3689bf5081fd54` — сверен с release notes, совпал. Установка на диске ~874 МБ |
+| **Temurin JDK 21** | `D:\Tools\jdk-21` | **21.0.12.1+1 LTS** | **установлено** для Ghidra. `OpenJDK21U-jdk_x64_windows_hotspot_21.0.12.1_1.zip`, SHA-256 `f9d6e191ab098c0d416e7d588a24420a8621cd2f4720dab2459b8b7b2d2d8b4e` — сверен с Adoptium API, совпал. Распакован локально, **системные переменные не менялись**; Ghidra привязана через `support/launch.properties` → `JAVA_HOME_OVERRIDE` |
+| Temurin JDK 25 | `C:\Program Files\Eclipse Adoptium\jdk-25.0.1.8-hotspot` | 25.0.1 LTS | было. **Не использовать с Ghidra** — см. §17.1a |
+| Java 8 JRE | `javapath\java.exe` | 1.8.0_401 | было. На PATH — поэтому Ghidra привязана к JDK явно, а не через PATH |
+| **PyGhidra** | venv `D:\Tools\venv-research` | **3.1.0** + jpype1 **1.7.1** | **установлено и проверено:** `pyghidra.start()` поднимает JVM, `Application.getApplicationVersion()` → `12.1.3`. Позволяет писать скрипты Ghidra на Python 3.14 вместо Java |
+| 7-Zip CLI | — | — | отсутствует (не критично, распаковка через `System.IO.Compression`) |
+| Unreal Engine | не установлен | — | **не установлен.** Больше не жёсткий блокер — см. §14.7 и RISK-04 |
+
+**Проверка работоспособности Ghidra (выполнена):** `support\analyzeHeadless.bat D:\Tools\ghidra-projects SmokeTest -import <копия tbbmalloc.dll> -deleteProject` → exit code 0, `Analysis succeeded`, полный набор анализаторов включая `Windows x86 PE RTTI Analyzer` (относится к задаче S-10). Анализ выполнялся над **копией** файла в `D:\Tools\ghidra-workspace\bin\`, оригинал в папке игры не открывался на запись (C-01/C-02 соблюдены).
+
+Рабочие директории Ghidra: проекты — `D:\Tools\ghidra-projects`, копии бинарников — `D:\Tools\ghidra-workspace`. После решения D-01 обе переезжают в `workspace/` репозитория (gitignore).
+
+### 17.1a Зафиксированная несовместимость: Ghidra 12.1.3 + JDK 25
+
+Записать в knowledge base, чтобы не потерять несколько часов повторно.
+
+* `Ghidra/application.properties` объявляет `application.java.min=21`, `application.java.max=` (пусто, то есть максимум формально не задан), `application.java.compiler=21`.
+* При запуске на **Temurin JDK 25.0.1** `analyzeHeadless` падает:
+  `ERROR: Bundle org.apache.felix.framework [0] The data file must be inside the data dir.`
+  → `NullPointerException: Cannot invoke "java.io.File.isFile()" because "dataFile" is null`
+  в `org.apache.felix.framework.Felix.handleJavaVersionChange` → `BundleHost.startFramework` → `GhidraScriptUtil.initialize`.
+  Ошибка возникает **до** любой пользовательской логики, обойти флагами не удаётся: OSGi-подсистема инициализируется всегда.
+* На **Temurin JDK 21.0.12.1** тот же вызов проходит успешно (exit code 0).
+* **Вывод:** для Ghidra 12.1.3 использовать JDK 21. Пустое `application.java.max` не означает поддержку произвольно новых JDK.
+* Evidence level: OBSERVED, confidence 0.95 (воспроизведено на обеих версиях; ссылка на баг Felix — INFERRED).
+* Артефакт: `research/evidence/T-02/ghidra-jdk25-felix-failure.md`.
+
+Побочный факт: `pyghidra 3.1.0` жёстко пинит `Jpype1==1.5.2`, у которого нет бинарного колеса под CPython 3.14 → pip уходит в сборку из исходников и падает на отсутствии MSVC в окружении. Рабочее решение: сначала `pip install jpype1==1.7.1` (колесо cp314 существует), затем `pip install --no-deps pyghidra-3.1.0-py3-none-any.whl`. Проверено. Evidence level: OBSERVED, confidence 0.9 (работоспособность подтверждена только на сценарии `start()` + запрос версии; полное покрытие API не проверялось).
+
+### 17.2 Требуемые инструменты
+
+| Инструмент | Назначение | Откуда безопасно взять | В репозитории? | Одноразово / постоянно | Артефакты |
+|---|---|---|---|---|---|
+| **Git** | версионирование базы знаний | уже есть | — | постоянно | история |
+| **Python 3.14** | все research-скрипты, парсеры, валидация | уже есть | нет (только `requirements.txt`) | постоянно | JSON/JSONL |
+| **Ghidra 12.1.3** | статический анализ exe | официальный релиз `NationalSecurityAgency/ghidra` на GitHub, с проверкой SHA-256 из release notes | **нет** (569 МБ архив / 874 МБ установка; версия + sha256 фиксируются в `docs/toolchain.md`) | постоянно | декомпиляция, xrefs, callgraph, RTTI/vtable-инвентарь |
+| **Temurin JDK 21** | требование Ghidra (**именно 21, не 25** — §17.1a) | официальный релиз Adoptium, с проверкой SHA-256 через Adoptium API | нет | постоянно | — |
+| **PyGhidra 3.1.0** | скрипты Ghidra на Python вместо Java | wheel из состава Ghidra + `jpype1` с PyPI | нет (фиксируется в `requirements.txt`) | постоянно | все скрипты S-03..S-05 |
+| **MSVC (VS 2022) + CMake** | сборка ERI/IPP, если выбран C++; сборка Python C-расширений; **сборка editor mod-kit модуля для §14A** | уже есть | нет | по необходимости → **обязательно для §14A** | ERI/IPP, stub-модуль |
+| **Rust toolchain** | альтернатива для ERI/IPP | уже есть | нет | по необходимости | ERI/IPP |
+| **Unreal Engine 5.4.4** | приготовление тестового cooked-контента для **Tier C** (E-2, E-3, E-4) — см. §14.7 | Epic Games Launcher, минимальная конфигурация | нет | ставится **не раньше M6**, по триггеру из §14.7 | тестовые контейнеры `.utoc/.ucas`/`.pak` |
+| **Свои парсеры** (`pe_info`, `container_info`, `sigscan`, …) | воспроизводимость без сторонних бинарников | пишем сами | **да** | постоянно | fingerprint, containers |
+| **JSON Schema validator** (`jsonschema`) | валидация базы знаний | PyPI | нет (`requirements.txt`) | постоянно | отчёт валидации |
+| **SQLite** (stdlib Python) | индекс больших дампов | уже есть | — | постоянно | `reflection.sqlite` |
+| Сторонние pak/IoStore-утилиты | потенциально ускоряют §5 | — | **нет** | — | **см. правило ниже** |
+
+### 17.3 Правила приобретения инструментов
+
+* Не скачивать и не запускать сомнительные бинарники (AGENTS.md). Практическое правило: инструмент допустим, если у него есть **публичный исходный код**, **воспроизводимый релиз** и **проверяемая контрольная сумма**.
+* Каждая внешняя зависимость получает запись в `docs/toolchain.md`: имя, версия, URL, sha256, дата получения, зачем нужна, что произойдёт без неё.
+
+#### Разделение ролей: наши парсеры vs сторонние инструменты (C-12)
+
+**Мы не переписываем экосистему Unreal IoStore самостоятельно.** Это была бы работа на месяцы с сомнительной отдачей.
+
+| | Наши собственные парсеры | Официальные UE-инструменты и проверенные open-source инструменты |
+|---|---|---|
+| Роль | **минимальные воспроизводимые метаданные**: заголовки контейнеров, PE, fingerprint, sig-scan, writer для Tier A | **независимый research oracle** для cross-validation наших выводов |
+| Зачем нужны | fingerprint должен быть воспроизводим без внешних зависимостей и должен диффиться в git | второй независимый источник для §10.3 (два независимых метода) — резко ускоряет подтверждение форматов |
+| Могут ли стать runtime-зависимостью framework | нет (это research-инструменты) | **категорически нет** — см. ниже |
+| Область | ровно то, что нужно для наших артефактов, и ни байтом больше | что угодно, что помогает проверить наш вывод |
+
+Правила использования сторонних инструментов как oracle:
+
+1. Их результат имеет `oracle = external-doc` или `container-metadata` (§10.5) и **сам по себе** не даёт confidence выше 0.7 применительно к **этой** сборке — только vanilla-UE-поведение.
+2. Расхождение между нашим парсером и сторонним инструментом — это находка, которую надо разобрать, а не повод молча довериться одному из них.
+3. **Ни один сторонний инструмент не становится runtime-зависимостью framework.** Их присутствие в toolchain не создаёт для будущего Runtime ни обязательств, ни архитектурных решений.
+4. Применение любого инструмента к **оригинальным контейнерам игры** ограничено принятым D-02: расшифровка недопустима независимо от того, чьим кодом она выполняется.
+5. Закрытый бинарник без исходников — только с явным разрешением владельца проекта, и никогда против оригинальных контейнеров.
+
+### 17.6 Политика версий JDK и Python
+
+* **JDK выбирается по требованиям конкретной выбранной версии Ghidra**, а не по принципу «новее лучше». Источник истины — `Ghidra/application.properties` (`application.java.min` / `application.java.max` / `application.java.compiler`) плюс фактическая проверка запуском. Текущий случай (§17.1a) показал, что формально пустой `application.java.max` не означает поддержку произвольно новой JDK. При смене версии Ghidra эта проверка выполняется заново.
+* **Python-окружение не обязано использовать системный Python 3.14.** Если зависимости лучше поддерживают другую версию (например, готовые колёса для 3.12/3.13 вместо сборки из исходников), допустимо поставить отдельный интерпретатор для research-venv. Критерий выбора — «наименьшее число сборок из исходников и наименьшая хрупкость», а не «самая новая версия».
+* Фактическая версия каждого окружения фиксируется в `docs/toolchain.md` и в `requirements.txt`. Смена версии интерпретатора — это запись в `research/decisions.md`, а не молчаливое изменение.
+
+### 17.4 Задачи
+
+| ID | Задача | Статус | Exit criterion |
+|---|---|---|---|
+| T-01 | Составить `docs/toolchain.md` с таблицами §17.1/§17.2 и правилами §17.3 | открыта | Файл существует, содержит версии, пути, sha256, дату получения |
+| T-02 | Установить JDK + Ghidra, зафиксировать версии и sha256 | **выполнено 2026-08-22** | ✅ `analyzeHeadless` завершается с exit code 0 на тестовом импорте; версии и контрольные суммы в §17.1; несовместимость с JDK 25 задокументирована в §17.1a |
+| T-02b | Перенести `research/evidence/T-02/` (лог smoke-теста, лог падения на JDK 25) в knowledge base | открыта, зависит от K-01 | Оба артефакта существуют |
+| T-03 | `requirements.txt` + виртуальное окружение | **частично**: venv `D:\Tools\venv-research` создан, PyGhidra работает | `requirements.txt` зафиксирован, `python -m pytest` проходит на пустом наборе тестов |
+| T-04 | Определить стратегию производства тестового контента | **переформулирована** — см. §14.7 | Tier A/B реализуемы без UE; решение о установке UE принимается по триггеру §14.7, а не заранее |
+| T-05 | Оценить фактический размер Ghidra-проекта для `MISERY-Win64-Shipping.exe` (134 МБ) до полного анализа | открыта, входит в M2s | Измерен размер БД и время анализа; при выходе за бюджет диска применена стратегия из RISK-13 |
+
+---
+
+## 18. Milestones
+
+### 18.1 Граф зависимостей
+
+```
+M0  Environment + repository audit          [D-01 принято: D:\Dev\MiseryFramework]
+ └─→ M1  Build fingerprint                  [гейты: Q-8.2 анти-отладка, Q-8.3 анти-чит, S-10 RTTI]
+      ├─→ M2   Package/asset map ─────────────────────┐
+      └─→ M2s  Static-analysis foundation             │   (Ghidra готова, §17.1)
+            │        └─ SP-1 (стат. прокси: E-3a, CK-04)
+            │                                         │
+            └─→ M3  Reflection access via ERI ←───────┘
+                 │    └─ CR-01 первый проход (§14.4)
+                 │
+                 ├─→ M4  World/player identification   (ERI: I-07..I-10)
+                 │
+                 └─────────────┐
+                               ▼
+        ╔══════════ EARLY CONTENT FEASIBILITY (приоритет) ══════════╗
+        ║  M5a  Mounting feasibility        ← БЕЗ UE, ERI/I-14      ║
+        ║   │                                                       ║
+        ║   ├─→ M5b  Content + registration ← Tier B/C/D, CR-01 fin ║
+        ║   │     │                                                 ║
+        ║   │     └─→ M5c  MOD KIT GATE / E-3b  (§14A, MK-1..MK-5)  ║
+        ║   │                                                       ║
+        ║   └─→ M7  Bootstrap feasibility   ← требование CL-08      ║
+        ╚═══════════════════════════════════════════════════════════╝
+                               │
+                               ▼   (только после вердикта по контенту)
+                 M6  Core gameplay system maps          ← требует M4
+                 M8  Networking model                   ← требует M3, M4
+
+M5a + M5b + M5c + M6 + M7 + M8 ──→ M9  Phase 1 architecture report
+```
+
+**Два изменения относительно v1, оба сокращают риск:**
+
+1. **M7 (bootstrap) больше не зависит от наличия UE.** Раньше он зависел от полного content-feasibility, который зависел от cooker-а — самая длинная и хрупкая цепочка в графе. Теперь M7 зависит только от M5a, который выполняется без UE (§14.7) и, вероятно, без in-process кода (§8.2, I-14).
+2. **Early Content Feasibility (M5a/M5b/M5c) поднята до широкого subsystem-research** (бывший M5, теперь M6). Причина прямая: пока не известно, возможен ли осмысленный custom content, глубокое исследование AI, погоды, save-системы и UI может оказаться работой для продукта, который не имеет смысла. Сначала гейт, потом ширина.
+
+Гейт-семантика: **M5c (E-3b) определяет масштаб всего проекта** — см. §14A.7. Отрицательный результат не останавливает Phase 1, но обязан изменить формулировку того, что мы строим.
+
+### 18.2 Milestones и exit criteria
+
+| ID | Название | Содержание | Exit criteria | Блокируется |
+|---|---|---|---|---|
+| **M0** | Environment + repository audit | R-01..R-05: репозиторий в `D:\Dev\MiseryFramework`, структура §9.2, discovery-скрипт, модель безопасности §1.5, baseline inventory, `docs/toolchain.md` | (1) Репозиторий существует с коммитом; `AGENTS.md` и `plan.md` **перемещены** туда, в папке игры наших файлов не осталось. (2) `research/` создан целиком. (3) `find-misery.ps1` находит установку и производит `install.json`. (4) `repo-audit.md` + `evidence-model.md` (включая §10.5) + `decisions.md` (D-01/D-02/D-04/D-05) + `docs/toolchain.md` существуют. (5) `unknowns.md` содержит все UNKNOWN этого плана. (6) `verify_install.py` работает и даёт чистый diff | — (D-01 принято) |
+| **M1** | Build fingerprint | PE-парсер, container-парсер, `fingerprint.json`, `build_id`, аномалии, RTTI (S-10), анти-отладка/анти-чит (Q-8.2/Q-8.3) | (1) `fingerprint.json` валиден по схеме и воспроизводим. (2) `build_key`/`build_id` присвоены. (3) `engine-version.json` с confidence ≥ 0.90 и ≥3 независимыми источниками (§4). (4) **Ответ по Q-8.3 (анти-чит) — гейт для §8.** (5) Ответ по RTTI. (6) `anomalies.md` содержит A-05 с явной пометкой, что «Development build» остаётся HYPOTHESIS (D-04) | M0 |
+| **M2** | Package/asset map | Форматы контейнеров, флаги, mount points, статус шифрования, список плагинов, AssetRegistry-локация | (1) `containers.json` с полностью заполненными полями заголовков, **сверенными с независимым oracle** (§17.3). (2) `containers.md` объясняет, что зашифровано и что нет. (3) Список плагинов сборки с честной пометкой «staged ≠ enabled» (A-09). (4) Ответ по pak signing (CL-07) | M1 |
+| **M2s** | Static-analysis foundation | Ghidra/PyGhidra pipeline, strings-индекс, xrefs, сигнатуры, vtable/RTTI-инвентарь, кандидаты RF-04..RF-09, **SP-1** | (1) Pipeline воспроизводимо анализирует **копию** целевого exe. (2) S-01..S-10 работают. (3) Измерены время и размер БД (T-05). (4) Для `GUObjectArray`, `FName pool`, `ProcessEvent`, `GEngine` — по ≥1 кандидату HYPOTHESIS с адресом и сигнатурой. (5) **SP-1 закрыт**: ответы по E-3a-прокси и по **CK-04** записаны в `sp1-static-proxy.md` | M1 (T-02 выполнено) |
+| **M3** | Reflection access via ERI | RF-01 (разбор `global.ucas`), **ERI** I-01..I-06, I-15, I-16; двусторонняя валидация статика↔runtime; **первый проход CR-01** | (1) `classes.jsonl`/`functions.jsonl`/`properties.jsonl` существуют, **включая порядок и размеры свойств** (нужно для §14A). (2) ≥95% совпадение имён `/Script/MISERY` между RF-01 и runtime-дампом, расхождения объяснены. (3) `structures.md` с подтверждёнными layout-ами и `build_key`. (4) `docs/reflection-feasibility.md`. (5) **CR-01 первый проход** с confidence 0.5–0.7. (6) Достигнуто **без единой записи в память процесса** | M2s, Q-8.3 |
+| **M4** | World/player identification | ERI I-07..I-10 | (1) ERI находит World, GameInstance, LocalPlayer, локальный PlayerController, локального Pawn в ≥3 игровых состояниях и ≥2 разных запусках. (2) Файлы `world/gameinstance/localplayer/playercontroller/playercharacter.md` заполнены с confidence ≥ 0.8. (3) Способ доступа описан как структурное отношение, а не сырой офсет | M3 |
+| **M5a** | **Mounting feasibility** (без UE) | Tier A: CT-01..CT-04; наблюдение через ERI I-14 | (1) Вердикт по mounting (шаги 1–3 §14.1) с confidence ≥ 0.8. (2) **Ответ на CL-08** — до какого момента запуска mount возможен; передаётся в M7 как жёсткое требование. (3) Ответы по CL-01..CL-05, CL-07, CL-09. (4) Ответ на Q-8.5: хватило ли уровня 1. (5) Решение по триггеру §14.7 (D-06) | M2, M3 |
+| **M5b** | **Content + registration feasibility** | Tier B/C/D: E-1, E-2a, E-2b, E-3a, E-4, E-5, E-6, E-7; registration; `docs/content-feasibility.md` | (1) **Отдельные** вердикты по mounting и по registration. (2) Для каждого эксперимента — `pass`/`fail`/`blocked` с шагом §14.1, использованным Tier и артефактом. (3) **CR-01 подтверждён** с confidence ≥ 0.8 (≥2 oracle). (4) Ответ по CR-07 (shader-артефакты) — отдельно от вердикта по Texture/StaticMesh. (5) Ответ по CR-08 (audio) | M5a, M4, триггер §14.7 |
+| **M5c** | **MOD KIT GATE — E-3b** (§14A) | CK-01..CK-10; MK-1..MK-5; `docs/modkit-feasibility.md` | (1) CK-01, CK-03, CK-04 закрыты с confidence ≥ 0.8. (2) MK-1 и MK-2 дали `pass` или диагностированный `fail`. (3) **E-3b (MK-3) имеет вердикт** `pass`/`fail`/`blocked` по семантике §14A.7. (4) Вердикт по E-3c (вероятно `blocked by D-02` — зафиксировать честно). (5) Записано, что этот результат означает для масштаба проекта | M5b, §14A, D-06 |
+| **M6** | Core gameplay system maps | Подсистемы 6–17 и 19 из §11.1 в заданном порядке | (1) `components.md`, `inventory.md`, `items.md`, `weapons.md`, `spawning.md` заполнены с confidence ≥ 0.8 (обязательный минимум). (2) Остальные заполнены либо явно отложены с записью в `unknowns.md`. (3) У каждого заполненного файла есть раздел «Implications for future SDK». (4) Объём и глубина **соразмерны вердикту M5c**: при `E-3b fail` подсистемы 13–17 сокращаются до обзорного уровня | M4, **вердикт M5c** |
+| **M7** | Bootstrap feasibility | Q-13.0; матрица §13.3; рекомендация; D-03 | (1) Матрица заполнена, без UNKNOWN в критических строках (§13.5). (2) Рекомендация основного и резервного подхода с обоснованием. (3) D-03 записано в `decisions.md`. (4) Описан uninstall и поведение при краше. (5) Учтено требование CL-08 из M5a | M1, **M5a** |
+| **M8** | Networking model | N-01..N-09; replicated properties и RPC из reflection; наблюдение через ERI I-12 в контролируемой сессии | (1) `docs/networking-model.md` отвечает на N-01, N-02, N-05, N-06, N-09 с confidence ≥ 0.8. (2) `replicated-properties.jsonl` и `rpcs.jsonl` существуют. (3) Записаны правила «что мод может делать в роли client / в роли host». (4) Все сессии — контролируемые (D-05) | M3, M4 |
+| **M9** | Phase 1 architecture report | `docs/phase1-report.md` — ответы на все вопросы §20 | (1) Все вопросы имеют ответ либо явное UNKNOWN с указанием, что для ответа нужно. (2) Указан список того, что требует build-specific bindings. (3) Риски с оценкой. (4) Обоснованный вердикт по реалистичности целевого UX. (5) **Вердикт по §14A.7 и вытекающая формулировка того, чем является проект.** (6) Сформирован scope Phase 2 | M5a, M5b, M5c, M6, M7, M8 |
+
+### 18.3 Правило перехода между milestones
+
+Milestone не считается закрытым, пока:
+1. Все его exit criteria выполнены **и подтверждены артефактами в `research/`**.
+2. В `RESEARCH_LOG.md` есть запись о закрытии с перечислением артефактов.
+3. Все обнаруженные по ходу UNKNOWN перенесены в `unknowns.md`, а не забыты.
+4. `verify_install.py` (§1.5, слой 3) даёт чистый diff относительно `install-inventory.json`.
+5. Каждый зафиксированный факт несёт поле `oracle` (§10.5), и валидатор не выдаёт нарушений матрицы «тип утверждения ↔ допустимые oracle».
+
+**Отдельное правило для M5c.** Вердикт по E-3b обязан быть зафиксирован в `docs/phase1-report.md` **буквально**, включая исход `fail`. Отрицательный результат здесь не является провалом исследования — он является его главным результатом, и попытка смягчить формулировку («частично работает», «требует доработки») нарушает §10 и запрещена.
+
+---
+
+## 19. Expected artifacts
+
+Полный перечень файлов, которые должны появиться за Phase 1.
+
+### Корень
+```
+plan.md                                  ← существует (этот файл)
+README.md                                — как начать работу с нуля
+.gitignore                               — workspace/, *.sqlite, Ghidra-проекты
+requirements.txt
+```
+
+### research/
+```
+research/RESEARCH_LOG.md
+research/unknowns.md
+research/decisions.md
+research/evidence-model.md
+research/repo-audit.md
+research/builds/index.json
+research/builds/<build-id>/install.json
+research/builds/<build-id>/fingerprint.json
+research/builds/<build-id>/install-inventory.json
+research/builds/<build-id>/anomalies.md
+research/builds/<build-id>/notes.md
+research/unreal/engine-version.md
+research/unreal/engine-version.json
+research/unreal/structures.md
+research/unreal/reflection-access.md
+research/reflection/<build_key>/classes.jsonl
+research/reflection/<build_key>/functions.jsonl
+research/reflection/<build_key>/properties.jsonl
+research/reflection/<build_key>/enums.jsonl
+research/reflection/<build_key>/relations.jsonl
+research/reflection/<build_key>/replicated-properties.jsonl
+research/reflection/<build_key>/rpcs.jsonl
+research/packages/containers.md
+research/packages/containers.json
+research/packages/mount-points.md
+research/packages/asset-registry.md
+research/packages/plugins.json
+research/packages/package-index.jsonl
+research/packages/mounting.md
+research/packages/registration.md
+research/packages/sp1-static-proxy.md
+research/packages/experiments/{E-1,E-2a,E-2b,E-3a,E-3b,E-3c,E-4,E-5,E-6,E-7}/{plan.md,result.md,artifacts/}
+research/modkit/                         ← §14A: CK-01..CK-10, журнал MK-1..MK-5
+research/modkit/generated-stubs/         ← сгенерированные stub-заголовки (gitignore крупных)
+research/modkit/stub-generator-notes.md
+research/evidence/T-02/{ghidra-smoke-test.log,ghidra-jdk25-felix-failure.md}
+research/systems/{world,gameinstance,localplayer,playercontroller,playercharacter,
+                  components,inventory,items,weapons,spawning,damage,interaction,
+                  effects,ai,time,weather,save,networking,ui}.md
+research/evidence/<method-id>/*
+research/instruments/eri/                ← External Read-Only Inspector (RESEARCH ONLY)
+research/instruments/ipp/                ← In-Process Research Probe (RESEARCH ONLY, по эскалации)
+research/instrument-runs/<timestamp>/manifest.json + dumps
+research/schema/*.schema.json
+```
+
+### tools/ и pyghidra_scripts/
+```
+tools/discovery/find-misery.ps1
+tools/inventory/{snapshot_install.py,verify_install.py}   ← §1.5 слой 3 (guard-скрипт упразднён)
+tools/fingerprint/{pe_info.py,container_info.py,fingerprint.py}
+tools/static/{extract_strings.py,ghidra_import.py,sigmake.py,sigscan.py,
+              find_constants.py,vtable_scan.py,rtti_scan.py}
+tools/content/{pak_writer.py,mini_cook.py}          ← §14.7 Tier A/B
+tools/modkit/{stubgen.py,stub_verify.py}            ← §14A: reflection → C++ stubs
+tools/kb/{validate.py,build_sqlite.py,new_log_entry.py,diff_builds.py}
+pyghidra_scripts/{dump_xrefs_for_string.py,dump_function.py,dump_callgraph.py}
+requirements.txt                                     ← jpype1==1.7.1, pyghidra==3.1.0, jsonschema, …
+```
+
+### docs/
+```
+docs/toolchain.md
+docs/reflection-feasibility.md
+docs/content-feasibility.md
+docs/modkit-feasibility.md               ← §14A, deliverable M5c
+docs/shader-content-feasibility.md       ← CR-07 / RISK-16, если E-2b/E-4 дадут отдельный вердикт
+docs/bootstrap-feasibility.md
+docs/networking-model.md
+docs/version-compatibility.md
+docs/sdk-candidates.md
+docs/risks.md
+docs/phase1-report.md                    ← финальный deliverable Phase 1
+```
+
+---
+
+## 20. Phase 1 final report — обязательная структура
+
+`docs/phase1-report.md` должен отвечать ровно на эти вопросы, каждый — с evidence level, confidence и ссылками на артефакты.
+
+| # | Вопрос | Источник ответа |
+|---|---|---|
+| 1 | Как устроена исследованная сборка MISERY? | M1, M2 |
+| 2 | Какой Unreal runtime мы имеем? | M1 (§4) |
+| 3 | Насколько доступна Reflection и хватило ли уровня 1 (ERI)? | M3, §8 |
+| 4 | Как представлены основные gameplay systems? | M4, M6 |
+| 5 | Можно ли **монтировать** внешние контейнеры и когда именно? | M5a (mounting + CL-08) |
+| 6 | Можно ли **загружать** custom cooked assets, и одинаково ли для всех типов? | M5b (E-1, E-2a, E-2b, E-4, E-5) — с **отдельным** ответом по shader-зависимому контенту (CR-07, RISK-16) |
+| 7 | Можно ли использовать custom Blueprint content, унаследованный от движковых классов? | M5b (E-3a) |
+| **8** | **Можно ли создавать и cook Blueprint, унаследованный от настоящих native-классов MISERY?** (главный гейт) | **M5c / §14A / E-3b**, предварительная оценка — SP-1 и CK-04 в M2s |
+| 9 | Как MISERY регистрирует content definitions и расширяемо ли это? | CR-01: первый проход M3, подтверждение M5b |
+| 10 | Как должен работать future Bootstrap? | M7 |
+| 11 | Как должен работать future Runtime? | M3 + M5a + M5b + M5c + M7 синтез |
+| 12 | Какие части требуют build-specific bindings? | §16 + M3 |
+| 13 | Какие самые большие технические риски? | §21 (обновлённый) |
+| 14 | Реалистична ли конечная цель `install framework → put mod in Mods/ → launch Steam → mod works`? | M5a + M5b + M5c + M7 |
+| 15 | **Чем именно является этот проект по итогам гейта E-3b?** | §14A.7 — обязательная формулировка |
+| 16 | Что именно следует реализовывать в Phase 2? | синтез |
+
+Дополнительно обязательны разделы:
+* **«Чему из ERI и IPP нельзя подражать»** (§8.1).
+* **«Вердикт по §14A.7»** — буквальная формулировка исхода E-3b, включая `fail`, без смягчений (§18.3).
+* **«Что осталось UNKNOWN и почему»** — со ссылкой на `unknowns.md`.
+* **«Опровергнутые гипотезы»** — REFUTED-записи, чтобы их не переоткрывали.
+* **«Границы источников»** — какие выводы на каком oracle держатся (§10.5), чтобы читатель отчёта видел прочность каждого утверждения.
+
+---
+
+## 21. Риски
+
+| ID | Риск | Вероятность | Влияние | Митигация |
+|---|---|---|---|---|
+| RISK-01 | Репозиторий живёт внутри папки установки игры; переустановка/удаление игры уничтожит всю работу | подтверждено, **закрывается в M0** | критическое | **D-01 ПРИНЯТО**: репозиторий переезжает в `D:\Dev\MiseryFramework` первым действием исполнения (R-01) + git remote. До завершения R-01 риск активен |
+| RISK-02 | Основной контейнер игры зашифрован (флаг `Encrypted`, см. A-07) → содержимое оригинальных ассетов недоступно | подтверждено, **принято как условие** | среднее | **D-02 ПРИНЯТО**: ключ не извлекается. Опираемся на `global.ucas`, незашифрованный `.pak`, runtime reflection и AssetRegistry (§10.5). Прямое следствие: **E-3c вероятно `blocked`** (CK-09) — наследование от BP-класса игры требует видеть его asset в редакторе |
+| RISK-03 | Наличие анти-чита или анти-отладочных механизмов сделает §6/§8 частично недопустимыми | UNKNOWN | высокое | Проверить в M1 **до** написания любого инструмента (Q-8.2, Q-8.3). Разделение §8 на уровни снижает риск: уровень 1 (ERI, только чтение) заметно менее вероятно конфликтует с защитой, чем уровень 2. При обнаружении анти-чита уровень 2 пересматривается целиком, приоритет уходит офлайн-методам (RF-01) |
+| RISK-04 | Нет Unreal Engine 5.4.x → невозможно приготовить cooked-контент для части экспериментов | подтверждено (UE не установлен) | **было критическое, стало среднее** | **Переоценено 2026-08-22.** (1) §14.7: Tier A и SP-1 закрывают шаги 1–3 цепочки §14.1 и вопрос CL-08 **без всякого UE** — M5a не заблокирован, M7 снят с зависимости от UE. (2) Освобождено 100 ГБ на `D:` → минимальная установка UE (~40 ГБ) технически возможна. (3) UE ставится **по триггеру §14.7** (D-06), а не заранее. (4) Резерв — Tier D. Остаточный риск сосредоточен на E-3a/E-3b и §14A, которые Tier A/B закрыть не могут |
+| RISK-05 | Игра не имеет механизма регистрации нового контента (CR-01) → mounting работает, а моды всё равно невозможны | UNKNOWN | **критическое для всего проекта** | Исследовать registration параллельно с mounting, не после (§14.2). **CR-01 получает первый проход уже в M3** на одном reflection map, без экспериментов, и подтверждается в M5b (§14.4) |
+| RISK-06 | Доступна только одна сборка → выводы о версионной устойчивости недоказуемы | подтверждено | среднее | §16.4: честно фиксировать как HYPOTHESIS; заранее написать `diff_builds.py` |
+| RISK-07 | Второй exe (282 МБ) может оказаться не Development-сборкой, а чем-то иным; ошибочная опора на него исказит выводы | средняя | среднее | **D-04 ПРИНЯТО**: read-only oracle, «Development build» остаётся HYPOTHESIS до доказательства, не является target для bindings, и **каждый** вывод, полученный на нём, обязан быть перепроверен на Shipping-бинарнике перед фиксацией |
+| RISK-08 | Соблазн превратить исследовательский инструмент в продукт | высокая | высокое | §8.1 организационно: код ERI и IPP в `research/instruments/`, обязательный раздел «чему нельзя подражать» в отчёте, Phase 2 стартует новым проектом. Отдельно: способ доставки IPP в процесс **не является** ответом на §13 |
+| RISK-09 | Crash-отчёты в `Saved/Crashes` могут относиться к старым версиям игры → неверные выводы о текущей сборке | средняя | среднее | §4.2: каждая ссылка на crash-отчёт сопровождается его mtime и обязательным совпадением с текущим exe |
+| RISK-10 | Мод-контент в co-op вызывает рассинхронизацию или порчу сейвов у пользователя | средняя | высокое | N-09, CR-06, подсистема 17 (save) — обязательные пункты; в отчёт вносятся требования безопасности к будущему Runtime |
+| RISK-11 | Обновление игры сломает bootstrap/bindings у пользователей | высокая (со временем) | высокое | §13.3 критерий «выживаемость после обновления»; §16 схема bindings; `build_key` для автодетекта |
+| RISK-12 | Ложные срабатывания антивируса на bootstrap/Probe | средняя | среднее | Учесть как критерий в §13.3; не использовать техники, характерные для malware, без необходимости |
+| RISK-13 | Ghidra-проект для 134-МБ бинарника может занять многие ГБ и часы анализа; диск снова окажется полным | средняя | среднее | T-05: измерить до полного анализа. Стратегия: первый импорт с `-noanalysis`, затем выборочное включение анализаторов; хранить проект на `D:` (не на `C:`, где 3.1 ГБ); при переполнении — анализировать по секциям/диапазонам адресов, а не весь образ. `C:` остаётся узким местом: Ghidra кладёт кэши в `%APPDATA%\ghidra` и `%LOCALAPPDATA%\ghidra` |
+| RISK-14 | Установленный toolchain живёт в `D:\Tools\`, вне репозитория; версии и патчи могут разойтись с документацией | средняя | низкое | T-01: `docs/toolchain.md` фиксирует версии, sha256 и **сделанные нами правки** (в частности `JAVA_HOME_OVERRIDE` в `support/launch.properties` Ghidra). Любая переустановка сверяется с этим файлом. Политика версий JDK/Python — §17.6 |
+| **RISK-15** | **Stock-cooker UE 5.4.x может оказаться недостаточно совместим с конкретной сборкой MISERY**: её native-классами, custom versions, настройками cook, форматом сериализации свойств. Приготовленный нами пакет может быть отвергнут или, хуже, принят и прочитан неверно | UNKNOWN | **критическое для §14A и E-3b** | Отдельный feasibility-тест, а не допущение: CK-01 (режим сериализации свойств), CK-04 (запекаются ли офсеты), CK-05 (custom versions), CK-06 (настройки cook), CT-07. Промежуточная точка контроля — MK-2: структуру приготовленного пакета проверяем **своими парсерами до запуска игры**. Использовать ровно версию движка сборки (5.4.4). E-7 (версионная толерантность) — часть этого же риска. **Самый опасный исход — «принят и прочитан неверно»**: тихая порча данных вместо честной ошибки, поэтому первый BP в MK-2 делается без переопределения унаследованного |
+| **RISK-16** | **Custom Material и Niagara могут требовать дополнительных cooked shader-артефактов и отдельной runtime-регистрации** — даже если Texture и StaticMesh уже работают. «Загрузилось» и «отрендерилось корректно» — разные события | UNKNOWN | высокое | Выделено в отдельные эксперименты: E-2b (Custom Material) и E-4 (Niagara/shaders) — их результаты **не смешивать** с E-1/E-2a. Отдельный вопрос CR-07. При расхождении — отдельный документ `docs/shader-content-feasibility.md`. Обязательное правило фиксации: «материал загрузился, но рендерится как default» записывается как **успех загрузки при провале shader-пути**, а не как общий провал |
+| **RISK-17** | Соблазн начать переписывать экосистему Unreal IoStore целиком «чтобы всё было своё» — работа на месяцы с сомнительной отдачей | средняя | среднее | C-12 и §17.3: наши парсеры покрывают только минимальные воспроизводимые метаданные; официальные UE-инструменты и проверенные open-source инструменты используются как **независимый oracle** для cross-validation и не становятся runtime-зависимостями. Расхождение между нашим парсером и сторонним — находка для разбора, а не повод довериться одному |
+
+---
+
+## Приложение A — Pre-flight observations (recon-проход 2026-08-22)
+
+Это **не** результаты Phase 1. Это то, что было замечено при первичном осмотре, необходимом для составления плана. Каждый пункт подлежит перепроверке штатными инструментами в M1/M2 и переносу в `research/` как артефакт.
+
+| ID | Наблюдение | Метод | Level | Conf. |
+|---|---|---|---|---|
+| **A-01** | Корень «репозитория» = папка установки игры `D:\Games\Steam\steamapps\common\MISERY`; единственный добавленный человеком файл — `AGENTS.md`; git отсутствует; всего 54 файла | `ls`/`find` | OBSERVED | 1.00 |
+| **A-02** | Steam: AppID `2119830`, depot `2119831`, manifest `3002776385514127223`, `buildid 24826585`, `SizeOnDisk 5057001973`, `installdir "MISERY"`, `LastUpdated 1787394913` (≈2026-08-21 UTC, значение производное). SharedDepots `228989/228990/229007` (Steamworks redist, app 228980) | `appmanifest_2119830.acf` | OBSERVED | 1.00 |
+| **A-03** | Ни у одного из трёх exe не читаются поля `VS_VERSIONINFO` через `Get-Item().VersionInfo` (все пустые), при том что секция `.rsrc` присутствует. Причина UNKNOWN — требует прямого разбора `.rsrc` | PowerShell `VersionInfo` | OBSERVED (пустота), UNKNOWN (причина) | 0.95 / — |
+| **A-04** | Корневой `MISERY.exe` (422 400 B, 7 секций) — UE **BootstrapPackagedGame**: содержит строки `BootstrapPackagedGame-Win64-Shipping.exe`, `MISERY\Binaries\Win64\MISERY-Win64-Shipping.exe`, `Engine\Extras\Redist\en-us\UEPrereqSetup_x64.exe`. То есть уже существует двухступенчатый запуск | UTF-16 strings | OBSERVED | 0.95 |
+| **A-05** | **Аномалия:** `MISERY\Binaries\Win64\MISERY.exe` — 282 826 240 B, 10 секций, среди них `.uedbg`, PE link timestamp `1784645631` (2026-07-21 14:53:51 UTC). Этот файл **отсутствует** в `Manifest_NonUFSFiles_Win64.txt`. По соглашению UE имя без суффикса конфигурации соответствует Development-сборке → HYPOTHESIS: в депот попала Development-сборка игры. **По принятому D-04 эта интерпретация остаётся HYPOTHESIS до доказательства и не может использоваться как основание для выводов; файл разрешён к read-only исследованию как oracle, но не является target для bindings, и каждый полученный на нём вывод перепроверяется на Shipping-бинарнике** | PE-заголовки + сравнение с манифестом | OBSERVED (факты), HYPOTHESIS (интерпретация) | 1.00 / 0.65 |
+| **A-06** | Engine: **UE 5.4.4**, CL **35576357**, branch `++UE5+Release-5.4`, конфигурация **Shipping**, `GameName=UE-MISERY`, `IsSourceDistribution=false`, `IsPerforceBuild=false`. Два независимых источника: (1) UTF-16 строки в `MISERY-Win64-Shipping.exe` (`++UE5+Release-5.4-CL-35576357`); (2) `CrashContext.runtime-xml`: `<EngineVersion>5.4.4-35576357+++UE5+Release-5.4</EngineVersion>`. Утечка пути build-машины: `D:\build\++UE5\Sync\Engine\...`. Внимание: crash-отчёты могут относиться к более старой сборке (RISK-09) | strings + crash XML | OBSERVED | 0.92 |
+| **A-07** | Контейнеры. `global.utoc`: magic `-==--==--==--==-`, version-байт `6`, header size 144, TocEntryCount 1, DirectoryIndexSize 0, PartitionCount 1, `ContainerId = 0xFFFFFFFFFFFFFFFF`, EncryptionKeyGuid = нули, **ContainerFlags = 0x00**. `MISERY-Windows.utoc`: TocEntryCount 19 510, compressed blocks 79 914, block size 65 536, DirectoryIndexSize 845 472, PartitionCount 1, PartitionSize = `0xFFFFFFFFFFFFFFFF`, `ContainerId = 0x3002A7A795855966`, EncryptionKeyGuid = нули, **ContainerFlags = 0x0A**. При трактовке `EIoContainerFlags` как `Compressed=1, Encrypted=2, Signed=4, Indexed=8` это даёт `Encrypted \| Indexed` **без** `Compressed`. Косвенное подтверждение шифрования: в `MISERY-Windows.utoc` (2.9 МБ) и в первых 8 МБ `.ucas` нет ни одной осмысленной строки — данные высокоэнтропийные. Декодирование полей выполнено вручную по публичному layout `FIoStoreTocHeader`; выравнивание подтверждается тем, что `PartitionSize` == max uint64 и `CompressionBlockSize` == 65536 | hexdump + энтропийная проверка | OBSERVED (байты), INFERRED (значения полей и вывод о шифровании) | 1.00 / 0.85 |
+| **A-08** | **`global.ucas` НЕ зашифрован** и содержит глобальный FName-пул / script objects в открытом виде: найдены **394** уникальных `/Script/<Module>` пути, включая `/Script/MISERY` с игровыми именами (`MiseryBlueprintFunctionLibrary`, `MiseryEditableText`, `MiseryFocusableWidget`, `MiseryFocusSubsystem`, `MiseryGameViewportClient`, функции `IsSteamDeck`, `Misery_SetInputMode_GameOnly`, `SetSlateFocusDeferred`, `TryShowOnScreenKeyboard` и др.). Это делает возможной **офлайн, read-only, без инъекции** карту **имён** reflected-типов (метод RF-01). Строки лежат непрерывным пулом без разделителей → нужен настоящий парсер, `strings` даёт склеенный текст. **Границы этого источника (§10.5, C-11): `global.ucas` доказывает только существование имён native/script-объектов. Он НЕ доказывает существование или структуру Blueprint-asset-а из `/Game`, не даёт офсетов, размеров и порядка свойств, и не говорит, чем именно является найденное имя** | `strings` по `global.ucas` | OBSERVED (наличие данных) | 0.95 |
+| **A-09** | `MISERY-Windows.pak`: footer magic `0x5A6F12E1`, version 11, EncryptionKeyGuid = нули, `bEncryptedIndex = 0` → **индекс `.pak` не зашифрован**; mount point `../../../`. Индекс использует UE5-формат с деревом директорий, поэтому `strings` выдаёт только листовые имена. Найдено **250** имён `*.uplugin`, в основном движковых (ACLPlugin, Chaos*, ControlRig, EnhancedInput, Niagara-связанные, GameplayCameras, Interchange, MetaSound, **ChunkDownloader**, EOSShared и др.), а также `UniversalVoiceChatPro.uplugin`. Наличие `.uplugin` в staged-файлах **не доказывает**, что модуль включён в сборку | hexdump footer + strings | OBSERVED (факты), HYPOTHESIS (состав активных модулей) | 0.95 / 0.4 |
+| **A-10** | Пользовательские данные: `%LOCALAPPDATA%\MISERY\Saved\` содержит `Config\Windows\{Engine.ini, GameUserSettings.ini, Input.ini}`, `SaveGames\`, `Crashes\` (30+ отчётов), `Logs\` (**пусто**), `MISERY_PCD3D_SM5.upipelinecache`. `Engine.ini` содержит только `[GameNetDriver StatelessConnectHandlerComponent] CachedClientID=31`. Пустой `Logs\` ожидаем для Shipping-сборки без `-log` | обход ФС | OBSERVED | 1.00 |
+| **A-11** | Локальный toolchain на момент recon: git, Python 3.14.0, .NET SDK, Rust/cargo, Node, CMake, MSVC (VS 2022, `VC.Tools.x86.x64`) — присутствуют. На PATH Java **1.8.0_401** (недостаточна для Ghidra); отдельно уже был Temurin JDK **25.0.1**. Ghidra, 7-Zip CLI, Unreal Engine, Epic Games Launcher — отсутствовали. **Обновлено 2026-08-22:** установлены Ghidra 12.1.3, Temurin JDK 21.0.12.1, PyGhidra 3.1.0 — актуальное состояние в §17.1 | `Get-Command`, `vswhere` | OBSERVED | 1.00 |
+| **A-14** | Свободное место на дисках: на момент recon `C:` 3.1 ГБ, `D:` 5.1 ГБ (всего ~8 ГБ). После освобождения владельцем: `D:` **100.6 ГБ**, `C:` осталось 3.1 ГБ. `winget` на машине **отсутствует** → установка инструментов только через прямую загрузку с проверкой контрольных сумм. `C:` остаётся узким местом: кэши Ghidra и профили пользователя живут там (RISK-13) | `Win32_LogicalDisk`, `Get-Command` | OBSERVED | 1.00 |
+| **A-15** | Ghidra 12.1.3 **несовместима с JDK 25** (падение Apache Felix / OSGi до старта пользовательской логики) и работает на JDK 21. Подробности и стек — §17.1a. Полезное следствие для §7: анализатор `Windows x86 PE RTTI Analyzer` присутствует в наборе и запускается автоматически, что напрямую обслуживает задачу S-10 | запуск `analyzeHeadless` на двух JDK | OBSERVED | 0.95 |
+| **A-12** | В `global.ucas` присутствуют имена **редакторных** модулей (`/Script/TranslationEditor`, `/Script/ChaosEditor`, `/Script/AssetManagerEditor`, `/Script/InterchangeEditor` и др.). Причина UNKNOWN: это может быть особенностью глобального name-пула, а может указывать на нестандартную конфигурацию cook. Не делать выводов до M2 | strings по `global.ucas` | OBSERVED (факт), UNKNOWN (интерпретация) | 0.9 / — |
+| **A-13** | Секция `.msvcjmc` присутствует и в `MISERY-Win64-Shipping.exe`, и в `MISERY.exe`. `MISERY-Win64-Shipping.exe`: 9 секций, PE link timestamp `1918640348` (номинально 2030-10-19 — значение неправдоподобно как реальное время сборки, вероятно детерминированный/хешированный timestamp), `.text` 0x5DC9A7C, `.rdata` 0x1A09B8C | PE-заголовки | OBSERVED (факты), HYPOTHESIS (природа timestamp) | 1.00 / 0.6 |
+
+### Что на 2026-08-22 точно НЕ сделано (чтобы никто не думал, что это сделано)
+
+* SHA-256 **ни одного файла игры** не вычислен. Считались только контрольные суммы скачанных архивов инструментов.
+* Импорты/экспорты/TLS/debug directory exe не разбирались → наличие анти-отладки/анти-чита **не проверено** (Q-8.2, Q-8.3 остаются гейтами).
+* Наличие MSVC RTTI в exe игры **не проверено** (S-10 открыта). Ghidra умеет это делать, но на бинарнике игры не запускалась.
+* Директория `.utoc` не парсилась (только заголовок, 144 байта).
+* Список package names игры (`/Game/...`) **не получен**.
+* Игра **не запускалась**, runtime-наблюдений нет, Probe не существует.
+* **Ghidra на бинарниках игры не запускалась.** Выполнен только smoke-тест установки на копии `tbbmalloc.dll` (76 КБ) — он доказывает работоспособность инструмента, и ничего не говорит об игре.
+* Ни один файл в папке игры не изменялся и не создавался, кроме `plan.md`. Единственная правка вне неё в чужом ПО — `JAVA_HOME_OVERRIDE` в `support/launch.properties` нашей же установки Ghidra (зафиксировано в RISK-14).
+
+---
+
+## Приложение B — Seed для `research/unknowns.md`
+
+Перенести при создании базы знаний (M0):
+
+```
+--- ГЕЙТЫ (блокируют крупные части плана) ---
+Q-8.3  Есть ли анти-чит?                                                     → M1   [ГЕЙТ для §8]
+CK-01  Использует ли сборка unversioned property serialization?              → M2s  [ГЕЙТ для §14A]
+CK-04  Запекаются ли офсеты дочерних BP-свойств при cook или Link()?         → M2s  [РЕШАЮЩИЙ для §14A]
+CR-01  Как MISERY регистрирует content definitions?                          → M3 (1-й проход), M5b [RISK-05]
+E-3b   Грузится ли BP, унаследованный от native MISERY класса?               → M5c  [ГЛАВНЫЙ ГЕЙТ ПРОЕКТА]
+
+--- Инструментальные ---
+Q-8.1  Технология ERI                                                        → M3
+Q-8.1b Технология IPP                                                        → только при эскалации §8.4
+Q-8.2  Есть ли анти-отладочные механизмы?                                    → M1
+Q-8.4  Достаточно ли уровня 1 для M3/M4?                                     → решено проектно: да, пока не опровергнуто
+Q-8.5  Достаточно ли уровня 1 для M5a (через I-14)?                          → M5a
+S-10   Есть ли MSVC RTTI в exe?                                              → M1
+T-05   Сколько занимает Ghidra-проект для 134-МБ exe и сколько идёт анализ?   → M2s  [RISK-13]
+
+--- Сборка и бинарники ---
+A-03   Почему пусты VS_VERSIONINFO-поля?                                      → M1
+A-05   Что такое MISERY/Binaries/Win64/MISERY.exe (282 МБ, .uedbg)?           → M1   [D-04: остаётся HYPOTHESIS]
+A-12   Почему в global.ucas есть редакторные модули?                          → M2
+A-09   Какие плагины реально включены в сборку (а не только staged)?          → M2
+
+--- Контейнеры и контент ---
+Q-2.3  Читает ли сборка дополнительные контейнеры из Paks/ автоматически?     → M5a
+Q-2.4  Поддерживаются ли *_P.pak / chunk-приоритеты?                          → M5a
+CL-01..CL-09  Все вопросы mounting                                            → M5a
+CR-02..CR-06  Остальные вопросы registration                                  → M5b
+CR-07  Нужны ли отдельные cooked shader-артефакты для Material/Niagara?       → M5b  [RISK-16]
+CR-08  Нужна ли отдельная цепочка для audio/MetaSound?                        → M5b
+CT-05  Реализуем ли Tier B (ручной legacy-сериализатор) на практике?          → M5b
+D-06   Ставить ли локально UE 5.4.x (~40 ГБ)?                                 → по триггеру §14.7
+
+--- Mod Kit (§14A) ---
+CK-02  Можно ли создать editor-модуль с именем ровно MISERY?                  → M5c
+CK-03  Хватает ли reflection-данных для компилируемого stub-а?                → M5c
+CK-05  Какие custom versions регистрируют модули игры?                        → M5c  [RISK-15]
+CK-06  Воспроизводимы ли настройки cook игры в нашем проекте?                 → M5c  [RISK-15]
+CK-07  Каков транзитивный набор типов для одного целевого класса?             → M5c
+CK-08  Проверяет ли игра происхождение загружаемых классов?                   → M5c
+CK-09  Возможен ли E-3c при принятом D-02?                                    → M5c  [вероятно blocked]
+CK-10  Масштабируется ли генерация stub-ов на весь /Script/MISERY?            → M5c
+
+--- Bootstrap, сеть, версии ---
+Q-2.1  Какой exe реально запускает Steam (shim или Shipping напрямую)?        → M7
+Q-13.0 Что Steam указывает как launch executable для 2119830?                 → M7
+N-01..N-09    Все вопросы networking                                          → M8
+VC-01..VC-03  Стабильность идентификаторов между сборками                      → блокировано RISK-06
+```
+
+---
+
+## Приложение C — Первые действия исполнения (начало M0)
+
+Порядок намеренный: сначала защитить работу, потом снять гейты, потом собирать ширину. Toolchain (T-02) закрыт, D-01/D-02/D-04/D-05 приняты — поэтому список начинается прямо с R-01.
+
+1. **R-01 — создать репозиторий `D:\Dev\MiseryFramework`**, **переместить** туда `AGENTS.md` + `plan.md` из папки игры, первый коммит, remote. После этого в папке игры не остаётся наших файлов. *(закрывает RISK-01)*
+2. **R-02..R-05 — структура `research/` (§9.2)**: `unknowns.md` из Приложения B, `decisions.md` из §0.3 (четыре принятых решения), `evidence-model.md` из §10 **включая §10.5**, `docs/toolchain.md` из §17 (T-01), перенос артефактов T-02, модель безопасности §1.5, первый `install-inventory.json` с SHA-256 всех 54 файлов.
+3. **Снять гейт Q-8.3 (+ Q-8.2, S-10)** — анти-чит, анти-отладка, RTTI, по exe read-only. От Q-8.3 зависит вся §8; от S-10 — стоимость §7. Инструмент готов, ответы достижимы сразу.
+4. **M2s / SP-1: закрыть CK-01 и CK-04** статическим анализом. Это два самых дешёвых ответа с самым большим влиянием: они говорят, реалистичен ли §14A вообще, **до** траты 40 ГБ на UE.
+5. **Первый проход CR-01** сразу по получении reflection map в M3 — до любых экспериментов.
+6. **Tier A (`pak_writer.py`, CT-01..CT-03)** — раньше, чем кажется логичным. Самый дешёвый путь к вердикту по mounting и к ответу на CL-08, от которого зависит вся §13.
+
+**Чего в этом списке специально нет:**
+* установки Unreal Engine — отложена до триггера §14.7 (D-06);
+* написания In-Process Probe — только по эскалации §8.4;
+* широкого исследования подсистем — это M6, после гейта M5c.
+
+---
+
+## Приложение D — Changelog v1 → v2
+
+| # | Изменение | Где |
+|---|---|---|
+| 1 | **D-01 принято**: репозиторий `D:\Dev\MiseryFramework`, папка Steam — только read-only research target | §0.3, §1.4 R-01, §9.2, RISK-01 |
+| 2 | **D-02 принято**: не извлекать ключ, не расшифровывать основной контейнер | §0.3, C-08, §10.5, RISK-02, CK-09 |
+| 3 | **D-04 принято**: второй exe — read-only oracle; «Development build» остаётся HYPOTHESIS; не target для bindings | §0.3, A-05, RISK-07 |
+| 4 | **D-05 принято**: multiplayer только в полностью контролируемых private sessions | §0.3, §8.5, §12.3 |
+| 5 | **Probe разделён на два уровня**: External Read-Only Inspector (I-01..I-16) и In-Process Research Probe (P-01..P-06), с явными критериями эскалации. Начинаем с внешнего | §8 переписана целиком |
+| 6 | **Новый критический трек §14A** «Mod Kit / Cooking Against MISERY Classes»: цепочка reflection → generated stubs → editor mod-kit → BP от native MISERY класса → cook → загрузка в игре; CK-01..CK-10, стадии MK-1..MK-5 | новая §14A |
+| 7 | **Content-эксперименты детализированы** до E-1, E-2a, E-2b, E-3a, E-3b, E-3c, E-4, E-5; прежние override/версионность переименованы в E-6/E-7; прежний «E-3a статический прокси» переименован в **SP-1** | §5.3, §14.7 |
+| 8 | **E-3b объявлен более важным доказательством, чем E-3a**, с явной семантикой гейта: что означает каждый исход для масштаба проекта | §5.3, §14A.7, §18.3 |
+| 9 | **Early Content Feasibility поднята**: M5a/M5b/M5c идут сразу после M4, широкий subsystem-research стал M6 и его глубина соразмерна вердикту M5c | §11 врезка, §18.1, §18.2 |
+| 10 | **CR-01 получает первый проход уже в M3** — на одном reflection map, без экспериментов | §14.4 врезка, M3 exit criteria, RISK-05 |
+| 11 | **Экосистему IoStore не переписываем**: наши парсеры — минимальные воспроизводимые метаданные; официальные UE-инструменты и проверенный open-source — независимый oracle для cross-validation, но не runtime-зависимости | C-12, §17.3, RISK-17 |
+| 12 | **Зафиксированы границы источников**: `global.ucas`, AssetRegistry, runtime reflection, binary analysis, container metadata, external doc — с матрицей «тип утверждения → необходимые oracle» и обязательным полем `oracle` | новая §10.5, EV-04 |
+| 13 | **Явное правило**: имя в `global.ucas` не доказывает существование или структуру Blueprint-asset-а из `/Game` | C-11, §10.5, A-08 |
+| 14 | **Новый RISK-15**: stock-cooker UE 5.4.x может быть недостаточно совместим со сборкой; отдельный feasibility-тест, самый опасный исход — «принят и прочитан неверно» | §21, §14A.3, CT-07 |
+| 15 | **Новый RISK-16**: custom Material/Niagara могут требовать отдельных cooked shader-артефактов и runtime-регистрации; «загрузилось» и «отрендерилось» фиксируются раздельно | §21, CR-07, E-2b, E-4 |
+| 16 | **Политика версий**: JDK выбирается по требованиям конкретной версии Ghidra; Python-окружение не обязано быть системным 3.14 | новая §17.6 |
+| 17 | **readonly-guard упразднён**: вместо перехвата операций — три слоя (изоляция workspace, работа с копиями, hash/inventory verification) | новая §1.5, R-04, §19 |
+| — | Обновлены граф зависимостей, milestones и exit criteria, риски, ожидаемые артефакты, структура финального отчёта (16 вопросов, включая гейт E-3b и формулировку «чем является проект») | §18, §19, §20, §21 |
+
+---
+
+*Конец плана. Статус: **DRAFT v2, утверждён**. Исполнение не начато — следующее действие Приложение C, п.1 (R-01).*
