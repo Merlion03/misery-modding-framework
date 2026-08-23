@@ -21,7 +21,12 @@ NOTICE.md), where 100% of the M0 facts actually live:
 
   2. Project-specific lint rules.  This is the part that carries the real
      value, because a JSON Schema cannot express "this oracle does not
-     prove this class of claim".
+     prove this class of claim".  TWO evidence-bearing shapes are recognised
+     here and each gets its own rule set: the FULL knowledge-base record
+     (lint_record) and the REDUCED evidence annotation attached to a
+     sub-object of a larger artifact (lint_annotation, section 5b).  The
+     annotation is held to every rule its schema can satisfy and to none it
+     forbids, and the number of annotations linted is printed in the summary.
 
   3. Markdown fact extraction and linting (section 6b below).  Every *.md
      file under research/, docs/ and the repository root is parsed for the
@@ -87,7 +92,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Collection, Iterator, Sequence
 
-VALIDATOR_VERSION = "3.3.0"
+VALIDATOR_VERSION = "3.4.0"
 PLAN_REFERENCE = (
     "plan.md: 9.1, 9.3, 9.4/K-03, 10.1, 10.2 v2.3 (the 0.99 ceiling as a "
     "COMPARISON), 10.3 v2.3 (evidence_level decides the claim class), "
@@ -1627,6 +1632,11 @@ class FileReport:
     schema: str | None = None
     schema_status: str = "not-applicable"
     record_count: int = 0
+    # How many of `record_count` were the REDUCED annotation envelope of
+    # kb-record.schema.json#/$defs/annotation rather than a full record (see
+    # section 5b).  Counted and printed on purpose: an annotation is linted by a
+    # smaller rule set, and a reclassification nobody can see is a hole.
+    annotation_count: int = 0
     findings: list[Finding] = field(default_factory=list)
     # markdown layer bookkeeping (section 6b)
     unparseable_count: int = 0
@@ -1675,6 +1685,7 @@ class FileReport:
             "schema": self.schema,
             "schema_status": self.schema_status,
             "record_count": self.record_count,
+            "annotation_count": self.annotation_count,
             "unparseable_count": self.unparseable_count,
             "suppressed_count": self.suppressed_count,
             "non_fact_tables": self.non_fact_tables,
@@ -2021,8 +2032,95 @@ def is_record(node: Any) -> bool:
     return any(key in node and _looks_like_claim_value(node[key]) for key in MARKER_KEYS)
 
 
+# ---------------------------------------------------------------------------
+# 5b. The REDUCED annotation envelope
+# ---------------------------------------------------------------------------
+# WHY THIS EXISTS.  is_record() fires on any dict carrying `oracle`, and that is
+# correct: an oracle is a claim about where knowledge came from.  But
+# kb-record.schema.json defines TWO evidence-bearing shapes, not one:
+#
+#   #/$defs/envelope    the FULL knowledge-base record - record_id, recorded_at,
+#                       statement, claim_type, build_key, ...
+#   #/$defs/annotation  a REDUCED envelope for ATTACHING evidence metadata to a
+#                       SUB-OBJECT of a larger artifact, "where the full envelope
+#                       with recorded_at and build_key would be redundant because
+#                       the enclosing document already states them"
+#
+# Until validator 3.4.0 only the first shape existed here, so every annotation
+# inside research/builds/<build-id>/fingerprint.json was linted as a full record
+# and asked for `claim_type` and `build_key`.  The annotation schema neither
+# defines those two properties nor permits them - it is additionalProperties
+# false - so the validator demanded exactly what the schema forbids, and no
+# document could satisfy both.  Measured on the fingerprint.json of task F-03:
+# 2 errors per annotation, unfixable from the document side.  Task F-02 shipped
+# a `--no-entry-evidence` switch to dodge it, which bought a clean run by
+# DELETING the grading - the wrong trade.
+#
+# THE LINE THIS FIX DRAWS.  An annotation is linted by every rule whose remedy
+# the annotation schema permits, and by no rule whose remedy it forbids:
+#
+#   kept     EV-LEVEL, EV-CONF, EV-03 (sources), EV-04 (oracle vocabulary),
+#            EV-05 / MIX-SPLIT / CLASS-P / CLASS-I, C-11, C-12, EV-LAYOUT
+#   dropped  the plan.md 10.5 claim_type matrix and EV-BUILD - `claim_type` and
+#            `build_key` are the two properties the reduced envelope forbids
+#
+# Dropping the matrix is not a loophole, it is what the schema says the shape
+# means: "an annotation inherits its matrix row from the enclosing document"
+# (kb-record.schema.json#/$defs/annotation, $comment).  The enclosing document
+# states build_key once - fingerprint.json carries it in identity.build_key -
+# and repeating it on every sub-object would be the redundancy the reduced
+# envelope exists to remove.  Every annotation the run linted is COUNTED and
+# printed, so the reclassification is never invisible.
+
+# The closed property set of kb-record.schema.json#/$defs/annotation.  It is
+# duplicated here rather than read from the schema at runtime because the
+# validator must work with the schema directory missing or unreadable; the
+# duplication is pinned to the schema by a contract test, so the two cannot
+# drift apart silently.
+ANNOTATION_KEYS: frozenset[str] = frozenset({
+    "evidence_level", "claim_class", "confidence", "sources", "oracle",
+    "read_locus", "note",
+})
+
+# The properties that make a dict a FULL record.  Present here only as
+# documentation of what the subset test above excludes: any one of these keys
+# takes the object out of the annotation shape, because the annotation schema
+# would reject it outright.
+FULL_RECORD_ONLY_KEYS: frozenset[str] = frozenset({
+    "claim_type", "build_key", "record_id", "recorded_at", "statement",
+    "refuted_by",
+})
+
+
+def is_annotation(node: Any, *, at_root: bool = False) -> bool:
+    """True when *node* is the reduced annotation envelope, not a full record.
+
+    Three conditions, all required:
+
+    1. it is evidence-bearing at all (``is_record``) - a plain sub-object with
+       no marker key is not linted either way;
+    2. every key it carries is one the annotation schema defines.  One key
+       outside that set (``claim_type``, ``build_key``, ``record_id``, a
+       ``statement`` ...) means the author wrote a full record, and a full
+       record is held to the full rules;
+    3. it is NOT the root of its document.  The schema calls the annotation a
+       shape for a SUB-OBJECT of a larger artifact; a file whose whole content
+       is one graded object is a standalone knowledge-base record
+       (ARTIFACT_SCHEMA_MAP maps research/kb/*.json to the full envelope), and
+       it has nowhere to inherit a build_key from.
+    """
+    if at_root or not is_record(node):
+        return False
+    return set(node) <= ANNOTATION_KEYS
+
+
 def iter_records(data: Any, pointer: str = "$") -> Iterator[tuple[str, dict[str, Any]]]:
-    """Walk a decoded JSON document, yielding (json-pointer, record)."""
+    """Walk a decoded JSON document, yielding (json-pointer, record).
+
+    Both shapes are yielded; the caller decides which rule set applies by asking
+    :func:`is_annotation`.  Keeping the walk shape-blind means an annotation is
+    never silently skipped - it is linted, counted and printed either way.
+    """
     if isinstance(data, dict):
         if is_record(data):
             yield pointer, data
@@ -2118,6 +2216,7 @@ def lint_claim_class(
     method_present: bool = True,
     notation: str = "json",
     counterpart_ids: Collection[str] = (),
+    build_key_field_available: bool = True,
 ) -> tuple[ClassVerdict, list[Finding]]:
     """Derive the claim class and apply the criteria plan.md 10.3 v2.2 attaches.
 
@@ -2335,7 +2434,15 @@ def lint_claim_class(
         # because every notation writes it somewhere different (a JSON field, a
         # log-entry `Build` line, a sentence in a table cell), and "UNKNOWN"
         # counts as stated: plan.md C-07 wants the field named, not invented.
-        if not (build_key or "").strip() and not BUILD_KEY_MENTION_RE.search(haystack):
+        if not build_key_field_available:
+            # The reduced annotation envelope has no build_key property and
+            # forbids one (kb-record.schema.json#/$defs/annotation,
+            # additionalProperties false).  Criterion 5 is satisfied by the
+            # ENCLOSING document, which is where the annotation inherits its
+            # build identity from; demanding the key here would be the same
+            # schema/linter contradiction this branch exists to remove.
+            pass
+        elif not (build_key or "").strip() and not BUILD_KEY_MENTION_RE.search(haystack):
             warn("CLASS-I", f"class I claim at confidence {confidence} >= "
                             f"{CRITERIA_STRICT_THRESHOLD} names no build_key (plan.md 10.3 "
                             "class I criterion 5). An interpretive claim in the strictest "
@@ -2568,6 +2675,150 @@ def lint_record(
         warn("EV-BUILD", f"claim_type {claim_type!r} carries no build_key; say in "
                          "'notes' why this claim is build-independent "
                          "(kb-record.schema.json, plan.md 10.3 rule 5)")
+
+    return findings
+
+
+def lint_annotation(pointer: str, annotation: dict[str, Any]) -> list[Finding]:
+    """Apply the ANNOTATION rules to one reduced envelope (see section 5b).
+
+    The same rules as :func:`lint_record` minus exactly two, and only those two:
+    the plan.md 10.5 claim-type matrix and EV-BUILD.  Those are the rules whose
+    remedy is a property kb-record.schema.json#/$defs/annotation forbids, and a
+    rule whose remedy is forbidden is not a rule, it is a deadlock.  Everything
+    the reduced envelope CAN carry is still checked at full strength - an
+    annotation is where a fingerprint grades its own sub-objects, so a loose
+    pass here would be the cheapest place in the repository to launder an
+    interpretation into a measurement.
+    """
+    findings: list[Finding] = []
+    err = lambda rule, msg: findings.append(Finding(SEVERITY_ERROR, rule, pointer, msg))  # noqa: E731
+    warn = lambda rule, msg: findings.append(Finding(SEVERITY_WARN, rule, pointer, msg))  # noqa: E731
+
+    # --- evidence_level: the ONE property the annotation schema requires ----
+    level = annotation.get("evidence_level")
+    if level is None:
+        err("EV-LEVEL", "missing evidence_level (plan.md 10.1); it is the one property "
+                        "kb-record.schema.json#/$defs/annotation makes mandatory; "
+                        f"expected one of {', '.join(EVIDENCE_LEVELS)}")
+    elif level not in EVIDENCE_LEVELS:
+        err("EV-LEVEL", f"evidence_level {level!r} is not one of "
+                        f"{', '.join(EVIDENCE_LEVELS)} (plan.md 10.1)")
+    elif level == "REFUTED":
+        # EV-REFUTED demands refuted_by[], which the reduced envelope forbids.
+        # Saying nothing would hide a refutation with no counterpart; the remedy
+        # is a shape change, so that is what is named.
+        warn("EV-REFUTED", "an annotation graded REFUTED cannot name what refuted it: "
+                           "the reduced envelope has no refuted_by[] property and "
+                           "forbids one. plan.md 10.1 keeps refutations as first-class "
+                           "knowledge, so move this claim into a full record "
+                           "(kb-record.schema.json#/$defs/envelope) where refuted_by[] "
+                           "exists, and leave a pointer to it here")
+
+    # --- confidence (plan.md 10.2) -----------------------------------------
+    confidence = annotation.get("confidence")
+    if confidence is None:
+        err("EV-CONF", "missing confidence (plan.md 10.2); the annotation schema "
+                       "defines the property, so an ungraded annotation is a gap in the "
+                       "document and not a limit of the shape")
+    elif isinstance(confidence, bool) or not isinstance(confidence, (int, float)):
+        err("EV-CONF", f"confidence must be a number in [0.0, 1.0), got {confidence!r}")
+        confidence = None
+    else:
+        confidence = float(confidence)
+        if confidence < CONFIDENCE_FLOOR or confidence > MAX_CONFIDENCE_EXCLUSIVE:
+            err("EV-CONF", f"confidence {confidence} outside the scale "
+                           f"[{CONFIDENCE_FLOOR:.2f}, {CONFIDENCE_CEILING}] (plan.md 10.2)")
+        elif exceeds_ceiling(confidence):
+            err("EV-CONF", ceiling_message(confidence))
+
+    # --- EV-03: sources ----------------------------------------------------
+    sources, sources_key = get_sources(annotation)
+    if sources_key is None:
+        err("EV-03", "missing sources[] (plan.md 10.4/EV-02); the annotation schema "
+                     "defines sources, so the methods behind this sub-claim have a "
+                     "place to be named")
+    elif sources is None:
+        err("EV-03", f"{sources_key!r} must be an array of method ids, got "
+                     f"{type(annotation[sources_key]).__name__}")
+    if sources is not None and len(set(map(repr, sources))) != len(sources):
+        warn("EV-03", f"{sources_key}[] contains duplicates; duplicates are not "
+                      "independent methods (plan.md 10.3 rule 1)")
+
+    # --- EV-04: the oracle vocabulary (the matrix itself is not applicable) -
+    oracles, oracle_present = get_oracles(annotation)
+    if not oracle_present:
+        err("EV-04", "missing oracle field; plan.md 10.5 requires every graded claim to "
+                     f"carry one or more of: {', '.join(ORACLES)}. The reduced envelope "
+                     "defines the property, so this is a gap in the document")
+    elif not oracles:
+        err("EV-04", "oracle field is empty or malformed; expected a string or a "
+                     f"non-empty array of {', '.join(ORACLES)}")
+    else:
+        unknown = sorted(oracles - set(ORACLES))
+        if unknown:
+            err("EV-04", f"unknown oracle value(s) {unknown}; the plan.md 10.5 list is "
+                         f"closed: {', '.join(ORACLES)}")
+
+    # The plan.md 10.5 claim_type matrix is deliberately NOT applied: the
+    # reduced envelope has no claim_type property and forbids one, and the
+    # schema's own $comment says why that is right - "an annotation inherits its
+    # matrix row from the enclosing document".  This is disclosed in the
+    # DISCLOSURES block of every run, not only here.
+
+    # --- EV-05 / MIX-SPLIT / CLASS-P / CLASS-I -----------------------------
+    claim_text = " ".join(
+        str(annotation[key]) for key in ("note",)
+        if isinstance(annotation.get(key), str))
+    _class_verdict, class_findings = lint_claim_class(
+        pointer,
+        oracles=oracles,
+        claim_type=None,
+        claim_text=claim_text,
+        confidence=confidence,
+        explicit_raw=(annotation.get("claim_class")
+                      if isinstance(annotation.get("claim_class"), str) else None),
+        sources=sources,
+        sources_checkable=sources is not None,
+        evidence_level=level if isinstance(level, str) else None,
+        build_key=None,
+        evidence_refs=[],
+        method_present=sources is not None,
+        notation="json",
+        build_key_field_available=False,
+    )
+    findings.extend(class_findings)
+
+    # --- C-12 rule 1: external-doc alone caps confidence at 0.7 ------------
+    if oracles == {"external-doc"} and confidence is not None \
+            and confidence > EXTERNAL_DOC_ONLY_MAX_CONFIDENCE:
+        err("C-12", f"oracle is external-doc only, so confidence must be <= "
+                    f"{EXTERNAL_DOC_ONLY_MAX_CONFIDENCE} for a claim about THIS build "
+                    f"(plan.md 17.3/C-12 rule 1), got {confidence}")
+
+    # --- C-11 / EV-LAYOUT --------------------------------------------------
+    # Both are keyword-driven and read fields the annotation shape does not
+    # define, so they are vacuous today.  They are wired up anyway: the day a
+    # `note` or a `read_locus` starts carrying an offset claim on global-ucas,
+    # the rule must already be here rather than be remembered.
+    if oracles == {"global-ucas"}:
+        asset_ref = mentions_game_asset(annotation)
+        layout_hits = claims_layout(annotation)
+        if asset_ref is not None:
+            key, value = asset_ref
+            err("C-11", f"oracle is global-ucas only, but the annotation claims a /Game "
+                        f"asset ({key}={value!r}); plan.md 10.5: a name in the global "
+                        "pool proves neither existence nor structure")
+        if layout_hits:
+            err("C-11", f"oracle is global-ucas only, but the annotation carries layout "
+                        f"field(s) {layout_hits}; plan.md 10.5: offsets and sizes are "
+                        "unobtainable from global.ucas in principle")
+    layout_hits = claims_layout(annotation)
+    if layout_hits and oracles and "runtime-reflection" not in oracles \
+            and level in ("OBSERVED", "INFERRED"):
+        err("EV-LAYOUT", f"layout field(s) {layout_hits} recorded at evidence_level "
+                         f"{level} without runtime-reflection; plan.md 6.3 caps a "
+                         "statically recovered offset at HYPOTHESIS")
 
     return findings
 
@@ -4496,13 +4747,20 @@ def validate_file(
         report.schema_status = "not-applicable"
 
     # -- layer 2: project lint -----------------------------------------
+    # Two shapes, two rule sets (section 5b).  The reduced annotation envelope
+    # is linted by lint_annotation, which drops exactly the two rules whose
+    # remedy that schema forbids; everything else is a full record.
     for pointer, document in documents:
         for rec_pointer, record in iter_records(document, pointer):
             report.record_count += 1
-            report.findings.extend(
-                lint_record(rec_pointer, record,
-                            allow_untyped_claims=allow_untyped_claims,
-                            reachability=reachability))
+            if is_annotation(record, at_root=rec_pointer == pointer):
+                report.annotation_count += 1
+                report.findings.extend(lint_annotation(rec_pointer, record))
+            else:
+                report.findings.extend(
+                    lint_record(rec_pointer, record,
+                                allow_untyped_claims=allow_untyped_claims,
+                                reachability=reachability))
 
     return report
 
@@ -4902,6 +5160,18 @@ DISCLOSURES: tuple[str, ...] = (
     "additionally derived without a claim_type: naming filesystem AND "
     "steam-metadata together is the 10.5 cross-check row and yields class I, and "
     "an INFERRED/HYPOTHESIS record is class I by 10.3 v2.3 regardless",
+    "a REDUCED evidence annotation (kb-record.schema.json#/$defs/annotation - "
+    "the shape a fingerprint.json attaches to one container, one anomaly, one "
+    "sub-object) is NOT checked against the plan.md 10.5 claim_type matrix and "
+    "not asked for a build_key. That schema defines neither property and, being "
+    "additionalProperties false, forbids both, so demanding them was a deadlock "
+    "no document could clear - it is the defect validator 3.4.0 fixes. The "
+    "annotation inherits its matrix row and its build identity from the "
+    "enclosing document, which states them once. Everything else - the level, "
+    "the confidence ceiling, sources[], the oracle vocabulary, EV-05, "
+    "MIX-SPLIT, the class P and class I criteria, C-11, C-12 - is applied to an "
+    "annotation at full strength, and the number of annotations linted this way "
+    "is printed in the summary",
     "claim_class is DERIVED, and from evidence_level FIRST (plan.md 10.3 v2.3: "
     "class P only at OBSERVED; INFERRED and HYPOTHESIS are always class I), then "
     "from claim_type and oracle, then supplemented by the wording of the claim "
@@ -4988,7 +5258,7 @@ def print_report(reports: list[FileReport], ignored_keywords: set[str], strict: 
               "- nothing to validate")
         print()
 
-    total_errors = total_warnings = total_records = 0
+    total_errors = total_warnings = total_records = total_annotations = 0
     total_unparseable = total_suppressed = total_non_fact = 0
     notation_totals: dict[str, int] = {}
     kind_counts: dict[str, int] = {}
@@ -4996,20 +5266,25 @@ def print_report(reports: list[FileReport], ignored_keywords: set[str], strict: 
         total_errors += report.errors
         total_warnings += report.warnings
         total_records += report.record_count
+        total_annotations += report.annotation_count
         total_unparseable += report.unparseable_count
         total_suppressed += report.suppressed_count
         total_non_fact += report.non_fact_tables
         kind_counts[report.kind or "?"] = kind_counts.get(report.kind or "?", 0) + 1
         for notation, count in report.notation_counts.items():
             notation_totals[notation] = notation_totals.get(notation, 0) + count
+        annotation_bit = (f", {report.annotation_count} annotation(s)"
+                          if report.annotation_count else "")
         if not report.findings:
             suffix = " EXEMPT (kb-validate: ignore-file)" if report.exempt else ""
-            print(f"OK   {report.path}  ({report.record_count} record(s)){suffix}")
+            print(f"OK   {report.path}  ({report.record_count} record(s)"
+                  f"{annotation_bit}){suffix}")
             continue
         print(f"---- {report.path}")
         schema_bit = report.schema or "-"
         print(f"     kind={report.kind} schema={schema_bit} [{report.schema_status}] "
-              f"records={report.record_count} unparseable={report.unparseable_count}")
+              f"records={report.record_count} annotations={report.annotation_count} "
+              f"unparseable={report.unparseable_count}")
         for finding in report.findings:
             print(f"     {finding.severity:<5} [{finding.rule}] {finding.pointer}: "
                   f"{finding.message}")
@@ -5022,6 +5297,11 @@ def print_report(reports: list[FileReport], ignored_keywords: set[str], strict: 
           + (f"  ({', '.join(f'{k}={v}' for k, v in sorted(notation_totals.items()))}"
              f", json={total_records - sum(notation_totals.values())})"
              if notation_totals else ""))
+    if total_annotations:
+        print(f"  of which reduced evidence annotations: {total_annotations}"
+              "   <- kb-record.schema.json#/$defs/annotation; linted by "
+              "lint_annotation(), which drops the plan.md 10.5 claim_type matrix "
+              "and EV-BUILD because that schema forbids both properties")
     print(f"  unparseable candidate records: {total_unparseable}"
           "   <- counted as violations: a fact the validator cannot read is a "
           "problem, not an absence")
@@ -5210,6 +5490,7 @@ def build_json_output(
         "summary": {
             "files": len(reports),
             "records": sum(r.record_count for r in reports),
+            "annotations": sum(r.annotation_count for r in reports),
             "records_by_notation": notation_totals,
             "unparseable_records": sum(r.unparseable_count for r in reports),
             "suppressed_records": sum(r.suppressed_count for r in reports),

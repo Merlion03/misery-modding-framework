@@ -1,0 +1,81 @@
+C:\Windows\System32\MSVCP140.dll (tools/static/rtti_scan.py 1.0.0)
+  PE32+, image base 0x180000000, 643512 bytes on disk
+
+VERDICT: FOUND
+  93 complete object locators resolve to a type descriptor, a class hierarchy descriptor and a vtable whose first slots address executable sections
+
+Tested surface
+  names    .rdata     file [402432, 594432)  192000 bytes
+  names    .data      file [594432, 602624)  8192 bytes
+  locators .rdata     file [402432, 594432)  192000 bytes
+  locators .data      file [594432, 602624)  8192 bytes
+  not searched: .pdata, .reloc, .rsrc, .text
+
+Structures
+  name strings '.?A...@@'          : 100
+  structurally valid TypeDescriptor: 100
+  distinct pVFTable values         : 1 (modal share 1.0000)
+  modal pVFTable                   : 0x180068b38 (RVA 0x68b38)
+  non-zero spare fields            : 0
+  COL, strict predicate            : 93
+  COL, loose candidates            : 220
+  COL, loose validated             : 93
+  COL resolving to a TypeDescriptor: 93
+  COL with a coherent hierarchy    : 93
+  COL with a reachable vtable      : 93
+  vtable code slots, min/max/total : 1 / 15 / 595
+  distinct base TypeDescriptors    : 100
+
+Name decoding
+  decoded 100, failed 0
+
+Ownership (locators with RTTI, by attribution bucket)
+  msvc-crt-stl               90
+  third-party                0
+  unreal-engine              0
+  game-specific-candidate    0
+  unattributed               3
+  same split over all type descriptors:
+    msvc-crt-stl             97
+    third-party              0
+    unreal-engine            0
+    game-specific-candidate  0
+    unattributed             3
+
+Owners
+  89     MSVC C++ standard library
+  3      (none)
+  1      MSVC RTTI runtime
+
+Engine / game / unattributed classes (3)
+  unattributed               class    `anonymous namespace'::_ExceptionPtr_normal
+      COL 0x68ec8  vtable 0x65378  slots 4  bases 2
+  unattributed               class    `anonymous namespace'::_ExceptionPtr_static<std::bad_alloc>
+      COL 0x68f48  vtable 0x653a0  slots 4  bases 2
+  unattributed               class    `anonymous namespace'::_ExceptionPtr_static<std::bad_exception>
+      COL 0x68fc8  vtable 0x653c8  slots 4  bases 2
+
+Refutation probes
+  P1-type-descriptor-coherence         did not refute
+      Could the .?A name strings be incidental data rather than real TypeDescriptor records?
+      observed: {"distinct_pvftable_values": 1, "modal_pvftable_share": 1.0, "name_strings": 100, "nonzero_spare": 0, "structurally_valid": 100}
+  P2-locator-predicate-disagreement    did not refute
+      Does the strict pSelf predicate miss complete object locators that a predicate not using pSelf would find?
+      observed: {"loose_candidates": 220, "loose_only": 0, "loose_only_rvas": [], "loose_validated": 93, "strict": 93, "strict_only": 0}
+  P3-vtable-reachability               did not refute
+      Are the locators attached to real vtables, or are they orphaned records that identify nothing?
+      observed: {"examples_without": [], "locators_resolved": 93, "with_reachable_vtable": 93, "without_reachable_vtable": 0}
+  P4-coverage-is-not-of-the-target     REFUTED THE CONCLUSION
+      Even if RTTI is present, does it cover the classes this project needs -- engine and game types -- or only libraries?
+      observed: {"by_bucket": {"game-specific-candidate": 0, "msvc-crt-stl": 90, "third-party": 0, "unattributed": 3, "unreal-engine": 0}, "engine_plus_game": 0, "engine_plus_game_share": 0.0}
+
+Vtable census (APPROXIMATION -- S-09 owns the real inventory)
+  pointer slots addressing executable sections: 658
+  runs of >= 4   consecutive code slots  : 59       RTTI covers 1.5763
+  runs of >= 8   consecutive code slots  : 36       RTTI covers 2.5833
+  runs of >= 16  consecutive code slots  : 1        RTTI covers 93.0000
+
+Literal reads (class P): 18 ranges, all re-read through a second handle: reproduced
+Timings (s): {"locator_scan": 0.003, "loose_candidate_validation": 0.004, "record_assembly": 0.008, "total": 0.03, "type_descriptor_scan": 0.002, "vtable_census": 0.008, "vtable_reference_scan": 0.002}
+
+written: D:\Dev\MiseryFramework\workspace\rtti\control-MSVCP140.dll.json

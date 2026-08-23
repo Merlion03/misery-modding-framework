@@ -1,0 +1,76 @@
+D:\Games\Steam\steamapps\common\MISERY\MISERY.exe (tools/static/rtti_scan.py 1.0.0)
+  PE32+, image base 0x140000000, 422400 bytes on disk
+
+VERDICT: FOUND
+  4 complete object locators resolve to a type descriptor, a class hierarchy descriptor and a vtable whose first slots address executable sections
+
+Tested surface
+  names    .rdata     file [71168, 116224)  45056 bytes
+  names    .data      file [116224, 119296)  3072 bytes
+  names    _RDATA     file [123904, 124416)  512 bytes
+  locators .rdata     file [71168, 116224)  45056 bytes
+  locators .data      file [116224, 119296)  3072 bytes
+  locators _RDATA     file [123904, 124416)  512 bytes
+  not searched: .pdata, .reloc, .rsrc, .text
+
+Structures
+  name strings '.?A...@@'          : 4
+  structurally valid TypeDescriptor: 4
+  distinct pVFTable values         : 1 (modal share 1.0000)
+  modal pVFTable                   : 0x140013830 (RVA 0x13830)
+  non-zero spare fields            : 0
+  COL, strict predicate            : 4
+  COL, loose candidates            : 11
+  COL, loose validated             : 4
+  COL resolving to a TypeDescriptor: 4
+  COL with a coherent hierarchy    : 4
+  COL with a reachable vtable      : 4
+  vtable code slots, min/max/total : 2 / 2 / 8
+  distinct base TypeDescriptors    : 4
+
+Name decoding
+  decoded 4, failed 0
+
+Ownership (locators with RTTI, by attribution bucket)
+  msvc-crt-stl               4
+  third-party                0
+  unreal-engine              0
+  game-specific-candidate    0
+  unattributed               0
+  same split over all type descriptors:
+    msvc-crt-stl             4
+    third-party              0
+    unreal-engine            0
+    game-specific-candidate  0
+    unattributed             0
+
+Owners
+  3      MSVC C++ standard library
+  1      MSVC RTTI runtime
+
+Engine / game / unattributed classes (0)
+
+Refutation probes
+  P1-type-descriptor-coherence         did not refute
+      Could the .?A name strings be incidental data rather than real TypeDescriptor records?
+      observed: {"distinct_pvftable_values": 1, "modal_pvftable_share": 1.0, "name_strings": 4, "nonzero_spare": 0, "structurally_valid": 4}
+  P2-locator-predicate-disagreement    did not refute
+      Does the strict pSelf predicate miss complete object locators that a predicate not using pSelf would find?
+      observed: {"loose_candidates": 11, "loose_only": 0, "loose_only_rvas": [], "loose_validated": 4, "strict": 4, "strict_only": 0}
+  P3-vtable-reachability               did not refute
+      Are the locators attached to real vtables, or are they orphaned records that identify nothing?
+      observed: {"examples_without": [], "locators_resolved": 4, "with_reachable_vtable": 4, "without_reachable_vtable": 0}
+  P4-coverage-is-not-of-the-target     REFUTED THE CONCLUSION
+      Even if RTTI is present, does it cover the classes this project needs -- engine and game types -- or only libraries?
+      observed: {"by_bucket": {"game-specific-candidate": 0, "msvc-crt-stl": 4, "third-party": 0, "unattributed": 0, "unreal-engine": 0}, "engine_plus_game": 0, "engine_plus_game_share": 0.0}
+
+Vtable census (APPROXIMATION -- S-09 owns the real inventory)
+  pointer slots addressing executable sections: 50
+  runs of >= 4   consecutive code slots  : 5        RTTI covers 0.8000
+  runs of >= 8   consecutive code slots  : 2        RTTI covers 2.0000
+  runs of >= 16  consecutive code slots  : 0        RTTI covers -
+
+Literal reads (class P): 12 ranges, all re-read through a second handle: reproduced
+Timings (s): {"locator_scan": 0.001, "loose_candidate_validation": 0.0, "record_assembly": 0.0, "total": 0.007, "type_descriptor_scan": 0.001, "vtable_census": 0.002, "vtable_reference_scan": 0.001}
+
+written: D:\Dev\MiseryFramework\workspace\rtti\control-shim.json

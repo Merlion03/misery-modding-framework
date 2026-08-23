@@ -1,0 +1,91 @@
+D:\Games\Steam\steamapps\common\MISERY\MISERY\Binaries\Win64\MISERY-Win64-Shipping.exe (tools/static/rtti_scan.py 1.0.0)
+  PE32+, image base 0x140000000, 134658048 bytes on disk
+
+VERDICT: FOUND
+  587 complete object locators resolve to a type descriptor, a class hierarchy descriptor and a vtable whose first slots address executable sections
+
+Tested surface
+  names    .text      file [1536, 98345472)  98343936 bytes
+  names    .rdata     file [98345472, 125648384)  27302912 bytes
+  names    .data      file [125648384, 127140864)  1492480 bytes
+  names    .pdata     file [127140864, 132077568)  4936704 bytes
+  names    .msvcjmc   file [132077568, 132078080)  512 bytes
+  names    .rodata    file [132078080, 132080128)  2048 bytes
+  names    _RDATA     file [132080128, 132463104)  382976 bytes
+  names    .rsrc      file [132463104, 132738560)  275456 bytes
+  names    .reloc     file [132738560, 134658048)  1919488 bytes
+  locators .text      file [1536, 98345472)  98343936 bytes
+  locators .rdata     file [98345472, 125648384)  27302912 bytes
+  locators .data      file [125648384, 127140864)  1492480 bytes
+  locators .pdata     file [127140864, 132077568)  4936704 bytes
+  locators .msvcjmc   file [132077568, 132078080)  512 bytes
+  locators .rodata    file [132078080, 132080128)  2048 bytes
+  locators _RDATA     file [132080128, 132463104)  382976 bytes
+  locators .rsrc      file [132463104, 132738560)  275456 bytes
+  locators .reloc     file [132738560, 134658048)  1919488 bytes
+  not searched: none
+
+Structures
+  name strings '.?A...@@'          : 628
+  structurally valid TypeDescriptor: 628
+  distinct pVFTable values         : 1 (modal share 1.0000)
+  modal pVFTable                   : 0x1472b02a8 (RVA 0x72b02a8)
+  non-zero spare fields            : 0
+  COL, strict predicate            : 587
+  COL, loose candidates            : 1322
+  COL, loose validated             : 587
+  COL resolving to a TypeDescriptor: 587
+  COL with a coherent hierarchy    : 587
+  COL with a reachable vtable      : 587
+  vtable code slots, min/max/total : 1 / 74 / 4428
+  distinct base TypeDescriptors    : 621
+
+Name decoding
+  decoded 628, failed 0
+
+Ownership (locators with RTTI, by attribution bucket)
+  msvc-crt-stl               20
+  third-party                554
+  unreal-engine              11
+  game-specific-candidate    0
+  unattributed               2
+  same split over all type descriptors:
+    msvc-crt-stl             34
+    third-party              575
+    unreal-engine            17
+    game-specific-candidate  0
+    unattributed             2
+
+Owners
+  329    ICU 64 (International Components for Unicode)
+  85     OpenEXR 3.2 (Iex exception hierarchy)
+  66     OpenEXR 3.2 (IlmImf)
+  60     Google Draco
+  19     MSVC C++ standard library
+  9      Unreal Engine (by naming convention)
+  8      libwebm (mkvparser)
+  5      OpenEXR 3.2 (IlmThread)
+  2      (none)
+  2      Unreal Engine
+  1      MSVC RTTI runtime
+  1      NVIDIA NVAPI -- the byte-identical decorated name .?AVCSingletonCriticalSection@@ occurs in Engine/Source/ThirdParty/NVIDIA/nvapi/amd64/nvapi64.lib of a local UE 5.4 installation. INFERRED, not observed on this build
+
+Engine / game / unattributed classes (13)
+  ... 13 more
+
+Refutation probes
+  P1-type-descriptor-coherence         did not refute
+      Could the .?A name strings be incidental data rather than real TypeDescriptor records?
+      observed: {"distinct_pvftable_values": 1, "modal_pvftable_share": 1.0, "name_strings": 628, "nonzero_spare": 0, "structurally_valid": 628}
+  P2-locator-predicate-disagreement    did not refute
+      Does the strict pSelf predicate miss complete object locators that a predicate not using pSelf would find?
+      observed: {"loose_candidates": 1322, "loose_only": 0, "loose_only_rvas": [], "loose_validated": 587, "strict": 587, "strict_only": 0}
+  P3-vtable-reachability               did not refute
+      Are the locators attached to real vtables, or are they orphaned records that identify nothing?
+      observed: {"examples_without": [], "locators_resolved": 587, "with_reachable_vtable": 587, "without_reachable_vtable": 0}
+  P4-coverage-is-not-of-the-target     did not refute
+      Even if RTTI is present, does it cover the classes this project needs -- engine and game types -- or only libraries?
+      observed: {"by_bucket": {"game-specific-candidate": 0, "msvc-crt-stl": 20, "third-party": 554, "unattributed": 2, "unreal-engine": 11}, "engine_plus_game": 11, "engine_plus_game_share": 0.018739352640545145}
+
+Literal reads (class P): 18 ranges, all re-read through a second handle: reproduced
+Timings (s): {"locator_scan": 2.522, "loose_candidate_validation": 0.032, "record_assembly": 0.062, "total": 4.773, "type_descriptor_scan": 0.15, "vtable_reference_scan": 1.997}

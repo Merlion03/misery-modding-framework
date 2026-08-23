@@ -1,0 +1,72 @@
+D:\Games\Steam\steamapps\common\MISERY\MISERY\Binaries\Win64\tbbmalloc.dll (tools/static/rtti_scan.py 1.0.0)
+  PE32+, image base 0x180000000, 76528 bytes on disk
+
+VERDICT: NOT FOUND WITHIN TESTED SURFACE
+  no decorated type-descriptor name and no complete object locator occurs in the sections listed under tested_surface
+
+Tested surface
+  names    .rdata     file [40448, 50688)  10240 bytes
+  names    .data      file [50688, 51200)  512 bytes
+  locators .rdata     file [40448, 50688)  10240 bytes
+  locators .data      file [50688, 51200)  512 bytes
+  not searched: .pdata, .reloc, .rsrc, .text
+
+Structures
+  name strings '.?A...@@'          : 0
+  structurally valid TypeDescriptor: 0
+  distinct pVFTable values         : 0 (modal share -)
+  modal pVFTable                   : none
+  non-zero spare fields            : 0
+  COL, strict predicate            : 0
+  COL, loose candidates            : 0
+  COL, loose validated             : 0
+  COL resolving to a TypeDescriptor: 0
+  COL with a coherent hierarchy    : 0
+  COL with a reachable vtable      : 0
+  vtable code slots, min/max/total : None / None / 0
+  distinct base TypeDescriptors    : 0
+
+Name decoding
+  decoded 0, failed 0
+
+Ownership (locators with RTTI, by attribution bucket)
+  msvc-crt-stl               0
+  third-party                0
+  unreal-engine              0
+  game-specific-candidate    0
+  unattributed               0
+  same split over all type descriptors:
+    msvc-crt-stl             0
+    third-party              0
+    unreal-engine            0
+    game-specific-candidate  0
+    unattributed             0
+
+Owners
+
+Engine / game / unattributed classes (0)
+
+Refutation probes
+  P1-type-descriptor-coherence         did not refute
+      Could the .?A name strings be incidental data rather than real TypeDescriptor records?
+      observed: {"distinct_pvftable_values": 0, "modal_pvftable_share": null, "name_strings": 0, "nonzero_spare": 0, "structurally_valid": 0}
+  P2-locator-predicate-disagreement    did not refute
+      Does the strict pSelf predicate miss complete object locators that a predicate not using pSelf would find?
+      observed: {"loose_candidates": 0, "loose_only": 0, "loose_only_rvas": [], "loose_validated": 0, "strict": 0, "strict_only": 0}
+  P3-vtable-reachability               did not refute
+      Are the locators attached to real vtables, or are they orphaned records that identify nothing?
+      observed: {"examples_without": [], "locators_resolved": 0, "with_reachable_vtable": 0, "without_reachable_vtable": 0}
+  P4-coverage-is-not-of-the-target     did not refute
+      Even if RTTI is present, does it cover the classes this project needs -- engine and game types -- or only libraries?
+      observed: {"by_bucket": {"game-specific-candidate": 0, "msvc-crt-stl": 0, "third-party": 0, "unattributed": 0, "unreal-engine": 0}, "engine_plus_game": 0, "engine_plus_game_share": null}
+
+Vtable census (APPROXIMATION -- S-09 owns the real inventory)
+  pointer slots addressing executable sections: 6
+  runs of >= 4   consecutive code slots  : 1        RTTI covers 0.0000
+  runs of >= 8   consecutive code slots  : 0        RTTI covers -
+  runs of >= 16  consecutive code slots  : 0        RTTI covers -
+
+Literal reads (class P): 0 ranges, all re-read through a second handle: reproduced
+Timings (s): {"locator_scan": 0.0, "loose_candidate_validation": 0.0, "record_assembly": 0.0, "total": 0.002, "type_descriptor_scan": 0.0, "vtable_census": 0.0, "vtable_reference_scan": 0.0}
+
+written: D:\Dev\MiseryFramework\workspace\rtti\control-tbbmalloc.dll.json
