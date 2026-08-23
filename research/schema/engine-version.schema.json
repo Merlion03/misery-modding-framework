@@ -315,7 +315,7 @@
     },
     "cross_validation": {
       "title": "Cross-validation against plan.md 4.2 and 4.3",
-      "description": "Where the plan's own rule is applied to the readings, in the plan's own terms. The three source lists below are typed by KIND, so the text-versus-data-format distinction the confidence rests on is checkable data rather than a sentence in a note.",
+      "description": "Where the plan's own rule is applied to the readings, in the plan's own terms. The three reading lists below are typed by KIND, so the text-versus-data-format distinction the confidence rests on is checkable data rather than a sentence in a note. INDEPENDENCE IS COUNTED SEPARATELY FROM THEM, in `measurement_acts`: the reading lists say what was read, the act table says how many distinct things were measured, and only the second answers plan.md 4.3. Keeping the two apart is the fix for a defect this block used to carry - `independent_source_count` summed the reading lists to 5, which counted the one upstream build stamp twice, while section 2 of research/unreal/engine-version.md said in prose that V-01 and V-03 read that same stamp.",
       "type": "object",
       "properties": {
         "rule": {
@@ -367,16 +367,61 @@
             "minLength": 1
           }
         },
-        "independent_source_count": {
+        "counting_rule": {
+          "description": "How independence is counted here, stated before the numbers. plan.md 10.4 / EV-03 counts ACTS OF MEASUREMENT: an act is one thing measured once, a reading is one way of getting at it, and an oracle or an artifact path is neither.",
+          "type": "string",
+          "minLength": 1
+        },
+        "measurement_acts": {
+          "title": "Acts of measurement",
+          "description": "The unit of independence, declared. Each entry is ONE thing measured once; its `readings` are the method ids that get at it. This structure is what stopped the double count that the earlier field `independent_source_count` carried: V-01 and V-03 read one and the same upstream build stamp, so they sit in ONE act and cannot be added up as two independent sources. A method id may appear in AT MOST ONE act - see the $comment on this keyword - so the act count cannot be inflated by re-filing a reading.",
+          "$comment": "The disjointness of `readings` across acts is asserted by the generator (tools/static/engine_version.py, _check_readings_are_disjoint), because JSON Schema cannot express 'this array element appears in no sibling array'. The schema enforces what it can: the shape of an act, the closed method-id vocabulary, and the requirement that an act with more than one reading say WHY it is one act.",
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/measurement_act"
+          }
+        },
+        "readings_that_are_not_independent_acts": {
+          "description": "Every reading that shares its act with another reading, with the reason. Published rather than left implicit: this is the exact list of ids that must NOT be added to the independent-act count, and a reader comparing reading_count with independent_measurement_act_count is owed the names behind the difference.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/method_id"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "independent_measurement_act_count": {
+          "description": "len(measurement_acts). THE number plan.md 4.3 is answered with. Named in acts, not sources, deliberately: the earlier field was `independent_source_count`, it added the reading ids up, and 'source' is the loose word that made counting one build stamp twice expressible. Never a typed-in constant.",
           "type": "integer",
           "minimum": 0
         },
-        "exit_criterion_minimum_sources": {
-          "description": "plan.md 4.3: at least three independent sources named by id. Fixed at 3 because it is the plan's number, not the producer's choice.",
+        "reading_count": {
+          "description": "The total number of readings across all acts. Published beside the act count so the difference between the two is visible instead of averaged away - it is NOT the answer to the plan.md 4.3 exit criterion.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "exit_criterion_minimum_independent_acts": {
+          "description": "plan.md 4.3: at least three independent acts of measurement, named by the ids of their readings. Fixed at 3 because it is the plan's number, not the producer's choice.",
           "const": 3
         },
+        "minimum_independent_acts_cleared": {
+          "description": "independent_measurement_act_count >= exit_criterion_minimum_independent_acts. A derived comparison, not an assertion that 'the bar is met': the count it compares excludes the double count.",
+          "type": "boolean"
+        },
+        "minimum_independent_acts_statement": {
+          "description": "The same comparison in words, naming both numbers and saying explicitly that V-01 and V-03 were not counted as two. Required so that the honest reading survives a consumer that renders only strings.",
+          "type": "string",
+          "minLength": 1
+        },
         "bar_met": {
-          "description": "Whether the plan.md 4.2 bar is met. Conditioned below: true requires at least one text and at least one data-format source AND their agreement.",
+          "description": "Whether the plan.md 4.2 bar is met - at least one TEXT reading and at least one DATA-FORMAT reading agreeing. Conditioned below: claiming it also obliges the artifact to clear the plan.md 4.3 minimum at ACT level.",
           "type": "boolean"
         },
         "result": {
@@ -570,18 +615,24 @@
       },
       "required": [
         "rule",
+        "counting_rule",
         "text_sources",
         "data_format_sources",
         "data_format_adjacent_sources",
-        "independent_source_count",
-        "exit_criterion_minimum_sources",
+        "measurement_acts",
+        "readings_that_are_not_independent_acts",
+        "independent_measurement_act_count",
+        "reading_count",
+        "exit_criterion_minimum_independent_acts",
+        "minimum_independent_acts_cleared",
+        "minimum_independent_acts_statement",
         "bar_met",
         "result"
       ],
       "additionalProperties": false,
       "allOf": [
         {
-          "$comment": "plan.md 4.2 and 4.3 as CHECKS. bar_met is not a free boolean: claiming it obliges the artifact to carry a text source, a data-format source, their recorded agreement, and the three independent sources plan.md 4.3 asks for. The one thing JSON Schema cannot do here is compare independent_source_count with exit_criterion_minimum_sources, so the threshold is written out as the literal 3 it is fixed at above.",
+          "$comment": "plan.md 4.2 and 4.3 as CHECKS. bar_met is not a free boolean: claiming it obliges the artifact to carry a text reading, a data-format reading, their recorded agreement, and the three independent ACTS plan.md 4.3 asks for. The threshold is written out as the literal 3 it is fixed at above, because JSON Schema cannot compare independent_measurement_act_count with exit_criterion_minimum_independent_acts. Note what changed in this revision: the clause used to bound independent_source_count, a field that counted V-01 and V-03 as two independent sources and so let bar_met be underwritten by a double count. Bounding the ACT count instead means the 4.2 permission now rests on four measurement acts, not five readings.",
           "if": {
             "properties": {
               "bar_met": {
@@ -600,8 +651,11 @@
               "data_format_sources": {
                 "minItems": 1
               },
-              "independent_source_count": {
+              "independent_measurement_act_count": {
                 "minimum": 3
+              },
+              "minimum_independent_acts_cleared": {
+                "const": true
               },
               "result": {
                 "properties": {
@@ -617,7 +671,8 @@
             "required": [
               "text_sources",
               "data_format_sources",
-              "independent_source_count",
+              "independent_measurement_act_count",
+              "minimum_independent_acts_cleared",
               "result"
             ]
           }
@@ -1598,7 +1653,7 @@
         },
         "content_key": {
           "title": "content_key",
-          "description": "Content identity per plan.md 3.2: sha256 of the concatenation of the sha256 values of all .utoc files, written as 'sha256:<64 lowercase hex>'. Distinguishes a content-only patch from a code patch when build_key is unchanged.",
+          "description": "content_key is the content identity of plan.md 3.2, written as 'sha256:' + 64 lowercase hex characters. It tells a content-only patch apart from a code patch when build_key has not changed, and plan.md 16.3 (VC-04) makes it THE mechanism for detecting that a patch touched only content - so the recipe below is NORMATIVE, and a consumer that follows it must reproduce the committed value byte for byte. The earlier wording, 'sha256 of the concatenation of the sha256 values of all .utoc files', is superseded: it named neither the encoding of the concatenated digests - lowercase hex text, uppercase hex text, or the raw 32 digest bytes - nor the order of the inputs. Six plausible readings of that sentence produce six different values, exactly one of which reproduces the committed key, and until this revision the disambiguating recipe existed only in the free-text 'notes' field of two artifacts, where no schema consumer would look. (1) INPUTS: every file in the installation tree whose name ends in '.utoc', the extension compared case-insensitively; the set is obtained by WALKING the tree, never from a hard-coded list. (2) PATH OF AN INPUT: the path relative to the installation root, '/' as the separator, on-disk letter case preserved - exactly the 'path' field of the corresponding install-inventory.json row. (3) ORDER: the inputs are sorted by that path ASCENDING BY CODE POINT, i.e. bytewise ASCII, CASE-SENSITIVE. The case sensitivity is load-bearing: 'MISERY/Content/Paks/MISERY-Windows.utoc' precedes 'MISERY/Content/Paks/global.utoc' because 'M' (0x4D) < 'g' (0x67), and a case-folded sort would swap the two and yield a different content_key. (4) WHAT IS CONCATENATED: for each input, its own sha256 as TEXT - the 64-character LOWERCASE hex digest encoded as ASCII, 64 bytes per input. NOT the raw 32 digest bytes, NOT uppercase hex, and without the 'sha256:' prefix. (5) SEPARATOR: none, neither between digests nor trailing. (6) RESULT: sha256 of that byte string, rendered as 'sha256:' + 64 lowercase hex characters. (7) UNDEFINED CASE: if the installation holds no .utoc at all, or the sha256 of any input is unknown, content_key is null - never the sha256 of the empty string, which would be indistinguishable from an installation that has no containers. WORKED EXAMPLE, the baseline installation: the two inputs, in the order of clause 3, are MISERY/Content/Paks/MISERY-Windows.utoc (233b715a091f318aa7ac338b3076e21bfc9a10274ba154d7a62fd0ef0e41d029) and MISERY/Content/Paks/global.utoc (347ffa88bc25e26724c04814ddc9110b10393903af0b7484082e6e95c52f51dd); the concatenation is 128 ASCII bytes and its sha256 is sha256:55ff0e5f605d4777863bd6b061332eaf351da5800dc80c6f826547c2722f9039, the value committed in research/builds/index.json, install-inventory.json and fingerprint.json.",
           "type": [
             "string",
             "null"
@@ -2707,6 +2762,67 @@
           "const": "external-doc",
           "title": "external-doc - an ORACLE name standing in a method field",
           "description": "RECORDED, NOT ENDORSED. This value appears in sources[].method in research/unreal/engine-version.json for the public UE release metadata, and 'external-doc' is one of the nine ORACLES of plan.md 10.5, not a method id: plan.md 10.4/EV-03 counts acts of measurement in the method field and says in terms that an oracle is not one. The schema admits the value so that the artifact as it stands validates rather than being silently exempted from the schema layer, and names the defect here so a reader sees it. The fix belongs in tools/static/engine_version.py: give the reading of a reference tree its own method id and keep external-doc in the record-level oracle list, where it already is."
+        }
+      ]
+    },
+    "measurement_act": {
+      "title": "One act of measurement",
+      "description": "One thing measured once, together with every reading that gets at it. The distinction this definition exists to hold: a READING is a way of obtaining a value, an ACT is the value being obtained, and plan.md 4.3 asks for three independent ACTS. Two readings of one upstream build stamp are one act - V-01 and V-03 are exactly that - so an act with more than one reading MUST say why in `one_act_because`, and the schema requires it (allOf below). That requirement is the point: it is what makes reinstating the old double count cost an explicit, reviewable sentence instead of an arithmetic slip.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Which half of the plan.md 4.2 bar this act can satisfy. The value must agree with the vocabularies $defs/text_method, $defs/data_format_method and $defs/data_format_adjacent_method that type the reading lists at cross_validation.",
+          "type": "string",
+          "enum": [
+            "text",
+            "data-format",
+            "data-format-adjacent"
+          ]
+        },
+        "measures": {
+          "description": "WHAT is measured, in one phrase - the thing, not the technique. Two acts whose `measures` describe the same thing are one act filed twice, which is the defect this schema is guarding against.",
+          "type": "string",
+          "minLength": 1
+        },
+        "readings": {
+          "description": "The method ids that read this one thing, first one first. A method id belongs to exactly one act across the whole document; the generator asserts that, JSON Schema cannot.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/method_id"
+          }
+        },
+        "one_act_because": {
+          "description": "Why several readings are ONE act and not several sources. Required whenever `readings` holds more than one id.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "measures",
+        "readings"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$comment": "More than one reading obliges the act to justify itself. Without this, collapsing two genuinely independent acts into one - understating the count - would be as cheap as the overstatement being fixed here.",
+          "if": {
+            "properties": {
+              "readings": {
+                "minItems": 2
+              }
+            },
+            "required": [
+              "readings"
+            ]
+          },
+          "then": {
+            "required": [
+              "one_act_because"
+            ]
+          }
         }
       ]
     },

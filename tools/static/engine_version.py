@@ -136,7 +136,7 @@ import pathguard       # noqa: E402  (tools/inventory/pathguard.py, layer 1)
 import pe_info         # noqa: E402  (tools/fingerprint/pe_info.py, F-01)
 
 GENERATOR_NAME = "tools/static/engine_version.py"
-GENERATOR_VERSION = "1.0.0"
+GENERATOR_VERSION = "1.1.0"
 
 REPO_ROOT = os.path.dirname(_TOOLS)
 
@@ -1952,6 +1952,136 @@ def load_build_identity(repo_root: str) -> dict:
     return {"build_key": None, "build_id": None}
 
 
+# --------------------------------------------------------------------------- #
+# Independence: acts of measurement, not readings
+# --------------------------------------------------------------------------- #
+#
+# plan.md 4.3 asks for at least three INDEPENDENT sources. Until this revision
+# the artifact answered with independent_source_count = 5, obtained by adding up
+# the method ids: V-01, V-03, V-05, V-06, V-04. That count was an overstatement,
+# and research/unreal/engine-version.md section 2 said so in prose in the same
+# document: V-01 and V-03 read one and the SAME upstream build stamp, and two
+# readings of one stamp are not two independent confirmations.
+#
+# The fix is structural rather than arithmetic. The unit of independence is
+# declared here as an ACT OF MEASUREMENT - the thing measured, once - and every
+# method id is a READING that belongs to exactly one act. The counts below are
+# derived from this table: the act count is len(MEASUREMENT_ACTS), so the only
+# way to raise it is to add an act, and _check_readings_are_disjoint refuses a
+# method id that appears in two acts. Splitting V-01 and V-03 back into two
+# counted sources is therefore not something a later edit can do by accident:
+# it needs a second act declared for the same stamp, and that act would have to
+# state, in "one_act_because", why the stamp is measured twice.
+#
+# The word "source" is deliberately gone from the count field names. It is the
+# word that made the double count expressible - a reading is a source in the
+# loose sense, and plan.md 10.4 / EV-03 counts acts.
+
+ACT_KIND_TEXT = "text"
+ACT_KIND_DATA_FORMAT = "data-format"
+ACT_KIND_DATA_FORMAT_ADJACENT = "data-format-adjacent"
+
+MEASUREMENT_ACTS: dict[str, dict] = {
+    "upstream-build-stamp": {
+        "kind": ACT_KIND_TEXT,
+        "measures": ("the version stamp the build system wrote into the image as "
+                     "characters: branch, changelist, and on one of the two readings "
+                     "the patch component"),
+        "readings": ["V-01", "V-03"],
+        "one_act_because": (
+            "V-01 and V-03 read different places by different mechanisms - a byte scan "
+            "of .rdata against a parse of the RT_VERSION resource in .rsrc - but ONE "
+            "AND THE SAME upstream build stamp. Their agreement checks the reading, not "
+            "the fact. Counting them as two independent sources is the overstatement "
+            "this structure exists to prevent; research/unreal/engine-version.md "
+            "section 2 states it in prose, and here it is data."),
+    },
+    "iostore-toc-version": {
+        "kind": ACT_KIND_DATA_FORMAT,
+        "measures": ("the IoStore TOC version byte, written by the container writer "
+                     "rather than by the C++ compiler"),
+        "readings": ["V-05"],
+    },
+    "package-file-version": {
+        "kind": ACT_KIND_DATA_FORMAT,
+        "measures": ("the FPackageFileVersion pair compiled into .data as a "
+                     "serialization-version constant"),
+        "readings": ["V-06"],
+    },
+    "dependency-version": {
+        "kind": ACT_KIND_DATA_FORMAT_ADJACENT,
+        "measures": ("the D3D12SDKVersion constant the image exports, corroborated by "
+                     "the version resource of the D3D12Core.dll shipped beside it"),
+        "readings": ["V-04"],
+    },
+}
+
+
+def _check_readings_are_disjoint(acts: dict[str, dict]) -> None:
+    """Refuse a method id that belongs to more than one act.
+
+    This is the guard that makes the old double count unrepresentable: V-01 and
+    V-03 live in one act, and a second act claiming either of them raises here
+    instead of quietly incrementing the independent-act count.
+    """
+    seen: dict[str, str] = {}
+    for act_id, act in acts.items():
+        for reading in act["readings"]:
+            if reading in seen:
+                raise ValueError(
+                    "reading %s is claimed by two measurement acts, %s and %s: a "
+                    "reading belongs to exactly one act, or the act count is a "
+                    "double count" % (reading, seen[reading], act_id))
+            seen[reading] = act_id
+
+
+def readings_of_kind(acts: dict[str, dict], kind: str) -> list[str]:
+    """Every reading belonging to an act of *kind*, in declaration order."""
+    out: list[str] = []
+    for act in acts.values():
+        if act["kind"] == kind:
+            out.extend(act["readings"])
+    return out
+
+
+def build_independence_block(acts: dict[str, dict]) -> dict:
+    """The counted independence of plan.md 4.3, derived from MEASUREMENT_ACTS."""
+    _check_readings_are_disjoint(acts)
+    act_count = len(acts)
+    reading_count = sum(len(act["readings"]) for act in acts.values())
+    secondary: dict[str, str] = {}
+    for act_id, act in acts.items():
+        for reading in act["readings"][1:]:
+            secondary[reading] = (
+                "counted as a reading, not as an independent act: it shares the '%s' "
+                "act with %s. %s" % (act_id, act["readings"][0], act["one_act_because"]))
+    minimum = 3
+    return {
+        "counting_rule": (
+            "plan.md 10.4 / EV-03 counts ACTS OF MEASUREMENT, and this block counts the "
+            "same way: an act is one thing measured once, a reading is one way of "
+            "getting at it. Two readings of one upstream stamp are one act. The "
+            "act-level count is what plan.md 4.3 is answered with; the reading count is "
+            "published beside it so the difference is visible instead of averaged away."),
+        "measurement_acts": {
+            act_id: {key: act[key] for key in
+                     ("kind", "measures", "readings", "one_act_because") if key in act}
+            for act_id, act in acts.items()},
+        "readings_that_are_not_independent_acts": secondary,
+        "independent_measurement_act_count": act_count,
+        "reading_count": reading_count,
+        "exit_criterion_minimum_independent_acts": minimum,
+        "minimum_independent_acts_cleared": act_count >= minimum,
+        "minimum_independent_acts_statement": (
+            "%d independent measurement acts against the minimum of %d in plan.md 4.3, "
+            "counted WITHOUT treating V-01 and V-03 as two. The %d readings behind them "
+            "are not the answer to that exit criterion. The previous field, "
+            "independent_source_count = %d, is superseded and removed: it added the "
+            "method ids up and so counted the upstream build stamp twice."
+            % (act_count, minimum, reading_count, reading_count)),
+    }
+
+
 def build_document(install_dir: str, crash_dir: str | None, repo_root: str,
                    ue_source_root: str | None = None) -> dict:
     warnings: list[str] = []
@@ -1971,18 +2101,23 @@ def build_document(install_dir: str, crash_dir: str | None, repo_root: str,
         install_dir, cross.get("text_changelist") or 0, warnings)
     v01["changelist_as_compiled_constant"] = changelist_constant
     claim = build_claim(cross, v04, v05, v06, v02, local_reference)
-    text_sources = ["V-01", "V-03"]
-    data_format_sources = ["V-05", "V-06"]
-    data_format_adjacent = ["V-04"]
+    independence = build_independence_block(MEASUREMENT_ACTS)
+    text_sources = readings_of_kind(MEASUREMENT_ACTS, ACT_KIND_TEXT)
+    data_format_sources = readings_of_kind(MEASUREMENT_ACTS, ACT_KIND_DATA_FORMAT)
+    data_format_adjacent = readings_of_kind(MEASUREMENT_ACTS,
+                                            ACT_KIND_DATA_FORMAT_ADJACENT)
     return {
         "$comment": (
             "Unreal Engine version identification for this build (plan.md 4). "
-            "Produced by " + GENERATOR_NAME + ". There is no "
-            "research/schema/engine-version.schema.json in this repository - "
-            "tools/kb/validate.py ARTIFACT_SCHEMA_MAP already points at that name and "
-            "the file is task K-02 (plan.md 9.4), so the validator reports one WARN "
-            "for this path and skips its schema layer. No parallel format was "
-            "invented to fill the gap: every graded node here is the REDUCED "
+            "Produced by " + GENERATOR_NAME + ". SUPERSEDED SENTENCE, kept visible "
+            "rather than dropped: this comment used to say 'there is no "
+            "research/schema/engine-version.schema.json in this repository, so the "
+            "validator reports one WARN for this path and skips its schema layer'. "
+            "That schema now exists - task K-02 (plan.md 9.4) is done - and "
+            "tools/kb/validate.py validates this file against it with no WARN, so the "
+            "sentence is false and is replaced by this one. What it said about the "
+            "shape of the document still holds. No parallel format was "
+            "invented: every graded node here is the REDUCED "
             "annotation envelope of research/schema/kb-record.schema.json "
             "#/$defs/annotation - exactly the shape "
             "research/builds/*/fingerprint.json already uses - so the envelope, the "
@@ -2000,9 +2135,9 @@ def build_document(install_dir: str, crash_dir: str | None, repo_root: str,
         "claim": claim,
         "cross_validation": {
             "rule": ("plan.md 4.2: confidence >= 0.90 for engine_version is permitted "
-                     "ONLY if at least one TEXT source and at least one DATA-FORMAT "
-                     "source agree. plan.md 4.3 exit criterion: >= 3 independent "
-                     "sources named by id."),
+                     "ONLY if at least one TEXT reading and at least one DATA-FORMAT "
+                     "reading agree. plan.md 4.3 exit criterion: >= 3 independent acts "
+                     "of measurement, named by the ids of their readings."),
             "text_sources": text_sources,
             "text_sources_not_counted": {
                 "V-02b": ("the CONTENT of CrashContext.runtime-xml. Read and published, "
@@ -2017,11 +2152,10 @@ def build_document(install_dir: str, crash_dir: str | None, repo_root: str,
                          "deciding that a plugin did not exist before a release needs a "
                          "provably COMPLETE reference tree, which the public mirrors "
                          "consulted here are not.")},
-            # Derived, never a typed-in constant: a stale count here would be a
-            # claim about the exit criterion of plan.md 4.3 that nothing checks.
-            "independent_source_count": (len(text_sources) + len(data_format_sources)
-                                         + len(data_format_adjacent)),
-            "exit_criterion_minimum_sources": 3,
+            # Derived from MEASUREMENT_ACTS, never a typed-in constant, and derived
+            # at ACT level: adding the reading ids up is what produced the old
+            # independent_source_count = 5 and counted one build stamp twice.
+            **independence,
             "bar_met": bool(cross["text_and_data_format_agree"]),
             "result": cross,
         },
@@ -2156,10 +2290,20 @@ def format_summary(document: dict) -> str:
             node["evidence"]["confidence"]))
     lines.append("")
     lines.append("CROSS-VALIDATION (plan.md 4.2)")
-    lines.append("  text sources         %s" % ", ".join(cross["text_sources"]))
-    lines.append("  data-format sources  %s" % ", ".join(cross["data_format_sources"]))
+    lines.append("  text readings        %s" % ", ".join(cross["text_sources"]))
+    lines.append("  data-format readings %s" % ", ".join(cross["data_format_sources"]))
     lines.append("  data-format adjacent %s"
                  % ", ".join(cross["data_format_adjacent_sources"]))
+    lines.append("  independence (plan.md 4.3 counts ACTS, not readings):")
+    for act_id, act in cross["measurement_acts"].items():
+        lines.append("    %-22s %-22s %s%s"
+                     % (act_id, act["kind"], ", ".join(act["readings"]),
+                        "  <- one act, not two" if len(act["readings"]) > 1 else ""))
+    lines.append("    %d independent acts / %d readings, minimum %d -> cleared=%s"
+                 % (cross["independent_measurement_act_count"],
+                    cross["reading_count"],
+                    cross["exit_criterion_minimum_independent_acts"],
+                    cross["minimum_independent_acts_cleared"]))
     result = cross["result"]
     for method, vote in sorted(result["data_format_votes"].items()):
         lines.append("  %-6s %-24s = %-18s -> UE %-8s [%s]"

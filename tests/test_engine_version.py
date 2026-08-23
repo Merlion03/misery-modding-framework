@@ -916,10 +916,56 @@ def test_agreement_between_text_and_data_format_meets_the_bar(document):
     assert cross["result"]["data_format_ue_line"] == "5.4"
     assert cross["result"]["text_and_data_format_agree"] is True
     assert cross["bar_met"] is True
-    assert (cross["independent_source_count"]
-            >= cross["exit_criterion_minimum_sources"])
+    assert (cross["independent_measurement_act_count"]
+            >= cross["exit_criterion_minimum_independent_acts"])
+    assert cross["minimum_independent_acts_cleared"] is True
     assert document["claim"]["engine_version"]["value"] == "5.4.4"
     assert document["claim"]["engine_version"]["evidence"]["confidence"] >= 0.90
+
+
+def test_independence_is_counted_in_acts_and_not_in_readings(document):
+    # The defect this guards: independent_source_count used to add the method
+    # ids up to 5, which counted the one upstream build stamp twice - V-01 and
+    # V-03 read that same stamp, as section 2 of engine-version.md says.
+    cross = document["cross_validation"]
+    assert "independent_source_count" not in cross
+    assert "exit_criterion_minimum_sources" not in cross
+
+    acts = cross["measurement_acts"]
+    assert cross["independent_measurement_act_count"] == len(acts)
+    assert cross["reading_count"] == sum(len(act["readings"]) for act in acts.values())
+    # Four acts behind five readings, and the plan.md 4.3 minimum of three is
+    # cleared by the ACT count.
+    assert cross["independent_measurement_act_count"] == 4
+    assert cross["reading_count"] == 5
+    assert cross["exit_criterion_minimum_independent_acts"] == 3
+
+    # V-01 and V-03 are ONE act, and that act must say why.
+    stamp = [act for act in acts.values() if set(act["readings"]) == {"V-01", "V-03"}]
+    assert len(stamp) == 1, "V-01 and V-03 must share exactly one act"
+    assert stamp[0]["kind"] == "text"
+    assert stamp[0]["one_act_because"]
+    assert "V-03" in cross["readings_that_are_not_independent_acts"]
+
+    # No reading may be claimed by two acts - that is the double count.
+    seen: set[str] = set()
+    for act in acts.values():
+        for reading in act["readings"]:
+            assert reading not in seen, reading
+            seen.add(reading)
+
+
+def test_a_reading_claimed_by_two_acts_is_refused():
+    """The guard, exercised: re-filing V-03 as its own act must raise."""
+    acts = dict(engine_version.MEASUREMENT_ACTS)
+    acts["a-second-reading-of-the-same-stamp"] = {
+        "kind": "text",
+        "measures": "the same upstream build stamp, filed twice",
+        "readings": ["V-03"],
+    }
+    with pytest.raises(ValueError) as caught:
+        engine_version.build_independence_block(acts)
+    assert "V-03" in str(caught.value)
 
 
 def test_every_data_format_source_votes_for_one_line(document):

@@ -667,7 +667,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 
 > **Этот блок сгенерирован.** Руками его не правят: правка будет затёрта следующим запуском генератора, и — что хуже — станет неотличима от измерения.
 >
-> **Снято:** 2026-08-23 08:45 UTC | HEAD `fc46ed1` | интерпретатор `D:\Tools\venv-research\Scripts\python.exe`
+> **Снято:** 2026-08-23 15:52 UTC | HEAD `fd435fa` | интерпретатор `D:\Tools\venv-research\Scripts\python.exe`
 >
 > Обновить (один шаг): `python .github\scripts\kb_status.py --write`
 >
@@ -680,26 +680,25 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 | показатель | значение |
 |---|---|
 | schema backend | `jsonschema` |
-| файлов просмотрено | 59 |
-| размеченных записей | 253 |
-| записей по нотациям | inline-annotation=97, log-entry=24, table-row=132 |
+| файлов просмотрено | 86 |
+| размеченных записей | 428 |
+| записей по нотациям | inline-annotation=139, log-entry=47, table-row=141 |
 | нечитаемых кандидатов в записи | **0** |
 | нарушений (ERROR) | **0** |
-| предупреждений (WARN) | 102 |
+| предупреждений (WARN) | 122 |
 | exit code | 0 |
 
 Нарушения и предупреждения по правилам:
 
 | правило | нарушений | предупреждений |
 |---|---|---|
-| `CLASS-I` | 0 | 10 |
-| `CLASS-P` | 0 | 24 |
-| `EV-03` | 0 | 6 |
-| `EV-04` | 0 | 13 |
-| `EV-05` | 0 | 6 |
+| `CLASS-I` | 0 | 16 |
+| `CLASS-P` | 0 | 25 |
+| `EV-03` | 0 | 10 |
+| `EV-04` | 0 | 18 |
+| `EV-05` | 0 | 10 |
 | `EV-CONF` | 0 | 3 |
-| `MD-BARE` | 0 | 31 |
-| `SCHEMA` | 0 | 1 |
+| `MD-BARE` | 0 | 32 |
 | `VCS-REACH` | 0 | 8 |
 
 Ни один файл не несёт нарушений и нечитаемых кандидатов.
@@ -707,7 +706,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 **Набор тестов — `python -m pytest -q` (exit 0).**
 
 ```
-430 passed, 1 skipped, 403 subtests passed
+920 passed, 1 skipped, 513 subtests passed
 ```
 
 Провалившихся тестов нет.

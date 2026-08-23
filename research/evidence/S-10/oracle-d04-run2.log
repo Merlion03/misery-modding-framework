@@ -1,0 +1,148 @@
+D:\Games\Steam\steamapps\common\MISERY\MISERY\Binaries\Win64\MISERY.exe (tools/static/rtti_scan.py 1.1.0)
+  PE32+, image base 0x140000000, 282826240 bytes on disk
+  D-04: this file is the read-only ORACLE. Any conclusion drawn here must be re-verified on MISERY-Win64-Shipping.exe before it counts.
+
+VERDICT: FOUND
+  766 complete object locators resolve to a type descriptor, a class hierarchy descriptor and a vtable whose first slots address executable sections
+
+Tested surface
+  names    .uedbg     file [215085568, 215116288)  30720 bytes
+  names    .rdata     file [215116288, 266441216)  51324928 bytes
+  names    .data      file [266441216, 268123648)  1682432 bytes
+  names    .msvcjmc   file [279345152, 279345664)  512 bytes
+  names    .rodata    file [279345664, 279347712)  2048 bytes
+  names    _RDATA     file [279347712, 279747072)  399360 bytes
+  locators .uedbg     file [215085568, 215116288)  30720 bytes
+  locators .rdata     file [215116288, 266441216)  51324928 bytes
+  locators .data      file [266441216, 268123648)  1682432 bytes
+  locators .msvcjmc   file [279345152, 279345664)  512 bytes
+  locators .rodata    file [279345664, 279347712)  2048 bytes
+  locators _RDATA     file [279347712, 279747072)  399360 bytes
+  not searched: .pdata, .reloc, .rsrc, .text
+
+Structures
+  name strings '.?A...@@'          : 795
+  structurally valid TypeDescriptor: 795
+  distinct pVFTable values         : 1 (modal share 1.0000)
+  modal pVFTable                   : 0x14ed95ab8 (RVA 0xed95ab8)
+  non-zero spare fields            : 0
+  COL, strict predicate            : 766
+  COL, loose candidates            : 1697
+  COL, loose validated             : 766
+  COL resolving to a TypeDescriptor: 766
+  COL with a coherent hierarchy    : 766
+  COL with a reachable vtable      : 766
+  COL with offset != 0             : 22
+  COL with cdOffset != 0           : 5
+  COL with unexpected signature    : 0
+  DISTINCT CLASSES (by descriptor) : 749   <- not the COL count
+  distinct vtables                 : 766
+  vtable code slots, min/max/total : 1 / 74 / 5268
+  distinct functions those slots address: 3106
+  distinct base TypeDescriptors    : 789
+
+Name decoding
+  decoded 795, failed 0
+
+Ownership (locators with RTTI, by attribution bucket)
+  msvc-crt-stl               26
+  third-party                718
+  unreal-engine              19
+  game-specific-candidate    0
+  unattributed               3
+  same split over DISTINCT CLASSES (one per type descriptor):
+    msvc-crt-stl             26
+    third-party              701
+    unreal-engine            19
+    game-specific-candidate  0
+    unattributed             3
+  same split over all type descriptors:
+    msvc-crt-stl             42
+    third-party              712
+    unreal-engine            38
+    game-specific-candidate  0
+    unattributed             3
+
+Owners
+  366    ICU 64 (International Components for Unicode)
+  170    OpenEXR 3.2 (Iex exception hierarchy)
+  76     Google Draco
+  75     OpenEXR 3.2 (IlmImf)
+  25     MSVC C++ standard library
+  17     Microsoft DirectShow base classes (strmbase)
+  14     Unreal Engine (by naming convention)
+  8      libwebm (mkvparser)
+  5      OpenEXR 3.2 (IlmThread)
+  5      Unreal Engine
+  3      (none)
+  1      MSVC RTTI runtime
+  1      NVIDIA NVAPI -- the byte-identical decorated name .?AVCSingletonCriticalSection@@ occurs in Engine/Source/ThirdParty/NVIDIA/nvapi/amd64/nvapi64.lib of a local UE 5.4 installation. INFERRED, not observed on this build
+
+Engine / game / unattributed classes (22)
+  unreal-engine              class    IDelegateInstance
+      COL 0xede9430  vtable 0xe7f5090  slots 9  bases 1
+  unreal-engine              class    IModuleInterface
+      COL 0xede94a8  vtable 0xe7f5108  slots 8  bases 1
+  unreal-engine              struct   IBaseDelegateInstance<IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>
+      COL 0xede9520  vtable 0xe7f5150  slots 14  bases 2
+  unreal-engine              class    FDefaultModuleImpl
+      COL 0xede95a0  vtable 0xe7f52b8  slots 8  bases 2
+  unreal-engine              class    TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FDefaultModuleImpl>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>
+      COL 0xede9620  vtable 0xe7f5240  slots 14  bases 4
+  unreal-engine              class    TCommonDelegateInstanceState<IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>
+      COL 0xede9760  vtable 0xe7f51c8  slots 14  bases 3
+  unreal-engine              class    SharedPointerInternals::TReferenceControllerBase<1>
+      COL 0xede9908  vtable 0xe7f6018  slots 2  bases 1
+  unreal-engine              class    FBaseOutputFile
+      COL 0xede9980  vtable 0xe7f53a8  slots 2  bases 1
+  unreal-engine              class    FTiledRgbaOutputFile
+      COL 0xede99f8  vtable 0xe7f53c0  slots 2  bases 2
+  unreal-engine              class    FTiledOutputFile
+      COL 0xede9a78  vtable 0xe7f53d8  slots 2  bases 2
+  unreal-engine              class    SharedPointerInternals::TReferenceControllerWithDeleter<_priv_exr_context_t *,SharedPointerInternals::DefaultDeleter<_priv_exr_context_t *>,1>
+      COL 0xede9af8  vtable 0xe7f6030  slots 2  bases 4
+  unreal-engine              class    TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FExrReaderGpuModule>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>
+      COL 0xede9ca8  vtable 0xe7f6098  slots 14  bases 4
+  unreal-engine              struct   UE::Core::Private::Function::TDebugHelper<FGlobalShaderType & __cdecl(void)>
+      COL 0xede9d38  vtable 0xe7f6088  slots 1  bases 2
+  unreal-engine              struct   UE::Core::Private::Function::IDebugHelper
+      COL 0xede9db8  vtable 0xe7f6068  slots 1  bases 1
+  unreal-engine              struct   UE::Core::Private::Function::TDebugHelper<void>
+      COL 0xede9e30  vtable 0xe7f6078  slots 1  bases 2
+  unreal-engine              class    FExrReaderGpuModule
+      COL 0xede9eb0  vtable 0xe7f6130  slots 8  bases 2
+  unreal-engine              class    FAutoConsoleObject
+      COL 0xede9f30  vtable 0xe7f62d0  slots 1  bases 1
+  unreal-engine              class    TAutoConsoleVariable<bool>
+      COL 0xede9fa8  vtable 0xe7f6178  slots 1  bases 2
+  unreal-engine              class    FGlobalShaderType
+      COL 0xedea028  vtable 0xe7f6930  slots 1  bases 2
+  unattributed               struct   `anonymous namespace'::KeywordsSink
+      COL 0xeded9c8  vtable 0xea11c50  slots 3  bases 4
+  unattributed               class    `anonymous namespace'::ParseDataSink
+      COL 0xedf2fe0  vtable 0xea30ba0  slots 3  bases 4
+  unattributed               class    `anonymous namespace'::PluralTableSink
+      COL 0xedf6430  vtable 0xea45618  slots 3  bases 4
+
+Refutation probes
+  P1-type-descriptor-coherence         did not refute
+      Could the .?A name strings be incidental data rather than real TypeDescriptor records?
+      observed: {"distinct_pvftable_values": 1, "modal_pvftable_share": 1.0, "name_strings": 795, "nonzero_spare": 0, "structurally_valid": 795}
+  P2-locator-predicate-disagreement    did not refute
+      Does the strict pSelf predicate miss complete object locators that a predicate not using pSelf would find?
+      observed: {"loose_candidates": 1697, "loose_only": 0, "loose_only_rvas": [], "loose_validated": 766, "strict": 766, "strict_only": 0}
+  P3-vtable-reachability               did not refute
+      Are the locators attached to real vtables, or are they orphaned records that identify nothing?
+      observed: {"examples_without": [], "locators_resolved": 766, "with_reachable_vtable": 766, "without_reachable_vtable": 0}
+  P4-coverage-is-not-of-the-target     did not refute
+      Even if RTTI is present, does it cover the classes this project needs -- engine and game types -- or only libraries?
+      observed: {"by_bucket_classes": {"game-specific-candidate": 0, "msvc-crt-stl": 26, "third-party": 701, "unattributed": 3, "unreal-engine": 19}, "by_bucket_locators": {"game-specific-candidate": 0, "msvc-crt-stl": 26, "third-party": 718, "unattributed": 3, "unreal-engine": 19}, "distinct_classes": 749, "engine_plus_game": 19, "engine_plus_game_share": 0.025367156208277702, "locators": 766}
+
+Vtable census (APPROXIMATION -- S-09 owns the real inventory)
+  pointer slots addressing executable sections: 1155514
+  runs of >= 4   consecutive code slots  : 14875    RTTI vtables 0.0515  RTTI classes 0.0504
+  runs of >= 8   consecutive code slots  : 13198    RTTI vtables 0.0580  RTTI classes 0.0568
+  runs of >= 16  consecutive code slots  : 10427    RTTI vtables 0.0735  RTTI classes 0.0718
+
+Literal reads (class P): 18 ranges, all re-read through a second handle: reproduced
+Timings (s): {"locator_scan": 1.152, "loose_candidate_validation": 0.052, "record_assembly": 0.082, "total": 4.95, "type_descriptor_scan": 0.07, "vtable_census": 2.577, "vtable_reference_scan": 0.764}

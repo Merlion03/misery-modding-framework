@@ -105,6 +105,10 @@ emits its evidence twice and never averages the two:
     allowed to say it reproduced (plan.md 10.3 class-P criterion 2 executed, not
     asserted). The sample is bounded and deterministic -- see ``--literal-samples``
     -- because 600-odd structures times four reads each is a log, not evidence.
+    The ``target`` naming the file is the INSTALL-RELATIVE path, never the bare
+    basename: this installation holds two different files called ``MISERY.exe``,
+    so a basename is an ambiguity class and a class-P claim must name a
+    determinate location. See ``locus_target``.
 
 ``type_descriptors`` / ``complete_object_locators`` / ``summary``
     Class **I**. These name the fields, decode the mangled names, attribute the
@@ -225,7 +229,11 @@ import pathguard  # noqa: E402  (sys.path is prepared just above)
 import pe_info  # noqa: E402
 
 GENERATOR_NAME = "tools/static/rtti_scan.py"
-GENERATOR_VERSION = "1.0.0"
+# 1.1.0: the class-P read locus is install-relative rather than a bare basename
+# (this installation has two MISERY.exe), and the summary distinguishes locators
+# from classes, slots from functions. No parsing behaviour changed: the same
+# structures are found at the same addresses.
+GENERATOR_VERSION = "1.1.0"
 
 PEFormatError = pe_info.PEFormatError
 
@@ -1452,6 +1460,13 @@ def measure_vtable(headers, section_map: SectionMap, slot_rva: int) -> dict:
     start = slot_rva + pointer_size
     count = 0
     first_slot = None
+    # Every slot target is kept, not just the count. A SLOT is not a FUNCTION:
+    # one vtable can hold the same address twice (a shared thunk, __purecall),
+    # and two vtables can hold the same address (an inherited implementation).
+    # Summing code_slot_count and calling the result "virtual functions" is the
+    # error this list exists to make impossible -- see
+    # summary.distinct_virtual_function_rvas.
+    targets: list[int] = []
     while count < MAX_VTABLE_SLOTS:
         try:
             raw = headers.read_rva(start + count * pointer_size, pointer_size,
@@ -1466,12 +1481,14 @@ def measure_vtable(headers, section_map: SectionMap, slot_rva: int) -> dict:
             break
         if first_slot is None:
             first_slot = target
+        targets.append(target)
         count += 1
     section = section_map.section_of_rva(start)
     return {
         "vtable_rva": start,
         "code_slot_count": count,
         "first_slot_rva": first_slot,
+        "code_slot_target_rvas": targets,
         "section": section["name"] if section else None,
     }
 
@@ -1632,6 +1649,47 @@ def corroborate_against_source(root: str, identifiers: list[str],
 # --------------------------------------------------------------------------- #
 # evidence layer 1 (class P): literal reads
 # --------------------------------------------------------------------------- #
+
+def locus_target(path: str, install_root: str | None = None) -> str:
+    """The spelling a class-P read locus uses for *path*: install-relative, '/'.
+
+    A bare basename is NOT a determinate location, and in this installation that
+    is not a hypothetical: it holds two different files called ``MISERY.exe`` --
+    the 422 kB bootstrap shim at the root and the 282 MB D-04 oracle under
+    ``MISERY/Binaries/Win64`` -- so ``MISERY.exe@126984040+16`` names an
+    ambiguity class rather than a range of bytes. plan.md 10.3 v2.4 admits
+    binary-analysis into class P only for a claim at a determinate address, and
+    the address is only as determinate as the file it is an address in.
+    ``protection_scan.py`` reached the same conclusion for its module-matching
+    patterns; this is the same rule applied to the read locus.
+
+    Falls back to the basename only when *path* is genuinely outside any
+    installation (a synthetic image under a temporary directory, a system DLL),
+    where there is no root for it to be relative to and the absolute path is the
+    determinate spelling -- which the document already carries in ``file.path``.
+    """
+    absolute = os.path.abspath(path)
+    root = install_root
+    if root is None:
+        try:
+            roots = pathguard.structural_install_roots(absolute)
+        except (ValueError, OSError):
+            roots = []
+        root = roots[-1] if roots else None
+    if not root:
+        return os.path.basename(absolute)
+    try:
+        relative = os.path.relpath(absolute, os.path.abspath(root))
+    except ValueError:          # different drives on Windows
+        return os.path.basename(absolute)
+    relative = relative.replace("\\", "/")
+    if relative.startswith("../") or relative in ("..", ".") or ":" in relative:
+        # *path* is not under *root* after all. Refuse to invent a relative
+        # spelling that walks out of the installation: it would be determinate
+        # only for whoever knows where the root was.
+        return os.path.basename(absolute)
+    return relative
+
 
 def literal_read(target: str, decoded_field: str, offset: int, raw: bytes,
                  note: str | None = None) -> dict:
@@ -1872,7 +1930,14 @@ def build_refutation_probes(descriptors: dict, locators: dict,
     # A positive RTTI finding that covers only the CRT is a negative answer to
     # the question S-10 is actually asking, and the probe says so numerically.
     buckets = summary["by_bucket"]
-    engine_and_game = (buckets.get(BUCKET_UNREAL, 0) + buckets.get(BUCKET_GAME, 0))
+    # The question is about CLASSES, so the share is taken over classes. The
+    # locator split is reported beside it, not instead of it: a class with
+    # secondary bases contributes several locators, and dividing by the locator
+    # count would answer a question nobody asked.
+    class_buckets = summary["by_bucket_classes"]
+    class_total = summary["distinct_classes_among_locators"]
+    engine_and_game = (class_buckets.get(BUCKET_UNREAL, 0)
+                       + class_buckets.get(BUCKET_GAME, 0))
     probes.append({
         "id": "P4-coverage-is-not-of-the-target",
         "question": (
@@ -1882,9 +1947,13 @@ def build_refutation_probes(descriptors: dict, locators: dict,
             "an engine+game share close to zero, which makes a structurally "
             "positive finding useless for the purpose S-10 exists to serve"),
         "observed": {
-            "by_bucket": buckets,
+            "by_bucket_locators": buckets,
+            "by_bucket_classes": class_buckets,
+            "distinct_classes": class_total,
+            "locators": len(classes),
             "engine_plus_game": engine_and_game,
-            "engine_plus_game_share": (engine_and_game / len(classes)) if classes else None,
+            "engine_plus_game_share": ((engine_and_game / class_total)
+                                       if class_total else None),
         },
         "refuted_the_conclusion": bool(classes) and engine_and_game == 0,
     })
@@ -1935,7 +2004,8 @@ def analyze(path: str, *, literal_samples: int = DEFAULT_LITERAL_SAMPLES,
             locator_sections: tuple[str, ...] | None = None,
             ue_source_root: str | None = None,
             want_vtable_census: bool = False,
-            want_file_digest: bool = True) -> dict:
+            want_file_digest: bool = True,
+            install_root: str | None = None) -> dict:
     """Scan *path* and return the whole document. Read-only, bounded, streaming."""
     warnings: list[str] = []
     timings: dict[str, float] = {}
@@ -2123,6 +2193,24 @@ def analyze(path: str, *, literal_samples: int = DEFAULT_LITERAL_SAMPLES,
         by_bucket_descriptors = Counter(item["attribution"]["bucket"]
                                         for item in type_descriptor_records)
         by_owner = Counter(c["attribution"]["owner"] or "(none)" for c in classes)
+
+        # A LOCATOR IS NOT A CLASS. MSVC emits one RTTICompleteObjectLocator per
+        # vtable, and a class with secondary bases has more than one vtable, so
+        # the locator count is an upper bound on the class count. The type
+        # descriptor is what identifies the class -- one per class, shared by all
+        # of that class's locators -- so grouping by pTypeDescriptor is the
+        # per-class view. Published as its own field precisely because reading
+        # the locator count as a class count is the mistake this tool made the
+        # first time round.
+        classes_by_descriptor: dict[int, dict] = {}
+        for record in classes:
+            classes_by_descriptor.setdefault(
+                record["locator"]["type_descriptor_rva"], record)
+        distinct_classes = list(classes_by_descriptor.values())
+        by_bucket_classes = Counter(c["attribution"]["bucket"]
+                                    for c in distinct_classes)
+        by_owner_classes = Counter(c["attribution"]["owner"] or "(none)"
+                                   for c in distinct_classes)
         with_vtable = [c for c in classes
                        if c["vtable"] and c["vtable"]["code_slot_count"] >= 1]
         coherent = [c for c in classes
@@ -2154,13 +2242,34 @@ def analyze(path: str, *, literal_samples: int = DEFAULT_LITERAL_SAMPLES,
             "vtable_code_slots_total": sum(slot_counts),
             "vtable_code_slots_min": min(slot_counts) if slot_counts else None,
             "vtable_code_slots_max": max(slot_counts) if slot_counts else None,
+            # Slots, then the functions those slots address. The two differ
+            # whenever an implementation is shared, which in a real image is
+            # most of the time.
+            "distinct_virtual_function_rvas": len({
+                rva for c in with_vtable
+                for rva in c["vtable"]["code_slot_target_rvas"]}),
+            "distinct_vtables": len({c["vtable"]["vtable_rva"]
+                                     for c in with_vtable}),
+            "distinct_classes_among_locators": len(classes_by_descriptor),
+            "locators_with_nonzero_offset": sum(
+                1 for c in classes if c["locator"]["offset"] != 0),
+            "locators_with_nonzero_cd_offset": sum(
+                1 for c in classes if c["locator"]["cd_offset"] != 0),
+            "locators_with_nonstandard_signature": sum(
+                1 for c in classes
+                if c["locator"]["signature"] != (COL_SIGNATURE_PE32PLUS
+                                                 if locators["pe32_plus"]
+                                                 else COL_SIGNATURE_PE32)),
             "distinct_base_type_descriptors": len({
                 rva for c in classes
                 for rva in c["hierarchy"]["base_type_descriptor_rvas"]}),
             "by_bucket": {bucket: by_bucket.get(bucket, 0) for bucket in BUCKET_ORDER},
+            "by_bucket_classes": {
+                bucket: by_bucket_classes.get(bucket, 0) for bucket in BUCKET_ORDER},
             "by_bucket_type_descriptors": {
                 bucket: by_bucket_descriptors.get(bucket, 0) for bucket in BUCKET_ORDER},
             "by_owner": dict(sorted(by_owner.items())),
+            "by_owner_classes": dict(sorted(by_owner_classes.items())),
         }
         scan_complete = not (descriptors["truncated"] or locators["truncated"])
         verdict, reason = _verdict(descriptors, classes, warnings, scan_complete)
@@ -2171,7 +2280,8 @@ def analyze(path: str, *, literal_samples: int = DEFAULT_LITERAL_SAMPLES,
 
         # ---- class-P literal layer ------------------------------------------ #
         literals: list[dict] = []
-        target = os.path.basename(path)
+        # Install-relative, never the bare basename -- see locus_target.
+        target = locus_target(path, install_root)
         sample_descriptors = _spread(descriptors["structurally_valid"],
                                      literal_samples)
         for record in sample_descriptors:
@@ -2227,7 +2337,12 @@ def analyze(path: str, *, literal_samples: int = DEFAULT_LITERAL_SAMPLES,
         document = {
             "file": {
                 "path": os.path.abspath(path),
-                "name": target,
+                # "name" is the basename and stays the basename: it is what the
+                # jsonl artifact carries as build_target, and renaming that field's
+                # content would rewrite an artifact whose digest is cited. The
+                # determinate spelling a class-P locus needs is "install_relative".
+                "name": os.path.basename(path),
+                "install_relative": target,
                 "size": image.size,
                 "sha256": file_sha256,
                 "pe_format": headers.pe_format,
@@ -2449,9 +2564,21 @@ def format_summary(document: dict, name_limit: int = 25) -> str:
         % summary["locators_with_coherent_hierarchy"])
     add("  COL with a reachable vtable      : %d"
         % summary["locators_with_reachable_vtable"])
+    add("  COL with offset != 0             : %d"
+        % summary["locators_with_nonzero_offset"])
+    add("  COL with cdOffset != 0           : %d"
+        % summary["locators_with_nonzero_cd_offset"])
+    add("  COL with unexpected signature    : %d"
+        % summary["locators_with_nonstandard_signature"])
+    add("  DISTINCT CLASSES (by descriptor) : %d   <- not the COL count"
+        % summary["distinct_classes_among_locators"])
+    add("  distinct vtables                 : %d"
+        % summary["distinct_vtables"])
     add("  vtable code slots, min/max/total : %s / %s / %d"
         % (summary["vtable_code_slots_min"], summary["vtable_code_slots_max"],
            summary["vtable_code_slots_total"]))
+    add("  distinct functions those slots address: %d"
+        % summary["distinct_virtual_function_rvas"])
     add("  distinct base TypeDescriptors    : %d"
         % summary["distinct_base_type_descriptors"])
     add("")
@@ -2465,6 +2592,9 @@ def format_summary(document: dict, name_limit: int = 25) -> str:
     add("Ownership (locators with RTTI, by attribution bucket)")
     for bucket in BUCKET_ORDER:
         add("  %-26s %d" % (bucket, summary["by_bucket"][bucket]))
+    add("  same split over DISTINCT CLASSES (one per type descriptor):")
+    for bucket in BUCKET_ORDER:
+        add("    %-24s %d" % (bucket, summary["by_bucket_classes"][bucket]))
     add("  same split over all type descriptors:")
     for bucket in BUCKET_ORDER:
         add("    %-24s %d" % (bucket, summary["by_bucket_type_descriptors"][bucket]))
@@ -2505,11 +2635,16 @@ def format_summary(document: dict, name_limit: int = 25) -> str:
             % census["pointer_slots_addressing_executable_sections"])
         for threshold, count in sorted(census["runs_by_minimum_length"].items(),
                                        key=lambda item: int(item[0])):
-            covered = document["summary"]["locators_with_reachable_vtable"]
+            # A run is a vtable-shaped thing, so the numerator that matches it is
+            # the vtable count. The class share is printed beside it because the
+            # two are not the same number and the difference is the whole point.
+            vtables = document["summary"]["distinct_vtables"]
+            klasses = document["summary"]["distinct_classes_among_locators"]
             add("  runs of >= %-3s consecutive code slots  : %-8d "
-                "RTTI covers %s"
+                "RTTI vtables %s  RTTI classes %s"
                 % (threshold, count,
-                   "-" if not count else "%.4f" % (covered / count)))
+                   "-" if not count else "%.4f" % (vtables / count),
+                   "-" if not count else "%.4f" % (klasses / count)))
     source = document["ue_source_corroboration"]
     if source is not None:
         add("")
@@ -2643,6 +2778,10 @@ def main(argv: list[str] | None = None) -> int:
             ue_source_root=args.ue_source_root,
             want_vtable_census=args.vtable_census,
             want_file_digest=not args.no_digest,
+            # Only an EXPLICIT root is passed on. The fallback inside
+            # detect_install_root is "the configured root" and would make a file
+            # outside any installation look relative to one it is not in.
+            install_root=args.install_dir,
         )
     except PEFormatError as error:
         print("error: %s: %s" % (args.path, error), file=sys.stderr)

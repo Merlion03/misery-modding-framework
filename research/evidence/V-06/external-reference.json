@@ -1,6 +1,6 @@
 {
   "$comment": "The external-doc reference of methods V-04, V-05 and V-06: which UE release emits which number, and the result of re-reading that table out of a local Unreal Engine distribution. Prose companion: research/evidence/V-06/external-reference.md.",
-  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "generated_at": "2026-08-23T14:49:54.600282Z",
   "reference": {
     "$comment": "reference table, not a graded record; the graded claims name external-doc in their own oracle list",
     "artifact": "research/evidence/V-06/external-reference.md",

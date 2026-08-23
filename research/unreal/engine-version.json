@@ -1,5 +1,5 @@
 {
-  "$comment": "Unreal Engine version identification for this build (plan.md 4). Produced by tools/static/engine_version.py. There is no research/schema/engine-version.schema.json in this repository - tools/kb/validate.py ARTIFACT_SCHEMA_MAP already points at that name and the file is task K-02 (plan.md 9.4), so the validator reports one WARN for this path and skips its schema layer. No parallel format was invented to fill the gap: every graded node here is the REDUCED annotation envelope of research/schema/kb-record.schema.json #/$defs/annotation - exactly the shape research/builds/*/fingerprint.json already uses - so the envelope, the oracle vocabulary, the confidence ceiling and the class P / class I criteria are all enforced on this file today, and whoever writes K-02 has a real document to write the schema against rather than a stub. build_key below is stated ONCE for the whole artifact and every annotation inherits it.",
+  "$comment": "Unreal Engine version identification for this build (plan.md 4). Produced by tools/static/engine_version.py. SUPERSEDED SENTENCE, kept visible rather than dropped: this comment used to say 'there is no research/schema/engine-version.schema.json in this repository, so the validator reports one WARN for this path and skips its schema layer'. That schema now exists - task K-02 (plan.md 9.4) is done - and tools/kb/validate.py validates this file against it with no WARN, so the sentence is false and is replaced by this one. What it said about the shape of the document still holds. No parallel format was invented: every graded node here is the REDUCED annotation envelope of research/schema/kb-record.schema.json #/$defs/annotation - exactly the shape research/builds/*/fingerprint.json already uses - so the envelope, the oracle vocabulary, the confidence ceiling and the class P / class I criteria are all enforced on this file today, and whoever writes K-02 has a real document to write the schema against rather than a stub. build_key below is stated ONCE for the whole artifact and every annotation inherits it.",
   "build_id": "misery-24826585-ue5.4.4-0eef3715244b",
   "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
   "claim": {
@@ -223,6 +223,7 @@
   },
   "cross_validation": {
     "bar_met": true,
+    "counting_rule": "plan.md 10.4 / EV-03 counts ACTS OF MEASUREMENT, and this block counts the same way: an act is one thing measured once, a reading is one way of getting at it. Two readings of one upstream stamp are one act. The act-level count is what plan.md 4.3 is answered with; the reading count is published beside it so the difference is visible instead of averaged away.",
     "data_format_adjacent_sources": [
       "V-04"
     ],
@@ -230,10 +231,48 @@
       "V-05",
       "V-06"
     ],
-    "exit_criterion_minimum_sources": 3,
-    "independent_source_count": 5,
+    "exit_criterion_minimum_independent_acts": 3,
+    "independent_measurement_act_count": 4,
+    "measurement_acts": {
+      "dependency-version": {
+        "kind": "data-format-adjacent",
+        "measures": "the D3D12SDKVersion constant the image exports, corroborated by the version resource of the D3D12Core.dll shipped beside it",
+        "readings": [
+          "V-04"
+        ]
+      },
+      "iostore-toc-version": {
+        "kind": "data-format",
+        "measures": "the IoStore TOC version byte, written by the container writer rather than by the C++ compiler",
+        "readings": [
+          "V-05"
+        ]
+      },
+      "package-file-version": {
+        "kind": "data-format",
+        "measures": "the FPackageFileVersion pair compiled into .data as a serialization-version constant",
+        "readings": [
+          "V-06"
+        ]
+      },
+      "upstream-build-stamp": {
+        "kind": "text",
+        "measures": "the version stamp the build system wrote into the image as characters: branch, changelist, and on one of the two readings the patch component",
+        "one_act_because": "V-01 and V-03 read different places by different mechanisms - a byte scan of .rdata against a parse of the RT_VERSION resource in .rsrc - but ONE AND THE SAME upstream build stamp. Their agreement checks the reading, not the fact. Counting them as two independent sources is the overstatement this structure exists to prevent; research/unreal/engine-version.md section 2 states it in prose, and here it is data.",
+        "readings": [
+          "V-01",
+          "V-03"
+        ]
+      }
+    },
+    "minimum_independent_acts_cleared": true,
+    "minimum_independent_acts_statement": "4 independent measurement acts against the minimum of 3 in plan.md 4.3, counted WITHOUT treating V-01 and V-03 as two. The 5 readings behind them are not the answer to that exit criterion. The previous field, independent_source_count = 5, is superseded and removed: it added the method ids up and so counted the upstream build stamp twice.",
     "not_load_bearing": {
       "V-07": "the staged plugin set. Published as raw evidence and left open: A-09 records staged-versus-enabled as unresolved, and deciding that a plugin did not exist before a release needs a provably COMPLETE reference tree, which the public mirrors consulted here are not."
+    },
+    "reading_count": 5,
+    "readings_that_are_not_independent_acts": {
+      "V-03": "counted as a reading, not as an independent act: it shares the 'upstream-build-stamp' act with V-01. V-01 and V-03 read different places by different mechanisms - a byte scan of .rdata against a parse of the RT_VERSION resource in .rsrc - but ONE AND THE SAME upstream build stamp. Their agreement checks the reading, not the fact. Counting them as two independent sources is the overstatement this structure exists to prevent; research/unreal/engine-version.md section 2 states it in prose, and here it is data."
     },
     "result": {
       "changelist_matches_public_release_metadata": true,
@@ -289,7 +328,7 @@
         ]
       }
     },
-    "rule": "plan.md 4.2: confidence >= 0.90 for engine_version is permitted ONLY if at least one TEXT source and at least one DATA-FORMAT source agree. plan.md 4.3 exit criterion: >= 3 independent sources named by id.",
+    "rule": "plan.md 4.2: confidence >= 0.90 for engine_version is permitted ONLY if at least one TEXT reading and at least one DATA-FORMAT reading agree. plan.md 4.3 exit criterion: >= 3 independent acts of measurement, named by the ids of their readings.",
     "text_sources": [
       "V-01",
       "V-03"
@@ -366,9 +405,9 @@
       }
     ]
   },
-  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "generated_at": "2026-08-23T14:49:54.600282Z",
   "generator": "tools/static/engine_version.py",
-  "generator_version": "1.0.0",
+  "generator_version": "1.1.0",
   "install_root_recorded_as": "(not recorded: C-13 forbids a machine path here)",
   "sources": {
     "V-01": {

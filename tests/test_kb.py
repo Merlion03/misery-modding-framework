@@ -2463,3 +2463,66 @@ class TestNewLogEntryHonoursLayerOne(unittest.TestCase):
             self.assertEqual(0, result.returncode, result.stderr)
             self.assertTrue(os.path.exists(target),
                             "the guard must not block legitimate output")
+
+
+class SemanticConclusionWordBoundaries(unittest.TestCase):
+    """plan.md 10.3 criterion 3, and the defect class LOG-0008i calls
+    "the role of the word": a conclusion marker that matches the first letters
+    of an innocent longer word.
+
+    Fixed once already for `вывод` in validator 3.2.1.  The very first
+    alternative kept the same defect until 3.4.1: `следовательно` occurs
+    INSIDE `последовательность` (по + следовательно + сть), which is the
+    ordinary Russian word for a byte range and therefore turns up in exactly
+    the plainest class-P claims.  Cost: MIX-SPLIT + EV-05 on a true record,
+    and an author rewording correct prose to get past the parser - which the
+    DISCLOSURES block of validate.py explicitly forbids as an outcome.
+    """
+
+    def test_posledovatelnost_is_not_a_conclusion(self):
+        for text in ("последовательность байт длиной 16",
+                     "Непоследовательность нумерации",
+                     "последовательности байт нет"):
+            with self.subTest(text=text):
+                self.assertIsNone(
+                    validate.SEMANTIC_CONCLUSION_RE.search(text),
+                    "an innocent word must not read as a semantic conclusion")
+
+    def test_the_real_connective_is_still_caught(self):
+        for text in ("следовательно, это заголовок контейнера",
+                     "и следовательно байты означают версию",
+                     "Следовательно сборка Shipping"):
+            with self.subTest(text=text):
+                self.assertIsNotNone(
+                    validate.SEMANTIC_CONCLUSION_RE.search(text),
+                    "the boundary must not cost the marker its true positives")
+
+    def test_prefix_markers_deliberately_keep_matching_inside_a_word(self):
+        # Why the boundary was added to ONE alternative and not to the group:
+        # these two are prefixes on purpose (D-02 wording appears as
+        # "нерасшифрованный", "декодированный"), and a blanket boundary would
+        # have stopped catching them without any evidence of a defect.
+        self.assertIsNotNone(
+            validate.SEMANTIC_CONCLUSION_RE.search("нерасшифрованных контейнеров"))
+        self.assertIsNotNone(
+            validate.SEMANTIC_CONCLUSION_RE.search("недекодированное имя"))
+        # And the boundary really is absent there, not merely untested:
+        self.assertIsNone(
+            validate.SEMANTIC_CONCLUSION_RE.search("раскодированное имя"),
+            "декодирова is the marker, so раскодированное is out of scope by design")
+
+    def test_no_control_bytes_in_the_pattern_source(self):
+        # This test exists because the fix was first written through a shell
+        # that collapsed a doubled backslash, so the pattern shipped with a
+        # literal 0x08 in place of the boundary and matched nothing at all.
+        # The same accident put a 0x0B into research/RESEARCH_LOG.md once
+        # (LOG-0009i).  A pattern is unreadable to review when it hides a
+        # control byte, so assert on the bytes, not on the behaviour.
+        source = os.path.join(REPO_ROOT, "tools", "kb", "validate.py")
+        with open(source, "rb") as handle:
+            blob = handle.read()
+        for byte in (8, 11, 12, 0):
+            with self.subTest(byte=byte):
+                self.assertEqual(
+                    0, blob.count(bytes([byte])),
+                    "control byte %d must not appear in the validator source" % byte)

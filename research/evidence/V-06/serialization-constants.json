@@ -1,7 +1,7 @@
 {
   "$comment": "Raw reading of method V-06 (plan.md 4.1), written by tools/static/engine_version.py. No schema by design: ARTIFACT_SCHEMA_MAP maps research/evidence/*/*.json to no schema (plan.md 9.2).",
   "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
-  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "generated_at": "2026-08-23T14:49:54.600282Z",
   "method": "V-06",
   "reading": {
     "hit_count": 1,

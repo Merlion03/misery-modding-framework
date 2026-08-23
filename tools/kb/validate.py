@@ -520,7 +520,20 @@ SEMANTIC_CONCLUSION_RE = re.compile(
     # as a conclusion being drawn.  That is the "role of the word" defect
     # research/RESEARCH_LOG.md LOG-0008i names, in its smallest form: a marker
     # matching the first two letters of the next word.
-    r"(?:следовательно|отсюда следует|поэтому\b|значит,|означает|подразумевает|"
+    # The SAME defect was left in the very first alternative until 3.4.1:
+    # `следовательно` occurs INSIDE `последовательность` (по+следовательно+сть), so
+    # "последовательность байт" - the plainest possible class-P wording, and the
+    # natural Russian for a byte range - derived a semantic conclusion and cost
+    # the record MIX-SPLIT + EV-05.  An author hit it while writing LOG-0023 and
+    # had to reword to "цепочка байт" to get a true record past the parser.  That
+    # inverts the tool: the DISCLOSURES block of this very file states that a
+    # correct record must not be reworded to satisfy the parser that reads it.
+    # Only this one alternative gets the leading boundary, not the whole group:
+    # `расшифров` and `декодирова` are prefixes that legitimately match inside a
+    # longer word ("нерасшифрованный"), and a blanket \b would silently stop
+    # catching those.  A marker gets a boundary when the defect is shown, not
+    # by symmetry.
+    r"(?:\bследовательно|отсюда следует|поэтому\b|значит,|означает|подразумевает|"
     r"вывод\w*\s+о\b|вывод\s*:|при\s+трактовке|трактовка|интерпретация|указывает\s+на|"
     r"свидетельствует|зашифрован|расшифров|декодирова|механизм\b|"
     r"это\s+(?:Shipping|Development)|therefore|hence\b|it\s+follows\s+that|"

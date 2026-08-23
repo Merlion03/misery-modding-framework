@@ -219,6 +219,7 @@ class RttiImageBuilder:
     RDATA_RVA = 0x2000
     DATA_RVA = 0x3000
     TYPE_INFO_VFTABLE_RVA = 0x2010      # somewhere inside .rdata; never read
+    SECONDARY_VTABLE_SLOTS = 2          # slots in a secondary-base vtable
 
     def __init__(self) -> None:
         self.classes: list[dict] = []
@@ -227,12 +228,21 @@ class RttiImageBuilder:
                   vtable_slots: int = 3, spare: int = 0,
                   break_self_pointer: bool = False,
                   break_hierarchy_signature: bool = False,
-                  vtable_points_at_data: bool = False) -> None:
+                  vtable_points_at_data: bool = False,
+                  secondary_offsets: tuple[int, ...] = ()) -> None:
         """Register one class. ``bases`` names classes added earlier.
 
         The four ``break_*`` / ``spare`` switches exist so a test can produce a
         near miss -- a structure that a naive scanner counts and a correct one
         does not -- without hand-assembling a second image.
+
+        ``secondary_offsets`` gives the class extra locator+vtable pairs whose
+        ``offset`` field is non-zero, which is what MSVC emits for a secondary
+        base: one complete object locator PER VTABLE, all naming the same type
+        descriptor. It exists so a test can tell a locator count from a class
+        count on ground truth -- the two are equal only in an image where no
+        class has a secondary base, and an image like that cannot show the
+        difference at all.
         """
         self.classes.append({
             "mangled": mangled,
@@ -242,6 +252,7 @@ class RttiImageBuilder:
             "break_self_pointer": break_self_pointer,
             "break_hierarchy_signature": break_hierarchy_signature,
             "vtable_points_at_data": vtable_points_at_data,
+            "secondary_offsets": secondary_offsets,
         })
 
     def build(self) -> tuple[bytes, dict]:
@@ -298,6 +309,7 @@ class RttiImageBuilder:
         # complete object locators, then the vtable immediately after each
         locator_rva: dict[str, int] = {}
         vtable_rva: dict[str, int] = {}
+        secondary_locator_rva: dict[str, list[int]] = {}
         for record in self.classes:
             # The locator and the vtable are laid out as a pair: the hidden slot
             # in front of a vtable holds image_base + locator_rva.
@@ -323,6 +335,29 @@ class RttiImageBuilder:
             rdata.extend(struct.pack("<Q", 0))
             record["_slot_rva"] = slot_rva
 
+            # Secondary bases: one more locator+vtable pair per offset, all
+            # pointing at the SAME type descriptor. The slot targets are pushed
+            # into their own part of .text so the distinct-function count is
+            # ground truth too, not an accident of overlap.
+            secondary: list[int] = []
+            for ordinal, sub_offset in enumerate(record["secondary_offsets"]):
+                while len(rdata) % 8:
+                    rdata.append(0)
+                sub_here = self.RDATA_RVA + len(rdata)
+                rdata.extend(struct.pack("<6I", 1, sub_offset, 0,
+                                         descriptor_rva[record["mangled"]],
+                                         chd_rva[record["mangled"]], sub_here))
+                secondary.append(sub_here)
+                while len(rdata) % 8:
+                    rdata.append(0)
+                rdata.extend(struct.pack("<Q", IMAGE_BASE + sub_here))
+                sub_target = self.TEXT_RVA + 0x200 + ordinal * 0x40
+                for index in range(self.SECONDARY_VTABLE_SLOTS):
+                    rdata.extend(struct.pack("<Q",
+                                             IMAGE_BASE + sub_target + index * 16))
+                rdata.extend(struct.pack("<Q", 0))
+            secondary_locator_rva[record["mangled"]] = secondary
+
         builder = PEBuilder()
         builder.add_section(".text", self.TEXT_RVA, b"\xC3" * 0x400, TEXT_FLAGS)
         builder.add_section(".rdata", self.RDATA_RVA, bytes(rdata), RDATA_FLAGS)
@@ -330,6 +365,7 @@ class RttiImageBuilder:
         expected = {
             "descriptor_rva": descriptor_rva,
             "locator_rva": locator_rva,
+            "secondary_locator_rva": secondary_locator_rva,
             "vtable_rva": vtable_rva,
             "chd_rva": chd_rva,
             "classes": self.classes,
@@ -368,6 +404,67 @@ def test_positive_image_counts_are_exact(positive_image):
     assert summary["vtable_code_slots_total"] == 8
     assert summary["vtable_code_slots_min"] == 1
     assert summary["vtable_code_slots_max"] == 5
+    # slots are not functions: the three vtables hold 8 slots between them but
+    # address only 5 distinct addresses (0x1000..0x1040, step 0x10)
+    assert summary["distinct_virtual_function_rvas"] == 5
+    assert summary["distinct_vtables"] == 3
+    # no class here has a secondary base, so locators == classes -- stated so a
+    # regression that conflates the two is visible on this image as well
+    assert summary["distinct_classes_among_locators"] == 3
+    assert summary["locators_with_nonzero_offset"] == 0
+    assert summary["locators_with_nonzero_cd_offset"] == 0
+    assert summary["locators_with_nonstandard_signature"] == 0
+
+
+@pytest.fixture()
+def secondary_base_image(tmp_path):
+    """One class with two extra locators at offset 8 and 16, one plain class.
+
+    Ground truth: 3 locators, 2 classes. This is the shape MSVC emits for a
+    class with secondary bases, and it is the shape that makes "587 locators"
+    and "587 classes" two different claims.
+    """
+    builder = RttiImageBuilder()
+    builder.add_class(".?AVPlain@@", vtable_slots=2)
+    builder.add_class(".?AVMulti@@", bases=(".?AVPlain@@",), vtable_slots=3,
+                      secondary_offsets=(8, 16))
+    blob, expected = builder.build()
+    path = write_image(tmp_path, "secondary.exe", blob)
+    return path, expected
+
+
+def test_a_class_with_secondary_bases_is_one_class_and_several_locators(
+        secondary_base_image):
+    path, expected = secondary_base_image
+    document = rtti_scan.analyze(path, want_file_digest=False)
+    summary = document["summary"]
+    assert summary["complete_object_locators_strict"] == 4
+    assert summary["locators_resolving_to_a_type_descriptor"] == 4
+    # the number that must NOT follow the locator count
+    assert summary["distinct_classes_among_locators"] == 2
+    assert summary["locators_with_nonzero_offset"] == 2
+    assert summary["locators_with_nonzero_cd_offset"] == 0
+    # every locator of the class names the same type descriptor
+    multi = [c for c in document["classes"] if c["mangled"] == ".?AVMulti@@"]
+    assert len(multi) == 3
+    assert len({c["type_descriptor_rva"] for c in multi}) == 1
+    assert sorted(c["locator"]["offset"] for c in multi) == [0, 8, 16]
+    assert ([c["locator_rva"] for c in multi][1:]
+            == expected["secondary_locator_rva"][".?AVMulti@@"])
+    # ... and the per-class bucket split counts the class once, the per-locator
+    # split counts it three times
+    assert sum(summary["by_bucket_classes"].values()) == 2
+    assert sum(summary["by_bucket"].values()) == 4
+
+
+def test_the_coverage_probe_takes_its_share_over_classes(secondary_base_image):
+    """P4 asks about classes, so its denominator must be the class count."""
+    path, _expected = secondary_base_image
+    document = rtti_scan.analyze(path, want_file_digest=False)
+    probe = next(p for p in document["refutation_probes"]
+                 if p["id"] == "P4-coverage-is-not-of-the-target")
+    assert probe["observed"]["distinct_classes"] == 2
+    assert probe["observed"]["locators"] == 4
 
 
 def test_positive_image_addresses_match_the_layout(positive_image):
@@ -1037,6 +1134,57 @@ def test_literal_read_note_is_the_claim_not_a_description_of_it(positive_image):
         # the pointer to the interpretive half lives outside the graded object
         assert "type_descriptors[]" in read["interpretation_lives_in"]
         assert "interpretation_lives_in" not in read["evidence"]
+
+
+def test_the_read_locus_is_install_relative_not_a_bare_basename(tmp_path,
+                                                               positive_image):
+    """A class-P locus must name a determinate location.
+
+    The failure this guards against actually shipped: every read_locus in
+    ``research/evidence/S-10/shipping-rtti.json`` named the target as
+    ``MISERY-Win64-Shipping.exe``. In THIS installation a basename is not a
+    location -- there are two different files called ``MISERY.exe`` -- so the
+    locus has to carry the path from the installation root down.
+    """
+    _path, _expected = positive_image
+    fake_root = os.path.join(str(tmp_path), "GameRoot")
+    deep = os.path.join(fake_root, "MISERY", "Binaries", "Win64")
+    os.makedirs(deep)
+    target = os.path.join(deep, "MISERY.exe")
+    with open(_path, "rb") as source, open(target, "wb") as sink:
+        sink.write(source.read())
+
+    document = rtti_scan.analyze(target, want_file_digest=False,
+                                 install_root=fake_root)
+    assert document["file"]["install_relative"] == \
+        "MISERY/Binaries/Win64/MISERY.exe"
+    # the basename stays available under its own key -- the jsonl artifact's
+    # build_target is built from it
+    assert document["file"]["name"] == "MISERY.exe"
+    assert document["literal_reads"]
+    for read in document["literal_reads"]:
+        assert read["target"] == "MISERY/Binaries/Win64/MISERY.exe"
+        assert read["evidence"]["read_locus"]["target"] == \
+            "MISERY/Binaries/Win64/MISERY.exe"
+        locator = read["evidence"]["sources"][0]["locator"]
+        assert locator.startswith("MISERY/Binaries/Win64/MISERY.exe@")
+        assert locator.endswith("+%d" % read["length"])
+        # and the claim sentence -- the string the validator grades -- says it too
+        assert "MISERY/Binaries/Win64/MISERY.exe" in read["claim"]
+
+
+def test_the_read_locus_falls_back_to_the_basename_outside_an_installation(
+        positive_image):
+    """No root to be relative to: the basename is what is left, and it is honest.
+
+    Inventing ``../../tmp/x.exe`` would be determinate only for a reader who
+    already knows where the root was, which is the defect, not the fix.
+    """
+    path, _expected = positive_image
+    assert rtti_scan.locus_target(path) == os.path.basename(path)
+    # an explicit root that does not contain the file is refused, not walked out of
+    assert rtti_scan.locus_target(path, install_root=os.path.join(
+        os.path.dirname(path), "elsewhere", "deeper")) == os.path.basename(path)
 
 
 def test_a_locator_straddling_a_chunk_boundary_is_still_found(monkeypatch, tmp_path):
