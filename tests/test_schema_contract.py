@@ -74,14 +74,24 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_DIR = REPO_ROOT / "research" / "schema"
 BUILDS_DIR = REPO_ROOT / "research" / "builds"
 
-# The four self-contained schemas: each one carries the whole kb-record
+# The five self-contained schemas: each one carries the whole kb-record
 # envelope, so each one can be handed to a plain validator on its own.  The
 # other three files in research/schema/ ($ref across files) need a registry and
 # are out of scope here BY CONSTRUCTION, not by omission - see
 # test_cross_file_schemas_are_declared_not_forgotten.
+#
+# engine-version.schema.json (task K-02) is the fourth bundle and the first one
+# outside research/builds/.  It is bundled for the same reason the other three
+# are: research/unreal/engine-version.json is a committed artifact of a public
+# repository, so the consumer who matters is a stranger pointing a bare
+# Draft202012Validator at the file with nothing configured.  Listing it here is
+# the deliberate decision this enumeration exists to force - adding a bundle
+# without it turns the whole contract suite below into a check that skips the
+# new copy.
 KB_RECORD = "kb-record.schema.json"
 BUNDLES = (
     "build-index.schema.json",
+    "engine-version.schema.json",
     "install-inventory.schema.json",
     "install.schema.json",
 )
@@ -560,8 +570,12 @@ class TestConfidenceCeiling(SchemaContractTestCase):
                         walk(value, f"{pointer}/{index}")
 
             walk(document, "")
-        self.assertEqual(4, found, "expected one confidence scale per "
-                                   "self-contained schema")
+        self.assertEqual(len(SELF_CONTAINED), found,
+                         "expected exactly one confidence scale per self-contained "
+                         "schema: one in kb-record.schema.json and one in each bundled "
+                         "copy of it. A count that drifts from len(SELF_CONTAINED) means "
+                         "either a bundle went missing from that tuple or some schema "
+                         "grew a second, unbundled confidence scale of its own")
 
 
 class TestTheBundlesAreNotFrozenBehind(SchemaContractTestCase):

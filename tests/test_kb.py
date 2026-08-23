@@ -1728,9 +1728,9 @@ class TestOracleVocabulary(unittest.TestCase):
         """plan.md 10.2 v2.3: 0.00 <= confidence <= 0.99, checked by comparison.
 
         Every published schema that declares a confidence bound is exercised,
-        not only kb-record.schema.json, because build-index, install and
-        install-inventory BUNDLE a copy of the envelope and a third party
-        consumes those copies directly.
+        not only kb-record.schema.json, because build-index, engine-version,
+        install and install-inventory BUNDLE a copy of the envelope and a third
+        party consumes those copies directly.
         """
         Validator = _draft202012_or_skip(self)
         bounded = list(_confidence_bounds_in_schema_dir())
@@ -1751,7 +1751,12 @@ class TestOracleVocabulary(unittest.TestCase):
                     self.assertFalse(
                         validator.is_valid(illegal),
                         f"{illegal} is outside 0.00..0.99 and must NOT validate")
+        # engine-version.schema.json (task K-02) is the fourth bundle: it embeds the
+        # envelope so that research/unreal/engine-version.json validates offline with
+        # a plain validator, which means it publishes a confidence bound of its own and
+        # has to be exercised here like the other three.
         self.assertEqual(seen, {"kb-record.schema.json", "build-index.schema.json",
+                                "engine-version.schema.json",
                                 "install.schema.json",
                                 "install-inventory.schema.json"})
 

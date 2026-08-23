@@ -261,19 +261,48 @@ class TestSnapshot(TempTreeCase):
         # in 'notes' instead.
         self.assertIn("expected 53", document["notes"])
 
-    def test_engine_version_is_provisional_and_overridable(self) -> None:
+    def test_engine_version_value_is_overridable(self) -> None:
         default_doc = self.snapshot()
-        self.assertEqual(
-            default_doc["engine_version"],
-            {"value": snap.DEFAULT_ENGINE_VERSION, "provisional": True},
-        )
+        self.assertEqual(snap.DEFAULT_ENGINE_VERSION,
+                         default_doc["engine_version"]["value"])
         self.assertIn("engine_version source: default", default_doc["notes"])
 
         override = self.snapshot(engine_version="5.4.9", engine_version_source="cli")
-        self.assertEqual(override["engine_version"]["value"], "5.4.9")
-        self.assertTrue(override["engine_version"]["provisional"])
+        self.assertEqual("5.4.9", override["engine_version"]["value"])
         self.assertIn("engine_version source: cli", override["notes"])
         self.assertIn("ue5.4.9", override["build_id"])
+
+    def test_provisional_follows_the_authority_rather_than_a_constant(self) -> None:
+        """plan.md 18.3 item 6: one fact, one grade, across every artifact.
+
+        This flag used to be hard-coded True. Once M1.5 concluded at 0.93 that made
+        install-inventory.json disagree with research/unreal/engine-version.json about
+        the same fact -- exactly the divergence item 6 exists to catch. The flag now
+        follows the authority, so the assertion is on the BEHAVIOUR, not on whichever
+        value happens to be correct today: pinning a constant is what let the two
+        drift in the first place.
+        """
+        # Settled authority -> not provisional.
+        self.assertFalse(snap.engine_version_is_provisional(),
+                         "the authority concludes at or above the plan.md 4.2 bar, so "
+                         "this artifact must not still call the version provisional")
+        self.assertFalse(self.snapshot()["engine_version"]["provisional"])
+
+        # And the reverse, so the flag is not simply stuck at False. Both failure
+        # directions matter: a missing authority must fail OPEN to provisional.
+        for confidence, expected, why in (
+            (0.89, True, "just below the bar"),
+            (0.90, False, "exactly at the bar"),
+            (0.00, True, "an UNKNOWN conclusion"),
+            (None, True, "no readable authority at all"),
+        ):
+            with self.subTest(confidence=confidence, why=why):
+                original = snap._engine_authority_confidence
+                snap._engine_authority_confidence = lambda c=confidence: c
+                try:
+                    self.assertEqual(expected, snap.engine_version_is_provisional(), why)
+                finally:
+                    snap._engine_authority_confidence = original
 
     def test_missing_install_dir_raises(self) -> None:
         with self.assertRaises(NotADirectoryError):

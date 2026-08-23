@@ -1,0 +1,3358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "engine-version.schema.json",
+  "title": "Unreal Engine Version Identification",
+  "description": "research/unreal/engine-version.json - the engine identification of this build (plan.md 4, exit criteria 4.3), produced by tools/static/engine_version.py. Task K-02 of plan.md 9.4: tools/kb/validate.py ARTIFACT_SCHEMA_MAP has pointed at this file name since before the file existed, so until now the schema layer was skipped for the artifact and the run carried a WARN for the path. Two things this schema is NOT: it is not a second envelope - every graded node here is kb-record.schema.json#/$defs/annotation by $ref - and it is not the stricter gate. tools/kb/validate.py reads the claim TEXT and applies plan.md 10.3 v2.4 to the wording; a document can satisfy every keyword here and still be refused there, and that ordering is deliberate.",
+  "$comment": "REFERENCE RESOLUTION. The $id is the relative URI-reference 'engine-version.schema.json', i.e. this file's own name, so every relative $ref resolves against the base the consumer loaded this file from. BUNDLING: this file is additionally a self-contained compound document in the sense of JSON Schema 2020-12 section 9.3.1 - the whole of kb-record.schema.json is embedded verbatim under $defs as an identified resource carrying its own $id, so '$ref: kb-record.schema.json#/$defs/annotation' resolves INSIDE this document, with no registry, no retrieval hook and no network. That is what makes plain jsonschema.Draft202012Validator(json.load(open(<this file>))) work with nothing configured, which is the situation of every consumer that is not our own validator - and this repository is public, so that consumer is the one that matters. The price is one duplicated copy of kb-record.schema.json; the copy is VERBATIM apart from the one bundled-copy sentence in $defs/confidence/$comment that the other bundles also carry, so drift is caught by a single equality, json.load(<this file>)['$defs']['kb-record.schema.json'] == json.load('kb-record.schema.json'), and no definition is ever restated by hand. Regenerate the copy whenever kb-record.schema.json changes. NOTE that this is the FOURTH bundle and the first one outside research/builds/: the $comment of install-inventory.schema.json says bundling is applied to 'exactly the three schemas that validate an artifact committed under research/builds/', which was true when it was written. The reason given there - that those are the ones a stranger points a bare validator at - applies verbatim to research/unreal/engine-version.json, which is committed, public, and named in ARTIFACT_SCHEMA_MAP; the criterion is 'a committed artifact a stranger will validate', not the directory it happens to sit in. WHAT THIS SCHEMA ADDS BEYOND SHAPE. plan.md 4.2 permits confidence >= 0.90 on engine_version only when at least one TEXT source and at least one DATA-FORMAT source agree. That distinction used to live in prose - a note saying 'DATA-FORMAT' at the top of a source's note - where nothing could check it. Here it is data: $defs/text_method and $defs/data_format_method are disjoint closed vocabularies, cross_validation.text_sources and .data_format_sources are typed by them so that filing V-05 under text fails validation, and the 4.2 permission itself is an if/then at the root - a confidence of 0.90 or more on engine_version REQUIRES bar_met, which in turn requires both source kinds and their recorded agreement. WHAT IT DELIBERATELY LEAVES OPEN. engine_is_vanilla is not in claim.required, and a null value there must come with evidence_level UNKNOWN: plan.md 4.2 keeps the flag open until M3, and a schema that demanded a value would be demanding an answer the plan forbids giving.",
+  "type": "object",
+  "properties": {
+    "$comment": {
+      "type": "string"
+    },
+    "generated_at": {
+      "$ref": "kb-record.schema.json#/$defs/timestamp",
+      "description": "When this run produced the document."
+    },
+    "generator": {
+      "description": "The tool that produced it, as a repository-relative path.",
+      "type": "string",
+      "minLength": 1
+    },
+    "generator_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "build_key": {
+      "$ref": "kb-record.schema.json#/$defs/build_key",
+      "description": "The build this whole artifact is about, stated ONCE. Every annotation below inherits it, which is why the reduced annotation envelope - which forbids a build_key of its own - is the correct shape for a graded node here."
+    },
+    "build_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "install_root_recorded_as": {
+      "$ref": "#/$defs/no_machine_path",
+      "description": "A redaction sentence, never a path. C-13: this repository is public."
+    },
+    "claim": {
+      "title": "The graded claims",
+      "description": "One node per field, each with its own annotation. `build_key` is stated ONCE by the enclosing document and every annotation inherits it, which is why the reduced envelope - which forbids a build_key of its own - is the right shape here.",
+      "type": "object",
+      "properties": {
+        "engine_version": {
+          "title": "Engine version",
+          "description": "The full three-component version. The strongest claim in the artifact and NOT the best-supported one: the patch component rests on the version stamp plus the public release metadata and on no data-format source at all, because no format field distinguishes 5.4.0 from 5.4.4. That is why its confidence sits BELOW engine_version_minor_line's.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "$ref": "#/$defs/ue_version"
+            },
+            "evidence": {
+              "$ref": "kb-record.schema.json#/$defs/annotation",
+              "description": "The grade of THIS field and of nothing else. plan.md 10.3 forbids averaging a mixed claim, which is why each field carries its own annotation instead of the document carrying one."
+            }
+          },
+          "required": [
+            "value",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "engine_version_minor_line": {
+          "title": "Engine minor line",
+          "description": "A DIFFERENT and strictly weaker claim than engine_version: the minor line only. It carries the higher confidence of the two because it is what the data-format sources actually determine.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "$ref": "#/$defs/ue_line"
+            },
+            "evidence": {
+              "$ref": "kb-record.schema.json#/$defs/annotation",
+              "description": "The grade of THIS field and of nothing else. plan.md 10.3 forbids averaging a mixed claim, which is why each field carries its own annotation instead of the document carrying one."
+            }
+          },
+          "required": [
+            "value",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "engine_cl": {
+          "title": "Engine changelist",
+          "description": "The engine changelist. Every source for it is a version STAMP; what makes the integer mean something is the public release metadata, which is why external-doc appears in its oracle list.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/changelist"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "evidence": {
+              "$ref": "kb-record.schema.json#/$defs/annotation",
+              "description": "The grade of THIS field and of nothing else. plan.md 10.3 forbids averaging a mixed claim, which is why each field carries its own annotation instead of the document carrying one."
+            }
+          },
+          "required": [
+            "value",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "engine_branch": {
+          "title": "Engine branch",
+          "description": "The branch as stamped. Says where the engine SOURCE came from and nothing about whether it was modified afterwards - that is engine_is_vanilla, and it stays open. Deliberately NOT pattern-locked to '++UE5+Release-*': a licensee or custom branch name is a FINDING this artifact must be able to record, not a schema violation.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "evidence": {
+              "$ref": "kb-record.schema.json#/$defs/annotation",
+              "description": "The grade of THIS field and of nothing else. plan.md 10.3 forbids averaging a mixed claim, which is why each field carries its own annotation instead of the document carrying one."
+            }
+          },
+          "required": [
+            "value",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "build_configuration": {
+          "title": "Build configuration",
+          "description": "The build configuration of the image this artifact is about. Note decision D-04: the second image MISERY/Binaries/Win64/MISERY.exe does carry .uedbg, and that is D-04's oracle, not this claim's subject.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "Debug",
+                "DebugGame",
+                "Development",
+                "Test",
+                "Shipping",
+                null
+              ],
+              "description": "The five UnrealBuildTool configurations. A null is the honest answer when the naming convention is the only witness and it is absent."
+            },
+            "evidence": {
+              "$ref": "kb-record.schema.json#/$defs/annotation",
+              "description": "The grade of THIS field and of nothing else. plan.md 10.3 forbids averaging a mixed claim, which is why each field carries its own annotation instead of the document carrying one."
+            }
+          },
+          "required": [
+            "value",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "engine_is_vanilla": {
+          "title": "Is the engine unmodified?",
+          "description": "OPEN BY RULE until M3. plan.md 4.2 keeps this UNKNOWN precisely because a modified engine is possible with IsSourceDistribution false: that field reports that the engine came from an installed binary distribution, not that nothing was changed in it afterwards. This property is NOT in `required` for that reason, and nothing in the artifact may be read as resolving it.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "evidence": {
+              "$ref": "kb-record.schema.json#/$defs/annotation",
+              "description": "The grade of THIS field and of nothing else. plan.md 10.3 forbids averaging a mixed claim, which is why each field carries its own annotation instead of the document carrying one."
+            }
+          },
+          "required": [
+            "value",
+            "evidence"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "$comment": "plan.md 4.2 keeps this flag open, and the schema has to make the open state SAYABLE rather than merely tolerated: value null must come with evidence_level UNKNOWN, so a null that is really a forgotten field cannot masquerade as a deliberate non-answer. The converse is the M3 door: once the flag is actually resolved the value becomes a boolean, and then the level must be something that grades a claim - UNKNOWN would be a contradiction.",
+              "if": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "evidence": {
+                    "properties": {
+                      "evidence_level": {
+                        "const": "UNKNOWN"
+                      }
+                    },
+                    "required": [
+                      "evidence_level"
+                    ]
+                  }
+                },
+                "required": [
+                  "evidence"
+                ]
+              },
+              "else": {
+                "properties": {
+                  "evidence": {
+                    "properties": {
+                      "evidence_level": {
+                        "not": {
+                          "const": "UNKNOWN"
+                        }
+                      }
+                    },
+                    "required": [
+                      "evidence_level"
+                    ]
+                  }
+                },
+                "required": [
+                  "evidence"
+                ]
+              }
+            }
+          ]
+        },
+        "is_source_distribution": {
+          "title": "Was the engine a source distribution?",
+          "description": "Read but not graded. The one source that answers it is the CONTENT of a crash report, and research/unknowns.md NEW-01 records that the closed nine-oracle list has no class for that. Not required, for the same reason as engine_is_vanilla: an artifact that cannot answer it must be able to say so, or omit it, rather than invent a value.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "evidence": {
+              "$ref": "kb-record.schema.json#/$defs/annotation",
+              "description": "The grade of THIS field and of nothing else. plan.md 10.3 forbids averaging a mixed claim, which is why each field carries its own annotation instead of the document carrying one."
+            }
+          },
+          "required": [
+            "value",
+            "evidence"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "$comment": "plan.md 4.2 keeps this flag open, and the schema has to make the open state SAYABLE rather than merely tolerated: value null must come with evidence_level UNKNOWN, so a null that is really a forgotten field cannot masquerade as a deliberate non-answer. The converse is the M3 door: once the flag is actually resolved the value becomes a boolean, and then the level must be something that grades a claim - UNKNOWN would be a contradiction.",
+              "if": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "evidence": {
+                    "properties": {
+                      "evidence_level": {
+                        "const": "UNKNOWN"
+                      }
+                    },
+                    "required": [
+                      "evidence_level"
+                    ]
+                  }
+                },
+                "required": [
+                  "evidence"
+                ]
+              },
+              "else": {
+                "properties": {
+                  "evidence": {
+                    "properties": {
+                      "evidence_level": {
+                        "not": {
+                          "const": "UNKNOWN"
+                        }
+                      }
+                    },
+                    "required": [
+                      "evidence_level"
+                    ]
+                  }
+                },
+                "required": [
+                  "evidence"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "engine_version",
+        "engine_version_minor_line",
+        "engine_cl",
+        "engine_branch",
+        "build_configuration"
+      ],
+      "$comment": "engine_is_vanilla and is_source_distribution are deliberately ABSENT from `required`. plan.md 4.2 keeps the first open until M3 and NEW-01 leaves the second without an oracle, so a schema that demanded them would be demanding an answer the plan forbids giving - and a producer forced to emit the key would emit a placeholder, which is worse than an omission because it looks like a finding.",
+      "additionalProperties": false
+    },
+    "cross_validation": {
+      "title": "Cross-validation against plan.md 4.2 and 4.3",
+      "description": "Where the plan's own rule is applied to the readings, in the plan's own terms. The three source lists below are typed by KIND, so the text-versus-data-format distinction the confidence rests on is checkable data rather than a sentence in a note.",
+      "type": "object",
+      "properties": {
+        "rule": {
+          "description": "The rule being applied, quoted.",
+          "type": "string",
+          "minLength": 1
+        },
+        "text_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text_method"
+          }
+        },
+        "data_format_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/data_format_method"
+          }
+        },
+        "data_format_adjacent_sources": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/data_format_adjacent_method"
+          }
+        },
+        "text_sources_not_counted": {
+          "description": "A source that WAS read and is deliberately not counted, with the reason. Published rather than dropped: a source silently omitted is indistinguishable from one nobody looked for.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/method_id"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "not_load_bearing": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/method_id"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "independent_source_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exit_criterion_minimum_sources": {
+          "description": "plan.md 4.3: at least three independent sources named by id. Fixed at 3 because it is the plan's number, not the producer's choice.",
+          "const": 3
+        },
+        "bar_met": {
+          "description": "Whether the plan.md 4.2 bar is met. Conditioned below: true requires at least one text and at least one data-format source AND their agreement.",
+          "type": "boolean"
+        },
+        "result": {
+          "title": "The cross-validation reading",
+          "type": "object",
+          "properties": {
+            "text_ue_line": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ue_line"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "text_full_version": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ue_version"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "text_full_version_from_version_resource_only": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_version"
+              }
+            },
+            "text_full_version_from_string_literal": {
+              "description": "Kept SEPARATE from the version-resource list, and both are published even when one is empty: which mechanism carried the patch component is the whole difference between the two version claims.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_version"
+              }
+            },
+            "text_branch": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "text_changelist": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/changelist"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "versions_followed_by_a_branch_literal_per_image": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/ue_version"
+                }
+              }
+            },
+            "data_format_ue_line": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ue_line"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "data_format_votes": {
+              "description": "One vote per format-bearing method. The keys are the data-format and data-format-adjacent methods only: a text method cannot cast a format vote, and the schema refuses one rather than leaving the distinction to prose.",
+              "type": "object",
+              "propertyNames": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/data_format_method"
+                  },
+                  {
+                    "$ref": "#/$defs/data_format_adjacent_method"
+                  }
+                ]
+              },
+              "additionalProperties": {
+                "title": "One data-format vote",
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "reading": {
+                    "description": "The number read. An ARRAY when the source's own readings contradict each other - two containers written by different TOC versions - which is a disagreement and not an average. Null when nothing was readable.",
+                    "type": [
+                      "integer",
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "ue_lines": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ue_line"
+                    }
+                  },
+                  "status": {
+                    "description": "'no-reading' and 'unmatched' are kept apart on purpose: nothing to disagree with is not the same fact as a reading that names no reference line, and treating them alike would let a disagreement be quietly outvoted.",
+                    "type": "string",
+                    "enum": [
+                      "matched",
+                      "unmatched",
+                      "no-reading"
+                    ]
+                  },
+                  "file_version_ue4": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "field",
+                  "reading",
+                  "ue_lines",
+                  "status"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "text_and_data_format_agree": {
+              "description": "THE plan.md 4.2 condition, as a single boolean. cross_validation.bar_met restates it at the level the rule is written about.",
+              "type": "boolean"
+            },
+            "changelist_matches_public_release_metadata": {
+              "type": "boolean"
+            },
+            "crash_reports_corresponding_to_this_build": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "crash_reports_from_another_build": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "public_release_metadata": {
+              "title": "Public release metadata",
+              "description": "A REFERENCE ROW, not a graded record: it carries `oracle_class` rather than `oracle` precisely so that tools/kb/validate.py does not read this node as a knowledge-base record. The claims that lean on it name external-doc in their own oracle list.",
+              "type": "object",
+              "properties": {
+                "$comment": {
+                  "type": "string"
+                },
+                "ue_version": {
+                  "$ref": "#/$defs/ue_version"
+                },
+                "changelist": {
+                  "$ref": "#/$defs/changelist"
+                },
+                "branch": {
+                  "type": "string"
+                },
+                "oracle_class": {
+                  "const": "external-doc"
+                }
+              },
+              "required": [
+                "ue_version",
+                "changelist",
+                "branch",
+                "oracle_class"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "text_ue_line",
+            "text_full_version",
+            "text_branch",
+            "text_changelist",
+            "data_format_ue_line",
+            "data_format_votes",
+            "text_and_data_format_agree"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "rule",
+        "text_sources",
+        "data_format_sources",
+        "data_format_adjacent_sources",
+        "independent_source_count",
+        "exit_criterion_minimum_sources",
+        "bar_met",
+        "result"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$comment": "plan.md 4.2 and 4.3 as CHECKS. bar_met is not a free boolean: claiming it obliges the artifact to carry a text source, a data-format source, their recorded agreement, and the three independent sources plan.md 4.3 asks for. The one thing JSON Schema cannot do here is compare independent_source_count with exit_criterion_minimum_sources, so the threshold is written out as the literal 3 it is fixed at above.",
+          "if": {
+            "properties": {
+              "bar_met": {
+                "const": true
+              }
+            },
+            "required": [
+              "bar_met"
+            ]
+          },
+          "then": {
+            "properties": {
+              "text_sources": {
+                "minItems": 1
+              },
+              "data_format_sources": {
+                "minItems": 1
+              },
+              "independent_source_count": {
+                "minimum": 3
+              },
+              "result": {
+                "properties": {
+                  "text_and_data_format_agree": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "text_and_data_format_agree"
+                ]
+              }
+            },
+            "required": [
+              "text_sources",
+              "data_format_sources",
+              "independent_source_count",
+              "result"
+            ]
+          }
+        }
+      ]
+    },
+    "sources": {
+      "title": "Raw evidence, per method",
+      "description": "The readings themselves, ungraded except where a class-P literal layer carries its own annotation. Published so a reader can re-derive the claims instead of taking them on trust.",
+      "type": "object",
+      "properties": {
+        "V-01": {
+          "title": "V-01 raw evidence - version marker strings",
+          "type": "object",
+          "properties": {
+            "images": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/v01_image"
+              }
+            },
+            "changelist_as_compiled_constant": {
+              "title": "The changelist as a compiled 32-bit immediate",
+              "description": "A THIRD ENCODING of the same macro, not a third method. Recorded because it is a fact about the image, and stated as an encoding so nobody counts it towards the plan.md 4.3 independent-source total.",
+              "type": "object",
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/changelist"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "occurrence_count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "occurrences": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "offset": {
+                        "$ref": "#/$defs/offset"
+                      },
+                      "length": {
+                        "$ref": "#/$defs/read_length"
+                      },
+                      "section": {
+                        "$ref": "#/$defs/pe_section_name"
+                      },
+                      "preceding_byte_hex": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "offset",
+                      "length",
+                      "section"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "value",
+                "occurrence_count",
+                "occurrences"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "images"
+          ],
+          "additionalProperties": false
+        },
+        "V-02a_and_V-02b": {
+          "title": "V-02a and V-02b raw evidence - crash reports",
+          "description": "One block for two methods, because they are two readings of the same directory: V-02a is the module identity in the minidump (which build?), V-02b is the CONTENT of the XML (which is ungraded while NEW-01 is open). The `available` false branch is a first-class shape: no crash directory is a reading, not an error.",
+          "type": "object",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "directory": {
+              "$ref": "#/$defs/no_machine_path",
+              "description": "The crash directory as a placeholder. Never the real path: it sits under the user profile (C-13)."
+            },
+            "report_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "this_build_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "other_build_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "undecidable_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "this_build_mtime_range": {
+              "$ref": "#/$defs/mtime_range"
+            },
+            "other_build_mtime_range": {
+              "$ref": "#/$defs/mtime_range"
+            },
+            "reports": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/crash_report"
+              }
+            },
+            "engine_fields_of_matching_reports": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/distinct_fields_group"
+              }
+            },
+            "engine_fields_of_other_reports": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/distinct_fields_group"
+              }
+            },
+            "on_disk_identity": {
+              "$ref": "#/$defs/module_identity"
+            },
+            "loaded_module_name_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "mod_loader_modules_present": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "mod_loader_note": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "available"
+          ],
+          "additionalProperties": false
+        },
+        "V-03": {
+          "title": "V-03 raw evidence - version resources",
+          "type": "object",
+          "properties": {
+            "images": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/v03_image"
+              }
+            }
+          },
+          "required": [
+            "images"
+          ],
+          "additionalProperties": false
+        },
+        "V-04": {
+          "title": "V-04 raw evidence - the exported D3D12 Agility SDK version",
+          "type": "object",
+          "properties": {
+            "d3d12_sdk_version_export": {
+              "type": "object",
+              "properties": {
+                "present": {
+                  "type": "boolean"
+                },
+                "export_name": {
+                  "type": "string"
+                },
+                "export_rva": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "file_offset": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/offset"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "section": {
+                  "$ref": "#/$defs/pe_section_name"
+                },
+                "value": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "present",
+                "export_name"
+              ],
+              "additionalProperties": false
+            },
+            "literal_reads": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/literal_read"
+              }
+            },
+            "third_party": {
+              "description": "The version resources of the D3D12 runtime actually staged next to the image. Corroboration for the export reading, and the reason V-04 is called data-format-ADJACENT rather than data-format.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "$ref": "#/$defs/install_relative_path"
+                  },
+                  "present": {
+                    "type": "boolean"
+                  },
+                  "fixed": {
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  },
+                  "file_version_string": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "product_version_string": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "product_name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "path",
+                  "present"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "d3d12_sdk_version_export",
+            "literal_reads"
+          ],
+          "additionalProperties": false
+        },
+        "V-05": {
+          "title": "V-05 raw evidence - IoStore TOC headers",
+          "type": "object",
+          "properties": {
+            "containers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "$ref": "#/$defs/install_relative_path"
+                  },
+                  "size": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "magic_matches": {
+                    "type": "boolean"
+                  },
+                  "version": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "toc_header_size": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "toc_header_size_expected": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "container_flags": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "compression_method_name_count": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "literal_reads": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/literal_read"
+                    }
+                  }
+                },
+                "required": [
+                  "path",
+                  "size",
+                  "magic_matches",
+                  "version",
+                  "literal_reads"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "containers"
+          ],
+          "additionalProperties": false
+        },
+        "V-06": {
+          "title": "V-06 raw evidence - FPackageFileVersion in the image",
+          "type": "object",
+          "properties": {
+            "hit_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "hits": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "offset": {
+                    "$ref": "#/$defs/offset"
+                  },
+                  "length": {
+                    "$ref": "#/$defs/read_length"
+                  },
+                  "section": {
+                    "$ref": "#/$defs/pe_section_name"
+                  },
+                  "file_version_ue4": {
+                    "type": "integer"
+                  },
+                  "file_version_ue5": {
+                    "type": "integer"
+                  },
+                  "neighbour_offset": {
+                    "$ref": "#/$defs/offset"
+                  },
+                  "neighbour_file_version_ue4": {
+                    "type": "integer"
+                  },
+                  "neighbour_file_version_ue5": {
+                    "type": "integer"
+                  },
+                  "neighbour_prediction": {
+                    "description": "The counterexample test, recorded as a PREDICTION: these two numbers were written down before the neighbouring bytes were looked at.",
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "neighbour_prediction_holds": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "offset",
+                  "length",
+                  "file_version_ue4",
+                  "file_version_ue5",
+                  "neighbour_prediction",
+                  "neighbour_prediction_holds"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "literal_reads": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/literal_read"
+              }
+            }
+          },
+          "required": [
+            "hit_count",
+            "hits",
+            "literal_reads"
+          ],
+          "additionalProperties": false
+        },
+        "V-07": {
+          "title": "V-07 raw evidence - staged plugin and project files",
+          "description": "Names only, never content: decision D-02 forbids decrypting the pak payloads, and `payloads_readable` records that they are not readable rather than leaving it unsaid.",
+          "type": "object",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "index_encrypted": {
+              "type": "boolean"
+            },
+            "pak_version": {
+              "type": "integer"
+            },
+            "entry_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "payloads_readable": {
+              "type": "boolean"
+            },
+            "plugin_and_project_files": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/install_relative_path"
+              }
+            },
+            "uplugin_count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "available"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "V-01",
+        "V-02a_and_V-02b",
+        "V-03",
+        "V-04",
+        "V-05",
+        "V-06"
+      ],
+      "additionalProperties": false
+    },
+    "external_reference": {
+      "title": "External reference table",
+      "description": "The only knowledge in this artifact that does not come from this installation. It answers exactly one question - which UE release emits a given number.",
+      "type": "object",
+      "properties": {
+        "$comment": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "artifact": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "oracle_class": {
+          "description": "`oracle_class` and not `oracle`, so that this reference table is not read as a knowledge-base record. The name difference is the whole mechanism.",
+          "const": "external-doc"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "title": "One reference row",
+            "description": "What one UE release emits, with the tree it was read from. The neighbour rows are the counterexample apparatus: they exist to show that 5.3 and 5.5 emit DIFFERENT numbers, which is what makes a wrong answer visible instead of silent.",
+            "type": "object",
+            "properties": {
+              "ue_line": {
+                "$ref": "#/$defs/ue_line"
+              },
+              "reference_tree": {
+                "$ref": "#/$defs/ue_version"
+              },
+              "citation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "provenance": {
+                "description": "How this row was obtained. The distinction is load-bearing: a row re-read from a local first-party distribution in this run is evidence of a different quality than a row quoted from a public mirror.",
+                "type": "string",
+                "minLength": 1
+              },
+              "package_file_version_ue5": {
+                "type": "integer"
+              },
+              "package_file_version_ue5_name": {
+                "type": "string"
+              },
+              "io_store_toc_latest": {
+                "type": "integer"
+              },
+              "io_store_toc_latest_name": {
+                "type": "string"
+              },
+              "d3d12_sdk_version": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "ue_line",
+              "reference_tree",
+              "citation",
+              "provenance",
+              "package_file_version_ue5",
+              "io_store_toc_latest",
+              "d3d12_sdk_version"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "local_reference_check": {
+          "description": "Either the reference tree was re-read on this machine in this run, or it was not. BOTH branches are recorded: 'not performed, and here is why' is a fact about the run, and dropping it would leave a reader unable to tell a verified table from a quoted one.",
+          "oneOf": [
+            {
+              "title": "Performed",
+              "type": "object",
+              "properties": {
+                "agrees_with_builtin_table": {
+                  "type": "boolean"
+                },
+                "disagreements": {
+                  "type": "array"
+                },
+                "read": {
+                  "type": "object",
+                  "properties": {
+                    "engine_version": {
+                      "$ref": "#/$defs/ue_version"
+                    },
+                    "ue_line": {
+                      "$ref": "#/$defs/ue_line"
+                    },
+                    "branch_name": {
+                      "type": "string"
+                    },
+                    "changelist": {
+                      "$ref": "#/$defs/changelist"
+                    },
+                    "compatible_changelist": {
+                      "$ref": "#/$defs/changelist"
+                    },
+                    "is_licensee_version": {
+                      "type": "integer"
+                    },
+                    "is_promoted_build": {
+                      "type": "integer"
+                    },
+                    "package_file_version_ue5": {
+                      "type": "integer"
+                    },
+                    "ver_latest_engine_ue4": {
+                      "type": "integer"
+                    },
+                    "ver_ue4_oldest_loadable_package": {
+                      "type": "integer"
+                    },
+                    "io_store_toc_latest": {
+                      "type": "integer"
+                    },
+                    "d3d12_sdk_version": {
+                      "type": "integer"
+                    },
+                    "package_version_globals_declared_in_order": {
+                      "type": "boolean"
+                    },
+                    "files_read": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "root_recorded_as": {
+                  "$ref": "#/$defs/no_machine_path",
+                  "description": "The tree is identified by its own Build.version, never by where it sits on this machine (C-13)."
+                }
+              },
+              "required": [
+                "agrees_with_builtin_table",
+                "disagreements",
+                "read",
+                "root_recorded_as"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "title": "Not performed",
+              "type": "object",
+              "properties": {
+                "performed": {
+                  "const": false
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "performed",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "oracle_class",
+        "rows",
+        "local_reference_check"
+      ],
+      "additionalProperties": false
+    },
+    "warnings": {
+      "description": "Everything that went wrong or looked odd during the run. An empty array is a claim: nothing did.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "generated_at",
+    "generator",
+    "generator_version",
+    "build_key",
+    "build_id",
+    "claim",
+    "cross_validation",
+    "sources",
+    "external_reference",
+    "warnings"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "$comment": "plan.md 4.2, the permission itself: 'confidence >= 0.90 for engine_version is permitted ONLY if at least one TEXT source and at least one DATA-FORMAT source agree.' Written as an if/then across two subtrees, because that is what the rule is - a constraint linking the grade to the evidence, not a property of either half alone. Raising the confidence without the cross-validation to back it now fails the schema, which is the whole point of expressing the rule here instead of restating it in a note.",
+      "if": {
+        "properties": {
+          "claim": {
+            "properties": {
+              "engine_version": {
+                "properties": {
+                  "evidence": {
+                    "properties": {
+                      "confidence": {
+                        "minimum": 0.9
+                      }
+                    },
+                    "required": [
+                      "confidence"
+                    ]
+                  }
+                },
+                "required": [
+                  "evidence"
+                ]
+              }
+            },
+            "required": [
+              "engine_version"
+            ]
+          }
+        },
+        "required": [
+          "claim"
+        ]
+      },
+      "then": {
+        "properties": {
+          "cross_validation": {
+            "properties": {
+              "bar_met": {
+                "const": true
+              },
+              "text_sources": {
+                "minItems": 1
+              },
+              "data_format_sources": {
+                "minItems": 1
+              }
+            },
+            "required": [
+              "bar_met",
+              "text_sources",
+              "data_format_sources"
+            ]
+          }
+        },
+        "required": [
+          "cross_validation"
+        ]
+      }
+    },
+    {
+      "$comment": "The same permission for the weaker claim. engine_version_minor_line is what the data-format sources actually determine, so it is normally graded HIGHER than engine_version - and it is exactly the claim plan.md 4.2 is written about, so the bar applies to it at least as much.",
+      "if": {
+        "properties": {
+          "claim": {
+            "properties": {
+              "engine_version_minor_line": {
+                "properties": {
+                  "evidence": {
+                    "properties": {
+                      "confidence": {
+                        "minimum": 0.9
+                      }
+                    },
+                    "required": [
+                      "confidence"
+                    ]
+                  }
+                },
+                "required": [
+                  "evidence"
+                ]
+              }
+            },
+            "required": [
+              "engine_version_minor_line"
+            ]
+          }
+        },
+        "required": [
+          "claim"
+        ]
+      },
+      "then": {
+        "properties": {
+          "cross_validation": {
+            "properties": {
+              "bar_met": {
+                "const": true
+              }
+            },
+            "required": [
+              "bar_met"
+            ]
+          }
+        },
+        "required": [
+          "cross_validation"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "kb-record.schema.json": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "kb-record.schema.json",
+      "title": "Knowledge Base Record Envelope",
+      "description": "The common envelope that EVERY machine-readable knowledge-base record in this repository must satisfy (plan.md 10, task EV-02). It carries the claim class (plan.md 10.3, revisions v2.2, v2.3 and v2.4 - all three are implemented here), the evidence level, the confidence (plan.md 10.2 v2.3), the sources, the oracle boundary (plan.md 10.5 v2.1) and the build_key the claim is bound to. Domain schemas (reflection-record, experiment-result, ...) compose this envelope with $ref to '#/$defs/envelope' instead of duplicating its fields.",
+      "$comment": "IDENTITY AND REFERENCE RESOLUTION. The $id is the RELATIVE URI-reference 'kb-record.schema.json', i.e. this file's own name, so every $ref of the form 'kb-record.schema.json#/$defs/<name>' resolves against the base URI of whatever the consumer loaded - which for a consumer that read the file from research/schema/ is the sibling file on the FILESYSTEM. Earlier revisions used an absolute base under a host in the reserved .invalid TLD (RFC 2606). That base is not resolvable by anybody: an editor, a CI step or a plain jsonschema.Draft202012Validator turns it into a network fetch of a host that RFC 2606 reserves as non-existent, and the attempt ends in a DNS/SSL failure and then an Unretrievable error. Only our own tools/kb/validate.py survived it, because it builds a custom offline registry. A schema that only one consumer in the world can resolve is not a published schema, and this repository is public. The ROOT of this file is strict (unevaluatedProperties: false) so a bare KB record can be linted on its own; composing schemas must $ref '#/$defs/envelope', which deliberately declares no additionalProperties keyword so that composition with unevaluatedProperties still works.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/envelope"
+        }
+      ],
+      "unevaluatedProperties": false,
+      "$defs": {
+        "evidence_level": {
+          "title": "Evidence level",
+          "description": "Evidence level per plan.md 10.1. OBSERVED = directly measured or read, reproducible, raw artifact stored. INFERRED = logically derived from one or more OBSERVED facts without observing the claim itself. HYPOTHESIS = plausible but unverified. UNKNOWN = explicitly not known (must be recorded, never omitted). REFUTED = a hypothesis that was tested and disproved; refutations are kept, not deleted.",
+          "type": "string",
+          "enum": [
+            "OBSERVED",
+            "INFERRED",
+            "HYPOTHESIS",
+            "UNKNOWN",
+            "REFUTED"
+          ]
+        },
+        "confidence": {
+          "title": "Confidence",
+          "description": "Confidence in the claim, per plan.md 10.2. Bands: 0.00-0.29 guess (unknowns.md only); 0.30-0.59 weak, one unverified source; 0.60-0.79 one strong or two weak independent confirmations; 0.80-0.94 two or more independent confirmations including one runtime observation; 0.95-0.99 multiple independent confirmations plus reproducibility plus no counterexamples. The value 1.00 is NEVER used and the practical ceiling of the scale is 0.99 - EVEN FOR DIRECT MEASUREMENTS, because the remaining 0.01 stands for 'we measured correctly but measured the wrong thing'. plan.md 10.2 v2.3 makes that ceiling a COMPARISON and not merely a wording: the checkable condition is 0.00 <= confidence <= 0.99, and every value in the open interval (0.99, 1.00) - 0.995, 0.999 and the rest - is forbidden exactly as 1.00 is, because such a value expresses a precision the scale does not have. Hence minimum: 0 together with maximum: 0.99, both inclusive.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.99,
+          "$comment": "plan.md 10.2 v2.1 states the ceiling applies to plan.md's own tables too, Appendix A included. The bound above is \"maximum\": 0.99 and no longer \"exclusiveMaximum\": 1, because those are two different rules: exclusiveMaximum: 1 is the 1.00 ban alone, and under it 0.995 and 0.999 validated as legal, so the description asserted a ceiling this schema did not enforce - the defect closed here is a message that convinces a reader a check happened. This copy of the envelope is bundled, so it must carry the same bound as research/schema/kb-record.schema.json; tools/kb/validate.py rule EV-CONF applies the same comparison, value > 0.99, to JSON records and to markdown prose records alike, and its SCHEMA check re-reads this very keyword and warns whenever it stops agreeing with CONFIDENCE_CEILING. Deliberately NOT expressed as multipleOf: 0.01 in addition: in binary floating point a two-decimal literal such as 0.07 is not an exact multiple of 0.01, so that keyword would reject values the plan allows."
+        },
+        "oracle": {
+          "title": "Oracle",
+          "description": "One knowledge source class per plan.md 10.5. The list is CLOSED: a record whose oracle is not one of these nine values is not a knowledge-base record. Each branch below carries the boundary of its value - what it proves and, more importantly, what it does not. plan.md 10.5 'Правка v2.1 (2026-08-22)' added 'filesystem', 'steam-metadata' and 'vcs-history': the first edition closed the list at six, none of which covered the most common way an M0 fact is obtained (reading the file tree), which is why draft documents invented local values such as 'appmanifest', 'git' and 'n/a'. Those draft spellings normalise onto 'steam-metadata', 'vcs-history' and the actual oracle respectively.",
+          "type": "string",
+          "$comment": "Expressed as anyOf/const rather than a bare enum so every value can carry its own description. The set of consts IS the closed vocabulary; tools/kb/validate.py mirrors it in ORACLES and a test asserts the two agree.",
+          "anyOf": [
+            {
+              "const": "filesystem",
+              "title": "Filesystem",
+              "description": "Direct read-only observation of the file tree. PROVES: existence, path, name, size, mtime and hash of a file; the absence of a path; the shape of the directory tree; file and directory counts. DOES NOT PROVE: the meaning of the content - nothing about what a file does, what it is internally, or whether it is used at all. Size and hash are identity, not semantics."
+            },
+            {
+              "const": "steam-metadata",
+              "title": "Steam metadata",
+              "description": "Steam's own bookkeeping: appmanifest_*.acf, libraryfolders.vdf, depot manifests. PROVES: what Steam RECORDED about the application - appid, depot id, manifest id, buildid, SizeOnDisk, installdir, update time. DOES NOT PROVE: what is actually on disk; Steam metadata and the real tree can disagree, and the disagreement is itself a finding rather than a reason to trust either side. Personal fields such as LastOwner are never copied into the knowledge base (C-13)."
+            },
+            {
+              "const": "vcs-history",
+              "title": "VCS history",
+              "description": "The history of our own repository. PROVES: what the repository records NOW - the content of a commit, ordering, authorship. DOES NOT PROVE: the immutability of the past. History is rewritable: a commit recorded as a fact can become unreachable after amend/rebase, and the fact then stops reproducing. A claim about history must therefore cite a commit reachable from HEAD at the time of writing (enforced by tools/kb/validate.py rule VCS-REACH) and must say so when the history was rewritten. A tree or blob hash is the more stable citation, because amending a commit does not change its tree."
+            },
+            {
+              "const": "global-ucas",
+              "title": "global.ucas (native / script-object metadata)",
+              "description": "The unencrypted global container. PROVES: existence in the build of NAMES - /Script/<Module>, native classes, structs, enums, functions, properties, Default__ CDO entries. DOES NOT PROVE: anything about /Game assets; anything about Blueprint structure; anything about offsets, sizes or property order in memory; anything about whether a class is used; and not even what kind of thing a name is, because the string pool is flat."
+            },
+            {
+              "const": "asset-registry",
+              "title": "AssetRegistry",
+              "description": "Which packages and assets exist, their classes, tags, dependencies and primary asset types. Obtained by runtime read (I-15), never by decrypting containers (D-02). DOES NOT PROVE: memory layout; what is loaded right now; anything about the native implementation."
+            },
+            {
+              "const": "runtime-reflection",
+              "title": "Runtime reflection (via ERI)",
+              "description": "UClass/UFunction/FProperty as the engine itself sees them: offsets, sizes, flags, PROPERTY ORDER, the live object graph, what is actually loaded. DOES NOT PROVE: anything about what exists but is not loaded; anything about native-code semantics; anything about on-disk container contents."
+            },
+            {
+              "const": "binary-analysis",
+              "title": "Binary analysis (Ghidra)",
+              "description": "The native implementation: what the code does, function addresses, signatures, constants, layouts recovered from code. DOES NOT PROVE: the existence of BP assets; concrete runtime values; asset contents."
+            },
+            {
+              "const": "container-metadata",
+              "title": "Container metadata",
+              "description": "Our own .utoc/.pak parsers: format, versions, flags, counters, mount point, encryption status. DOES NOT PROVE: the contents of encrypted chunks (D-02); that the game actually mounts the container at runtime."
+            },
+            {
+              "const": "external-doc",
+              "title": "External documentation",
+              "description": "Public UE documentation, UE sources, vetted open-source tools. PROVES: how a format or structure works in VANILLA UE. DOES NOT PROVE: anything about THIS build. Always requires confirmation by one of the oracles above, and on its own never yields confidence above 0.7 for a claim about this build (C-12)."
+            }
+          ]
+        },
+        "oracle_list": {
+          "title": "Oracle list",
+          "description": "The oracles that actually support this record (plan.md 10.5). At least one is mandatory: a record whose oracle cannot be named is not a knowledge-base record.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/oracle"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "source": {
+          "title": "Source",
+          "description": "One piece of supporting evidence. Either a bare method id (for example 'RF-01', 'I-14', 'F-02', 'T-02') or an object that also points at the stored raw artifact.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "Bare method id from plan.md (RF-xx, I-xx, F-xx, CT-xx, MK-x, T-xx, ...)."
+            },
+            {
+              "type": "object",
+              "description": "Method id plus the stored artifact and locator that make the observation reproducible (plan.md 10.3 item 3).",
+              "properties": {
+                "method": {
+                  "description": "Method id from plan.md that produced this evidence, for example 'RF-05' or 'I-14'.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "artifact": {
+                  "description": "Repository-relative path to the stored raw artifact, normally under research/evidence/<method-id>/ or research/instrument-runs/<timestamp>/.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "locator": {
+                  "description": "Where inside the artifact the evidence sits: byte offset, line number, virtual address, JSON pointer, or similar. Null when the whole artifact is the evidence.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "oracle": {
+                  "description": "The oracle class this individual source belongs to (plan.md 10.5). Lets the linter check that the record-level oracle list is actually backed by sources.",
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/oracle"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "retrieved_at": {
+                  "description": "When this evidence was collected, ISO-8601 UTC.",
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/timestamp"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "independent_of": {
+                  "description": "Method ids this source is INDEPENDENT of, per plan.md 10.3 item 1 (independent = different data source, not two reads of the same file). Used by the linter when counting independent confirmations.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "note": {
+                  "description": "Free-form remark about this source.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "method"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "sources": {
+          "title": "Sources",
+          "description": "All evidence supporting the record (plan.md task EV-02). At least one entry is mandatory. Task EV-03: any record with confidence >= 0.80 must carry at least two entries; that rule is enforced below by an if/then.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1
+        },
+        "build_key": {
+          "title": "build_key",
+          "description": "Canonical build identity per plan.md 3.2: sha256 of MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe, written as 'sha256:<64 lowercase hex>'. Knowledge-base records reference build_key and NOT build_id, because build_key survives renames. Null is allowed only for build-independent records (for example a statement about the vanilla UE format), and such records must say so in 'notes'.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "content_key": {
+          "title": "content_key",
+          "description": "Content identity per plan.md 3.2: sha256 of the concatenation of the sha256 values of all .utoc files, written as 'sha256:<64 lowercase hex>'. Distinguishes a content-only patch from a code patch when build_key is unchanged.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "sha256": {
+          "title": "sha256 digest",
+          "description": "Lowercase hex sha256 digest, 64 characters, no algorithm prefix.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sha1": {
+          "title": "sha1 digest",
+          "description": "Lowercase hex sha1 digest, 40 characters, no algorithm prefix.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "md5": {
+          "title": "md5 digest",
+          "description": "Lowercase hex md5 digest, 32 characters. Kept only because plan.md 3.1 lists it for executables; never used as an identity.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "timestamp": {
+          "title": "UTC timestamp",
+          "description": "ISO-8601 / RFC 3339 timestamp in UTC, for example '2026-08-22T14:43:00Z' or '2026-08-22T10:29:25.180283Z'. UTC is mandatory: a local-time value makes every artifact that contains it non-reproducible across machines.",
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$",
+          "$comment": "The pattern is deliberately NOT a duplicate of 'format: date-time', it is stricter and it is the part that actually holds. Two reasons. (1) 'date-time' accepts any RFC 3339 offset, including '2026-08-22T14:43:00+03:00', which this project forbids; only the pattern enforces the trailing Z. (2) 'format' is an annotation by default in Draft 2020-12: jsonschema asserts it only when a FormatChecker is passed, and even then its date-time checker is a no-op unless the optional rfc3339-validator package is installed - it is NOT installed in D:\\Tools\\venv-research, so a format-only constraint here would silently check nothing. 'pattern' is an assertion in every consumer, always."
+        },
+        "record_id": {
+          "title": "Record id",
+          "description": "Stable id of a knowledge-base record, for example 'LOG-0042' for a RESEARCH_LOG.md entry (plan.md 9.3) or a tool-assigned id for a JSONL row.",
+          "type": "string",
+          "minLength": 1
+        },
+        "hex_word": {
+          "title": "Raw hex value",
+          "description": "A raw numeric value kept verbatim as hex text, '0x' prefixed, so that flag bits are never lost to float conversion.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^0x[0-9a-fA-F]+$"
+        },
+        "steam": {
+          "title": "Steam block",
+          "description": "plan.md 3.1 'Steam' group: the canonical shape of ONE reading of the steam-metadata oracle (plan.md 10.5), with every value read from <library>\\steamapps\\appmanifest_2119830.acf. Everything here is what STEAM RECORDS, never what is true of the disk - the difference is claim_type 'steam-metadata-fact' versus 'disk-matches-steam-metadata', and only the former is class P on this oracle alone.",
+          "$comment": "This definition used to live in fingerprint.schema.json and was pulled in from install-inventory.schema.json by $ref, while fingerprint.schema.json in turn pulled install-inventory.schema.json#/$defs/inventory_file - a reference CYCLE between two files. A cycle is harmless for a resolver that has both files in memory, but it makes either file impossible to bundle as a self-contained document, which is what a plain consumer needs. Hoisting the shared block to this file, which references nothing outside itself, turns the reference graph into a DAG: fingerprint -> install-inventory -> kb-record. C-13: LastOwner and any other account-identifying field of the app manifest is deliberately absent, and additionalProperties: false keeps it out.",
+          "type": "object",
+          "properties": {
+            "app_id": {
+              "description": "Steam AppID of MISERY. Observed value 2119830.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "depot_id": {
+              "description": "Primary content depot id. Observed value 2119831.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "depot_manifest_id": {
+              "description": "Manifest id of the primary depot, as a DECIMAL STRING because the value exceeds the exact-integer range of a JSON double. Observed value '3002776385514127223'.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[0-9]+$"
+            },
+            "shared_depots": {
+              "description": "SharedDepots entries from the app manifest, as strings. Observed: 228989, 228990, 229007, all from app 228980 (Steamworks redistributables).",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "steam_buildid": {
+              "description": "Steam buildid of the installed build. Observed value 24826585. NOT the canonical identity: plan.md 3.2 notes it can change without the exe changing and vice versa.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "size_on_disk": {
+              "description": "SizeOnDisk from the app manifest, in bytes. Observed value 5057001973.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "last_updated_epoch": {
+              "description": "LastUpdated from the app manifest, Unix epoch seconds. Observed value 1787394913.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "install_dir_name": {
+              "description": "The 'installdir' value from the app manifest, i.e. the folder name under steamapps\\common. Observed value 'MISERY'. Question Q-2.5 (does it change between versions or languages) is UNKNOWN.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "appmanifest_path": {
+              "description": "Absolute path of the appmanifest_*.acf that was read.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "appmanifest_sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "sha256 of the app manifest file, so a later change of Steam bookkeeping is detectable."
+            }
+          },
+          "required": [
+            "app_id",
+            "depot_id",
+            "depot_manifest_id",
+            "steam_buildid",
+            "size_on_disk",
+            "last_updated_epoch"
+          ],
+          "additionalProperties": false
+        },
+        "claim_type": {
+          "title": "Claim type",
+          "description": "Which row of the plan.md 10.5 v2.1 'claim type -> required oracle' matrix this record belongs to. Optional, but supplying it lets the validator enforce the matrix mechanically (task EV-04) and lets claim_class be derived (plan.md 10.3 v2.2 as amended by v2.3 and v2.4, where the evidence level decides first and the claim_type row second). This enum is the AUTHORITY for the vocabulary; tools/kb/validate.py mirrors it in CLAIM_TYPE_ORACLE_MATRIX and research/evidence-model.md 5.4 documents it. One id per matrix row, in matrix order: (1) 'file-exists' = 'file X exists / is absent, has size S and hash H' -> filesystem, one oracle is enough, class P; (2) 'install-file-count' = 'the installation consists of N files' -> filesystem, class P; (3) 'steam-metadata-fact' = 'Steam records buildid B / depot D for the application' -> steam-metadata, class P, and the statement must say 'Steam records X', not 'X is true of the disk' (plan.md 10.3 class-P criterion 5); (4) 'disk-matches-steam-metadata' = 'what is on disk is what Steam promises' -> filesystem AND steam-metadata, both mandatory, class I because the match is an interpretation across two sources; (5) 'commit-content' = 'the repository contains commit C with content Y' -> vcs-history, class P, and the commit must be reachable from HEAD at the time of writing (class-P criterion 4); (6) 'native-class-exists' = 'the build contains native class X' -> global-ucas OR runtime-reflection; (7) 'asset-exists' = 'the game contains asset/package X' -> asset-registry OR runtime-reflection; (8) 'class-inherits-from' = 'class X derives from Y' -> runtime-reflection; (9) 'class-property' = 'X has property Y of type T at offset O with ordinal N' -> runtime-reflection, and the offset is always bound to build_key; (10) 'function-behavior' = 'function X does Z' -> binary-analysis AND a runtime-reflection observation, both mandatory; (11) 'container-format' = 'the container has flag/format F' -> container-metadata; (12) 'container-mounted-at-runtime' = 'the game mounts container C at runtime' -> runtime-reflection, which container-metadata cannot prove; (13) 'item-registration-mechanism' = CR-01, 'the game registers item definitions by mechanism M' -> runtime-reflection AND asset-registry, at least two; (14) 'cooked-bp-from-external-container-works' = E-3b, provable only by actually running the experiment. Rows 6-14 are class I. Four bookkeeping ids are not matrix rows and exist for artifact fields that carry an evidence annotation rather than a claim sentence: 'engine-identity', 'build-identity', 'layout-observation' and the explicit catch-all 'other'. 'environment-fact' was such a catch-all in the first draft and is deliberately NOT part of the vocabulary any more: every fact it used to cover now has a real row - a file fact is 'file-exists', a file count is 'install-file-count', a Steam reading is 'steam-metadata-fact', a toolchain fact about our own machine is 'other' with oracle 'filesystem' or 'external-doc'. JSON records must use the canonical ids above; the aliases in tools/kb/validate.py CLAIM_TYPE_ALIASES exist only to normalise draft and prose spellings found in markdown.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "file-exists",
+            "install-file-count",
+            "steam-metadata-fact",
+            "disk-matches-steam-metadata",
+            "commit-content",
+            "native-class-exists",
+            "asset-exists",
+            "class-inherits-from",
+            "class-property",
+            "function-behavior",
+            "container-format",
+            "container-mounted-at-runtime",
+            "item-registration-mechanism",
+            "cooked-bp-from-external-container-works",
+            "engine-identity",
+            "build-identity",
+            "layout-observation",
+            "other",
+            null
+          ]
+        },
+        "claim_class": {
+          "title": "Claim class",
+          "description": "The class of the claim per plan.md 10.3 v2.4, which decides WHICH confirmation criteria apply. 'P' = primitive measurement: ONE reading of a primitive property with NO decoding and NO interpretation step - existence or absence, path, name, size, mtime, hash, a count of such entities, or a literal field value taken from a structured text format (VDF/ACF/INI/JSON) without reinterpretation. Admissible oracles for P (правка v2.4): filesystem, steam-metadata and vcs-history unconditionally, and binary-analysis and container-metadata ONLY for a literal read at a determinate place - the claim must state the offset (or another determinate address) and the length, and must not name what the bytes ARE. The other four oracles of plan.md 10.5 - global-ucas, asset-registry, runtime-reflection, external-doc - are never admissible for P. One method suffices up to the 0.99 ceiling, because re-reading the same primitive is not an independent method; in exchange all five class-P criteria are mandatory: (1) the exact re-runnable method is recorded, (2) it was actually re-run and reproduced at least once, (3) the statement contains no semantic conclusion, (4) for vcs-history the cited object is reachable from HEAD, (5) for steam-metadata the statement says 'Steam records X' and not 'X is true of the disk'. 'I' = interpretive claim: ANY step of decoding, attribution or inference about meaning, behaviour, mechanism or cause - what a byte sequence means, what a function does, whether a container is encrypted, how the game registers content, what the build configuration is. Class I needs two or more INDEPENDENT methods (different data sources, not two readings of one file) for confidence 0.80 and above, and all six criteria of plan.md 10.3 for 0.95 and above. THE BOUNDARY IS THE DECODING STEP: 'the file is 134 658 048 bytes' is P, 'this is a Shipping build' is I, even when both come from the same command. OPTIONAL BUT DERIVABLE: this field may be omitted, and most records will omit it, because the class is normally derived from oracle plus claim_type (see the per-row class in #/$defs/claim_type, and the derivation in tools/kb/validate.py). It exists for the cases where the derivation would be wrong or ambiguous, and for making a deliberate grading visible to a reader. An explicit value that CONTRADICTS the derived one is itself a violation (plan.md task EV-05) - the field is not a way to relabel a class-I claim as P in order to escape the second-method requirement. A record that mixes a primitive and an interpretive part must be SPLIT into two records with their own classes, levels and confidences; one record with an averaged grade is incorrect by construction (plan.md 10.3, canonical example A-07). claim_class and evidence_level are NOT independent axes, and правка v2.3 exists because treating them as independent was a live loophole: 'класс P допустим только при evidence_level = OBSERVED', while INFERRED, HYPOTHESIS and REFUTED mean a conclusion beyond direct observation was drawn and are therefore class I unconditionally, whatever the oracles are. An earlier revision of this description asserted the opposite - that a class-P record 'can be OBSERVED or UNKNOWN' - and #/$defs/class_p_shape enforced neither, so an INFERRED record labelled 'P' validated here and took the single-source exemption. Both the sentence and the shape are corrected: class I may still be OBSERVED, INFERRED, HYPOTHESIS or REFUTED, but class P may only be OBSERVED.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "P",
+            "I",
+            null
+          ],
+          "$comment": "The value set is exactly {P, I}; there is no third class and no 'mixed' value, because plan.md 10.3 requires a mixed claim to be split into two records instead of being labelled, and правка v2.4 turns an averaged grade from a matter of taste into a record that is incorrect by construction. null is accepted only as the explicit spelling of 'not stated, derive it' for generators that emit every field; omitting the property means the same thing."
+        },
+        "class_p_shape": {
+          "title": "Class P shape",
+          "description": "The STRUCTURAL half of the class-P test of plan.md 10.3 as it stands after правка v2.3 and правка v2.4, expressed so that other rules in this file can reuse it. Four things are checked here: (1) evidence_level is OBSERVED, because v2.3 makes the LEVEL decide the class - INFERRED, HYPOTHESIS and REFUTED are class I unconditionally, and UNKNOWN classifies nothing; (2) the record names at least one oracle and every oracle it names is admissible for class P at all - filesystem, steam-metadata and vcs-history unconditionally, binary-analysis and container-metadata conditionally, per v2.4; (3) a record naming binary-analysis or container-metadata carries a read_locus stating a determinate offset AND a length, which is as much of the v2.4 condition as a schema can check; (4) its claim_type - if it states one - is one of the four primitive-measurement matrix rows, and it does not explicitly declare itself class I. A record of this shape is the one case where plan.md 10.3 accepts a SINGLE method up to the 0.99 ceiling, because re-reading the same primitive is not an independent method.",
+          "$comment": "This is deliberately NOT the whole class-P test, and правка v2.4 moved the boundary. WHAT THIS SCHEMA CHECKS: the evidence level, the oracle set, the presence of a machine-readable read_locus carrying an offset and a length, the claim_type row, and the absence of a self-declared class I. WHAT IT DELIBERATELY LEAVES TO tools/kb/validate.py, which can read the claim TEXT: criterion 3, 'the statement contains no semantic conclusion'; criterion 2, 'the method was re-run and reproduced', an attestation about process; and BOTH halves of the v2.4 prose condition - that the SENTENCE states the offset and the extent (states_determinate_address()) and that the sentence stops short of naming WHAT the bytes are (names_what_the_bytes_are()), the class I half of v2.4 and the reason the canonical A-07 example is two records instead of one. This schema does not pretend to enforce the prose condition: read_locus is a record carrying its address as data, not a certificate about the wording. The validator is therefore the STRICTER gate and must remain so - a record can satisfy this shape and still be refused there. The exemption is keyed on the DERIVED shape (evidence_level + oracle + read_locus + claim_type), never on the explicit claim_class label, so writing claim_class: 'P' on an interpretive record buys nothing - see the EV-05 branch below, which turns that contradiction into a schema error instead.",
+          "allOf": [
+            {
+              "$comment": "plan.md 10.3 правка v2.3, and it comes FIRST because it decides: \"класс P допустим только при evidence_level = OBSERVED\". INFERRED, HYPOTHESIS and REFUTED each mean a conclusion beyond direct observation was drawn, so the interpretation step has already happened by definition, whatever the oracles are and however the text is worded; UNKNOWN asserts nothing and so is not a measurement either. The level is REQUIRED here and not merely constrained, because a record that does not say it was observed has not shown a literal read. This branch is what keeps v2.3 dominant over the wider oracle set of v2.4: no combination of oracles and no read_locus can buy the single-source exemption for a record that is not OBSERVED. Before it existed, an INFERRED record on a primitive oracle satisfied this shape and took the exemption - the exact loophole v2.3 was written to close, and it was open in this file while validate.py had already closed it.",
+              "required": [
+                "evidence_level"
+              ],
+              "properties": {
+                "evidence_level": {
+                  "const": "OBSERVED"
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.3 правка v2.4: \"класс определяется характером утверждения, а не белым списком oracle\". The first edition admitted only filesystem, steam-metadata and vcs-history, and NO admitted oracle covered a literal read of binary CONTENT - a byte of a PE header, a field of a container header, a string out of a name pool - so every such reading was forced into class I, and an interpretive claim resting on one file and one tool cannot honestly exceed 0.79. Twelve confidences in plan.md Appendix A were lowered for that reason alone. binary-analysis and container-metadata are therefore admissible for class P, and the branch below carries the additional condition they come with. These five values are a subset of the nine of plan.md 10.5: the four left out - global-ucas, asset-registry, runtime-reflection, external-doc - cannot carry a literal read at a determinate place at all.",
+              "required": [
+                "oracle"
+              ],
+              "properties": {
+                "oracle": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "enum": [
+                      "filesystem",
+                      "steam-metadata",
+                      "vcs-history",
+                      "binary-analysis",
+                      "container-metadata"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "The CONDITIONAL half of правка v2.4: binary-analysis and container-metadata are admissible for class P only for a literal read at a determinate place - \"в утверждении указано смещение (или иной детерминированный адрес) И длина. Без указанного смещения чтение не воспроизводимо как написано, и класс P недопустим\". plan.md puts that condition on the WORDING of the record and says so in as many words right after the canonical A-07 pair. A JSON Schema cannot read a sentence, so what is required here is that the record CARRY the address and the extent as data, in read_locus. That is a proxy, and a deliberately chosen one: it is checkable, it is what a downstream consumer needs anyway in order to re-perform the read, and it fails CLOSED - a record on these two oracles without a read_locus simply does not get the class-P exemption and therefore needs a second source from 0.80 up. The prose half of the condition, and the class I half of v2.4, stay with tools/kb/validate.py; see this definition's $comment.",
+              "if": {
+                "required": [
+                  "oracle"
+                ],
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "enum": [
+                        "binary-analysis",
+                        "container-metadata"
+                      ]
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "read_locus"
+                ],
+                "properties": {
+                  "read_locus": {
+                    "$ref": "#/$defs/read_locus"
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 v2.1 matrix, the four primitive-measurement rows. NOTE for a v2.4 literal-read record: the matrix has no row for \"the four bytes at offset 48 are a0 e4 0c 00\", so such a record leaves claim_type unstated - which the absent property and the explicit null both express. The vocabulary is deliberately NOT extended here: #/$defs/claim_type is the authority that tools/kb/validate.py mirrors in CLAIM_TYPE_ORACLE_MATRIX, and tests/test_kb.py asserts the two agree, so adding a row is a change to both files and not something this branch may do on its own.",
+              "properties": {
+                "claim_type": {
+                  "enum": [
+                    "file-exists",
+                    "install-file-count",
+                    "steam-metadata-fact",
+                    "commit-content",
+                    null
+                  ]
+                }
+              }
+            },
+            {
+              "$comment": "A P-shaped record that grades ITSELF class I is not an error - grading yourself more strictly than the derivation is always allowed - so the shape merely refuses it the single-source exemption rather than rejecting the record.",
+              "properties": {
+                "claim_class": {
+                  "enum": [
+                    "P",
+                    null
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "read_locus": {
+          "title": "Read locus",
+          "description": "Where a literal binary read happened and how wide it was, as machine-readable fields. plan.md 10.3 правка v2.4 admits the binary-analysis and container-metadata oracles into class P only for \"буквальное чтение по определённому месту\", under one additional mandatory condition: the claim states a determinate offset (or another determinate address) AND a length. This object is where a JSON record states them, and #/$defs/class_p_shape requires it of exactly those two oracles. Both members are mandatory, and they are checked separately because they fail for different reasons: an address without an extent leaves the width of the read to the reader, and a length without an address - \"the file is 134 658 048 bytes\" - is a size claim on the filesystem oracle and not a read at a place at all.",
+          "$comment": "WHAT THIS OBJECT IS, AND WHAT IT IS NOT. It is not the plan's condition; it is the checkable proxy for it. plan.md states the condition on the WORDING of the claim: \"Обязательное условие класса P для container-metadata и binary-analysis - указанное смещение и длина - относится к формулировке верхней записи и не является частью её поля oracle\". No JSON Schema keyword can read a Russian sentence, so this schema checks the half a schema can check - that the record carries the address and the extent as DATA - and leaves the prose half to tools/kb/validate.py states_determinate_address(). A validating read_locus therefore does NOT certify that the claim sentence states an offset, and it does NOT certify the class I half of v2.4 - that the sentence stops short of naming WHAT the bytes are (a field, a layout, a type, a signature), which is names_what_the_bytes_are() in the validator and the reason the canonical A-07 example is TWO records and not one. Do not read a validating read_locus as a class-P certificate. WHY THE FIELDS ARE NESTED IN AN OBJECT rather than being a top-level 'offset' and 'length' on the record: tools/kb/validate.py LAYOUT_KEYS treats a top-level 'offset' or 'size' as a claim about MEMORY layout and rule EV-LAYOUT then caps it at HYPOTHESIS (plan.md 6.3), which would make every class-P container read collide with a rule written for property offsets. claims_layout() inspects top-level keys only, so nesting keeps the two claim kinds apart instead of teaching one rule to ignore the other.",
+          "type": "object",
+          "properties": {
+            "target": {
+              "description": "What was read, as a path relative to the install root or to the repository root - for example 'MISERY/Content/Paks/MISERY-Windows.utoc'. C-13: never an absolute path, because an absolute path on this machine carries a user profile; the pattern refuses a drive letter, a UNC prefix and a leading separator.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "pattern": "^(?![A-Za-z]:)(?![\\\\/])[^\\n]+$"
+            },
+            "address_kind": {
+              "description": "Which kind of determinate address 'offset' is. 'file-offset' - bytes from the start of the file; the default, and the only form a container-metadata read normally needs. 'rva' and 'va' are the \"иной детерминированный адрес\" that plan.md 10.3 v2.4 also admits, for a binary-analysis read of a loaded image. An absent or null value means file-offset.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "file-offset",
+                "rva",
+                "va",
+                null
+              ]
+            },
+            "offset": {
+              "description": "The determinate address of the read, as a non-negative integer, or as the '0x' hex spelling of the same number when the document quotes it that way. Mandatory: this is the \"смещение (или иной детерминированный адрес)\" half of the plan.md 10.3 v2.4 condition.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "minimum": 0,
+              "pattern": "^(?:0x[0-9a-fA-F]+|[0-9]+)$"
+            },
+            "length": {
+              "description": "The extent of the read in bytes, as a positive integer. Mandatory: this is the \"и длина\" half of the plan.md 10.3 v2.4 condition, and it is what makes the read reproducible as written. An integer only - a width name such as 'uint32' is a spelling the validator accepts in PROSE, but a record states the number.",
+              "type": "integer",
+              "minimum": 1
+            },
+            "bytes_hex": {
+              "description": "The bytes actually read, lowercase hex, one space between bytes - for example 'a0 e4 0c 00'. Optional but strongly advised: it is the value the claim is about, and it lets a later reader re-perform the read and compare without parsing the sentence. Note that writing the DECODED number here instead of the raw bytes turns the record interpretive (plan.md 10.3 v2.4 class I) and calls for the split into two records.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[0-9a-f]{2}(?: [0-9a-f]{2})*$"
+            },
+            "note": {
+              "description": "Free-form remark about the read: the tool used, the endianness convention, why this offset.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "offset",
+            "length"
+          ],
+          "additionalProperties": false
+        },
+        "annotation": {
+          "title": "Evidence annotation",
+          "description": "A reduced envelope for ATTACHING evidence metadata to a sub-object of a larger artifact (for example one anomaly inside fingerprint.json), where the full envelope with recorded_at and build_key would be redundant because the enclosing document already states them. Only evidence_level is mandatory here.",
+          "type": "object",
+          "properties": {
+            "evidence_level": {
+              "$ref": "#/$defs/evidence_level",
+              "description": "Evidence level of this individual sub-claim (plan.md 10.1)."
+            },
+            "claim_class": {
+              "$ref": "#/$defs/claim_class",
+              "description": "Claim class of this individual sub-claim (plan.md 10.3 v2.4). Optional here for the same reason as in the envelope: it is normally derived. Worth stating explicitly on a sub-object whose enclosing document mixes primitive and interpretive annotations, which is exactly where a reader would otherwise assume the wrong criteria."
+            },
+            "confidence": {
+              "$ref": "#/$defs/confidence",
+              "description": "Confidence of this individual sub-claim (plan.md 10.2)."
+            },
+            "sources": {
+              "$ref": "#/$defs/sources",
+              "description": "Evidence backing this individual sub-claim."
+            },
+            "oracle": {
+              "$ref": "#/$defs/oracle_list",
+              "description": "Oracles backing this individual sub-claim (plan.md 10.5)."
+            },
+            "read_locus": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/read_locus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The determinate place and extent of a literal binary read backing this sub-claim (plan.md 10.3 правка v2.4). Present here for the same reason as in the envelope, and it is the annotation that needs it most: a fingerprint sub-object such as a utoc header field or a PE section entry IS a read at an offset, and without this field such an annotation could not state the offset that v2.4 requires of a class-P read."
+            },
+            "note": {
+              "description": "Free-form remark, in particular 'what we would see if this were wrong' (plan.md 10.3 item 6).",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "evidence_level"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "$comment": "plan.md 10.4/EV-05 and 10.3 правка v2.3, applied to a sub-object annotation exactly as the envelope applies them to a whole record. An annotation that labels itself claim_class 'P' must have the class-P shape: OBSERVED, an admissible oracle set, and a read_locus when it rests on binary-analysis or container-metadata. Without this branch the reduced envelope was the loophole version of the full one - the same 'P' label that the envelope rejects on an INFERRED interpretive claim was accepted here, and a fingerprint sub-object is precisely where a binary read gets annotated. class_p_shape's claim_type branch is vacuous here because this object has no claim_type property at all, which is correct: an annotation inherits its matrix row from the enclosing document.",
+              "if": {
+                "required": [
+                  "claim_class"
+                ],
+                "properties": {
+                  "claim_class": {
+                    "const": "P"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/class_p_shape"
+              }
+            }
+          ]
+        },
+        "envelope": {
+          "title": "Envelope core",
+          "description": "The mandatory evidence fields of every knowledge-base record. Referenced by all domain schemas. Intentionally declares no additionalProperties keyword so that a composing schema can add its own fields and still close the object with unevaluatedProperties: false.",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Optional stable id of this record (plan.md 9.3 uses LOG-nnnn for journal entries).",
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/record_id"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "claim": {
+              "description": "The claim itself, one sentence, human readable. Optional for machine-generated rows whose payload fields already are the claim.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "claim_type": {
+              "$ref": "#/$defs/claim_type",
+              "description": "Row of the plan.md 10.5 v2.1 oracle matrix this claim belongs to; drives the mechanical oracle check in tools/kb/validate.py (task EV-04) and is the normal input for deriving claim_class."
+            },
+            "claim_class": {
+              "$ref": "#/$defs/claim_class",
+              "description": "Claim class per plan.md 10.3 v2.4: 'P' for a literal read at a determinate place, 'I' as soon as a decoding or interpretation step is involved. OPTIONAL - most records omit it and let the validator derive it from evidence_level first and then oracle plus claim_type; state it only where the derivation would be wrong, or to make a deliberate grading visible. An explicit value contradicting the derived one is a violation (task EV-05), and a record mixing both classes must be split in two rather than labelled. Per правка v2.3 a 'P' label is admissible only at evidence_level OBSERVED; per правка v2.4 a 'P' label resting on binary-analysis or container-metadata additionally requires read_locus."
+            },
+            "evidence_level": {
+              "$ref": "#/$defs/evidence_level",
+              "description": "Evidence level of the record, per plan.md 10.1. Mandatory: a record without a level is not admissible."
+            },
+            "confidence": {
+              "$ref": "#/$defs/confidence",
+              "description": "Confidence of the record, per plan.md 10.2. Mandatory. The ceiling is 0.99, and it is enforced as such: 1.00 is forbidden and so is every value in the open interval (0.99, 1.00), because 0.995 and 0.999 express a precision the scale does not have. See the confidence definition this field refers to."
+            },
+            "sources": {
+              "$ref": "#/$defs/sources",
+              "description": "Evidence backing the record, per plan.md task EV-02, minimum one entry."
+            },
+            "oracle": {
+              "$ref": "#/$defs/oracle_list",
+              "description": "Oracle classes backing the record, per plan.md 10.5, minimum one entry."
+            },
+            "build_key": {
+              "$ref": "#/$defs/build_key",
+              "description": "The build this record is bound to (plan.md 3.2, 10.3 item 5). Mandatory field; null only for deliberately build-independent records."
+            },
+            "recorded_at": {
+              "$ref": "#/$defs/timestamp",
+              "description": "When the record was written, ISO-8601 UTC."
+            },
+            "method": {
+              "description": "Primary method id that produced the record, when a single one dominates (plan.md 9.3 'Method'). The full list lives in sources.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "refutation_attempt": {
+              "description": "The attempted refutation and its outcome, i.e. 'what we would have seen if this were wrong' (plan.md 10.3 item 6). Required in practice before confidence >= 0.95; the text form is checked by review, not by this schema.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "semantic_alias": {
+              "description": "Stable human-meaningful alias assigned later, per plan.md 15 and 16.1, for example a semantic name for an obfuscated or build-specific identifier. Null until assigned.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "commit": {
+              "description": "The commit a vcs-history claim is about (claim_type 'commit-content'), as a full or abbreviated git hash. plan.md 10.5 v2.1: the commit must be reachable from HEAD at the time of writing, because history is rewritable - tools/kb/validate.py checks that with 'git merge-base --is-ancestor'. A tree hash is the more durable citation for a claim about CONTENT, since amending a commit does not change its tree.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[0-9a-f]{7,40}$"
+            },
+            "read_locus": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/read_locus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The determinate place and extent of a literal binary read (plan.md 10.3 правка v2.4). MANDATORY for a class-P record whose oracle list names binary-analysis or container-metadata, and meaningless for any other record: those two oracles read the CONTENT of a binary file, and v2.4 admits that reading into class P only when the offset and the length are stated. The parallel is 'commit' above - the vcs-history row of the matrix must name the object it is about, and the v2.4 conditional oracles must name the place they read. Null and the absent property both mean 'not a binary read at an address'; a class-P record on those two oracles that leaves this null does not get the single-source exemption of task EV-03 and needs a second independent source from confidence 0.80 up."
+            },
+            "supersedes": {
+              "description": "Ids of records this one replaces (plan.md 9.3 'Supersedes'). Superseded records are kept, not deleted.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/record_id"
+              }
+            },
+            "refuted_by": {
+              "description": "Ids of the records or experiments that refuted this one. Mandatory when evidence_level is REFUTED, because plan.md 10.1 keeps refutations as first-class knowledge.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/record_id"
+              }
+            },
+            "notes": {
+              "description": "Free-form remarks: caveats, why build_key is null, what would change the verdict.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "evidence_level",
+            "confidence",
+            "sources",
+            "oracle",
+            "build_key",
+            "recorded_at"
+          ],
+          "allOf": [
+            {
+              "$comment": "plan.md task EV-03 as re-calibrated by plan.md 10.3 v2.2. The rule used to read 'any record with confidence >= 0.80 must cite at least two sources', and that is what this branch enforced. plan.md 10.3 v2.2 rejected exactly that: the two-method requirement is calibrated for INTERPRETIVE claims about a binary or a runtime, and applying it to 'the installation consists of 53 files' produced 20 of 29 violations on facts nobody doubts, turning the gate into a ritual that an engineer switches off. The requirement is therefore not weakened but SPLIT: a class-I record still needs two independent methods from 0.80 up, while a class-P record - a single reading of a primitive property, on a primitive oracle, with no decoding step - needs one, because a second reading of the same primitive is not an independent method and adds no information. The negated $ref is what expresses 'unless this record is class P'; the five mandatory class-P criteria are enforced partly by the branches below (row 5 requires 'commit') and partly by tools/kb/validate.py, which can read the claim text. WHAT правка v2.3 AND правка v2.4 CHANGED ABOUT THIS EXEMPTION, and this branch is unchanged in shape because both changes belong in class_p_shape: the exemption now follows the record's evidence_level as well - an INFERRED or HYPOTHESIS record can no longer take it whatever its oracles are - and it now REACHES a literal binary read, so a container-metadata reading of four bytes at a stated offset, which the first edition forced into class I and thus into needing a second source it could not honestly have, takes the exemption once it carries a read_locus. The plan's own canonical class-P example, Appendix A row A-07, is exactly that shape, and before v2.4 was implemented here this schema rejected it twice over - on the oracle white list and on minItems 2 - which is to say the published contract rejected the example the plan holds up as correct.",
+              "if": {
+                "allOf": [
+                  {
+                    "required": [
+                      "confidence"
+                    ],
+                    "properties": {
+                      "confidence": {
+                        "minimum": 0.8
+                      }
+                    }
+                  },
+                  {
+                    "not": {
+                      "$ref": "#/$defs/class_p_shape"
+                    }
+                  }
+                ]
+              },
+              "then": {
+                "properties": {
+                  "sources": {
+                    "minItems": 2
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.4/EV-05: the class is derived from evidence_level first and from oracle plus claim_type second (правка v2.3), an explicit value may be stated, and an explicit value that CONTRADICTS the derivation is itself a violation. This branch catches the half of that contradiction which is structurally visible, and it is the half that matters, because it is the one that would pay off: a record that declares claim_class 'P' while not being OBSERVED, or while resting on runtime-reflection, global-ucas, asset-registry or external-doc, or while resting on binary-analysis or container-metadata WITHOUT a read_locus, or while carrying an interpretive claim_type, is rejected here. Note the change правка v2.4 made to this list: binary-analysis and container-metadata are no longer rejected outright - they are admissible for a literal read at a determinate place, and what this branch now demands of them is the read_locus that states it. Without this branch the label would be a free pass out of the two-source requirement. The opposite direction - a P-shaped record labelled 'I' - is not an error at all: grading yourself more strictly than the derivation is always allowed, and the class_p_shape definition honours it by refusing the exemption to anything explicitly marked I.",
+              "if": {
+                "required": [
+                  "claim_class"
+                ],
+                "properties": {
+                  "claim_class": {
+                    "const": "P"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/class_p_shape"
+              }
+            },
+            {
+              "$comment": "plan.md 10.1: a REFUTED record must name what refuted it, otherwise the refutation is not reusable.",
+              "if": {
+                "required": [
+                  "evidence_level"
+                ],
+                "properties": {
+                  "evidence_level": {
+                    "const": "REFUTED"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "refuted_by": {
+                    "type": "array",
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "refuted_by"
+                ]
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 v2.1 matrix rows 1-2: 'file X exists / is absent, has size S and hash H' and 'the installation consists of N files' need filesystem. One oracle is enough - and it is the ONLY one that proves them: a size read out of Steam metadata is a Steam claim, not an observation of the disk.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "enum": [
+                      "file-exists",
+                      "install-file-count"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "filesystem"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 v2.1 matrix row 3: 'Steam records buildid B / depot D' needs steam-metadata, which proves what Steam recorded and nothing about the disk.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "steam-metadata-fact"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "steam-metadata"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 v2.1 matrix row 4: 'what lies on disk is what Steam promises' needs BOTH filesystem and steam-metadata - that comparison is the entire content of the claim, so one oracle can never carry it.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "disk-matches-steam-metadata"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "allOf": [
+                      {
+                        "contains": {
+                          "const": "filesystem"
+                        }
+                      },
+                      {
+                        "contains": {
+                          "const": "steam-metadata"
+                        }
+                      }
+                    ]
+                  },
+                  "sources": {
+                    "minItems": 2
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 v2.1 matrix row 5: 'the repository contains commit C with content Y' needs vcs-history, and the cited commit must be reachable from HEAD at the time of writing. Reachability cannot be expressed in JSON Schema; tools/kb/validate.py rule VCS-REACH checks it with 'git merge-base --is-ancestor'. What IS expressed here: the commit must be named, so there is something to check.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "commit-content"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "vcs-history"
+                    }
+                  }
+                },
+                "required": [
+                  "commit"
+                ]
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row: 'build contains native class X' needs global-ucas or runtime-reflection.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "native-class-exists"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "anyOf": [
+                      {
+                        "contains": {
+                          "const": "global-ucas"
+                        }
+                      },
+                      {
+                        "contains": {
+                          "const": "runtime-reflection"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row plus the mandatory rule under it: 'game contains asset/package X' needs asset-registry or runtime-reflection; a name found only in global.ucas yields at most HYPOTHESIS with confidence <= 0.4.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "asset-exists"
+                  }
+                }
+              },
+              "then": {
+                "allOf": [
+                  {
+                    "properties": {
+                      "oracle": {
+                        "anyOf": [
+                          {
+                            "contains": {
+                              "const": "asset-registry"
+                            }
+                          },
+                          {
+                            "contains": {
+                              "const": "runtime-reflection"
+                            }
+                          },
+                          {
+                            "contains": {
+                              "const": "global-ucas"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "required": [
+                        "oracle"
+                      ],
+                      "properties": {
+                        "oracle": {
+                          "items": {
+                            "const": "global-ucas"
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "evidence_level": {
+                          "const": "HYPOTHESIS"
+                        },
+                        "confidence": {
+                          "maximum": 0.4
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row: 'class X derives from Y' needs runtime-reflection.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "class-inherits-from"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "runtime-reflection"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row: 'X has property Y of type T at offset O with ordinal N' needs runtime-reflection; global.ucas cannot yield it in principle.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "class-property"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "runtime-reflection"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row: 'function X does Z' needs BOTH binary-analysis and a runtime-reflection observation. One is not enough.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "function-behavior"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "allOf": [
+                      {
+                        "contains": {
+                          "const": "binary-analysis"
+                        }
+                      },
+                      {
+                        "contains": {
+                          "const": "runtime-reflection"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row: 'container has flag/format F' needs container-metadata.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "container-format"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "container-metadata"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row: 'the game mounts container C at runtime' needs runtime-reflection (I-14); container-metadata does not prove it.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "container-mounted-at-runtime"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "runtime-reflection"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row (CR-01): 'the game registers item definitions by mechanism M' needs runtime-reflection AND asset-registry, binary-analysis desirable.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "item-registration-mechanism"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "allOf": [
+                      {
+                        "contains": {
+                          "const": "runtime-reflection"
+                        }
+                      },
+                      {
+                        "contains": {
+                          "const": "asset-registry"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "plan.md 10.5 matrix row (E-3b): 'a cooked BP from an external container works' is proved only by an actual run, so runtime-reflection is mandatory and the experiment artifact must be in sources.",
+              "if": {
+                "required": [
+                  "claim_type"
+                ],
+                "properties": {
+                  "claim_type": {
+                    "const": "cooked-bp-from-external-container-works"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "oracle": {
+                    "contains": {
+                      "const": "runtime-reflection"
+                    }
+                  },
+                  "sources": {
+                    "minItems": 2
+                  }
+                }
+              }
+            }
+          ],
+          "$comment": "Rules that this schema deliberately does NOT encode, because they are not expressible declaratively, and that tools/kb/validate.py must enforce (plan.md 10.3): (1) >= 2 INDEPENDENT methods for confidence >= 0.95, independence judged via source.independent_of; (2) at least one runtime observation for runtime claims, or a format check for format claims; (3) a stored raw artifact under research/evidence/; (4) reproduced twice, for runtime in two different game launches; (5) build_key non-null; (6) a described refutation attempt. Also not encoded: 'external-doc alone is never sufficient' (C-12, plan.md 10.5). And, added with правка v2.4, both prose halves of the determinate-address condition: that the claim SENTENCE states the offset and the extent, and that it stops short of naming what the bytes are. This schema requires the offset and the extent as DATA in read_locus, which is the whole of what a JSON Schema can require; the sentence is read by validate.py states_determinate_address() and names_what_the_bytes_are(). A record can therefore satisfy this schema and still be refused by the validator, and that ordering is deliberate."
+        }
+      }
+    },
+    "ue_line": {
+      "title": "UE minor line",
+      "description": "A UE minor line as 'major.minor', for example '5.4'. This is the STRICTLY WEAKER claim of the two version claims, and the one the data-format sources actually determine.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "ue_version": {
+      "title": "UE release version",
+      "description": "A full three-component UE release version, for example '5.4.4'. No branch or changelist suffix.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "dotted_version": {
+      "title": "Dotted quad",
+      "description": "A Windows version-resource quad, for example '5.4.4.0'.",
+      "type": "string",
+      "pattern": "^[0-9]+(\\.[0-9]+){0,3}$"
+    },
+    "changelist": {
+      "title": "Perforce changelist",
+      "description": "An engine changelist number. An opaque integer on its own: what ties it to a release is the public build metadata, which is why every claim about it names external-doc as well as the image it was read from.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "install_relative_path": {
+      "title": "Installation-relative path",
+      "description": "A path relative to the installation root, forward slashes, no leading slash and no drive letter. Absolute paths are refused for the same reason kb-record.schema.json refuses them in a read_locus: an absolute path records this machine and is unreproducible anywhere else (constraint C-13).",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![A-Za-z]:)(?![/\\\\])[^\\\\]*$"
+    },
+    "no_machine_path": {
+      "title": "A field that must not record a path on this machine",
+      "description": "For the three fields that would otherwise leak the operator's filesystem into a public repository (constraint C-13): the recorded install root, the crash directory, and the root of the reference engine tree. Each is expected to hold either a redaction sentence or an environment-variable placeholder. DELIBERATELY NOT applied to hits[].string: a build path such as 'D:\\\\build\\\\++UE5\\\\Sync\\\\...' found INSIDE the game binary is evidence about Epic's build machine that the vendor shipped, not a leak of ours, and refusing it here would forbid recording what the file actually contains.",
+      "type": "string",
+      "not": {
+        "pattern": "(?:[A-Za-z]:[\\\\/]|/home/|/Users/|\\\\Users\\\\)"
+      }
+    },
+    "hex_bytes": {
+      "title": "Raw bytes",
+      "description": "The bytes of a literal read, lowercase hex, one space between octets. The RAW value: it names nothing about what the bytes are, which is exactly the plan.md 10.3 v2.4 condition for a class-P read.",
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{2})(?: [0-9a-f]{2})*$"
+    },
+    "offset": {
+      "title": "File offset",
+      "description": "A byte offset from the start of the file.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "read_length": {
+      "title": "Read length",
+      "description": "The extent of a read in bytes. plan.md 10.3 v2.4 makes this MANDATORY alongside the offset: an address without an extent leaves the width of the read to the reader, and the read is then not reproducible as written.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "pe_section_name": {
+      "title": "PE section name",
+      "description": "The section a byte range falls in, for example '.rdata'.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "method_id": {
+      "title": "Method id",
+      "description": "The closed vocabulary of method ids that appear in sources[].method in this artifact. plan.md 4.2 rests the confidence of the engine_version claim on the TEXT versus DATA-FORMAT split, so each value below states which side it is on rather than leaving it to the prose of a note.",
+      "$comment": "Expressed as anyOf/const rather than a bare enum so every value can carry its own boundary - the same technique kb-record.schema.json#/$defs/oracle uses for the nine oracles.",
+      "type": "string",
+      "anyOf": [
+        {
+          "const": "V-01",
+          "title": "V-01 - version marker strings (TEXT)",
+          "description": "A byte scan of the shipped images for the '++UE5+Release-' and '-CL-' literals. TEXT source: it reads a version STAMP that the build wrote as characters. plan.md 4.2 counts it on the text side."
+        },
+        {
+          "const": "V-02a",
+          "title": "V-02a - crash-dump module identity",
+          "description": "The module record of the loaded image inside UEMinidump.dmp, compared with the image on disk. Neither text nor data-format for the purposes of plan.md 4.2: it establishes WHICH BUILD a report belongs to, not which engine version."
+        },
+        {
+          "const": "V-02b",
+          "title": "V-02b - crash-report CONTENT (ungraded: no oracle)",
+          "description": "The fields of CrashContext.runtime-xml. Recorded and published, and deliberately NOT counted by plan.md 4.2: research/unknowns.md NEW-01 states that the closed nine-oracle list of plan.md 10.5 has no class for crash-report content, and that naming external-doc for it is an error. A claim resting only on V-02b therefore stays UNKNOWN until NEW-01 is decided."
+        },
+        {
+          "const": "V-03",
+          "title": "V-03 - VS_VERSIONINFO resource (TEXT)",
+          "description": "The parsed RT_VERSION resource. TEXT source: a different address and a different mechanism than V-01, but the same upstream build stamp, so its agreement with V-01 tests the reading and not the fact."
+        },
+        {
+          "const": "V-04",
+          "title": "V-04 - exported D3D12SDKVersion (DATA-FORMAT-ADJACENT)",
+          "description": "The four bytes an export of the shipping image points at. Not a serialization format, but a number the engine source hard-codes per release, so it moves between minor lines the way a format version does. Recorded on its own axis rather than being counted as data-format, because calling it one would overstate the plan.md 4.2 bar by one source."
+        },
+        {
+          "const": "V-05",
+          "title": "V-05 - IoStore TOC header version byte (DATA-FORMAT)",
+          "description": "The container version byte at offset 16 of each .utoc. DATA-FORMAT source: written by the IoStore container writer, and it changes between UE minor lines, so a wrong answer is visible rather than silent."
+        },
+        {
+          "const": "V-06",
+          "title": "V-06 - FPackageFileVersion in the image (DATA-FORMAT)",
+          "description": "The serialization version pair compiled into the shipping image as initialised data. DATA-FORMAT source, independent of V-05: a different file written by a different producer (the C++ compiler, not the container writer)."
+        },
+        {
+          "const": "V-07",
+          "title": "V-07 - staged plugin and project files",
+          "description": "Names read out of the plaintext pak index. Raw evidence only: the artifact records it as not load-bearing, because deciding that a plugin did not exist before a release needs a provably COMPLETE reference tree."
+        },
+        {
+          "const": "external-doc",
+          "title": "external-doc - an ORACLE name standing in a method field",
+          "description": "RECORDED, NOT ENDORSED. This value appears in sources[].method in research/unreal/engine-version.json for the public UE release metadata, and 'external-doc' is one of the nine ORACLES of plan.md 10.5, not a method id: plan.md 10.4/EV-03 counts acts of measurement in the method field and says in terms that an oracle is not one. The schema admits the value so that the artifact as it stands validates rather than being silently exempted from the schema layer, and names the defect here so a reader sees it. The fix belongs in tools/static/engine_version.py: give the reading of a reference tree its own method id and keep external-doc in the record-level oracle list, where it already is."
+        }
+      ]
+    },
+    "text_method": {
+      "title": "TEXT method",
+      "description": "A method that reads the version as CHARACTERS written by the build. plan.md 4.2 permits confidence >= 0.90 on engine_version only when at least one of these agrees with at least one data-format method, so the membership is a fact the schema checks and not a sentence in a note: naming V-05 here fails validation.",
+      "type": "string",
+      "enum": [
+        "V-01",
+        "V-03"
+      ]
+    },
+    "data_format_method": {
+      "title": "DATA-FORMAT method",
+      "description": "A method that reads a SERIALIZATION-format version - a number the engine changes when the format changes. The half of the plan.md 4.2 bar that cannot be satisfied by re-reading a version stamp.",
+      "type": "string",
+      "enum": [
+        "V-05",
+        "V-06"
+      ]
+    },
+    "data_format_adjacent_method": {
+      "title": "DATA-FORMAT-ADJACENT method",
+      "description": "A method that is neither a text stamp nor a serialization format, but a per-release constant compiled into the engine. Kept on its own axis on purpose: counting it as data-format would overstate the plan.md 4.2 bar by one source.",
+      "type": "string",
+      "enum": [
+        "V-04"
+      ]
+    },
+    "source_block_id": {
+      "title": "Raw evidence block id",
+      "description": "A key of the top-level `sources` object. V-02a and V-02b share one block because they are two readings of the same crash-report directory.",
+      "type": "string",
+      "enum": [
+        "V-01",
+        "V-02a_and_V-02b",
+        "V-03",
+        "V-04",
+        "V-05",
+        "V-06",
+        "V-07"
+      ]
+    },
+    "literal_read": {
+      "title": "Literal read (class P)",
+      "description": "One reading of a determinate range, and nothing more. The primitive half of the plan.md A-07 / A-07i split: `claim` states the offset AND the length and stops short of naming what the bytes are, and the interpretation lives in the surrounding decoded block. `decoded_field` is a join key between the two halves and is not part of the claim.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/install_relative_path"
+        },
+        "offset": {
+          "$ref": "#/$defs/offset"
+        },
+        "length": {
+          "$ref": "#/$defs/read_length"
+        },
+        "bytes_hex": {
+          "$ref": "#/$defs/hex_bytes"
+        },
+        "decoded_field": {
+          "description": "Join key into the decoded layer. Not part of the claim - naming the field inside the claim is what plan.md 10.3 v2.4 disqualifies.",
+          "type": "string",
+          "minLength": 1
+        },
+        "claim": {
+          "description": "The citable sentence. It must state the position and the extent; tools/kb/validate.py reads this text and is the stricter gate - a claim that passes here can still be refused there for naming what the bytes are.",
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "$ref": "kb-record.schema.json#/$defs/annotation",
+          "description": "The grade of this literal read.",
+          "allOf": [
+            {
+              "$comment": "A narrowing of the referenced envelope, not a restatement of it: every member below is already defined in kb-record.schema.json#/$defs/annotation and is only being made MANDATORY here, because a record in this array is a literal read by construction. plan.md 10.3 v2.3 makes the level decide the class, and v2.4 requires the read_locus for the binary-analysis and container-metadata oracles this layer uses.",
+              "properties": {
+                "evidence_level": {
+                  "const": "OBSERVED"
+                },
+                "claim_class": {
+                  "const": "P"
+                },
+                "read_locus": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "evidence_level",
+                "confidence",
+                "oracle",
+                "sources",
+                "read_locus"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "target",
+        "offset",
+        "length",
+        "bytes_hex",
+        "decoded_field",
+        "claim",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "v01_hit": {
+      "title": "V-01 marker hit",
+      "type": "object",
+      "properties": {
+        "marker": {
+          "type": "string",
+          "minLength": 1
+        },
+        "string": {
+          "type": "string"
+        },
+        "encoding": {
+          "type": "string",
+          "enum": [
+            "ascii",
+            "utf-16le"
+          ]
+        },
+        "offset": {
+          "$ref": "#/$defs/offset"
+        },
+        "length": {
+          "$ref": "#/$defs/read_length"
+        },
+        "section": {
+          "$ref": "#/$defs/pe_section_name"
+        }
+      },
+      "required": [
+        "marker",
+        "string",
+        "encoding",
+        "offset",
+        "length",
+        "section"
+      ],
+      "additionalProperties": false
+    },
+    "v01_image": {
+      "title": "V-01 per-image reading",
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/install_relative_path"
+        },
+        "hit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/v01_hit"
+          }
+        },
+        "parsed": {
+          "title": "Parsed version strings",
+          "description": "What the version literals of one image parse to. Every list is sorted and de-duplicated; an EMPTY list is a reading and not a gap - it says this image carries no literal of that kind.",
+          "type": "object",
+          "properties": {
+            "branches": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "changelists": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "fixed_file_info_versions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/dotted_version"
+              }
+            },
+            "full_versions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_version"
+              }
+            },
+            "minor_lines": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_line"
+              }
+            },
+            "versions_followed_by_a_branch_literal": {
+              "description": "Full versions that are IMMEDIATELY followed by a branch literal, which is the shape the engine's own version string has. Kept apart from full_versions because an unattached '5.4.4' in an image is a much weaker reading.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_version"
+              }
+            }
+          },
+          "required": [
+            "branches",
+            "changelists",
+            "fixed_file_info_versions",
+            "full_versions",
+            "minor_lines",
+            "versions_followed_by_a_branch_literal"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "hit_count",
+        "hits",
+        "parsed"
+      ],
+      "additionalProperties": false
+    },
+    "rt_version_location": {
+      "title": "RT_VERSION resource location",
+      "type": "object",
+      "properties": {
+        "data_rva": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "file_offset": {
+          "$ref": "#/$defs/offset"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "language_id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "section": {
+          "$ref": "#/$defs/pe_section_name"
+        }
+      },
+      "required": [
+        "data_rva",
+        "file_offset",
+        "size",
+        "language_id",
+        "section"
+      ],
+      "additionalProperties": false
+    },
+    "version_info": {
+      "title": "VS_VERSIONINFO",
+      "description": "The version resource split into the fixed binary part and the localized string table. The string table is left OPEN on purpose: its keys are chosen by whoever built the image, and a schema that closed the set would refuse to record what a vendor actually shipped.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "fixed": {
+          "description": "VS_FIXEDFILEINFO values, as read.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "file_version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "product_version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "file_flags": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word",
+              "description": "FileFlags bitfield as hex text. A set VS_FF_DEBUG bit is evidence about build configuration and is what decision D-04 turns on."
+            },
+            "file_os": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word"
+            },
+            "file_type": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word"
+            },
+            "file_subtype": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word"
+            }
+          },
+          "additionalProperties": false
+        },
+        "strings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "translations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "v03_image": {
+      "title": "V-03 per-image reading",
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/install_relative_path"
+        },
+        "diagnosis": {
+          "description": "Why the reading came out as it did. An absent or empty version resource is a finding, not a gap, so it gets a name of its own instead of a null.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "absent",
+            "unreadable",
+            "no-version-resource",
+            "version-resource-empty",
+            "version-resource-populated",
+            null
+          ]
+        },
+        "rt_version_locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/rt_version_location"
+          }
+        },
+        "version_info": {
+          "$ref": "#/$defs/version_info"
+        },
+        "parsed": {
+          "title": "Parsed version strings",
+          "description": "What the version literals of one image parse to. Every list is sorted and de-duplicated; an EMPTY list is a reading and not a gap - it says this image carries no literal of that kind.",
+          "type": "object",
+          "properties": {
+            "branches": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "changelists": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "fixed_file_info_versions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/dotted_version"
+              }
+            },
+            "full_versions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_version"
+              }
+            },
+            "minor_lines": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_line"
+              }
+            },
+            "versions_followed_by_a_branch_literal": {
+              "description": "Full versions that are IMMEDIATELY followed by a branch literal, which is the shape the engine's own version string has. Kept apart from full_versions because an unattached '5.4.4' in an image is a much weaker reading.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ue_version"
+              }
+            }
+          },
+          "required": [
+            "branches",
+            "changelists",
+            "fixed_file_info_versions",
+            "full_versions",
+            "minor_lines",
+            "versions_followed_by_a_branch_literal"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "diagnosis",
+        "rt_version_locations",
+        "version_info",
+        "parsed"
+      ],
+      "additionalProperties": false
+    },
+    "crash_xml_fields": {
+      "title": "CrashContext.runtime-xml engine fields",
+      "description": "The engine fields of one crash report, EVERY value nullable: a report whose XML is missing or unparsed records the absence field by field rather than dropping the report. UNGRADED throughout - research/unknowns.md NEW-01 leaves crash-report content without an oracle, so nothing here may be promoted to a graded claim while NEW-01 is open.",
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "module_identity": {
+      "title": "Loaded-module identity",
+      "description": "The five values that decide whether a crash report belongs to THIS build (RISK-09).",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/install_relative_path"
+        },
+        "checksum": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "size_of_image": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "time_date_stamp": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "pdb_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pdb_guid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pdb_age": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "file_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "product_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "correspondence_field": {
+      "title": "One identity comparison",
+      "type": "object",
+      "properties": {
+        "equal": {
+          "type": "boolean"
+        },
+        "in_dump": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ]
+        },
+        "on_disk": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "equal",
+        "in_dump",
+        "on_disk"
+      ],
+      "additionalProperties": false
+    },
+    "crash_report": {
+      "title": "One crash report",
+      "type": "object",
+      "properties": {
+        "report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mtime_utc": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "has_crash_context_xml": {
+          "type": "boolean"
+        },
+        "has_minidump": {
+          "type": "boolean"
+        },
+        "loaded_shipping_module": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/module_identity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "build_correspondence": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "description": "'undecidable' is a real answer and is kept distinct from 'other-build': a report whose module record could not be read proves nothing either way.",
+              "type": "string",
+              "enum": [
+                "this-build",
+                "other-build",
+                "undecidable"
+              ]
+            },
+            "reason": {
+              "type": "string"
+            },
+            "fields": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/correspondence_field"
+              }
+            }
+          },
+          "required": [
+            "verdict",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "xml_fields": {
+          "$ref": "#/$defs/crash_xml_fields"
+        }
+      },
+      "required": [
+        "report",
+        "build_correspondence"
+      ],
+      "additionalProperties": false
+    },
+    "mtime_range": {
+      "title": "Modification-time range",
+      "type": "object",
+      "properties": {
+        "earliest": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latest": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "earliest",
+        "latest"
+      ],
+      "additionalProperties": false
+    },
+    "distinct_fields_group": {
+      "title": "Distinct field set with a count",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fields": {
+          "$ref": "#/$defs/crash_xml_fields"
+        }
+      },
+      "required": [
+        "count",
+        "fields"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

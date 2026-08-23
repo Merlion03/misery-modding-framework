@@ -671,10 +671,84 @@ def build_inventory(
         # build_configuration / methods here would state an unverified provenance
         # as fact. Those fields are established in M1 (plan.md 4.2) and stay
         # absent, i.e. UNKNOWN, until then.
-        "engine_version": {"value": engine_version, "provisional": True},
+        #
+        # 'provisional' is NOT hard-coded. It was, and that made this file disagree
+        # with research/unreal/engine-version.json once M1.5 concluded -- the same
+        # fact carrying two grades in two artifacts, which plan.md 18.3 item 6 makes
+        # a blocker for closing a milestone. The flag now follows the authority, so
+        # the two cannot drift again. Absent authority means still provisional: a
+        # fresh clone has no conclusion to read and must not pretend otherwise.
+        "engine_version": {
+            "value": engine_version,
+            "provisional": engine_version_is_provisional(),
+        },
         "files": records,
         "notes": notes,
     }
+
+
+# --- engine version authority (plan.md 4.2, section 18.3 item 6) -------------
+#
+# research/unreal/engine-version.json is the ONE place the engine claim is
+# concluded. This tool records the version as a convenience duplicate, so it must
+# follow that conclusion rather than carry an opinion of its own. plan.md 4.2 sets
+# the bar for a settled claim at confidence 0.90 with at least one text and one
+# data-format source; below it the value stays provisional.
+ENGINE_AUTHORITY_RELPATH = os.path.join("research", "unreal", "engine-version.json")
+ENGINE_SETTLED_AT = 0.90
+
+
+def _engine_authority_confidence():
+    """Confidence the authority assigns to engine_version, or None.
+
+    None means "no conclusion to read" -- an absent, unreadable or malformed
+    authority, or one that has not concluded. Every one of those keeps the value
+    provisional, because a fresh clone has nothing to read and must not pretend.
+    """
+    # tools/inventory/snapshot_install.py -> tools/inventory -> tools -> repo root.
+    # Three levels, not two: two lands in tools/ and the read silently fails open
+    # to "provisional", which looks like a conclusion rather than a missing file.
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    path = os.path.join(root, ENGINE_AUTHORITY_RELPATH)
+    try:
+        with open(path, encoding="utf-8") as handle:
+            document = json.load(handle)
+    except (OSError, ValueError):
+        return None
+    # Shape as published: $.claim.engine_version.evidence.confidence. The claim
+    # container is named "claim", singular; "claims" is accepted only so a rename
+    # does not silently turn a settled version back into a provisional one -- a
+    # missing key here fails OPEN to provisional, which is the safe direction but
+    # also the direction that hides a typo.
+    claims = document.get("claim")
+    if not isinstance(claims, dict):
+        claims = document.get("claims")
+    if not isinstance(claims, dict):
+        return None
+    node = claims.get("engine_version")
+    if not isinstance(node, dict):
+        return None
+    evidence = node.get("evidence")
+    source = evidence if isinstance(evidence, dict) else node
+    value = source.get("confidence")
+    return value if isinstance(value, (int, float)) else None
+
+
+def engine_version_is_provisional() -> bool:
+    confidence = _engine_authority_confidence()
+    return confidence is None or confidence < ENGINE_SETTLED_AT
+
+
+def _engine_provisional_note() -> str:
+    confidence = _engine_authority_confidence()
+    if confidence is None:
+        return ("provisional: research/unreal/engine-version.json was not readable "
+                "from here, so no conclusion could be followed.")
+    if confidence < ENGINE_SETTLED_AT:
+        return ("provisional: the authority concludes at confidence %.2f, below the "
+                "plan.md 4.2 bar of %.2f." % (confidence, ENGINE_SETTLED_AT))
+    return ("settled: research/unreal/engine-version.json concludes at confidence "
+            "%.2f, at or above the plan.md 4.2 bar of %.2f." % (confidence, ENGINE_SETTLED_AT))
 
 
 def _compose_notes(
@@ -709,10 +783,9 @@ def _compose_notes(
         "document; mtime_epoch is the same instant truncated to whole seconds.",
         "hashing: %s, sha256 and sha1 in a single streaming pass with a %d byte "
         "buffer." % ("enabled" if hash_files else "DISABLED (digests are null)", buf_size),
-        "engine_version source: %s; provisional until M1 confirms it from two "
-        "independent oracles (plan.md 4.2). cl, branch and build_configuration "
+        "engine_version source: %s; %s cl, branch and build_configuration "
         "are UNKNOWN to this tool and deliberately omitted."
-        % engine_version_source,
+        % (engine_version_source, _engine_provisional_note()),
         "steam_root: %s." % (steam_root if steam_root else "UNKNOWN"),
         "file_count check: expected %s, %s."
         % (

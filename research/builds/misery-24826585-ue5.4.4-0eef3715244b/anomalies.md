@@ -1,6 +1,6 @@
 # Аномалии установки — misery-24826585-ue5.4.4-0eef3715244b
 
-Сгенерировано `tools/fingerprint/fingerprint.py` 1.0.0, `generated_at = 2026-08-23T10:28:22Z`.
+Сгенерировано `tools/fingerprint/fingerprint.py` 1.0.0, `generated_at = 2026-08-23T13:42:12Z`.
 
 `build_key = sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383`
 

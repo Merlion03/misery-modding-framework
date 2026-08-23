@@ -34,25 +34,43 @@ one entry in ``checks[]`` per comparison. A copied value proves that two files a
 recomputed value that matches proves the installation still is what the registry says it
 is - and a mismatch is exactly the event the registry exists to detect.
 
-WHAT IS LEFT NULL, AND WHY THAT IS NOT A GAP
---------------------------------------------
-plan.md 3.1 sources the ``engine`` and ``game`` groups from section 4, and section 4 has
-not run. Filling those fields from what is lying around would be the whole failure mode
-this repository is built against, so they are emitted as ``null`` with an evidence
-annotation that names the plan.md 4 method which would conclude each one. Two points a
-reader should not have to dig for:
+THE ENGINE GROUP IS READ FROM ITS AUTHORITY, NOT GRADED HERE
+-----------------------------------------------------------
+plan.md 3.1 sources the ``engine`` group from section 4, and section 4 publishes its
+conclusions in ``research/unreal/engine-version.json``. This tool READS that document,
+field by field, and carries no engine grade of its own.
 
-* ``engine.engine_version`` is the ONE exception, and it is not a new claim. The value
-  ``5.4.4`` is already published by ``install-inventory.json`` as PROVISIONAL and is
-  already baked into ``build_id``; emitting ``null`` here would put the fingerprint at
-  odds with its own directory name. It carries ``engine_version_provisional: true`` and
-  an annotation at confidence 0.79 - below the 0.80 band, because exactly ONE method was
-  executed in this run (the ``VS_VERSIONINFO`` read of F-01).
-* ``engine.engine_cl`` and ``engine.engine_branch`` stay ``null`` even though the literal
-  string ``++UE5+Release-5.4-CL-35576357`` is recorded in this very document, under
-  ``executables[].pe.version_info.strings.ProductVersion``. Reading a changelist and a
-  branch OUT of that string is method V-03 of plan.md 4; the fingerprint records the
-  string, not the conclusion. This distinction is the entire point of the artifact.
+That is a correction, and the reason is worth keeping. When F-03 was written section 4
+had not run, so this file carried its own provisional guess for ``engine_version``:
+INFERRED 0.79, one method. Section 4 then concluded INFERRED 0.93 from five sources, and
+the same fact sat at two grades in two artifacts - exactly the defect plan.md 18.3 item 6
+exists to catch. Hand-editing the generated ``fingerprint.json`` would have left THIS
+file emitting 0.79 on the next run, which is how the two diverged in the first place, so
+the guess was removed from the generator instead. ``engine_cl``, ``engine_branch`` and
+``build_configuration`` arrive the same way, each at the authority's own confidence, and
+the group annotation carries the LOWEST of them rather than an average: one annotation
+standing for four claims may not describe any of them better than its own document does,
+and the properly split record is the authority itself.
+
+Two consequences a reader should not have to dig for:
+
+* ``engine_version`` is still the value embedded in ``build_id``, never the authority's
+  string copied over it. The two are COMPARED, and the comparison is reported as the
+  ``engine_version_matches_engine_authority`` check - a disagreement between the
+  concluded version and the version in this document's own directory name is a finding,
+  and when it happens nothing at all is lifted from the authority.
+* On a fresh clone the authority does not exist. The group then falls back to the one
+  reading this run performs for itself - the ``VS_VERSIONINFO`` read of F-01, one method,
+  INFERRED 0.79, below the 0.80 two-method band - and the annotation says so, naming the
+  path it did not find. Every field section 4 concludes stays ``null``. In particular
+  ``engine_cl`` and ``engine_branch`` stay null even though the literal string
+  ``++UE5+Release-5.4-CL-35576357`` is recorded in this very document under
+  ``executables[].pe.version_info.strings.ProductVersion``: reading a changelist OUT of
+  that string is method V-03 of plan.md 4, and the fingerprint records the string, not
+  the conclusion. That distinction is the entire point of the artifact.
+
+The ``game`` group is still null throughout, with an annotation naming the method that
+would conclude each of its fields.
 
 F-05, THE ANOMALY DETECTOR
 --------------------------
@@ -252,6 +270,62 @@ TOOL_CORRECTNESS_CHECKS: frozenset[str] = frozenset({
 # that re-read confirms the file really did change. An unconfirmed difference stays a
 # failure - otherwise this list would be a hole shaped like an excuse.
 MUTABLE_INPUT_POINTERS: frozenset[str] = frozenset({"$.steam.appmanifest_sha256"})
+
+# --------------------------------------------------------------------------- #
+# the engine claim -- READ from its authority, never carried here
+# --------------------------------------------------------------------------- #
+#
+# plan.md 4 owns the engine claim and publishes it in research/unreal/engine-version.json.
+# This tool used to carry its OWN provisional grade for engine_version (INFERRED 0.79,
+# one method) because section 4 had not run when F-03 was written. Section 4 has now run,
+# and the two documents therefore graded the SAME fact differently - the exact defect
+# plan.md 18.3 item 6 exists to catch. Hand-editing the generated file would have left
+# this generator emitting 0.79 on the next run, so the fix is here: the grade is READ
+# from the authority, per field, and nothing about it is restated in this source.
+#
+# WHAT HAPPENS WHEN THE AUTHORITY IS NOT THERE. The generator must work on a fresh clone
+# that has no research/unreal/engine-version.json, and on a repository where section 4
+# has started but not concluded. In both cases it falls back to what THIS run can see
+# for itself - the VS_VERSIONINFO read of F-01, one method, INFERRED 0.79 - and the
+# annotation note says, naming the path, that the authority was not found or did not
+# conclude and that the grade is this run's own single-method reading rather than a
+# conclusion of plan.md 4. No value and no grade is invented: every field section 4 owns
+# stays null, and the reason is in the note rather than left to be guessed.
+ENGINE_AUTHORITY_RELPATH: tuple[str, ...] = ("research", "unreal", "engine-version.json")
+DEFAULT_REPO_ROOT = os.path.dirname(_TOOLS)
+DEFAULT_ENGINE_AUTHORITY = os.path.join(DEFAULT_REPO_ROOT, *ENGINE_AUTHORITY_RELPATH)
+
+# A claim of the authority counts as CONCLUDED when it carries a value and an evidence
+# level that asserts something. UNKNOWN and HYPOTHESIS do not conclude: plan.md 4.2 keeps
+# engine_is_vanilla UNKNOWN until M3, and research/unknowns.md NEW-01 leaves
+# is_source_distribution oracle-less, and both of those must arrive here as null with the
+# authority's own reason attached - not as a value this tool felt able to fill in.
+CONCLUDING_LEVELS: frozenset[str] = frozenset({"OBSERVED", "INFERRED"})
+
+# plan.md 4.2's own bar for calling engine_version settled: "confidence >= 0.90 only if
+# >= 1 text source and >= 1 data-format source agree". The number is the authority's to
+# meet; this tool only reads whether it was met, and refuses to be the place where a
+# provisional version is promoted by hand.
+ENGINE_VERSION_SETTLED_AT = 0.90
+
+# The fields of the plan.md 3.1 "Engine" group that plan.md 4 concludes, mapped to the
+# claim name the authority publishes them under. is_perforce_build is absent on purpose:
+# the authority carries no claim of that name, so this tool has nothing to read and the
+# field stays null with that said in the note.
+ENGINE_AUTHORITY_FIELDS: dict[str, str] = {
+    "engine_version": "engine_version",
+    "engine_cl": "engine_cl",
+    "engine_branch": "engine_branch",
+    "build_configuration": "build_configuration",
+    "is_source_distribution": "is_source_distribution",
+}
+
+# Claims of the authority that this document has NO field for and must therefore describe
+# in prose rather than drop. fingerprint.schema.json#/$defs/engine is
+# additionalProperties:false, so inventing a key for engine_is_vanilla here would make
+# the document fail its own published schema.
+ENGINE_AUTHORITY_PROSE_ONLY: tuple[str, ...] = ("engine_is_vanilla",
+                                                "engine_version_minor_line")
 
 
 # --------------------------------------------------------------------------- #
@@ -822,9 +896,125 @@ def build_plugins(disk_files: list[dict], containers: list[dict]) -> list[dict]:
     return plugins
 
 
+def read_engine_authority(path: str | None, warnings: list[str]) -> dict | None:
+    """Read the graded engine claims of ``research/unreal/engine-version.json``.
+
+    plan.md 4 owns those claims; this tool reads them and restates nothing. The return
+    value is ``{"path", "build_key", "generated_at", "claims"}`` where each claim is
+    ``{"value", "evidence_level", "confidence", "oracle", "methods", "concluded",
+    "pointer"}`` - the authority's own grade, carried through unchanged.
+
+    ``None`` is returned when the authority is absent, unreadable, or not shaped like the
+    authority, and a warning says which. That is not an error condition: a fresh clone has
+    no such file, and the caller then falls back to what this run measured for itself
+    rather than to a number invented here.
+    """
+    relative = "/".join(ENGINE_AUTHORITY_RELPATH)
+    if not path:
+        warnings.append("no engine claim authority was given; %s was not read" % relative)
+        return None
+    if not os.path.isfile(path):
+        warnings.append(
+            "the engine claim authority %s is not present, so no field of the engine "
+            "group could be lifted from it" % relative)
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            document = json.load(handle)
+    except (OSError, ValueError) as error:
+        warnings.append("cannot read the engine claim authority %s: %s"
+                        % (relative, error))
+        return None
+    raw = document.get("claim") if isinstance(document, dict) else None
+    if not isinstance(raw, dict):
+        warnings.append("the engine claim authority %s carries no claim object" % relative)
+        return None
+
+    claims: dict[str, dict] = {}
+    for name, entry in raw.items():
+        if not isinstance(entry, dict):
+            continue
+        evidence = entry.get("evidence") or {}
+        level = evidence.get("evidence_level")
+        confidence = evidence.get("confidence")
+        methods = [item.get("method") for item in (evidence.get("sources") or [])
+                   if isinstance(item, dict) and item.get("method")]
+        claims[name] = {
+            "value": entry.get("value"),
+            "evidence_level": level,
+            "confidence": (float(confidence)
+                           if isinstance(confidence, (int, float)) else None),
+            "oracle": sorted(set(evidence.get("oracle") or [])),
+            "methods": sorted(set(methods)),
+            "concluded": level in CONCLUDING_LEVELS and entry.get("value") is not None,
+            "pointer": "/claim/%s" % name,
+        }
+    return {"path": relative, "build_key": document.get("build_key"),
+            "generated_at": document.get("generated_at"), "claims": claims}
+
+
+def _grade_phrase(field: str, claim: dict) -> str:
+    """``engine_cl INFERRED 0.90 from V-01, V-03, external-doc`` - one claim's own grade."""
+    return "%s %s %s from %s" % (
+        field, claim["evidence_level"],
+        "unstated" if claim["confidence"] is None else "%.2f" % claim["confidence"],
+        ", ".join(claim["methods"]) or "no method named")
+
+
+def _authority_phrase(name: str, authority: dict | None) -> str:
+    """How the authority leaves a claim this document does not fill from it."""
+    claim = ((authority or {}).get("claims") or {}).get(name)
+    if claim is None:
+        return "%s: no claim of that name in the authority" % name
+    if claim["concluded"]:
+        return "%s: concluded there as %r, %s %s from %s" % (
+            name, claim["value"], claim["evidence_level"],
+            "unstated" if claim["confidence"] is None else "%.2f" % claim["confidence"],
+            ", ".join(claim["methods"]) or "no method named")
+    return "%s: %s there, confidence %s" % (
+        name, claim["evidence_level"] or "ungraded",
+        "unstated" if claim["confidence"] is None else "%.2f" % claim["confidence"])
+
+
+def _engine_unfilled_tail(filled: list[str], authority: dict | None) -> str:
+    """The sentence that accounts for every engine field this group does not fill.
+
+    Written because a null with no stated reason is indistinguishable from a null nobody
+    thought about, and this group has four different reasons for its nulls.
+    """
+    not_concluded = [field for field in sorted(ENGINE_AUTHORITY_FIELDS)
+                     if field not in filled]
+    return (
+        " Every field this group does NOT fill, and why. Owned by plan.md 4 and not "
+        "concluded there yet: %s. No field exists in this document for two further "
+        "claims the authority does carry, because fingerprint.schema.json#/$defs/engine "
+        "is additionalProperties:false and inventing a key would make the document fail "
+        "its own published schema, so they are named here rather than dropped: %s - and "
+        "engine_is_vanilla in particular is UNKNOWN BY RULE, plan.md 4.2 keeping it so "
+        "until M3 because IsSourceDistribution false says the engine came from an "
+        "installed binary distribution and not that nothing was changed in it "
+        "afterwards. Not the authority's to answer at all: is_perforce_build, null "
+        "because no claim of that name exists anywhere in this repository; and "
+        "build_machine_path_leak, null because the CodeView entries of this build carry "
+        "bare file names with no directory component - see "
+        "executables[].pe.pdb_path_if_any."
+        % ("; ".join(_authority_phrase(ENGINE_AUTHORITY_FIELDS[field], authority)
+                     for field in not_concluded) or "none",
+           "; ".join(_authority_phrase(name, authority)
+                     for name in ENGINE_AUTHORITY_PROSE_ONLY)))
+
+
 def build_engine(executables: list[dict], engine_version: str | None,
-                 provisional: bool) -> dict:
-    """plan.md 3.1 "Engine". Everything section 4 owns stays null - see the module docstring."""
+                 provisional: bool, authority: dict | None,
+                 warnings: list[str]) -> dict:
+    """plan.md 3.1 "Engine", graded by plan.md 4 and READ from its authority.
+
+    Nothing in this function decides what the engine version is or how well it is known.
+    Every filled field and every number in the annotation comes from
+    ``research/unreal/engine-version.json``; when that document is absent or has not
+    concluded, the group falls back to the one reading this run performs for itself and
+    says so. See the constants block above for the whole decision.
+    """
     strings: dict[str, str] = {}
     fixed: dict[str, str] = {}
     for entry in executables:
@@ -836,38 +1026,139 @@ def build_engine(executables: list[dict], engine_version: str | None,
     product_version = strings.get("ProductVersion")
     file_version = fixed.get("file_version")
 
-    return {
+    in_run_source = source(
+        "F-01", "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+        "oracle binary-analysis + external-doc. The VS_VERSIONINFO resource was located "
+        "in .rsrc and decoded by tools/fingerprint/pe_info.py; FileVersion reads %r and "
+        "the ProductVersion string reads %r. The parse was re-run in this session and "
+        "reproduced. This is the one engine reading this run performs itself; it is not "
+        "the source of any grade below." % (file_version, product_version))
+
+    # -- what the authority concluded, per field -----------------------------------
+    concluded: dict[str, dict] = {}
+    for field, name in ENGINE_AUTHORITY_FIELDS.items():
+        claim = ((authority or {}).get("claims") or {}).get(name)
+        if claim is not None and claim["concluded"]:
+            concluded[field] = claim
+
+    version_claim = concluded.get("engine_version")
+    version_agrees = bool(version_claim) and version_claim["value"] == engine_version
+    if version_claim is not None and not version_agrees:
+        # Refusing to lift is the point. build_id embeds engine_version, so an engine
+        # group filled from an authority that names a DIFFERENT version would publish two
+        # versions in one document and bury the disagreement in the difference between
+        # them. The disagreement is reported instead - and main() also raises it as a
+        # failing check, because it is a finding about the repository, not a formatting
+        # question.
+        warnings.append(
+            "the engine claim authority concludes engine_version %r while this document's "
+            "build_id embeds %r; nothing was lifted from the authority"
+            % (version_claim["value"], engine_version))
+        concluded = {}
+        version_claim, version_agrees = None, False
+
+    settled = bool(version_agrees and version_claim["confidence"] is not None
+                   and version_claim["confidence"] >= ENGINE_VERSION_SETTLED_AT)
+    if not settled:
+        # The changelist, the branch and the configuration are all properties OF a
+        # version. Publishing them while the version itself has not reached the plan.md
+        # 4.2 bar would grade the derivatives above their own subject, so the whole group
+        # waits for the version rather than filling in around it.
+        concluded = {}
+
+    group = {
         "engine_version": engine_version,
-        "engine_version_provisional": provisional,
-        "engine_cl": None,
-        "engine_branch": None,
-        "build_configuration": None,
-        "is_source_distribution": None,
+        # The authority decides this, and --engine-version-final can only assert it in
+        # the authority's absence. Neither can make a settled version provisional again.
+        "engine_version_provisional": bool(provisional) and not settled,
+        "engine_cl": (concluded.get("engine_cl") or {}).get("value"),
+        "engine_branch": (concluded.get("engine_branch") or {}).get("value"),
+        "build_configuration": (concluded.get("build_configuration") or {}).get("value"),
+        "is_source_distribution": (concluded.get("is_source_distribution")
+                                   or {}).get("value"),
+        # No claim of this name exists in the authority, so there is nothing to read.
         "is_perforce_build": None,
         "build_machine_path_leak": None,
-        "evidence": annotation(
-            "INFERRED", "I", CONF_ONE_METHOD_I, ["binary-analysis", "external-doc"],
-            [source("F-01", "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
-                    "oracle binary-analysis + external-doc. The VS_VERSIONINFO resource "
-                    "was located in .rsrc and decoded by tools/fingerprint/pe_info.py; "
-                    "FileVersion reads %r and the ProductVersion string reads %r. The "
-                    "parse was re-run in this session and reproduced."
-                    % (file_version, product_version))],
-            "engine_version is PROVISIONAL and is not a conclusion of this run: it is the "
-            "value research/builds/index.json and install-inventory.json already publish, "
-            "and it is embedded in build_id, so emitting null here would put the "
-            "fingerprint at odds with its own directory name. One method was executed "
-            "(the version-resource read), which is why the confidence sits below the 0.80 "
-            "two-method band. engine_cl, engine_branch, build_configuration, "
-            "is_source_distribution and is_perforce_build are null ON PURPOSE: plan.md 3.1 "
-            "sources them from section 4 and section 4 has not run. In particular the "
-            "changelist and the branch are legible IN the literal ProductVersion string "
-            "recorded verbatim under executables[].pe.version_info.strings, and decoding "
-            "that string into a changelist is method V-03 of plan.md 4 - this document "
-            "records the string, not the conclusion. build_machine_path_leak is null "
-            "because the CodeView entries carry bare file names with no directory "
-            "component; see executables[].pe.pdb_path_if_any."),
     }
+
+    filled = [field for field in sorted(ENGINE_AUTHORITY_FIELDS)
+              if field in concluded and (field != "engine_version" or settled)]
+    tail = _engine_unfilled_tail(filled, authority)
+
+    if not filled:
+        why = ("the authority %s was not read (see warnings)" % "/".join(
+            ENGINE_AUTHORITY_RELPATH) if authority is None else
+            "the authority %s does not conclude engine_version at the plan.md 4.2 bar "
+            "of %.2f" % (authority["path"], ENGINE_VERSION_SETTLED_AT))
+        group["evidence"] = annotation(
+            "INFERRED", "I", CONF_ONE_METHOD_I, ["binary-analysis", "external-doc"],
+            [in_run_source],
+            "engine_version is PROVISIONAL here and is NOT a conclusion of plan.md 4, "
+            "because %s. The value is the one embedded in build_id and published by "
+            "research/builds/index.json and install-inventory.json; emitting null would "
+            "put this document at odds with its own directory name, so the value stays "
+            "and the GRADE is the one this run can defend on its own - a single method, "
+            "the version-resource read of F-01, which is why the confidence sits below "
+            "the 0.80 two-method band. Nothing here was lifted from anywhere: every "
+            "field plan.md 4 concludes is null. In particular the changelist and the "
+            "branch are legible IN the literal ProductVersion string recorded verbatim "
+            "under executables[].pe.version_info.strings, and decoding that string into "
+            "a changelist is method V-03 of plan.md 4 - this document records the "
+            "string, not the conclusion.%s" % (why, tail))
+        return group
+
+    # -- the grade, assembled from the authority's per-field grades ----------------
+    graded = [concluded[field] for field in filled]
+    confidences = [claim["confidence"] for claim in graded
+                   if claim["confidence"] is not None]
+    oracles = sorted({name for claim in graded for name in claim["oracle"]})
+    # The weakest level covered, never the strongest: one annotation stands for several
+    # claims here, and it may not describe any of them better than the authority does.
+    level = "OBSERVED" if all(claim["evidence_level"] == "OBSERVED"
+                              for claim in graded) else "INFERRED"
+
+    by_method: dict[str, list[str]] = {}
+    for field in filled:
+        for method in concluded[field]["methods"]:
+            by_method.setdefault(method, []).append(field)
+    sources = [
+        source(method, "%s#%s" % (authority["path"],
+                                 ",".join(concluded[field]["pointer"]
+                                          for field in fields)),
+               "oracle %s. Conclusion READ from %s, not re-derived here: that document "
+               "lists %s among the sources for %s, and this composer parses no engine "
+               "version of its own. Grade as published there: %s."
+               % (" + ".join(sorted({name for field in fields
+                                     for name in concluded[field]["oracle"]})),
+                  authority["path"], method, ", ".join(fields),
+                  "; ".join(_grade_phrase(field, concluded[field]) for field in fields)))
+        for method, fields in sorted(by_method.items())
+    ] + [in_run_source]
+
+    group["evidence"] = annotation(
+        level, "I", min(confidences) if confidences else CONF_NONE, oracles, sources,
+        "Every filled field of this group is READ from %s, which plan.md 4 owns; the "
+        "generator carries no engine grade of its own, and that is deliberate - this "
+        "document and the authority graded the same fact differently once, which is the "
+        "cross-document defect plan.md 18.3 item 6 exists to catch, and the fix belongs "
+        "in the generator rather than in the generated file. Per-field grades exactly as "
+        "the authority publishes them, NOT averaged: %s. This single annotation has to "
+        "stand for all of them, so it carries the LOWEST of those confidences (%.2f) and "
+        "the union of their oracles: a group annotation may not describe any member "
+        "better than its own document does, and the properly split record is the "
+        "authority itself, claim by claim. The class is I and cannot be P: a class-P "
+        "annotation must BE the read - offset and length in the claim string - and a "
+        "grade covering four fields of two documents is an interpretation by "
+        "construction. engine_version_provisional is %s because the authority concludes "
+        "engine_version at %s, against the plan.md 4.2 bar of %.2f.%s"
+        % (authority["path"],
+           "; ".join(_grade_phrase(field, concluded[field]) for field in filled),
+           min(confidences) if confidences else 0.0,
+           "false" if not group["engine_version_provisional"] else "true",
+           "unstated" if concluded["engine_version"]["confidence"] is None
+           else "%.2f" % concluded["engine_version"]["confidence"],
+           ENGINE_VERSION_SETTLED_AT, tail))
+    return group
 
 
 def build_game() -> dict:
@@ -929,15 +1220,23 @@ def build_layout(disk_files: list[dict], digests: dict[str, dict[str, str]],
 def build_document(install_dir: str, *, steam_root: str | None = None,
                    engine_version: str = inventory.DEFAULT_ENGINE_VERSION,
                    engine_version_provisional: bool = True,
+                   engine_authority: str | None = DEFAULT_ENGINE_AUTHORITY,
                    build_dir_ref: str | None = None,
                    buf_size: int = DEFAULT_BUFFER_BYTES,
                    pe_detail: bool = True) -> dict:
-    """Compose the whole fingerprint. One read-only pass over the installation."""
+    """Compose the whole fingerprint. One read-only pass over the installation.
+
+    ``engine_authority`` is the path of ``research/unreal/engine-version.json``, which
+    plan.md 4 owns and this tool READS rather than duplicates. Passing ``None`` reads no
+    authority and is how the fresh-clone path is exercised deliberately.
+    """
     install_dir = os.path.abspath(install_dir)
     if not os.path.isdir(install_dir):
         raise OSError("not a directory: %s" % install_dir)
     warnings: list[str] = []
     checks: list[dict] = []
+    authority = read_engine_authority(engine_authority, warnings)
+    checks.extend(verify_against_engine_authority(authority, engine_version))
 
     # -- the tree, hashed once ------------------------------------------------
     disk_files = inventory.scan_tree(install_dir, buf_size=buf_size, warnings=warnings,
@@ -1067,6 +1366,9 @@ def build_document(install_dir: str, *, steam_root: str | None = None,
                           (build_dir_ref + "/install-inventory.json") if build_dir_ref
                           else None)
 
+    engine = build_engine(executables, engine_version, engine_version_provisional,
+                          authority, warnings)
+
     document = {
         "identity": {
             "build_id": build_id,
@@ -1083,7 +1385,7 @@ def build_document(install_dir: str, *, steam_root: str | None = None,
         },
         "steam": steam,
         "executables": executables,
-        "engine": build_engine(executables, engine_version, engine_version_provisional),
+        "engine": engine,
         "game": build_game(),
         "modules": modules,
         "containers": containers,
@@ -1091,7 +1393,7 @@ def build_document(install_dir: str, *, steam_root: str | None = None,
         "layout": layout,
         "anomalies": anomalies,
         "notes": compose_notes(content_inputs, manifest_lines, len(manifest_paths),
-                               anomalies, checks, warnings),
+                               anomalies, checks, warnings, engine, authority),
     }
     # Not part of the schema (additionalProperties is false), so the run's own
     # bookkeeping travels beside the document rather than inside it.
@@ -1101,13 +1403,31 @@ def build_document(install_dir: str, *, steam_root: str | None = None,
 
 
 def compose_notes(content_inputs: list[str], manifest_lines: int, manifest_paths: int,
-                  anomalies: list[dict], checks: list[dict],
-                  warnings: list[str]) -> str:
+                  anomalies: list[dict], checks: list[dict], warnings: list[str],
+                  engine: dict, authority: dict | None) -> str:
     """The document's own account of how it was made and what it refuses to say."""
     by_kind: dict[str, int] = {}
     for entry in anomalies:
         by_kind[entry["kind"]] = by_kind.get(entry["kind"], 0) + 1
     failed = [check["check"] for check in checks if not check["passed"]]
+    engine_evidence = engine.get("evidence") or {}
+    if authority is None:
+        engine_state = (
+            "That authority was NOT read in this run - see the warnings - so "
+            "engine_version stays PROVISIONAL at this run's own one-method reading and "
+            "every field section 4 concludes is null.")
+    else:
+        engine_state = (
+            "engine_version %s, engine_version_provisional %s, engine_cl %s, "
+            "engine_branch %s, build_configuration %s, is_source_distribution %s, "
+            "with the group annotation at %s %s and the per-field grades spelled out "
+            "there rather than averaged into it."
+            % (engine.get("engine_version"),
+               "true" if engine.get("engine_version_provisional") else "false",
+               engine.get("engine_cl"), engine.get("engine_branch"),
+               engine.get("build_configuration"), engine.get("is_source_distribution"),
+               engine_evidence.get("evidence_level"),
+               engine_evidence.get("confidence")))
     return (
         "generator: %s %s. Composed, not parsed: every pe object comes verbatim from "
         "tools/fingerprint/pe_info.py, the whole containers[] array verbatim from "
@@ -1125,10 +1445,12 @@ def compose_notes(content_inputs: list[str], manifest_lines: int, manifest_paths
         "%s carries %d line(s) naming %d distinct path(s); the comparison found %s, every "
         "one of them listed in anomalies[] above with its own evidence annotation, and "
         "the same list is rendered as prose in the anomalies.md this run writes when one "
-        "was asked for. Every null in the engine and game groups is deliberate: plan.md "
-        "3.1 sources both groups from section 4, which has not run, and each group "
-        "carries an evidence annotation naming the method that would conclude it. "
-        "engine_version is the one filled field there and it is PROVISIONAL. "
+        "was asked for. THE ENGINE GROUP IS NOT GRADED HERE: plan.md 3.1 sources it from "
+        "section 4, and every filled field and every number in engine.evidence is read "
+        "from research/unreal/engine-version.json, the document section 4 owns - this "
+        "generator carries no engine grade of its own, precisely so that the two cannot "
+        "drift apart again. %s The game group claims nothing at all and carries an "
+        "annotation naming the method that would conclude each of its fields. "
         "Reproducibility checks performed while building this document: %d, failed: "
         "%d%s; the checks about the document itself (schema validation, the two-run "
         "comparison) run after it is built and are reported on the run's own output, "
@@ -1149,6 +1471,7 @@ def compose_notes(content_inputs: list[str], manifest_lines: int, manifest_paths
            NON_UFS_MANIFEST, manifest_lines, manifest_paths,
            ", ".join("%d %s" % (count, kind) for kind, count in sorted(by_kind.items()))
            or "no anomalies",
+           engine_state,
            len(checks), len(failed),
            (" (%s)" % ", ".join(failed)) if failed else "",
            len(warnings)))
@@ -1640,6 +1963,65 @@ def attribute_to_a_changed_input(where: str | None, first_document: dict) -> str
             "identical." % (pointer, path, now, recorded))
 
 
+MUTABLE_INPUT_MASK = "<mutable-input>"
+
+
+def mask_mutable_inputs(*documents: dict) -> list[str]:
+    """Overwrite every :data:`MUTABLE_INPUT_POINTERS` field of each document with a mask.
+
+    Used by the reproducibility self-test to ask the question the attribution cannot
+    answer on its own: with the one field a changed input explains taken out of the way,
+    is anything ELSE different? Returns the pointers actually masked, so a pointer that
+    named nothing is visible rather than silently counted as handled.
+    """
+    masked: list[str] = []
+    for pointer in sorted(MUTABLE_INPUT_POINTERS):
+        parts = pointer.split(".")
+        if parts[0] != "$" or len(parts) < 2 or any("[" in part for part in parts):
+            # The set is a literal constant in this file; a pointer shape this function
+            # cannot follow is a bug here, not input, and must not be waved through.
+            raise ValueError("cannot mask the pointer %s" % pointer)
+        for document in documents:
+            node = document
+            for part in parts[1:-1]:
+                node = node.get(part) if isinstance(node, dict) else None
+                if node is None:
+                    break
+            if isinstance(node, dict) and parts[-1] in node:
+                node[parts[-1]] = MUTABLE_INPUT_MASK
+                if pointer not in masked:
+                    masked.append(pointer)
+    return masked
+
+
+def verify_against_engine_authority(authority: dict | None,
+                                    engine_version: str | None) -> list[dict]:
+    """Does the version this document's build_id embeds match what plan.md 4 concluded?
+
+    The engine group READS its grade from research/unreal/engine-version.json, and the
+    only way that read can go wrong quietly is for the authority to have concluded a
+    DIFFERENT version than the one baked into build_id and into the directory name. So
+    the two strings are compared and the comparison is reported, in the same spirit as
+    the identity checks: a copied value proves two files agree, a compared one proves the
+    document still is what the rest of the repository says it is.
+    """
+    target = "/".join(ENGINE_AUTHORITY_RELPATH)
+    if authority is None:
+        return [{"check": "engine_version_matches_engine_authority", "target": target,
+                 "passed": True, "skipped": True,
+                 "detail": "NOT CHECKED - the authority was not read; see warnings"}]
+    claim = (authority.get("claims") or {}).get("engine_version") or {}
+    if not claim.get("concluded"):
+        return [{"check": "engine_version_matches_engine_authority", "target": target,
+                 "passed": True, "skipped": True,
+                 "detail": "NOT CHECKED - the authority does not conclude engine_version "
+                           "(evidence_level %s)" % claim.get("evidence_level")}]
+    return [{"check": "engine_version_matches_engine_authority", "target": target,
+             "passed": claim["value"] == engine_version,
+             "detail": "the authority concludes %r; build_id embeds %r"
+                       % (claim["value"], engine_version)}]
+
+
 def verify_against_registry(document: dict, repo_root: str) -> list[dict]:
     """Compare the RECOMPUTED identity with what the repository already records.
 
@@ -1789,9 +2171,19 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--engine-version", default=inventory.DEFAULT_ENGINE_VERSION,
                         help="engine version used in build_id; PROVISIONAL until "
                              "plan.md section 4 concludes (default: %(default)s)")
+    parser.add_argument("--engine-authority", default=DEFAULT_ENGINE_AUTHORITY,
+                        help="path of research/unreal/engine-version.json, the document "
+                             "plan.md 4 owns and this tool READS the engine grade from "
+                             "instead of carrying one (default: %(default)s). Pass an "
+                             "empty string to read no authority, which is the fresh-clone "
+                             "path: the engine group then falls back to this run's own "
+                             "one-method reading and says so")
     parser.add_argument("--engine-version-final", action="store_true",
-                        help="mark engine_version as concluded rather than provisional. "
-                             "Only correct after plan.md section 4 has actually run")
+                        help="assert engine_version as concluded rather than provisional "
+                             "WITHOUT the authority. Redundant once "
+                             "research/unreal/engine-version.json concludes it at the "
+                             "plan.md 4.2 bar, and it cannot make a concluded version "
+                             "provisional again")
     parser.add_argument("--no-pe-detail", action="store_true",
                         help="skip per-section digests, entropy and the checksum "
                              "recomputation on executables (faster, less complete)")
@@ -1844,6 +2236,7 @@ def main(argv: list[str] | None = None) -> int:
             args.install_dir,
             engine_version=args.engine_version,
             engine_version_provisional=not args.engine_version_final,
+            engine_authority=args.engine_authority,
             build_dir_ref=build_dir_ref,
             buf_size=args.buffer_bytes,
             pe_detail=not args.no_pe_detail)
@@ -1876,6 +2269,7 @@ def main(argv: list[str] | None = None) -> int:
         again = build_document(
             args.install_dir, engine_version=args.engine_version,
             engine_version_provisional=not args.engine_version_final,
+            engine_authority=args.engine_authority,
             build_dir_ref=build_dir_ref, buf_size=args.buffer_bytes,
             pe_detail=not args.no_pe_detail)["document"]
         first = json.loads(dump_json(document))
@@ -1889,18 +2283,39 @@ def main(argv: list[str] | None = None) -> int:
         # committed, so the text is what is compared.
         where = first_difference(first, second)
         attribution = attribute_to_a_changed_input(where, first)
+        # THE RESIDUAL PASS, and why it is not optional. first_difference reports the
+        # FIRST difference in sorted key order and stops, so an attribution built on it
+        # only ever knew that the app-manifest digest was the first field to move - never
+        # that it was the ONLY one. $.steam sorts last among the top-level groups and
+        # appmanifest_sha256 sorts early inside it, so a second, unexplained difference
+        # anywhere after it was forgiven silently while the check printed the sentence
+        # "Every other byte of the two documents is identical". It now earns that
+        # sentence: the attributed pointers are masked in BOTH documents and the
+        # comparison is run again, and anything still left makes the check fail and names
+        # itself.
+        residual = None
+        if attribution is not None:
+            mask_mutable_inputs(first, second)
+            residual = first_difference(first, second)
         if where is None:
             detail = ("the document was built twice in one process; with "
                       "identity.generated_at masked the two serialise identically")
+        elif attribution is not None and residual is None:
+            detail = ("the two builds differ, and the difference is accounted for: %s "
+                      "With %s masked as well, the remainder of the two documents "
+                      "serialises identically - checked, not assumed."
+                      % (attribution, ", ".join(sorted(MUTABLE_INPUT_POINTERS))))
         elif attribution is not None:
-            detail = "the two builds differ, and the difference is accounted for: %s" \
-                     % attribution
+            detail = ("the two builds differ at %s, which IS attributable to a changed "
+                      "input (%s) - but they ALSO differ at %s, which is not. An "
+                      "unexplained difference is a reproducibility failure whatever else "
+                      "moved alongside it." % (where, attribution, residual))
         else:
             detail = ("the document was built twice in one process and the two DIFFER "
                       "at %s" % where)
         checks.append({
             "check": "two_runs_differ_only_in_generated_at", "target": "fingerprint.json",
-            "passed": where is None or attribution is not None,
+            "passed": where is None or (attribution is not None and residual is None),
             "detail": detail})
 
     written: list[str] = []

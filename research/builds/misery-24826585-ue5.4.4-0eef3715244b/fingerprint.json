@@ -1201,28 +1201,71 @@
     }
   ],
   "engine": {
-    "build_configuration": null,
+    "build_configuration": "Shipping",
     "build_machine_path_leak": null,
-    "engine_branch": null,
-    "engine_cl": null,
+    "engine_branch": "++UE5+Release-5.4",
+    "engine_cl": 35576357,
     "engine_version": "5.4.4",
-    "engine_version_provisional": true,
+    "engine_version_provisional": false,
     "evidence": {
       "claim_class": "I",
-      "confidence": 0.79,
+      "confidence": 0.75,
       "evidence_level": "INFERRED",
-      "note": "engine_version is PROVISIONAL and is not a conclusion of this run: it is the value research/builds/index.json and install-inventory.json already publish, and it is embedded in build_id, so emitting null here would put the fingerprint at odds with its own directory name. One method was executed (the version-resource read), which is why the confidence sits below the 0.80 two-method band. engine_cl, engine_branch, build_configuration, is_source_distribution and is_perforce_build are null ON PURPOSE: plan.md 3.1 sources them from section 4 and section 4 has not run. In particular the changelist and the branch are legible IN the literal ProductVersion string recorded verbatim under executables[].pe.version_info.strings, and decoding that string into a changelist is method V-03 of plan.md 4 - this document records the string, not the conclusion. build_machine_path_leak is null because the CodeView entries carry bare file names with no directory component; see executables[].pe.pdb_path_if_any.",
+      "note": "Every filled field of this group is READ from research/unreal/engine-version.json, which plan.md 4 owns; the generator carries no engine grade of its own, and that is deliberate - this document and the authority graded the same fact differently once, which is the cross-document defect plan.md 18.3 item 6 exists to catch, and the fix belongs in the generator rather than in the generated file. Per-field grades exactly as the authority publishes them, NOT averaged: build_configuration INFERRED 0.75 from V-01, V-02a; engine_branch INFERRED 0.90 from V-01, V-03, external-doc; engine_cl INFERRED 0.90 from V-01, V-03, external-doc; engine_version INFERRED 0.93 from V-01, V-03, V-04, V-05, V-06. This single annotation has to stand for all of them, so it carries the LOWEST of those confidences (0.75) and the union of their oracles: a group annotation may not describe any member better than its own document does, and the properly split record is the authority itself, claim by claim. The class is I and cannot be P: a class-P annotation must BE the read - offset and length in the claim string - and a grade covering four fields of two documents is an interpretation by construction. engine_version_provisional is false because the authority concludes engine_version at 0.93, against the plan.md 4.2 bar of 0.90. Every field this group does NOT fill, and why. Owned by plan.md 4 and not concluded there yet: is_source_distribution: UNKNOWN there, confidence 0.00. No field exists in this document for two further claims the authority does carry, because fingerprint.schema.json#/$defs/engine is additionalProperties:false and inventing a key would make the document fail its own published schema, so they are named here rather than dropped: engine_is_vanilla: UNKNOWN there, confidence 0.00; engine_version_minor_line: concluded there as '5.4', INFERRED 0.95 from V-01, V-03, V-04, V-05, V-06 - and engine_is_vanilla in particular is UNKNOWN BY RULE, plan.md 4.2 keeping it so until M3 because IsSourceDistribution false says the engine came from an installed binary distribution and not that nothing was changed in it afterwards. Not the authority's to answer at all: is_perforce_build, null because no claim of that name exists anywhere in this repository; and build_machine_path_leak, null because the CodeView entries of this build carry bare file names with no directory component - see executables[].pe.pdb_path_if_any.",
       "oracle": [
         "binary-analysis",
+        "container-metadata",
         "external-doc"
       ],
       "read_locus": null,
       "sources": [
         {
           "artifact": null,
+          "locator": "research/unreal/engine-version.json#/claim/build_configuration,/claim/engine_branch,/claim/engine_cl,/claim/engine_version",
+          "method": "V-01",
+          "note": "oracle binary-analysis + container-metadata + external-doc. Conclusion READ from research/unreal/engine-version.json, not re-derived here: that document lists V-01 among the sources for build_configuration, engine_branch, engine_cl, engine_version, and this composer parses no engine version of its own. Grade as published there: build_configuration INFERRED 0.75 from V-01, V-02a; engine_branch INFERRED 0.90 from V-01, V-03, external-doc; engine_cl INFERRED 0.90 from V-01, V-03, external-doc; engine_version INFERRED 0.93 from V-01, V-03, V-04, V-05, V-06."
+        },
+        {
+          "artifact": null,
+          "locator": "research/unreal/engine-version.json#/claim/build_configuration",
+          "method": "V-02a",
+          "note": "oracle binary-analysis. Conclusion READ from research/unreal/engine-version.json, not re-derived here: that document lists V-02a among the sources for build_configuration, and this composer parses no engine version of its own. Grade as published there: build_configuration INFERRED 0.75 from V-01, V-02a."
+        },
+        {
+          "artifact": null,
+          "locator": "research/unreal/engine-version.json#/claim/engine_branch,/claim/engine_cl,/claim/engine_version",
+          "method": "V-03",
+          "note": "oracle binary-analysis + container-metadata + external-doc. Conclusion READ from research/unreal/engine-version.json, not re-derived here: that document lists V-03 among the sources for engine_branch, engine_cl, engine_version, and this composer parses no engine version of its own. Grade as published there: engine_branch INFERRED 0.90 from V-01, V-03, external-doc; engine_cl INFERRED 0.90 from V-01, V-03, external-doc; engine_version INFERRED 0.93 from V-01, V-03, V-04, V-05, V-06."
+        },
+        {
+          "artifact": null,
+          "locator": "research/unreal/engine-version.json#/claim/engine_version",
+          "method": "V-04",
+          "note": "oracle binary-analysis + container-metadata + external-doc. Conclusion READ from research/unreal/engine-version.json, not re-derived here: that document lists V-04 among the sources for engine_version, and this composer parses no engine version of its own. Grade as published there: engine_version INFERRED 0.93 from V-01, V-03, V-04, V-05, V-06."
+        },
+        {
+          "artifact": null,
+          "locator": "research/unreal/engine-version.json#/claim/engine_version",
+          "method": "V-05",
+          "note": "oracle binary-analysis + container-metadata + external-doc. Conclusion READ from research/unreal/engine-version.json, not re-derived here: that document lists V-05 among the sources for engine_version, and this composer parses no engine version of its own. Grade as published there: engine_version INFERRED 0.93 from V-01, V-03, V-04, V-05, V-06."
+        },
+        {
+          "artifact": null,
+          "locator": "research/unreal/engine-version.json#/claim/engine_version",
+          "method": "V-06",
+          "note": "oracle binary-analysis + container-metadata + external-doc. Conclusion READ from research/unreal/engine-version.json, not re-derived here: that document lists V-06 among the sources for engine_version, and this composer parses no engine version of its own. Grade as published there: engine_version INFERRED 0.93 from V-01, V-03, V-04, V-05, V-06."
+        },
+        {
+          "artifact": null,
+          "locator": "research/unreal/engine-version.json#/claim/engine_branch,/claim/engine_cl",
+          "method": "external-doc",
+          "note": "oracle binary-analysis + external-doc. Conclusion READ from research/unreal/engine-version.json, not re-derived here: that document lists external-doc among the sources for engine_branch, engine_cl, and this composer parses no engine version of its own. Grade as published there: engine_branch INFERRED 0.90 from V-01, V-03, external-doc; engine_cl INFERRED 0.90 from V-01, V-03, external-doc."
+        },
+        {
+          "artifact": null,
           "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
           "method": "F-01",
-          "note": "oracle binary-analysis + external-doc. The VS_VERSIONINFO resource was located in .rsrc and decoded by tools/fingerprint/pe_info.py; FileVersion reads '5.4.4.0' and the ProductVersion string reads '++UE5+Release-5.4-CL-35576357'. The parse was re-run in this session and reproduced."
+          "note": "oracle binary-analysis + external-doc. The VS_VERSIONINFO resource was located in .rsrc and decoded by tools/fingerprint/pe_info.py; FileVersion reads '5.4.4.0' and the ProductVersion string reads '++UE5+Release-5.4-CL-35576357'. The parse was re-run in this session and reproduced. This is the one engine reading this run performs itself; it is not the source of any grade below."
         }
       ]
     },
@@ -23426,7 +23469,7 @@
     "build_id": "misery-24826585-ue5.4.4-0eef3715244b",
     "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
     "content_key": "sha256:55ff0e5f605d4777863bd6b061332eaf351da5800dc80c6f826547c2722f9039",
-    "generated_at": "2026-08-23T10:28:22Z",
+    "generated_at": "2026-08-23T13:42:12Z",
     "generator_version": "tools/fingerprint/fingerprint.py 1.0.0",
     "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
     "install_json": "research/builds/misery-24826585-ue5.4.4-0eef3715244b/install.json",
@@ -24465,7 +24508,7 @@
       }
     }
   ],
-  "notes": "generator: tools/fingerprint/fingerprint.py 1.0.0. Composed, not parsed: every pe object comes verbatim from tools/fingerprint/pe_info.py, the whole containers[] array verbatim from tools/fingerprint/container_info.py, and the tree walk, the app manifest read and the plan.md 3.2 identity computations from tools/inventory/snapshot_install.py. build_key, content_key, tree_hash and build_id were RECOMPUTED from the installation in this run and then compared with research/builds/index.json and install-inventory.json; they were not copied. content_key ordering rule: sha256 over the concatenated lowercase sha256 hex digests of every .utoc, ASCII, no separator, sorted by normalized path ascending; inputs in order: MISERY/Content/Paks/MISERY-Windows.utoc, MISERY/Content/Paks/global.utoc. tree_hash rule: sha256 over '<path>\\n<size>\\n<sha256>\\n' per row, UTF-8, rows sorted by path. C-13: LastOwner is a Steam account id and is never read; the steam block is additionalProperties:false and could not carry it. D-01: the installation was opened read-only. D-02: no container was decrypted and no key was extracted. Manifest_NonUFSFiles_Win64.txt carries 20 line(s) naming 20 distinct path(s); the comparison found 33 file-not-in-non-ufs-manifest, 4 unexpected-pe-section, every one of them listed in anomalies[] above with its own evidence annotation, and the same list is rendered as prose in the anomalies.md this run writes when one was asked for. Every null in the engine and game groups is deliberate: plan.md 3.1 sources both groups from section 4, which has not run, and each group carries an evidence annotation naming the method that would conclude it. engine_version is the one filled field there and it is PROVISIONAL. Reproducibility checks performed while building this document: 9, failed: 0; the checks about the document itself (schema validation, the two-run comparison) run after it is built and are reported on the run's own output, not stored here. One caveat on the M1 reproducibility criterion, measured rather than anticipated: identity.generated_at is NOT the only field that can differ between two runs over an unchanged installation. steam.appmanifest_sha256 can differ too, because Steam rewrites appmanifest_2119830.acf on its own schedule (LastPlayed and download bookkeeping live in it), and two builds minutes apart were observed to differ in exactly that one field and in nothing else. That is the input changing, not this tool: kb-record.schema.json defines the field so a change of Steam bookkeeping is detectable, and the --selftest-reproducible check re-reads the manifest to tell the two causes apart instead of forgiving the field. Nothing derived from the installation itself - build_key, content_key, tree_hash, any digest, any header field - varies. Warnings: 0.",
+  "notes": "generator: tools/fingerprint/fingerprint.py 1.0.0. Composed, not parsed: every pe object comes verbatim from tools/fingerprint/pe_info.py, the whole containers[] array verbatim from tools/fingerprint/container_info.py, and the tree walk, the app manifest read and the plan.md 3.2 identity computations from tools/inventory/snapshot_install.py. build_key, content_key, tree_hash and build_id were RECOMPUTED from the installation in this run and then compared with research/builds/index.json and install-inventory.json; they were not copied. content_key ordering rule: sha256 over the concatenated lowercase sha256 hex digests of every .utoc, ASCII, no separator, sorted by normalized path ascending; inputs in order: MISERY/Content/Paks/MISERY-Windows.utoc, MISERY/Content/Paks/global.utoc. tree_hash rule: sha256 over '<path>\\n<size>\\n<sha256>\\n' per row, UTF-8, rows sorted by path. C-13: LastOwner is a Steam account id and is never read; the steam block is additionalProperties:false and could not carry it. D-01: the installation was opened read-only. D-02: no container was decrypted and no key was extracted. Manifest_NonUFSFiles_Win64.txt carries 20 line(s) naming 20 distinct path(s); the comparison found 33 file-not-in-non-ufs-manifest, 4 unexpected-pe-section, every one of them listed in anomalies[] above with its own evidence annotation, and the same list is rendered as prose in the anomalies.md this run writes when one was asked for. THE ENGINE GROUP IS NOT GRADED HERE: plan.md 3.1 sources it from section 4, and every filled field and every number in engine.evidence is read from research/unreal/engine-version.json, the document section 4 owns - this generator carries no engine grade of its own, precisely so that the two cannot drift apart again. engine_version 5.4.4, engine_version_provisional false, engine_cl 35576357, engine_branch ++UE5+Release-5.4, build_configuration Shipping, is_source_distribution None, with the group annotation at INFERRED 0.75 and the per-field grades spelled out there rather than averaged into it. The game group claims nothing at all and carries an annotation naming the method that would conclude each of its fields. Reproducibility checks performed while building this document: 10, failed: 0; the checks about the document itself (schema validation, the two-run comparison) run after it is built and are reported on the run's own output, not stored here. One caveat on the M1 reproducibility criterion, measured rather than anticipated: identity.generated_at is NOT the only field that can differ between two runs over an unchanged installation. steam.appmanifest_sha256 can differ too, because Steam rewrites appmanifest_2119830.acf on its own schedule (LastPlayed and download bookkeeping live in it), and two builds minutes apart were observed to differ in exactly that one field and in nothing else. That is the input changing, not this tool: kb-record.schema.json defines the field so a change of Steam bookkeeping is detectable, and the --selftest-reproducible check re-reads the manifest to tell the two causes apart instead of forgiving the field. Nothing derived from the installation itself - build_key, content_key, tree_hash, any digest, any header field - varies. Warnings: 0.",
   "plugins": [
     {
       "descriptor_available": false,
@@ -24501,7 +24544,7 @@
   "steam": {
     "app_id": 2119830,
     "appmanifest_path": "D:\\Games\\Steam\\steamapps\\appmanifest_2119830.acf",
-    "appmanifest_sha256": "479c813fbd5cb95151b4b2366f7830f1032bf42c95e485b3427c4503bde9eaad",
+    "appmanifest_sha256": "139b09530ac248c632a4b6bdb6facdd28345d58df0f7bfd2e8856760afdbeb33",
     "depot_id": 2119831,
     "depot_manifest_id": "3002776385514127223",
     "install_dir_name": "MISERY",

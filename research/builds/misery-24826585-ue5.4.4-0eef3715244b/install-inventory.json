@@ -3,7 +3,7 @@
   "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
   "content_key": "sha256:55ff0e5f605d4777863bd6b061332eaf351da5800dc80c6f826547c2722f9039",
   "engine_version": {
-    "provisional": true,
+    "provisional": false,
     "value": "5.4.4"
   },
   "file_count": 53,
@@ -433,10 +433,10 @@
       "size": 1292
     }
   ],
-  "generated_at": "2026-08-22T12:19:17Z",
+  "generated_at": "2026-08-23T14:00:48Z",
   "generator_version": "1.0.0",
   "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
-  "notes": "generator: tools/inventory/snapshot_install.py 1.0.0. content_key ordering rule: sha256 over the concatenated lowercase sha256 hex digests of every .utoc, ASCII, no separator, sorted by normalized path ascending; inputs in order: MISERY/Content/Paks/MISERY-Windows.utoc, MISERY/Content/Paks/global.utoc. tree_hash rule: sha256 over '<path>\\n<size>\\n<sha256>\\n' per row, UTF-8, rows sorted by path ascending. mtime handling: every mtime is UTC with microsecond precision, derived from st_mtime_ns by integer arithmetic, so no float rounding enters the document; mtime_epoch is the same instant truncated to whole seconds. hashing: enabled, sha256 and sha1 in a single streaming pass with a 1048576 byte buffer. engine_version source: default; provisional until M1 confirms it from two independent oracles (plan.md 4.2). cl, branch and build_configuration are UNKNOWN to this tool and deliberately omitted. steam_root: D:\\Games\\Steam. file_count check: expected 53, matches. shared_depots parent apps (the schema stores depot ids only): 228989 from app 228980, 228990 from app 228980, 229007 from app 228980. warnings: none.",
+  "notes": "generator: tools/inventory/snapshot_install.py 1.0.0. content_key ordering rule: sha256 over the concatenated lowercase sha256 hex digests of every .utoc, ASCII, no separator, sorted by normalized path ascending; inputs in order: MISERY/Content/Paks/MISERY-Windows.utoc, MISERY/Content/Paks/global.utoc. tree_hash rule: sha256 over '<path>\\n<size>\\n<sha256>\\n' per row, UTF-8, rows sorted by path ascending. mtime handling: every mtime is UTC with microsecond precision, derived from st_mtime_ns by integer arithmetic, so no float rounding enters the document; mtime_epoch is the same instant truncated to whole seconds. hashing: enabled, sha256 and sha1 in a single streaming pass with a 1048576 byte buffer. engine_version source: default; settled: research/unreal/engine-version.json concludes at confidence 0.93, at or above the plan.md 4.2 bar of 0.90. cl, branch and build_configuration are UNKNOWN to this tool and deliberately omitted. steam_root: D:\\Games\\Steam. file_count check: expected 53, matches. shared_depots parent apps (the schema stores depot ids only): 228989 from app 228980, 228990 from app 228980, 229007 from app 228980. warnings: none.",
   "steam": {
     "app_id": 2119830,
     "appmanifest_path": "D:\\Games\\Steam\\steamapps\\appmanifest_2119830.acf",

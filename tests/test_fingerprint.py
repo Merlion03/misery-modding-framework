@@ -423,29 +423,265 @@ class TestEveryAnnotationIsWellFormed:
         assert report.annotation_count == report.record_count > 0
 
 
-class TestNullsAreDeliberate:
+AUTHORITY_CLAIMS: dict[str, tuple] = {
+    # name: (value, evidence_level, confidence, oracles, methods)
+    "engine_version": ("5.4.4", "INFERRED", 0.93,
+                       ["binary-analysis", "container-metadata", "external-doc"],
+                       ["V-01", "V-03", "V-04", "V-05", "V-06"]),
+    "engine_cl": (35576357, "INFERRED", 0.90, ["binary-analysis", "external-doc"],
+                  ["V-01", "V-03"]),
+    "engine_branch": ("++UE5+Release-5.4", "INFERRED", 0.90,
+                      ["binary-analysis", "external-doc"], ["V-01", "V-03"]),
+    "build_configuration": ("Shipping", "INFERRED", 0.75, ["binary-analysis"],
+                            ["V-01", "V-02a"]),
+    "is_source_distribution": (None, "UNKNOWN", 0.0, ["binary-analysis"], ["V-02b"]),
+    "engine_is_vanilla": (None, "UNKNOWN", 0.0, ["binary-analysis"], ["V-02b"]),
+}
 
-    def test_the_section_4_fields_are_null_and_say_why(self, payload):
+
+def write_engine_authority(tmp_path, overrides: dict | None = None,
+                           name: str = "engine-version.json") -> str:
+    """A SYNTHETIC research/unreal/engine-version.json, shaped like the real one.
+
+    Synthetic on purpose. These tests pin how the composer READS an authority - which
+    grades it lifts, which it refuses, and what it says about the ones it leaves alone -
+    and pinning that against the repository's own engine-version.json would make the
+    tests fail the day plan.md 4 legitimately revises a number. The one test that does
+    read the real pair is the cross-document check below, and it asserts agreement rather
+    than any particular value.
+    """
+    claims = dict(AUTHORITY_CLAIMS)
+    claims.update(overrides or {})
+    document = {
+        "build_id": "misery-24826585-ue5.4.4-000000000000",
+        "build_key": "sha256:" + "0" * 64,
+        "generated_at": "2026-08-23T00:00:00Z",
+        "claim": {
+            claim_name: {
+                "value": value,
+                "evidence": {"evidence_level": level, "claim_class": None,
+                             "confidence": confidence, "oracle": oracles,
+                             "sources": [{"method": method, "artifact": None,
+                                          "locator": None, "note": "synthetic"}
+                                         for method in methods],
+                             "read_locus": None, "note": "synthetic"},
+            }
+            for claim_name, (value, level, confidence, oracles, methods)
+            in claims.items()
+        },
+    }
+    target = tmp_path / name
+    target.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n",
+                      encoding="utf-8")
+    return str(target)
+
+
+class TestTheEngineGroupIsReadFromItsAuthority:
+    """plan.md 18.3 item 6, enforced where it can actually be enforced.
+
+    The composer used to carry its own provisional grade for ``engine_version`` (INFERRED
+    0.79, one method) while ``research/unreal/engine-version.json`` graded the same fact
+    INFERRED 0.93 from five sources. These tests pin the fix at the source: the grade is
+    READ, per field, and nothing about it is restated in the generator.
+    """
+
+    def test_the_concluded_fields_arrive_with_the_authoritys_own_values(self, install,
+                                                                       tmp_path):
+        document = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))["document"]
+        engine = document["engine"]
+        assert engine["engine_version"] == "5.4.4"
+        assert engine["engine_version_provisional"] is False
+        assert engine["engine_cl"] == 35576357
+        assert engine["engine_branch"] == "++UE5+Release-5.4"
+        assert engine["build_configuration"] == "Shipping"
+
+    def test_the_group_annotation_carries_the_lowest_confidence_never_an_average(
+            self, install, tmp_path):
+        """Mixed claims split, never average. One annotation may not overstate a member."""
+        document = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))["document"]
+        evidence = document["engine"]["evidence"]
+        assert evidence["confidence"] == 0.75      # build_configuration, the weakest
+        assert evidence["claim_class"] == "I"
+        assert evidence["evidence_level"] == "INFERRED"
+        # Not the mean of 0.93/0.90/0.90/0.75, which would read 0.87 and overstate three
+        # of the four claims at once.
+        assert evidence["confidence"] != pytest.approx((0.93 + 0.90 + 0.90 + 0.75) / 4)
+        # Every per-field grade is spelled out rather than hidden behind the floor.
+        for phrase in ("engine_version INFERRED 0.93", "engine_cl INFERRED 0.90",
+                       "engine_branch INFERRED 0.90",
+                       "build_configuration INFERRED 0.75"):
+            assert phrase in evidence["note"]
+        assert set(evidence["oracle"]) == {"binary-analysis", "container-metadata",
+                                           "external-doc"}
+
+    def test_the_sources_name_the_authority_and_the_methods_it_lists(self, install,
+                                                                     tmp_path):
+        document = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))["document"]
+        sources = document["engine"]["evidence"]["sources"]
+        methods = {entry["method"] for entry in sources}
+        assert {"V-01", "V-03", "V-04", "V-05", "V-06", "V-02a"} <= methods
+        assert "F-01" in methods, "the one reading this run performs itself must stay"
+        lifted = [entry for entry in sources if entry["method"].startswith("V-")]
+        assert lifted, "a lifted conclusion must name where it was lifted from"
+        for entry in lifted:
+            assert "engine-version.json" in entry["locator"]
+            assert "READ from" in entry["note"]
+
+    def test_an_unknown_claim_stays_null_with_the_authoritys_reason(self, install,
+                                                                   tmp_path):
+        document = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))["document"]
+        engine = document["engine"]
+        assert engine["is_source_distribution"] is None
+        note = engine["evidence"]["note"]
+        assert "is_source_distribution: UNKNOWN there" in note
+
+    def test_engine_is_vanilla_is_named_in_prose_because_the_schema_has_no_field(
+            self, install, tmp_path):
+        """plan.md 4.2 keeps it UNKNOWN until M3, and $defs/engine is closed."""
+        document = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))["document"]
+        engine = document["engine"]
+        assert "engine_is_vanilla" not in engine
+        note = engine["evidence"]["note"]
+        assert "engine_is_vanilla: UNKNOWN there" in note
+        assert "until M3" in note
+
+    def test_is_perforce_build_says_that_nothing_concludes_it(self, install, tmp_path):
+        document = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))["document"]
+        engine = document["engine"]
+        assert engine["is_perforce_build"] is None
+        assert engine["build_machine_path_leak"] is None
+        note = engine["evidence"]["note"]
+        assert "is_perforce_build, null because no claim of that name exists" in note
+        assert "pdb_path_if_any" in note
+
+    def test_a_missing_authority_falls_back_to_this_runs_own_one_method_reading(
+            self, install):
+        """The fresh-clone path. No value and no grade may be invented here."""
+        payload = fp.build_document(install, engine_authority=None)
         engine = payload["document"]["engine"]
+        assert engine["engine_version"] == "5.4.4"          # build_id embeds it
+        assert engine["engine_version_provisional"] is True
         for field in ("engine_cl", "engine_branch", "build_configuration",
                       "is_source_distribution", "is_perforce_build"):
             assert engine[field] is None
-        assert "section 4" in engine["evidence"]["note"]
+        evidence = engine["evidence"]
+        assert evidence["confidence"] == fp.CONF_ONE_METHOD_I
+        assert [entry["method"] for entry in evidence["sources"]] == ["F-01"]
+        assert "PROVISIONAL" in evidence["note"]
+        assert "engine-version.json" in evidence["note"]
+        assert any("engine-version.json" in text for text in payload["warnings"])
 
-    def test_engine_version_is_marked_provisional(self, payload):
-        engine = payload["document"]["engine"]
-        assert engine["engine_version"] == "5.4.4"
+    def test_an_authority_that_does_not_conclude_lifts_nothing(self, install, tmp_path):
+        path = write_engine_authority(tmp_path, {
+            "engine_version": ("5.4.4", "HYPOTHESIS", 0.65, ["binary-analysis"],
+                               ["V-01"])})
+        engine = fp.build_document(install,
+                                   engine_authority=path)["document"]["engine"]
         assert engine["engine_version_provisional"] is True
-        assert "PROVISIONAL" in engine["evidence"]["note"]
+        assert engine["engine_cl"] is None
+        assert "does not conclude engine_version" in engine["evidence"]["note"]
 
-    def test_engine_version_can_be_marked_concluded(self, install):
-        document = fp.build_document(install, engine_version_provisional=False)["document"]
-        assert document["engine"]["engine_version_provisional"] is False
+    def test_a_version_below_the_plan_4_2_bar_is_not_promoted(self, install, tmp_path):
+        """0.90 is plan.md 4.2's own bar; 0.89 is provisional, and nothing is lifted."""
+        path = write_engine_authority(tmp_path, {
+            "engine_version": ("5.4.4", "INFERRED", 0.89, ["binary-analysis"],
+                               ["V-01"])})
+        engine = fp.build_document(install,
+                                   engine_authority=path)["document"]["engine"]
+        assert engine["engine_version_provisional"] is True
+        assert engine["engine_cl"] is None
 
-    def test_the_changelist_string_is_recorded_but_not_decoded(self, payload):
-        """The literal is kept; turning it into engine_cl is plan.md 4 method V-03."""
-        document = payload["document"]
+    def test_a_version_that_disagrees_with_build_id_lifts_nothing_and_is_reported(
+            self, install, tmp_path):
+        """Two versions in one document would bury the disagreement. It is surfaced."""
+        path = write_engine_authority(tmp_path, {
+            "engine_version": ("5.4.5", "INFERRED", 0.93, ["binary-analysis"],
+                               ["V-01", "V-05"])})
+        payload = fp.build_document(install, engine_authority=path)
+        engine = payload["document"]["engine"]
+        assert engine["engine_version"] == "5.4.4"        # the one in build_id
+        assert engine["engine_version_provisional"] is True
+        assert engine["engine_cl"] is None                # nothing lifted
+        assert any("5.4.5" in text for text in payload["warnings"])
+        check = [entry for entry in payload["checks"]
+                 if entry["check"] == "engine_version_matches_engine_authority"][0]
+        assert check["passed"] is False
+        assert "5.4.5" in check["detail"]
+
+    def test_the_check_passes_when_the_two_agree(self, install, tmp_path):
+        payload = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))
+        check = [entry for entry in payload["checks"]
+                 if entry["check"] == "engine_version_matches_engine_authority"][0]
+        assert check["passed"] is True
+        assert not check.get("skipped")
+
+    def test_the_check_is_skipped_and_not_silently_passed_without_an_authority(
+            self, install):
+        payload = fp.build_document(install, engine_authority=None)
+        check = [entry for entry in payload["checks"]
+                 if entry["check"] == "engine_version_matches_engine_authority"][0]
+        assert check["skipped"] is True
+        assert "NOT CHECKED" in check["detail"]
+
+    def test_a_malformed_authority_is_a_warning_not_a_crash(self, install, tmp_path):
+        broken = tmp_path / "engine-version.json"
+        broken.write_text("{not json", encoding="utf-8")
+        payload = fp.build_document(install, engine_authority=str(broken))
+        assert payload["document"]["engine"]["engine_cl"] is None
+        assert any("cannot read the engine claim authority" in text
+                   for text in payload["warnings"])
+
+    def test_the_committed_fingerprint_agrees_with_the_committed_authority(self):
+        """plan.md 18.3 item 6 over the two REAL artifacts, checked rather than reviewed.
+
+        This is the divergence that motivated the change: the same fact at two grades in
+        two files, invisible to a per-record validator. Now it is one assertion.
+        """
+        build_dir = os.path.join(REPO_ROOT, "research", "builds",
+                                 "misery-24826585-ue5.4.4-0eef3715244b")
+        fingerprint_path = os.path.join(build_dir, "fingerprint.json")
+        authority_path = os.path.join(REPO_ROOT, *fp.ENGINE_AUTHORITY_RELPATH)
+        if not (os.path.isfile(fingerprint_path) and os.path.isfile(authority_path)):
+            pytest.skip("one of the two artifacts is not committed")
+        with open(fingerprint_path, encoding="utf-8") as handle:
+            engine = json.load(handle)["engine"]
+        authority = fp.read_engine_authority(authority_path, [])
+        claims = authority["claims"]
+        for field in ("engine_version", "engine_cl", "engine_branch",
+                      "build_configuration", "is_source_distribution"):
+            expected = claims[field]["value"] if claims[field]["concluded"] else None
+            assert engine[field] == expected, field
+        confidences = [claims[field]["confidence"] for field in
+                       ("engine_version", "engine_cl", "engine_branch",
+                        "build_configuration")]
+        assert engine["evidence"]["confidence"] == min(confidences)
+        assert engine["engine_version_provisional"] is (
+            claims["engine_version"]["confidence"] < fp.ENGINE_VERSION_SETTLED_AT)
+
+
+class TestNullsAreDeliberate:
+
+    def test_the_changelist_string_is_recorded_but_not_decoded(self, install):
+        """Without the authority the literal is kept and NOT decoded (that is V-03)."""
+        document = fp.build_document(install, engine_authority=None)["document"]
         assert document["engine"]["engine_cl"] is None
+        strings = [entry["pe"]["version_info"]["strings"]
+                   for entry in document["executables"]
+                   if entry["role"] == "primary-shipping"][0]
+        assert strings["ProductVersion"] == "++UE5+Release-5.4-CL-35576357"
+
+    def test_the_literal_string_is_kept_even_when_the_changelist_is_concluded(
+            self, install, tmp_path):
+        """Lifting engine_cl must not turn the recorded string into a derived value."""
+        document = fp.build_document(
+            install, engine_authority=write_engine_authority(tmp_path))["document"]
         strings = [entry["pe"]["version_info"]["strings"]
                    for entry in document["executables"]
                    if entry["role"] == "primary-shipping"][0]
@@ -703,6 +939,96 @@ class TestReproducibility:
                         "$.steam.size_on_disk (1 vs 2)",
                         "$.executables[0].sha256 (x vs y)"):
             assert fp.attribute_to_a_changed_input(pointer, first) is None, pointer
+
+    def test_masking_a_mutable_pointer_leaves_the_rest_of_the_document_alone(self):
+        left = {"steam": {"appmanifest_sha256": "a", "app_id": 1}, "layout": {"x": 1}}
+        right = {"steam": {"appmanifest_sha256": "b", "app_id": 1}, "layout": {"x": 1}}
+        assert fp.mask_mutable_inputs(left, right) == ["$.steam.appmanifest_sha256"]
+        assert left["steam"]["appmanifest_sha256"] == fp.MUTABLE_INPUT_MASK
+        assert right["steam"]["appmanifest_sha256"] == fp.MUTABLE_INPUT_MASK
+        assert left["steam"]["app_id"] == right["steam"]["app_id"] == 1
+        assert fp.first_difference(left, right) is None
+
+    def test_masking_reports_a_pointer_that_named_nothing(self):
+        """A pointer that matched no field must not be counted as handled."""
+        assert fp.mask_mutable_inputs({}, {}) == []
+
+    def test_an_attributed_difference_no_longer_hides_a_second_one(self):
+        """The defect this pass exists for, reproduced as a document pair.
+
+        ``first_difference`` reports the FIRST difference and stops. ``$.steam`` sorts
+        last among the top-level groups and ``appmanifest_sha256`` sorts early inside it,
+        so a run whose app-manifest digest moved could ALSO differ at
+        ``$.steam.size_on_disk`` and the attribution - which only ever saw the first
+        pointer - would wave the whole thing through while printing "Every other byte of
+        the two documents is identical".
+        """
+        first = {"steam": {"appmanifest_sha256": "a", "size_on_disk": 1},
+                 "layout": {"tree_hash": "t"}}
+        second = {"steam": {"appmanifest_sha256": "b", "size_on_disk": 2},
+                  "layout": {"tree_hash": "t"}}
+        where = fp.first_difference(first, second)
+        assert where.startswith("$.steam.appmanifest_sha256"), (
+            "the premise of the trap: the forgivable pointer is reported first")
+        fp.mask_mutable_inputs(first, second)
+        residual = fp.first_difference(first, second)
+        assert residual is not None and "size_on_disk" in residual
+
+    def _selftest_with_a_rewritten_manifest(self, install, monkeypatch, tmp_path,
+                                            capsys, also_move_something_else):
+        """Run main()'s self-test with the app manifest genuinely rewritten mid-run.
+
+        Returns (exit code, the detail line of the reproducibility check).
+        """
+        calls = {"n": 0}
+        real = fp.build_document
+
+        def build_twice_differently(*args, **kwargs):
+            calls["n"] += 1
+            payload = real(*args, **kwargs)
+            if calls["n"] == 2:
+                steam = payload["document"]["steam"]
+                with open(steam["appmanifest_path"], "a", encoding="utf-8") as handle:
+                    handle.write("\n")
+                steam["appmanifest_sha256"] = "0" * 64
+                if also_move_something_else:
+                    steam["size_on_disk"] = -1
+            return payload
+
+        monkeypatch.setattr(fp, "build_document", build_twice_differently)
+        code = fp.main(["--install-dir", install, "--selftest-reproducible",
+                        "--out", str(tmp_path / "fp.json"),
+                        "--engine-authority", ""])
+        captured = capsys.readouterr()
+        line = [row for row in (captured.err + captured.out).splitlines()
+                if "two_runs_differ_only_in_generated_at" in row]
+        return code, (line[0] if line else "")
+
+    def test_a_rewritten_manifest_alone_still_passes_the_selftest(
+            self, install, monkeypatch, tmp_path, capsys):
+        """The positive control: the residual pass must not break the real exemption."""
+        code, detail = self._selftest_with_a_rewritten_manifest(
+            install, monkeypatch, tmp_path, capsys, False)
+        assert "[PASS]" in detail, detail
+        assert "checked, not assumed" in detail
+        assert code == 0
+
+    def test_the_selftest_fails_on_an_unexplained_second_difference(
+            self, install, monkeypatch, tmp_path, capsys):
+        """Attributed PLUS unexplained must fail, and must name the unexplained one.
+
+        The second build is perturbed at two pointers at once: the app manifest, which is
+        genuinely rewritten on disk here and is therefore attributable, and
+        steam.size_on_disk, which nothing explains. Before the residual pass this
+        combination PASSED - first_difference reported the manifest, the attribution
+        matched it, and the second difference was never looked for.
+        """
+        code, detail = self._selftest_with_a_rewritten_manifest(
+            install, monkeypatch, tmp_path, capsys, True)
+        assert "[FAIL]" in detail, detail
+        assert "size_on_disk" in detail
+        assert "which is not" in detail
+        assert code != 0, "a tool-correctness check that fails must not exit 0"
 
     def test_the_document_states_the_caveat(self, payload):
         notes = payload["document"]["notes"]

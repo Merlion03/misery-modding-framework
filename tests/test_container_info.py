@@ -666,6 +666,29 @@ class LayerSplitTests(unittest.TestCase):
                           "fiostoretocheader"):
             self.assertNotIn(forbidden, lowered)
 
+    def test_literal_read_note_is_the_claim_not_a_description_of_it(self) -> None:
+        """NEW-07, guarded without invoking the validator.
+
+        tools/kb/validate.py derives the claim class of a REDUCED annotation from
+        the ``note`` string alone. A note that talks ABOUT the record instead of
+        BEING the claim states no offset and no length of its own, derives class I,
+        and drags the 0.99 band's two-independent-methods requirement in with it --
+        which is exactly what produced 60 EV-05 + 60 EV-03 on this tool's own
+        output. So the graded string has to state the claim, and the pointer to the
+        interpretive half has to live outside the graded object.
+        """
+        for read in self.literals:
+            note = read["evidence"]["note"]
+            self.assertTrue(note.startswith(read["claim"]), note)
+            # naming a structure in this string is exactly what would disqualify the
+            # class-P admission of plan.md 10.3 v2.4
+            for forbidden in ("FIoStoreTocHeader", "containers[]", " field",
+                              "layout", "structure", "signature", "interpretation"):
+                self.assertNotIn(forbidden, note)
+            # the pointer to the interpretive half lives outside the graded object
+            self.assertIn("containers[]", read["interpretation_lives_in"])
+            self.assertNotIn("interpretation_lives_in", read["evidence"])
+
     def test_literal_reads_are_confirmed_by_a_second_read(self) -> None:
         """plan.md 10.3 class-P criterion 2 is executed, not asserted: the attestation
         must appear only after the second read actually happened."""
@@ -958,6 +981,41 @@ class DocumentTests(unittest.TestCase):
         errors, _ignored, _backend = kb_validate.validate_against_schema(
             document["containers"], schema, "$.containers", SCHEMA_DIR)
         self.assertEqual(errors, [], errors)
+
+
+    def test_emitted_annotations_pass_the_knowledge_base_validator(self) -> None:
+        """NEW-07. The evidence apparatus this tool emits has to clear
+        tools/kb/validate.py AS IT STANDS -- not after the reader reshapes it.
+
+        This test exists because of a measured defect, and it checks the layer the
+        schema test above cannot see: the class-P ``note`` of a literal read used to
+        talk ABOUT the record instead of being the claim, the validator derived
+        class I from that string, and demanded two independent methods for a
+        single-byte read graded 0.99. Running the tool with --out and validating the
+        result gave 120 violations -- 60 EV-05 plus 60 EV-03, one pair per literal
+        read. Nothing in the schema was red, which is why
+        test_containers_validate_against_the_fingerprint_schema stayed green through
+        it. This one runs the evidence rules over the WHOLE document, literal layer
+        included, so the regression cannot come back silently.
+        """
+        validate_path = os.path.join(REPO_ROOT, "tools", "kb", "validate.py")
+        if not os.path.isfile(validate_path):        # pragma: no cover
+            self.skipTest("tools/kb/validate.py is absent")
+        target = os.path.join(self.tmp, "emitted-annotations.json")
+        import io                                    # noqa: WPS433 - test-only
+        import subprocess                            # noqa: WPS433 - test-only
+        from contextlib import redirect_stdout       # noqa: WPS433 - test-only
+        with redirect_stdout(io.StringIO()):
+            code = ci.main(["--install-dir", self.install, "--out", target])
+        self.assertEqual(code, 0)
+
+        result = subprocess.run([sys.executable, validate_path, target],
+                                capture_output=True, text=True, cwd=REPO_ROOT)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("violations: 0", result.stdout, result.stdout)
+        # and the literal layer really was in scope: a run that saw no annotations
+        # would report 0 violations vacuously
+        self.assertIn("reduced evidence annotations:", result.stdout, result.stdout)
 
 
 class CliTests(unittest.TestCase):
