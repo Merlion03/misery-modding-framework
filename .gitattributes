@@ -1,0 +1,98 @@
+# ---------------------------------------------------------------------------
+# MISERY Modding Framework -- .gitattributes
+#
+# This repository's entire value is diffable text: research findings, JSONL
+# knowledge base rows, JSON artifacts and schemas. Line endings must therefore
+# be deterministic. Git already warned about "LF will be replaced by CRLF" on
+# plan.md during the first commit -- that warning is exactly the failure mode
+# these rules remove: a Windows checkout must never be able to turn a
+# whitespace-only difference into a full-file diff.
+#
+# Policy: LF in the repository for everything textual. The working tree gets
+# CRLF only where a tool genuinely prefers it (PowerShell).
+# ---------------------------------------------------------------------------
+
+
+# --- default: detect text, normalise to LF in the repository ---------------
+# Anything git decides is text is stored with LF and checked out with LF.
+# This makes the stored bytes identical on every machine and every platform.
+* text=auto eol=lf
+
+
+# --- documents and machine-readable artifacts: force LF explicitly ---------
+# These are the file types the knowledge base is made of. They are declared
+# explicitly rather than relying on text=auto detection, so that an unusual
+# byte (a stray 0x00 in a dump excerpt, a very long line) can never demote one
+# of them to "binary" and hide its diff.
+*.md          text eol=lf
+*.txt         text eol=lf
+*.json        text eol=lf
+*.schema.json text eol=lf
+*.yml         text eol=lf
+*.yaml        text eol=lf
+*.py          text eol=lf
+*.log         text eol=lf
+*.csv         text eol=lf
+*.ini         text eol=lf
+*.toml        text eol=lf
+*.c           text eol=lf
+*.h           text eol=lf
+*.cpp         text eol=lf
+*.hpp         text eol=lf
+.gitignore    text eol=lf
+.gitattributes text eol=lf
+
+
+# --- JSONL: line-oriented data, one record per line ------------------------
+# JSONL is exactly one knowledge-base record per line, so git's default
+# line-oriented diff is the correct granularity: a new class or property shows
+# up as one added line, not as a rewritten file. `diff` is forced so a long
+# line or an unusual byte can never make git treat the file as binary and
+# print "Binary files differ" instead of the record that changed.
+# LF is mandatory here for a second reason: tools read these files line by line
+# and a trailing CR would end up inside the last JSON value.
+*.jsonl       text eol=lf diff
+
+
+# --- PowerShell: CRLF in the working tree ----------------------------------
+# Stored as LF like everything else, checked out as CRLF. PowerShell (and the
+# Windows ISE / editor tooling around it) prefers CRLF, and some older hosts
+# mis-handle a here-string terminator preceded by a bare LF.
+*.ps1         text eol=crlf
+*.psm1        text eol=crlf
+*.psd1        text eol=crlf
+*.bat         text eol=crlf
+*.cmd         text eol=crlf
+
+
+# --- binary: never diff, never touch line endings --------------------------
+# Game containers and executables must never be committed at all (.gitignore),
+# but if one ever slips through, marking it binary prevents git from corrupting
+# it with an eol conversion. The rest are legitimately binary evidence formats
+# (screenshots, exported databases, archives) that must not be line-converted.
+*.exe         binary
+*.dll         binary
+*.pdb         binary
+*.pak         binary
+*.utoc        binary
+*.ucas        binary
+*.usmap       binary
+*.uasset      binary
+*.umap        binary
+*.uexp        binary
+*.ubulk       binary
+*.sqlite      binary
+*.db          binary
+*.gpr         binary
+*.gzf         binary
+*.zip         binary
+*.7z          binary
+*.gz          binary
+*.bin         binary
+*.dmp         binary
+*.png         binary
+*.jpg         binary
+*.jpeg        binary
+*.gif         binary
+*.ico         binary
+*.pdf         binary

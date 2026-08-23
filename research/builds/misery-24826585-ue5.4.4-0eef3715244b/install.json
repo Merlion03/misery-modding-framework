@@ -1,0 +1,140 @@
+{
+  "app_id": 2119830,
+  "appmanifest_path": "D:\\Games\\Steam\\steamapps\\appmanifest_2119830.acf",
+  "containers": [
+    {
+      "kind": "pak",
+      "notes": "size and existence only (oracle: filesystem); sha256 and the parsed container header belong to the fingerprint stage (plan.md 3.2, task F-02)",
+      "path": "MISERY/Content/Paks/MISERY-Windows.pak",
+      "sha256": null,
+      "sibling_path": null,
+      "size": 117656684
+    },
+    {
+      "kind": "ucas",
+      "notes": "size and existence only (oracle: filesystem); sha256 and the parsed container header belong to the fingerprint stage (plan.md 3.2, task F-02)",
+      "path": "MISERY/Content/Paks/MISERY-Windows.ucas",
+      "sha256": null,
+      "sibling_path": "MISERY/Content/Paks/MISERY-Windows.utoc",
+      "size": 4335197536
+    },
+    {
+      "kind": "utoc",
+      "notes": "size and existence only (oracle: filesystem); sha256 and the parsed container header belong to the fingerprint stage (plan.md 3.2, task F-02)",
+      "path": "MISERY/Content/Paks/MISERY-Windows.utoc",
+      "sha256": null,
+      "sibling_path": "MISERY/Content/Paks/MISERY-Windows.ucas",
+      "size": 2916142
+    },
+    {
+      "kind": "ucas",
+      "notes": "size and existence only (oracle: filesystem); sha256 and the parsed container header belong to the fingerprint stage (plan.md 3.2, task F-02)",
+      "path": "MISERY/Content/Paks/global.ucas",
+      "sha256": null,
+      "sibling_path": "MISERY/Content/Paks/global.utoc",
+      "size": 2269168
+    },
+    {
+      "kind": "utoc",
+      "notes": "size and existence only (oracle: filesystem); sha256 and the parsed container header belong to the fingerprint stage (plan.md 3.2, task F-02)",
+      "path": "MISERY/Content/Paks/global.utoc",
+      "sha256": null,
+      "sibling_path": "MISERY/Content/Paks/global.ucas",
+      "size": 623
+    }
+  ],
+  "crash_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\Crashes",
+  "depots": {
+    "2119831": {
+      "manifest": "3002776385514127223",
+      "size": 5057001973
+    }
+  },
+  "discovered_at": "2026-08-22T13:04:26Z",
+  "discovery_trace": [
+    {
+      "detail": "MISERY_GAME_DIR is not set in the environment",
+      "inspected": null,
+      "name": "explicit-override",
+      "oracle_class": "filesystem",
+      "status": "skipped",
+      "step": 1
+    },
+    {
+      "detail": "research\\config\\local.json does not exist (honoured when present, never created by this tool)",
+      "inspected": "D:\\Dev\\MiseryFramework\\research\\config\\local.json",
+      "name": "local-config",
+      "oracle_class": "filesystem",
+      "status": "skipped",
+      "step": 1
+    },
+    {
+      "detail": "HKCU\\Software\\Valve\\Steam\\SteamPath = D:\\Games\\Steam (directory exists); HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam\\InstallPath = D:\\Games\\Steam (directory exists); HKLM\\SOFTWARE\\Valve\\Steam\\InstallPath = D:\\Games\\Steam (directory exists)",
+      "inspected": null,
+      "name": "steam-registry",
+      "oracle_class": "filesystem",
+      "status": "found",
+      "step": 2
+    },
+    {
+      "detail": "1 library folder(s) from libraryfolders.vdf via HKCU\\Software\\Valve\\Steam\\SteamPath: [0] D:\\Games\\Steam (13 apps, app 2119830 listed with size 5057001973)",
+      "inspected": "D:\\Games\\Steam\\steamapps\\libraryfolders.vdf",
+      "name": "library-enumeration",
+      "oracle_class": "steam-metadata",
+      "status": "found",
+      "step": 3
+    },
+    {
+      "detail": "appid=2119830 installdir='MISERY' buildid=24826585 SizeOnDisk=5057001973 StateFlags=4; InstalledDepots: 2119831@3002776385514127223; SharedDepots: 228989, 228990, 229007; LastOwner present -- excluded from the output as a Steam account id (C-13)",
+      "inspected": "D:\\Games\\Steam\\steamapps\\appmanifest_2119830.acf",
+      "name": "app-manifest",
+      "oracle_class": "steam-metadata",
+      "status": "found",
+      "step": 4
+    },
+    {
+      "detail": "<library>\\steamapps\\common\\MISERY resolved and exists",
+      "inspected": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+      "name": "install-dir",
+      "oracle_class": "filesystem",
+      "status": "found",
+      "step": 5
+    },
+    {
+      "detail": "check 1 MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe exists: True; check 2 MISERY\\Content\\Paks\\global.utoc exists: True; files in tree: 53",
+      "inspected": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+      "name": "validation",
+      "oracle_class": "filesystem",
+      "status": "ok",
+      "step": 6
+    }
+  ],
+  "generator_version": "1.0.0",
+  "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "launcher_shim": "MISERY.exe",
+  "library_path": "D:\\Games\\Steam",
+  "log_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\Logs",
+  "method": "steam-libraryfolders",
+  "notes": "generator: tools/discovery/find_misery.py 1.0.0. method=steam-libraryfolders; the per-step evidence is in discovery_trace, which is the only thing that makes this field auditable. oracles (plan.md 10.5): existence, paths and sizes are filesystem; app_id, depots, shared_depots and steam_buildid are steam-metadata and describe what Steam RECORDED, not what is on disk -- validation is the filesystem half of that pair. LastOwner from the app manifest is NOT copied here: it is a Steam account id and constraint C-13 forbids account ids in this public repository. The manifest reader whitelists fields, so the value never reaches the document. containers[].sha256 is null and no .utoc/.pak header is parsed: discovery measures existence and size only. Hashes come from tools/inventory/snapshot_install.py, header decoding is task F-02 in M1 (plan.md 3). Per plan.md Appendix A A-07 the header BYTES are OBSERVED 0.99 while DECODED field values and the encryption verdict are only INFERRED 0.85, so this tool does not produce them. user_config_dir / user_save_dir / crash_dir / log_dir are emitted in %VAR% form and are NOT verified to exist by this tool; they are the documented UE layout for this build (plan.md 2.2), not a measurement made here. read_only_respected=true is a property of the implementation: no code path here opens anything under install_dir for writing (decision D-01).",
+  "paks_dir": "MISERY\\Content\\Paks",
+  "primary_executable": "MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+  "secondary_executables": [
+    "MISERY\\Binaries\\Win64\\MISERY.exe"
+  ],
+  "shared_depots": [
+    "228989",
+    "228990",
+    "229007"
+  ],
+  "steam_buildid": 24826585,
+  "steam_path": "D:\\Games\\Steam",
+  "user_config_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\Config\\Windows",
+  "user_save_dir": "%LOCALAPPDATA%\\MISERY\\Saved\\SaveGames",
+  "validation": {
+    "errors": [],
+    "file_count": 53,
+    "global_utoc_present": true,
+    "read_only_respected": true,
+    "shipping_exe_present": true
+  }
+}

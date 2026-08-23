@@ -1,0 +1,369 @@
+# ---------------------------------------------------------------------------
+# MISERY Modding Framework -- CI (knowledge-base gate, layer 3)
+#
+# Layer 1 is tests/test_validator_live.py: the suite itself refuses to be green
+# while the knowledge base is dirty.
+# Layer 2 is tools/kb/githooks/pre-commit: local, one second, bypassable with
+# --no-verify.
+# Layer 3 is this file. It is the layer that survives someone skipping the
+# hook, because the repository is public and every push and pull request runs
+# it whether the author wants it or not.
+#
+# WHY WINDOWS AND NOT UBUNTU
+# --------------------------
+# Not a preference. This repository's subject is a Windows game installation
+# and its tooling reads Windows-only facts: the registry (winreg), NTFS
+# junctions created with `mklink /J`, 8.3 short-name aliases, case-insensitive
+# path comparison, drive-letter anchors with no common root. The output-path
+# guard (tools/inventory/pathguard.py, plan.md decision D-01 / safety model
+# 1.5 layer 1) is built out of exactly those primitives, and its tests attack
+# it through them. On Linux those tests would either skip -- turning the
+# guard's whole attack surface into a green nothing -- or fail for reasons
+# that have nothing to do with the code. A gate that reports the wrong colour
+# for the wrong reason is worse than no gate, so CI runs where the code runs.
+#
+# WHAT CI DOES NOT HAVE, AND WHY NOTHING NEEDS TO BE SKIPPED FOR IT
+# -----------------------------------------------------------------
+# No Ghidra, no MISERY installation, no venv-research. That was checked
+# against the suite rather than assumed, and the finding is that no test needs
+# a CI-specific escape hatch:
+#
+#   * Ghidra / PyGhidra: no test imports pyghidra or jpype, and no test shells
+#     out to analyzeHeadless. The Ghidra work is captured as evidence under
+#     research/evidence/T-02/ (logs, manifest), and evidence is text that the
+#     validator reads -- it does not re-run Ghidra. Hence pyghidra and jpype1
+#     are deliberately NOT installed below.
+#   * the game installation: every discovery and inventory test builds a
+#     synthetic install tree in a temp directory (the layout is real, the
+#     files are tokens). tests/test_discovery.py scrubs MISERY_GAME_DIR from
+#     the environment in setUp precisely so a developer's real install can
+#     never leak into a test. pathguard's CONFIGURED_INSTALL_ROOTS is a
+#     hard-coded string, so the guard's "recorded root" tests need no install
+#     on disk.
+#   * venv-research: nothing imports it; the interpreter path appears only in
+#     docstrings. The suite runs under whatever interpreter invokes it, and
+#     the two packages it genuinely needs are installed below FROM the pins in
+#     requirements.txt.
+#
+# The environment-dependent tests that do exist already skip themselves with a
+# printed reason -- no 8.3 alias on the volume, no privilege to create a
+# symlink, mklink refused, LOCALAPPDATA unset, temp directory on the same
+# drive as the repository. That mechanism (unittest.skipUnless / self.skipTest
+# with a sentence saying why) is the one a reader can follow, and it needed no
+# CI-specific addition. That claim was checked against a bare interpreter
+# carrying nothing but the two packages installed below; the run it came from
+# is a dated reading, so it lives in the generated snapshot of
+# docs/toolchain.md section 15.1 and not in this comment -- see WHY THIS
+# COMMENT CARRIES NO NUMBERS AT ALL below.
+#
+# One thing deliberately does NOT skip:
+# tests/test_validator_live.py::ValidatorLiveGate::test_schema_backend_is_real_jsonschema.
+# Without jsonschema, validate.py falls back to a built-in checker that
+# ignores "format" and "propertyNames" and still exits 0 -- finding MAJOR-6, a
+# breakage that looked exactly like a pass for weeks. Skipping that test would
+# rebuild the hiding place, so it fails instead.
+#
+# WHY THIS COMMENT CARRIES NO NUMBERS AT ALL
+# ------------------------------------------
+# It used to. An earlier version of this header ended a sentence with "291
+# passed, 1 skipped". Those two numbers were real. They were also two thirds
+# of a three-part summary line, and the missing third -- the failure count --
+# was the only part that changed the colour. Anyone reading "291 passed, 1
+# skipped" and concluding the gate was green was reading a sentence that had
+# quietly dropped the failures, in the file whose entire job is to be the
+# layer that cannot be skipped. Omitting a failure count from a gate's own
+# header is the same defect as a validator that exits 0 because it found
+# nothing.
+#
+# The fix at the time was to date the reading and keep it here. That failed
+# twice: a dated block of records / violations / unparseable counts stood in
+# this header while the same counts also stood in docs/toolchain.md section
+# 15.1, and BOTH went stale -- the second time under full attention. Two
+# hand-typed copies of one volatile measurement always diverge, because
+# whoever updates one is looking at the other. And nothing fails when a
+# comment stops being true: it rots in silence.
+#
+# So this header now states no counts. There are three sources of numbers,
+# and every one of them is produced by machinery rather than typed:
+#
+#   1. the "Generated status line" step at the bottom of this file. It writes
+#      the record / violation / exit-code counters of THIS run into the job
+#      summary, straight out of `validate.py --json`. It cannot be stale,
+#      because it does not exist until the run that produces it.
+#   2. the CI badge, which reports the state of the last run on main. It lives
+#      in README.md (first screen, next to one sentence saying what red means)
+#      and in docs/toolchain.md section 16.
+#   3. docs/toolchain.md section 15.1, the local snapshot -- a GENERATED
+#      region carrying its own date, HEAD and interpreter, refreshed by
+#      `python .github\scripts\kb_status.py --write` and audited without
+#      editing anything by `--check`, which re-measures and diffs. That
+#      region is the only place in this repository allowed to carry typed
+#      validator or suite numbers. If a count reappears in a second file,
+#      that is this defect coming back, not helpful redundancy.
+#      The last step of this workflow runs that generator's `--check` and
+#      prints its verdict into the job summary. It cannot fail the job, on
+#      purpose: it is there so the generator is executed on every run and
+#      cannot rot, not so a documented date becomes a gate.
+#
+# What is still true without any numbers, and is the point of the paragraphs
+# above: while the knowledge base carries violations this workflow is RED on
+# purpose, and it is red at layer 1 -- the suite refusing to be green while
+# the knowledge base is dirty -- rather than at a broken guard fixture. The
+# two live-gate tests that report it are
+# tests/test_validator_live.py::ValidatorLiveGate::test_validator_exits_clean_over_the_real_repository
+# and
+# tests/test_validator_live.py::ValidatorLiveGate::test_no_unparseable_records.
+# Whether either is currently failing is a question for the badge and the job
+# summary, not for this comment.
+#
+# The stale-test-name failure mode -- naming a test that no longer exists --
+# is machine-checked by
+# tests/test_validator_live.py::DocumentedTestIdsExist, which also reads the
+# node ids in THIS file. If a test named in this comment is deleted or
+# renamed, that test goes red and names the file and the line. Note what that
+# does and does not cover: names are checked by machine, counts are not, and
+# that asymmetry is deliberate -- a check that demanded documented counts
+# equal a fresh run would go red on every closed violation, punishing
+# progress. The reasoning is written out in docs/toolchain.md section 15.1.
+# ---------------------------------------------------------------------------
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Manual runs, for re-checking a gate after a dependency changed upstream
+  # rather than after a commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: tests + knowledge-base validation
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out the repository (FULL history -- see below)
+        uses: actions/checkout@v7
+        with:
+          # fetch-depth: 0 is load-bearing, not caution. validate.py's
+          # VCS-REACH rule (plan.md 10.5 v2.1) resolves every commit hash
+          # cited as evidence and requires it to be reachable from HEAD. The
+          # default shallow checkout (depth 1) has only the tip commit, so
+          # every cited hash becomes "not an object in this repository at all"
+          # -- an ERROR. Measured on a `git clone --depth 1` of this
+          # repository: of the four hashes the documents cite, only the tip
+          # resolved; the rest reported "Not a valid object name". Those would
+          # be violations that exist ONLY in CI, which is the fastest way to
+          # teach everyone to ignore a red badge.
+          #
+          # What fetch-depth: 0 does NOT do, so nobody reads more into it
+          # than it earns: one of those four, 9407f22, is not reachable from
+          # HEAD even with the whole history present -- `git merge-base
+          # --is-ancestor 9407f22 HEAD` exits 1 here, on a full local clone.
+          # It is cited in research/RESEARCH_LOG.md, research/decisions.md and
+          # research/repo-audit.md, eight times in total, and VCS-REACH
+          # reports all eight as warnings rather than errors -- but only
+          # because those records say in the same record that the commit was
+          # rewritten, which is exactly what plan.md 10.5 v2.1 asks for.
+          # Checked here, and worth knowing before reading a CI log: in CI the
+          # object will not exist even as a loose object, so the finding text
+          # changes from "not reachable from HEAD" to "not an object in this
+          # repository at all" while the severity stays WARN. Strip the
+          # acknowledgement out of any of those records and the same eight
+          # become errors, in CI and locally alike. Full history removes the
+          # CI-only violations; this one is a property of the documents.
+          fetch-depth: 0
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v7
+        with:
+          # Matches the canonical interpreter documented in requirements.txt:
+          # CPython 3.14.0, win_amd64 (ABI tag cp314). The pins below have
+          # cp314 wheels; on an older Python some would fall back to an sdist
+          # and need a compiler.
+          python-version: '3.14'
+
+      - name: Install dependencies from requirements.txt pins
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          # requirements.txt forbids a plain `pip install -r requirements.txt`,
+          # and it is right: it pins jpype1==1.7.1 while pyghidra 3.1.0
+          # declares JPype1==1.5.2, so a one-shot resolve is impossible by
+          # construction (the documented sequence installs jpype1 first and
+          # pyghidra with --no-deps). CI does not need either package -- there
+          # is no Ghidra here to drive -- so instead of duplicating the
+          # jpype/pyghidra dance, requirements.txt is used as a CONSTRAINTS
+          # file and only the two packages the suite and the validator
+          # genuinely need are named.
+          #
+          # The point of -c: the VERSIONS still come from requirements.txt and
+          # nowhere else. No pin is restated here, so this workflow cannot
+          # drift away from the pinned set the way two copies of an install
+          # order did (see the history note in requirements.txt). Constraints
+          # for packages that are not installed are simply unused.
+          python -m pip install --constraint requirements.txt jsonschema pytest
+          python -m pip list
+
+      # Two separate steps on purpose. A red "Test suite" and a red
+      # "Knowledge-base validation" mean different things -- broken code
+      # versus an ungraded or wrongly graded fact -- and one combined step
+      # would hide which of the two happened behind a single red X.
+      - name: Test suite (pytest)
+        id: tests
+        shell: pwsh
+        run: python -m pytest -q
+
+      # always(): if the suite fails, the validator result is still wanted.
+      # Otherwise a single broken test hides the state of the knowledge base
+      # and every fix has to be guessed one push at a time.
+      - name: Knowledge-base validation (tools/kb/validate.py)
+        id: kb
+        if: always()
+        shell: pwsh
+        run: |
+          # --require-jsonschema: without the real backend the validator
+          # degrades to a minimal checker and exits 0, so a green run would
+          # prove less than it appears to (finding MAJOR-6). Fail loudly
+          # instead of passing quietly.
+          python tools\kb\validate.py --require-jsonschema
+
+      # The status line this repository is allowed to quote.
+      #
+      # It exists because the header of this file used to carry a typed suite
+      # summary that went stale and read green while the gate was red. A typed
+      # number cannot be verified by anything. This step derives every number
+      # it prints from the run it is part of, so there is no version of it that
+      # can be out of date: it is written by the same job whose colour it
+      # describes, into that job's summary page.
+      #
+      # It re-runs the validator to get --json rather than reusing the step
+      # above, because that step's value is its human output and its exit code.
+      # The second run costs a few seconds and keeps the two concerns apart: a
+      # red gate step means the knowledge base is dirty; a red summary step
+      # would mean the validator itself could not be run at all.
+      #
+      # if: always() -- a summary that only appears on green runs is a summary
+      # nobody needs. The interesting case is the red one.
+      - name: Generated status line (job summary)
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          # Kept in a variable rather than a file on purpose: a temp file adds
+          # an encoding to get wrong (a UTF-8 BOM in front of the '{' is enough
+          # to make ConvertFrom-Json fail) and buys nothing here.
+          $json = (python tools\kb\validate.py --json --require-jsonschema | Out-String)
+          $validatorExit = $LASTEXITCODE
+
+          $lines = @()
+          $lines += '## Knowledge-base gate -- generated by this run'
+          $lines += ''
+          $lines += ('commit `' + '${{ github.sha }}' + '` on `' + '${{ github.ref }}' + '`')
+          $lines += ''
+          $lines += '| what | result |'
+          $lines += '|---|---|'
+          $lines += ('| test suite (`pytest -q`) | **' + '${{ steps.tests.outcome }}' + '** |')
+          $lines += ('| knowledge-base validation | **' + '${{ steps.kb.outcome }}' + '** |')
+
+          try {
+            $kb = $json | ConvertFrom-Json
+            $s = $kb.summary
+            $lines += ('| files scanned | ' + $s.files + ' |')
+            $lines += ('| graded records | ' + $s.records + ' |')
+            $lines += ('| violations | **' + $s.violations + '** |')
+            $lines += ('| warnings | ' + $s.warnings + ' |')
+            $lines += ('| unparseable candidate records | **' + $s.unparseable_records + '** |')
+            $lines += ('| schema backend | `' + $kb.schema_backend + '` |')
+            $lines += ('| validator exit code | ' + $validatorExit + ' |')
+            $lines += ''
+            $lines += 'records by notation:'
+            $lines += ''
+            foreach ($p in $s.records_by_notation.PSObject.Properties) {
+              $lines += ('- `' + $p.Name + '` = ' + $p.Value)
+            }
+            # records_by_notation omits a notation with no records, so the
+            # declared json gap would be invisible here -- which is the exact
+            # confusion this whole file is trying to stop. State it, and let
+            # the statement disappear on its own when the gap closes.
+            $jsonRecords = 0
+            if ($s.records_by_notation.PSObject.Properties.Name -contains 'json') {
+              $jsonRecords = $s.records_by_notation.json
+            }
+            if ($jsonRecords -eq 0) {
+              $lines += '- `json` = 0 -- declared gap, not a parser failure. See docs/toolchain.md section 15.2 and MIN_RECORDS_JSON in tests/test_validator_live.py.'
+            }
+            if ($s.violations -gt 0) {
+              $lines += ''
+              $lines += ('The gate is RED: ' + $s.violations + ' violation(s). This is the gate working, not the gate broken.')
+            }
+          } catch {
+            $lines += ''
+            $lines += ('validate.py --json could not be parsed: ' + $_.Exception.Message)
+            $lines += 'Treat that as the most severe result on this page: the gate did not run.'
+          }
+
+          $lines += ''
+          $lines += 'Reproduce locally (see docs/toolchain.md section 15, checks 9 and 10):'
+          $lines += ''
+          $lines += '```'
+          $lines += 'python -m pytest -q'
+          $lines += 'python tools\kb\validate.py'
+          $lines += '```'
+
+          $lines | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          # This step reports; it does not judge. The gate steps above own the
+          # job's colour, so a parse failure here must not repaint them.
+          exit 0
+
+      # Is the documented snapshot still true, and does its generator still
+      # run? Two separate questions, and only the second one is allowed to be
+      # a problem here.
+      #
+      # This step deliberately CANNOT fail the job. Making a documented
+      # snapshot a gate would turn every closed violation into a red build --
+      # the reasoning is written out in docs/toolchain.md section 15.1, and it
+      # is the reason `--check` exists as a command rather than as a test. What
+      # this step buys instead: the generator is EXECUTED on every run, so it
+      # cannot rot into a script nobody can run any more, and the verdict lands
+      # next to the fresh numbers above where a reader is already looking.
+      #
+      # A STALE verdict here is normal and not a finding: CI runs at a commit
+      # that may be newer than the one the snapshot was taken at, which is
+      # exactly what a dated snapshot means.
+      - name: Snapshot freshness (informational, cannot fail the job)
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $out = (python .github\scripts\kb_status.py --check 2>&1 | Out-String)
+          $code = $LASTEXITCODE
+
+          $lines = @()
+          $lines += ''
+          $lines += '### Documented snapshot (docs/toolchain.md 15.1)'
+          $lines += ''
+          if ($code -eq 0) {
+            $lines += 'CURRENT -- the committed block still matches a fresh measurement.'
+          } elseif ($code -eq 1) {
+            $lines += ('STALE -- the committed block no longer matches. Not a failure: '
+                       + 'refresh it with `python .github\scripts\kb_status.py --write`.')
+          } else {
+            $lines += ('The generator could not be RUN (exit ' + $code + '). That one IS '
+                       + 'worth fixing: a status generator nobody can run is a status '
+                       + 'nobody has.')
+          }
+          $lines += ''
+          $lines += '```'
+          $lines += $out.TrimEnd()
+          $lines += '```'
+          $lines | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          exit 0

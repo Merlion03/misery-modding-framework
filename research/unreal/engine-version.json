@@ -1,0 +1,22 @@
+{
+  "$comment": "PLACEHOLDER. This file carries NO engine facts. Created by task R-02 (plan.md 1.4) so that every file named in plan.md 9.2 exists, even as a stub. It is filled in M1 by methods V-01..V-09 (plan.md 4.1) after the cross-validation procedure of plan.md 4.2. Until then, absence of data here is the truth. The provisional engine version that DOES exist in this repository lives in research/builds/index.json and research/builds/<build-id>/install-inventory.json, flagged provisional there, and is deliberately NOT copied here: plan.md 18.3 item 6 requires one fact to carry identical grades in every artifact that states it, and a copy made before any conclusion exists would only create a new discrepancy. Prose companion: research/unreal/engine-version.md.",
+  "placeholder": true,
+  "filled_by_milestone": "M1",
+  "plan_reference": [
+    "plan.md 4.1 (methods V-01..V-09)",
+    "plan.md 4.2 (cross-validation rules)",
+    "plan.md 4.3 (artifacts and exit criteria)",
+    "plan.md 9.2 (this path)",
+    "plan.md 18.2 (M1 exit criterion 3)"
+  ],
+  "fields_to_be_filled_in_m1": [
+    "engine_version",
+    "engine_cl",
+    "engine_branch",
+    "build_configuration",
+    "engine_is_vanilla",
+    "build_key",
+    "sources"
+  ],
+  "schema_status": "research/schema/engine-version.schema.json does not exist yet; it is task K-02 (plan.md 9.4). While it is missing, tools/kb/validate.py reports one WARN for this file and skips its schema layer. Whoever writes that schema must decide explicitly whether this placeholder shape is admissible, or whether this file should instead be created only in M1 - do not resolve that by inventing engine values here."
+}

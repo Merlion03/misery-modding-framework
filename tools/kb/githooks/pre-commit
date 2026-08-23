@@ -1,0 +1,82 @@
+#!/bin/sh
+# ---------------------------------------------------------------------------
+# MISERY Modding Framework -- git pre-commit hook (knowledge-base gate, layer 2)
+#
+# INSTALL (one line, from the repository root):
+#
+#     git config core.hooksPath tools/kb/githooks
+#
+# UNINSTALL (one line):
+#
+#     git config --unset core.hooksPath
+#
+# That one line is all of it: the hook stays version-controlled, so it cannot
+# drift from the validator it calls, and there is nothing to re-copy after a
+# fresh clone. Two things to know before running it:
+#
+#   * core.hooksPath redirects ALL hooks to this directory, so any hook you
+#     already had in .git/hooks/ stops running. This repository ships only
+#     pre-commit; if you keep your own hooks, copy this file instead:
+#         cp tools/kb/githooks/pre-commit .git/hooks/pre-commit
+#     (a copy is a snapshot and WILL go stale -- prefer core.hooksPath).
+#   * `git commit --no-verify` bypasses this hook, by design. That is fine:
+#     layer 3 (.github/workflows/ci.yml) runs the same validator on every push
+#     and pull request and cannot be bypassed locally.
+#
+# WHY A SHELL SHIM AND NOT A PYTHON HOOK DIRECTLY: git executes hooks through
+# its bundled sh, and on Windows the canonical interpreter
+# (D:\Tools\venv-research\Scripts\python.exe, see requirements.txt) is not on
+# PATH and is not called "python3". Resolving it is this file's whole job; the
+# actual checking lives in tools/kb/pre_commit_check.py.
+#
+# Override the interpreter with:  MISERY_PYTHON=/path/to/python git commit ...
+# ---------------------------------------------------------------------------
+
+set -u
+
+# Locate the repository root, so the hook works from any subdirectory.
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || {
+    echo "pre-commit: not inside a git work tree; nothing to check." >&2
+    exit 0
+}
+
+CHECKER="$REPO_ROOT/tools/kb/pre_commit_check.py"
+if [ ! -f "$CHECKER" ]; then
+    echo "pre-commit: $CHECKER is missing." >&2
+    echo "pre-commit: the knowledge-base gate cannot run. Restore the file or" >&2
+    echo "            uninstall the hook (git config --unset core.hooksPath)." >&2
+    exit 1
+fi
+
+# --- interpreter resolution, most specific first ---------------------------
+# The canonical interpreter is the ONE documented in requirements.txt. It is
+# preferred over anything on PATH because it is the only one whose package set
+# the repository describes -- in particular the only one guaranteed to have
+# jsonschema, without which validate.py silently degrades to a weaker check.
+CANONICAL="D:/Tools/venv-research/Scripts/python.exe"
+
+PYTHON=""
+if [ -n "${MISERY_PYTHON:-}" ] && [ -x "${MISERY_PYTHON}" ]; then
+    PYTHON="${MISERY_PYTHON}"
+elif [ -x "$CANONICAL" ]; then
+    PYTHON="$CANONICAL"
+else
+    for candidate in python3 python py; do
+        if command -v "$candidate" >/dev/null 2>&1; then
+            PYTHON=$(command -v "$candidate")
+            break
+        fi
+    done
+fi
+
+if [ -z "$PYTHON" ]; then
+    # Not a reason to pass quietly. A hook that cannot run must say so and
+    # stop, otherwise it teaches you that silence means "checked".
+    echo "pre-commit: no Python interpreter found, so the knowledge base was NOT checked." >&2
+    echo "pre-commit: set one explicitly, e.g." >&2
+    echo "            MISERY_PYTHON=$CANONICAL git commit ..." >&2
+    echo "pre-commit: or bypass deliberately with --no-verify (CI will still check)." >&2
+    exit 1
+fi
+
+exec "$PYTHON" "$CHECKER" --repo-root "$REPO_ROOT"

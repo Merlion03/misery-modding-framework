@@ -1,0 +1,571 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "experiment-result.schema.json",
+  "title": "Experiment Verdict Record",
+  "description": "The verdict record for one content-loading experiment E-1..E-7 (plan.md 5.3), one mod-kit stage MK-1..MK-5 (plan.md 14A.5) or the static proxy SP-1 (plan.md 14.7). It states which production Tier was used, whether the outcome was pass, fail or blocked, how far along the six-step chain of plan.md 14.1 the run actually got, what stopped it, and which Tier or which plan.md 14A item would unblock it. This is the exact shape demanded by the M5a+M5b exit criteria: 'for each of E-1..E-7 there is a pass / fail / blocked record naming the plan.md 14.1 step, the Tier used and the stored artifact; for every blocked experiment it is explicitly stated which Tier or which plan.md 14A item unblocks it'. The record composes the knowledge-base envelope of kb-record.schema.json, so it carries evidence_level, confidence, sources, oracle, build_key and recorded_at like every other record.",
+  "$comment": "REFERENCE RESOLUTION. The $id is the relative URI-reference 'experiment-result.schema.json', i.e. this file's own name, so every relative $ref resolves against the base the consumer loaded this file from - on disk, the sibling file in research/schema/. Earlier revisions used an absolute base under a host in the reserved .invalid TLD (RFC 2606), which nothing could resolve except tools/kb/validate.py and its custom offline registry: the TLD is reserved as non-existent, so every other consumer turned each $ref into a network fetch that died in DNS/SSL failure and then Unretrievable. This file still carries cross-file $refs and therefore needs a consumer able to read a sibling file - tools/kb/validate.py, an editor, check-jsonschema. It is deliberately NOT bundled the way install.schema.json and install-inventory.schema.json are, because it validates no artifact committed under research/builds/ yet. When research/packages/experiments/*/result.json starts being committed, embed the resources it references under $defs the same way, and keep the copies verbatim. Per the plan.md 10.5 matrix, a claim of the form 'a cooked BP from an external container works' (E-3b) is proved by an actual run only, which is why the envelope's claim_type 'cooked-bp-from-external-container-works' forces the runtime-reflection oracle.",
+  "type": "object",
+  "unevaluatedProperties": false,
+  "properties": {
+    "experiment_id": {
+      "description": "Which experiment or stage this record is the verdict for. E-1 Texture; E-2a StaticMesh with an existing material; E-2b custom Material; E-3a Blueprint deriving from engine AActor; E-3b Blueprint deriving from a native MISERY class - THE main project gate; E-3c Blueprint deriving from a MISERY Blueprint class, likely 'blocked by D-02'; E-4 Niagara or custom shaders; E-5 Audio; E-6 override conflict on a duplicate package name; E-7 version tolerance (all plan.md 5.3). MK-1 one stub; MK-2 minimal BP plus cook; MK-3 the in-game load, which IS E-3b; MK-4 escalation; MK-5 scale assessment (plan.md 14A.5). SP-1 the static proxy for the most expensive questions, including CK-04 (plan.md 14.7).",
+      "type": "string",
+      "enum": [
+        "E-1",
+        "E-2a",
+        "E-2b",
+        "E-3a",
+        "E-3b",
+        "E-3c",
+        "E-4",
+        "E-5",
+        "E-6",
+        "E-7",
+        "MK-1",
+        "MK-2",
+        "MK-3",
+        "MK-4",
+        "MK-5",
+        "SP-1"
+      ]
+    },
+    "title": {
+      "description": "Short human readable name of the experiment, matching the plan.md wording, for example 'Blueprint : native MISERY class'.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "track": {
+      "description": "Which research track the record belongs to: 'content-loading' for plan.md 14 and the E-* experiments, 'mod-kit' for the plan.md 14A MK-* stages, 'static-proxy' for SP-1.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "content-loading",
+        "mod-kit",
+        "static-proxy",
+        null
+      ]
+    },
+    "tier_used": {
+      "description": "Which test-content production Tier of plan.md 14.7 was actually used. 'A' = .pak v11 with an arbitrary NON-asset payload written by our own tools/content/pak_writer.py, no Unreal Engine needed. 'B' = a minimal cooked package in legacy .uasset/.uexp form written by tools/content/mini_cook.py, no Unreal Engine needed. 'C' = real cooked assets from a local UE 5.4.4 installation. 'D' = the same as C but cooked on another machine and transferred as a file. Null when the record needed no test content at all, which is the case for SP-1.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        null
+      ]
+    },
+    "status": {
+      "description": "The verdict. 'pass' = the success criterion of plan.md 5.3 or 14A.5 was met. 'fail' = the experiment ran and did not meet it; this is a real result and is kept, not retried into silence. 'blocked' = the experiment could not be run for lack of tooling, content or a pending decision; per plan.md 14A.7 a blocked experiment must never be presented as a negative result.",
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "blocked"
+      ]
+    },
+    "chain_step_reached": {
+      "description": "How far the run got along the six-step chain of plan.md 14.1: 0 = nothing was attempted; 1 = discovery, the runtime found the mod folder; 2 = mount, the container became visible to the engine file system; 3 = asset discovery, the engine or AssetRegistry knows the asset exists; 4 = load, the asset deserialized into a UObject; 5 = register, the asset became available to gameplay; 6 = use / spawn. Steps 1-3 need neither cooked content nor Unreal Engine and are what Tier A closes (plan.md 14.7).",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 6
+    },
+    "chain_step_reached_name": {
+      "description": "Name of chain_step_reached, spelled out for readability. Must agree with the number.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "none",
+        "discovery",
+        "mount",
+        "asset-discovery",
+        "load",
+        "register",
+        "use-spawn",
+        null
+      ]
+    },
+    "chain": {
+      "description": "Optional per-step log of the plan.md 14.1 chain, which makes chain_step_reached auditable instead of asserted.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "object",
+        "description": "Outcome of one step of the plan.md 14.1 chain.",
+        "properties": {
+          "step": {
+            "description": "Step number, 1..6, as defined in plan.md 14.1.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "name": {
+            "description": "Step name: discovery, mount, asset-discovery, load, register, use-spawn.",
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "discovery",
+              "mount",
+              "asset-discovery",
+              "load",
+              "register",
+              "use-spawn",
+              null
+            ]
+          },
+          "status": {
+            "description": "Outcome of this step. 'not-attempted' is distinct from 'fail': it means the run stopped earlier.",
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "blocked",
+              "not-attempted"
+            ]
+          },
+          "observation": {
+            "description": "What was actually observed at this step, stated as an observation and not as an interpretation. For step 2 this is the clear observable mount / no-mount signal demanded by task CT-03.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "artifact": {
+            "description": "Repository-relative path of the stored raw artifact for this step, normally under research/instrument-runs/<timestamp>/ or research/evidence/<method-id>/.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "step",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "failure_mode": {
+      "description": "For a fail, WHICH failure it was; plan.md 5.3 insists that outcomes which look similar be recorded apart. 'mount-error' the container was rejected. 'asset-not-discovered' mounted but the asset was never seen. 'deserialize-error' load failed. 'class-not-found-in-reflection' the UClass never appeared (the E-3a negative result). 'loaded-but-not-rendered' loaded yet invisible - a different class of problem (E-2a). 'loaded-but-default-material' the material path failed while loading succeeded (E-2b, RISK-16). 'cooker-refused' the stock cooker would not produce the package (MK-2, RISK-15). 'accepted-but-misread' the package was accepted and interpreted WRONGLY - the most dangerous outcome of RISK-15, silent data corruption instead of an honest error. 'property-shift' inherited properties landed at the wrong offsets (plan.md 14A.3). 'crash' the process died. 'spawn-failed' the class existed but could not be instantiated. 'no-observable-signal' the instrument could not tell success from failure, which is a tooling defect and not a result. Null when status is not 'fail'.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "mount-error",
+        "asset-not-discovered",
+        "deserialize-error",
+        "class-not-found-in-reflection",
+        "loaded-but-not-rendered",
+        "loaded-but-default-material",
+        "cooker-refused",
+        "accepted-but-misread",
+        "property-shift",
+        "crash",
+        "spawn-failed",
+        "no-observable-signal",
+        "other",
+        null
+      ]
+    },
+    "blocked_by": {
+      "description": "What prevented the experiment from producing a verdict. Mandatory and non-empty when status is 'blocked' (enforced below), because plan.md 14A.7 forbids presenting a blocked experiment as a negative result without naming what was missing.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/blocker"
+      }
+    },
+    "unblocked_by": {
+      "description": "What would unblock the experiment: which Tier of plan.md 14.7, or which plan.md 14A item, or which decision. Mandatory and non-empty when status is 'blocked' - this is the literal M5a+M5b exit criterion.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/blocker"
+      }
+    },
+    "gate_outcome": {
+      "description": "The plan.md 14A.7 gate semantics, i.e. what this result means for the scale of the whole project. 'e3b-pass' meaningful custom content is possible and Phase 2 includes a mod kit. 'e3b-fail-e3a-pass' only content that does not inherit from game classes is possible: cosmetics and standalone assets but no extension of gameplay entities; the project turns into behaviour modding through reflection, which is a different and much more modest product, and that must be said out loud. 'e3a-fail' external content does not load at all and plan.md 14 closes negatively. 'blocked' tooling or time ran out; state exactly what was missing. Mandatory for experiment_id E-3b (enforced below); null for experiments the gate does not depend on.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "e3b-pass",
+        "e3b-fail-e3a-pass",
+        "e3a-fail",
+        "blocked",
+        null
+      ]
+    },
+    "success_criterion": {
+      "description": "The success criterion this run was judged against, quoted from plan.md 5.3 or 14A.5. Recorded so a later reader cannot silently move the goalposts.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "failure_criterion": {
+      "description": "The failure criterion from plan.md 5.3 or 14A.5, recorded for the same reason.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "observation": {
+      "description": "What was actually observed, as a factual account without interpretation.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verdict_text": {
+      "description": "The reasoned verdict: what the observation means, what it does not mean, and what would change it.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "instrument_level": {
+      "description": "Which instrumentation level of plan.md 8 was used. 'level-0-offline' no game process involved. 'level-1-eri' the External Read-Only Inspector observed the process from outside (plan.md 8.2). 'level-2-ipp' the In-Process Research Probe was used, which is allowed only after the escalation criteria of plan.md 8.4 were met and recorded in decisions.md.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "level-0-offline",
+        "level-1-eri",
+        "level-2-ipp",
+        null
+      ]
+    },
+    "test_container": {
+      "description": "The test container this run used. Our own containers always live in a separate research workspace; the original containers of the installation are never touched (plan.md 5.3, decision D-01).",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "path": {
+          "description": "Repository- or workspace-relative path of the container that was produced for this run.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "format": {
+          "description": "Container format used: 'pak-v11' for the Tier A writer, 'iostore' for a .utoc/.ucas pair, 'loose-files' for an unpacked directory.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pak-v11",
+            "iostore",
+            "loose-files",
+            null
+          ]
+        },
+        "mount_root": {
+          "description": "The mount root the container declares, for example '/MiseryMods/Test'. Using a private root is what keeps an experiment from becoming a replacement of original content (see the warning on experiment E-6).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "payload_kind": {
+          "description": "What the container carried: 'non-asset' for the Tier A .ini/.txt/.uplugin probe, 'legacy-package' for a Tier B .uasset/.uexp pair, 'cooked-asset' for real Tier C or D content.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "non-asset",
+            "legacy-package",
+            "cooked-asset",
+            null
+          ]
+        },
+        "package_names": {
+          "description": "Package or object names the container was supposed to provide, for example '/MiseryMods/Test/T_Probe'.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "sha256": {
+          "$ref": "kb-record.schema.json#/$defs/sha256",
+          "description": "sha256 of the container file, so the exact artifact used in this run is identifiable later."
+        }
+      },
+      "additionalProperties": false
+    },
+    "cook": {
+      "description": "Cook provenance, for Tier C and Tier D records. Null for Tier A, Tier B and SP-1.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "ue_version": {
+          "description": "Exact engine version used to cook, which must be the build's own 5.4.4 unless the record is experiment E-7 (version tolerance).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cooked_offsite": {
+          "description": "True for Tier D, i.e. the cook happened on another machine or a CI runner and only the artifact was transferred.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "parent_class": {
+          "description": "The parent class the cooked Blueprint derives from, for example '/Script/Engine.Actor' for E-3a or '/Script/MISERY.<Class>' for E-3b. This single field is what separates the two most important experiments.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stub_source": {
+          "description": "Where the editor-side stub for the parent class came from, for the plan.md 14A track: which reflection records it was generated from and by which tool.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "settings_note": {
+          "description": "Which cook settings were used and how they compare with the observed container flags of the game (task CT-07, question CK-06).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "runs": {
+      "description": "The individual runs behind this verdict. plan.md 10.3 item 4 requires a runtime observation to be reproduced twice, in two different launches of the game, before confidence can reach 0.95.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "object",
+        "description": "One execution of the experiment.",
+        "properties": {
+          "run_id": {
+            "description": "Identifier of the run, normally the research/instrument-runs/<timestamp> directory name.",
+            "type": "string"
+          },
+          "executed_at": {
+            "$ref": "kb-record.schema.json#/$defs/timestamp",
+            "description": "When this run happened, ISO-8601 UTC."
+          },
+          "status": {
+            "description": "Outcome of this single run. Two runs that disagree must be recorded as they are, not averaged.",
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "pass",
+              "fail",
+              "blocked",
+              null
+            ]
+          },
+          "artifact": {
+            "description": "Repository-relative path of the stored raw artifact of this run.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "run_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "artifacts": {
+      "description": "Repository-relative paths of every stored raw artifact backing this verdict (plan.md 10.3 item 3). An experiment record without an artifact cannot exceed the weak confidence band.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "questions_answered": {
+      "description": "Which plan.md question ids this run answered or moved, for example ['CL-02','CL-08'] for a Tier A mount probe or ['CK-04'] for SP-1. Lets research/unknowns.md be reconciled mechanically.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "executed_by": {
+      "description": "Which tool or script executed the experiment, with its version.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "experiment_id",
+    "status",
+    "tier_used",
+    "chain_step_reached"
+  ],
+  "allOf": [
+    {
+      "$comment": "Every experiment verdict is a knowledge-base record and must carry the common envelope of plan.md 10.",
+      "$ref": "kb-record.schema.json#/$defs/envelope"
+    },
+    {
+      "$comment": "M5a+M5b exit criterion and plan.md 14A.7: a blocked experiment must name both what blocked it and what would unblock it.",
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "const": "blocked"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "blocked_by",
+          "unblocked_by"
+        ],
+        "properties": {
+          "blocked_by": {
+            "type": "array",
+            "minItems": 1
+          },
+          "unblocked_by": {
+            "type": "array",
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "$comment": "plan.md 14A.7: the outcome of E-3b defines the meaning of the whole project, so its gate semantics may not be left unstated.",
+      "if": {
+        "required": [
+          "experiment_id"
+        ],
+        "properties": {
+          "experiment_id": {
+            "const": "E-3b"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "gate_outcome"
+        ],
+        "properties": {
+          "gate_outcome": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "$comment": "plan.md 5.3: a failure must be classified, because outcomes that look alike (loaded-but-not-rendered vs mount-error vs accepted-but-misread) are different classes of problem.",
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "const": "fail"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "failure_mode"
+        ],
+        "properties": {
+          "failure_mode": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "blocker": {
+      "title": "Blocker",
+      "description": "One thing that blocks an experiment, or one thing that would unblock it. Used by both blocked_by and unblocked_by so the two lists are symmetric and machine comparable.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "What sort of thing this is. 'tier' a test-content production Tier of plan.md 14.7. 'modkit-stage' an MK-1..MK-5 stage of plan.md 14A.5. 'decision' an open decision point, for example D-06 on installing Unreal Engine. 'task' a plan.md task such as CT-01. 'question' an open question such as CK-04 or CL-08. 'risk' a risk such as RISK-15 or RISK-16. 'policy' a self-imposed limit, above all decision D-02 which forbids extracting the encryption key or decrypting the main container. 'tooling' a missing or insufficient instrument. 'disk-space' not enough free disk, which is the concrete gate on Tier C (the plan.md 14.7 trigger wants 60 GB free). 'other' anything else, described in text.",
+          "type": "string",
+          "enum": [
+            "tier",
+            "modkit-stage",
+            "decision",
+            "task",
+            "question",
+            "risk",
+            "policy",
+            "tooling",
+            "disk-space",
+            "other"
+          ]
+        },
+        "ref": {
+          "description": "The identifier of the thing, exactly as plan.md spells it: 'Tier C', 'MK-2', 'D-06', 'D-02', 'CT-01', 'CK-04', 'CL-08', 'RISK-15'.",
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "description": "One sentence on why this blocks or unblocks the experiment. Vague entries defeat the purpose of the field.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "ref"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

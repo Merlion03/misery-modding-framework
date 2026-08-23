@@ -1,0 +1,1048 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "reflection-record.schema.json",
+  "title": "Reflection Map Record",
+  "description": "One line of the reflection map JSONL files under research/reflection/<build_key>/: classes.jsonl, functions.jsonl, properties.jsonl, enums.jsonl and relations.jsonl (plan.md 6.3). Each line is a complete knowledge-base record: it composes the common envelope of kb-record.schema.json (evidence_level, confidence, sources, oracle, build_key, recorded_at) with the fields of exactly one entity kind, selected by 'kind'. plan.md 6.3 rule, enforced below: a property offset may only be OBSERVED when it comes from a runtime dump; an offset from static analysis is a HYPOTHESIS.",
+  "$comment": "REFERENCE RESOLUTION. The $id is the relative URI-reference 'reflection-record.schema.json', i.e. this file's own name, so every relative $ref resolves against the base the consumer loaded this file from - on disk, the sibling file in research/schema/. Earlier revisions used an absolute base under a host in the reserved .invalid TLD (RFC 2606), which nothing could resolve except tools/kb/validate.py and its custom offline registry: the TLD is reserved as non-existent, so every other consumer turned each $ref into a network fetch that died in DNS/SSL failure and then Unretrievable. This file still carries cross-file $refs and therefore needs a consumer able to read a sibling file - tools/kb/validate.py, an editor, check-jsonschema. It is deliberately NOT bundled the way install.schema.json and install-inventory.schema.json are, because it validates no artifact committed under research/builds/ yet. When research/reflection/*/*.jsonl starts being committed, embed the resources it references under $defs the same way, and keep the copies verbatim. Composition is allOf(envelope, common) plus a oneOf over 'kind', closed with unevaluatedProperties: false - the draft 2020-12 idiom that keeps the object strict while still allowing schema composition. Note the field rename against the plan.md 6.3 example: the example writes 'source', the envelope of task EV-02 writes 'sources'; 'sources' is canonical here and 'source' is accepted only as a deprecated alias so that early RF-01 output does not have to be thrown away.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "kb-record.schema.json#/$defs/envelope"
+    },
+    {
+      "$ref": "#/$defs/common"
+    }
+  ],
+  "oneOf": [
+    {
+      "$ref": "#/$defs/class_record"
+    },
+    {
+      "$ref": "#/$defs/struct_record"
+    },
+    {
+      "$ref": "#/$defs/function_record"
+    },
+    {
+      "$ref": "#/$defs/property_record"
+    },
+    {
+      "$ref": "#/$defs/enum_record"
+    },
+    {
+      "$ref": "#/$defs/relation_record"
+    }
+  ],
+  "unevaluatedProperties": false,
+  "$defs": {
+    "common": {
+      "title": "Common reflection fields",
+      "description": "Fields shared by every entity kind (plan.md 6.3).",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Which entity this line describes, and therefore which JSONL file it belongs in: 'class' -> classes.jsonl, 'struct' -> classes.jsonl (UScriptStruct entries), 'function' -> functions.jsonl, 'property' -> properties.jsonl, 'enum' -> enums.jsonl, 'relation' -> relations.jsonl (inheritance, ownership, references).",
+          "type": "string",
+          "enum": [
+            "class",
+            "struct",
+            "function",
+            "property",
+            "enum",
+            "relation"
+          ]
+        },
+        "raw_name": {
+          "description": "The name exactly as the build spells it, with no cleanup, for example 'BP_PlayerCharacter_C' or 'MiseryCharacter' (plan.md 6.3 'raw_name'). Never normalized: plan.md 16.1 treats the raw name as the identifier and any friendlier name as a semantic_alias.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "object_path": {
+          "description": "Full UObject path when known, for example '/Script/MISERY.MiseryCharacter' or '/Game/Characters/BP_PlayerCharacter.BP_PlayerCharacter_C'. Null when only the bare name is known, which is the normal case for names recovered from global.ucas.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "package": {
+          "description": "Package the entity lives in, for example '/Game/Characters/BP_PlayerCharacter' (plan.md 6.3 'package'). A package path under /Game recovered ONLY from a name pool is not proof that the asset exists - see the mandatory rule under plan.md 10.5.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "module": {
+          "description": "Script module the entity belongs to, for example '/Script/MISERY' for game code or '/Script/Engine' for engine code. This is the split that method RF-02 produces and it is what keeps engine noise out of the game surface.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "Generic object flags as raw hex text (plan.md 6.3 'flags_raw'). Kind-specific flag words (class_flags_raw, property_flags_raw, ...) live in the per-kind block; this field is for EObjectFlags or for a flag word whose meaning has not been resolved yet."
+        },
+        "source": {
+          "description": "DEPRECATED alias of the envelope field 'sources', kept only because the plan.md 6.3 example uses this spelling (for example ['RF-01','RF-12']). New producers must write 'sources'; tools/kb/validate.py normalizes this away.",
+          "deprecated": true,
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "class_record": {
+      "title": "Class record",
+      "description": "A UClass (native or Blueprint-generated). Produced by RF-01 for names and by RF-12 for the full runtime shape.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "class",
+          "description": "Discriminator: this line is a class."
+        },
+        "raw_name": {
+          "description": "Class name exactly as spelled by the build, mandatory for a class record.",
+          "type": "string",
+          "minLength": 1
+        },
+        "super": {
+          "description": "Raw name of the direct superclass, for example 'MiseryCharacter' (plan.md 6.3 'super'). Null for UObject or when the parent is not established. A claim that X derives from Y requires the runtime-reflection oracle (plan.md 10.5).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "super_object_path": {
+          "description": "Full object path of the superclass when known, for example '/Script/Engine.Character'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "description": "Instance size in bytes as reported by the runtime (plan.md 6.3 'size'). Null when not confirmed; plan.md 6.3 says such a value must be left explicitly unknown rather than guessed. Build-specific, always read together with build_key.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "alignment": {
+          "description": "Minimum alignment in bytes as reported by the runtime. Null when unknown.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "class_flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "EClassFlags word as raw hex text."
+        },
+        "class_cast_flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "EClassCastFlags word as raw hex text. Useful for identifying an engine base type without relying on its name."
+        },
+        "cdo_name": {
+          "description": "Name of the class default object, normally 'Default__<ClassName>'. Its presence in the global name pool is one of the things global.ucas does prove (plan.md 10.5).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_native": {
+          "description": "True for a class implemented in C++, false for a Blueprint-generated class (typically a '_C' suffix). Null when undetermined.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_blueprint_generated": {
+          "description": "True when this is a UBlueprintGeneratedClass. Central to plan.md 14A: a Blueprint deriving from a native MISERY class is exactly what experiment E-3b tests.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_abstract": {
+          "description": "True when the class carries CLASS_Abstract and therefore cannot be instantiated directly.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "within_class": {
+          "description": "ClassWithin constraint (the outer class an instance must live inside), when reported.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "config_name": {
+          "description": "Config category of the class (the 'config=' specifier), which tells which ini file can influence it. Relevant because per question Q-2.2 the user Engine.ini is the only unpacked configuration surface.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "interfaces": {
+          "description": "Raw names of the interfaces the class implements, in declaration order.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "property_count": {
+          "description": "Number of properties owned directly by this class, i.e. excluding inherited ones. Together with the per-property 'ordinal' this is what lets the plan.md 14A stub generator reproduce the property chain.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "function_count": {
+          "description": "Number of functions owned directly by this class.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "required": [
+        "kind",
+        "raw_name"
+      ]
+    },
+    "struct_record": {
+      "title": "Struct record",
+      "description": "A UScriptStruct or other UStruct that is not a UClass.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "struct",
+          "description": "Discriminator: this line is a struct."
+        },
+        "raw_name": {
+          "description": "Struct name exactly as spelled by the build, mandatory for a struct record.",
+          "type": "string",
+          "minLength": 1
+        },
+        "super": {
+          "description": "Raw name of the parent struct, when the struct derives from another one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "description": "Struct size in bytes as reported by the runtime. Null when not confirmed.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "alignment": {
+          "description": "Minimum alignment in bytes. Null when unknown.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "struct_flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "EStructFlags word as raw hex text. The serialization-relevant bits matter for question CK-01 of plan.md 14A."
+        },
+        "is_native": {
+          "description": "True for a C++ struct, false for a Blueprint user-defined struct.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "property_count": {
+          "description": "Number of properties owned directly by this struct.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "required": [
+        "kind",
+        "raw_name"
+      ]
+    },
+    "function_record": {
+      "title": "Function record",
+      "description": "A UFunction: native, Blueprint event or Blueprint-implemented graph.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "function",
+          "description": "Discriminator: this line is a function."
+        },
+        "raw_name": {
+          "description": "Function name exactly as spelled by the build, mandatory for a function record.",
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "description": "Raw name of the class or struct that owns this function. Null only when ownership is not yet established.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "function_flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "EFunctionFlags word as raw hex text (Native, Event, BlueprintCallable, Net, ...)."
+        },
+        "num_parms": {
+          "description": "Number of parameters including the return value, as reported by the runtime.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "parms_size": {
+          "description": "Total size in bytes of the parameter frame. Needed by anything that would ever call the function through ProcessEvent.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "return_value_offset": {
+          "description": "Offset of the return value inside the parameter frame, or null when the function returns nothing or the offset is unknown.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "is_native": {
+          "description": "True when the function has a native implementation.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_static": {
+          "description": "True when the function is static.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_event": {
+          "description": "True when the function is a Blueprint event (FUNC_Event).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_net": {
+          "description": "True when the function is replicated (FUNC_Net), which is the entry point for the plan.md 12 replication questions.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "net_flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "Replication-related flag bits as raw hex text (NetMulticast, NetServer, NetClient, NetReliable)."
+        },
+        "native_func_address": {
+          "description": "Address of the native implementation, as an integer, for example the value of the UFunction Func pointer or a static analysis candidate. An address obtained by static analysis is a HYPOTHESIS per plan.md 6.2 (RF-04..RF-08) and is always build-specific.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "bytecode_size": {
+          "description": "Size of the Blueprint bytecode script in bytes, when the function is Blueprint-implemented. Zero or null for a purely native function.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "parameters": {
+          "description": "Parameter list in declaration order. Order is first class here for the same reason as for properties: a caller must lay out the parameter frame exactly as the build expects.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "description": "One function parameter.",
+            "properties": {
+              "ordinal": {
+                "description": "Zero-based position of the parameter in the function's parameter chain. Mandatory: without it the parameter list is unusable.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "name": {
+                "description": "Parameter name as spelled by the build.",
+                "type": "string"
+              },
+              "type_name": {
+                "description": "UE type name of the parameter, for example 'int32', 'FVector', 'AActor*'.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "property_class": {
+                "description": "FProperty subclass that implements the parameter, for example 'FIntProperty', 'FStructProperty', 'FObjectProperty'.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "offset": {
+                "description": "Byte offset of the parameter inside the parameter frame. Same evidence rule as a property offset: OBSERVED only from a runtime dump.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "size": {
+                "description": "Size of the parameter in bytes.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "flags_raw": {
+                "$ref": "kb-record.schema.json#/$defs/hex_word",
+                "description": "Property flags of the parameter as raw hex text (Parm, OutParm, ReturnParm, ReferenceParm, ConstParm)."
+              },
+              "is_return": {
+                "description": "True when this entry is the return value (CPF_ReturnParm).",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "is_out": {
+                "description": "True for an out parameter (CPF_OutParm).",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "is_reference": {
+                "description": "True for a by-reference parameter (CPF_ReferenceParm).",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "ordinal",
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "raw_name"
+      ]
+    },
+    "property_record": {
+      "title": "Property record",
+      "description": "One FProperty of a class, struct or function. This record type is the reason plan.md 14A can exist at all: a stub that is to be inherited from must reproduce not only the property names and types but their ORDER, and where relevant their offsets and sizes. Therefore 'ordinal', 'offset' and 'size' are mandatory keys - they may be null, but they may never be absent.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "property",
+          "description": "Discriminator: this line is a property."
+        },
+        "raw_name": {
+          "description": "Property name exactly as spelled by the build, mandatory for a property record.",
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "description": "Raw name of the class, struct or function that owns the property. Mandatory: a property without an owner cannot be placed.",
+          "type": "string",
+          "minLength": 1
+        },
+        "owner_kind": {
+          "description": "What the owner is: 'class', 'struct' or 'function' (a function's parameters are properties too).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "class",
+            "struct",
+            "function",
+            null
+          ]
+        },
+        "ordinal": {
+          "description": "ZERO-BASED ORDINAL POSITION of the property within its owner's own property chain, counting only properties declared by this owner and not inherited ones. First class and mandatory (may be null, never absent) because the plan.md 14A mod-kit track needs the exact order: a stub whose property order differs from the real class produces silently shifted data, which plan.md RISK-15 names as the most dangerous outcome. Per plan.md 10.5 the ORDER of properties is proved by the runtime-reflection oracle only.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "ordinal_basis": {
+          "description": "Where the ordinal came from, so two different orderings are never silently mixed. 'runtime-link-order' = the order of the linked FProperty chain observed in a runtime dump, which is the authoritative one. 'declaration-order' = order recovered from source or from a stub. 'cook-order' = order observed in a cooked package. 'name-pool-order' = order in which names appeared in global.ucas, which is NOT a property order and may only be recorded as such. 'unknown' = not established.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "runtime-link-order",
+            "declaration-order",
+            "cook-order",
+            "name-pool-order",
+            "unknown",
+            null
+          ]
+        },
+        "offset": {
+          "description": "Byte offset of the property inside its owner. Mandatory key, nullable value. plan.md 6.3 hard rule: an offset may carry evidence_level OBSERVED only when it comes from a runtime dump, and it is always bound to build_key; an offset recovered by static analysis is a HYPOTHESIS. Enforced by the conditional at the end of this schema.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "size": {
+          "description": "Size of ONE element in bytes (the UE ElementSize). Mandatory key, nullable value. For a static array the total footprint is size * array_dim, also given as 'total_size'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "array_dim": {
+          "description": "Static array dimension (ArrayDim); 1 for a plain property. Not to be confused with a TArray, which is a single property of class FArrayProperty with an 'inner'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "total_size": {
+          "description": "size * array_dim, the total footprint of the property in bytes. Derived, recorded for convenience.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "property_class": {
+          "description": "The FProperty subclass that implements this property, for example 'FIntProperty', 'FBoolProperty', 'FStructProperty', 'FObjectProperty', 'FArrayProperty', 'FMapProperty', 'FEnumProperty'. This, not the pretty type name, is what determines the memory layout.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type_name": {
+          "description": "Readable UE type name, for example 'int32', 'bool', 'FVector', 'TArray<FMiseryItem>'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cpp_type": {
+          "description": "C++ declaration text for the property as the engine would emit it, when reconstructed. Feeds the stub generation of plan.md 14A (stage MK-1).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "property_flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "EPropertyFlags word as raw hex text. Needed for the serialization questions CK-01 and CK-04 of plan.md 14A, which decide whether cooked child offsets are baked or recomputed on Link()."
+        },
+        "rep_index": {
+          "description": "Replication index (RepIndex) when the property is replicated, otherwise null. Entry point for the plan.md 12 questions.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "rep_notify_func": {
+          "description": "Name of the RepNotify function, when the property has one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bool_byte_offset": {
+          "description": "For an FBoolProperty packed into a bitfield: the byte offset of the containing byte relative to 'offset'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "bool_field_mask": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "For an FBoolProperty packed into a bitfield: the bit mask inside the containing byte, as hex text. Without this a bitfield property cannot be read correctly."
+        },
+        "is_bitfield": {
+          "description": "True when the property is a packed bitfield bool rather than a full-byte bool.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "inner": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/property_type_ref"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Element type of a container property: the Inner of an FArrayProperty or FSetProperty. Null for non-container properties."
+        },
+        "key_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/property_type_ref"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Key type of an FMapProperty. Null otherwise."
+        },
+        "value_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/property_type_ref"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Value type of an FMapProperty. Null otherwise."
+        },
+        "struct_name": {
+          "description": "For an FStructProperty: raw name of the struct. Null otherwise.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "enum_name": {
+          "description": "For an FEnumProperty or a byte property with an enum: raw name of the enum. Null otherwise.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "class_name": {
+          "description": "For an FObjectProperty, FClassProperty, FSoftObjectProperty or FWeakObjectProperty: raw name of the referenced class. Null otherwise.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "interface_name": {
+          "description": "For an FInterfaceProperty: raw name of the interface. Null otherwise.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "function_signature": {
+          "description": "For an FDelegateProperty or FMulticastDelegateProperty: raw name of the signature function. Null otherwise.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_blueprint_visible": {
+          "description": "True when the property carries CPF_BlueprintVisible. Tells whether a mod author could ever see the property from a Blueprint, which is what plan.md 14A stage MK-4 escalates to.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_editable": {
+          "description": "True when the property carries CPF_Edit, i.e. it is exposed in the editor.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_transient": {
+          "description": "True when the property carries CPF_Transient and is therefore not serialized.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_config": {
+          "description": "True when the property carries CPF_Config and can be driven from an ini file. Given question Q-2.2, a config property is one of the very few unpacked influence points.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "raw_name",
+        "owner",
+        "ordinal",
+        "offset",
+        "size"
+      ],
+      "allOf": [
+        {
+          "$comment": "plan.md 6.3 hard rule: an offset may be OBSERVED only from a runtime dump, therefore the runtime-reflection oracle must be present. A static-analysis offset must be recorded as HYPOTHESIS instead.",
+          "if": {
+            "required": [
+              "offset",
+              "evidence_level"
+            ],
+            "properties": {
+              "offset": {
+                "type": "integer"
+              },
+              "evidence_level": {
+                "const": "OBSERVED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "oracle": {
+                "contains": {
+                  "const": "runtime-reflection"
+                }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "plan.md 10.5: the ORDER of properties is proved by runtime reflection only, so an OBSERVED ordinal requires the runtime-reflection oracle.",
+          "if": {
+            "required": [
+              "ordinal",
+              "evidence_level"
+            ],
+            "properties": {
+              "ordinal": {
+                "type": "integer"
+              },
+              "evidence_level": {
+                "const": "OBSERVED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "oracle": {
+                "contains": {
+                  "const": "runtime-reflection"
+                }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "An ordinal taken from the order of names in the global name pool is not a property order at all (plan.md 10.5), so it can never be OBSERVED.",
+          "if": {
+            "required": [
+              "ordinal_basis"
+            ],
+            "properties": {
+              "ordinal_basis": {
+                "const": "name-pool-order"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence_level": {
+                "not": {
+                  "const": "OBSERVED"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "enum_record": {
+      "title": "Enum record",
+      "description": "A UEnum and its entries.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "enum",
+          "description": "Discriminator: this line is an enum."
+        },
+        "raw_name": {
+          "description": "Enum name exactly as spelled by the build, mandatory for an enum record.",
+          "type": "string",
+          "minLength": 1
+        },
+        "cpp_type": {
+          "description": "The CppType string the engine stores for the enum, for example 'EMiseryItemKind'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "enum_flags_raw": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "EEnumFlags word as raw hex text."
+        },
+        "is_bitflags": {
+          "description": "True when the enum is marked as bitflags, which changes how a value must be interpreted.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "enum_form": {
+          "description": "How the enum was declared: 'regular' (plain C enum), 'namespaced' (UENUM inside a namespace), 'enum-class' (enum class). Affects the spelling of entry names.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "regular",
+            "namespaced",
+            "enum-class",
+            null
+          ]
+        },
+        "underlying_type": {
+          "description": "Underlying integer type when known, for example 'uint8'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entries": {
+          "description": "The enumerators, in declaration order. Order matters for the same reason as property order: a stub with a different order silently changes values.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "description": "One enumerator.",
+            "properties": {
+              "name": {
+                "description": "Entry name exactly as spelled by the build, which for an enum class includes the 'EnumName::' prefix.",
+                "type": "string"
+              },
+              "value": {
+                "description": "Integer value of the entry.",
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "ordinal": {
+                "description": "Zero-based position of the entry in the declaration, which is not necessarily equal to 'value'.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "display_name": {
+                "description": "Human readable display name from metadata, when present.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "raw_name"
+      ]
+    },
+    "relation_record": {
+      "title": "Relation record",
+      "description": "One edge of the reflection graph, the content of relations.jsonl (plan.md 6.3): inheritance, ownership and references between entities.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "relation",
+          "description": "Discriminator: this line is a relation."
+        },
+        "relation_type": {
+          "description": "Edge type. 'inherits' = from derives from to. 'implements' = from implements interface to. 'owns' = to is declared by from (class owns property or function). 'within' = ClassWithin constraint. 'overrides' = from overrides the inherited member to. 'references' = from references to by type. 'default_subobject' = to is a default subobject created by from's CDO. 'component_of' = to is a component of from.",
+          "type": "string",
+          "enum": [
+            "inherits",
+            "implements",
+            "owns",
+            "within",
+            "overrides",
+            "references",
+            "default_subobject",
+            "component_of"
+          ]
+        },
+        "from": {
+          "description": "Raw name (or object path) of the source entity of the edge.",
+          "type": "string",
+          "minLength": 1
+        },
+        "from_kind": {
+          "description": "Entity kind of 'from'.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "class",
+            "struct",
+            "function",
+            "property",
+            "enum",
+            null
+          ]
+        },
+        "to": {
+          "description": "Raw name (or object path) of the target entity of the edge.",
+          "type": "string",
+          "minLength": 1
+        },
+        "to_kind": {
+          "description": "Entity kind of 'to'.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "class",
+            "struct",
+            "function",
+            "property",
+            "enum",
+            null
+          ]
+        },
+        "ordinal": {
+          "description": "Position of this edge among the edges of the same type from the same source, when the order is meaningful (interface list order, component creation order, property chain order). Null when order carries no meaning.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "required": [
+        "kind",
+        "relation_type",
+        "from",
+        "to"
+      ]
+    },
+    "property_type_ref": {
+      "title": "Nested property type",
+      "description": "A reduced property descriptor used for the element, key and value types of container properties. Recursive, because a TArray<TMap<...>> nests.",
+      "type": "object",
+      "properties": {
+        "property_class": {
+          "description": "FProperty subclass of the nested type, for example 'FStructProperty'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type_name": {
+          "description": "Readable UE type name of the nested type.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "description": "Element size in bytes of the nested type, when known.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "struct_name": {
+          "description": "Raw struct name when the nested type is a struct.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "enum_name": {
+          "description": "Raw enum name when the nested type is an enum.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "class_name": {
+          "description": "Raw class name when the nested type is an object reference.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "inner": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/property_type_ref"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Further nesting, for a container inside a container."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

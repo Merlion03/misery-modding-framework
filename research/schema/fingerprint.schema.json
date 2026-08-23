@@ -1,0 +1,1915 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fingerprint.schema.json",
+  "title": "Build Fingerprint",
+  "description": "research/builds/<build-id>/fingerprint.json - the full build fingerprint produced by tools/fingerprint/fingerprint.py (plan.md 3.1, tasks F-03 and F-06). Every field group of plan.md 3.1 is present: identity, steam, executables, engine, game, modules, containers, plugins, layout, anomalies. Fields that M0/M1 cannot fill yet MUST be present with the value null, never omitted, and each null must have a matching entry in research/unknowns.md (plan.md 3.3 exit criteria for M1). Two runs must produce identical output except identity.generated_at.",
+  "$comment": "REFERENCE RESOLUTION. The $id is the relative URI-reference 'fingerprint.schema.json', i.e. this file's own name, so every relative $ref resolves against the base the consumer loaded this file from - on disk, the sibling file in research/schema/. Earlier revisions used an absolute base under a host in the reserved .invalid TLD (RFC 2606), which nothing could resolve except tools/kb/validate.py and its custom offline registry: the TLD is reserved as non-existent, so every other consumer turned each $ref into a network fetch that died in DNS/SSL failure and then Unretrievable. This file still carries cross-file $refs and therefore needs a consumer able to read a sibling file - tools/kb/validate.py, an editor, check-jsonschema. It is deliberately NOT bundled the way install.schema.json and install-inventory.schema.json are, because it validates no artifact committed under research/builds/ yet. When research/builds/<build-id>/fingerprint.json starts being committed, embed the resources it references under $defs the same way, and keep the copies verbatim. $defs/steam has moved to kb-record.schema.json: this file used to define it and install-inventory.schema.json used to $ref it here, while this file in turn $ref'd install-inventory.schema.json#/$defs/inventory_file - a reference CYCLE between two files, which makes either of them impossible to bundle as a self-contained document. The reference graph is now the DAG fingerprint -> install-inventory -> kb-record. 64-bit raw values (container ids, partition sizes, Steam manifest ids, bit flags) are carried as strings, not JSON numbers, because values such as 0xFFFFFFFFFFFFFFFF and depot manifest id 3002776385514127223 exceed the exact-integer range of IEEE-754 double and would be silently corrupted by ordinary JSON parsers.",
+  "type": "object",
+  "properties": {
+    "identity": {
+      "$ref": "#/$defs/identity",
+      "description": "Identity group of plan.md 3.1 plus the keys defined in plan.md 3.2."
+    },
+    "steam": {
+      "$ref": "kb-record.schema.json#/$defs/steam",
+      "description": "Steam group of plan.md 3.1, read from appmanifest_2119830.acf."
+    },
+    "executables": {
+      "description": "Executable group of plan.md 3.1, one entry per exe found in the installation. For this build that is the root launcher shim MISERY.exe, MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe (the actual target) and the anomalous MISERY\\Binaries\\Win64\\MISERY.exe (decision D-04: read-only oracle only, never a bindings target).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/executable"
+      }
+    },
+    "engine": {
+      "$ref": "#/$defs/engine",
+      "description": "Engine group of plan.md 3.1, filled by the methods of plan.md 4."
+    },
+    "game": {
+      "$ref": "#/$defs/game",
+      "description": "Game group of plan.md 3.1, filled by the methods of plan.md 4."
+    },
+    "modules": {
+      "description": "Modules group of plan.md 3.1: every DLL shipped next to the game, walking Engine/Binaries, MISERY/Binaries and MISERY/Plugins.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/module"
+      }
+    },
+    "containers": {
+      "description": "Containers group of plan.md 3.1: one entry per .utoc, .ucas and .pak file, produced by tools/fingerprint/container_info.py (task F-02). Oracle for every field here is container-metadata (plan.md 10.5): it proves format and flags, and nothing about the contents of encrypted chunks (decision D-02) or about what the game actually mounts at runtime.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/container_entry"
+      }
+    },
+    "plugins": {
+      "description": "Plugins group of plan.md 3.1: every *.uplugin discovered in UNENCRYPTED containers or on disk. Empty array means 'none found', which is not the same as 'none exist' - see notes.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/plugin"
+      }
+    },
+    "layout": {
+      "$ref": "#/$defs/layout",
+      "description": "Layout group of plan.md 3.1: the normalized installation tree, path -> size -> sha256 (task R-05)."
+    },
+    "anomalies": {
+      "description": "Anomalies group of plan.md 3.1: files present on disk but absent from Manifest_NonUFSFiles_Win64.txt, and any other structural surprise. Detector is task F-05; anomaly A-05 must reproduce automatically.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/anomaly"
+      }
+    },
+    "notes": {
+      "description": "Free-form remarks about this fingerprint run: what was skipped, why a field is null, which unknowns.md entries were opened.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "identity",
+    "steam",
+    "executables",
+    "engine",
+    "game",
+    "modules",
+    "containers",
+    "plugins",
+    "layout",
+    "anomalies"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "identity": {
+      "title": "Identity",
+      "description": "plan.md 3.1 'Identity' plus the identity keys of plan.md 3.2.",
+      "type": "object",
+      "properties": {
+        "build_id": {
+          "description": "Human readable build id, plan.md 3.2: 'misery-' + <steam_buildid> + '-ue' + <engine_version> + '-' + <build_key hex, first 12 chars>. Used as the directory name under research/builds/. Example shape: misery-24826585-ue5.4.4-<12 hex>.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "build_key": {
+          "$ref": "kb-record.schema.json#/$defs/build_key",
+          "description": "Canonical identity, plan.md 3.2: sha256 of MISERY-Win64-Shipping.exe as 'sha256:<hex>'. All knowledge-base records reference this, not build_id."
+        },
+        "content_key": {
+          "$ref": "kb-record.schema.json#/$defs/content_key",
+          "description": "Content identity, plan.md 3.2: sha256 of the concatenation of the sha256 of all .utoc files. Lets a content-only patch be told apart from a code patch."
+        },
+        "generated_at": {
+          "$ref": "kb-record.schema.json#/$defs/timestamp",
+          "description": "When this fingerprint was generated, ISO-8601 UTC. The ONLY field allowed to differ between two runs on the same installation (plan.md 3.3 exit criteria)."
+        },
+        "generator_version": {
+          "description": "Version string of tools/fingerprint/fingerprint.py that produced this file, so an output can be traced to the code that made it.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schema_version": {
+          "description": "Version of this schema the document was written against. Optional; absent means the current schema.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "install_dir": {
+          "description": "Absolute path of the read-only installation this fingerprint describes (decision D-01: the game folder is a read-only research target, nothing is ever written into it).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "install_json": {
+          "description": "Repository-relative path to the install.json this fingerprint was built from (plan.md 2.2).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "build_id",
+        "build_key",
+        "content_key",
+        "generated_at",
+        "generator_version"
+      ],
+      "additionalProperties": false
+    },
+    "executable": {
+      "title": "Executable",
+      "description": "plan.md 3.1 'Executable' group, one entry per exe. Hashing is streaming and never writes into the game folder (task F-04).",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path relative to the installation root, normalized to forward slashes, for example 'MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe'.",
+          "type": "string"
+        },
+        "role": {
+          "description": "What this exe is for the research. 'launcher-shim' = the UE BootstrapPackagedGame at the install root. 'primary-shipping' = MISERY-Win64-Shipping.exe, the actual analysis target. 'secondary-oracle' = the anomalous MISERY\\Binaries\\Win64\\MISERY.exe, usable as a read-only oracle only (decision D-04); calling it a Development build is a HYPOTHESIS, never a fact. 'unknown' when the role is not established.",
+          "type": "string",
+          "enum": [
+            "launcher-shim",
+            "primary-shipping",
+            "secondary-oracle",
+            "other",
+            "unknown"
+          ]
+        },
+        "size": {
+          "description": "File size in bytes.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "sha256": {
+          "$ref": "kb-record.schema.json#/$defs/sha256",
+          "description": "sha256 of the file. For the primary Shipping exe this value, prefixed with 'sha256:', is the build_key (plan.md 3.2)."
+        },
+        "sha1": {
+          "$ref": "kb-record.schema.json#/$defs/sha1",
+          "description": "sha1 of the file (plan.md 3.1)."
+        },
+        "md5": {
+          "$ref": "kb-record.schema.json#/$defs/md5",
+          "description": "md5 of the file (plan.md 3.1). Legacy convenience only, never an identity."
+        },
+        "in_non_ufs_manifest": {
+          "description": "True when the file is listed in Manifest_NonUFSFiles_Win64.txt, false when it is not (which is anomaly A-05, observed for MISERY\\Binaries\\Win64\\MISERY.exe), null when the manifest was not read.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "pe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pe"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "PE header data from tools/fingerprint/pe_info.py (task F-01). Null only if parsing failed, and then the failure must be recorded in notes."
+        },
+        "notes": {
+          "description": "Free-form remarks about this executable.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "role",
+        "size",
+        "sha256",
+        "sha1",
+        "md5",
+        "pe"
+      ],
+      "additionalProperties": false
+    },
+    "pe": {
+      "title": "PE image data",
+      "description": "Portable Executable data listed in plan.md 3.1 under the Executable group, produced by our own read-only parser without external binaries (task F-01).",
+      "type": "object",
+      "properties": {
+        "pe_format": {
+          "description": "Optional header magic: 'PE32+' for x64 images, 'PE32' for 32-bit.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "PE32",
+            "PE32+",
+            null
+          ]
+        },
+        "machine": {
+          "description": "COFF Machine field as an integer, for example 34404 (0x8664) for AMD64.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "machine_name": {
+          "description": "Human readable form of Machine, for example 'IMAGE_FILE_MACHINE_AMD64'. Convenience field, derived from machine.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timestamp": {
+          "description": "COFF TimeDateStamp as raw Unix epoch seconds. May be a deterministic-build hash rather than a real time; do not treat it as a build date without a second source.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "timestamp_utc": {
+          "description": "TimeDateStamp rendered as ISO-8601 UTC, for reading convenience. Null when timestamp is null or not a plausible date.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "characteristics": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "COFF Characteristics bitfield, kept as hex text so no bit is lost."
+        },
+        "characteristics_flags": {
+          "description": "Decoded Characteristics flag names, for example ['IMAGE_FILE_EXECUTABLE_IMAGE','IMAGE_FILE_LARGE_ADDRESS_AWARE'].",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "dll_characteristics": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "Optional header DllCharacteristics bitfield as hex text (ASLR, DEP, CFG, high-entropy VA). Not required by plan.md 3.1 but cheap and relevant to plan.md 8 instrumentation feasibility."
+        },
+        "subsystem": {
+          "description": "Optional header Subsystem as an integer (2 = WINDOWS_GUI, 3 = WINDOWS_CUI).",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "subsystem_name": {
+          "description": "Human readable Subsystem name. Convenience field.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checksum": {
+          "description": "Optional header CheckSum field value as stored in the file.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "checksum_valid": {
+          "description": "True when the recomputed PE checksum matches the stored one, false when it does not, null when not computed.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "image_base": {
+          "description": "Optional header ImageBase as an integer (for example 5368709120 = 0x140000000).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "entry_point": {
+          "description": "Optional header AddressOfEntryPoint, an RVA relative to image_base.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "size_of_image": {
+          "description": "Optional header SizeOfImage, the mapped image size in bytes.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "number_of_sections": {
+          "description": "COFF NumberOfSections. Observed: 9 for MISERY-Win64-Shipping.exe, 10 for the anomalous MISERY\\Binaries\\Win64\\MISERY.exe (the extra one being .uedbg).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "sections": {
+          "description": "Section table, plan.md 3.1 'pe.sections[] {name, vsize, rsize, rva, characteristics}'.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/pe_section"
+          }
+        },
+        "debug_directory": {
+          "description": "Parsed IMAGE_DIRECTORY_ENTRY_DEBUG entries, plan.md 3.1 'pe.debug_directory'. Empty array means the directory exists but is empty; null means it was not parsed.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/pe_debug_entry"
+          }
+        },
+        "pdb_path_if_any": {
+          "description": "plan.md 3.1 'pe.pdb_path_if_any': the PDB path string from the CodeView debug entry, if present. A build-machine path here is also a candidate value for engine.build_machine_path_leak.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rich_header": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pe_rich_header"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "plan.md 3.1 'pe.rich_header': the undocumented MSVC Rich header, which fingerprints the toolset that linked the image. Null when absent."
+        },
+        "imports": {
+          "description": "plan.md 3.1 'pe.imports[]': the import table, per DLL.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/pe_import"
+          }
+        },
+        "delay_imports": {
+          "description": "Delay-load import table, same shape as imports. Separate because delay loading changes when a dependency is actually resolved, which matters for plan.md 13 bootstrap feasibility.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/pe_import"
+          }
+        },
+        "exports": {
+          "description": "plan.md 3.1 'pe.exports[]': the export table. A shipping game exe normally exports nothing; a non-empty table is itself a finding.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/pe_export"
+          }
+        },
+        "tls": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pe_tls"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "plan.md 3.1 'pe.tls': the TLS directory, including callbacks. TLS callbacks run before the entry point, which is directly relevant to plan.md 13 and question CL-08 (how early a mount is still possible)."
+        },
+        "has_reloc": {
+          "description": "plan.md 3.1 'pe.has_reloc': true when a non-empty .reloc / base relocation directory is present.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "version_info": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pe_version_info"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "plan.md 3.1 'pe.version_info': the VS_VERSIONINFO resource."
+        },
+        "has_authenticode_signature": {
+          "description": "True when the Security data directory (Authenticode) is non-empty. Recorded as an observation only; no signature validation is performed.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "overlay_size": {
+          "description": "Number of bytes after the last section's raw data, i.e. appended data not covered by the section table. Non-zero is a finding worth an anomaly entry.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "required": [
+        "machine",
+        "timestamp",
+        "characteristics",
+        "subsystem",
+        "checksum",
+        "image_base",
+        "entry_point",
+        "sections",
+        "debug_directory",
+        "pdb_path_if_any",
+        "rich_header",
+        "imports",
+        "exports",
+        "tls",
+        "has_reloc",
+        "version_info"
+      ],
+      "additionalProperties": false
+    },
+    "pe_section": {
+      "title": "PE section",
+      "description": "One row of the PE section table, fields per plan.md 3.1.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Section name as stored, up to 8 bytes, for example '.text' or '.uedbg'.",
+          "type": "string"
+        },
+        "vsize": {
+          "description": "VirtualSize: size of the section in the mapped image.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "rsize": {
+          "description": "SizeOfRawData: size of the section on disk.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "rva": {
+          "description": "VirtualAddress: section RVA relative to image_base.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "raw_pointer": {
+          "description": "PointerToRawData: file offset of the section data. Needed to map a file offset to an RVA during static analysis (plan.md 7).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "characteristics": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "Section Characteristics bitfield as hex text."
+        },
+        "characteristics_flags": {
+          "description": "Decoded section flag names, for example ['IMAGE_SCN_CNT_CODE','IMAGE_SCN_MEM_EXECUTE','IMAGE_SCN_MEM_READ'].",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "sha256": {
+          "$ref": "kb-record.schema.json#/$defs/sha256",
+          "description": "sha256 of the section's raw bytes. Lets a per-section diff be made between builds without keeping the whole exe."
+        },
+        "entropy": {
+          "description": "Shannon entropy of the section's raw bytes in bits per byte, 0..8. High entropy in a data section suggests packed or encrypted content.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 8
+        }
+      },
+      "required": [
+        "name",
+        "vsize",
+        "rsize",
+        "rva",
+        "characteristics"
+      ],
+      "additionalProperties": false
+    },
+    "pe_debug_entry": {
+      "title": "PE debug directory entry",
+      "description": "One IMAGE_DEBUG_DIRECTORY entry. For type 2 (CODEVIEW) the RSDS payload fields are also filled.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Debug entry Type as an integer (2 = IMAGE_DEBUG_TYPE_CODEVIEW, 12 = VC_FEATURE, 13 = POGO, 16 = REPRO, ...).",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "type_name": {
+          "description": "Human readable debug entry type name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "description": "SizeOfData of the debug entry payload in bytes.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "timestamp": {
+          "description": "TimeDateStamp of the debug entry, Unix epoch seconds.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "major_version": {
+          "description": "MajorVersion of the debug entry.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "minor_version": {
+          "description": "MinorVersion of the debug entry.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "address_of_raw_data": {
+          "description": "AddressOfRawData: RVA of the debug payload, 0 when not mapped.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "pointer_to_raw_data": {
+          "description": "PointerToRawData: file offset of the debug payload.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "cv_signature": {
+          "description": "CodeView signature of the payload, normally 'RSDS'. Null for non-CodeView entries.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pdb_path": {
+          "description": "PDB path string from the CodeView payload. Often leaks the build machine layout, which feeds engine.build_machine_path_leak.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pdb_guid": {
+          "$ref": "#/$defs/guid",
+          "description": "PDB GUID from the CodeView payload; together with pdb_age it identifies the matching symbol file."
+        },
+        "pdb_age": {
+          "description": "PDB age from the CodeView payload.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "size"
+      ],
+      "additionalProperties": false
+    },
+    "pe_rich_header": {
+      "title": "Rich header",
+      "description": "The undocumented MSVC Rich header (plan.md 3.1 'pe.rich_header'). Identifies the compiler and linker builds used, which is a strong cross-build fingerprint.",
+      "type": "object",
+      "properties": {
+        "present": {
+          "description": "True when a Rich header was found between the DOS stub and the PE header.",
+          "type": "boolean"
+        },
+        "xor_key": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "The XOR key that follows the 'Rich' marker, as hex text."
+        },
+        "checksum_valid": {
+          "description": "True when the recomputed Rich checksum equals xor_key, false otherwise, null when not verified.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "raw_sha256": {
+          "$ref": "kb-record.schema.json#/$defs/sha256",
+          "description": "sha256 of the raw (still XOR-ed) Rich header bytes, so two builds can be compared without decoding."
+        },
+        "entries": {
+          "description": "Decoded @comp.id entries.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "description": "One @comp.id record: which tool at which build number contributed how many object files.",
+            "properties": {
+              "product_id": {
+                "description": "Product id (high 16 bits of @comp.id), identifying the tool.",
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "product_name": {
+                "description": "Human readable tool name for product_id, when known. Derived from a public table, so oracle is external-doc.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "build_number": {
+                "description": "Tool build number (low 16 bits of @comp.id).",
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "count": {
+                "description": "Number of object files attributed to this tool build.",
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "product_id",
+              "build_number",
+              "count"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "present"
+      ],
+      "additionalProperties": false
+    },
+    "pe_import": {
+      "title": "PE import descriptor",
+      "description": "One imported module and the symbols taken from it (plan.md 3.1 'pe.imports[]').",
+      "type": "object",
+      "properties": {
+        "dll": {
+          "description": "Imported module name exactly as stored in the import descriptor.",
+          "type": "string"
+        },
+        "function_count": {
+          "description": "Number of imported symbols from this module. Present even when the symbol list is truncated.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "functions": {
+          "description": "The imported symbols. May be null when a tool deliberately records only counts; in that case function_count must be filled.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "description": "One imported symbol, by name or by ordinal.",
+            "properties": {
+              "name": {
+                "description": "Symbol name, or null for an import by ordinal.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ordinal": {
+                "description": "Ordinal for an import by ordinal, otherwise null.",
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "hint": {
+                "description": "Hint value from the Import-by-Name table, when recorded.",
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "iat_rva": {
+                "description": "RVA of this symbol's slot in the Import Address Table. Useful when correlating a call site found in Ghidra with an imported API (plan.md 7).",
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "ordinal"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "dll",
+        "function_count"
+      ],
+      "additionalProperties": false
+    },
+    "pe_export": {
+      "title": "PE export entry",
+      "description": "One exported symbol (plan.md 3.1 'pe.exports[]').",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Exported name, or null for an export by ordinal only.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ordinal": {
+          "description": "Export ordinal.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "address": {
+          "description": "RVA of the exported symbol, relative to image_base.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "forwarder": {
+          "description": "Forwarder string ('OtherDll.OtherSymbol') when this export forwards elsewhere, otherwise null.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "ordinal"
+      ],
+      "additionalProperties": false
+    },
+    "pe_tls": {
+      "title": "PE TLS directory",
+      "description": "The TLS data directory (plan.md 3.1 'pe.tls'). TLS callbacks execute before the image entry point, which bounds the earliest possible intervention point discussed in plan.md 13 and question CL-08.",
+      "type": "object",
+      "properties": {
+        "present": {
+          "description": "True when the TLS data directory is non-empty.",
+          "type": "boolean"
+        },
+        "address_of_index": {
+          "description": "AddressOfIndex field of IMAGE_TLS_DIRECTORY, as a virtual address or RVA depending on the parser; the parser must state which in notes.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "callback_count": {
+          "description": "Number of TLS callbacks in the callback array.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "callbacks": {
+          "description": "Addresses of the TLS callbacks, as integers.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "required": [
+        "present"
+      ],
+      "additionalProperties": false
+    },
+    "pe_version_info": {
+      "title": "PE version info",
+      "description": "The VS_VERSIONINFO resource (plan.md 3.1 'pe.version_info'). Split into the fixed binary part and the localized string table; the string table shape is defined by the producer, so it is left open on purpose.",
+      "type": "object",
+      "properties": {
+        "fixed": {
+          "description": "VS_FIXEDFILEINFO values.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "file_version": {
+              "description": "FileVersion as dotted quad, for example '5.4.4.0'.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "product_version": {
+              "description": "ProductVersion as dotted quad.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "file_flags": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word",
+              "description": "FileFlags bitfield as hex text (VS_FF_DEBUG, VS_FF_PRERELEASE, ...). A set VS_FF_DEBUG bit is evidence about build configuration and is relevant to decision D-04."
+            },
+            "file_os": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word",
+              "description": "FileOS value as hex text."
+            },
+            "file_type": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word",
+              "description": "FileType value as hex text."
+            },
+            "file_subtype": {
+              "$ref": "kb-record.schema.json#/$defs/hex_word",
+              "description": "FileSubtype value as hex text."
+            }
+          },
+          "additionalProperties": false
+        },
+        "strings": {
+          "description": "The StringFileInfo table exactly as read: keys are the resource key names (CompanyName, FileDescription, FileVersion, InternalName, LegalCopyright, OriginalFilename, ProductName, ProductVersion and any vendor-specific extras). Open shape by design, because the key set is chosen by whoever built the image.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "translations": {
+          "description": "Language and codepage pairs found in the VarFileInfo block, as strings like '040904b0'.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "engine": {
+      "title": "Engine",
+      "description": "plan.md 3.1 'Engine' group, established by the independent methods of plan.md 4 and cross-validated per plan.md 4.2. Ground truth as of 2026-08-22: UE 5.4.4, CL 35576357, branch '++UE5+Release-5.4', configuration Shipping, IsSourceDistribution false, IsPerforceBuild false; two independent sources (UTF-16 strings in the Shipping exe, and CrashContext.runtime-xml).",
+      "type": "object",
+      "properties": {
+        "engine_version": {
+          "description": "Engine version string, for example '5.4.4'. Null when not established.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "engine_version_provisional": {
+          "description": "True while the version is treated as provisional-but-solid (the M0 state, before plan.md 4 formally confirms it), false once M1 confirmed it with two independent methods. Mirrors install-inventory.schema.json engine_version.provisional.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "engine_cl": {
+          "description": "Engine changelist number, for example 35576357.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "engine_branch": {
+          "description": "Engine branch name, for example '++UE5+Release-5.4'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "build_configuration": {
+          "description": "UE build configuration of the primary executable.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "Debug",
+            "DebugGame",
+            "Development",
+            "Test",
+            "Shipping",
+            "Unknown",
+            null
+          ]
+        },
+        "is_source_distribution": {
+          "description": "UE IsSourceDistribution flag; false means an installed binary engine build.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_perforce_build": {
+          "description": "UE IsPerforceBuild flag.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "build_machine_path_leak": {
+          "description": "Any absolute build-machine path found in the binary or in crash metadata, for example a path prefix under which the engine was compiled. Valuable because it anchors assert strings to engine source paths for plan.md 7 (RF-04).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/annotation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Evidence annotation for this whole group per plan.md 10: level, confidence, sources, oracle. In M0 this is INFERRED/OBSERVED from two sources; plan.md 4.2 raises it in M1."
+        }
+      },
+      "required": [
+        "engine_version",
+        "engine_cl",
+        "engine_branch",
+        "build_configuration",
+        "is_source_distribution",
+        "is_perforce_build",
+        "build_machine_path_leak"
+      ],
+      "additionalProperties": false
+    },
+    "game": {
+      "title": "Game",
+      "description": "plan.md 3.1 'Game' group.",
+      "type": "object",
+      "properties": {
+        "game_name": {
+          "description": "UE GameName as reported by the build, observed as 'UE-MISERY'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "project_module_name": {
+          "description": "Primary game module name, i.e. the '<Module>' in '/Script/<Module>'. Expected 'MISERY'; confirming it is question CK-02 of plan.md 14A.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "game_version_string_if_any": {
+          "description": "Any game-specific version string found (project version, ProjectVersion ini value, build label). Null when none was found.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/annotation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Evidence annotation for this group per plan.md 10."
+        }
+      },
+      "required": [
+        "game_name",
+        "project_module_name",
+        "game_version_string_if_any"
+      ],
+      "additionalProperties": false
+    },
+    "module": {
+      "title": "Module",
+      "description": "One DLL shipped with the game (plan.md 3.1 'Modules' group).",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path relative to the installation root, forward slashes.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Rough classification: 'engine' for Engine/Binaries, 'game' for MISERY/Binaries, 'plugin' for MISERY/Plugins or Engine/Plugins, 'thirdparty' for redistributables, 'unknown' otherwise.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "engine",
+            "game",
+            "plugin",
+            "thirdparty",
+            "unknown",
+            null
+          ]
+        },
+        "size": {
+          "description": "File size in bytes.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "sha256": {
+          "$ref": "kb-record.schema.json#/$defs/sha256",
+          "description": "sha256 of the DLL."
+        },
+        "version_info": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pe_version_info"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "VS_VERSIONINFO resource of the DLL (plan.md 3.1 asks for 'version info' per module)."
+        },
+        "in_non_ufs_manifest": {
+          "description": "True when the file is listed in Manifest_NonUFSFiles_Win64.txt; false is an anomaly candidate (task F-05).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "exports_count": {
+          "description": "Number of exported symbols, when the export table was parsed. Cheap signal for telling a real module from a stub.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "container_entry": {
+      "title": "Container entry",
+      "description": "One container file on disk. 'kind' selects which detail block is required: a .utoc carries utoc, a .pak carries pak, a .ucas carries neither (it is the data sibling of a .utoc and is described by its own path, size and hash). Shared with install.schema.json via $ref, because plan.md 2.2 defers its 'containers' array to plan.md 3.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path relative to the installation root, forward slashes, for example 'MISERY/Content/Paks/global.utoc'.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Container file class: 'utoc' = IoStore table of contents, 'ucas' = IoStore data file, 'pak' = legacy pak archive, 'usig' = signature file, 'other' = anything else in Paks/.",
+          "type": "string",
+          "enum": [
+            "utoc",
+            "ucas",
+            "pak",
+            "usig",
+            "other"
+          ]
+        },
+        "size": {
+          "description": "File size in bytes.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "sha256": {
+          "$ref": "kb-record.schema.json#/$defs/sha256",
+          "description": "sha256 of the whole file. The .utoc hashes feed content_key (plan.md 3.2)."
+        },
+        "sibling_path": {
+          "description": "Path of the paired file: for a .utoc the matching .ucas, for a .ucas the matching .utoc. Null when there is no pair.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "utoc": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/utoc_header"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Parsed FIoStoreTocHeader, required when kind is 'utoc'."
+        },
+        "pak": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pak_footer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Parsed pak footer (FPakInfo) plus index summary, required when kind is 'pak'."
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/annotation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Evidence annotation. For container fields the oracle is container-metadata (plan.md 10.5), which proves format and flags only."
+        },
+        "notes": {
+          "description": "Free-form remarks, for example 'high entropy body consistent with encryption' or 'parsed against hexdump by hand (task F-02)'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "kind",
+        "size",
+        "sha256"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$comment": "A .utoc must carry a parsed header; the value may not be null.",
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "utoc"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "utoc"
+            ],
+            "properties": {
+              "utoc": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "$comment": "A .pak must carry a parsed footer; the value may not be null.",
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "pak"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "pak"
+            ],
+            "properties": {
+              "pak": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "utoc_header": {
+      "title": "FIoStoreTocHeader",
+      "description": "Every field of the UE 5.4 FIoStoreTocHeader, in file order, plus a few derived convenience fields. plan.md 3.1 names a subset (toc_version, header_size, entry_count, compressed_block_count, compression_block_size, compression_method_names[], directory_index_size, partition_count, container_id, encryption_key_guid, container_flags, perfect_hash_seed_count); the plan name is given in each description where it differs from the engine field name. Values must agree with a manual hexdump check (task F-02).",
+      "type": "object",
+      "properties": {
+        "toc_magic": {
+          "description": "TocMagic, 16 bytes. Observed literal for both containers: '-==--==--==--==-'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "description": "Version byte of the TOC (EIoStoreTocVersion). plan.md 3.1 calls this 'toc_version'. Observed value 6 for both containers of this build.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "reserved0": {
+          "description": "Reserved0, uint8. Recorded verbatim so a non-zero reserved byte in a future build is not missed.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "reserved1": {
+          "description": "Reserved1, uint16. Recorded verbatim.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "toc_header_size": {
+          "description": "TocHeaderSize in bytes. plan.md 3.1 calls this 'header_size'. Observed value 144 for both containers.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "toc_entry_count": {
+          "description": "TocEntryCount: number of chunk entries in the TOC. plan.md 3.1 calls this 'entry_count'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "toc_compressed_block_entry_count": {
+          "description": "TocCompressedBlockEntryCount: number of compression block entries. plan.md 3.1 calls this 'compressed_block_count'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "toc_compressed_block_entry_size": {
+          "description": "TocCompressedBlockEntrySize: size in bytes of one compression block entry (12 in UE 5.x). A different value means the layout changed and our parser must not guess.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "compression_method_name_count": {
+          "description": "CompressionMethodNameCount: number of compression method name slots.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "compression_method_name_length": {
+          "description": "CompressionMethodNameLength: fixed length in bytes of one compression method name slot (32 in UE 5.x).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "compression_block_size": {
+          "description": "CompressionBlockSize in bytes. Observed value 65536 for both containers.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "directory_index_size": {
+          "description": "DirectoryIndexSize in bytes. Observed 0 for global.utoc (no directory index, matching ContainerFlags 0x00) and non-zero for MISERY-Windows.utoc (Indexed).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "partition_count": {
+          "description": "PartitionCount. Observed value 1 for both containers.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "container_id": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "ContainerId as hex text, because it is a full uint64. Observed 0xFFFFFFFFFFFFFFFF for global.utoc (the invalid/global id) and 0x3002A7A795855966 for MISERY-Windows.utoc."
+        },
+        "encryption_key_guid": {
+          "$ref": "#/$defs/guid",
+          "description": "EncryptionKeyGuid. Observed all zeros for both containers, i.e. the default key slot. Decision D-02: the key is never extracted and the main container is never decrypted."
+        },
+        "container_flags": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "ContainerFlags (EIoContainerFlags) as hex text. Observed 0x00 for global.utoc and 0x0A for MISERY-Windows.utoc (Encrypted | Indexed, notably WITHOUT Compressed)."
+        },
+        "container_flags_decoded": {
+          "description": "Decoded ContainerFlags names. EIoContainerFlags in UE 5.4: Compressed = 0x01, Encrypted = 0x02, Signed = 0x04, Indexed = 0x08, OnDemand = 0x10.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string",
+            "enum": [
+              "Compressed",
+              "Encrypted",
+              "Signed",
+              "Indexed",
+              "OnDemand"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "reserved3": {
+          "description": "Reserved3, uint8, recorded verbatim.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "reserved4": {
+          "description": "Reserved4, uint16, recorded verbatim.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "toc_chunk_perfect_hash_seeds_count": {
+          "description": "TocChunkPerfectHashSeedsCount. plan.md 3.1 calls this 'perfect_hash_seed_count'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "partition_size": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "PartitionSize as hex text, because it is a full uint64. Observed 0xFFFFFFFFFFFFFFFF for both containers, i.e. unlimited / single partition."
+        },
+        "toc_chunks_without_perfect_hash_count": {
+          "description": "TocChunksWithoutPerfectHashCount: chunks that fall back to linear lookup.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "reserved7": {
+          "description": "Reserved7, uint32, recorded verbatim.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "reserved8": {
+          "description": "Reserved8, the trailing reserved uint64 array of the header, recorded verbatim as hex strings so a future non-zero value is visible.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "kb-record.schema.json#/$defs/hex_word"
+          }
+        },
+        "compression_method_names": {
+          "description": "The compression method name table read after the header, empty strings stripped. plan.md 3.1 'compression_method_names[]'.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "is_encrypted": {
+          "description": "Derived: true when container_flags has the Encrypted bit. Observed true for MISERY-Windows.utoc, false for global.utoc.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "has_directory_index": {
+          "description": "Derived: true when the Indexed bit is set AND directory_index_size > 0.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "directory_index_readable": {
+          "description": "Derived: true when the directory index could actually be read as plaintext. For an encrypted container this is false without the key, and per decision D-02 we do not obtain the key.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "mount_point": {
+          "description": "Mount point string from the directory index, when the index is readable. Null when the index is absent or encrypted.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "body_entropy": {
+          "description": "Shannon entropy of a sample of the paired .ucas body in bits per byte. High entropy is consistent with encryption but does not prove it; the ContainerFlags bit does.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 8
+        }
+      },
+      "required": [
+        "toc_magic",
+        "version",
+        "toc_header_size",
+        "toc_entry_count",
+        "toc_compressed_block_entry_count",
+        "compression_block_size",
+        "directory_index_size",
+        "partition_count",
+        "container_id",
+        "encryption_key_guid",
+        "container_flags",
+        "toc_chunk_perfect_hash_seeds_count"
+      ],
+      "additionalProperties": false
+    },
+    "pak_footer": {
+      "title": "Pak footer (FPakInfo)",
+      "description": "All pak footer fields plus the index summary, for a legacy .pak archive. plan.md 3.1 names the subset pak_version, index_offset, index_size, encrypted_index, encryption_key_guid, mount_point. Ground truth for MISERY-Windows.pak: version 11, index NOT encrypted, EncryptionKeyGuid all zeros, mount point '../../../'. These fields also define the target format of our own writer, tools/content/pak_writer.py (task CT-01, Tier A of plan.md 14.7).",
+      "type": "object",
+      "properties": {
+        "magic": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "FPakInfo Magic as hex text. The UE constant is 0x5A6F12E1."
+        },
+        "pak_version": {
+          "description": "FPakInfo Version. plan.md 3.1 'pak_version'. Observed value 11 for MISERY-Windows.pak.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "footer_offset": {
+          "description": "File offset at which the footer starts, i.e. file size minus footer size. Recorded because the footer size depends on the version.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "footer_size": {
+          "description": "Size of the footer in bytes for this version. Version dependent; our parser must not hardcode a single value.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "index_offset": {
+          "description": "IndexOffset: file offset of the pak index. plan.md 3.1 'index_offset'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "index_size": {
+          "description": "IndexSize: size of the pak index in bytes. plan.md 3.1 'index_size'.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "index_hash": {
+          "$ref": "kb-record.schema.json#/$defs/sha1",
+          "description": "IndexHash: the FSHAHash (SHA-1, 20 bytes) of the index as stored in the footer. Our writer must reproduce it; a mismatch is how a malformed pak is caught (task CT-02 round-trip test)."
+        },
+        "encrypted_index": {
+          "description": "bEncryptedIndex. plan.md 3.1 'encrypted_index'. Observed false for MISERY-Windows.pak, which is why the index is parseable without touching decision D-02.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "encryption_key_guid": {
+          "$ref": "#/$defs/guid",
+          "description": "EncryptionKeyGuid from the footer. Observed all zeros for MISERY-Windows.pak."
+        },
+        "compression_methods": {
+          "description": "The fixed-size compression method name table stored in the footer, empty slots stripped.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "mount_point": {
+          "description": "Mount point string from the index. plan.md 3.1 'mount_point'. Observed '../../../' for MISERY-Windows.pak. This is the field our own containers will set to a private root such as '/MiseryMods/...' in experiment E-1.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "num_entries": {
+          "description": "Number of file entries in the index.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "path_hash_seed": {
+          "$ref": "kb-record.schema.json#/$defs/hex_word",
+          "description": "PathHashSeed as hex text (pak index version 2 and later, i.e. pak version 10+). Needed to reproduce a valid path hash index in our writer."
+        },
+        "has_path_hash_index": {
+          "description": "True when the index carries a path hash index.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "has_full_directory_index": {
+          "description": "True when the index carries a full directory index.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "index_is_frozen": {
+          "description": "The legacy bIndexIsFrozen flag, meaningful only for older pak versions. Null when the version does not have it.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "index_readable": {
+          "description": "Derived: true when the index was actually parsed as plaintext.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "magic",
+        "pak_version",
+        "index_offset",
+        "index_size",
+        "encrypted_index",
+        "encryption_key_guid",
+        "mount_point"
+      ],
+      "additionalProperties": false
+    },
+    "plugin": {
+      "title": "Plugin",
+      "description": "One *.uplugin found in an UNENCRYPTED container or on disk (plan.md 3.1 'Plugins' group, filled by plan.md 5). Nothing here may come from decrypting the main container (decision D-02).",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Plugin name, i.e. the .uplugin file name without extension.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Where the .uplugin was found: 'disk' for a loose file in the installation, 'global-container' for global.utoc/.ucas, 'pak' for MISERY-Windows.pak, 'unknown' otherwise.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "disk",
+            "global-container",
+            "pak",
+            "unknown",
+            null
+          ]
+        },
+        "virtual_path": {
+          "description": "Path as seen inside the container or relative to the installation root.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "friendly_name": {
+          "description": "FriendlyName from the .uplugin descriptor, when the descriptor body was readable.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version_name": {
+          "description": "VersionName from the .uplugin descriptor.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "engine_version": {
+          "description": "EngineVersion field from the .uplugin descriptor, when present.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_engine_plugin": {
+          "description": "True when the plugin ships with the engine, false when it belongs to the project. Null when undetermined.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "modules": {
+          "description": "Modules declared by the plugin descriptor.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "description": "One module entry of the plugin descriptor.",
+            "properties": {
+              "name": {
+                "description": "Module name, which is also the '<Module>' part of '/Script/<Module>'.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Module type as declared, for example 'Runtime', 'RuntimeNoCommandlet', 'Editor'.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "loading_phase": {
+                "description": "LoadingPhase as declared, for example 'Default', 'PreDefault', 'EarliestPossible'. Relevant to question CL-08 (how early a mount is still possible).",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "descriptor_available": {
+          "description": "True when the .uplugin JSON body itself was readable; false when only the file name is known (for example the name appeared in a name pool). A name alone is weak evidence - see the mandatory rule under plan.md 10.5.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/annotation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Evidence annotation per plan.md 10 for this plugin entry."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "layout": {
+      "title": "Layout",
+      "description": "plan.md 3.1 'Layout' group: the normalized installation tree, path -> size -> sha256 (task R-05). To avoid duplicating the whole file list in both fingerprint.json and install-inventory.json, 'files' may be null and delegated to 'inventory_ref'; the summary fields must always be filled.",
+      "type": "object",
+      "properties": {
+        "file_count": {
+          "description": "Number of files in the installation tree. Observed 53 for the pristine install (after AGENTS.md and plan.md were moved out into the repository).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "total_size": {
+          "description": "Sum of all file sizes in bytes.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "tree_hash": {
+          "$ref": "kb-record.schema.json#/$defs/sha256",
+          "description": "sha256 over the canonical serialization of the normalized tree ('<path>\\n<size>\\n<sha256>\\n' per file, paths sorted lexicographically with forward slashes). Gives a single value that changes whenever any file changes, which is what makes the fingerprint reproducible (plan.md 3.3)."
+        },
+        "inventory_ref": {
+          "description": "Repository-relative path to the install-inventory.json that holds the per-file rows, normally research/builds/<build-id>/install-inventory.json.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "files": {
+          "description": "Optional inline copy of the per-file rows. Null when the rows live in the referenced install-inventory.json instead.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "install-inventory.schema.json#/$defs/inventory_file"
+          }
+        }
+      },
+      "required": [
+        "file_count",
+        "total_size",
+        "tree_hash"
+      ],
+      "additionalProperties": false
+    },
+    "anomaly": {
+      "title": "Anomaly",
+      "description": "One structural surprise in the installation (plan.md 3.1 'Anomalies' group, detector task F-05). The canonical case is A-05: MISERY\\Binaries\\Win64\\MISERY.exe exists on disk but is not listed in Manifest_NonUFSFiles_Win64.txt.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Anomaly id, reusing the recon ids of plan.md Appendix A where applicable, for example 'A-05'.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "description": "Anomaly class. 'file-not-in-non-ufs-manifest' = present on disk, absent from Manifest_NonUFSFiles_Win64.txt. 'manifest-entry-missing-on-disk' = the reverse. 'unexpected-pe-section' = a section not expected in a Shipping image, for example .uedbg. 'size-mismatch' = declared size differs from the actual one. 'unexpected-file' = a file whose presence is not explained by the build layout. 'other' = anything else, described in 'description'.",
+          "type": "string",
+          "enum": [
+            "file-not-in-non-ufs-manifest",
+            "manifest-entry-missing-on-disk",
+            "unexpected-pe-section",
+            "size-mismatch",
+            "unexpected-file",
+            "other"
+          ]
+        },
+        "path": {
+          "description": "Path relative to the installation root that the anomaly concerns, forward slashes. Null for anomalies that are not about a single file.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "description": "What exactly is anomalous, stated as an observation and not as an interpretation. Interpretations belong in 'hypothesis' with their own confidence.",
+          "type": "string"
+        },
+        "hypothesis": {
+          "description": "Optional interpretation, explicitly marked as such. Example: the second exe MIGHT be a Development build - a HYPOTHESIS at confidence 0.65 per decision D-04, never to be stated as fact.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "kb-record.schema.json#/$defs/annotation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Evidence annotation for this anomaly per plan.md 10, including the confidence of any hypothesis."
+        }
+      },
+      "required": [
+        "kind",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "guid": {
+      "title": "GUID",
+      "description": "An FGuid, accepted either as 32 hex characters (the UE ToString default) or in the dashed 8-4-4-4-12 form. Null when absent.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^([0-9A-Fa-f]{32}|[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})$"
+    }
+  }
+}

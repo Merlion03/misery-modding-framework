@@ -1,0 +1,124 @@
+# ---------------------------------------------------------------------------
+# MISERY Modding Framework -- .gitignore
+#
+# Guiding principle: this repository's value is DIFFABLE TEXT. Anything that is
+# (a) a copy of a game binary, (b) rebuildable from text we already track, or
+# (c) machine/editor noise, stays out of git.
+#
+# Derived artifacts are ignored because they are REBUILDABLE from the JSONL
+# sources, and the JSONL stays in git precisely so it can be diffed between
+# builds. A SQLite database cannot be reviewed in a pull request; a JSONL line
+# can. If a derived artifact ever stops being rebuildable, that is a bug in the
+# tool, not a reason to commit the artifact.
+# ---------------------------------------------------------------------------
+
+
+# --- workspace: binary copies, Ghidra projects, large dumps ----------------
+# Per plan.md 1.5 layer 2, every binary that a writing-capable tool must open is
+# first COPIED into workspace/bin/. Those copies are multi-hundred-megabyte
+# game files -- never committed. Ghidra projects and raw dumps live here too.
+# The directory itself is kept (see the .gitkeep exception below) so that the
+# layout survives a fresh clone and no tool has to mkdir before it can run.
+workspace/*
+!workspace/bin
+workspace/bin/*
+!workspace/bin/.gitkeep
+
+
+# --- game binaries and containers: NEVER commit ----------------------------
+# Belt and braces on top of the workspace rule. These extensions can only ever
+# appear in this repository by accident (a stray copy, a wrong output path, a
+# careless drag-and-drop). Committing game content would be both useless for
+# research and a distribution problem. If one of these is genuinely needed as
+# evidence, record its sha256 and size in a JSON artifact instead of the file.
+*.utoc
+*.ucas
+*.pak
+*.exe
+*.dll
+*.pdb
+*.usmap
+*.uasset
+*.umap
+*.uexp
+*.ubulk
+
+
+# --- derived databases: rebuildable from tracked JSONL ---------------------
+# reflection.sqlite is produced by tools/kb/build_sqlite.py from the JSONL files
+# in the same directory (plan.md K-04, and 9.2 marks it gitignore explicitly).
+# The JSONL is the source of truth and is tracked; the database is a query
+# convenience that can be regenerated at any time.
+*.sqlite
+*.sqlite3
+*.db
+research/reflection/*/reflection.sqlite
+
+
+# --- Ghidra project artifacts ----------------------------------------------
+# A Ghidra project is a mutable working state (analysis results, user markup,
+# lock files), not a research finding. Findings are exported to research/ as
+# text by pyghidra_scripts/. Project roots live under D:\Tools\ghidra-projects
+# by design, but a stray project inside the repo must not be committed either.
+*.gpr
+*.rep/
+*.lock
+*.gzf
+ghidra_*.log
+
+
+# --- Python bytecode and virtual environments ------------------------------
+# Bytecode is generated from tracked sources. Virtual environments are
+# machine-specific, huge, and reconstructed from requirements.txt -- committing
+# one would pin absolute Windows paths into the repository.
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+
+# --- generated stub trees (plan.md 14A) ------------------------------------
+# research/modkit/generated-stubs/ holds C++ headers synthesised from the
+# reflection dump. They are fully derived from research/reflection/<build_key>/
+# and can be enormous (one header per UClass). Policy: a SMALL, hand-curated
+# subset may be committed as evidence for a specific finding; a full generated
+# tree may not. Un-comment the line below the moment the tree stops being
+# reviewable in a diff -- and record that decision in research/decisions.md.
+# research/modkit/generated-stubs/**
+research/modkit/generated-stubs/*.zip
+research/modkit/generated-stubs/*.7z
+research/modkit/generated-stubs/*.tar.gz
+
+
+# --- large raw dumps -------------------------------------------------------
+# Instrument runs and evidence directories can accumulate multi-gigabyte raw
+# captures. Keep the text summary, drop the raw blob; reference the blob by
+# sha256 and by the workspace path where it was produced.
+*.bin
+*.dmp
+*.raw
+*.zip
+*.7z
+*.tar.gz
+
+
+# --- OS noise --------------------------------------------------------------
+# Created by Explorer / Finder, carry no information, and cause phantom diffs.
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+
+
+# --- editor noise ----------------------------------------------------------
+# Per-developer IDE state. Shared configuration, if it ever becomes necessary,
+# should be added deliberately with a negation rule and a comment.
+.vscode/
+.idea/
+*.swp
+*~

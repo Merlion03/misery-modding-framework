@@ -1,0 +1,457 @@
+{
+  "build_id": "misery-24826585-ue5.4.4-0eef3715244b",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "content_key": "sha256:55ff0e5f605d4777863bd6b061332eaf351da5800dc80c6f826547c2722f9039",
+  "engine_version": {
+    "provisional": true,
+    "value": "5.4.4"
+  },
+  "file_count": 53,
+  "files": [
+    {
+      "mtime": "2026-08-22T10:29:25.180283Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/DbgHelp/dbghelp.dll",
+      "sha1": "9b502e17c8c10ef8c592f6db7bead52df4d4149f",
+      "sha256": "78a086d157abd575a72d428bc7aae8b23d2284701a3da7199606fea9c0d8debb",
+      "size": 2243216
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.180806Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/MsQuic/v220/win64/msquic.dll",
+      "sha1": "90a616aadacc931e33157b65843c6d5dfc9b86e6",
+      "sha256": "20c136916190c97dc37d685a19aedd050238ec3951ce92832bed3f84402bc9ec",
+      "size": 2557608
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.181333Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/NVIDIA/NVaftermath/Win64/GFSDK_Aftermath_Lib.x64.dll",
+      "sha1": "1efa719bd56ef27712855c8a42eea4c004873b98",
+      "sha256": "e35c4143162a07d9dd87e9071204f2563fda56fb9b11a3dce85c74da69ec2868",
+      "size": 1886448
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.186020Z",
+      "mtime_epoch": 1787394578,
+      "path": "Engine/Binaries/ThirdParty/Ogg/Win64/VS2015/libogg_64.dll",
+      "sha1": "219035ec45c7761bb63b955762a0c7d94b0bc4a1",
+      "sha256": "191a320b1324bdd6d5cd25473b0072c30779787e0c7282b96e9d34a9f2bc06d2",
+      "size": 70384
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.181859Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbis_64.dll",
+      "sha1": "328e0838660fbb0addaced8063ac544099c705e9",
+      "sha256": "14f781842a8905a39700f871e521078c3e2ea359744fe5570ee32f9e9b697aae",
+      "size": 1735408
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.187071Z",
+      "mtime_epoch": 1787394578,
+      "path": "Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbisfile_64.dll",
+      "sha1": "c8e4de10428755cf888a8a321f6d002af4362c15",
+      "sha256": "8abf3038383e14deaca11c7637935c69652c7d29ecd356a9a8be4e36c514309f",
+      "size": 59120
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.182385Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_api_dump.dll",
+      "sha1": "e548e0693f572a489e0900684ecb7039b674c0f1",
+      "sha256": "2d58f3d012cca36a44627ec576cfe47c6eb9f0a5fb14f24b9cb721cb3abe2428",
+      "size": 4735728
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.187596Z",
+      "mtime_epoch": 1787394578,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_api_dump.json",
+      "sha1": "9797ae9419657ca9b21491b61e1897ffe59da748",
+      "sha256": "d25986e18e90bd4aae2c449ff7b111113211cd4107004f69f6fc6ad96d4c1fb6",
+      "size": 12126
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.182385Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_gfxreconstruct.dll",
+      "sha1": "11877fd8175529445ca32125a8352aaa8238b237",
+      "sha256": "565e34e1e02897c736c3c38da2aaebf36610609479e6972b363f42189e0f8ce6",
+      "size": 3419488
+    },
+    {
+      "mtime": "2026-08-22T10:29:39.128555Z",
+      "mtime_epoch": 1787394579,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_gfxreconstruct.json",
+      "sha1": "5916490996ab6d3be1b3480ae5c15a4af3d700f3",
+      "sha256": "8a8f48dcfd2f38636b56684afbed7ae2d295331d98e4cfd0b4218053e378343b",
+      "size": 27194
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.182385Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_profiles.dll",
+      "sha1": "d028697acb8763b8b909a4d59f237e2e77554fcd",
+      "sha256": "604c5428693b58e216d221161f17c642bc6977a628a22a5a8d69a0bc8e427e1d",
+      "size": 1628512
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.484646Z",
+      "mtime_epoch": 1787394578,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_profiles.json",
+      "sha1": "38206a557de5737994e8a4780b821ae4c86341bd",
+      "sha256": "4b7c5ada6cf5028e73063425f2b9d6459108e6a0e6318d126a32f0b219f2feaa",
+      "size": 75042
+    },
+    {
+      "mtime": "2026-08-22T10:29:39.524831Z",
+      "mtime_epoch": 1787394579,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_synchronization2.dll",
+      "sha1": "0da848e2b3d0f9105a9eb6af41c99ed246676888",
+      "sha256": "f08c2fcb7e0876c85a3c5d219d7484e57c2aa156e63f104a5830e6d1da297e4c",
+      "size": 227680
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.485172Z",
+      "mtime_epoch": 1787394578,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_synchronization2.json",
+      "sha1": "135215f9d350c21101524abfa3ebc3a7c7843cb2",
+      "sha256": "8681dab088b13ddbfa80794f3e00a8e93e088a90a28e318db125286ca38acf4e",
+      "size": 1772
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.182923Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_validation.dll",
+      "sha1": "fff3f93d5a9eb3c44ec22b1610b64994d6e5f7ce",
+      "sha256": "9ee10ded9601cde3e6e6f692b276151bd2d315babf77dd48817f52c7b9be3c43",
+      "size": 20454760
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.731192Z",
+      "mtime_epoch": 1787394578,
+      "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_validation.json",
+      "sha1": "9206d5a41c5452d4508a2805f27a79900dae1be3",
+      "sha256": "56812be31dad42752ba2a0e264284591afa0f65f30bcef6abef5366da18971a1",
+      "size": 72373
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.386872Z",
+      "mtime_epoch": 1787394578,
+      "path": "Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64/WinPixEventRuntime.dll",
+      "sha1": "12bb643e451e98313e0a572420b015e1bcd5a4fd",
+      "sha256": "267c2ff067596784bf4b5a3ccd9d6d2fa33ff48d52736e7a795284315fa46b63",
+      "size": 78256
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.183458Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/ThirdParty/Windows/XAudio2_9/x64/xaudio2_9redist.dll",
+      "sha1": "bce2b13ccb37e9f5e12b2209ac7c02a109e1a2d6",
+      "sha256": "54172a87cabc8193a071d7f382a943ff0408cafd37730e8795c8a75569a2065f",
+      "size": 868672
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.183458Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll",
+      "sha1": "26bc33851df73857bc70333a34d772ba37dcc43c",
+      "sha256": "c03ebca5afe86ecc3ad57ad5e66663c963ed6e2637c898c69d4e3434f3d9f6f9",
+      "size": 18128584
+    },
+    {
+      "mtime": "2026-08-22T10:29:39.622753Z",
+      "mtime_epoch": 1787394579,
+      "path": "Engine/Content/Renderer/TessellationTable.bin",
+      "sha1": "3a3402ca2d3531ab8352c818ea1181288bd78c72",
+      "sha256": "edc4f3b628a139c5e185bbaeca661c95c1f427368d3b92892c5cff36c56dd941",
+      "size": 259568
+    },
+    {
+      "mtime": "2026-08-22T10:29:42.249506Z",
+      "mtime_epoch": 1787394582,
+      "path": "Engine/Content/Slate/Cursor/invisible.cur",
+      "sha1": "b8133a27e01a74cd5936a544b4473e77d13da618",
+      "sha256": "fef3980fa567e9c45d5d8dcaa432a2c1a3f3bb17fe67d7ab198164f56c142aa1",
+      "size": 326
+    },
+    {
+      "mtime": "2026-08-22T10:29:44.528199Z",
+      "mtime_epoch": 1787394584,
+      "path": "Engine/Content/SlateDebug/Fonts/LastResort.tps",
+      "sha1": "57161fd8fcfc3e071179f48a9df67971c2dcc94b",
+      "sha256": "0f775fa99d05e21d43d2d06d55982b23dcdccdb512a9a5a07aff674f212c41b8",
+      "size": 930
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.183966Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Content/SlateDebug/Fonts/LastResort.ttf",
+      "sha1": "e4cd182c152c7d50c0ca230c86033d63b3fbd057",
+      "sha256": "fff0f8de0b868b964950fe97c9b60f893e9bc85a4f90b3629c5693db058b97b9",
+      "size": 5395052
+    },
+    {
+      "mtime": "2026-08-22T10:29:39.128555Z",
+      "mtime_epoch": 1787394579,
+      "path": "Engine/Extras/GPUDumpViewer/GPUDumpViewer.html",
+      "sha1": "d7027e75daddfb8626ac33a6dadca9da8761ab7a",
+      "sha256": "3d54fb2140d8c2ed8a080edcfe0d36ce4aa4e95c56bae4a60badb96b92b4de52",
+      "size": 184013
+    },
+    {
+      "mtime": "2026-08-22T10:29:39.622216Z",
+      "mtime_epoch": 1787394579,
+      "path": "Engine/Extras/GPUDumpViewer/OpenGPUDumpViewer.bat",
+      "sha1": "91b109182fdcbda1e523d39f03e0812da29964f3",
+      "sha256": "e8f7ef9c88697041bd87902b76e52558979ca866c7450b1da108a94a027f441b",
+      "size": 879
+    },
+    {
+      "mtime": "2026-08-22T10:29:42.450953Z",
+      "mtime_epoch": 1787394582,
+      "path": "Engine/Extras/GPUDumpViewer/OpenGPUDumpViewer.sh",
+      "sha1": "f00e4e61c907ba56b8a1886a85a68047e7d9ccb9",
+      "sha256": "1b222b5d5aad6dd9b5b9f0a1c72d38635149540f2c7a368600ec76c1d304390a",
+      "size": 2165
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.184491Z",
+      "mtime_epoch": 1787394565,
+      "path": "Engine/Extras/Redist/en-us/UEPrereqSetup_x64.exe",
+      "sha1": "18a2e3bc89933582511dcf5509ce9946757ebf8e",
+      "sha256": "794b69ff214714ad55ce778b6278493c1304512b4d0a2710883b0ffa1f88003d",
+      "size": 50542368
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.185037Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY.exe",
+      "sha1": "81b1d39482a202f08f30673d00c7cceca305964a",
+      "sha256": "a1fccf87d3e8a6bc9ad34f02a59f1f32aa5141e04b2c9027088abded4aa5f9c2",
+      "size": 422400
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.185037Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Binaries/Win64/D3D12/D3D12Core.dll",
+      "sha1": "f91d1e2e3f1258b121c6b8c6492c0e7b4710c512",
+      "sha256": "0f2e894ff08b826fab73b04404e5fede8bb984f5a991a07de38761b4c564077e",
+      "size": 5929640
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.185037Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Binaries/Win64/D3D12/d3d12SDKLayers.dll",
+      "sha1": "3e1c482e1b0ef68aeaf86d6508ad470c5bceeccd",
+      "sha256": "5fe6c08f6cfc048c901fda9009172bb0cc8cc5f2c16359acd850eecf76abfcf9",
+      "size": 9546512
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.185543Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+      "sha1": "5e8ab0035b5e7cab18fc351c76d46ab9aad1ef8d",
+      "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+      "size": 134658048
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.185543Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Binaries/Win64/MISERY.exe",
+      "sha1": "8e71ada456e0f9778c93b7dd6bc953f8afadefe4",
+      "sha256": "a155f897e156fa646b7b5f664f4816b57cfc19a3baedf1ed01e278f01fec91d7",
+      "size": 282826240
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.185543Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Binaries/Win64/OpenImageDenoise.dll",
+      "sha1": "2f490b1270075e37af412c9fa3c5581653c2e3dd",
+      "sha256": "82c1f648036be1b9cd57da8a325a92be58c6a9b8aaeaa464f42a33ea50dc41f3",
+      "size": 49793160
+    },
+    {
+      "mtime": "2026-08-22T10:31:49.815936Z",
+      "mtime_epoch": 1787394709,
+      "path": "MISERY/Binaries/Win64/tbb.dll",
+      "sha1": "feb1ac101b78afa6880b7aaefec248adc1fea296",
+      "sha256": "464901ef0368f4dc6818fbfc0c6cd76204d3ab86123a36f262de1737eef2eb67",
+      "size": 234728
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.186070Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Binaries/Win64/tbb12.dll",
+      "sha1": "97489ae20e36ae11312270e816c07300eb73a8c3",
+      "sha256": "1cb7cd134cdfae523b640ded2dcb129dd79063ba06d85b1f9cb58ba2fb8b4434",
+      "size": 314600
+    },
+    {
+      "mtime": "2026-08-22T10:31:49.519996Z",
+      "mtime_epoch": 1787394709,
+      "path": "MISERY/Binaries/Win64/tbbmalloc.dll",
+      "sha1": "360e5f1bbee2054265575f9135e662d3a7a9b615",
+      "sha256": "904a0c131e0dcbdf3a8c580a26db1573a26396ac0bfc7e98ed1731bd073fbd92",
+      "size": 76528
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.186070Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Content/Paks/MISERY-Windows.pak",
+      "sha1": "fbd39ab1010650fbe9851c9ac39ff5278c64a295",
+      "sha256": "4d7e84f3114f33b6d5a9cd936125b5d9042131b4c18b153e5213e9dcc49e3765",
+      "size": 117656684
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.187122Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Content/Paks/MISERY-Windows.ucas",
+      "sha1": "3f5eb32e0b78176effb720a190f98a2af857c478",
+      "sha256": "0acab91176d39e2a173f2dfe68cc41a4ff41ff5bf49fa56ec41f63763e0e7ec1",
+      "size": 4335197536
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.187122Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Content/Paks/MISERY-Windows.utoc",
+      "sha1": "413e3b016756d2d33c2292877826384c7c03c40d",
+      "sha256": "233b715a091f318aa7ac338b3076e21bfc9a10274ba154d7a62fd0ef0e41d029",
+      "size": 2916142
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.186070Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Content/Paks/global.ucas",
+      "sha1": "acd235bfb78b33f38da426f444cae9c39c45a408",
+      "sha256": "4f71c0c131aa5658333fcd5cdf4494c36c49d6fcec5cc911a8213a505d88fb56",
+      "size": 2269168
+    },
+    {
+      "mtime": "2026-08-22T10:31:49.815936Z",
+      "mtime_epoch": 1787394709,
+      "path": "MISERY/Content/Paks/global.utoc",
+      "sha1": "7d8abe9d6749b7fea644649294365257cf37b853",
+      "sha256": "347ffa88bc25e26724c04814ddc9110b10393903af0b7484082e6e95c52f51dd",
+      "size": 623
+    },
+    {
+      "mtime": "2026-08-22T10:29:25.187648Z",
+      "mtime_epoch": 1787394565,
+      "path": "MISERY/Plugins/SteamCorePro/Source/ThirdParty/SteamLibrary/redistributable_bin/win64/steam_api64.dll",
+      "sha1": "8c6388f77a7a1c99dfa1005b50ba15f5faf12d73",
+      "sha256": "e3fe06e2d802c2f753aeb46869e2af898f34715ce85f08001456fd8a80ecd21e",
+      "size": 317080
+    },
+    {
+      "mtime": "2026-08-22T10:30:57.671993Z",
+      "mtime_epoch": 1787394657,
+      "path": "Manifest_NonUFSFiles_Win64.txt",
+      "sha1": "6bf133fdc861fbfc61c02045f4257287aa4c3dd4",
+      "sha256": "16c9ebc49d1a744f110955039b35d37bd56936b1e3ce3197a9e54bdff305e94d",
+      "size": 1537
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.385825Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_generic.vdf",
+      "sha1": "5b43c83652b8d3252559365fb4757a4dca2d36e9",
+      "sha256": "a5f6205480912c963e8826fab68b001918996d81bcd5e98e95694208a06db014",
+      "size": 19151
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.186543Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_neptune.vdf",
+      "sha1": "102a5e58a6fcb1485c4f92c8fadcab5cfd74268b",
+      "sha256": "d96d116e6a66bc75f81af67af2e7d557ce861a5aabbd9bbfff064f266e2f089c",
+      "size": 19151
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.086715Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_ps4.vdf",
+      "sha1": "3c78431abc9ac5baad045106df2b350c53152c50",
+      "sha256": "79961eb68cb126a24f3e3b05f0e37f2be07e0e5a8ad1a617731380298c6cabdb",
+      "size": 19143
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.087243Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_ps5.vdf",
+      "sha1": "44d35ff63926cf7d5f8df3f247ee118f4d982b7a",
+      "sha256": "9f7c6a6567d6d8186cb73e89841a7ae0b52098c3c59a21bd113efd064fd1c8df",
+      "size": 19143
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.386352Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_steamcontroller_gordon.vdf",
+      "sha1": "decb45b9d24e1234f57046651da162768b1c4d18",
+      "sha256": "46d60418558d4e0caca1118164db20185b4d8f11fe832cde06d7f5ddb5e14900",
+      "size": 19181
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.186543Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_switch_pro.vdf",
+      "sha1": "601f58b9271034cf9c63c2be601289a7968590a7",
+      "sha256": "c6561f40eeff372a8916e4343941b1e12aede96abac6cb4296643b461b9609e5",
+      "size": 19157
+    },
+    {
+      "mtime": "2026-08-22T10:29:41.108196Z",
+      "mtime_epoch": 1787394581,
+      "path": "controller_xbox360.vdf",
+      "sha1": "a11c845ce1b56daf26af80d1e26c6a0b328ba90f",
+      "sha256": "e646734fe9cc3900e1dd5bf42520abd96255de2dc70a90c1cbb56c1326f4c0f8",
+      "size": 19151
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.086715Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_xboxelite.vdf",
+      "sha1": "204f2bd64f91a26998e64b9fad4968d0175bf6fe",
+      "sha256": "3ed308f709f2da9a9b84b77f86806cda4a183f530187723dfba8c9eee4608e4d",
+      "size": 19155
+    },
+    {
+      "mtime": "2026-08-22T10:29:38.087243Z",
+      "mtime_epoch": 1787394578,
+      "path": "controller_xboxone.vdf",
+      "sha1": "c23a00ddb341f3176182e2aba466c84665712f29",
+      "sha256": "ca5b187d56add64be89931b2a39233ee6e7bf55ee3d2fe46807e1df041a50d10",
+      "size": 19151
+    },
+    {
+      "mtime": "2026-08-22T10:34:49.311958Z",
+      "mtime_epoch": 1787394889,
+      "path": "steam_input_manifest.vdf",
+      "sha1": "9cb800440e6dfc5a2dcdf66b001b2ca2122b872e",
+      "sha256": "fad8122135f9bd67de12d9cfe0de27da55aa5807b2f688756ff3c642b14afc1d",
+      "size": 1292
+    }
+  ],
+  "generated_at": "2026-08-22T12:19:17Z",
+  "generator_version": "1.0.0",
+  "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "notes": "generator: tools/inventory/snapshot_install.py 1.0.0. content_key ordering rule: sha256 over the concatenated lowercase sha256 hex digests of every .utoc, ASCII, no separator, sorted by normalized path ascending; inputs in order: MISERY/Content/Paks/MISERY-Windows.utoc, MISERY/Content/Paks/global.utoc. tree_hash rule: sha256 over '<path>\\n<size>\\n<sha256>\\n' per row, UTF-8, rows sorted by path ascending. mtime handling: every mtime is UTC with microsecond precision, derived from st_mtime_ns by integer arithmetic, so no float rounding enters the document; mtime_epoch is the same instant truncated to whole seconds. hashing: enabled, sha256 and sha1 in a single streaming pass with a 1048576 byte buffer. engine_version source: default; provisional until M1 confirms it from two independent oracles (plan.md 4.2). cl, branch and build_configuration are UNKNOWN to this tool and deliberately omitted. steam_root: D:\\Games\\Steam. file_count check: expected 53, matches. shared_depots parent apps (the schema stores depot ids only): 228989 from app 228980, 228990 from app 228980, 229007 from app 228980. warnings: none.",
+  "steam": {
+    "app_id": 2119830,
+    "appmanifest_path": "D:\\Games\\Steam\\steamapps\\appmanifest_2119830.acf",
+    "depot_id": 2119831,
+    "depot_manifest_id": "3002776385514127223",
+    "install_dir_name": "MISERY",
+    "last_updated_epoch": 1787394913,
+    "shared_depots": [
+      "228989",
+      "228990",
+      "229007"
+    ],
+    "size_on_disk": 5057001973,
+    "steam_buildid": 24826585
+  },
+  "total_size": 5057001973,
+  "tree_hash": "4bc6d70c6bb6d47af6817d42b699f818609625af81f2c61d98e678661bc09959"
+}
