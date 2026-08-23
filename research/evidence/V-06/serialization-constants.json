@@ -1,0 +1,61 @@
+{
+  "$comment": "Raw reading of method V-06 (plan.md 4.1), written by tools/static/engine_version.py. No schema by design: ARTIFACT_SCHEMA_MAP maps research/evidence/*/*.json to no schema (plan.md 9.2).",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "method": "V-06",
+  "reading": {
+    "hit_count": 1,
+    "hits": [
+      {
+        "file_version_ue4": 522,
+        "file_version_ue5": 1012,
+        "length": 8,
+        "neighbour_file_version_ue4": 214,
+        "neighbour_file_version_ue5": 0,
+        "neighbour_offset": 125682464,
+        "neighbour_prediction": [
+          214,
+          0
+        ],
+        "neighbour_prediction_holds": true,
+        "offset": 125682456,
+        "section": ".data"
+      }
+    ],
+    "literal_reads": [
+      {
+        "bytes_hex": "0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+        "claim": "16 bytes at offset 125682456 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+        "decoded_field": "package_file_version_pair_and_neighbour",
+        "evidence": {
+          "claim_class": "P",
+          "confidence": 0.99,
+          "evidence_level": "OBSERVED",
+          "note": "16 bytes at offset 125682456 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+          "oracle": [
+            "binary-analysis"
+          ],
+          "read_locus": {
+            "address_kind": "file-offset",
+            "bytes_hex": "0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+            "length": 16,
+            "note": "sixteen bytes of initialised data; this record names neither what they are nor what they mean",
+            "offset": 125682456,
+            "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+          },
+          "sources": [
+            {
+              "artifact": "research/evidence/V-06/serialization-constants.json",
+              "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@125682456+16",
+              "method": "V-06",
+              "note": "oracle binary-analysis. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+            }
+          ]
+        },
+        "length": 16,
+        "offset": 125682456,
+        "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+      }
+    ]
+  }
+}

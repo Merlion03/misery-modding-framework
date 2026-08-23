@@ -1,22 +1,4412 @@
 {
-  "$comment": "PLACEHOLDER. This file carries NO engine facts. Created by task R-02 (plan.md 1.4) so that every file named in plan.md 9.2 exists, even as a stub. It is filled in M1 by methods V-01..V-09 (plan.md 4.1) after the cross-validation procedure of plan.md 4.2. Until then, absence of data here is the truth. The provisional engine version that DOES exist in this repository lives in research/builds/index.json and research/builds/<build-id>/install-inventory.json, flagged provisional there, and is deliberately NOT copied here: plan.md 18.3 item 6 requires one fact to carry identical grades in every artifact that states it, and a copy made before any conclusion exists would only create a new discrepancy. Prose companion: research/unreal/engine-version.md.",
-  "placeholder": true,
-  "filled_by_milestone": "M1",
-  "plan_reference": [
-    "plan.md 4.1 (methods V-01..V-09)",
-    "plan.md 4.2 (cross-validation rules)",
-    "plan.md 4.3 (artifacts and exit criteria)",
-    "plan.md 9.2 (this path)",
-    "plan.md 18.2 (M1 exit criterion 3)"
-  ],
-  "fields_to_be_filled_in_m1": [
-    "engine_version",
-    "engine_cl",
-    "engine_branch",
-    "build_configuration",
-    "engine_is_vanilla",
-    "build_key",
-    "sources"
-  ],
-  "schema_status": "research/schema/engine-version.schema.json does not exist yet; it is task K-02 (plan.md 9.4). While it is missing, tools/kb/validate.py reports one WARN for this file and skips its schema layer. Whoever writes that schema must decide explicitly whether this placeholder shape is admissible, or whether this file should instead be created only in M1 - do not resolve that by inventing engine values here."
+  "$comment": "Unreal Engine version identification for this build (plan.md 4). Produced by tools/static/engine_version.py. There is no research/schema/engine-version.schema.json in this repository - tools/kb/validate.py ARTIFACT_SCHEMA_MAP already points at that name and the file is task K-02 (plan.md 9.4), so the validator reports one WARN for this path and skips its schema layer. No parallel format was invented to fill the gap: every graded node here is the REDUCED annotation envelope of research/schema/kb-record.schema.json #/$defs/annotation - exactly the shape research/builds/*/fingerprint.json already uses - so the envelope, the oracle vocabulary, the confidence ceiling and the class P / class I criteria are all enforced on this file today, and whoever writes K-02 has a real document to write the schema against rather than a stub. build_key below is stated ONCE for the whole artifact and every annotation inherits it.",
+  "build_id": "misery-24826585-ue5.4.4-0eef3715244b",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "claim": {
+    "build_configuration": {
+      "evidence": {
+        "confidence": 0.75,
+        "evidence_level": "INFERRED",
+        "note": "The build configuration. Deliberately NOT raised to the 0.80 band, and the reason is a hole and not a caveat: the only source that STATES the configuration in words is the BuildConfiguration field of CrashContext.runtime-xml, and research/unknowns.md NEW-01 records that the closed nine-oracle list of plan.md 10.5 has no class for crash-report CONTENT, so that field is reported in this artifact as ungraded raw evidence (V-02b) and is not counted here. What is counted is the naming convention of the target and the PDB, which is a convention and not a measurement of the compiler flags. Refutation attempt: a Development or DebugGame target would be named MISERY-Win64-Development.exe / -DebugGame.exe and would ship a .uedbg section; the Shipping image carries neither. Note the second image MISERY/Binaries/Win64/MISERY.exe DOES carry .uedbg, which is decision D-04's oracle and not this claim's subject. build_key is stated once by the enclosing document.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "sources": [
+          {
+            "artifact": "research/evidence/V-01/marker-strings.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe file name and version resource",
+            "method": "V-01",
+            "note": "The target file name is MISERY-Win64-Shipping.exe and the PDB name in the CodeView entry is MISERY-Win64-Shipping.pdb; UnrealBuildTool writes the configuration into both."
+          },
+          {
+            "artifact": "research/evidence/V-02/crash-correspondence.json",
+            "locator": "UEMinidump.dmp module record",
+            "method": "V-02a",
+            "note": "A second, independent method: the module record of the loaded image in the crash dumps that provably belong to THIS build carries the same file name and the same PDB signature as the image on disk."
+          }
+        ]
+      },
+      "value": "Shipping"
+    },
+    "engine_branch": {
+      "evidence": {
+        "confidence": 0.9,
+        "evidence_level": "INFERRED",
+        "note": "The engine branch as stamped. A released Epic branch name, not a licensee or custom branch name - but note that this says where the ENGINE SOURCE came from and nothing about whether it was modified afterwards; see engine_is_vanilla. Refutation attempt: a custom branch would show a name outside the '++UE5+Release-*' / '++UE5+Main' pattern, and no such literal occurs. build_key is stated once by the enclosing document.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": "research/evidence/V-01/marker-strings.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rdata",
+            "method": "V-01",
+            "note": "TEXT. The branch literal at a stated offset; re-read and reproduced."
+          },
+          {
+            "artifact": "research/evidence/V-03/version-resources.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rsrc RT_VERSION",
+            "method": "V-03",
+            "note": "TEXT, second reading through the resource parser."
+          },
+          {
+            "artifact": "research/evidence/V-06/external-reference.md",
+            "locator": "the Build.version of a UE 5.4.4 distribution",
+            "method": "external-doc",
+            "note": "The release metadata records the same BranchName, which is what makes '++UE5+Release-5.4' a released Epic branch name rather than an arbitrary string. The reference was VERIFIED in this run and not merely quoted: the Engine directory of a local first-party Epic distribution of UE 5.4.4 (its own Build.version reads changelist 35576357, branch ++UE5+Release-5.4, IsLicenseeVersion 0, IsPromotedBuild 1) was re-read, and its ObjectVersion.h, IoStore.h and LaunchWindows.cpp give package_file_version_ue5=1012, io_store_toc_latest=6 and d3d12_sdk_version=611 - the same three numbers this build emits."
+          }
+        ]
+      },
+      "value": "++UE5+Release-5.4"
+    },
+    "engine_cl": {
+      "evidence": {
+        "confidence": 0.9,
+        "evidence_level": "INFERRED",
+        "note": "The engine changelist. Every source for it is a version STAMP, and the changelist as a compiled 32-bit immediate (recorded under V-01) is a third encoding of the same macro, not a third method - that is stated rather than counted. Refutation attempt: if the stamp had been edited by hand, the three encodings would still agree with each other but would disagree with the public release metadata for 5.4.4; they do not. build_key is stated once by the enclosing document. Re-run and reproduced in this run.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": "research/evidence/V-01/marker-strings.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rdata",
+            "method": "V-01",
+            "note": "TEXT. The literal '...-CL-35576357' in the read-only data of the image, at a stated offset, re-read and reproduced."
+          },
+          {
+            "artifact": "research/evidence/V-03/version-resources.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rsrc RT_VERSION ProductVersion",
+            "method": "V-03",
+            "note": "TEXT, second reading through the resource parser."
+          },
+          {
+            "artifact": "research/evidence/V-06/external-reference.md",
+            "locator": "the Build.version of a UE 5.4.4 distribution",
+            "method": "external-doc",
+            "note": "A second ACT OF MEASUREMENT rather than a second oracle on the same read: the build metadata of the UE 5.4.4 release independently records changelist 35576357 on branch ++UE5+Release-5.4, which is what ties the number to a release instead of leaving it an opaque integer. The reference was VERIFIED in this run and not merely quoted: the Engine directory of a local first-party Epic distribution of UE 5.4.4 (its own Build.version reads changelist 35576357, branch ++UE5+Release-5.4, IsLicenseeVersion 0, IsPromotedBuild 1) was re-read, and its ObjectVersion.h, IoStore.h and LaunchWindows.cpp give package_file_version_ue5=1012, io_store_toc_latest=6 and d3d12_sdk_version=611 - the same three numbers this build emits."
+          }
+        ]
+      },
+      "value": 35576357
+    },
+    "engine_is_vanilla": {
+      "evidence": {
+        "confidence": 0.0,
+        "evidence_level": "UNKNOWN",
+        "note": "UNKNOWN BY RULE, not for lack of looking. plan.md 4.2 keeps this flag UNKNOWN until M3 and says so precisely because a modified engine is possible with IsSourceDistribution false: what that field reports is that the engine came from an installed binary distribution, not that nothing was changed in it afterwards. Nothing in this artifact may be read as resolving it, and the confidence 0.00 is the guess band of plan.md 10.2 used as intended - there is no claim here to be confident about.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "sources": [
+          {
+            "artifact": "research/evidence/V-02/crash-correspondence.json",
+            "locator": "CrashContext.runtime-xml IsSourceDistribution",
+            "method": "V-02b",
+            "note": "Reported for completeness only. plan.md 4.2 states that even a false IsSourceDistribution does not settle this flag."
+          }
+        ]
+      },
+      "value": null
+    },
+    "engine_version": {
+      "evidence": {
+        "confidence": 0.93,
+        "evidence_level": "INFERRED",
+        "note": "The full three-component version. The MINOR line 5.4 is pinned by three data-format readings that each exclude both neighbouring releases; the PATCH component rests on the version stamp (V-01, V-03) plus the public build metadata of the UE 5.4.4 release, which records changelist 35576357 for it, and on NO data-format source - no format field distinguishes 5.4.0 from 5.4.4. That is why this number sits below the one on engine_version_minor_line, and it is the honest gap rather than a rounding. build_key is stated once by the enclosing document. Refutation attempt: each data-format reading was chosen because it CHANGES between UE minor lines, so a wrong answer is visible rather than silent. If the engine were UE 5.3 the package file version would read 1009, the IoStore TOC version 5 and the exported Agility SDK version 610; if it were UE 5.5 they would read 1013, 8 and 614. The observed triple is (1012, 6, 611), which matches neither neighbour on any of the three. The V-06 reading additionally carries its own counterexample test: the eight bytes following the candidate pair were PREDICTED to read (214, 0) before being looked at, and they did. The reference was VERIFIED in this run and not merely quoted: the Engine directory of a local first-party Epic distribution of UE 5.4.4 (its own Build.version reads changelist 35576357, branch ++UE5+Release-5.4, IsLicenseeVersion 0, IsPromotedBuild 1) was re-read, and its ObjectVersion.h, IoStore.h and LaunchWindows.cpp give package_file_version_ue5=1012, io_store_toc_latest=6 and d3d12_sdk_version=611 - the same three numbers this build emits.",
+        "oracle": [
+          "binary-analysis",
+          "container-metadata",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": "research/evidence/V-06/serialization-constants.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@125682456+16",
+            "method": "V-06",
+            "note": "DATA-FORMAT. The FPackageFileVersion pair baked into the Shipping image as initialised data, read at a stated offset and re-read from a second handle (reproduced). Interpreted against the public UE layout (external-doc); the reference rows are in research/evidence/V-06/external-reference.md."
+          },
+          {
+            "artifact": "research/evidence/V-05/toc-header-reads.json",
+            "locator": "MISERY/Content/Paks/*.utoc@16+1",
+            "method": "V-05",
+            "note": "DATA-FORMAT, independent of V-06: a different file, written by a different producer (the IoStore container writer, not the C++ compiler). The TOC version byte was read from both .utoc of the installation and both agree; each read was re-run from a fresh handle and reproduced."
+          },
+          {
+            "artifact": "research/evidence/V-04/dependency-versions.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe exported symbol D3D12SDKVersion",
+            "method": "V-04",
+            "note": "DATA-FORMAT-adjacent, independent of both: the D3D12 Agility SDK version the engine source hard-codes per release, read as the four bytes an export of this image points at, and corroborated by the version resource of the D3D12Core.dll actually staged next to it."
+          },
+          {
+            "artifact": "research/evidence/V-01/marker-strings.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rdata",
+            "method": "V-01",
+            "note": "TEXT. The engine branch and changelist literals in the read-only data of the image, each with its own offset and length. Re-run and reproduced."
+          },
+          {
+            "artifact": "research/evidence/V-03/version-resources.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rsrc RT_VERSION",
+            "method": "V-03",
+            "note": "TEXT, at a different address and through a different mechanism than V-01 (a parsed VS_VERSIONINFO resource rather than a byte scan), but drawing on the same upstream build stamp, so its agreement with V-01 tests the reading and not the fact. Stated here rather than left implicit."
+          }
+        ]
+      },
+      "value": "5.4.4"
+    },
+    "engine_version_minor_line": {
+      "evidence": {
+        "confidence": 0.95,
+        "evidence_level": "INFERRED",
+        "note": "A DIFFERENT and strictly weaker claim than engine_version: the minor line only. It carries a higher confidence because it is what the data-format sources actually determine. Three independent format readings - the package file version 1012, the IoStore TOC version 6 and the exported Agility SDK version 611 - all name UE 5.4 and all three exclude UE 5.3 and UE 5.5, and two text sources agree with them, so the plan.md 4.2 condition (>= 1 text and >= 1 data-format source in agreement) is met. Reference row: public UE 5.4.4 source tree (Runtime/Launch/Resources/Version.h reads ENGINE_MAJOR_VERSION 5, ENGINE_MINOR_VERSION 4, ENGINE_PATCH_VERSION 4). Refutation attempt: each data-format reading was chosen because it CHANGES between UE minor lines, so a wrong answer is visible rather than silent. If the engine were UE 5.3 the package file version would read 1009, the IoStore TOC version 5 and the exported Agility SDK version 610; if it were UE 5.5 they would read 1013, 8 and 614. The observed triple is (1012, 6, 611), which matches neither neighbour on any of the three. The V-06 reading additionally carries its own counterexample test: the eight bytes following the candidate pair were PREDICTED to read (214, 0) before being looked at, and they did. The reference was VERIFIED in this run and not merely quoted: the Engine directory of a local first-party Epic distribution of UE 5.4.4 (its own Build.version reads changelist 35576357, branch ++UE5+Release-5.4, IsLicenseeVersion 0, IsPromotedBuild 1) was re-read, and its ObjectVersion.h, IoStore.h and LaunchWindows.cpp give package_file_version_ue5=1012, io_store_toc_latest=6 and d3d12_sdk_version=611 - the same three numbers this build emits.",
+        "oracle": [
+          "binary-analysis",
+          "container-metadata",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": "research/evidence/V-06/serialization-constants.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@125682456+16",
+            "method": "V-06",
+            "note": "DATA-FORMAT. The FPackageFileVersion pair baked into the Shipping image as initialised data, read at a stated offset and re-read from a second handle (reproduced). Interpreted against the public UE layout (external-doc); the reference rows are in research/evidence/V-06/external-reference.md."
+          },
+          {
+            "artifact": "research/evidence/V-05/toc-header-reads.json",
+            "locator": "MISERY/Content/Paks/*.utoc@16+1",
+            "method": "V-05",
+            "note": "DATA-FORMAT, independent of V-06: a different file, written by a different producer (the IoStore container writer, not the C++ compiler). The TOC version byte was read from both .utoc of the installation and both agree; each read was re-run from a fresh handle and reproduced."
+          },
+          {
+            "artifact": "research/evidence/V-04/dependency-versions.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe exported symbol D3D12SDKVersion",
+            "method": "V-04",
+            "note": "DATA-FORMAT-adjacent, independent of both: the D3D12 Agility SDK version the engine source hard-codes per release, read as the four bytes an export of this image points at, and corroborated by the version resource of the D3D12Core.dll actually staged next to it."
+          },
+          {
+            "artifact": "research/evidence/V-01/marker-strings.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rdata",
+            "method": "V-01",
+            "note": "TEXT. The engine branch and changelist literals in the read-only data of the image, each with its own offset and length. Re-run and reproduced."
+          },
+          {
+            "artifact": "research/evidence/V-03/version-resources.json",
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe .rsrc RT_VERSION",
+            "method": "V-03",
+            "note": "TEXT, at a different address and through a different mechanism than V-01 (a parsed VS_VERSIONINFO resource rather than a byte scan), but drawing on the same upstream build stamp, so its agreement with V-01 tests the reading and not the fact. Stated here rather than left implicit."
+          }
+        ]
+      },
+      "value": "5.4"
+    },
+    "is_source_distribution": {
+      "evidence": {
+        "confidence": 0.0,
+        "evidence_level": "UNKNOWN",
+        "note": "Left UNKNOWN on purpose. The one source that answers it is the content of a crash report, and research/unknowns.md NEW-01 records that the closed oracle list has no class for that; the two resolutions NEW-01 admits are a tenth oracle or 'not entered in the knowledge base', and a tool cannot open the closed list. So the reading is published as evidence and the field stays UNKNOWN until NEW-01 is decided in research/decisions.md.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "sources": [
+          {
+            "artifact": "research/evidence/V-02/crash-correspondence.json",
+            "locator": "CrashContext.runtime-xml IsSourceDistribution",
+            "method": "V-02b",
+            "note": "The field reads 'false' in every crash report that carries it, including all of those that provably belong to this build - but this is crash-report CONTENT and NEW-01 leaves it without an oracle, so it is raw evidence here and not a graded finding."
+          }
+        ]
+      },
+      "value": null
+    }
+  },
+  "cross_validation": {
+    "bar_met": true,
+    "data_format_adjacent_sources": [
+      "V-04"
+    ],
+    "data_format_sources": [
+      "V-05",
+      "V-06"
+    ],
+    "exit_criterion_minimum_sources": 3,
+    "independent_source_count": 5,
+    "not_load_bearing": {
+      "V-07": "the staged plugin set. Published as raw evidence and left open: A-09 records staged-versus-enabled as unresolved, and deciding that a plugin did not exist before a release needs a provably COMPLETE reference tree, which the public mirrors consulted here are not."
+    },
+    "result": {
+      "changelist_matches_public_release_metadata": true,
+      "crash_reports_corresponding_to_this_build": 25,
+      "crash_reports_from_another_build": 21,
+      "data_format_ue_line": "5.4",
+      "data_format_votes": {
+        "V-04": {
+          "field": "d3d12_sdk_version",
+          "reading": 611,
+          "status": "matched",
+          "ue_lines": [
+            "5.4"
+          ]
+        },
+        "V-05": {
+          "field": "io_store_toc_version",
+          "reading": 6,
+          "status": "matched",
+          "ue_lines": [
+            "5.4"
+          ]
+        },
+        "V-06": {
+          "field": "package_file_version_ue5",
+          "file_version_ue4": 522,
+          "reading": 1012,
+          "status": "matched",
+          "ue_lines": [
+            "5.4"
+          ]
+        }
+      },
+      "public_release_metadata": {
+        "$comment": "reference value, not a graded record - see the note on the oracle_class key in tools/static/engine_version.py",
+        "branch": "++UE5+Release-5.4",
+        "changelist": 35576357,
+        "oracle_class": "external-doc",
+        "ue_version": "5.4.4"
+      },
+      "text_and_data_format_agree": true,
+      "text_branch": "++UE5+Release-5.4",
+      "text_changelist": 35576357,
+      "text_full_version": "5.4.4",
+      "text_full_version_from_string_literal": [],
+      "text_full_version_from_version_resource_only": [
+        "5.4.4"
+      ],
+      "text_ue_line": "5.4",
+      "versions_followed_by_a_branch_literal_per_image": {
+        "MISERY/Binaries/Win64/MISERY.exe": [
+          "5.4.4"
+        ]
+      }
+    },
+    "rule": "plan.md 4.2: confidence >= 0.90 for engine_version is permitted ONLY if at least one TEXT source and at least one DATA-FORMAT source agree. plan.md 4.3 exit criterion: >= 3 independent sources named by id.",
+    "text_sources": [
+      "V-01",
+      "V-03"
+    ],
+    "text_sources_not_counted": {
+      "V-02b": "the CONTENT of CrashContext.runtime-xml. Read and published, but ungraded and not counted: research/unknowns.md NEW-01 records that the closed nine-oracle list of plan.md 10.5 has no class for it and that external-doc for it is an error."
+    }
+  },
+  "external_reference": {
+    "$comment": "reference table, not a graded record; the graded claims name external-doc in their own oracle list",
+    "artifact": "research/evidence/V-06/external-reference.md",
+    "local_reference_check": {
+      "agrees_with_builtin_table": true,
+      "disagreements": [],
+      "read": {
+        "branch_name": "++UE5+Release-5.4",
+        "changelist": 35576357,
+        "compatible_changelist": 33043543,
+        "d3d12_sdk_version": 611,
+        "engine_version": "5.4.4",
+        "files_read": [
+          "Build/Build.version",
+          "Source/Runtime/Core/Internal/IO/IoStore.h",
+          "Source/Runtime/Launch/Private/Windows/LaunchWindows.cpp",
+          "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+          "Source/Runtime/Core/Private/UObject/ObjectVersion.cpp"
+        ],
+        "io_store_toc_latest": 6,
+        "is_licensee_version": 0,
+        "is_promoted_build": 1,
+        "package_file_version_ue5": 1012,
+        "package_version_globals_declared_in_order": true,
+        "ue_line": "5.4",
+        "ver_latest_engine_ue4": 522,
+        "ver_ue4_oldest_loadable_package": 214
+      },
+      "root_recorded_as": "(not recorded: C-13. The tree is identified by its own Build.version, quoted above, not by where it sits)"
+    },
+    "note": "The only knowledge in this artifact that does not come from this installation. It answers one question - which UE release emits a given number - and each row carries the tree it was read from. The 5.4 row is the one the answer rests on and it is the one that can be re-read on this machine; the 5.3 and 5.5 rows come from public source mirrors and are used only to show that the NEIGHBOURS emit different numbers.",
+    "oracle_class": "external-doc",
+    "rows": [
+      {
+        "citation": "public UE 5.3.2 source tree (Engine/Build/Build.version reads MajorVersion 5, MinorVersion 3, PatchVersion 2)",
+        "d3d12_sdk_version": 610,
+        "io_store_toc_latest": 5,
+        "io_store_toc_latest_name": "PerfectHashWithOverflow",
+        "package_file_version_ue5": 1009,
+        "package_file_version_ue5_name": "DATA_RESOURCES",
+        "provenance": "public source mirror",
+        "reference_tree": "5.3.2",
+        "ue_line": "5.3"
+      },
+      {
+        "citation": "public UE 5.4.4 source tree (Runtime/Launch/Resources/Version.h reads ENGINE_MAJOR_VERSION 5, ENGINE_MINOR_VERSION 4, ENGINE_PATCH_VERSION 4)",
+        "d3d12_sdk_version": 611,
+        "io_store_toc_latest": 6,
+        "io_store_toc_latest_name": "OnDemandMetaData",
+        "package_file_version_ue5": 1012,
+        "package_file_version_ue5_name": "PROPERTY_TAG_COMPLETE_TYPE_NAME",
+        "provenance": "first-party Epic distribution of UE 5.4.4; re-read in this run when --ue-source-root was given",
+        "reference_tree": "5.4.4",
+        "ue_line": "5.4"
+      },
+      {
+        "citation": "public UE 5.5.2 source tree (Engine/Build/Build.version reads MajorVersion 5, MinorVersion 5, PatchVersion 2)",
+        "d3d12_sdk_version": 614,
+        "io_store_toc_latest": 8,
+        "io_store_toc_latest_name": "ReplaceIoChunkHashWithIoHash",
+        "package_file_version_ue5": 1013,
+        "package_file_version_ue5_name": "ASSETREGISTRY_PACKAGEBUILDDEPENDENCIES",
+        "provenance": "public source mirror",
+        "reference_tree": "5.5.2",
+        "ue_line": "5.5"
+      }
+    ]
+  },
+  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "generator": "tools/static/engine_version.py",
+  "generator_version": "1.0.0",
+  "install_root_recorded_as": "(not recorded: C-13 forbids a machine path here)",
+  "sources": {
+    "V-01": {
+      "changelist_as_compiled_constant": {
+        "occurrence_count": 1,
+        "occurrences": [
+          {
+            "length": 4,
+            "offset": 15890321,
+            "preceding_byte_hex": "b8",
+            "section": ".text"
+          }
+        ],
+        "value": 35576357
+      },
+      "images": [
+        {
+          "hit_count": 2,
+          "hits": [
+            {
+              "encoding": "utf-16le",
+              "length": 58,
+              "marker": "++UE5+Release-",
+              "offset": 418040,
+              "section": ".rsrc",
+              "string": "++UE5+Release-5.4-CL-35576357"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 24,
+              "marker": "UnrealEngine",
+              "offset": 418216,
+              "section": ".rsrc",
+              "string": "UnrealEngine"
+            }
+          ],
+          "parsed": {
+            "branches": [
+              "++UE5+Release-5.4"
+            ],
+            "changelists": [
+              35576357
+            ],
+            "fixed_file_info_versions": [],
+            "full_versions": [],
+            "minor_lines": [
+              "5.4"
+            ],
+            "versions_followed_by_a_branch_literal": []
+          },
+          "path": "MISERY.exe"
+        },
+        {
+          "hit_count": 8,
+          "hits": [
+            {
+              "encoding": "utf-16le",
+              "length": 34,
+              "marker": "++UE5+Release-",
+              "offset": 98550016,
+              "section": ".rdata",
+              "string": "++UE5+Release-5.4"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 58,
+              "marker": "++UE5+Release-",
+              "offset": 98550080,
+              "section": ".rdata",
+              "string": "++UE5+Release-5.4-CL-35576357"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 24,
+              "marker": "UnrealEngine",
+              "offset": 98708048,
+              "section": ".rdata",
+              "string": "UnrealEngine"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 26,
+              "marker": "UnrealEngine",
+              "offset": 98799056,
+              "section": ".rdata",
+              "string": "UnrealEngine4"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 266,
+              "marker": "UnrealEngine",
+              "offset": 99063652,
+              "section": ".rdata",
+              "string": "  1: Relocate any asset saved after EUnrealEngineObjectUE5Version::ADD_SOFTOBJECTPATH_LIST (5.1). Default value for the new projects."
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 18,
+              "marker": "-CL-",
+              "offset": 103528240,
+              "section": ".rdata",
+              "string": "%s-CL-%u-"
+            },
+            {
+              "encoding": "ascii",
+              "length": 73,
+              "marker": "UnrealEngine",
+              "offset": 109525200,
+              "section": ".rdata",
+              "string": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\Engine\\Private\\UnrealEngine.cpp"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 58,
+              "marker": "++UE5+Release-",
+              "offset": 132466396,
+              "section": ".rsrc",
+              "string": "++UE5+Release-5.4-CL-35576357"
+            }
+          ],
+          "parsed": {
+            "branches": [
+              "++UE5+Release-5.4"
+            ],
+            "changelists": [
+              35576357
+            ],
+            "fixed_file_info_versions": [],
+            "full_versions": [],
+            "minor_lines": [
+              "5.4"
+            ],
+            "versions_followed_by_a_branch_literal": []
+          },
+          "path": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        {
+          "hit_count": 18,
+          "hits": [
+            {
+              "encoding": "utf-16le",
+              "length": 70,
+              "marker": "++UE5+Release-",
+              "offset": 215396864,
+              "section": ".rdata",
+              "string": "5.4.4-++UE5+Release-5.4-CL-35576357"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 34,
+              "marker": "++UE5+Release-",
+              "offset": 215396936,
+              "section": ".rdata",
+              "string": "++UE5+Release-5.4"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 58,
+              "marker": "++UE5+Release-",
+              "offset": 215397024,
+              "section": ".rdata",
+              "string": "++UE5+Release-5.4-CL-35576357"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 24,
+              "marker": "UnrealEngine",
+              "offset": 215870280,
+              "section": ".rdata",
+              "string": "UnrealEngine"
+            },
+            {
+              "encoding": "ascii",
+              "length": 67,
+              "marker": "UnrealEngine",
+              "offset": 216181488,
+              "section": ".rdata",
+              "string": "Version <= EUnrealEngineObjectUE4Version::VER_UE4_AUTOMATIC_VERSION"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 26,
+              "marker": "UnrealEngine",
+              "offset": 216288816,
+              "section": ".rdata",
+              "string": "UnrealEngine4"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 70,
+              "marker": "UnrealEngine",
+              "offset": 216718768,
+              "section": ".rdata",
+              "string": "UnrealEngineIsGreat UTF-16 -> UTF-8"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 70,
+              "marker": "UnrealEngine",
+              "offset": 216718848,
+              "section": ".rdata",
+              "string": "UnrealEngineIsGreat UTF-8 -> UTF-16"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 266,
+              "marker": "UnrealEngine",
+              "offset": 217510084,
+              "section": ".rdata",
+              "string": "  1: Relocate any asset saved after EUnrealEngineObjectUE5Version::ADD_SOFTOBJECTPATH_LIST (5.1). Default value for the new projects."
+            },
+            {
+              "encoding": "ascii",
+              "length": 67,
+              "marker": "UnrealEngine",
+              "offset": 217522672,
+              "section": ".rdata",
+              "string": "EpicUE4 <= EUnrealEngineObjectUE4Version::VER_UE4_AUTOMATIC_VERSION"
+            },
+            {
+              "encoding": "ascii",
+              "length": 66,
+              "marker": "UnrealEngine",
+              "offset": 217522752,
+              "section": ".rdata",
+              "string": "EpicUE5 <= (int32)EUnrealEngineObjectUE5Version::AUTOMATIC_VERSION"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 84,
+              "marker": "UnrealEngine",
+              "offset": 218687472,
+              "section": ".rdata",
+              "string": "UnrealEngineLauncher/LauncherInstalled.dat"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 94,
+              "marker": "UnrealEngine",
+              "offset": 218687712,
+              "section": ".rdata",
+              "string": "UnrealEngineLauncher/Data/Manifests/%s.manifest"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 150,
+              "marker": "UnrealEngine",
+              "offset": 220151152,
+              "section": ".rdata",
+              "string": "You need to run UnrealEngine as administrator, for packet auditing to work."
+            },
+            {
+              "encoding": "ascii",
+              "length": 20,
+              "marker": "UnrealEngine",
+              "offset": 222025616,
+              "section": ".rdata",
+              "string": "UnrealEngine4Runtime"
+            },
+            {
+              "encoding": "utf-16le",
+              "length": 18,
+              "marker": "-CL-",
+              "offset": 225145296,
+              "section": ".rdata",
+              "string": "%s-CL-%u-"
+            },
+            {
+              "encoding": "ascii",
+              "length": 70,
+              "marker": "UnrealEngine",
+              "offset": 232259632,
+              "section": ".rdata",
+              "string": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\Engine\\Public\\UnrealEngine.h"
+            },
+            {
+              "encoding": "ascii",
+              "length": 73,
+              "marker": "UnrealEngine",
+              "offset": 234160064,
+              "section": ".rdata",
+              "string": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\Engine\\Private\\UnrealEngine.cpp"
+            }
+          ],
+          "parsed": {
+            "branches": [
+              "++UE5+Release-5.4"
+            ],
+            "changelists": [
+              35576357
+            ],
+            "fixed_file_info_versions": [],
+            "full_versions": [],
+            "minor_lines": [
+              "5.4"
+            ],
+            "versions_followed_by_a_branch_literal": [
+              "5.4.4"
+            ]
+          },
+          "path": "MISERY/Binaries/Win64/MISERY.exe"
+        }
+      ]
+    },
+    "V-02a_and_V-02b": {
+      "available": true,
+      "directory": "%LOCALAPPDATA%/MISERY/Saved/Crashes",
+      "engine_fields_of_matching_reports": [
+        {
+          "count": 21,
+          "fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "count": 4,
+          "fields": {
+            "BuildConfiguration": null,
+            "BuildVersion": null,
+            "CrashVersion": null,
+            "DeploymentName": null,
+            "EngineCompatibleVersion": null,
+            "EngineMode": null,
+            "EngineVersion": null,
+            "GameName": null,
+            "IsInternalBuild": null,
+            "IsPerforceBuild": null,
+            "IsSourceDistribution": null,
+            "IsUERelease": null,
+            "IsWithDebugInfo": null
+          }
+        }
+      ],
+      "engine_fields_of_other_reports": [
+        {
+          "count": 21,
+          "fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        }
+      ],
+      "loaded_module_name_count": 150,
+      "mod_loader_modules_present": [
+        "UE4SS.dll"
+      ],
+      "mod_loader_note": "An environment caveat on V-02, not a claim about the game: a third-party script-loading framework was resident in the process when at least some of these crashes happened. It changes nothing about the engine version fields, and it is disclosed because it means the process these reports describe was not a stock process. Detection is by module NAME only, and a loader that installs itself as a proxy for a system DLL is invisible to that, so the absence of a name here is not evidence of a clean process.",
+      "on_disk_identity": {
+        "checksum": 134678312,
+        "path": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+        "pdb_age": 1,
+        "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+        "pdb_name": "MISERY-Win64-Shipping.pdb",
+        "size_of_image": 138403840,
+        "time_date_stamp": 1918640348
+      },
+      "other_build_count": 21,
+      "other_build_mtime_range": {
+        "earliest": "2026-04-14T09:19:13Z",
+        "latest": "2026-04-14T20:17:09Z"
+      },
+      "report_count": 46,
+      "reports": [
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T20:17:09Z",
+          "report": "UECC-Windows-067B1DDE4520CA30430B85909D09BD78_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T09:13:07Z",
+          "report": "UECC-Windows-169506F2405617ABA6FE25AFFE9DBFC4_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T12:17:16Z",
+          "report": "UECC-Windows-1B4725404C8059B29B4F8EB1350D6E9B_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-20T15:31:10Z",
+          "report": "UECC-Windows-1CCAC75F415FF1E0AA6BE2AD51683816_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T19:20:24Z",
+          "report": "UECC-Windows-2583EFED4C8B77DB2F2E60A3E211B8D6_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-21T19:52:06Z",
+          "report": "UECC-Windows-2B32D4904073D8C7614A7FA64DC1BB23_0000",
+          "xml_fields": {
+            "BuildConfiguration": null,
+            "BuildVersion": null,
+            "CrashVersion": null,
+            "DeploymentName": null,
+            "EngineCompatibleVersion": null,
+            "EngineMode": null,
+            "EngineVersion": null,
+            "GameName": null,
+            "IsInternalBuild": null,
+            "IsPerforceBuild": null,
+            "IsSourceDistribution": null,
+            "IsUERelease": null,
+            "IsWithDebugInfo": null
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T10:11:54Z",
+          "report": "UECC-Windows-31682D924227C9C7AA63E391D267DD4C_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:36:08Z",
+          "report": "UECC-Windows-39F7B0114027B2E6E6F26C842074E4E0_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T13:01:41Z",
+          "report": "UECC-Windows-3C7E7A684845DA62DC692584635F5905_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T15:08:05Z",
+          "report": "UECC-Windows-45EDBCC04D544317136986967336A19D_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:33:18Z",
+          "report": "UECC-Windows-4832656D4144DAFFFCB650A68A072FD6_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T19:18:45Z",
+          "report": "UECC-Windows-4EC68C524933DAC7CF4365AAC54EB121_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T13:06:43Z",
+          "report": "UECC-Windows-4FDE9B5943B92E8C3AEAD2ABF4AD0897_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-21T16:04:46Z",
+          "report": "UECC-Windows-55B5D36745CFB5939B9B11B187432C96_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T08:50:30Z",
+          "report": "UECC-Windows-602455FB4F0C8E880664D2AC4BD17E9B_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:15:25Z",
+          "report": "UECC-Windows-60A08B754980CBC42392DD8DF046E9B2_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-20T14:46:30Z",
+          "report": "UECC-Windows-6E05D15C49E56CDE473FEEB564F2CD65_0000",
+          "xml_fields": {
+            "BuildConfiguration": null,
+            "BuildVersion": null,
+            "CrashVersion": null,
+            "DeploymentName": null,
+            "EngineCompatibleVersion": null,
+            "EngineMode": null,
+            "EngineVersion": null,
+            "GameName": null,
+            "IsInternalBuild": null,
+            "IsPerforceBuild": null,
+            "IsSourceDistribution": null,
+            "IsUERelease": null,
+            "IsWithDebugInfo": null
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T12:43:21Z",
+          "report": "UECC-Windows-7B0929964F92AE7F959B1480CB3C89AE_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T10:48:58Z",
+          "report": "UECC-Windows-7BF68C51433DE1AEBA6AFA90FA4CA55F_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-21T19:35:23Z",
+          "report": "UECC-Windows-827354FC42AD45908A74E683066DE1ED_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T15:33:18Z",
+          "report": "UECC-Windows-852DC2CD4C08AF18A715B59367741313_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-21T14:46:49Z",
+          "report": "UECC-Windows-8AFB530342EA13DA947E98A1E1138642_0000",
+          "xml_fields": {
+            "BuildConfiguration": null,
+            "BuildVersion": null,
+            "CrashVersion": null,
+            "DeploymentName": null,
+            "EngineCompatibleVersion": null,
+            "EngineMode": null,
+            "EngineVersion": null,
+            "GameName": null,
+            "IsInternalBuild": null,
+            "IsPerforceBuild": null,
+            "IsSourceDistribution": null,
+            "IsUERelease": null,
+            "IsWithDebugInfo": null
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T12:15:26Z",
+          "report": "UECC-Windows-8C9FC2A24DB5C9EBBC9FD6BF01BDBCB2_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T18:26:20Z",
+          "report": "UECC-Windows-8D08B97940E6553FE26B2D8BE2C842E9_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T18:26:40Z",
+          "report": "UECC-Windows-8E3A6C23463B1125880E97861DE87822_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T10:47:19Z",
+          "report": "UECC-Windows-8F75E8084E763CE20F31EB8259CF0767_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-21T13:13:31Z",
+          "report": "UECC-Windows-908C33E948FD19D2A77E11AE48066424_0000",
+          "xml_fields": {
+            "BuildConfiguration": null,
+            "BuildVersion": null,
+            "CrashVersion": null,
+            "DeploymentName": null,
+            "EngineCompatibleVersion": null,
+            "EngineMode": null,
+            "EngineVersion": null,
+            "GameName": null,
+            "IsInternalBuild": null,
+            "IsPerforceBuild": null,
+            "IsSourceDistribution": null,
+            "IsUERelease": null,
+            "IsWithDebugInfo": null
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T11:30:59Z",
+          "report": "UECC-Windows-9B28481C461EB97EA8E1DF98D3CABF37_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T15:03:44Z",
+          "report": "UECC-Windows-9D30F24E406DB63D974F079507C355F2_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:42:10Z",
+          "report": "UECC-Windows-A40696F84381EC40730AE087814CA55D_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T15:34:45Z",
+          "report": "UECC-Windows-AB0C2F324E209866C192F781DD8E9C1C_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T11:21:59Z",
+          "report": "UECC-Windows-ABFF70F64BEF2FCC3C205B9680D26827_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T16:40:56Z",
+          "report": "UECC-Windows-AEBE9E8948920FD33648918301E58A69_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T10:43:53Z",
+          "report": "UECC-Windows-BBCD12BE4F4176FE90C21DB5B1AC7025_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T09:19:13Z",
+          "report": "UECC-Windows-C121B2294E96248D73EFB981FF5D8F67_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T08:57:12Z",
+          "report": "UECC-Windows-C21D406441FFDFF3ED4A57997DD739FB_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:19:50Z",
+          "report": "UECC-Windows-CC23C0394848F8947E6A22A273CA7726_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:22:47Z",
+          "report": "UECC-Windows-CC59E7A04B12E2CAA47BACBB86D13B6E_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T11:29:02Z",
+          "report": "UECC-Windows-CE9363CF4185A53C61FF22B255FEB89E_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T11:30:39Z",
+          "report": "UECC-Windows-D3A258E0475378FE6A8A8A964EB6A7A4_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:31:43Z",
+          "report": "UECC-Windows-DC3FAAE74367FF5191F2F88B401E1EBC_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T07:59:04Z",
+          "report": "UECC-Windows-E30B4FDE49EB4AFBDB73F6A274575171_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T11:44:46Z",
+          "report": "UECC-Windows-E8717BB04B2051B6BEF05AA392A27743_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T08:37:44Z",
+          "report": "UECC-Windows-F1E85898444E1EC48271708A07BD4E8C_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": false,
+                "in_dump": 134693715,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": false,
+                "in_dump": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": false,
+                "in_dump": 138399744,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": false,
+                "in_dump": 3370604766,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "at least one identity value differs from the image on disk, so this report was produced by a different build (RISK-09)",
+            "verdict": "other-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134693715,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "198FE6EA-1357-C761-7A6E-BF105691B83E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138399744,
+            "time_date_stamp": 3370604766
+          },
+          "mtime_utc": "2026-04-14T20:12:11Z",
+          "report": "UECC-Windows-FD17A06A430E597F5ACE2780E02C4482_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        },
+        {
+          "build_correspondence": {
+            "fields": {
+              "checksum": {
+                "equal": true,
+                "in_dump": 134678312,
+                "on_disk": 134678312
+              },
+              "pdb_age": {
+                "equal": true,
+                "in_dump": 1,
+                "on_disk": 1
+              },
+              "pdb_guid": {
+                "equal": true,
+                "in_dump": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+                "on_disk": "4A5CB824-C63E-2717-3682-82E984F4B66E"
+              },
+              "size_of_image": {
+                "equal": true,
+                "in_dump": 138403840,
+                "on_disk": 138403840
+              },
+              "time_date_stamp": {
+                "equal": true,
+                "in_dump": 1918640348,
+                "on_disk": 1918640348
+              }
+            },
+            "reason": "all four identity values of the loaded image equal those of the image on disk",
+            "verdict": "this-build"
+          },
+          "has_crash_context_xml": true,
+          "has_minidump": true,
+          "loaded_shipping_module": {
+            "checksum": 134678312,
+            "file_version": "5.4.4.0",
+            "name": "MISERY-Win64-Shipping.exe",
+            "pdb_age": 1,
+            "pdb_guid": "4A5CB824-C63E-2717-3682-82E984F4B66E",
+            "pdb_name": "MISERY-Win64-Shipping.pdb",
+            "product_version": "5.4.4.0",
+            "size_of_image": 138403840,
+            "time_date_stamp": 1918640348
+          },
+          "mtime_utc": "2026-08-19T14:03:30Z",
+          "report": "UECC-Windows-FFAB792A45FDEE95BD0881A32CE95E4C_0000",
+          "xml_fields": {
+            "BuildConfiguration": "Shipping",
+            "BuildVersion": "++UE5+Release-5.4-CL-35576357",
+            "CrashVersion": "3",
+            "DeploymentName": "",
+            "EngineCompatibleVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "EngineMode": "Game",
+            "EngineVersion": "5.4.4-35576357+++UE5+Release-5.4",
+            "GameName": "UE-MISERY",
+            "IsInternalBuild": "false",
+            "IsPerforceBuild": "false",
+            "IsSourceDistribution": "false",
+            "IsUERelease": "true",
+            "IsWithDebugInfo": "false"
+          }
+        }
+      ],
+      "this_build_count": 25,
+      "this_build_mtime_range": {
+        "earliest": "2026-08-19T07:59:04Z",
+        "latest": "2026-08-21T19:52:06Z"
+      },
+      "undecidable_count": 0
+    },
+    "V-03": {
+      "images": [
+        {
+          "diagnosis": "version-resource-populated",
+          "parsed": {
+            "branches": [
+              "++UE5+Release-5.4"
+            ],
+            "changelists": [
+              35576357
+            ],
+            "fixed_file_info_versions": [
+              "5.4.4"
+            ],
+            "full_versions": [],
+            "minor_lines": [
+              "5.4"
+            ],
+            "versions_followed_by_a_branch_literal": []
+          },
+          "path": "MISERY.exe",
+          "rt_version_locations": [
+            {
+              "data_rva": 436464,
+              "file_offset": 417520,
+              "language_id": 1033,
+              "section": ".rsrc",
+              "size": 916
+            }
+          ],
+          "version_info": {
+            "fixed": {
+              "file_flags": "0x00000000",
+              "file_os": "0x00000004",
+              "file_subtype": "0x00000000",
+              "file_type": "0x00000002",
+              "file_version": "5.4.4.0",
+              "product_version": "5.4.4.0"
+            },
+            "strings": {
+              "CompanyName": "Epic Games, Inc.",
+              "FileDescription": "BootstrapPackagedGame",
+              "InternalName": "UnrealEngine",
+              "LegalCopyright": "Fill out your copyright notice in the Description page of Project Settings.",
+              "OriginalFilename": "BootstrapPackagedGame-Win64-Shipping.exe",
+              "ProductName": "BootstrapPackagedGame",
+              "ProductVersion": "++UE5+Release-5.4-CL-35576357"
+            },
+            "translations": [
+              "040904b0"
+            ]
+          }
+        },
+        {
+          "diagnosis": "version-resource-populated",
+          "parsed": {
+            "branches": [
+              "++UE5+Release-5.4"
+            ],
+            "changelists": [
+              35576357
+            ],
+            "fixed_file_info_versions": [
+              "5.4.4"
+            ],
+            "full_versions": [],
+            "minor_lines": [
+              "5.4"
+            ],
+            "versions_followed_by_a_branch_literal": []
+          },
+          "path": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+          "rt_version_locations": [
+            {
+              "data_rva": 136207088,
+              "file_offset": 132465904,
+              "language_id": 1033,
+              "section": ".rsrc",
+              "size": 816
+            }
+          ],
+          "version_info": {
+            "fixed": {
+              "file_flags": "0x00000000",
+              "file_os": "0x00000004",
+              "file_subtype": "0x00000000",
+              "file_type": "0x00000002",
+              "file_version": "5.4.4.0",
+              "product_version": "5.4.4.0"
+            },
+            "strings": {
+              "CompanyName": "Epic Games, Inc.",
+              "FileDescription": "MISERY",
+              "InternalName": "MISERY",
+              "LegalCopyright": "Fill out your copyright notice in the Description page of Project Settings.",
+              "OriginalFilename": "MISERY-Win64-Shipping.exe",
+              "ProductName": "MISERY",
+              "ProductVersion": "++UE5+Release-5.4-CL-35576357"
+            },
+            "translations": [
+              "040904b0"
+            ]
+          }
+        },
+        {
+          "diagnosis": "version-resource-populated",
+          "parsed": {
+            "branches": [],
+            "changelists": [],
+            "fixed_file_info_versions": [
+              "5.4.4"
+            ],
+            "full_versions": [],
+            "minor_lines": [
+              "5.4"
+            ],
+            "versions_followed_by_a_branch_literal": []
+          },
+          "path": "MISERY/Binaries/Win64/MISERY.exe",
+          "rt_version_locations": [
+            {
+              "data_rva": 284802064,
+              "file_offset": 279750160,
+              "language_id": 1033,
+              "section": ".rsrc",
+              "size": 740
+            }
+          ],
+          "version_info": {
+            "fixed": {
+              "file_flags": "0x00000000",
+              "file_os": "0x00000004",
+              "file_subtype": "0x00000000",
+              "file_type": "0x00000002",
+              "file_version": "5.4.4.0",
+              "product_version": "5.4.4.0"
+            },
+            "strings": {
+              "CompanyName": "Epic Games, Inc.",
+              "FileDescription": "MISERY",
+              "InternalName": "MISERY",
+              "LegalCopyright": "Fill out your copyright notice in the Description page of Project Settings.",
+              "OriginalFilename": "MISERY.exe",
+              "ProductName": "MISERY",
+              "ProductVersion": "5.4.4"
+            },
+            "translations": [
+              "040904b0"
+            ]
+          }
+        }
+      ]
+    },
+    "V-04": {
+      "d3d12_sdk_version_export": {
+        "export_name": "D3D12SDKVersion",
+        "export_rva": 109853436,
+        "file_offset": 109849852,
+        "present": true,
+        "section": ".rdata",
+        "value": 611
+      },
+      "literal_reads": [
+        {
+          "bytes_hex": "63 02 00 00",
+          "claim": "4 bytes at offset 109849852 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 63 02 00 00",
+          "decoded_field": "d3d12_sdk_version",
+          "evidence": {
+            "claim_class": "P",
+            "confidence": 0.99,
+            "evidence_level": "OBSERVED",
+            "note": "4 bytes at offset 109849852 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 63 02 00 00",
+            "oracle": [
+              "binary-analysis"
+            ],
+            "read_locus": {
+              "address_kind": "file-offset",
+              "bytes_hex": "63 02 00 00",
+              "length": 4,
+              "note": "the four bytes an exported symbol of this image points at; the symbol name is not part of this record",
+              "offset": 109849852,
+              "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+            },
+            "sources": [
+              {
+                "artifact": "research/evidence/V-04/dependency-versions.json",
+                "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@109849852+4",
+                "method": "V-04",
+                "note": "oracle binary-analysis. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+              }
+            ]
+          },
+          "length": 4,
+          "offset": 109849852,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        }
+      ],
+      "third_party": [
+        {
+          "file_version_string": "10.0.25291.1000 (WinBuild.160101.0800)",
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "10.0.25291.1000",
+            "product_version": "10.0.25291.1000"
+          },
+          "path": "Engine/Binaries/ThirdParty/DbgHelp/dbghelp.dll",
+          "present": true,
+          "product_name": "Microsoft® Windows® Operating System",
+          "product_version_string": "10.0.25291.1000"
+        },
+        {
+          "file_version_string": "2.2.0.359654",
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "2.2.0.0",
+            "product_version": "0.0.0.0"
+          },
+          "path": "Engine/Binaries/ThirdParty/MsQuic/v220/win64/msquic.dll",
+          "present": true,
+          "product_name": "Microsoft® QUIC",
+          "product_version_string": "2.2.0.359654-official"
+        },
+        {
+          "file_version_string": "2.18.0.0",
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "2.18.0.0",
+            "product_version": "2.18.0.0"
+          },
+          "path": "Engine/Binaries/ThirdParty/NVIDIA/NVaftermath/Win64/GFSDK_Aftermath_Lib.x64.dll",
+          "present": true,
+          "product_name": "NVIDIA Nsight Aftermath",
+          "product_version_string": "2.18"
+        },
+        {
+          "file_version_string": null,
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.2.2.0",
+            "product_version": "1.2.2.0"
+          },
+          "path": "Engine/Binaries/ThirdParty/Ogg/Win64/VS2015/libogg_64.dll",
+          "present": true,
+          "product_name": "UnrealEngine4",
+          "product_version_string": null
+        },
+        {
+          "file_version_string": null,
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.3.2.0",
+            "product_version": "1.3.2.0"
+          },
+          "path": "Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbis_64.dll",
+          "present": true,
+          "product_name": "UnrealEngine4",
+          "product_version_string": null
+        },
+        {
+          "file_version_string": "1.0.2303.02001",
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00000004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.0.2303.2001",
+            "product_version": "1.0.2303.2001"
+          },
+          "path": "Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64/WinPixEventRuntime.dll",
+          "present": true,
+          "product_name": "PIX",
+          "product_version_string": "1.0.230302001-release"
+        },
+        {
+          "file_version_string": "1.0.0.1",
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.0.0.1",
+            "product_version": "1.0.0.1"
+          },
+          "path": "Engine/Binaries/ThirdParty/Windows/XAudio2_9/x64/xaudio2_9redist.dll",
+          "present": true,
+          "product_name": "XAudio 2.9",
+          "product_version_string": "1.0.0.1"
+        },
+        {
+          "file_version_string": null,
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00000004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.16.3.0",
+            "product_version": "1.16.3.0"
+          },
+          "path": "Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll",
+          "present": true,
+          "product_name": "Epic Online Services SDK",
+          "product_version_string": "1.16.3-32303053"
+        },
+        {
+          "file_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b",
+          "fixed": {
+            "file_flags": "0x00000002",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.611.2.0",
+            "product_version": "1.611.2.0"
+          },
+          "path": "MISERY/Binaries/Win64/D3D12/D3D12Core.dll",
+          "present": true,
+          "product_name": "Microsoft® DirectX 12 for Windows®",
+          "product_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b"
+        },
+        {
+          "file_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b",
+          "fixed": {
+            "file_flags": "0x00000002",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.611.2.0",
+            "product_version": "1.611.2.0"
+          },
+          "path": "MISERY/Binaries/Win64/D3D12/d3d12SDKLayers.dll",
+          "present": true,
+          "product_name": "Microsoft® DirectX 12 for Windows®",
+          "product_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b"
+        },
+        {
+          "file_version_string": "1.4.1",
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "1.4.1.0",
+            "product_version": "1.4.1.0"
+          },
+          "path": "MISERY/Binaries/Win64/OpenImageDenoise.dll",
+          "present": true,
+          "product_name": "Intel(R) Open Image Denoise",
+          "product_version_string": "1.4.1"
+        },
+        {
+          "file_version_string": "2019, 0, 0, 0",
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00040004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "2019.0.0.0",
+            "product_version": "2019.0.0.0"
+          },
+          "path": "MISERY/Binaries/Win64/tbb.dll",
+          "present": true,
+          "product_name": "Intel(R) Threading Building Blocks for Windows",
+          "product_version_string": "2019, 0, 0, 0"
+        },
+        {
+          "file_version_string": null,
+          "fixed": null,
+          "path": "MISERY/Binaries/Win64/tbb12.dll",
+          "present": true,
+          "product_name": null,
+          "product_version_string": null
+        },
+        {
+          "file_version_string": null,
+          "fixed": null,
+          "path": "MISERY/Binaries/Win64/tbbmalloc.dll",
+          "present": true,
+          "product_name": null,
+          "product_version_string": null
+        }
+      ]
+    },
+    "V-05": {
+      "containers": [
+        {
+          "compression_method_name_count": 0,
+          "container_flags": "0x0a",
+          "literal_reads": [
+            {
+              "bytes_hex": "06",
+              "claim": "1 byte at offset 16 of MISERY/Content/Paks/MISERY-Windows.utoc are 06",
+              "decoded_field": "version",
+              "evidence": {
+                "claim_class": "P",
+                "confidence": 0.99,
+                "evidence_level": "OBSERVED",
+                "note": "1 byte at offset 16 of MISERY/Content/Paks/MISERY-Windows.utoc are 06",
+                "oracle": [
+                  "container-metadata"
+                ],
+                "read_locus": {
+                  "address_kind": "file-offset",
+                  "bytes_hex": "06",
+                  "length": 1,
+                  "note": "one field-width range at the start of the file",
+                  "offset": 16,
+                  "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+                },
+                "sources": [
+                  {
+                    "artifact": "research/evidence/V-05/toc-header-reads.json",
+                    "locator": "MISERY/Content/Paks/MISERY-Windows.utoc@16+1",
+                    "method": "V-05",
+                    "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                  }
+                ]
+              },
+              "length": 1,
+              "offset": 16,
+              "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+            },
+            {
+              "bytes_hex": "90 00 00 00",
+              "claim": "4 bytes at offset 20 of MISERY/Content/Paks/MISERY-Windows.utoc are 90 00 00 00",
+              "decoded_field": "toc_header_size",
+              "evidence": {
+                "claim_class": "P",
+                "confidence": 0.99,
+                "evidence_level": "OBSERVED",
+                "note": "4 bytes at offset 20 of MISERY/Content/Paks/MISERY-Windows.utoc are 90 00 00 00",
+                "oracle": [
+                  "container-metadata"
+                ],
+                "read_locus": {
+                  "address_kind": "file-offset",
+                  "bytes_hex": "90 00 00 00",
+                  "length": 4,
+                  "note": "one field-width range at the start of the file",
+                  "offset": 20,
+                  "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+                },
+                "sources": [
+                  {
+                    "artifact": "research/evidence/V-05/toc-header-reads.json",
+                    "locator": "MISERY/Content/Paks/MISERY-Windows.utoc@20+4",
+                    "method": "V-05",
+                    "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                  }
+                ]
+              },
+              "length": 4,
+              "offset": 20,
+              "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+            }
+          ],
+          "magic_matches": true,
+          "path": "MISERY/Content/Paks/MISERY-Windows.utoc",
+          "size": 2916142,
+          "toc_header_size": 144,
+          "toc_header_size_expected": 144,
+          "version": 6
+        },
+        {
+          "compression_method_name_count": 0,
+          "container_flags": "0x00",
+          "literal_reads": [
+            {
+              "bytes_hex": "06",
+              "claim": "1 byte at offset 16 of MISERY/Content/Paks/global.utoc are 06",
+              "decoded_field": "version",
+              "evidence": {
+                "claim_class": "P",
+                "confidence": 0.99,
+                "evidence_level": "OBSERVED",
+                "note": "1 byte at offset 16 of MISERY/Content/Paks/global.utoc are 06",
+                "oracle": [
+                  "container-metadata"
+                ],
+                "read_locus": {
+                  "address_kind": "file-offset",
+                  "bytes_hex": "06",
+                  "length": 1,
+                  "note": "one field-width range at the start of the file",
+                  "offset": 16,
+                  "target": "MISERY/Content/Paks/global.utoc"
+                },
+                "sources": [
+                  {
+                    "artifact": "research/evidence/V-05/toc-header-reads.json",
+                    "locator": "MISERY/Content/Paks/global.utoc@16+1",
+                    "method": "V-05",
+                    "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                  }
+                ]
+              },
+              "length": 1,
+              "offset": 16,
+              "target": "MISERY/Content/Paks/global.utoc"
+            },
+            {
+              "bytes_hex": "90 00 00 00",
+              "claim": "4 bytes at offset 20 of MISERY/Content/Paks/global.utoc are 90 00 00 00",
+              "decoded_field": "toc_header_size",
+              "evidence": {
+                "claim_class": "P",
+                "confidence": 0.99,
+                "evidence_level": "OBSERVED",
+                "note": "4 bytes at offset 20 of MISERY/Content/Paks/global.utoc are 90 00 00 00",
+                "oracle": [
+                  "container-metadata"
+                ],
+                "read_locus": {
+                  "address_kind": "file-offset",
+                  "bytes_hex": "90 00 00 00",
+                  "length": 4,
+                  "note": "one field-width range at the start of the file",
+                  "offset": 20,
+                  "target": "MISERY/Content/Paks/global.utoc"
+                },
+                "sources": [
+                  {
+                    "artifact": "research/evidence/V-05/toc-header-reads.json",
+                    "locator": "MISERY/Content/Paks/global.utoc@20+4",
+                    "method": "V-05",
+                    "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                  }
+                ]
+              },
+              "length": 4,
+              "offset": 20,
+              "target": "MISERY/Content/Paks/global.utoc"
+            }
+          ],
+          "magic_matches": true,
+          "path": "MISERY/Content/Paks/global.utoc",
+          "size": 623,
+          "toc_header_size": 144,
+          "toc_header_size_expected": 144,
+          "version": 6
+        }
+      ]
+    },
+    "V-06": {
+      "hit_count": 1,
+      "hits": [
+        {
+          "file_version_ue4": 522,
+          "file_version_ue5": 1012,
+          "length": 8,
+          "neighbour_file_version_ue4": 214,
+          "neighbour_file_version_ue5": 0,
+          "neighbour_offset": 125682464,
+          "neighbour_prediction": [
+            214,
+            0
+          ],
+          "neighbour_prediction_holds": true,
+          "offset": 125682456,
+          "section": ".data"
+        }
+      ],
+      "literal_reads": [
+        {
+          "bytes_hex": "0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+          "claim": "16 bytes at offset 125682456 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+          "decoded_field": "package_file_version_pair_and_neighbour",
+          "evidence": {
+            "claim_class": "P",
+            "confidence": 0.99,
+            "evidence_level": "OBSERVED",
+            "note": "16 bytes at offset 125682456 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+            "oracle": [
+              "binary-analysis"
+            ],
+            "read_locus": {
+              "address_kind": "file-offset",
+              "bytes_hex": "0a 02 00 00 f4 03 00 00 d6 00 00 00 00 00 00 00",
+              "length": 16,
+              "note": "sixteen bytes of initialised data; this record names neither what they are nor what they mean",
+              "offset": 125682456,
+              "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+            },
+            "sources": [
+              {
+                "artifact": "research/evidence/V-06/serialization-constants.json",
+                "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@125682456+16",
+                "method": "V-06",
+                "note": "oracle binary-analysis. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+              }
+            ]
+          },
+          "length": 16,
+          "offset": 125682456,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        }
+      ]
+    },
+    "V-07": {
+      "available": true,
+      "entry_count": 4424,
+      "pak_version": 11,
+      "payloads_readable": false,
+      "plugin_and_project_files": [
+        "Engine/Plugins/2D/Paper2D/Paper2D.uplugin",
+        "Engine/Plugins/AI/AISupport/AISupport.uplugin",
+        "Engine/Plugins/AI/EnvironmentQueryEditor/EnvironmentQueryEditor.uplugin",
+        "Engine/Plugins/Animation/ACLPlugin/ACLPlugin.uplugin",
+        "Engine/Plugins/Animation/AnimationData/AnimationData.uplugin",
+        "Engine/Plugins/Animation/ControlRig/ControlRig.uplugin",
+        "Engine/Plugins/Animation/ControlRigModules/ControlRigModules.uplugin",
+        "Engine/Plugins/Animation/ControlRigSpline/ControlRigSpline.uplugin",
+        "Engine/Plugins/Animation/IKRig/IKRig.uplugin",
+        "Engine/Plugins/Bridge/Bridge.uplugin",
+        "Engine/Plugins/Cameras/CameraShakePreviewer/CameraShakePreviewer.uplugin",
+        "Engine/Plugins/Cameras/GameplayCameras/GameplayCameras.uplugin",
+        "Engine/Plugins/ChaosCloth/ChaosCloth.uplugin",
+        "Engine/Plugins/ChaosVD/ChaosVD.uplugin",
+        "Engine/Plugins/Compression/OodleNetwork/OodleNetwork.uplugin",
+        "Engine/Plugins/Developer/AnimationSharing/AnimationSharing.uplugin",
+        "Engine/Plugins/Developer/PluginUtils/PluginUtils.uplugin",
+        "Engine/Plugins/Developer/UObjectPlugin/UObjectPlugin.uplugin",
+        "Engine/Plugins/Editor/AssetManagerEditor/AssetManagerEditor.uplugin",
+        "Engine/Plugins/Editor/BlueprintHeaderView/BlueprintHeaderView.uplugin",
+        "Engine/Plugins/Editor/EditorScriptingUtilities/EditorScriptingUtilities.uplugin",
+        "Engine/Plugins/Editor/FacialAnimation/FacialAnimation.uplugin",
+        "Engine/Plugins/Editor/GeometryMode/GeometryMode.uplugin",
+        "Engine/Plugins/Editor/ObjectMixer/LightMixer/LightMixer.uplugin",
+        "Engine/Plugins/Editor/ObjectMixer/ObjectMixer/ObjectMixer.uplugin",
+        "Engine/Plugins/Editor/ProxyLODPlugin/ProxyLODPlugin.uplugin",
+        "Engine/Plugins/Editor/SequencerAnimTools/SequencerAnimTools.uplugin",
+        "Engine/Plugins/Editor/SpeedTreeImporter/SpeedTreeImporter.uplugin",
+        "Engine/Plugins/Editor/UVEditor/UVEditor.uplugin",
+        "Engine/Plugins/EnhancedInput/EnhancedInput.uplugin",
+        "Engine/Plugins/Enterprise/DatasmithContent/DatasmithContent.uplugin",
+        "Engine/Plugins/Enterprise/GLTFExporter/GLTFExporter.uplugin",
+        "Engine/Plugins/Enterprise/VariantManager/VariantManager.uplugin",
+        "Engine/Plugins/Enterprise/VariantManagerContent/VariantManagerContent.uplugin",
+        "Engine/Plugins/Experimental/Animation/SkeletalMeshModelingTools/SkeletalMeshModelingTools.uplugin",
+        "Engine/Plugins/Experimental/AutomationUtils/AutomationUtils.uplugin",
+        "Engine/Plugins/Experimental/BackChannel/BackChannel.uplugin",
+        "Engine/Plugins/Experimental/ChaosCaching/ChaosCaching.uplugin",
+        "Engine/Plugins/Experimental/ChaosEditor/ChaosEditor.uplugin",
+        "Engine/Plugins/Experimental/ChaosNiagara/ChaosNiagara.uplugin",
+        "Engine/Plugins/Experimental/ChaosSolverPlugin/ChaosSolverPlugin.uplugin",
+        "Engine/Plugins/Experimental/ChaosUserDataPT/ChaosUserDataPT.uplugin",
+        "Engine/Plugins/Experimental/CharacterAI/CharacterAI.uplugin",
+        "Engine/Plugins/Experimental/Dataflow/Dataflow.uplugin",
+        "Engine/Plugins/Experimental/Fracture/Fracture.uplugin",
+        "Engine/Plugins/Experimental/FullBodyIK/FullBodyIK.uplugin",
+        "Engine/Plugins/Experimental/GeometryCollectionPlugin/GeometryCollectionPlugin.uplugin",
+        "Engine/Plugins/Experimental/LocalizableMessage/LocalizableMessage.uplugin",
+        "Engine/Plugins/Experimental/MeshModelingToolsetExp/MeshModelingToolsetExp.uplugin",
+        "Engine/Plugins/Experimental/MetaHuman/MetaHumanProjectUtilities/MetaHumanProjectUtilities.uplugin",
+        "Engine/Plugins/Experimental/OpenImageDenoise/OpenImageDenoise.uplugin",
+        "Engine/Plugins/Experimental/PlanarCutPlugin/PlanarCut.uplugin",
+        "Engine/Plugins/Experimental/PlatformCrypto/PlatformCrypto.uplugin",
+        "Engine/Plugins/Experimental/PythonScriptPlugin/PythonScriptPlugin.uplugin",
+        "Engine/Plugins/Experimental/StructUtils/StructUtils.uplugin",
+        "Engine/Plugins/Experimental/ToolPresets/ToolPresets.uplugin",
+        "Engine/Plugins/FX/CascadeToNiagaraConverter/CascadeToNiagaraConverter.uplugin",
+        "Engine/Plugins/FX/Niagara/Niagara.uplugin",
+        "Engine/Plugins/FX/NiagaraSimCaching/NiagaraSimCaching.uplugin",
+        "Engine/Plugins/Fab/Fab.uplugin",
+        "Engine/Plugins/Importers/AlembicImporter/AlembicImporter.uplugin",
+        "Engine/Plugins/Interchange/Editor/InterchangeEditor.uplugin",
+        "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "Engine/Plugins/Media/AvfMedia/AvfMedia.uplugin",
+        "Engine/Plugins/Media/ImgMedia/ImgMedia.uplugin",
+        "Engine/Plugins/Media/MediaCompositing/MediaCompositing.uplugin",
+        "Engine/Plugins/Media/MediaPlate/MediaPlate.uplugin",
+        "Engine/Plugins/Media/WebMMedia/WebMMedia.uplugin",
+        "Engine/Plugins/Media/WmfMedia/WmfMedia.uplugin",
+        "Engine/Plugins/MeshPainting/MeshPainting.uplugin",
+        "Engine/Plugins/Messaging/TcpMessaging/TcpMessaging.uplugin",
+        "Engine/Plugins/Messaging/UdpMessaging/UdpMessaging.uplugin",
+        "Engine/Plugins/MovieScene/ActorSequence/ActorSequence.uplugin",
+        "Engine/Plugins/MovieScene/LevelSequenceEditor/LevelSequenceEditor.uplugin",
+        "Engine/Plugins/MovieScene/SequencerScripting/SequencerScripting.uplugin",
+        "Engine/Plugins/MovieScene/TemplateSequence/TemplateSequence.uplugin",
+        "Engine/Plugins/Online/EOSShared/EOSShared.uplugin",
+        "Engine/Plugins/Online/OnlineBase/OnlineBase.uplugin",
+        "Engine/Plugins/Online/OnlineServices/OnlineServices.uplugin",
+        "Engine/Plugins/Online/OnlineSubsystem/OnlineSubsystem.uplugin",
+        "Engine/Plugins/Online/OnlineSubsystemNull/OnlineSubsystemNull.uplugin",
+        "Engine/Plugins/Online/OnlineSubsystemUtils/OnlineSubsystemUtils.uplugin",
+        "Engine/Plugins/Portal/LauncherChunkInstaller/LauncherChunkInstaller.uplugin",
+        "Engine/Plugins/Runtime/ActorLayerUtilities/ActorLayerUtilities.uplugin",
+        "Engine/Plugins/Runtime/AndroidFileServer/AndroidFileServer.uplugin",
+        "Engine/Plugins/Runtime/AndroidPermission/AndroidPermission.uplugin",
+        "Engine/Plugins/Runtime/AppleImageUtils/AppleImageUtils.uplugin",
+        "Engine/Plugins/Runtime/ArchVisCharacter/ArchVisCharacter.uplugin",
+        "Engine/Plugins/Runtime/AssetTags/AssetTags.uplugin",
+        "Engine/Plugins/Runtime/AudioCapture/AudioCapture.uplugin",
+        "Engine/Plugins/Runtime/AudioSynesthesia/AudioSynesthesia.uplugin",
+        "Engine/Plugins/Runtime/AudioWidgets/AudioWidgets.uplugin",
+        "Engine/Plugins/Runtime/CableComponent/CableComponent.uplugin",
+        "Engine/Plugins/Runtime/ChunkDownloader/ChunkDownloader.uplugin",
+        "Engine/Plugins/Runtime/CustomMeshComponent/CustomMeshComponent.uplugin",
+        "Engine/Plugins/Runtime/ExampleDeviceProfileSelector/ExampleDeviceProfileSelector.uplugin",
+        "Engine/Plugins/Runtime/GeometryCache/GeometryCache.uplugin",
+        "Engine/Plugins/Runtime/GeometryProcessing/GeometryProcessing.uplugin",
+        "Engine/Plugins/Runtime/GooglePAD/GooglePAD.uplugin",
+        "Engine/Plugins/Runtime/LocationServicesBPLibrary/LocationServicesBPLibrary.uplugin",
+        "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin",
+        "Engine/Plugins/Runtime/Metasound/Metasound.uplugin",
+        "Engine/Plugins/Runtime/MobilePatchingUtils/MobilePatchingUtils.uplugin",
+        "Engine/Plugins/Runtime/MsQuic/MsQuic.uplugin",
+        "Engine/Plugins/Runtime/ProceduralMeshComponent/ProceduralMeshComponent.uplugin",
+        "Engine/Plugins/Runtime/PropertyAccess/PropertyAccessEditor.uplugin",
+        "Engine/Plugins/Runtime/ResonanceAudio/ResonanceAudio.uplugin",
+        "Engine/Plugins/Runtime/RigVM/RigVM.uplugin",
+        "Engine/Plugins/Runtime/SignificanceManager/SignificanceManager.uplugin",
+        "Engine/Plugins/Runtime/SoundFields/SoundFields.uplugin",
+        "Engine/Plugins/Runtime/Synthesis/Synthesis.uplugin",
+        "Engine/Plugins/Runtime/WaveTable/WaveTable.uplugin",
+        "Engine/Plugins/Runtime/WebMMoviePlayer/WebMMoviePlayer.uplugin",
+        "Engine/Plugins/Runtime/Windows/XInputDevice/XInputDevice.uplugin",
+        "Engine/Plugins/Runtime/WindowsDeviceProfileSelector/WindowsDeviceProfileSelector.uplugin",
+        "Engine/Plugins/Runtime/WindowsMoviePlayer/WindowsMoviePlayer.uplugin",
+        "Engine/Plugins/Tests/InterchangeTests/InterchangeTests.uplugin",
+        "Engine/Plugins/TraceUtilities/TraceUtilities.uplugin",
+        "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin",
+        "Engine/Plugins/WorldMetrics/WorldMetrics.uplugin",
+        "MISERY/MISERY.uproject",
+        "MISERY/Plugins/MISERY.upluginmanifest",
+        "MISERY/Plugins/MenuWheel_5.4/SIZZ_Menu_Wheel.uplugin",
+        "MISERY/Plugins/Optimiza421ff074d458V5/OptimizationTools.uplugin",
+        "MISERY/Plugins/SteamCorePro/SteamCorePro.uplugin",
+        "MISERY/Plugins/UniversalVoiceChatPro/UniversalVoiceChatPro.uplugin"
+      ],
+      "uplugin_count": 124
+    }
+  },
+  "warnings": []
 }

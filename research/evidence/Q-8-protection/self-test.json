@@ -1,0 +1,7 @@
+{
+  "needles_declared": 219,
+  "needles_that_did_not_fire": [],
+  "needles_that_fired": 219,
+  "passed": true,
+  "what_it_proves": "the matcher, the encodings and the delimiter test are live for every declared needle. It does NOT prove the needle table is complete -- a product that renamed itself, or one built without any of these strings, is invisible to a name table by construction"
+}

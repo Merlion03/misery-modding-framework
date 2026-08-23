@@ -1,0 +1,308 @@
+{
+  "$comment": "Raw reading of method V-01 (plan.md 4.1), written by tools/static/engine_version.py. No schema by design: ARTIFACT_SCHEMA_MAP maps research/evidence/*/*.json to no schema (plan.md 9.2).",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "method": "V-01",
+  "reading": {
+    "changelist_as_compiled_constant": {
+      "occurrence_count": 1,
+      "occurrences": [
+        {
+          "length": 4,
+          "offset": 15890321,
+          "preceding_byte_hex": "b8",
+          "section": ".text"
+        }
+      ],
+      "value": 35576357
+    },
+    "images": [
+      {
+        "hit_count": 2,
+        "hits": [
+          {
+            "encoding": "utf-16le",
+            "length": 58,
+            "marker": "++UE5+Release-",
+            "offset": 418040,
+            "section": ".rsrc",
+            "string": "++UE5+Release-5.4-CL-35576357"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 24,
+            "marker": "UnrealEngine",
+            "offset": 418216,
+            "section": ".rsrc",
+            "string": "UnrealEngine"
+          }
+        ],
+        "parsed": {
+          "branches": [
+            "++UE5+Release-5.4"
+          ],
+          "changelists": [
+            35576357
+          ],
+          "fixed_file_info_versions": [],
+          "full_versions": [],
+          "minor_lines": [
+            "5.4"
+          ],
+          "versions_followed_by_a_branch_literal": []
+        },
+        "path": "MISERY.exe"
+      },
+      {
+        "hit_count": 8,
+        "hits": [
+          {
+            "encoding": "utf-16le",
+            "length": 34,
+            "marker": "++UE5+Release-",
+            "offset": 98550016,
+            "section": ".rdata",
+            "string": "++UE5+Release-5.4"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 58,
+            "marker": "++UE5+Release-",
+            "offset": 98550080,
+            "section": ".rdata",
+            "string": "++UE5+Release-5.4-CL-35576357"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 24,
+            "marker": "UnrealEngine",
+            "offset": 98708048,
+            "section": ".rdata",
+            "string": "UnrealEngine"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 26,
+            "marker": "UnrealEngine",
+            "offset": 98799056,
+            "section": ".rdata",
+            "string": "UnrealEngine4"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 266,
+            "marker": "UnrealEngine",
+            "offset": 99063652,
+            "section": ".rdata",
+            "string": "  1: Relocate any asset saved after EUnrealEngineObjectUE5Version::ADD_SOFTOBJECTPATH_LIST (5.1). Default value for the new projects."
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 18,
+            "marker": "-CL-",
+            "offset": 103528240,
+            "section": ".rdata",
+            "string": "%s-CL-%u-"
+          },
+          {
+            "encoding": "ascii",
+            "length": 73,
+            "marker": "UnrealEngine",
+            "offset": 109525200,
+            "section": ".rdata",
+            "string": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\Engine\\Private\\UnrealEngine.cpp"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 58,
+            "marker": "++UE5+Release-",
+            "offset": 132466396,
+            "section": ".rsrc",
+            "string": "++UE5+Release-5.4-CL-35576357"
+          }
+        ],
+        "parsed": {
+          "branches": [
+            "++UE5+Release-5.4"
+          ],
+          "changelists": [
+            35576357
+          ],
+          "fixed_file_info_versions": [],
+          "full_versions": [],
+          "minor_lines": [
+            "5.4"
+          ],
+          "versions_followed_by_a_branch_literal": []
+        },
+        "path": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+      },
+      {
+        "hit_count": 18,
+        "hits": [
+          {
+            "encoding": "utf-16le",
+            "length": 70,
+            "marker": "++UE5+Release-",
+            "offset": 215396864,
+            "section": ".rdata",
+            "string": "5.4.4-++UE5+Release-5.4-CL-35576357"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 34,
+            "marker": "++UE5+Release-",
+            "offset": 215396936,
+            "section": ".rdata",
+            "string": "++UE5+Release-5.4"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 58,
+            "marker": "++UE5+Release-",
+            "offset": 215397024,
+            "section": ".rdata",
+            "string": "++UE5+Release-5.4-CL-35576357"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 24,
+            "marker": "UnrealEngine",
+            "offset": 215870280,
+            "section": ".rdata",
+            "string": "UnrealEngine"
+          },
+          {
+            "encoding": "ascii",
+            "length": 67,
+            "marker": "UnrealEngine",
+            "offset": 216181488,
+            "section": ".rdata",
+            "string": "Version <= EUnrealEngineObjectUE4Version::VER_UE4_AUTOMATIC_VERSION"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 26,
+            "marker": "UnrealEngine",
+            "offset": 216288816,
+            "section": ".rdata",
+            "string": "UnrealEngine4"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 70,
+            "marker": "UnrealEngine",
+            "offset": 216718768,
+            "section": ".rdata",
+            "string": "UnrealEngineIsGreat UTF-16 -> UTF-8"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 70,
+            "marker": "UnrealEngine",
+            "offset": 216718848,
+            "section": ".rdata",
+            "string": "UnrealEngineIsGreat UTF-8 -> UTF-16"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 266,
+            "marker": "UnrealEngine",
+            "offset": 217510084,
+            "section": ".rdata",
+            "string": "  1: Relocate any asset saved after EUnrealEngineObjectUE5Version::ADD_SOFTOBJECTPATH_LIST (5.1). Default value for the new projects."
+          },
+          {
+            "encoding": "ascii",
+            "length": 67,
+            "marker": "UnrealEngine",
+            "offset": 217522672,
+            "section": ".rdata",
+            "string": "EpicUE4 <= EUnrealEngineObjectUE4Version::VER_UE4_AUTOMATIC_VERSION"
+          },
+          {
+            "encoding": "ascii",
+            "length": 66,
+            "marker": "UnrealEngine",
+            "offset": 217522752,
+            "section": ".rdata",
+            "string": "EpicUE5 <= (int32)EUnrealEngineObjectUE5Version::AUTOMATIC_VERSION"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 84,
+            "marker": "UnrealEngine",
+            "offset": 218687472,
+            "section": ".rdata",
+            "string": "UnrealEngineLauncher/LauncherInstalled.dat"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 94,
+            "marker": "UnrealEngine",
+            "offset": 218687712,
+            "section": ".rdata",
+            "string": "UnrealEngineLauncher/Data/Manifests/%s.manifest"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 150,
+            "marker": "UnrealEngine",
+            "offset": 220151152,
+            "section": ".rdata",
+            "string": "You need to run UnrealEngine as administrator, for packet auditing to work."
+          },
+          {
+            "encoding": "ascii",
+            "length": 20,
+            "marker": "UnrealEngine",
+            "offset": 222025616,
+            "section": ".rdata",
+            "string": "UnrealEngine4Runtime"
+          },
+          {
+            "encoding": "utf-16le",
+            "length": 18,
+            "marker": "-CL-",
+            "offset": 225145296,
+            "section": ".rdata",
+            "string": "%s-CL-%u-"
+          },
+          {
+            "encoding": "ascii",
+            "length": 70,
+            "marker": "UnrealEngine",
+            "offset": 232259632,
+            "section": ".rdata",
+            "string": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\Engine\\Public\\UnrealEngine.h"
+          },
+          {
+            "encoding": "ascii",
+            "length": 73,
+            "marker": "UnrealEngine",
+            "offset": 234160064,
+            "section": ".rdata",
+            "string": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\Engine\\Private\\UnrealEngine.cpp"
+          }
+        ],
+        "parsed": {
+          "branches": [
+            "++UE5+Release-5.4"
+          ],
+          "changelists": [
+            35576357
+          ],
+          "fixed_file_info_versions": [],
+          "full_versions": [],
+          "minor_lines": [
+            "5.4"
+          ],
+          "versions_followed_by_a_branch_literal": [
+            "5.4.4"
+          ]
+        },
+        "path": "MISERY/Binaries/Win64/MISERY.exe"
+      }
+    ]
+  }
+}

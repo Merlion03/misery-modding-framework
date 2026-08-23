@@ -1497,3 +1497,317 @@ question → method → evidence → finding → confidence → persistent artif
 - **Supersedes:** LOG-0013i в части оговорки «закрывающее состояние не проходило независимую
   состязательную проверку»: проверка проведена, вердикт PASS_WITH_DEBT
 - **Next question:** M1.1 — fingerprint с нуля. Первый гейт M1 — Q-8.3.
+
+---
+
+## 2026-08-23 — Что измерил PE-парсер F-01 на четырёх образах установки
+
+- **ID:** LOG-0015
+- **Question:** Что даёт полный разбор PE всех исполняемых образов установки — состав секций, debug
+  directory, TLS, load configuration, checksum, `.pdata`, таблицы импорта — и совпадает ли
+  результат с recon-чтениями, сделанными раньше и вручную?
+- **Method:** Полный разбор PE каждого из четырёх образов установки инструментом
+  `tools/fingerprint/pe_info.py` (F-01), только чтение, каждый образ разобран дважды на заново
+  открытых дескрипторах и оба разбора совпали; независимая от разбора замыкающая проверка —
+  пересчёт поля `CheckSum` по алгоритму PE и сравнение с сохранённым значением, плюс сверка
+  полученных чисел с recon-чтениями, выполненными раньше и другим инструментом (`plan.md`
+  Приложение A: число секций 7/9/10, timestamp 1918640348 и 1784645631) — совпало
+- **Evidence:** `research/builds/misery-24826585-ue5.4.4-0eef3715244b/fingerprint.json`, группа
+  `executables[].pe` — секции, debug directory, TLS, `version_info`, checksum, импорты и отложенные
+  импорты; `research/builds/misery-24826585-ue5.4.4-0eef3715244b/anomalies.md` §6 — четыре
+  неожиданные секции. Блоки load configuration и `.pdata` в артефакт **не** попали: в
+  `research/schema/fingerprint.schema.json` для них нет полей, они воспроизводятся только повторным
+  прогоном F-01 по названному пути. Пробел зарегистрирован как NEW-08 в `research/unknowns.md`, а
+  не замаскирован ссылкой на несуществующий файл
+- **Finding:**
+  1. **Секции.** Shim `MISERY.exe` в корне установки — 7, `MISERY-Win64-Shipping.exe` — 9,
+     `MISERY\Binaries\Win64\MISERY.exe` — 10. Секцию `.msvcjmc` несут **оба** игровых exe (в
+     Shipping rva 135811072, virtual size 8; во втором rva 284389376, virtual size 8), `.uedbg` —
+     только второй (rva 215089152, virtual size 30576). Отличительной чертой второго образа
+     `.msvcjmc` не является; строка A-05 реестра поправлена.
+  2. **Debug directory.** У shim-а и у Shipping есть запись типа 16 `IMAGE_DEBUG_TYPE_REPRO` рядом
+     с CODEVIEW, VC_FEATURE и POGO; у второго exe такой записи нет — только CODEVIEW, VC_FEATURE и
+     POGO. PDB-имена: `BootstrapPackagedGame-Win64-Shipping.pdb`, `MISERY-Win64-Shipping.pdb`,
+     `MISERY.pdb`; все три — голые имена без компонента каталога. Что запись REPRO даёт гипотезе
+     A-13, градуировано отдельно в строке A-13 `research/unknowns.md`; здесь стоит только
+     наблюдение.
+  3. **`VS_VERSIONINFO` заполнен во всех трёх образах.** Подробности и опровержение посылки A-03
+     вынесены отдельной записью LOG-0017.
+  4. **TLS.** У обоих игровых exe есть TLS-директория ровно с 2 callbacks (у Shipping RVA
+     0x5cacbfc и 0x5cacf0c); у shim-а TLS-директории нет.
+  5. **Load configuration, все три образа.** `GuardFlags` 0x00000100, единственный выставленный бит
+     `IMAGE_GUARD_CF_INSTRUMENTED`; таблица `GuardCFFunctionTable` пустая, записей 0; флаг
+     `IMAGE_DLLCHARACTERISTICS_GUARD_CF` в `DllCharacteristics` не выставлен; `SEHandlerTable` 0 при
+     count 0. `DllCharacteristics` = 0x8160: HIGH_ENTROPY_VA, DYNAMIC_BASE, NX_COMPAT,
+     TERMINAL_SERVER_AWARE.
+  6. **CheckSum.** У Shipping сохранённое значение 0x08070728 совпало с пересчитанным; у shim-а
+     сохранённое непустое и с пересчитанным не совпало; второй exe хранит 0.
+  7. **`.pdata`.** Записей RUNTIME_FUNCTION: 343 у shim-а, 411 385 у Shipping, 935 095 у второго
+     exe.
+  8. **Таблицы импорта — сырое наблюдение, без вывода.** Оба игровых exe импортируют
+     `IsDebuggerPresent`, `OutputDebugStringA/W`, `DebugBreak`, `SetUnhandledExceptionFilter`,
+     `AddVectoredExceptionHandler`, `VirtualProtect`, `CreateToolhelp32Snapshot`, `OpenProcess`,
+     `LoadLibraryA/W/ExW`, `GetProcAddress`; оба отложенно загружают `dbghelp.dll` — 16 символов у
+     Shipping и 18 у второго exe, среди них `MiniDumpWriteDump`, `StackWalk64` и семейство `Sym*`.
+     Среди отложенных модулей `steam_api64.dll`, `EOSSDK-Win64-Shipping.dll`,
+     `GFSDK_Aftermath_Lib.x64.dll`, `OpenImageDenoise.dll`; у второго exe добавляются
+     `WinPixEventRuntime.dll` и `libogg_64.dll`. Shim импортирует только `IsDebuggerPresent`,
+     `SetUnhandledExceptionFilter`, `LoadLibraryW/ExW`, `GetProcAddress` и отложенных загрузок не
+     имеет вовсе. Q-8.2 и Q-8.3 этой записью **не** отвечаются: присутствие таких импортов в
+     UE-сборке ожидаемо само по себе, ответ по ним требует своего метода и своей записи.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.85
+- **Claim class:** I
+- **Claim type:** build-identity
+- **Oracle:** `binary-analysis` + `external-doc`
+- **Почему класс I, а не P:** каждый пункт называет, **чем** прочитанное является — секцией,
+  записью debug directory, полем load configuration, элементом таблицы импорта, — и опирается на
+  публичную раскладку PE, а не на байты по указанному смещению (§10.3 v2.4). Примитивный слой с
+  офсетами, длинами и сырыми байтами живёт в выводе самого `pe_info.py`, а не в этой записи
+- **Метод перезапущен и результат воспроизведён 2026-08-23:** каждый образ разобран дважды на
+  заново открытых дескрипторах; числа, которые recon читал вручную, совпали с машинными
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** Q-8.2 и Q-8.3 — интерпретация таблиц импорта и TLS-callbacks; второй
+  независимый метод для A-13; NEW-08 — где хранить load configuration и `.pdata`.
+
+---
+
+## 2026-08-23 — Что измерил контейнерный парсер F-02 и замыкается ли арифметика раскладки
+
+- **ID:** LOG-0016
+- **Question:** Что читается в заголовках `.utoc` и в footer-е `.pak` без расшифровки, и сходится
+  ли сумма областей контейнера с фактическим размером файла?
+- **Method:** Разбор заголовка каждого `.utoc` и footer-а `.pak` инструментом
+  `tools/fingerprint/container_info.py` (F-02), только чтение, с раздельным выводом примитивного и
+  интерпретирующего слоёв, причём каждое из 60 литеральных чтений повторено вторым дескриптором
+  того же файла и расхождений 0 — это перепроверка первого метода, а не второй метод, и так она
+  здесь и засчитана; независимые от разбора замыкающие проверки — сумма всех областей `.utoc`
+  сравнена с фактическим размером файла (2 916 142 и 623, сошлось), области pak-а замощают файл без
+  зазоров и наложений до 117 656 684, а sha1, который footer хранит для индекса, пересчитан из
+  байтов индекса и совпал; сверка 24 байтовых строк A-07 с прежними ручными чтениями, сделанными
+  раньше и другим методом, — совпали все 24
+- **Evidence:** `research/builds/misery-24826585-ue5.4.4-0eef3715244b/fingerprint.json`, массив
+  `containers[]`; `research/RESEARCH_LOG.md` LOG-0011 — пятое чтение четырёх байт по смещению 48
+- **Finding:**
+  1. **Все 24 байтовые строки A-07 воспроизведены, расхождений 0**, включая четыре байта по
+     смещению 48 в `MISERY-Windows.utoc`.
+  2. `CompressionMethodNameCount` равен 0 на **обоих** `.utoc`, таблица методов пуста;
+     `CompressionBlockSize` 65536 на обоих.
+  3. **Арифметика раскладки закрывается до байта на обоих `.utoc`:** заголовок, идентификаторы
+     чанков, offset/length, массивы perfect-hash, блоки сжатия, таблица методов, directory index и
+     метаданные чанков суммируются ровно в 2 916 142 и 623 байта — фактические размеры файлов.
+  4. `MISERY-Windows.pak`: версия 11, `NumEntries` 4424, mount point `../../../`, индекс не
+     зашифрован и читается, `has_path_hash_index` и `has_full_directory_index` оба истинны, а sha1
+     индекса пересчитан из его байтов и совпал с тем, что хранит footer.
+  5. `MISERY-Windows.utoc`: `ContainerFlags` = 0x0a = Encrypted | Indexed; directory index занимает
+     844 960 байт по смещению 1 427 352 и **не читался**: решение D-02 запрещает извлекать ключ и
+     расшифровывать содержимое поставленных контейнеров. Проба на правдоподобность открытого текста
+     по этому смещению даёт ведущий int32 −713233792, длиной строки быть не может.
+     `global.utoc`: флаги 0x00, directory index отсутствует, `container_id` 0xffffffffffffffff.
+  6. **Чего эта запись НЕ даёт.** Независимым oracle для A-07i она не является: наш собственный
+     повторный разбор им не становится, сколько бы проходов ни насчитал, и exit criterion M2 (1)
+     остаётся открытым. Замыкание арифметики — сильная проверка внутренней согласованности, но
+     раскладку `FIoStoreTocHeader` мы по-прежнему берём из публичного описания.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.85
+- **Claim class:** I
+- **Claim type:** container-format
+- **Oracle:** `container-metadata` + `external-doc`
+- **Метод перезапущен и результат воспроизведён 2026-08-23:** 60 литеральных чтений выполнены
+  дважды через два разных дескриптора, расхождений 0; замыкающие проверки прогнаны повторно при
+  записи этой строки и снова дали PASS
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** независимый сторонний инструмент как oracle для A-07i (exit criterion M2 (1));
+  разбор directory index pak-а как путь к настоящему списку плагинов — NEW-06.
+
+---
+
+## 2026-08-23 — `VS_VERSIONINFO` заполнен: посылка вопроса A-03 опровергнута
+
+- **ID:** LOG-0017
+- **Question:** Верна ли записанная в `research/unknowns.md` догадка, что ресурс `VERSIONINFO` у
+  трёх exe этой установки просто не заполнен?
+- **Method:** Прямой разбор `.rsrc` и дерева ресурсов каждого exe инструментом
+  `tools/fingerprint/pe_info.py` (F-01) с извлечением `VS_FIXEDFILEINFO`, таблиц `StringFileInfo` и
+  списка translations, только чтение, дважды на заново открытых дескрипторах; сверка прочитанной из
+  ресурса строки `ProductVersion` с UTF-16 строкой `++UE5+Release-5.4-CL-35576357`, найденной в том
+  же образе методом V-01 раньше и независимо, — строки совпали посимвольно
+- **Evidence:** `research/builds/misery-24826585-ue5.4.4-0eef3715244b/fingerprint.json`, поле
+  `executables[].pe.version_info` каждого из четырёх образов
+- **Finding:**
+  1. **Догадка ложна.** `VS_VERSIONINFO` присутствует и заполнен во всех трёх exe:
+     `VS_FIXEDFILEINFO` FileVersion 5.4.4.0 и ProductVersion 5.4.4.0, FileFlags 0x00000000 — бит
+     VS_FF_DEBUG не выставлен, — одна таблица `StringFileInfo` 040904b0 с 7 записями. У
+     Shipping-образа строка `ProductVersion` равна `++UE5+Release-5.4-CL-35576357`; `InternalName`
+     и `ProductName` равны MISERY у обоих игровых exe и UnrealEngine / BootstrapPackagedGame у
+     shim-а.
+  2. **Вопрос A-03 не закрыт, а сузился, и предмет его сменился.** Неизвестным остаётся, почему
+     `Get-Item().VersionInfo` вернул пустые значения на файлах, в которых эти значения физически
+     лежат. Это свойство читателя, а не сборки, и на `fingerprint.json` оно больше не влияет:
+     `pe.version_info` заполнено, а не `null`.
+  3. **Следствие для §4.** V-03 из §4.1 стал доступен, но по схеме §4.2 он стоит в текстовой группе
+     рядом с V-01 и V-02 — более того, строка `ProductVersion` в ресурсе есть та же самая строка,
+     что даёт V-01, прочитанная другим путём. Требование «≥1 текстовый источник И ≥1 источник
+     формата данных» V-03 сам по себе не выполняет, поэтому exit criterion M1 (3) остаётся
+     открытым; строка A-06 реестра обновлена именно в этом смысле.
+- **Evidence level:** REFUTED
+- **Confidence:** 0.85
+- **Claim class:** I
+- **Claim type:** build-identity
+- **Oracle:** `binary-analysis` + `external-doc`
+- **Что было бы видно, если бы это было неверно (попытка опровержения):** отсутствие узла
+  `RT_VERSION` в дереве ресурсов, нулевая длина структуры `VS_VERSIONINFO`, пустые значения полей
+  `VS_FIXEDFILEINFO`, либо строка `ProductVersion` из ресурса, не совпадающая с найденной в том же
+  образе UTF-16 строкой. Проверено всё четыре: узел есть, длина непустая, значения непустые, строки
+  совпали
+- **Метод перезапущен и результат воспроизведён 2026-08-23:** разбор ресурсов выполнен дважды на
+  заново открытых дескрипторах, значения совпали
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** — ничего не отменяется: запись опровергает **догадку** реестра
+  `research/unknowns.md` A-03, а не прежний вывод журнала. Факт «`Get-Item().VersionInfo` вернул
+  пустые значения» остаётся верным и относится к читателю
+- **Next question:** почему `Get-Item().VersionInfo` ничего не вернул — вопрос о поведении
+  сторонней программы, oracle `external-doc`; A-06 ждёт источник формата данных.
+
+---
+
+## 2026-08-23 — Артефакт F-03/F-05 собран и воспроизводится, с одним измеренным исключением
+
+- **ID:** LOG-0018
+- **Question:** Собирается ли `fingerprint.json` штатными инструментами с нуля, воспроизводится ли
+  он при повторной сборке над неизменной установкой, и что именно в нём воспроизводиться не обязано?
+- **Method:** Двойная сборка документа в одном процессе — `tools/fingerprint/fingerprint.py
+  --selftest-reproducible`, задача F-03 — с построчным сравнением всех полей двух сборок; прогон
+  `tools/kb/validate.py` по готовому артефакту и прогон набора тестов `pytest`, оба выполнены
+  повторно 2026-08-23 при записи этой строки
+- **Evidence:** `research/builds/misery-24826585-ue5.4.4-0eef3715244b/fingerprint.json` — поле
+  `notes` перечисляет выполненные проверки и это же исключение;
+  `research/builds/misery-24826585-ue5.4.4-0eef3715244b/anomalies.md`
+- **Finding:**
+  1. **Артефакт собран композицией, а не собственным разбором:** каждый объект `pe` дословно из
+     `tools/fingerprint/pe_info.py`, весь массив `containers[]` дословно из
+     `tools/fingerprint/container_info.py`, обход дерева и чтение манифеста Steam — из
+     `tools/inventory/snapshot_install.py`. `build_key`, `content_key`, `tree_hash` и `build_id`
+     **пересчитаны** в прогоне и сверены с `research/builds/index.json` и `install-inventory.json`,
+     а не скопированы оттуда.
+  2. **F-05 порождает `anomalies.md` из того же списка, что лежит в `anomalies[]`:** 37 записей —
+     33 `file-not-in-non-ufs-manifest`, 4 `unexpected-pe-section`, 0 записей манифеста без файла на
+     диске, 0 расхождений размера. Счёт проверяется вычитанием: 53 файла на диске минус 20 путей
+     манифеста = 33. Сравнение выполнено дважды от двух независимых обходов дерева и двух
+     независимых чтений манифеста, `manifest_comparison_reproduced` и
+     `pe_section_survey_reproduced` — оба PASS.
+  3. Проверок воспроизводимости внутри прогона — 9, провалов 0. Валидатор по готовому артефакту
+     даёт 0 нарушений.
+  4. **Честное исключение, измеренное, а не предугаданное.** `identity.generated_at` — не
+     единственное поле, которое может разойтись между двумя прогонами над неизменной установкой.
+     `steam.appmanifest_sha256` тоже может: Steam перезаписывает `appmanifest_2119830.acf` по
+     своему расписанию (в нём живут `LastPlayed` и учёт загрузок), и две сборки с разницей в минуты
+     разошлись ровно в этом одном поле и больше ни в одном. Это изменение входа, а не инструмента:
+     `--selftest-reproducible` перечитывает манифест, чтобы отличить одну причину от другой, вместо
+     того чтобы поле прощать. Ничто, выведенное из самой установки — `build_key`, `content_key`,
+     `tree_hash`, любой дайджест, любое поле заголовка, — не сдвинулось.
+  5. **Границы.** `engine_version` в составе `build_id` остаётся провизорным до §4; группы `engine`
+     и `game` заполнены `null` осознанно, и у каждой стоит аннотация с методом, который её закроет.
+     Утверждение «документ воспроизводим» относится к прогону на этой машине над этой установкой, а
+     не к любой будущей.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.85
+- **Claim class:** I
+- **Claim type:** build-identity
+- **Oracle:** `filesystem` + `steam-metadata` + `binary-analysis` + `container-metadata`
+- **Метод перезапущен и результат воспроизведён 2026-08-23:** сборка документа выполнена дважды в
+  одном процессе с полевым сравнением; валидатор и набор тестов прогнаны повторно при записи строки
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** §4 — источник формата данных для версии движка (A-06); NEW-07 — примитивный
+  слой F-02 нельзя положить под `research/`, пока его аннотации не приведены к форме утверждения.
+
+---
+
+## 2026-08-23 — S-10, числа: что стоит в артефактах сканера RTTI
+
+- **ID:** LOG-0019
+- **Question:** Какие числа лежат в артефактах задачи S-10 и сколько строк в `rtti.jsonl`?
+- **Method:** Перечёт строк файла `research/evidence/S-10/rtti.jsonl` и чтение полей объекта
+  `summary` из `research/evidence/S-10/shipping-rtti.json` штатным интерпретатором
+  `D:\Tools\venv-research\Scripts\python.exe`, только чтение; перечёт и чтение выполнены дважды и
+  оба раза дали одно и то же
+- **Evidence:** `research/evidence/S-10/rtti.jsonl`, `research/evidence/S-10/shipping-rtti.json`,
+  `research/evidence/S-10/README.md`
+- **Finding:**
+  1. Файл `research/evidence/S-10/rtti.jsonl` содержит 587 строк.
+  2. В объекте `summary` файла `research/evidence/S-10/shipping-rtti.json`: `name_strings_found`
+     628, `type_descriptors_structurally_valid` 628, `type_descriptors_decoded` 628,
+     `type_descriptors_undecoded` 0, `complete_object_locators_strict` 587,
+     `complete_object_locators_loose_candidates` 1322, `complete_object_locators_loose_validated`
+     587, `locators_resolving_to_a_type_descriptor` 587, `locators_with_coherent_hierarchy` 587,
+     `locators_with_reachable_vtable` 587, `vtable_code_slots_total` 4428, `verdict` = FOUND —
+     смысл этих полей градуирован отдельно в LOG-0020, здесь стоят только их значения.
+  3. `summary.by_bucket`, по локаторам: third-party 554, msvc-crt-stl 20, unreal-engine 11,
+     unattributed 2, game-specific-candidate 0 — в сумме 587.
+     `summary.by_bucket_type_descriptors`: third-party 575, msvc-crt-stl 34, unreal-engine 17,
+     unattributed 2, game-specific-candidate 0 — в сумме 628.
+  4. Рядом лежат протоколы прогонов: `shipping-run1.log`, `shipping-run2.log`,
+     `whole-surface-run.log`, `control-positive-msvcp140.log`, `control-negative-tbbmalloc.log`,
+     `control-bootstrap-shim.log`, `oracle-d04.log`.
+  5. Смысл этих чисел градуирован отдельно в LOG-0020.
+  6. Поле `Claim type` оставлено пустым намеренно. В матрице §10.5 нет строки для перечёта строк в
+     нашем собственном артефакте, а значение `other` вывело бы запись в класс I, тогда как здесь
+     примитивное чтение файла из репозитория. Валидатор перечислит запись в блоке CLAIM_TYPE GAP —
+     это и есть правильное для неё место, а не подобранная по форме чужая строка матрицы.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.99
+- **Claim class:** P
+- **Oracle:** `filesystem`
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** S-09 — настоящий инвентарь vtable, от которого зависит знаменатель покрытия.
+
+---
+
+## 2026-08-23 — S-10, вывод: RTTI есть, а стоимость §7 он почти не меняет
+
+- **ID:** LOG-0020
+- **Question:** Меняет ли найденный RTTI стоимость §7 на порядок, как предполагало условное
+  примечание `plan.md` §7.3?
+- **Method:** Прогон `tools/static/rtti_scan.py` по Shipping-образу с подсчётом покрытия — 4 428
+  слотов vtable, адресующих код, против 411 385 записей `RUNTIME_FUNCTION` из `.pdata` и против
+  приближения 6 068…8 227 полиморфных классов; прогон того же сканера по бинарнику-оракулу D-04 как
+  второе измерение на другом файле — картина та же при вдвое большем числе структур (795
+  дескрипторов, 766 локаторов, сторонние 712, движок 38, игровых 0); двусторонний тест правила
+  атрибуции имён, описанный в `docs/rtti-assessment.md` §5.5: правило проверялось и на то, что оно
+  узнаёт известные библиотечные имена, и на то, что оно не пропустило бы имя игры, — это же и есть
+  попытка опровержения нулевого результата
+- **Evidence:** `docs/rtti-assessment.md` §7 и §8; `research/evidence/S-10/shipping-rtti.json`;
+  `research/evidence/S-10/oracle-d04.log`
+- **Finding:**
+  1. Вердикт `FOUND` ограничен библиотечным слоем: ни одной цели M2s — `GUObjectArray`,
+     `FNamePool`, `UObject::ProcessEvent`, `GEngine`, `UWorld`, `FPakPlatformFile::Mount`,
+     `IAssetRegistry` — в RTTI нет; навигация `dynamic_cast` по иерархии `UObject` невозможна;
+     классов игры 0.
+  2. **Условное примечание `plan.md` §7.3 «наличие RTTI меняет стоимость всего §7 на порядок»
+     опровергнуто в консеквенте**: RTTI есть, а стоимость §7 сдвигается на единицы процентов
+     *(REFUTED, confidence 0.85, oracle: binary-analysis + external-doc)*. На порядок её изменил бы
+     RTTI **над классами движка и игры**, а его нет.
+  3. Что RTTI всё-таки даёт: предварительный фильтр «библиотечное, не наша цель» на 587 vtable и
+     4 428 функций до первого запуска Ghidra, плюс 11 готовых якорей, из которых 4 полезны как
+     точки входа. Чем он не является: ни инвентарём классов, ни заменой S-09.
+  4. Стратегию §7 менять не нужно: идентификация классов остаётся на string-xref, сигнатурах и
+     форме vtable — S-01, S-03, S-06, S-07, S-09.
+  5. **Оговорка D-04.** Измерение на втором exe — второе измерение на другом файле, а не второй
+     oracle, и оно ничего не переносит на цель автоматически: числа §1–§7 получены на
+     Shipping-образе, оракул их лишь не опроверг.
+- **Evidence level:** INFERRED
+- **Confidence:** 0.8
+- **Claim class:** I
+- **Claim type:** other
+- **Oracle:** `binary-analysis`
+- **Обоснование `claim_type = other`:** матрица 10.5 не содержит строки для оценки трудоёмкости
+  нашей же дальнейшей работы; ближайшая по форме `layout-observation` говорит о раскладке структур,
+  а не о цене анализа, поэтому взята явная катч-олл строка, и вот записанная причина её выбора
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** M2s — S-09 как настоящий инвентарь vtable и string-xref как основной путь
+  идентификации классов; 11 якорей RTTI использовать как точки входа, не как инвентарь.

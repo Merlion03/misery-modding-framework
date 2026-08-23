@@ -1,0 +1,159 @@
+{
+  "$comment": "Raw reading of method V-03 (plan.md 4.1), written by tools/static/engine_version.py. No schema by design: ARTIFACT_SCHEMA_MAP maps research/evidence/*/*.json to no schema (plan.md 9.2).",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "method": "V-03",
+  "reading": {
+    "images": [
+      {
+        "diagnosis": "version-resource-populated",
+        "parsed": {
+          "branches": [
+            "++UE5+Release-5.4"
+          ],
+          "changelists": [
+            35576357
+          ],
+          "fixed_file_info_versions": [
+            "5.4.4"
+          ],
+          "full_versions": [],
+          "minor_lines": [
+            "5.4"
+          ],
+          "versions_followed_by_a_branch_literal": []
+        },
+        "path": "MISERY.exe",
+        "rt_version_locations": [
+          {
+            "data_rva": 436464,
+            "file_offset": 417520,
+            "language_id": 1033,
+            "section": ".rsrc",
+            "size": 916
+          }
+        ],
+        "version_info": {
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00000004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "5.4.4.0",
+            "product_version": "5.4.4.0"
+          },
+          "strings": {
+            "CompanyName": "Epic Games, Inc.",
+            "FileDescription": "BootstrapPackagedGame",
+            "InternalName": "UnrealEngine",
+            "LegalCopyright": "Fill out your copyright notice in the Description page of Project Settings.",
+            "OriginalFilename": "BootstrapPackagedGame-Win64-Shipping.exe",
+            "ProductName": "BootstrapPackagedGame",
+            "ProductVersion": "++UE5+Release-5.4-CL-35576357"
+          },
+          "translations": [
+            "040904b0"
+          ]
+        }
+      },
+      {
+        "diagnosis": "version-resource-populated",
+        "parsed": {
+          "branches": [
+            "++UE5+Release-5.4"
+          ],
+          "changelists": [
+            35576357
+          ],
+          "fixed_file_info_versions": [
+            "5.4.4"
+          ],
+          "full_versions": [],
+          "minor_lines": [
+            "5.4"
+          ],
+          "versions_followed_by_a_branch_literal": []
+        },
+        "path": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+        "rt_version_locations": [
+          {
+            "data_rva": 136207088,
+            "file_offset": 132465904,
+            "language_id": 1033,
+            "section": ".rsrc",
+            "size": 816
+          }
+        ],
+        "version_info": {
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00000004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "5.4.4.0",
+            "product_version": "5.4.4.0"
+          },
+          "strings": {
+            "CompanyName": "Epic Games, Inc.",
+            "FileDescription": "MISERY",
+            "InternalName": "MISERY",
+            "LegalCopyright": "Fill out your copyright notice in the Description page of Project Settings.",
+            "OriginalFilename": "MISERY-Win64-Shipping.exe",
+            "ProductName": "MISERY",
+            "ProductVersion": "++UE5+Release-5.4-CL-35576357"
+          },
+          "translations": [
+            "040904b0"
+          ]
+        }
+      },
+      {
+        "diagnosis": "version-resource-populated",
+        "parsed": {
+          "branches": [],
+          "changelists": [],
+          "fixed_file_info_versions": [
+            "5.4.4"
+          ],
+          "full_versions": [],
+          "minor_lines": [
+            "5.4"
+          ],
+          "versions_followed_by_a_branch_literal": []
+        },
+        "path": "MISERY/Binaries/Win64/MISERY.exe",
+        "rt_version_locations": [
+          {
+            "data_rva": 284802064,
+            "file_offset": 279750160,
+            "language_id": 1033,
+            "section": ".rsrc",
+            "size": 740
+          }
+        ],
+        "version_info": {
+          "fixed": {
+            "file_flags": "0x00000000",
+            "file_os": "0x00000004",
+            "file_subtype": "0x00000000",
+            "file_type": "0x00000002",
+            "file_version": "5.4.4.0",
+            "product_version": "5.4.4.0"
+          },
+          "strings": {
+            "CompanyName": "Epic Games, Inc.",
+            "FileDescription": "MISERY",
+            "InternalName": "MISERY",
+            "LegalCopyright": "Fill out your copyright notice in the Description page of Project Settings.",
+            "OriginalFilename": "MISERY.exe",
+            "ProductName": "MISERY",
+            "ProductVersion": "5.4.4"
+          },
+          "translations": [
+            "040904b0"
+          ]
+        }
+      }
+    ]
+  }
+}

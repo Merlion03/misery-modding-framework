@@ -1,0 +1,225 @@
+==============================================================================
+protection surface scan -- Q-8.2 (anti-debug) and Q-8.3 (anti-cheat)
+==============================================================================
+install root : D:\Games\Steam\steamapps\common\MISERY
+inventory    : install-inventory (53 files)
+build_id     : misery-24826585-ue5.4.4-0eef3715244b
+
+-- detector self-test ------------------------------------------------
+  219/219 needles fired -> PASS
+
+-- surface: filesystem-inventory ------------------------------------
+  files examined              : 53
+  middleware name matches     : 0
+  kernel driver files (.sys)  : 0
+  service-shaped executables  : 0
+
+-- surface: PE modules ----------------------------------------------
+  modules parsed              : 25
+  protector section names     : 0
+  middleware API offered by a bundled library : 1
+      Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll: Easy Anti-Cheat (Epic Online Services), 49 exported symbol(s)
+  middleware symbols actually IMPORTED        : 0
+
+  certificate blobs (SECURITY directory verified, not validated):
+      Engine/Binaries/ThirdParty/DbgHelp/dbghelp.dll                   blob=True   Microsoft Operations Puerto Rico1; )Microsoft Root Certificate Authority 20100; )Microsoft Root Certificate Authority 20110
+      Engine/Binaries/ThirdParty/MsQuic/v220/win64/msquic.dll          blob=True  )Microsoft Root Certificate Authority 20100; )Microsoft Root Certificate Authority 20110; 5ZgjZv0
+      Engine/Binaries/ThirdParty/NVIDIA/NVaftermath/Win64/GFSDK_Aftermath_Lib.x64.dll blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      Engine/Binaries/ThirdParty/Ogg/Win64/VS2015/libogg_64.dll        blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbis_64.dll  blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbisfile_64.dll blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_api_dump.dll     blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_gfxreconstruct.dll blob=True  Colorado1; Epic Games Inc.0; Epic Games Inc.1
+      Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_profiles.dll blob=True  Colorado1; Epic Games Inc.0; Epic Games Inc.1
+      Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_synchronization2.dll blob=True  Colorado1; Epic Games Inc.0; Epic Games Inc.1
+      Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_validation.dll blob=True  Colorado1; Epic Games Inc.0; Epic Games Inc.1
+      Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64/WinPixEventRuntime.dll blob=True  )Microsoft Root Certificate Authority 20100; )Microsoft Root Certificate Authority 20110; Epic Games Inc.0
+      Engine/Binaries/ThirdParty/Windows/XAudio2_9/x64/xaudio2_9redist.dll blob=True  )Microsoft Root Certificate Authority 20100; )Microsoft Root Certificate Authority 20110; Epic Games Inc.0
+      Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll                  blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      Engine/Extras/Redist/en-us/UEPrereqSetup_x64.exe                 blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      MISERY.exe                                                       blob=False 
+      MISERY/Binaries/Win64/D3D12/D3D12Core.dll                        blob=True  )Microsoft Root Certificate Authority 20100; )Microsoft Root Certificate Authority 20110; Epic Games Inc.0
+      MISERY/Binaries/Win64/D3D12/d3d12SDKLayers.dll                   blob=True  )Microsoft Root Certificate Authority 20100; )Microsoft Root Certificate Authority 20110; Epic Games Inc.0
+      MISERY/Binaries/Win64/OpenImageDenoise.dll                       blob=True  Epic Games Inc.0; Epic Games Inc.1; Greater Manchester1
+      MISERY/Binaries/Win64/tbb.dll                                    blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      MISERY/Binaries/Win64/tbb12.dll                                  blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      MISERY/Binaries/Win64/tbbmalloc.dll                              blob=True  Epic Games Inc.0; Epic Games Inc.1; Maryland1
+      MISERY/Plugins/SteamCorePro/Source/ThirdParty/SteamLibrary/redistributable_bin/win64/steam_api64.dll blob=True  Bellevue1; Valve Corp.0; Valve Corp.1
+
+  TLS callback arrays:
+      Engine/Binaries/ThirdParty/DbgHelp/dbghelp.dll                   2 callback(s)
+          [0] VA 0x180180c00  RVA 0x180c00  section .text  file offset 1575936
+              function start=True length=121 prolog=24 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa027573574883ec3048c7442420fe
+          [1] VA 0x180180ca0  RVA 0x180ca0  section .text  file offset 1576096
+              function start=True length=175 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+      Engine/Binaries/ThirdParty/NVIDIA/NVaftermath/Win64/GFSDK_Aftermath_Lib.x64.dll 2 callback(s)
+          [0] VA 0x1801115e0  RVA 0x1115e0  section .text  file offset 1116640
+              function start=True length=102 prolog=15 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa02756048895c2408574883ec208b
+          [1] VA 0x180111658  RVA 0x111658  section .text  file offset 1116760
+              function start=True length=164 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+      Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_gfxreconstruct.dll 2 callback(s)
+          [0] VA 0x18000353a  RVA 0x353a  section .text  file offset 10554
+              function start=False length=None prolog=None unwind codes=None flags=-
+              first 16 bytes: e9010a2800e92cb31a00e907a30700e9
+          [1] VA 0x18000981d  RVA 0x981d  section .text  file offset 35869
+              function start=False length=None prolog=None unwind codes=None flags=-
+              first 16 bytes: e94aa82700e949560700e9148f0700e9
+      Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_validation.dll 2 callback(s)
+          [0] VA 0x180d95ff4  RVA 0xd95ff4  section .text  file offset 14242804
+              function start=True length=102 prolog=15 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa02756048895c2408574883ec208b
+          [1] VA 0x180d9606c  RVA 0xd9606c  section .text  file offset 14242924
+              function start=True length=164 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+      Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64/WinPixEventRuntime.dll 2 callback(s)
+          [0] VA 0x180005220  RVA 0x5220  section .text  file offset 17952
+              function start=True length=102 prolog=15 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa02756048895c2408574883ec208b
+          [1] VA 0x1800054c0  RVA 0x54c0  section .text  file offset 18624
+              function start=True length=164 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+      Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll                  1 callback(s)
+          [0] VA 0x180d79100  RVA 0xd79100  section .text  file offset 14124288
+              function start=True length=102 prolog=15 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa02756048895c2408574883ec208b
+      MISERY/Binaries/Win64/D3D12/d3d12SDKLayers.dll                   2 callback(s)
+          [0] VA 0x180522398  RVA 0x522398  section .text  file offset 5379992
+              function start=True length=102 prolog=15 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa02756048895c2408574883ec208b
+          [1] VA 0x18052295c  RVA 0x52295c  section .text  file offset 5381468
+              function start=True length=165 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+      MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe                  2 callback(s)
+          [0] VA 0x145cacbfc  RVA 0x5cacbfc  section .text  file offset 97174012
+              function start=True length=102 prolog=15 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa02756048895c2408574883ec208b
+              twins among 9 other module(s): 6 byte-identical, 6 same unwind shape, 6 also same length
+          [1] VA 0x145cacf0c  RVA 0x5cacf0c  section .text  file offset 97174796
+              function start=True length=165 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+              twins among 8 other module(s): 7 byte-identical, 7 same unwind shape, 2 also same length
+      MISERY/Binaries/Win64/MISERY.exe                                 2 callback(s)
+          [0] VA 0x14cad1974  RVA 0xcad1974  section .text  file offset 212668276
+              function start=True length=102 prolog=15 unwind codes=4 flags=EHANDLER,UHANDLER
+              first 16 bytes: 83fa02756048895c2408574883ec208b
+          [1] VA 0x14cad1da4  RVA 0xcad1da4  section .text  file offset 212669348
+              function start=True length=165 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+      MISERY/Binaries/Win64/OpenImageDenoise.dll                       2 callback(s)
+          [0] VA 0x180438e08  RVA 0x438e08  section .text  file offset 4424200
+              function start=True length=66 prolog=10 unwind codes=2 flags=EHANDLER
+              first 16 bytes: 83fa027536534883ec30488d1d17ea00
+          [1] VA 0x180438ccc  RVA 0x438ccc  section .text  file offset 4423884
+              function start=True length=164 prolog=25 unwind codes=10 flags=-
+              first 16 bytes: 488bc448895808488968104889701848
+
+-- surface: detection kit in import tables ---------------------------
+  Engine/Binaries/ThirdParty/MsQuic/v220/win64/msquic.dll
+      HIGH  NtSetInformationThread         anti-debug-active      (import)
+  MISERY/Binaries/Win64/MISERY.exe
+      HIGH  SetThreadContext               anti-debug-active      (import)
+  (low- and medium-weight entries are in the JSON with their benign
+   explanation attached; they are NOT counted as protection)
+
+-- surface: service / driver control ---------------------------------
+  Engine/Binaries/ThirdParty/DbgHelp/dbghelp.dll  [outside primary scope]
+      control : CloseServiceHandle, OpenSCManagerW, OpenServiceW
+      INSTALL : CreateServiceA, CreateServiceW, StartServiceW
+      driver io: DeviceIoControl
+      gpu-driver-enumeration context: 0 marker(s)
+  Engine/Binaries/ThirdParty/NVIDIA/NVaftermath/Win64/GFSDK_Aftermath_Lib.x64.dll  [outside primary scope]
+      control : CloseServiceHandle, OpenSCManagerW, OpenServiceW, QueryServiceConfigW
+      INSTALL : none
+      driver io: -
+      gpu-driver-enumeration context: 9 marker(s)
+  Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll  [outside primary scope]
+      control : QueryServiceStatus
+      INSTALL : none
+      driver io: -
+      gpu-driver-enumeration context: 0 marker(s)
+  Engine/Extras/Redist/en-us/UEPrereqSetup_x64.exe  [outside primary scope]
+      control : CloseServiceHandle, OpenSCManagerW, OpenServiceW, QueryServiceConfigW, QueryServiceStatus, CloseServiceHandle, OpenSCManagerW, OpenServiceW, QueryServiceConfigW, QueryServiceStatus
+      INSTALL : none
+      driver io: -
+      gpu-driver-enumeration context: 0 marker(s)
+  MISERY/Binaries/Win64/D3D12/d3d12SDKLayers.dll  [outside primary scope]
+      control : -
+      INSTALL : none
+      driver io: DeviceIoControl
+      gpu-driver-enumeration context: 0 marker(s)
+  MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe
+      control : CloseServiceHandle, OpenSCManagerW, OpenServiceW, QueryServiceConfigW
+      INSTALL : none
+      driver io: -
+      gpu-driver-enumeration context: 10 marker(s)
+  MISERY/Binaries/Win64/MISERY.exe  [outside primary scope]
+      control : CloseServiceHandle, OpenSCManagerW, OpenServiceW, QueryServiceConfigW, QueryServiceStatus
+      INSTALL : none
+      driver io: DeviceIoControl
+      gpu-driver-enumeration context: 10 marker(s)
+
+-- surface: whole-install string pass -------------------------------
+  files scanned : 53
+  bytes scanned : 5057001973
+  hits          : 1
+      MISERY/Content/Paks/MISERY-Windows.ucas: 'UPX!' x1 (ascii)
+
+-- surface: broad vocabulary (counted, not interpreted) --------------
+  absent entirely: crack, cracked, hooked, hooking, tampered, tampering
+  ban          total=46     in 5 module(s)
+  banned       total=21     in 4 module(s)
+  bypass       total=18     in 2 module(s)
+  bypassed     total=7      in 2 module(s)
+  cheat        total=8      in 2 module(s)
+  cheater      total=2      in 2 module(s)
+  cheating     total=2      in 1 module(s)
+  cheats       total=1      in 1 module(s)
+  debugger     total=54     in 3 module(s)
+  debuggers    total=7      in 3 module(s)
+  debugging    total=287    in 7 module(s)
+  detected     total=213    in 9 module(s)
+  hook         total=9      in 2 module(s)
+  hooks        total=3      in 1 module(s)
+  inject       total=16     in 3 module(s)
+  injected     total=25     in 4 module(s)
+  injection    total=10     in 2 module(s)
+  integrity    total=30     in 5 module(s)
+  tamper       total=1      in 1 module(s)
+  violation    total=30     in 6 module(s)
+
+-- refutation probes -------------------------------------------------
+  delimiter-discipline               PASS
+  needle-self-test                   PASS
+  negative-control-module            PASS
+  positive-control-string-surface    PASS
+  tls-callback-twins-in-other-modules PASS -- every callback has independent twins
+  tls-shape-control                  PASS -- the shape is common
+
+-- literal reads (class P) ------------------------------------------
+  records: 18, reproduced through a second handle: True
+
+==============================================================================
+Q-8.3  NOT FOUND WITHIN TESTED SURFACE
+    question: does this build carry an anti-cheat or another execution-protection layer?
+    rule    : FOUND if any middleware file name, protector section name, service-install import, or IMPORT of a middleware protection symbol appears on any tested surface; UNKNOWN if a control probe failed; otherwise NOT FOUND WITHIN TESTED SURFACE. A middleware EXPORT in a bundled library is reported separately and does not on its own trigger FOUND -- a general-purpose SDK exports its whole API surface whether or not the game uses it
+    tested surfaces  : filesystem-inventory, pe-sections, pe-imports, pe-exports, pe-tls, pe-headers, strings-modules, strings-whole-install
+    untested surfaces: call-graph and control flow; container payloads; runtime behaviour; server-side enforcement; the Steam client layer outside the installation; the two TLS callbacks of each game executable
+
+Q-8.2  NOT FOUND WITHIN TESTED SURFACE
+    question: does this build carry anti-debug or anti-instrumentation logic?
+    rule    : FOUND if a detection constant inside the primary scope, an obfuscated/protector section in ANY module, or a high-weight ACTIVE anti-debug import inside the primary scope is present; UNKNOWN if a control probe failed, or if high-weight probe APIs are present in the primary scope with no detection constant and no obfuscation; otherwise NOT FOUND WITHIN TESTED SURFACE
+    tested surfaces  : filesystem-inventory, pe-sections, pe-imports, pe-exports, pe-tls, pe-headers, strings-modules, strings-whole-install
+    untested surfaces: call-graph and control flow; container payloads; runtime behaviour; server-side enforcement; the Steam client layer outside the installation; the two TLS callbacks of each game executable
+
+==============================================================================
+instrumentation admissibility (plan.md section 8)
+  stop condition triggered : False
+  level 1 (external read-only inspector) admissible : True
+  level 2 (in-process probe) admissible on this evidence : False
+==============================================================================
+
+written: D:\Dev\MiseryFramework\workspace\protection\protection-run2.json

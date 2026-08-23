@@ -1,0 +1,101 @@
+Q-8.2 / Q-8.3 -- attribution of the ntdll dynamic-resolution table found in the
+D-04 oracle (MISERY\Binaries\Win64\MISERY.exe, 282 826 240 bytes).
+
+All game files opened READ-ONLY (D-01). No file inside the installation was
+created, modified or deleted.
+
+--------------------------------------------------------------------------------
+STEP 1 -- literal reads. Byte offsets of the ten strings, exact substring search
+over the whole file, one pass per string.
+
+  interpreter : D:\Tools\venv-research\Scripts\python.exe
+
+  target: MISERY\Binaries\Win64\MISERY.exe                          (282826240 B)
+    NtSuspendProcess                                 0xd98fb28  n=1
+    ntdll.dll                                        0xd98fb40  n=1
+    NtResumeProcess                                  0xd98fb50  n=1
+    NtReadVirtualMemory                              0xd98fb60  n=1
+    NtWriteVirtualMemory                             0xd98fb78  n=1
+    NtQuerySystemInformation                         0xd98fb90  n=1
+    NtQueryInformationProcess                        0xd98fbb0  n=1
+    NtContinue                                       0xd98fbd0  n=1
+    Cannot get handle for module %s                   0xd98fbe2  n=1
+    Cannot get address of function %s in module %s    0xd98fc0a  n=1
+
+  target: MISERY\Binaries\Win64\MISERY-Win64-Shipping.exe           (134658048 B)
+    all ten                                          ABSENT  n=0
+
+  target: MISERY.exe  (bootstrap shim)                                 (422400 B)
+    all ten                                          ABSENT  n=0
+
+  offset 0xd98fb28 lies in section .rdata
+    (.rdata raw range [0x0cd26a00, 0x0fe19200), RVA 0xcd28000)
+
+--------------------------------------------------------------------------------
+STEP 2 -- first independent method: the two format strings, searched in the
+Unreal Engine 5.4 source tree installed on this machine.
+
+  $ grep -rl --include=*.c --include=*.cpp --include=*.h --include=*.inl \
+        "Cannot get handle for module" Engine/Source Engine/Plugins
+  Engine/Source/Developer/Windows/LiveCoding/Private/External/LC_WindowsInternalFunctions.h
+
+  the two LC_ERROR_USER call sites in that header, verbatim:
+    LC_ERROR_USER("Cannot get handle for module %s", moduleName);
+    LC_ERROR_USER("Cannot get address of function %s in module %s", functionName, moduleName);
+
+  file header: "Copyright 2011-2020 Molecular Matters GmbH, all rights reserved."
+  (Unreal Engine's Live Coding is Molecular Matters' Live++, vendored under
+  Engine/Source/Developer/, i.e. a DEVELOPER module.)
+
+--------------------------------------------------------------------------------
+STEP 3 -- second independent method: the seven ntdll entry points, matched
+against the declaration list of the same module, IN ORDER.
+
+  Engine/Source/Developer/Windows/LiveCoding/Private/External/LC_WindowsInternalFunctions.cpp
+  lines 9-15:
+
+    Function<decltype(NtSuspendProcess)>          NtSuspendProcess("ntdll.dll", "NtSuspendProcess");
+    Function<decltype(NtResumeProcess)>           NtResumeProcess("ntdll.dll", "NtResumeProcess");
+    Function<decltype(NtReadVirtualMemory)>       NtReadVirtualMemory("ntdll.dll", "NtReadVirtualMemory");
+    Function<decltype(NtWriteVirtualMemory)>      NtWriteVirtualMemory("ntdll.dll", "NtWriteVirtualMemory");
+    Function<decltype(NtQuerySystemInformation)>  NtQuerySystemInformation("ntdll.dll", "NtQuerySystemInformation");
+    Function<decltype(NtQueryInformationProcess)> NtQueryInformationProcess("ntdll.dll", "NtQueryInformationProcess");
+    Function<decltype(NtContinue)>                NtContinue("ntdll.dll", "NtContinue");
+
+  binary order at 0xd98fb28..0xd98fbd0:
+    NtSuspendProcess, [ntdll.dll], NtResumeProcess, NtReadVirtualMemory,
+    NtWriteVirtualMemory, NtQuerySystemInformation, NtQueryInformationProcess,
+    NtContinue
+
+  Seven for seven, same order, no extra name and none missing.
+
+--------------------------------------------------------------------------------
+STEP 4 -- the refutation that was attempted and failed to fire.
+
+  If this table were an anti-debug kit rather than Live Coding, the debug
+  information classes would be in the same neighbourhood. Searched in the
+  LiveCoding module source:
+
+  $ grep -rn "ProcessDebugPort\|ProcessDebugFlags\|ThreadHideFromDebugger\|SystemKernelDebugger" \
+        --include=*.h --include=*.cpp Engine/Source/Developer/Windows/LiveCoding
+  (no output)
+
+  The NtQueryInformationProcess call sites in LC_Process.cpp pass
+  ProcessBasicInformation (lines 513, 667) and ProcessWow64Information
+  (lines 372, 528). Neither is a debug class.
+
+  Searched in the Shipping binary itself: ProcessDebugPort, ProcessDebugFlags,
+  ProcessDebugObjectHandle, ThreadHideFromDebugger,
+  SystemKernelDebuggerInformation, CONTEXT_DEBUG_REGISTERS, NtGlobalFlag,
+  BeingDebugged -- ABSENT, all of them, both encodings.
+
+--------------------------------------------------------------------------------
+NOTE ON THE LIMITS OF STEPS 2 AND 3
+
+The source tree is an oracle of class `filesystem` plus `external-doc`: it proves
+what the Unreal Engine 5.4 source on THIS machine contains, not what was
+compiled into this binary. The conclusion "this table belongs to Live Coding" is
+therefore INFERRED, not OBSERVED, and it is a statement about the D-04 oracle.
+Decision D-04 requires every conclusion drawn on that file to be re-verified on
+the Shipping binary before it counts. Here the re-verification is the STEP 1
+result: none of the ten strings exists in the Shipping binary at all.

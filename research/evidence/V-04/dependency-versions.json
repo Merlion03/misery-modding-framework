@@ -1,0 +1,249 @@
+{
+  "$comment": "Raw reading of method V-04 (plan.md 4.1), written by tools/static/engine_version.py. No schema by design: ARTIFACT_SCHEMA_MAP maps research/evidence/*/*.json to no schema (plan.md 9.2).",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "method": "V-04",
+  "reading": {
+    "d3d12_sdk_version_export": {
+      "export_name": "D3D12SDKVersion",
+      "export_rva": 109853436,
+      "file_offset": 109849852,
+      "present": true,
+      "section": ".rdata",
+      "value": 611
+    },
+    "literal_reads": [
+      {
+        "bytes_hex": "63 02 00 00",
+        "claim": "4 bytes at offset 109849852 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 63 02 00 00",
+        "decoded_field": "d3d12_sdk_version",
+        "evidence": {
+          "claim_class": "P",
+          "confidence": 0.99,
+          "evidence_level": "OBSERVED",
+          "note": "4 bytes at offset 109849852 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 63 02 00 00",
+          "oracle": [
+            "binary-analysis"
+          ],
+          "read_locus": {
+            "address_kind": "file-offset",
+            "bytes_hex": "63 02 00 00",
+            "length": 4,
+            "note": "the four bytes an exported symbol of this image points at; the symbol name is not part of this record",
+            "offset": 109849852,
+            "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+          },
+          "sources": [
+            {
+              "artifact": "research/evidence/V-04/dependency-versions.json",
+              "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@109849852+4",
+              "method": "V-04",
+              "note": "oracle binary-analysis. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+            }
+          ]
+        },
+        "length": 4,
+        "offset": 109849852,
+        "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+      }
+    ],
+    "third_party": [
+      {
+        "file_version_string": "10.0.25291.1000 (WinBuild.160101.0800)",
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "10.0.25291.1000",
+          "product_version": "10.0.25291.1000"
+        },
+        "path": "Engine/Binaries/ThirdParty/DbgHelp/dbghelp.dll",
+        "present": true,
+        "product_name": "Microsoft® Windows® Operating System",
+        "product_version_string": "10.0.25291.1000"
+      },
+      {
+        "file_version_string": "2.2.0.359654",
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "2.2.0.0",
+          "product_version": "0.0.0.0"
+        },
+        "path": "Engine/Binaries/ThirdParty/MsQuic/v220/win64/msquic.dll",
+        "present": true,
+        "product_name": "Microsoft® QUIC",
+        "product_version_string": "2.2.0.359654-official"
+      },
+      {
+        "file_version_string": "2.18.0.0",
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "2.18.0.0",
+          "product_version": "2.18.0.0"
+        },
+        "path": "Engine/Binaries/ThirdParty/NVIDIA/NVaftermath/Win64/GFSDK_Aftermath_Lib.x64.dll",
+        "present": true,
+        "product_name": "NVIDIA Nsight Aftermath",
+        "product_version_string": "2.18"
+      },
+      {
+        "file_version_string": null,
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.2.2.0",
+          "product_version": "1.2.2.0"
+        },
+        "path": "Engine/Binaries/ThirdParty/Ogg/Win64/VS2015/libogg_64.dll",
+        "present": true,
+        "product_name": "UnrealEngine4",
+        "product_version_string": null
+      },
+      {
+        "file_version_string": null,
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.3.2.0",
+          "product_version": "1.3.2.0"
+        },
+        "path": "Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbis_64.dll",
+        "present": true,
+        "product_name": "UnrealEngine4",
+        "product_version_string": null
+      },
+      {
+        "file_version_string": "1.0.2303.02001",
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00000004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.0.2303.2001",
+          "product_version": "1.0.2303.2001"
+        },
+        "path": "Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64/WinPixEventRuntime.dll",
+        "present": true,
+        "product_name": "PIX",
+        "product_version_string": "1.0.230302001-release"
+      },
+      {
+        "file_version_string": "1.0.0.1",
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.0.0.1",
+          "product_version": "1.0.0.1"
+        },
+        "path": "Engine/Binaries/ThirdParty/Windows/XAudio2_9/x64/xaudio2_9redist.dll",
+        "present": true,
+        "product_name": "XAudio 2.9",
+        "product_version_string": "1.0.0.1"
+      },
+      {
+        "file_version_string": null,
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00000004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.16.3.0",
+          "product_version": "1.16.3.0"
+        },
+        "path": "Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll",
+        "present": true,
+        "product_name": "Epic Online Services SDK",
+        "product_version_string": "1.16.3-32303053"
+      },
+      {
+        "file_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b",
+        "fixed": {
+          "file_flags": "0x00000002",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.611.2.0",
+          "product_version": "1.611.2.0"
+        },
+        "path": "MISERY/Binaries/Win64/D3D12/D3D12Core.dll",
+        "present": true,
+        "product_name": "Microsoft® DirectX 12 for Windows®",
+        "product_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b"
+      },
+      {
+        "file_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b",
+        "fixed": {
+          "file_flags": "0x00000002",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.611.2.0",
+          "product_version": "1.611.2.0"
+        },
+        "path": "MISERY/Binaries/Win64/D3D12/d3d12SDKLayers.dll",
+        "present": true,
+        "product_name": "Microsoft® DirectX 12 for Windows®",
+        "product_version_string": "1.611.2.0.231116-0909.1.1.611.c9255044b129a052ac74842e5ee123d609cb079b"
+      },
+      {
+        "file_version_string": "1.4.1",
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "1.4.1.0",
+          "product_version": "1.4.1.0"
+        },
+        "path": "MISERY/Binaries/Win64/OpenImageDenoise.dll",
+        "present": true,
+        "product_name": "Intel(R) Open Image Denoise",
+        "product_version_string": "1.4.1"
+      },
+      {
+        "file_version_string": "2019, 0, 0, 0",
+        "fixed": {
+          "file_flags": "0x00000000",
+          "file_os": "0x00040004",
+          "file_subtype": "0x00000000",
+          "file_type": "0x00000002",
+          "file_version": "2019.0.0.0",
+          "product_version": "2019.0.0.0"
+        },
+        "path": "MISERY/Binaries/Win64/tbb.dll",
+        "present": true,
+        "product_name": "Intel(R) Threading Building Blocks for Windows",
+        "product_version_string": "2019, 0, 0, 0"
+      },
+      {
+        "file_version_string": null,
+        "fixed": null,
+        "path": "MISERY/Binaries/Win64/tbb12.dll",
+        "present": true,
+        "product_name": null,
+        "product_version_string": null
+      },
+      {
+        "file_version_string": null,
+        "fixed": null,
+        "path": "MISERY/Binaries/Win64/tbbmalloc.dll",
+        "present": true,
+        "product_name": null,
+        "product_version_string": null
+      }
+    ]
+  }
+}

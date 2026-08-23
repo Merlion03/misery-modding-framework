@@ -1,0 +1,72 @@
+{
+  "$comment": "The external-doc reference of methods V-04, V-05 and V-06: which UE release emits which number, and the result of re-reading that table out of a local Unreal Engine distribution. Prose companion: research/evidence/V-06/external-reference.md.",
+  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "reference": {
+    "$comment": "reference table, not a graded record; the graded claims name external-doc in their own oracle list",
+    "artifact": "research/evidence/V-06/external-reference.md",
+    "local_reference_check": {
+      "agrees_with_builtin_table": true,
+      "disagreements": [],
+      "read": {
+        "branch_name": "++UE5+Release-5.4",
+        "changelist": 35576357,
+        "compatible_changelist": 33043543,
+        "d3d12_sdk_version": 611,
+        "engine_version": "5.4.4",
+        "files_read": [
+          "Build/Build.version",
+          "Source/Runtime/Core/Internal/IO/IoStore.h",
+          "Source/Runtime/Launch/Private/Windows/LaunchWindows.cpp",
+          "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+          "Source/Runtime/Core/Private/UObject/ObjectVersion.cpp"
+        ],
+        "io_store_toc_latest": 6,
+        "is_licensee_version": 0,
+        "is_promoted_build": 1,
+        "package_file_version_ue5": 1012,
+        "package_version_globals_declared_in_order": true,
+        "ue_line": "5.4",
+        "ver_latest_engine_ue4": 522,
+        "ver_ue4_oldest_loadable_package": 214
+      },
+      "root_recorded_as": "(not recorded: C-13. The tree is identified by its own Build.version, quoted above, not by where it sits)"
+    },
+    "note": "The only knowledge in this artifact that does not come from this installation. It answers one question - which UE release emits a given number - and each row carries the tree it was read from. The 5.4 row is the one the answer rests on and it is the one that can be re-read on this machine; the 5.3 and 5.5 rows come from public source mirrors and are used only to show that the NEIGHBOURS emit different numbers.",
+    "oracle_class": "external-doc",
+    "rows": [
+      {
+        "citation": "public UE 5.3.2 source tree (Engine/Build/Build.version reads MajorVersion 5, MinorVersion 3, PatchVersion 2)",
+        "d3d12_sdk_version": 610,
+        "io_store_toc_latest": 5,
+        "io_store_toc_latest_name": "PerfectHashWithOverflow",
+        "package_file_version_ue5": 1009,
+        "package_file_version_ue5_name": "DATA_RESOURCES",
+        "provenance": "public source mirror",
+        "reference_tree": "5.3.2",
+        "ue_line": "5.3"
+      },
+      {
+        "citation": "public UE 5.4.4 source tree (Runtime/Launch/Resources/Version.h reads ENGINE_MAJOR_VERSION 5, ENGINE_MINOR_VERSION 4, ENGINE_PATCH_VERSION 4)",
+        "d3d12_sdk_version": 611,
+        "io_store_toc_latest": 6,
+        "io_store_toc_latest_name": "OnDemandMetaData",
+        "package_file_version_ue5": 1012,
+        "package_file_version_ue5_name": "PROPERTY_TAG_COMPLETE_TYPE_NAME",
+        "provenance": "first-party Epic distribution of UE 5.4.4; re-read in this run when --ue-source-root was given",
+        "reference_tree": "5.4.4",
+        "ue_line": "5.4"
+      },
+      {
+        "citation": "public UE 5.5.2 source tree (Engine/Build/Build.version reads MajorVersion 5, MinorVersion 5, PatchVersion 2)",
+        "d3d12_sdk_version": 614,
+        "io_store_toc_latest": 8,
+        "io_store_toc_latest_name": "ReplaceIoChunkHashWithIoHash",
+        "package_file_version_ue5": 1013,
+        "package_file_version_ue5_name": "ASSETREGISTRY_PACKAGEBUILDDEPENDENCIES",
+        "provenance": "public source mirror",
+        "reference_tree": "5.5.2",
+        "ue_line": "5.5"
+      }
+    ]
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "$comment": "Raw reading of method V-05 (plan.md 4.1), written by tools/static/engine_version.py. No schema by design: ARTIFACT_SCHEMA_MAP maps research/evidence/*/*.json to no schema (plan.md 9.2).",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "generated_at": "2026-08-23T11:30:39.062156Z",
+  "method": "V-05",
+  "reading": {
+    "containers": [
+      {
+        "compression_method_name_count": 0,
+        "container_flags": "0x0a",
+        "literal_reads": [
+          {
+            "bytes_hex": "06",
+            "claim": "1 byte at offset 16 of MISERY/Content/Paks/MISERY-Windows.utoc are 06",
+            "decoded_field": "version",
+            "evidence": {
+              "claim_class": "P",
+              "confidence": 0.99,
+              "evidence_level": "OBSERVED",
+              "note": "1 byte at offset 16 of MISERY/Content/Paks/MISERY-Windows.utoc are 06",
+              "oracle": [
+                "container-metadata"
+              ],
+              "read_locus": {
+                "address_kind": "file-offset",
+                "bytes_hex": "06",
+                "length": 1,
+                "note": "one field-width range at the start of the file",
+                "offset": 16,
+                "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+              },
+              "sources": [
+                {
+                  "artifact": "research/evidence/V-05/toc-header-reads.json",
+                  "locator": "MISERY/Content/Paks/MISERY-Windows.utoc@16+1",
+                  "method": "V-05",
+                  "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                }
+              ]
+            },
+            "length": 1,
+            "offset": 16,
+            "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+          },
+          {
+            "bytes_hex": "90 00 00 00",
+            "claim": "4 bytes at offset 20 of MISERY/Content/Paks/MISERY-Windows.utoc are 90 00 00 00",
+            "decoded_field": "toc_header_size",
+            "evidence": {
+              "claim_class": "P",
+              "confidence": 0.99,
+              "evidence_level": "OBSERVED",
+              "note": "4 bytes at offset 20 of MISERY/Content/Paks/MISERY-Windows.utoc are 90 00 00 00",
+              "oracle": [
+                "container-metadata"
+              ],
+              "read_locus": {
+                "address_kind": "file-offset",
+                "bytes_hex": "90 00 00 00",
+                "length": 4,
+                "note": "one field-width range at the start of the file",
+                "offset": 20,
+                "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+              },
+              "sources": [
+                {
+                  "artifact": "research/evidence/V-05/toc-header-reads.json",
+                  "locator": "MISERY/Content/Paks/MISERY-Windows.utoc@20+4",
+                  "method": "V-05",
+                  "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                }
+              ]
+            },
+            "length": 4,
+            "offset": 20,
+            "target": "MISERY/Content/Paks/MISERY-Windows.utoc"
+          }
+        ],
+        "magic_matches": true,
+        "path": "MISERY/Content/Paks/MISERY-Windows.utoc",
+        "size": 2916142,
+        "toc_header_size": 144,
+        "toc_header_size_expected": 144,
+        "version": 6
+      },
+      {
+        "compression_method_name_count": 0,
+        "container_flags": "0x00",
+        "literal_reads": [
+          {
+            "bytes_hex": "06",
+            "claim": "1 byte at offset 16 of MISERY/Content/Paks/global.utoc are 06",
+            "decoded_field": "version",
+            "evidence": {
+              "claim_class": "P",
+              "confidence": 0.99,
+              "evidence_level": "OBSERVED",
+              "note": "1 byte at offset 16 of MISERY/Content/Paks/global.utoc are 06",
+              "oracle": [
+                "container-metadata"
+              ],
+              "read_locus": {
+                "address_kind": "file-offset",
+                "bytes_hex": "06",
+                "length": 1,
+                "note": "one field-width range at the start of the file",
+                "offset": 16,
+                "target": "MISERY/Content/Paks/global.utoc"
+              },
+              "sources": [
+                {
+                  "artifact": "research/evidence/V-05/toc-header-reads.json",
+                  "locator": "MISERY/Content/Paks/global.utoc@16+1",
+                  "method": "V-05",
+                  "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                }
+              ]
+            },
+            "length": 1,
+            "offset": 16,
+            "target": "MISERY/Content/Paks/global.utoc"
+          },
+          {
+            "bytes_hex": "90 00 00 00",
+            "claim": "4 bytes at offset 20 of MISERY/Content/Paks/global.utoc are 90 00 00 00",
+            "decoded_field": "toc_header_size",
+            "evidence": {
+              "claim_class": "P",
+              "confidence": 0.99,
+              "evidence_level": "OBSERVED",
+              "note": "4 bytes at offset 20 of MISERY/Content/Paks/global.utoc are 90 00 00 00",
+              "oracle": [
+                "container-metadata"
+              ],
+              "read_locus": {
+                "address_kind": "file-offset",
+                "bytes_hex": "90 00 00 00",
+                "length": 4,
+                "note": "one field-width range at the start of the file",
+                "offset": 20,
+                "target": "MISERY/Content/Paks/global.utoc"
+              },
+              "sources": [
+                {
+                  "artifact": "research/evidence/V-05/toc-header-reads.json",
+                  "locator": "MISERY/Content/Paks/global.utoc@20+4",
+                  "method": "V-05",
+                  "note": "oracle container-metadata. Read by tools/static/engine_version.py, read-only. Reproduction: the range was read a second time from a freshly opened handle and the bytes agree."
+                }
+              ]
+            },
+            "length": 4,
+            "offset": 20,
+            "target": "MISERY/Content/Paks/global.utoc"
+          }
+        ],
+        "magic_matches": true,
+        "path": "MISERY/Content/Paks/global.utoc",
+        "size": 623,
+        "toc_header_size": 144,
+        "toc_header_size_expected": 144,
+        "version": 6
+      }
+    ]
+  }
+}
