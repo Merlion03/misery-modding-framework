@@ -667,7 +667,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 
 > **Этот блок сгенерирован.** Руками его не правят: правка будет затёрта следующим запуском генератора, и — что хуже — станет неотличима от измерения.
 >
-> **Снято:** 2026-08-23 07:54 UTC | HEAD `e4a894b` | интерпретатор `D:\Tools\venv-research\Scripts\python.exe`
+> **Снято:** 2026-08-23 08:15 UTC | HEAD `8acd55a` | интерпретатор `D:\Tools\venv-research\Scripts\python.exe`
 >
 > Обновить (один шаг): `python .github\scripts\kb_status.py --write`
 >
@@ -707,7 +707,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 **Набор тестов — `python -m pytest -q` (exit 0).**
 
 ```
-426 passed, 1 skipped, 403 subtests passed
+428 passed, 1 skipped, 403 subtests passed
 ```
 
 Провалившихся тестов нет.
