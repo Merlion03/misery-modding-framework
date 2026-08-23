@@ -1,0 +1,263 @@
+INFO  Using log config file: jar:file:/D:/tools/ghidra_12.1.3_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\application.log (LoggingInitialization)  
+INFO  Loading user preferences: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (1002 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (DefaultSSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: SHA1PRNG (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (DefaultTrustManagerFactory)  
+INFO  Headless startup complete (2176 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 59 extension points (20 false positives) (ClassSearcher)  
+INFO  HEADLESS Script Paths:
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    D:\Dev\MiseryFramework\tools\static\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\8051\ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: D:\tools\ghidra-projects\T05-control-minimal-analysis (HeadlessAnalyzer)  
+INFO  Creating project: D:\tools\ghidra-projects\T05-control-minimal-analysis (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: D:\tools\ghidra-projects\T05-control-minimal-analysis (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll (HeadlessAnalyzer)  
+INFO  Using Loader: Portable Executable (PE) (ProgramLoader)  
+INFO  Using Language/Compiler: x86:LE:64:default:windows (ProgramLoader)  
+INFO  Using Library Search Path: [REDACTED per C-13: verbatim machine PATH dump, 60 entries] (ProgramLoader)  
+INFO  Additional info:
+Loading file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll?MD5=543ca145b5cc0365252902fc1cd91ef3...
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-CONVERT-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-convert-l1-1-0.dll?MD5=3560176d0cdbe2f5d33f543348e0a027...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-convert-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-ENVIRONMENT-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-environment-l1-1-0.dll?MD5=e93c7f013493b12ad40229b19db02ce6...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-environment-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-RUNTIME-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-runtime-l1-1-0.dll?MD5=bbaa58e9e1abdf7d8c4c69652d29d789...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-runtime-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-STDIO-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-stdio-l1-1-0.dll?MD5=ef37235fc43157a4c93241d5e49e304b...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-stdio-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-STRING-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-string-l1-1-0.dll?MD5=639b1fb35cb61ba633eb1791b750631f...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-string-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library KERNEL32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/kernel32.dll
+Loading file:///C:/Windows/System32/kernel32.dll?MD5=ec27f68a2a404b024f59fb8ad2cac6b0...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\kernel32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library VCRUNTIME140.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/vcruntime140.dll
+Loading file:///D:/tools/jdk-21/bin/vcruntime140.dll?MD5=caf9edded91c1f6c0022b278c16679aa...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140.exports
+Library not saved to project.
+------------------------------------------------
+
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\kernel32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-runtime-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-convert-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-environment-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-string-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-stdio-l1-1-0.exports
+Linking the External Programs of 'tbbmalloc.dll' to imported libraries...
+  [KERNEL32.DLL] -> not found in project
+  [VCRUNTIME140.DLL] -> not found in project
+  [API-MS-WIN-CRT-RUNTIME-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-CONVERT-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-ENVIRONMENT-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-STRING-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-STDIO-L1-1-0.DLL] -> not found in project
+------------------------------------------------
+
+ (ProgramLoader)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  REPORT: Execute script: SetAnalyzerSet.java 'ASCII Strings;Create Function;Data Reference;Demangler Microsoft;Disassemble Entry Points;External Entry References;Function Start Search;Reference;Windows x86 PE RTTI Analyzer'  (HeadlessAnalyzer)  
+INFO  SCRIPT: D:\Dev\MiseryFramework\tools\static\ghidra_scripts\SetAnalyzerSet.java (HeadlessAnalyzer)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested=9 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=ASCII Strings (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Create Function (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Data Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Demangler Microsoft (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Disassemble Entry Points (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=External Entry References (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Function Start Search (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Windows x86 PE RTTI Analyzer (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option_inventory_size=122 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Create Strings Containing Existing Strings value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Create Strings Containing References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Force Model Reload value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Minimum String Length value=LEN_5 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Model File value=StringModel.sng (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Require Null Termination for String value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Search Only in Accessible Memory Blocks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.String Start Alignment value=ALIGN_1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.String end alignment value=4 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Aggressive Instruction Finder value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Aggressive Instruction Finder.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives.Archive Chooser value=[Auto-Detect] (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives.User Project Archive Path value= (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Call Convention ID value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Call Convention ID.Analysis Decompiler Timeout (sec) value=60 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Call-Fixup Installer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Condense Filler Bytes value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Condense Filler Bytes.Filler Value value=Auto (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Condense Filler Bytes.Minimum number of sequential bytes value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Allow Offcut References value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Auto Label Table value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Maxmimum Pointer Distance value=16777215 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Minimum Pointer Address value=4132 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Minimum Table Size value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Pointer Alignment value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Table Alignment value=4 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Address Table Alignment value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Address Table Minimum Size value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Align End of Strings value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Ascii String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Create Address Tables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Minimum String Length value=5 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.References to Pointers value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Respect Execute Flag value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Subroutine References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Switch Table References value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Unicode String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Analysis Clear Level value=ANALYSIS (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Analysis Decompiler Timeout (sec) value=60 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Commit Data Types value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Commit Void Return Values value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Prototype Evaluation value=__fastcall (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Switch Analysis value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Switch Analysis.Analysis Decompiler Timeout (sec) value=60 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Demangler Microsoft value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Disassemble Entry Points value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Disassemble Entry Points.Respect Execute Flag value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Embedded Media value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Embedded Media.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=External Entry References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Always Apply FID Labels value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Instruction Count Threshold value=14.6 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Multiple Match Threshold value=30.0 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function Start Search value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function Start Search.Bookmark Functions value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function Start Search.Search Data Blocks value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered.Function Non-return Threshold value=3 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered.Repair Flow Damage value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Known value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Known.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB MSDIA value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB MSDIA.Search untrusted symbol servers value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB Universal value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB Universal.Import Source Line Info value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB Universal.Search untrusted symbol servers value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Address Table Alignment value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Address Table Minimum Size value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Align End of Strings value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Ascii String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Create Address Tables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Minimum String Length value=5 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.References to Pointers value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Respect Execute Flag value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Subroutine References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Switch Table References value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Unicode String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Scalar Operand References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Scalar Operand References.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Shared Return Calls value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Shared Return Calls.Allow Conditional Jumps value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Shared Return Calls.Assume Contiguous Functions Only value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack.Create Local Variables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack.Create Param Variables value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack.Max Threads value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Subroutine References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Subroutine References.Create Thunks Early value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Variadic Function Signature Override value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Variadic Function Signature Override.Create Analysis Bookmarks value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 PE Exception Handling value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 PE RTTI Analyzer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 Thread Environment Block (TEB) Analyzer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 Thread Environment Block (TEB) Analyzer.Starting Address of the TEB value= (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 Thread Environment Block (TEB) Analyzer.Windows OS Version value=Windows 7 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=WindowsPE x86 Propagate External Parameters value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=WindowsResourceReference value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=WindowsResourceReference.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Create Data from pointer value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Function parameter/return Pointer analysis value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Max Threads value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Min absolute reference value=4 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Require pointer param data type value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Speculative reference max value=256 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Speculative reference min value=1024 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Stored Value Pointer analysis value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Trust values read from writable memory value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: toggle_count=32 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: WARNING keep name is not an analyzer toggle: Create Function (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=ASCII Strings (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Data Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Demangler Microsoft (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Disassemble Entry Points (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=External Entry References (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Function Start Search (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Windows x86 PE RTTI Analyzer (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled_count=8 disabled_count=24 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: done (GhidraScript)  
+INFO  ANALYZING all memory and code: file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll (HeadlessAnalyzer)  
+INFO  REPORT: Analysis succeeded for file: file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll (HeadlessAnalyzer)  
+INFO  /tbbmalloc.dll: file created (%USERNAME%) (LocalFileSystem)  
+INFO  REPORT: Save succeeded for: /tbbmalloc.dll (T05-control-minimal-analysis:/tbbmalloc.dll) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  

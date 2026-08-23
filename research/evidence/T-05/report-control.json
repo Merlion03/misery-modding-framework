@@ -1,0 +1,455 @@
+{
+  "containment": {
+    "directories": {
+      "cache_dir": "D:\\tools\\ghidra-workspace\\ghidra-cache",
+      "ghidra_temp_dir": "D:\\tools\\ghidra-workspace\\ghidra-temp",
+      "java_tmpdir": "D:\\tools\\ghidra-workspace\\java-tmp",
+      "settings_dir": "D:\\tools\\ghidra-workspace\\ghidra-settings"
+    },
+    "not_redirected": "the file LaunchSupport writes to remember which JDK was chosen: launch.bat invokes LaunchSupport without our VM arguments, so it uses the default settings directory. A few hundred bytes.",
+    "verification": "free space on every watched volume is sampled about once a second for the whole of each stage; per-stage disk.free_min_bytes is the measurement that says whether C: was really protected.",
+    "vm_options": [
+      "-Dapplication.settingsdir=D:\\Tools\\ghidra-workspace\\ghidra-settings",
+      "-Dapplication.cachedir=D:\\Tools\\ghidra-workspace\\ghidra-cache",
+      "-Dapplication.tempdir=D:\\Tools\\ghidra-workspace\\ghidra-temp",
+      "-Djava.io.tmpdir=D:\\Tools\\ghidra-workspace\\java-tmp"
+    ],
+    "why": "Ghidra's default settings, cache and temp locations are all on the system volume, which has ~6.3 GiB free (A-14, RISK-13). All four are redirected onto D: via GHIDRA_HEADLESS_JAVA_OPTIONS, which launch.bat places last on the java command line so it overrides support\\launch.properties."
+  },
+  "environment": {
+    "cpu_count": 12,
+    "ghidra": {
+      "application_name": "Ghidra",
+      "application_version": "12.1.3",
+      "build_date": "2026-Aug-17 1710 UTC",
+      "install_dir": "D:\\Tools\\ghidra_12.1.3_PUBLIC",
+      "properties_path": "D:\\Tools\\ghidra_12.1.3_PUBLIC\\Ghidra\\application.properties",
+      "release_name": "PUBLIC"
+    },
+    "headless_maxmem": "4G",
+    "jdk": {
+      "banner_first_line": "openjdk version \"21.0.12.1\" 2026-08-18 LTS",
+      "java_executable": "D:\\Tools\\jdk-21\\bin\\java.exe",
+      "java_home": "D:\\Tools\\jdk-21",
+      "major": 21,
+      "version": "21.0.12.1"
+    },
+    "platform": "win32",
+    "python": "3.14.0"
+  },
+  "generated_at": "2026-08-23T16:22:50Z",
+  "generator": "tools/static/ghidra_import.py",
+  "generator_version": "1.0.0",
+  "notes": [],
+  "question": "plan.md T-05 / RISK-13: what does a headless Ghidra project for the 134 658 048-byte MISERY-Win64-Shipping.exe cost in wall-clock seconds and in bytes on disk, measured in stages so the answer is a curve?",
+  "stages": [
+    {
+      "analysis_enabled": false,
+      "analyzers_requested": null,
+      "argv": [
+        "D:\\Tools\\ghidra_12.1.3_PUBLIC\\support\\analyzeHeadless.bat",
+        "D:\\tools\\ghidra-projects",
+        "T05-control-import-only",
+        "-import",
+        "D:\\tools\\ghidra-workspace\\bin\\tbbmalloc.dll",
+        "-noanalysis"
+      ],
+      "description": "import with -noanalysis: load, language selection, PE parse and database write, with every analyzer off. The floor of the cost curve.",
+      "disk": {
+        "C:\\": {
+          "consumed_peak_bytes": 630784,
+          "free_after_bytes": 6707326976,
+          "free_before_bytes": 6706909184,
+          "free_max_bytes": 6707326976,
+          "free_min_bytes": 6706278400,
+          "sample_interval_seconds": 1.0,
+          "samples": 10
+        },
+        "D:\\": {
+          "consumed_peak_bytes": 4214784,
+          "free_after_bytes": 80237010944,
+          "free_before_bytes": 80238399488,
+          "free_max_bytes": 80238399488,
+          "free_min_bytes": 80234184704,
+          "sample_interval_seconds": 1.0,
+          "samples": 10
+        }
+      },
+      "exit_code": 0,
+      "ghidra_reported": {
+        "analysis_succeeded_line": false,
+        "analyzer_count": 0,
+        "analyzer_seconds": {},
+        "error_lines": 0,
+        "import_succeeded_line": true,
+        "prescript_enabled_analyzers": [],
+        "prescript_enabled_count": null,
+        "prescript_lines": 0,
+        "report_lines": [
+          "Processing input files:  (HeadlessAnalyzer",
+          "Save succeeded for: /tbbmalloc.dll (T05-control-import-only:/tbbmalloc.dll) (HeadlessAnalyzer",
+          "Import succeeded (HeadlessAnalyzer"
+        ],
+        "total_time_seconds": null,
+        "warn_lines": 0
+      },
+      "hard_process_timeout_seconds": 3600,
+      "kill_note": null,
+      "log": {
+        "raw_bytes": 10375,
+        "raw_path": "D:\\Dev\\MiseryFramework\\workspace\\T-05\\raw-control-import-only.log",
+        "raw_sha256": "b9a53e51c4a73fd9361a2065023d0451a6b2ebdacfea005adf827d257c3d1452",
+        "redacted_bytes": 8439,
+        "redacted_path": "D:\\Dev\\MiseryFramework\\research\\evidence\\T-05\\control-import-only.log",
+        "redacted_sha256": "52f56ac8302e60181136121022a29379447e0723e0a56e672605f7268cfb7e69",
+        "redaction_residual_profile_paths": 0
+      },
+      "outcome": "completed",
+      "project": {
+        "bytes": 1377363,
+        "exists": true,
+        "files": 10,
+        "gpr": {
+          "bytes": 0,
+          "dirs": 0,
+          "errors": [],
+          "exists": true,
+          "files": 1,
+          "path": "D:\\tools\\ghidra-projects\\T05-control-import-only.gpr"
+        },
+        "project_name": "T05-control-import-only",
+        "project_root": "D:\\tools\\ghidra-projects",
+        "rep": {
+          "bytes": 1377363,
+          "dirs": 5,
+          "errors": [],
+          "exists": true,
+          "files": 9,
+          "path": "D:\\tools\\ghidra-projects\\T05-control-import-only.rep"
+        }
+      },
+      "project_bytes_per_target_byte": 17.9982,
+      "project_deleted": {
+        "errors": [],
+        "removed": [
+          "D:\\tools\\ghidra-projects\\T05-control-import-only.rep",
+          "D:\\tools\\ghidra-projects\\T05-control-import-only.gpr"
+        ]
+      },
+      "project_kept": false,
+      "seconds_per_megabyte": 118.5896,
+      "soft_analysis_timeout_seconds": null,
+      "stage": "import-only",
+      "started_at": "2026-08-23T16:22:18Z",
+      "target_bytes": 76528,
+      "target_copy": "D:\\tools\\ghidra-workspace\\bin\\tbbmalloc.dll",
+      "target_role": "control",
+      "target_sha256": "904a0c131e0dcbdf3a8c580a26db1573a26396ac0bfc7e98ed1731bd073fbd92",
+      "timed_out_hard": false,
+      "vm_options": [
+        "-Dapplication.settingsdir=D:\\Tools\\ghidra-workspace\\ghidra-settings",
+        "-Dapplication.cachedir=D:\\Tools\\ghidra-workspace\\ghidra-cache",
+        "-Dapplication.tempdir=D:\\Tools\\ghidra-workspace\\ghidra-temp",
+        "-Djava.io.tmpdir=D:\\Tools\\ghidra-workspace\\java-tmp"
+      ],
+      "wall_clock_seconds": 8.655
+    },
+    {
+      "analysis_enabled": true,
+      "analyzers_requested": [
+        "ASCII Strings",
+        "Create Function",
+        "Data Reference",
+        "Demangler Microsoft",
+        "Disassemble Entry Points",
+        "External Entry References",
+        "Function Start Search",
+        "Reference",
+        "Windows x86 PE RTTI Analyzer"
+      ],
+      "argv": [
+        "D:\\Tools\\ghidra_12.1.3_PUBLIC\\support\\analyzeHeadless.bat",
+        "D:\\tools\\ghidra-projects",
+        "T05-control-minimal-analysis",
+        "-import",
+        "D:\\tools\\ghidra-workspace\\bin\\tbbmalloc.dll",
+        "-scriptPath",
+        "D:\\Dev\\MiseryFramework\\tools\\static\\ghidra_scripts",
+        "-preScript",
+        "SetAnalyzerSet.java",
+        "ASCII Strings;Create Function;Data Reference;Demangler Microsoft;Disassemble Entry Points;External Entry References;Function Start Search;Reference;Windows x86 PE RTTI Analyzer",
+        "-analysisTimeoutPerFile",
+        "3600"
+      ],
+      "description": "import plus a deliberately minimal analyzer set applied by SetAnalyzerSet.java: functions, strings, references, RTTI.",
+      "disk": {
+        "C:\\": {
+          "consumed_peak_bytes": 380928,
+          "free_after_bytes": 6707011584,
+          "free_before_bytes": 6707326976,
+          "free_max_bytes": 6707392512,
+          "free_min_bytes": 6706946048,
+          "sample_interval_seconds": 1.0,
+          "samples": 10
+        },
+        "D:\\": {
+          "consumed_peak_bytes": 2576384,
+          "free_after_bytes": 80236265472,
+          "free_before_bytes": 80238374912,
+          "free_max_bytes": 80238374912,
+          "free_min_bytes": 80235798528,
+          "sample_interval_seconds": 1.0,
+          "samples": 10
+        }
+      },
+      "exit_code": 0,
+      "ghidra_reported": {
+        "analysis_succeeded_line": true,
+        "analyzer_count": 0,
+        "analyzer_seconds": {},
+        "error_lines": 0,
+        "import_succeeded_line": true,
+        "prescript_enabled_analyzers": [
+          "ASCII Strings (GhidraScript)",
+          "Data Reference (GhidraScript)",
+          "Demangler Microsoft (GhidraScript)",
+          "Disassemble Entry Points (GhidraScript)",
+          "External Entry References (GhidraScript)",
+          "Function Start Search (GhidraScript)",
+          "Reference (GhidraScript)",
+          "Windows x86 PE RTTI Analyzer (GhidraScript)"
+        ],
+        "prescript_enabled_count": 8,
+        "prescript_lines": 145,
+        "report_lines": [
+          "Processing input files:  (HeadlessAnalyzer",
+          "Execute script: SetAnalyzerSet.java 'ASCII Strings;Create Function;Data Reference;Demangler Microsoft;Disassemble Entry Points;External Entry References;Function Start Search;Reference;Windows x86 PE RTTI Analyzer'  (HeadlessAnalyzer",
+          "Analysis succeeded for file: file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll (HeadlessAnalyzer",
+          "Save succeeded for: /tbbmalloc.dll (T05-control-minimal-analysis:/tbbmalloc.dll) (HeadlessAnalyzer",
+          "Import succeeded (HeadlessAnalyzer"
+        ],
+        "total_time_seconds": null,
+        "warn_lines": 0
+      },
+      "hard_process_timeout_seconds": 4500,
+      "kill_note": null,
+      "log": {
+        "raw_bytes": 27460,
+        "raw_path": "D:\\Dev\\MiseryFramework\\workspace\\T-05\\raw-control-minimal-analysis.log",
+        "raw_sha256": "2f57633d52a3aa6d6b1d7a32bce49ffbdc7aa64f7ab843458fc2fd3f7a89f370",
+        "redacted_bytes": 25524,
+        "redacted_path": "D:\\Dev\\MiseryFramework\\research\\evidence\\T-05\\control-minimal-analysis.log",
+        "redacted_sha256": "f529cf973817a256b5358505028b1688f1a962ac4a2944cf04356e8001920114",
+        "redaction_residual_profile_paths": 0
+      },
+      "outcome": "completed",
+      "project": {
+        "bytes": 2065491,
+        "exists": true,
+        "files": 10,
+        "gpr": {
+          "bytes": 0,
+          "dirs": 0,
+          "errors": [],
+          "exists": true,
+          "files": 1,
+          "path": "D:\\tools\\ghidra-projects\\T05-control-minimal-analysis.gpr"
+        },
+        "project_name": "T05-control-minimal-analysis",
+        "project_root": "D:\\tools\\ghidra-projects",
+        "rep": {
+          "bytes": 2065491,
+          "dirs": 5,
+          "errors": [],
+          "exists": true,
+          "files": 9,
+          "path": "D:\\tools\\ghidra-projects\\T05-control-minimal-analysis.rep"
+        }
+      },
+      "project_bytes_per_target_byte": 26.99,
+      "project_deleted": {
+        "errors": [],
+        "removed": [
+          "D:\\tools\\ghidra-projects\\T05-control-minimal-analysis.rep",
+          "D:\\tools\\ghidra-projects\\T05-control-minimal-analysis.gpr"
+        ]
+      },
+      "project_kept": false,
+      "seconds_per_megabyte": 114.0543,
+      "soft_analysis_timeout_seconds": 3600,
+      "stage": "minimal-analysis",
+      "started_at": "2026-08-23T16:22:26Z",
+      "target_bytes": 76528,
+      "target_copy": "D:\\tools\\ghidra-workspace\\bin\\tbbmalloc.dll",
+      "target_role": "control",
+      "target_sha256": "904a0c131e0dcbdf3a8c580a26db1573a26396ac0bfc7e98ed1731bd073fbd92",
+      "timed_out_hard": false,
+      "vm_options": [
+        "-Dapplication.settingsdir=D:\\Tools\\ghidra-workspace\\ghidra-settings",
+        "-Dapplication.cachedir=D:\\Tools\\ghidra-workspace\\ghidra-cache",
+        "-Dapplication.tempdir=D:\\Tools\\ghidra-workspace\\ghidra-temp",
+        "-Djava.io.tmpdir=D:\\Tools\\ghidra-workspace\\java-tmp"
+      ],
+      "wall_clock_seconds": 8.324
+    },
+    {
+      "analysis_enabled": true,
+      "analyzers_requested": null,
+      "argv": [
+        "D:\\Tools\\ghidra_12.1.3_PUBLIC\\support\\analyzeHeadless.bat",
+        "D:\\tools\\ghidra-projects",
+        "T05-control-default-analysis",
+        "-import",
+        "D:\\tools\\ghidra-workspace\\bin\\tbbmalloc.dll",
+        "-analysisTimeoutPerFile",
+        "7200"
+      ],
+      "description": "import plus Ghidra's default analyzer set, unchanged. What an unthinking -import costs.",
+      "disk": {
+        "C:\\": {
+          "consumed_peak_bytes": 65536,
+          "free_after_bytes": 6707638272,
+          "free_before_bytes": 6707011584,
+          "free_max_bytes": 6708772864,
+          "free_min_bytes": 6706946048,
+          "sample_interval_seconds": 1.0,
+          "samples": 16
+        },
+        "D:\\": {
+          "consumed_peak_bytes": 18198528,
+          "free_after_bytes": 80235524096,
+          "free_before_bytes": 80238301184,
+          "free_max_bytes": 80238301184,
+          "free_min_bytes": 80220102656,
+          "sample_interval_seconds": 1.0,
+          "samples": 16
+        }
+      },
+      "exit_code": 0,
+      "ghidra_reported": {
+        "analysis_succeeded_line": true,
+        "analyzer_count": 30,
+        "analyzer_seconds": {
+          "ASCII Strings": 0.3,
+          "Apply Data Archives": 0.573,
+          "Call Convention ID": 0.003,
+          "Call-Fixup Installer": 0.008,
+          "Create Address Tables": 0.02,
+          "Create Address Tables - One Time": 0.024,
+          "Create Function": 0.012,
+          "Data Reference": 0.027,
+          "Decompiler Parameter ID": 3.008,
+          "Decompiler Switch Analysis": 1.359,
+          "Demangler Microsoft": 0.036,
+          "Disassemble Entry Points": 0.514,
+          "Embedded Media": 0.003,
+          "External Entry References": 0.001,
+          "Function ID": 0.219,
+          "Function Start Search": 0.011,
+          "Non-Returning Functions - Discovered": 0.029,
+          "Non-Returning Functions - Known": 0.004,
+          "PDB Universal": 0.016,
+          "Reference": 0.015,
+          "Scalar Operand References": 0.074,
+          "Shared Return Calls": 0.022,
+          "Stack": 0.439,
+          "Subroutine References": 0.011,
+          "Subroutine References - One Time": 0.0,
+          "Windows x86 PE Exception Handling": 0.007,
+          "Windows x86 PE RTTI Analyzer": 0.025,
+          "Windows x86 Thread Environment Block (TEB) Analyzer": 0.009,
+          "WindowsResourceReference": 0.356,
+          "x86 Constant Reference Analyzer": 0.486
+        },
+        "error_lines": 0,
+        "import_succeeded_line": true,
+        "prescript_enabled_analyzers": [],
+        "prescript_enabled_count": null,
+        "prescript_lines": 0,
+        "report_lines": [
+          "Processing input files:  (HeadlessAnalyzer",
+          "Analysis succeeded for file: file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll (HeadlessAnalyzer",
+          "Save succeeded for: /tbbmalloc.dll (T05-control-default-analysis:/tbbmalloc.dll) (HeadlessAnalyzer",
+          "Import succeeded (HeadlessAnalyzer"
+        ],
+        "total_time_seconds": 7,
+        "warn_lines": 2
+      },
+      "hard_process_timeout_seconds": 8100,
+      "kill_note": null,
+      "log": {
+        "raw_bytes": 13819,
+        "raw_path": "D:\\Dev\\MiseryFramework\\workspace\\T-05\\raw-control-default-analysis.log",
+        "raw_sha256": "2f2c1d600855d1462331b6112786f73bd04dc3d5b875ae17914699983e8d00b9",
+        "redacted_bytes": 11888,
+        "redacted_path": "D:\\Dev\\MiseryFramework\\research\\evidence\\T-05\\control-default-analysis.log",
+        "redacted_sha256": "9f6adf118e68611fbd4335f624a380d2fb6a8de9454448610e76fe97df833d16",
+        "redaction_residual_profile_paths": 0
+      },
+      "outcome": "completed",
+      "project": {
+        "bytes": 2671699,
+        "exists": true,
+        "files": 10,
+        "gpr": {
+          "bytes": 0,
+          "dirs": 0,
+          "errors": [],
+          "exists": true,
+          "files": 1,
+          "path": "D:\\tools\\ghidra-projects\\T05-control-default-analysis.gpr"
+        },
+        "project_name": "T05-control-default-analysis",
+        "project_root": "D:\\tools\\ghidra-projects",
+        "rep": {
+          "bytes": 2671699,
+          "dirs": 5,
+          "errors": [],
+          "exists": true,
+          "files": 9,
+          "path": "D:\\tools\\ghidra-projects\\T05-control-default-analysis.rep"
+        }
+      },
+      "project_bytes_per_target_byte": 34.9114,
+      "project_deleted": {
+        "errors": [],
+        "removed": [
+          "D:\\tools\\ghidra-projects\\T05-control-default-analysis.rep",
+          "D:\\tools\\ghidra-projects\\T05-control-default-analysis.gpr"
+        ]
+      },
+      "project_kept": false,
+      "seconds_per_megabyte": 205.2676,
+      "soft_analysis_timeout_seconds": 7200,
+      "stage": "default-analysis",
+      "started_at": "2026-08-23T16:22:35Z",
+      "target_bytes": 76528,
+      "target_copy": "D:\\tools\\ghidra-workspace\\bin\\tbbmalloc.dll",
+      "target_role": "control",
+      "target_sha256": "904a0c131e0dcbdf3a8c580a26db1573a26396ac0bfc7e98ed1731bd073fbd92",
+      "timed_out_hard": false,
+      "vm_options": [
+        "-Dapplication.settingsdir=D:\\Tools\\ghidra-workspace\\ghidra-settings",
+        "-Dapplication.cachedir=D:\\Tools\\ghidra-workspace\\ghidra-cache",
+        "-Dapplication.tempdir=D:\\Tools\\ghidra-workspace\\ghidra-temp",
+        "-Djava.io.tmpdir=D:\\Tools\\ghidra-workspace\\java-tmp"
+      ],
+      "wall_clock_seconds": 14.981
+    }
+  ],
+  "targets": [
+    {
+      "bytes": 76528,
+      "copy": "D:\\tools\\ghidra-workspace\\bin\\tbbmalloc.dll",
+      "copy_seconds": 0.0,
+      "reused_existing_copy": true,
+      "role": "control",
+      "sha256": "904a0c131e0dcbdf3a8c580a26db1573a26396ac0bfc7e98ed1731bd073fbd92",
+      "sha256_expected": "904a0c131e0dcbdf3a8c580a26db1573a26396ac0bfc7e98ed1731bd073fbd92",
+      "sha256_matches": true,
+      "source": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Binaries/Win64/tbbmalloc.dll"
+    }
+  ],
+  "task": "plan.md T-05 (method S-02), risk RISK-13, M2s exit criterion 3",
+  "what_this_measures": "wall-clock seconds and bytes on disk for a headless Ghidra import and analysis, per stage, per target. It measures COST and nothing about the contents of the binary."
+}

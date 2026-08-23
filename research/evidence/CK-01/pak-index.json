@@ -1,0 +1,2441 @@
+{
+  "content": {
+    "cooked_asset_count": 0,
+    "cooked_asset_extensions_looked_for": [
+      ".uasset",
+      ".uexp",
+      ".umap",
+      ".ubulk",
+      ".uptnl",
+      ".usmap",
+      ".ushaderbytecode",
+      ".utoc",
+      ".ucas"
+    ],
+    "cooked_assets_found": [],
+    "distinct_directories_containing_files": 268,
+    "extension_histogram": [
+      {
+        "bytes": 17572224,
+        "extension": ".res",
+        "files": 3438
+      },
+      {
+        "bytes": 1724638,
+        "extension": ".png",
+        "files": 421
+      },
+      {
+        "bytes": 226390,
+        "extension": ".svg",
+        "files": 266
+      },
+      {
+        "bytes": 104043,
+        "extension": ".uplugin",
+        "files": 124
+      },
+      {
+        "bytes": 61184827,
+        "extension": ".locres",
+        "files": 57
+      },
+      {
+        "bytes": 529190,
+        "extension": ".ini",
+        "files": 52
+      },
+      {
+        "bytes": 6014148,
+        "extension": ".ttf",
+        "files": 15
+      },
+      {
+        "bytes": 17541356,
+        "extension": ".ufont",
+        "files": 15
+      },
+      {
+        "bytes": 534416,
+        "extension": ".brk",
+        "files": 12
+      },
+      {
+        "bytes": 2881775,
+        "extension": ".dict",
+        "files": 5
+      },
+      {
+        "bytes": 874798,
+        "extension": ".icu",
+        "files": 4
+      },
+      {
+        "bytes": 475,
+        "extension": ".locmeta",
+        "files": 4
+      },
+      {
+        "bytes": 163504,
+        "extension": ".nrm",
+        "files": 3
+      },
+      {
+        "bytes": 1774,
+        "extension": ".tps",
+        "files": 3
+      },
+      {
+        "bytes": 5945459,
+        "extension": ".bin",
+        "files": 2
+      },
+      {
+        "bytes": 45536,
+        "extension": ".cfu",
+        "files": 1
+      },
+      {
+        "bytes": 126996,
+        "extension": ".upluginmanifest",
+        "files": 1
+      },
+      {
+        "bytes": 2748,
+        "extension": ".uproject",
+        "files": 1
+      }
+    ],
+    "path_depth_histogram": {
+      "1": 3,
+      "2": 17,
+      "3": 23,
+      "4": 1198,
+      "5": 3105,
+      "6": 43,
+      "7": 8,
+      "8": 27
+    },
+    "top_level_roots": [
+      {
+        "bytes": 93464141,
+        "files": 4383,
+        "root": "Engine"
+      },
+      {
+        "bytes": 22010156,
+        "files": 41,
+        "root": "MISERY"
+      }
+    ]
+  },
+  "decoded_evidence": {
+    "claim_class": "I",
+    "confidence": 0.9,
+    "evidence_level": "INFERRED",
+    "note": "Class I: these fields name what the bytes ARE and rest on an external layout, so they are capped below the literal layer whatever the offsets are. The primitive half is in literal_reads[]. Two independent methods: (1) the field order and every mask read from the first-party UE 5.4.4 source at the build's own changelist, cited per field; (2) the file's own packed layout plus the independent copy of the flags byte in each local entry header, neither of which reads the index bitfield. The two agree: 4424 of 4424 entries carry Flag_Encrypted in the index, the layout probe returns SUPPORTS_ENCRYPTED, and the local-header probe found 0 disagreements.",
+    "oracle": [
+      "container-metadata",
+      "external-doc"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "FPakFile::DecodePakEntry / FPakFile::LoadIndexInternal",
+        "method": "CK-01 pak index decode",
+        "note": "oracle external-doc: the field order and every mask come from the first-party UE 5.4.4 source tree at the changelist this build was made from, cited to file and line in the module docstring of tools/content/pak_index.py and again at the point of use in the decoder."
+      },
+      {
+        "artifact": null,
+        "independent_of": [
+          "CK-01 pak index decode"
+        ],
+        "locator": "probes.layout_probe / probes.local_header_probe",
+        "method": "CK-01 packed-layout and local-header probes",
+        "note": "oracle container-metadata. Second, independent method: the file's own packed layout and the independent copy of the flags byte in each local entry header, neither of which consults the index bitfield."
+      }
+    ]
+  },
+  "engine_source": {
+    "citation_files": [
+      "Engine/Source/Runtime/PakFile/Public/IPlatformFilePak.h",
+      "Engine/Source/Runtime/PakFile/Private/IPlatformFilePak.cpp"
+    ],
+    "note": "every field and every mask in this document is cited to file and line in the module docstring of tools/content/pak_index.py and again at the point of use in the decoder."
+  },
+  "entries": {
+    "compression_block_count_histogram": {
+      "0": 4424
+    },
+    "compression_method_index_histogram": {
+      "0": 4424
+    },
+    "decoded": 4424,
+    "encrypted": 4424,
+    "encrypted_flag_source": "bit 22 of the encoded flag word, IPlatformFilePak.cpp:7174, which sets FPakEntry::Flag_Encrypted == 0x01, IPlatformFilePak.h:382",
+    "largest": [
+      {
+        "encrypted": true,
+        "path": "MISERY/Content/L10N/ko/Blueprints/ThirdPerson/WIDGETS/Fonts/NotoSansKR-Medium.ufont",
+        "size": 6183044,
+        "uncompressed_size": 6183044
+      },
+      {
+        "encrypted": true,
+        "path": "MISERY/Content/L10N/ja/Blueprints/ThirdPerson/WIDGETS/Fonts/NotoSansJP-Medium.ufont",
+        "size": 5446916,
+        "uncompressed_size": 5446916
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/ru/Engine.locres",
+        "size": 5131598,
+        "uncompressed_size": 5131598
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/fr/Engine.locres",
+        "size": 5077290,
+        "uncompressed_size": 5077290
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/pl/Engine.locres",
+        "size": 4848462,
+        "uncompressed_size": 4848462
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/tr/Engine.locres",
+        "size": 4779592,
+        "uncompressed_size": 4779592
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/es/Engine.locres",
+        "size": 4766946,
+        "uncompressed_size": 4766946
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/pt-BR/Engine.locres",
+        "size": 4763801,
+        "uncompressed_size": 4763801
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/es-419/Engine.locres",
+        "size": 4759452,
+        "uncompressed_size": 4759452
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/de/Engine.locres",
+        "size": 4512797,
+        "uncompressed_size": 4512797
+      },
+      {
+        "encrypted": true,
+        "path": "MISERY/AssetRegistry.bin",
+        "size": 4148187,
+        "uncompressed_size": 4148187
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/it/Engine.locres",
+        "size": 4055720,
+        "uncompressed_size": 4055720
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/EngineFonts/Faces/DroidSansFallback.ufont",
+        "size": 3939852,
+        "uncompressed_size": 3939852
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Slate/Fonts/DroidSansFallback.ttf",
+        "size": 3939852,
+        "uncompressed_size": 3939852
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/ja/Engine.locres",
+        "size": 3593667,
+        "uncompressed_size": 3593667
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/ko/Engine.locres",
+        "size": 3512711,
+        "uncompressed_size": 3512711
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/en/Engine.locres",
+        "size": 3449528,
+        "uncompressed_size": 3449528
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Localization/Engine/zh-Hans/Engine.locres",
+        "size": 3029624,
+        "uncompressed_size": 3029624
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/Content/Internationalization/icudt64l/brkitr/cjdict.dict",
+        "size": 2003560,
+        "uncompressed_size": 2003560
+      },
+      {
+        "encrypted": true,
+        "path": "Engine/GlobalShaderCache-PCD3D_SM5.bin",
+        "size": 1797272,
+        "uncompressed_size": 1797272
+      }
+    ],
+    "total_size_bytes": 115474297,
+    "total_uncompressed_size_bytes": 115474297,
+    "unencrypted": 0,
+    "unresolved_locations": []
+  },
+  "footer": {
+    "compression_methods": [],
+    "encrypted_index": false,
+    "encryption_key_guid": "00000000000000000000000000000000",
+    "index_offset": 117365605,
+    "index_sha1": "378cb3f0f890e968ff427027f9f7586bb98b5e00",
+    "index_size": 53202,
+    "magic": "0x5a6f12e1",
+    "offset": 117656463,
+    "size": 221,
+    "version": 11
+  },
+  "generated_at": "2026-08-23T16:26:20Z",
+  "generator": {
+    "name": "tools/content/pak_index.py",
+    "version": "1.0.0"
+  },
+  "index": {
+    "directory_index": {
+      "bytes_available": 103835,
+      "bytes_consumed": 103835,
+      "directory_count": 320,
+      "file_count": 4424,
+      "fully_consumed": true
+    },
+    "encoded_entries_length": 53088,
+    "full_directory_index": {
+      "offset": 117552628,
+      "sha1": "08ea296ed0f21c36fbb83a361d472a5440dd2981",
+      "size": 103835
+    },
+    "mount_point": "../../../",
+    "num_entries_declared": 4424,
+    "path_hash_index": {
+      "offset": 117418807,
+      "sha1": "bf1ee4192b25107c7545fc048ae537de31b4fb22",
+      "size": 133821
+    },
+    "path_hash_seed": "0x000000004e5f46a0",
+    "primary_index_fully_consumed": true,
+    "unencodable_files_count": 0
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+      "claim": "16 bytes at offset 117656463 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+      "decoded_field": "encryption_key_guid",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 117656463 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "length": 16,
+          "note": "inside the 221-byte v11 pak footer at 117656463",
+          "offset": 117656463,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117656463+16",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 16,
+      "offset": 117656463,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00",
+      "claim": "1 byte at offset 117656479 of MISERY/Content/Paks/MISERY-Windows.pak are 00",
+      "decoded_field": "encrypted_index",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "1 byte at offset 117656479 of MISERY/Content/Paks/MISERY-Windows.pak are 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00",
+          "length": 1,
+          "note": "inside the 221-byte v11 pak footer at 117656463",
+          "offset": 117656479,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117656479+1",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 1,
+      "offset": 117656479,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "e1 12 6f 5a",
+      "claim": "4 bytes at offset 117656480 of MISERY/Content/Paks/MISERY-Windows.pak are e1 12 6f 5a",
+      "decoded_field": "magic",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 117656480 of MISERY/Content/Paks/MISERY-Windows.pak are e1 12 6f 5a. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "e1 12 6f 5a",
+          "length": 4,
+          "note": "inside the 221-byte v11 pak footer at 117656463",
+          "offset": 117656480,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117656480+4",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 4,
+      "offset": 117656480,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "0b 00 00 00",
+      "claim": "4 bytes at offset 117656484 of MISERY/Content/Paks/MISERY-Windows.pak are 0b 00 00 00",
+      "decoded_field": "pak_version",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 117656484 of MISERY/Content/Paks/MISERY-Windows.pak are 0b 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "0b 00 00 00",
+          "length": 4,
+          "note": "inside the 221-byte v11 pak footer at 117656463",
+          "offset": 117656484,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117656484+4",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 4,
+      "offset": 117656484,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "65 db fe 06 00 00 00 00",
+      "claim": "8 bytes at offset 117656488 of MISERY/Content/Paks/MISERY-Windows.pak are 65 db fe 06 00 00 00 00",
+      "decoded_field": "index_offset",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 117656488 of MISERY/Content/Paks/MISERY-Windows.pak are 65 db fe 06 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "65 db fe 06 00 00 00 00",
+          "length": 8,
+          "note": "inside the 221-byte v11 pak footer at 117656463",
+          "offset": 117656488,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117656488+8",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 8,
+      "offset": 117656488,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "d2 cf 00 00 00 00 00 00",
+      "claim": "8 bytes at offset 117656496 of MISERY/Content/Paks/MISERY-Windows.pak are d2 cf 00 00 00 00 00 00",
+      "decoded_field": "index_size",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 117656496 of MISERY/Content/Paks/MISERY-Windows.pak are d2 cf 00 00 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "d2 cf 00 00 00 00 00 00",
+          "length": 8,
+          "note": "inside the 221-byte v11 pak footer at 117656463",
+          "offset": 117656496,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117656496+8",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 8,
+      "offset": 117656496,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "37 8c b3 f0 f8 90 e9 68 ff 42 70 27 f9 f7 58 6b b9 8b 5e 00",
+      "claim": "20 bytes at offset 117656504 of MISERY/Content/Paks/MISERY-Windows.pak are 37 8c b3 f0 f8 90 e9 68 ff 42 70 27 f9 f7 58 6b b9 8b 5e 00",
+      "decoded_field": "index_hash",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "20 bytes at offset 117656504 of MISERY/Content/Paks/MISERY-Windows.pak are 37 8c b3 f0 f8 90 e9 68 ff 42 70 27 f9 f7 58 6b b9 8b 5e 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "37 8c b3 f0 f8 90 e9 68 ff 42 70 27 f9 f7 58 6b b9 8b 5e 00",
+          "length": 20,
+          "note": "inside the 221-byte v11 pak footer at 117656463",
+          "offset": 117656504,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117656504+20",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 20,
+      "offset": 117656504,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "40 01 00 00 08 00 00 00 45 6e 67 69 6e 65 2f 00 01 00 00 00 20 00 00 00 47 6c 6f 62 61 6c 53 68",
+      "claim": "32 bytes at offset 117552628 of MISERY/Content/Paks/MISERY-Windows.pak are 40 01 00 00 08 00 00 00 45 6e 67 69 6e 65 2f 00 01 00 00 00 20 00 00 00 47 6c 6f 62 61 6c 53 68",
+      "decoded_field": "full_directory_index_head",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 117552628 of MISERY/Content/Paks/MISERY-Windows.pak are 40 01 00 00 08 00 00 00 45 6e 67 69 6e 65 2f 00 01 00 00 00 20 00 00 00 47 6c 6f 62 61 6c 53 68. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "40 01 00 00 08 00 00 00 45 6e 67 69 6e 65 2f 00 01 00 00 00 20 00 00 00 47 6c 6f 62 61 6c 53 68",
+          "length": 32,
+          "note": "the leading bytes of the range the footer chain names at 117552628",
+          "offset": 117552628,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117552628+32",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 32,
+      "offset": 117552628,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 00 00 00 4a 00 00 00",
+      "claim": "12 bytes at offset 117365715 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 00 00 00 4a 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365715 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 00 00 00 4a 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 00 00 00 4a 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365715,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365715+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365715,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 08 00 00 b9 3e 00 00",
+      "claim": "12 bytes at offset 117365727 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 08 00 00 b9 3e 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365727 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 08 00 00 b9 3e 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 08 00 00 b9 3e 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365727,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365727+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365727,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 48 00 00 0f ab 00 00",
+      "claim": "12 bytes at offset 117365739 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 48 00 00 0f ab 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365739 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 48 00 00 0f ab 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 48 00 00 0f ab 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365739,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365739+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365739,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 f8 00 00 9d 30 03 00",
+      "claim": "12 bytes at offset 117365751 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 f8 00 00 9d 30 03 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365751 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 f8 00 00 9d 30 03 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 f8 00 00 9d 30 03 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365751,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365751+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365751,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 30 04 00 11 25 00 00",
+      "claim": "12 bytes at offset 117365763 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 30 04 00 11 25 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365763 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 30 04 00 11 25 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 30 04 00 11 25 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365763,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365763+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365763,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 55 55 04 00 3d 00 00 00",
+      "claim": "12 bytes at offset 117365775 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 55 55 04 00 3d 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365775 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 55 55 04 00 3d 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 55 55 04 00 3d 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365775,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365775+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365775,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 58 04 00 44 07 00 00",
+      "claim": "12 bytes at offset 117365787 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 58 04 00 44 07 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365787 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 58 04 00 44 07 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 58 04 00 44 07 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365787,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365787+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365787,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 60 04 00 4c 5e 00 00",
+      "claim": "12 bytes at offset 117365799 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 60 04 00 4c 5e 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365799 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 60 04 00 4c 5e 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 60 04 00 4c 5e 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365799,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365799+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365799,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 85 be 04 00 7d 00 00 00",
+      "claim": "12 bytes at offset 117365811 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 85 be 04 00 7d 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365811 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 85 be 04 00 7d 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 85 be 04 00 7d 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365811,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365811+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365811,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 3a bf 04 00 25 00 00 00",
+      "claim": "12 bytes at offset 117365823 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 3a bf 04 00 25 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365823 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 3a bf 04 00 25 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 3a bf 04 00 25 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365823,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365823+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365823,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 c0 04 00 83 65 00 00",
+      "claim": "12 bytes at offset 117365835 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 c0 04 00 83 65 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365835 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 c0 04 00 83 65 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 c0 04 00 83 65 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365835,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365835+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365835,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 28 05 00 61 03 00 00",
+      "claim": "12 bytes at offset 117365847 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 28 05 00 61 03 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365847 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 28 05 00 61 03 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 28 05 00 61 03 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365847,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365847+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365847,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 30 05 00 ea 0e 00 00",
+      "claim": "12 bytes at offset 117365859 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 30 05 00 ea 0e 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365859 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 30 05 00 ea 0e 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 30 05 00 ea 0e 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365859,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365859+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365859,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 40 05 00 2b 26 00 00",
+      "claim": "12 bytes at offset 117365871 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 40 05 00 2b 26 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365871 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 40 05 00 2b 26 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 40 05 00 2b 26 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365871,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365871+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365871,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 65 66 05 00 4a 00 00 00",
+      "claim": "12 bytes at offset 117365883 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 65 66 05 00 4a 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365883 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 65 66 05 00 4a 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 65 66 05 00 4a 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365883,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365883+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365883,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 68 05 00 4f 16 00 00",
+      "claim": "12 bytes at offset 117365895 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 68 05 00 4f 16 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365895 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 68 05 00 4f 16 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 68 05 00 4f 16 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365895,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365895+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365895,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 80 05 00 cf 02 00 00",
+      "claim": "12 bytes at offset 117365907 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 80 05 00 cf 02 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365907 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 80 05 00 cf 02 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 80 05 00 cf 02 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365907,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365907+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365907,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 88 05 00 e1 15 00 00",
+      "claim": "12 bytes at offset 117365919 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 88 05 00 e1 15 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365919 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 88 05 00 e1 15 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 88 05 00 e1 15 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365919,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365919+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365919,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 a0 05 00 74 02 00 00",
+      "claim": "12 bytes at offset 117365931 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 a0 05 00 74 02 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365931 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 a0 05 00 74 02 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 a0 05 00 74 02 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365931,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365931+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365931,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 b5 a2 05 00 0b 00 00 00",
+      "claim": "12 bytes at offset 117365943 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 b5 a2 05 00 0b 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365943 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 b5 a2 05 00 0b 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 b5 a2 05 00 0b 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365943,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365943+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365943,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 fa a2 05 00 cc 00 00 00",
+      "claim": "12 bytes at offset 117365955 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 fa a2 05 00 cc 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365955 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 fa a2 05 00 cc 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 fa a2 05 00 cc 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365955,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365955+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365955,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 a8 05 00 0c 1e 3c 00",
+      "claim": "12 bytes at offset 117365967 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 a8 05 00 0c 1e 3c 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365967 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 a8 05 00 0c 1e 3c 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 a8 05 00 0c 1e 3c 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365967,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365967+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365967,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 c8 41 00 78 7e 02 00",
+      "claim": "12 bytes at offset 117365979 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 c8 41 00 78 7e 02 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365979 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 c8 41 00 78 7e 02 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 c8 41 00 78 7e 02 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365979,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365979+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365979,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 40 e0 00 48 44 00 e8 87 02 00",
+      "claim": "12 bytes at offset 117365991 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 48 44 00 e8 87 02 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 117365991 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 40 e0 00 48 44 00 e8 87 02 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 40 e0 00 48 44 00 e8 87 02 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 117365715",
+          "offset": 117365991,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@117365991+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 117365991,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 fe 87 90 2d ba 18 07 a0 1c 12 a6 8c 0a 73 73 73 aa 10 fd 65 01 00 00 00 00",
+      "claim": "53 bytes at offset 0 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 fe 87 90 2d ba 18 07 a0 1c 12 a6 8c 0a 73 73 73 aa 10 fd 65 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 0 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 fe 87 90 2d ba 18 07 a0 1c 12 a6 8c 0a 73 73 73 aa 10 fd 65 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 fe 87 90 2d ba 18 07 a0 1c 12 a6 8c 0a 73 73 73 aa 10 fd 65 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 0,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@0+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 0,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 00 00 00 00 e2 ab f7 26 e5 9c 12 1c e0 71 ac e4 71 38 7a 1a 19 e0 97 b1 01 00 00 00 00",
+      "claim": "53 bytes at offset 2048 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 00 00 00 00 e2 ab f7 26 e5 9c 12 1c e0 71 ac e4 71 38 7a 1a 19 e0 97 b1 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 2048 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 00 00 00 00 e2 ab f7 26 e5 9c 12 1c e0 71 ac e4 71 38 7a 1a 19 e0 97 b1 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 b9 3e 00 00 00 00 00 00 00 00 00 00 e2 ab f7 26 e5 9c 12 1c e0 71 ac e4 71 38 7a 1a 19 e0 97 b1 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 2048,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@2048+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 2048,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 00 00 00 00 ab 0c 32 26 44 06 c1 1f 3f 93 49 88 1c 13 0b 9a 1d 75 ec 1b 01 00 00 00 00",
+      "claim": "53 bytes at offset 18432 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 00 00 00 00 ab 0c 32 26 44 06 c1 1f 3f 93 49 88 1c 13 0b 9a 1d 75 ec 1b 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 18432 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 00 00 00 00 ab 0c 32 26 44 06 c1 1f 3f 93 49 88 1c 13 0b 9a 1d 75 ec 1b 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 0f ab 00 00 00 00 00 00 00 00 00 00 ab 0c 32 26 44 06 c1 1f 3f 93 49 88 1c 13 0b 9a 1d 75 ec 1b 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 18432,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@18432+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 18432,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 9d 30 03 00 00 00 00 00 9d 30 03 00 00 00 00 00 00 00 00 00 c0 5c 54 1a 6c ed 4d 33 7d e5 4c e4 73 95 ff 06 65 fa 15 79 01 00 00 00 00",
+      "claim": "53 bytes at offset 63488 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 9d 30 03 00 00 00 00 00 9d 30 03 00 00 00 00 00 00 00 00 00 c0 5c 54 1a 6c ed 4d 33 7d e5 4c e4 73 95 ff 06 65 fa 15 79 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 63488 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 9d 30 03 00 00 00 00 00 9d 30 03 00 00 00 00 00 00 00 00 00 c0 5c 54 1a 6c ed 4d 33 7d e5 4c e4 73 95 ff 06 65 fa 15 79 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 9d 30 03 00 00 00 00 00 9d 30 03 00 00 00 00 00 00 00 00 00 c0 5c 54 1a 6c ed 4d 33 7d e5 4c e4 73 95 ff 06 65 fa 15 79 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 63488,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@63488+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 63488,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 11 25 00 00 00 00 00 00 11 25 00 00 00 00 00 00 00 00 00 00 6a 0d c5 b3 9d af 3d ec 8d 90 52 95 a5 ad 89 e7 c0 82 3c c8 01 00 00 00 00",
+      "claim": "53 bytes at offset 274432 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 11 25 00 00 00 00 00 00 11 25 00 00 00 00 00 00 00 00 00 00 6a 0d c5 b3 9d af 3d ec 8d 90 52 95 a5 ad 89 e7 c0 82 3c c8 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 274432 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 11 25 00 00 00 00 00 00 11 25 00 00 00 00 00 00 00 00 00 00 6a 0d c5 b3 9d af 3d ec 8d 90 52 95 a5 ad 89 e7 c0 82 3c c8 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 11 25 00 00 00 00 00 00 11 25 00 00 00 00 00 00 00 00 00 00 6a 0d c5 b3 9d af 3d ec 8d 90 52 95 a5 ad 89 e7 c0 82 3c c8 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 274432,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@274432+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 274432,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 00 00 00 00 7e e7 0b a4 35 c4 90 e2 54 11 1e 4d f4 4a 34 16 09 08 f4 df 01 00 00 00 00",
+      "claim": "53 bytes at offset 283989 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 00 00 00 00 7e e7 0b a4 35 c4 90 e2 54 11 1e 4d f4 4a 34 16 09 08 f4 df 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 283989 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 00 00 00 00 7e e7 0b a4 35 c4 90 e2 54 11 1e 4d f4 4a 34 16 09 08 f4 df 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 3d 00 00 00 00 00 00 00 00 00 00 00 7e e7 0b a4 35 c4 90 e2 54 11 1e 4d f4 4a 34 16 09 08 f4 df 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 283989,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@283989+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 283989,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 44 07 00 00 00 00 00 00 44 07 00 00 00 00 00 00 00 00 00 00 e4 5b f1 2b e7 9a 7b bd 07 9b 10 f8 f2 01 f1 90 8d 7b 44 6b 01 00 00 00 00",
+      "claim": "53 bytes at offset 284672 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 44 07 00 00 00 00 00 00 44 07 00 00 00 00 00 00 00 00 00 00 e4 5b f1 2b e7 9a 7b bd 07 9b 10 f8 f2 01 f1 90 8d 7b 44 6b 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 284672 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 44 07 00 00 00 00 00 00 44 07 00 00 00 00 00 00 00 00 00 00 e4 5b f1 2b e7 9a 7b bd 07 9b 10 f8 f2 01 f1 90 8d 7b 44 6b 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 44 07 00 00 00 00 00 00 44 07 00 00 00 00 00 00 00 00 00 00 e4 5b f1 2b e7 9a 7b bd 07 9b 10 f8 f2 01 f1 90 8d 7b 44 6b 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 284672,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@284672+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 284672,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 00 00 00 00 f0 85 0c c3 c1 92 52 19 0d 9a 1f 6c f9 49 71 cd f9 10 52 de 01 00 00 00 00",
+      "claim": "53 bytes at offset 286720 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 00 00 00 00 f0 85 0c c3 c1 92 52 19 0d 9a 1f 6c f9 49 71 cd f9 10 52 de 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 286720 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 00 00 00 00 f0 85 0c c3 c1 92 52 19 0d 9a 1f 6c f9 49 71 cd f9 10 52 de 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 4c 5e 00 00 00 00 00 00 00 00 00 00 f0 85 0c c3 c1 92 52 19 0d 9a 1f 6c f9 49 71 cd f9 10 52 de 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 286720,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@286720+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 286720,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 00 00 00 00 ae 66 59 00 2e 88 44 81 05 45 61 af df a8 e7 c3 14 5c 50 7c 01 00 00 00 00",
+      "claim": "53 bytes at offset 310917 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 00 00 00 00 ae 66 59 00 2e 88 44 81 05 45 61 af df a8 e7 c3 14 5c 50 7c 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 310917 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 00 00 00 00 ae 66 59 00 2e 88 44 81 05 45 61 af df a8 e7 c3 14 5c 50 7c 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 7d 00 00 00 00 00 00 00 00 00 00 00 ae 66 59 00 2e 88 44 81 05 45 61 af df a8 e7 c3 14 5c 50 7c 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 310917,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@310917+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 310917,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 00 00 00 00 33 5e e2 76 10 f5 22 3a c2 fa da 88 df f5 dd ec 9e a3 f5 e8 01 00 00 00 00",
+      "claim": "53 bytes at offset 311098 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 00 00 00 00 33 5e e2 76 10 f5 22 3a c2 fa da 88 df f5 dd ec 9e a3 f5 e8 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 311098 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 00 00 00 00 33 5e e2 76 10 f5 22 3a c2 fa da 88 df f5 dd ec 9e a3 f5 e8 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00 00 00 00 00 33 5e e2 76 10 f5 22 3a c2 fa da 88 df f5 dd ec 9e a3 f5 e8 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 311098,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@311098+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 311098,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 83 65 00 00 00 00 00 00 83 65 00 00 00 00 00 00 00 00 00 00 4b 6c 83 f7 b2 66 b0 e3 01 18 c3 a2 25 17 6e 80 8e 00 58 5d 01 00 00 00 00",
+      "claim": "53 bytes at offset 311296 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 83 65 00 00 00 00 00 00 83 65 00 00 00 00 00 00 00 00 00 00 4b 6c 83 f7 b2 66 b0 e3 01 18 c3 a2 25 17 6e 80 8e 00 58 5d 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 311296 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 83 65 00 00 00 00 00 00 83 65 00 00 00 00 00 00 00 00 00 00 4b 6c 83 f7 b2 66 b0 e3 01 18 c3 a2 25 17 6e 80 8e 00 58 5d 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 83 65 00 00 00 00 00 00 83 65 00 00 00 00 00 00 00 00 00 00 4b 6c 83 f7 b2 66 b0 e3 01 18 c3 a2 25 17 6e 80 8e 00 58 5d 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 311296,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@311296+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 311296,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 61 03 00 00 00 00 00 00 61 03 00 00 00 00 00 00 00 00 00 00 ce 07 84 fc da ab 5d fc f6 f1 80 9d 07 df cb d9 f6 d4 f0 b8 01 00 00 00 00",
+      "claim": "53 bytes at offset 337920 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 61 03 00 00 00 00 00 00 61 03 00 00 00 00 00 00 00 00 00 00 ce 07 84 fc da ab 5d fc f6 f1 80 9d 07 df cb d9 f6 d4 f0 b8 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 337920 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 61 03 00 00 00 00 00 00 61 03 00 00 00 00 00 00 00 00 00 00 ce 07 84 fc da ab 5d fc f6 f1 80 9d 07 df cb d9 f6 d4 f0 b8 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 61 03 00 00 00 00 00 00 61 03 00 00 00 00 00 00 00 00 00 00 ce 07 84 fc da ab 5d fc f6 f1 80 9d 07 df cb d9 f6 d4 f0 b8 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 337920,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@337920+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 337920,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 00 00 00 00 56 80 dc 55 0d 62 2f 17 50 8a 79 49 f0 73 7e d4 e9 ad 0d b5 01 00 00 00 00",
+      "claim": "53 bytes at offset 339968 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 00 00 00 00 56 80 dc 55 0d 62 2f 17 50 8a 79 49 f0 73 7e d4 e9 ad 0d b5 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 339968 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 00 00 00 00 56 80 dc 55 0d 62 2f 17 50 8a 79 49 f0 73 7e d4 e9 ad 0d b5 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 ea 0e 00 00 00 00 00 00 00 00 00 00 56 80 dc 55 0d 62 2f 17 50 8a 79 49 f0 73 7e d4 e9 ad 0d b5 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 339968,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@339968+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 339968,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 00 00 00 00 1e cc 31 05 cc 0c 89 b8 96 58 4c 53 47 22 6d 91 7b 73 09 16 01 00 00 00 00",
+      "claim": "53 bytes at offset 344064 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 00 00 00 00 1e cc 31 05 cc 0c 89 b8 96 58 4c 53 47 22 6d 91 7b 73 09 16 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 344064 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 00 00 00 00 1e cc 31 05 cc 0c 89 b8 96 58 4c 53 47 22 6d 91 7b 73 09 16 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 2b 26 00 00 00 00 00 00 00 00 00 00 1e cc 31 05 cc 0c 89 b8 96 58 4c 53 47 22 6d 91 7b 73 09 16 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 344064,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@344064+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 344064,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 8c 39 b2 16 43 21 c7 e5 18 eb 63 bf 35 65 7e b2 48 b4 6e 60 01 00 00 00 00",
+      "claim": "53 bytes at offset 353893 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 8c 39 b2 16 43 21 c7 e5 18 eb 63 bf 35 65 7e b2 48 b4 6e 60 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 353893 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 8c 39 b2 16 43 21 c7 e5 18 eb 63 bf 35 65 7e b2 48 b4 6e 60 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 8c 39 b2 16 43 21 c7 e5 18 eb 63 bf 35 65 7e b2 48 b4 6e 60 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 353893,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@353893+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 353893,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 00 00 00 00 38 1d 8b 29 67 43 aa 51 42 72 a1 7e a0 7d aa 02 0f 28 16 ce 01 00 00 00 00",
+      "claim": "53 bytes at offset 354304 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 00 00 00 00 38 1d 8b 29 67 43 aa 51 42 72 a1 7e a0 7d aa 02 0f 28 16 ce 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 354304 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 00 00 00 00 38 1d 8b 29 67 43 aa 51 42 72 a1 7e a0 7d aa 02 0f 28 16 ce 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 4f 16 00 00 00 00 00 00 00 00 00 00 38 1d 8b 29 67 43 aa 51 42 72 a1 7e a0 7d aa 02 0f 28 16 ce 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 354304,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@354304+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 354304,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 00 00 00 00 39 9d bb db 8f 44 56 1e 31 50 e9 50 39 33 93 d9 03 cb cc ad 01 00 00 00 00",
+      "claim": "53 bytes at offset 360448 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 00 00 00 00 39 9d bb db 8f 44 56 1e 31 50 e9 50 39 33 93 d9 03 cb cc ad 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 360448 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 00 00 00 00 39 9d bb db 8f 44 56 1e 31 50 e9 50 39 33 93 d9 03 cb cc ad 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 cf 02 00 00 00 00 00 00 00 00 00 00 39 9d bb db 8f 44 56 1e 31 50 e9 50 39 33 93 d9 03 cb cc ad 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 360448,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@360448+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 360448,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 00 00 00 00 81 cc d3 9f 70 d8 c7 3b 2d 94 d9 f8 00 b3 e9 5f cf a2 7e 15 01 00 00 00 00",
+      "claim": "53 bytes at offset 362496 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 00 00 00 00 81 cc d3 9f 70 d8 c7 3b 2d 94 d9 f8 00 b3 e9 5f cf a2 7e 15 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 362496 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 00 00 00 00 81 cc d3 9f 70 d8 c7 3b 2d 94 d9 f8 00 b3 e9 5f cf a2 7e 15 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 e1 15 00 00 00 00 00 00 00 00 00 00 81 cc d3 9f 70 d8 c7 3b 2d 94 d9 f8 00 b3 e9 5f cf a2 7e 15 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 362496,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@362496+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 362496,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 74 02 00 00 00 00 00 00 74 02 00 00 00 00 00 00 00 00 00 00 94 66 1f bf e8 11 a4 e5 5f 21 f5 05 bf c7 17 9b c4 53 f3 7c 01 00 00 00 00",
+      "claim": "53 bytes at offset 368640 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 74 02 00 00 00 00 00 00 74 02 00 00 00 00 00 00 00 00 00 00 94 66 1f bf e8 11 a4 e5 5f 21 f5 05 bf c7 17 9b c4 53 f3 7c 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 368640 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 74 02 00 00 00 00 00 00 74 02 00 00 00 00 00 00 00 00 00 00 94 66 1f bf e8 11 a4 e5 5f 21 f5 05 bf c7 17 9b c4 53 f3 7c 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 74 02 00 00 00 00 00 00 74 02 00 00 00 00 00 00 00 00 00 00 94 66 1f bf e8 11 a4 e5 5f 21 f5 05 bf c7 17 9b c4 53 f3 7c 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 368640,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@368640+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 368640,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 00 00 00 00 48 73 21 2d 61 2d e4 5b 03 cf c5 8f dc 70 bb 20 66 1c 88 5c 01 00 00 00 00",
+      "claim": "53 bytes at offset 369333 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 00 00 00 00 48 73 21 2d 61 2d e4 5b 03 cf c5 8f dc 70 bb 20 66 1c 88 5c 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 369333 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 00 00 00 00 48 73 21 2d 61 2d e4 5b 03 cf c5 8f dc 70 bb 20 66 1c 88 5c 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 0b 00 00 00 00 00 00 00 00 00 00 00 48 73 21 2d 61 2d e4 5b 03 cf c5 8f dc 70 bb 20 66 1c 88 5c 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 369333,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@369333+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 369333,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 00 00 00 00 87 21 bd 8a b6 4b 0d 30 76 1e 60 96 b9 be a7 af 24 88 b7 4c 01 00 00 00 00",
+      "claim": "53 bytes at offset 369402 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 00 00 00 00 87 21 bd 8a b6 4b 0d 30 76 1e 60 96 b9 be a7 af 24 88 b7 4c 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 369402 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 00 00 00 00 87 21 bd 8a b6 4b 0d 30 76 1e 60 96 b9 be a7 af 24 88 b7 4c 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 cc 00 00 00 00 00 00 00 00 00 00 00 87 21 bd 8a b6 4b 0d 30 76 1e 60 96 b9 be a7 af 24 88 b7 4c 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 369402,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@369402+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 369402,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 00 00 00 00 f9 9d a1 e7 81 c9 e7 e9 a0 0f 04 a9 71 fa ce 0e 8d 7a 2d 8d 01 00 00 00 00",
+      "claim": "53 bytes at offset 370688 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 00 00 00 00 f9 9d a1 e7 81 c9 e7 e9 a0 0f 04 a9 71 fa ce 0e 8d 7a 2d 8d 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 370688 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 00 00 00 00 f9 9d a1 e7 81 c9 e7 e9 a0 0f 04 a9 71 fa ce 0e 8d 7a 2d 8d 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 0c 1e 3c 00 00 00 00 00 00 00 00 00 f9 9d a1 e7 81 c9 e7 e9 a0 0f 04 a9 71 fa ce 0e 8d 7a 2d 8d 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 370688,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@370688+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 370688,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 78 7e 02 00 00 00 00 00 78 7e 02 00 00 00 00 00 00 00 00 00 35 a6 60 cb 06 32 82 a3 47 76 73 e8 b6 f8 e5 1f 09 d1 f9 5b 01 00 00 00 00",
+      "claim": "53 bytes at offset 4311040 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 78 7e 02 00 00 00 00 00 78 7e 02 00 00 00 00 00 00 00 00 00 35 a6 60 cb 06 32 82 a3 47 76 73 e8 b6 f8 e5 1f 09 d1 f9 5b 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 4311040 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 78 7e 02 00 00 00 00 00 78 7e 02 00 00 00 00 00 00 00 00 00 35 a6 60 cb 06 32 82 a3 47 76 73 e8 b6 f8 e5 1f 09 d1 f9 5b 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 78 7e 02 00 00 00 00 00 78 7e 02 00 00 00 00 00 00 00 00 00 35 a6 60 cb 06 32 82 a3 47 76 73 e8 b6 f8 e5 1f 09 d1 f9 5b 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 4311040,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@4311040+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 4311040,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 e8 87 02 00 00 00 00 00 e8 87 02 00 00 00 00 00 00 00 00 00 62 da fc 7c 91 f7 5b 75 b5 7d 84 df 74 5a f1 42 77 ae fa 7b 01 00 00 00 00",
+      "claim": "53 bytes at offset 4474880 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 e8 87 02 00 00 00 00 00 e8 87 02 00 00 00 00 00 00 00 00 00 62 da fc 7c 91 f7 5b 75 b5 7d 84 df 74 5a f1 42 77 ae fa 7b 01 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 4474880 of MISERY/Content/Paks/MISERY-Windows.pak are 00 00 00 00 00 00 00 00 e8 87 02 00 00 00 00 00 e8 87 02 00 00 00 00 00 00 00 00 00 62 da fc 7c 91 f7 5b 75 b5 7d 84 df 74 5a f1 42 77 ae fa 7b 01 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 e8 87 02 00 00 00 00 00 e8 87 02 00 00 00 00 00 00 00 00 00 62 da fc 7c 91 f7 5b 75 b5 7d 84 df 74 5a f1 42 77 ae fa 7b 01 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 4474880,
+          "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Content/Paks/MISERY-Windows.pak@4474880+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 4474880,
+      "reproduced": true,
+      "target": "MISERY/Content/Paks/MISERY-Windows.pak"
+    }
+  ],
+  "literal_reads_reproduced": true,
+  "payload_policy": "D-02. A payload is read only from an entry whose Flag_Encrypted bit (IPlatformFilePak.h:382, read per IPlatformFilePak.cpp:7174) is CLEAR. No key is derived, searched for or used, and no decryption is attempted. When every entry is encrypted this tool reads no payload at all and reports that as the finding.",
+  "plaintext_proofs": [
+    {
+      "blob": "primary_index",
+      "computed_sha1_of_raw_bytes": "378cb3f0f890e968ff427027f9f7586bb98b5e00",
+      "footer_encrypted_index_flag": false,
+      "length": 53202,
+      "reasoning": "bEncryptedIndex is 0 and SHA1 over the 53202 bytes as they sit on disk equals the hash stored for this blob, so DecryptAndValidateIndex (IPlatformFilePak.cpp:6489-6500) would take its no-decrypt path and accept exactly these bytes. Reading them is therefore reading plaintext, not decrypting.",
+      "sha1_matches_raw_bytes": true,
+      "stored_sha1": "378cb3f0f890e968ff427027f9f7586bb98b5e00",
+      "verdict": "PLAINTEXT_PROVEN"
+    },
+    {
+      "blob": "path_hash_index",
+      "computed_sha1_of_raw_bytes": "bf1ee4192b25107c7545fc048ae537de31b4fb22",
+      "footer_encrypted_index_flag": false,
+      "length": 133821,
+      "reasoning": "bEncryptedIndex is 0 and SHA1 over the 133821 bytes as they sit on disk equals the hash stored for this blob, so DecryptAndValidateIndex (IPlatformFilePak.cpp:6489-6500) would take its no-decrypt path and accept exactly these bytes. Reading them is therefore reading plaintext, not decrypting.",
+      "sha1_matches_raw_bytes": true,
+      "stored_sha1": "bf1ee4192b25107c7545fc048ae537de31b4fb22",
+      "verdict": "PLAINTEXT_PROVEN"
+    },
+    {
+      "blob": "full_directory_index",
+      "computed_sha1_of_raw_bytes": "08ea296ed0f21c36fbb83a361d472a5440dd2981",
+      "footer_encrypted_index_flag": false,
+      "length": 103835,
+      "reasoning": "bEncryptedIndex is 0 and SHA1 over the 103835 bytes as they sit on disk equals the hash stored for this blob, so DecryptAndValidateIndex (IPlatformFilePak.cpp:6489-6500) would take its no-decrypt path and accept exactly these bytes. Reading them is therefore reading plaintext, not decrypting.",
+      "sha1_matches_raw_bytes": true,
+      "stored_sha1": "08ea296ed0f21c36fbb83a361d472a5440dd2981",
+      "verdict": "PLAINTEXT_PROVEN"
+    }
+  ],
+  "probes": {
+    "encoded_blob_tiling": {
+      "covered_extent": 53088,
+      "distinct_locations": 4424,
+      "encoded_blob_length": 53088,
+      "gaps": 0,
+      "overlaps": 0,
+      "records": 4424,
+      "tiles_exactly": true,
+      "what_this_probe_can_refute": "the whole bitfield layout. Wrong field widths cannot tile a blob exactly by accident."
+    },
+    "entry_flag_word_census": {
+      "distinct_flag_words": 1,
+      "flag_words": [
+        {
+          "bit22_encrypted": true,
+          "bit29_size_32bit_safe": true,
+          "bit30_uncompressed_size_32bit_safe": true,
+          "bit31_offset_32bit_safe": true,
+          "bits21_6_compression_block_count": 0,
+          "bits28_23_compression_method_index": 0,
+          "bits5_0_compression_block_size_packed": 0,
+          "compression_method_name": "None (index 0 is NAME_None, never serialized)",
+          "count": 4424,
+          "flag_word_hex": "0xE0400000"
+        }
+      ],
+      "footer_compression_methods": [],
+      "refuted": false,
+      "unnameable_compression_method_indices": [],
+      "what_this_probe_can_refute": "a wrong mask. A summary hides a mask error; a census cannot. If the encrypted bit were really the low bit of a wider method field, the method values here would not be nameable from the footer table."
+    },
+    "layout_probe": {
+      "aes_block_size": 16,
+      "consecutive_pairs": 4423,
+      "gaps_explained_by_neither": 2018,
+      "gaps_explained_by_nothing": [],
+      "gaps_explained_exactly_by_padded_model": 2405,
+      "gaps_explained_exactly_by_unpadded_model": 0,
+      "padded_model_overlaps_next_entry": 0,
+      "remaining_gaps_explained_by_next_offset_alignment": {
+        "2048": 979,
+        "4096": 969,
+        "65536": 70
+      },
+      "tail": {
+        "index_offset": 117365605,
+        "last_entry_offset": 117364736,
+        "last_entry_size": 813,
+        "padded_end": 117365605,
+        "padded_end_meets_index": true,
+        "unpadded_end": 117365602,
+        "unpadded_end_meets_index": false
+      },
+      "verdict": "SUPPORTS_ENCRYPTED",
+      "what_this_probe_can_refute": "the encrypted verdict, without consulting any flag. An encrypted uncompressed entry occupies Align(Size, 16) bytes on disk and an unencrypted one occupies Size, so the two hypotheses predict different files."
+    },
+    "local_header_probe": {
+      "agree_with_index": 4424,
+      "compression_method_index_census": {
+        "0": 4424
+      },
+      "disagree_with_index": 0,
+      "disagreements": [],
+      "flag_bit_meaning": "FPakEntry::Flag_Encrypted == 0x01 and Flag_Deleted == 0x02, IPlatformFilePak.h:381-383",
+      "flags_byte_census": {
+        "0x01": 4424
+      },
+      "headers_read": 4424,
+      "sample_limit": null,
+      "what_this_probe_can_refute": "the index bitfield decode. The local header is a second copy of the same flag, written by a different serializer at a different place in the file; a wrong mask would disagree with it.",
+      "why_these_bytes_are_plaintext": "the packer writes this header with FPakEntry::Serialize and encrypts only the payload buffer (PakFileUtilities.cpp:2736 vs :1057/:1109), and the bytes read here carry Offset 0 and Size/UncompressedSize equal to the index for every header read. Ciphertext would not."
+    }
+  },
+  "readable_within_d02": {
+    "entries_whose_flag_says_plaintext": 0,
+    "note": "No payload byte was read by this run. Under D-02 a payload may be read only from an entry whose Flag_Encrypted bit is clear, and 4424 of 4424 entries have it set.",
+    "of_those_uncompressed": 0,
+    "paths": [],
+    "payloads_read_by_this_run": 0
+  },
+  "schema": "pak-index/1",
+  "summary": {
+    "cooked_assets_present": 0,
+    "entries_encrypted": 4424,
+    "entries_total": 4424,
+    "entries_unencrypted": 0,
+    "layout_probe_verdict": "SUPPORTS_ENCRYPTED",
+    "probes_agree": true,
+    "readable_payload_entries": 0,
+    "verdict": "ALL_ENTRIES_ENCRYPTED",
+    "what_this_does_not_settle": "whether the cooked packages in the IoStore containers use unversioned property serialization. This pak holds no cooked package at all, so CK-01 cannot be answered from it either way."
+  },
+  "target": {
+    "file_size": 117656684,
+    "path_relative_to_install": "MISERY/Content/Paks/MISERY-Windows.pak",
+    "sha256": "4d7e84f3114f33b6d5a9cd936125b5d9042131b4c18b153e5213e9dcc49e3765"
+  },
+  "warnings": []
+}

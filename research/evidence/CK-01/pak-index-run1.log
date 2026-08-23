@@ -1,0 +1,48 @@
+target: MISERY/Content/Paks/MISERY-Windows.pak (117656684 bytes)
+footer: v11 at 117656463, index 117365605+53202, bEncryptedIndex=False, key guid 00000000000000000000000000000000
+
+D-02 plaintext proofs (SHA1 of the raw bytes vs the stored hash):
+  primary_index          PLAINTEXT_PROVEN   53202 bytes
+  path_hash_index        PLAINTEXT_PROVEN   133821 bytes
+  full_directory_index   PLAINTEXT_PROVEN   103835 bytes
+
+entries: 4424 decoded, 4424 ENCRYPTED, 0 unencrypted
+  flag source: bit 22 of the encoded flag word, IPlatformFilePak.cpp:7174, which sets FPakEntry::Flag_Encrypted == 0x01, IPlatformFilePak.h:382
+  compression method index histogram: {'0': 4424}
+
+probes:
+  flag word census: 1 distinct word(s), refuted=False
+    0xE0400000 x4424  method=0 encrypted=True blocks=0
+  encoded blob tiling: 4424 records cover 53088 of 53088 bytes, gaps 0, overlaps 0, exact=True
+  packed layout: padded model explains 2405 gaps exactly, unpadded model 0, overlaps 0 -> SUPPORTS_ENCRYPTED
+    last payload: padded end 117365605, unpadded end 117365602, index at 117365605 (padded meets index: True)
+  local headers: 4424 read, 4424 agree, 0 disagree, flags census {'0x01': 4424}
+
+content: 320 directory records in the index, 268 of them holding files; extensions:
+  .res                  3438 files      17572224 bytes
+  .png                   421 files       1724638 bytes
+  .svg                   266 files        226390 bytes
+  .uplugin               124 files        104043 bytes
+  .locres                 57 files      61184827 bytes
+  .ini                    52 files        529190 bytes
+  .ttf                    15 files       6014148 bytes
+  .ufont                  15 files      17541356 bytes
+  .brk                    12 files        534416 bytes
+  .dict                    5 files       2881775 bytes
+  .icu                     4 files        874798 bytes
+  .locmeta                 4 files           475 bytes
+  .nrm                     3 files        163504 bytes
+  .tps                     3 files          1774 bytes
+  .bin                     2 files       5945459 bytes
+  .cfu                     1 files         45536 bytes
+  .upluginmanifest         1 files        126996 bytes
+  .uproject                1 files          2748 bytes
+  top-level roots: Engine=4383, MISERY=41
+  cooked assets (.uasset .uexp .umap .ubulk .uptnl .usmap .ushaderbytecode .utoc .ucas): 0
+
+VERDICT: ALL_ENTRIES_ENCRYPTED -- 4424 of 4424 entries encrypted; 0 payload entries readable within D-02; 0 payloads read
+probes agree: True
+
+written: D:\Dev\MiseryFramework\research\evidence\CK-01\pak-index.json
+
+written: D:\Dev\MiseryFramework\research\evidence\CK-01\pak-paths.txt

@@ -1,0 +1,698 @@
+INFO  Using log config file: jar:file:/D:/tools/ghidra_12.1.3_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\application.log (LoggingInitialization)  
+INFO  Loading user preferences: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (869 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (DefaultSSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: SHA1PRNG (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (DefaultTrustManagerFactory)  
+INFO  Headless startup complete (2414 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 59 extension points (20 false positives) (ClassSearcher)  
+INFO  HEADLESS Script Paths:
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    D:\Dev\MiseryFramework\tools\static\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\8051\ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Opening existing project: D:\tools\ghidra-projects\T05-primary-minimal-analysis (HeadlessAnalyzer)  
+INFO  Opening project: D:\tools\ghidra-projects\T05-primary-minimal-analysis (HeadlessProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: D:\tools\ghidra-projects\T05-primary-minimal-analysis (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///D:/tools/ghidra-workspace/bin/MISERY-Win64-Shipping.exe (HeadlessAnalyzer)  
+INFO  Using Loader: Portable Executable (PE) (ProgramLoader)  
+INFO  Using Language/Compiler: x86:LE:64:default:windows (ProgramLoader)  
+INFO  Using Library Search Path: [REDACTED per C-13: verbatim machine PATH dump, 60 entries] (ProgramLoader)  
+INFO  TLS callbacks at 145dfce68 (TLSDirectory)  
+INFO  TLS callbacks at 180143030 (TLSDirectory)  
+WARN  Invalid or missing function at 180158530 (ExportDataDirectory)  
+INFO  TLS callbacks at 180016c00 (TLSDirectory)  
+INFO  TLS callbacks at 1801b4748 (TLSDirectory)  
+INFO  TLS callbacks at 1801cccf0 (TLSDirectory)  
+INFO  TLS callbacks at 1800acda8 (TLSDirectory)  
+INFO  TLS callbacks at 1800e8908 (TLSDirectory)  
+INFO  TLS callbacks at 1800b49c8 (TLSDirectory)  
+WARN  Invalid or missing function at 1800c8748 (ExportDataDirectory)  
+INFO  TLS callbacks at 1805f5930 (TLSDirectory)  
+WARN  Invalid or missing function at 1806d0898 (ExportDataDirectory)  
+INFO  TLS callbacks at 180310680 (TLSDirectory)  
+WARN  Invalid or missing function at 1800c56f8 (ExportDataDirectory)  
+INFO  TLS callbacks at 171b8fa50 (TLSDirectory)  
+WARN  Invalid or missing function at 180056224 (ExportDataDirectory)  
+WARN  Invalid or missing function at 18000b76c (ExportDataDirectory)  
+INFO  Additional info:
+Loading file:///D:/tools/ghidra-workspace/bin/MISERY-Win64-Shipping.exe?MD5=46be9074f55b093f9850b4781df811ed...
+------------------------------------------------
+
+Searching 50 paths for library ADVAPI32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/advapi32.dll
+Loading file:///C:/Windows/System32/advapi32.dll?MD5=181928139f7c3a13cc89023a18b7a5fc...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\advapi32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CORE-SYNCH-L1-2-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-core-synch-l1-2-0.dll?MD5=8f107a7bc018227b181a0e7e76e9ca39...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-core-synch-l1-2-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-CONIO-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-conio-l1-1-0.dll?MD5=5794b8e183eb547aadd5faf30a8c4dd2...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-conio-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-CONVERT-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-convert-l1-1-0.dll?MD5=3560176d0cdbe2f5d33f543348e0a027...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-convert-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-ENVIRONMENT-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-environment-l1-1-0.dll?MD5=e93c7f013493b12ad40229b19db02ce6...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-environment-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-FILESYSTEM-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-filesystem-l1-1-0.dll?MD5=47555752931cecf90e796499b62ec729...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-filesystem-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-HEAP-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-heap-l1-1-0.dll?MD5=527bbbfded529ea77ee798d94ce0f243...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-heap-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-LOCALE-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-locale-l1-1-0.dll?MD5=09796dab12cbbd920f632aeb89820193...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-locale-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-MATH-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-math-l1-1-0.dll?MD5=aa9624cb27cc50a3fbbd3b223a617b1c...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-math-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-MULTIBYTE-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-multibyte-l1-1-0.dll?MD5=6fcebd8391875127d03b4ea336b9b36b...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-multibyte-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-RUNTIME-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-runtime-l1-1-0.dll?MD5=bbaa58e9e1abdf7d8c4c69652d29d789...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-runtime-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-STDIO-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-stdio-l1-1-0.dll?MD5=ef37235fc43157a4c93241d5e49e304b...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-stdio-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-STRING-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-string-l1-1-0.dll?MD5=639b1fb35cb61ba633eb1791b750631f...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-string-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-TIME-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-time-l1-1-0.dll?MD5=fccce207a34c947f01d3f23a7dd09569...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-time-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-UTILITY-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-utility-l1-1-0.dll?MD5=708a5bc205384633a7b6674eecc7f0f0...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-utility-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library BCRYPT.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/bcrypt.dll
+Loading file:///C:/Windows/System32/bcrypt.dll?MD5=543e11eadf4cd1e1f4b48be160611acc...
+[bcrypt.dll]: failed to create WEVTResource at 1800244d0: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\bcrypt.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library CRYPT32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/crypt32.dll
+Loading file:///C:/Windows/System32/crypt32.dll?MD5=c4bf43f5c8795b312570622badc3433b...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\crypt32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library D3D11.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/d3d11.dll
+Loading file:///C:/Windows/System32/d3d11.dll?MD5=0f69dfce7488d72b1f60892c4e24fe36...
+Index 4 out of bounds for length 4
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\d3d11.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library D3D12.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/D3D12.dll
+Loading file:///C:/Windows/System32/D3D12.dll?MD5=450f43e07d19aa1c5a6524e34c9cbfcb...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\d3d12.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library D3D9.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/d3d9.dll
+Loading file:///C:/Windows/System32/d3d9.dll?MD5=81facb978ef633648c49eab479c46289...
+[d3d9.dll]: failed to create WEVTResource at 1801b5b28: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\d3d9.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library DBGHELP.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/dbghelp.dll
+Loading file:///C:/Windows/System32/dbghelp.dll?MD5=3093e461b9f168b225b21e3728741db8...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dbghelp.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library DSOUND.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/dsound.dll
+Loading file:///C:/Windows/System32/dsound.dll?MD5=6af84e9af86460bd4468df7b62b90d89...
+[dsound.dll]: failed to create WEVTResource at 180092498: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dsound.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library DWMAPI.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/dwmapi.dll
+Loading file:///C:/Windows/System32/dwmapi.dll?MD5=604a634c55e8f07ccdf97fb4639f7dda...
+[dwmapi.dll]: failed to create WEVTResource at 1800309a0: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dwmapi.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library DXGI.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/dxgi.dll
+Loading file:///C:/Windows/System32/dxgi.dll?MD5=91d7cd696aae18ec12939f0eb11b4d7d...
+[dxgi.dll]: failed to create WEVTResource at 18011fb28: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dxgi.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library EOSSDK-WIN64-SHIPPING.DLL...
+Library not found.
+------------------------------------------------
+
+Searching 50 paths for library GDI32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/gdi32.dll
+Loading file:///C:/Windows/System32/gdi32.dll?MD5=d42ae82357d74589c6de3d8751c2dd72...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\gdi32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library GFSDK_AFTERMATH_LIB.X64.DLL...
+Library not found.
+------------------------------------------------
+
+Searching 50 paths for library IMM32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/imm32.dll
+Loading file:///C:/Windows/System32/imm32.dll?MD5=a7abbd29f6f381ca01347bb688746bd8...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\imm32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library IPHLPAPI.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/IPHLPAPI.DLL
+Loading file:///C:/Windows/System32/IPHLPAPI.DLL?MD5=6319ee9cbb847c3357c2cc5df0c56233...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\iphlpapi.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library KERNEL32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/kernel32.dll
+Loading file:///C:/Windows/System32/kernel32.dll?MD5=ec27f68a2a404b024f59fb8ad2cac6b0...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\kernel32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library LIBVORBIS_64.DLL...
+Library not found.
+------------------------------------------------
+
+Searching 50 paths for library LIBVORBISFILE_64.DLL...
+Library not found.
+------------------------------------------------
+
+Searching 50 paths for library MF.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/mf.dll
+Loading file:///C:/Windows/System32/mf.dll?MD5=bab5f8aa4e636fa96a0200ba0e66fa80...
+Index 1 out of bounds for length 1
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\mf.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library MFPLAT.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/mfplat.dll
+Loading file:///C:/Windows/System32/mfplat.dll?MD5=8b0b75af1e0ac4d90505fc0508b74968...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\mfplat.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library MFREADWRITE.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/mfreadwrite.dll
+Loading file:///C:/Windows/System32/mfreadwrite.dll?MD5=44235b0c6f9aaf041d3b6032efd3e8db...
+[mfreadwrite.dll]: failed to create WEVTResource at 1800cb978: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\mfreadwrite.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library MSVCP140.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/msvcp140.dll
+Loading file:///D:/tools/jdk-21/bin/msvcp140.dll?MD5=72f3d84384e888bf0d38852eb863026b...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\msvcp140.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library OLE32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/ole32.dll
+Loading file:///C:/Windows/System32/ole32.dll?MD5=845e6fb397e9c7d67ca7101bb66037ef...
+[ole32.dll]: failed to create WEVTResource at 180188740: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\ole32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library OLEAUT32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/oleaut32.dll
+Loading file:///C:/Windows/System32/oleaut32.dll?MD5=2a763aeeae10ad75b3d2bdfac6166396...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\oleaut32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library OPENGL32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/opengl32.dll
+Loading file:///C:/Windows/System32/opengl32.dll?MD5=961e5f45e407a644419edf24ada5a16c...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\opengl32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library OPENIMAGEDENOISE.DLL...
+Library not found.
+------------------------------------------------
+
+Searching 50 paths for library SETUPAPI.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/setupapi.dll
+Loading file:///C:/Windows/System32/setupapi.dll?MD5=f1d2c6c12df29e08f427db45aa44cfd7...
+[setupapi.dll]: failed to create WEVTResource at 18047ee28: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\setupapi.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library SHELL32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/shell32.dll
+Loading file:///C:/Windows/System32/shell32.dll?MD5=42b0cc1ef6695b20f084a4138e9144fa...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\shell32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library SHLWAPI.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/shlwapi.dll
+Loading file:///C:/Windows/System32/shlwapi.dll?MD5=c737cc35d902e3de1871e7984ff850c4...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\shlwapi.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library STEAM_API64.DLL...
+Library not found.
+------------------------------------------------
+
+Searching 50 paths for library UIAUTOMATIONCORE.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/UIAutomationCore.dll
+Loading file:///C:/Windows/System32/UIAutomationCore.dll?MD5=3385e58a685279329ef024565ef90dbe...
+[UIAutomationCore.dll]: failed to create WEVTResource at 1804226f8: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\uiautomationcore.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library USER32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/user32.dll
+Loading file:///C:/Windows/System32/user32.dll?MD5=d8d7a669435a9ccfe25a1bc035b50d6a...
+[user32.dll]: failed to create WEVTResource at 1800e4a70: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\user32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library UXTHEME.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/uxtheme.dll
+Loading file:///C:/Windows/System32/uxtheme.dll?MD5=4c6b906bbddbd9a9bf1866d5b9f72ce9...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\uxtheme.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library VCRUNTIME140.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/vcruntime140.dll
+Loading file:///D:/tools/jdk-21/bin/vcruntime140.dll?MD5=caf9edded91c1f6c0022b278c16679aa...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library VCRUNTIME140_1.DLL...
+Loading file:///D:/tools/jdk-21/bin/vcruntime140_1.dll?MD5=2bd576cbc5cb712935eb1b10e4d312f5...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140_1.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library WINHTTP.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/winhttp.dll
+Loading file:///C:/Windows/System32/winhttp.dll?MD5=91a5e6b51890ac9370084128bc963210...
+[winhttp.dll]: failed to create WEVTResource at 1801154a8: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\winhttp.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library WINMM.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/winmm.dll
+Loading file:///C:/Windows/System32/winmm.dll?MD5=848dff0b672ff23150c5f56910cc8a1c...
+[winmm.dll]: failed to create WEVTResource at 18002f310: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\winmm.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library WS2_32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/ws2_32.dll
+Loading file:///C:/Windows/System32/ws2_32.dll?MD5=d79211ae5240eda38b1f479f74b6634a...
+[ws2_32.dll]: failed to create WEVTResource at 18005f4b8: Failed to resolve data length for WEVTResource
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\ws2_32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library XAUDIO2_9REDIST.DLL...
+Library not found.
+------------------------------------------------
+
+Searching 50 paths for library XINPUT1_4.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/XInput1_4.dll
+Loading file:///C:/Windows/System32/XInput1_4.dll?MD5=29c4cc2354a7d468186ca816d1a0f27a...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\xinput1_4.exports
+Library not saved to project.
+------------------------------------------------
+
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dxgi.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dsound.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\ws2_32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\winmm.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\kernel32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\user32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\gdi32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\advapi32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\shell32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\ole32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\oleaut32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\iphlpapi.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\setupapi.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-core-synch-l1-2-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dwmapi.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\imm32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\uiautomationcore.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\crypt32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\winhttp.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\opengl32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\msvcp140.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\bcrypt.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\uxtheme.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140_1.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-heap-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-convert-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-math-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-utility-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-string-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-stdio-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-runtime-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-locale-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-environment-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-conio-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-filesystem-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-time-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-multibyte-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\d3d9.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\d3d11.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\d3d12.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\dbghelp.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\xinput1_4.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\shlwapi.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\mfplat.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\mfreadwrite.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\mf.exports
+Linking the External Programs of 'MISERY-Win64-Shipping.exe' to imported libraries...
+  [DXGI.DLL] -> not found in project
+  [DSOUND.DLL] -> not found in project
+  [WS2_32.DLL] -> not found in project
+  [WINMM.DLL] -> not found in project
+  [KERNEL32.DLL] -> not found in project
+  [USER32.DLL] -> not found in project
+  [GDI32.DLL] -> not found in project
+  [ADVAPI32.DLL] -> not found in project
+  [SHELL32.DLL] -> not found in project
+  [OLE32.DLL] -> not found in project
+  [OLEAUT32.DLL] -> not found in project
+  [IPHLPAPI.DLL] -> not found in project
+  [SETUPAPI.DLL] -> not found in project
+  [API-MS-WIN-CORE-SYNCH-L1-2-0.DLL] -> not found in project
+  [DWMAPI.DLL] -> not found in project
+  [IMM32.DLL] -> not found in project
+  [UIAUTOMATIONCORE.DLL] -> not found in project
+  [CRYPT32.DLL] -> not found in project
+  [WINHTTP.DLL] -> not found in project
+  [OPENGL32.DLL] -> not found in project
+  [MSVCP140.DLL] -> not found in project
+  [BCRYPT.DLL] -> not found in project
+  [UXTHEME.DLL] -> not found in project
+  [VCRUNTIME140.DLL] -> not found in project
+  [VCRUNTIME140_1.DLL] -> not found in project
+  [API-MS-WIN-CRT-HEAP-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-CONVERT-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-MATH-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-UTILITY-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-STRING-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-STDIO-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-RUNTIME-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-LOCALE-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-ENVIRONMENT-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-CONIO-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-FILESYSTEM-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-TIME-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-MULTIBYTE-L1-1-0.DLL] -> not found in project
+  [LIBVORBIS_64.DLL] -> not found in project
+  [LIBVORBISFILE_64.DLL] -> not found in project
+  [D3D9.DLL] -> not found in project
+  [D3D11.DLL] -> not found in project
+  [GFSDK_AFTERMATH_LIB.X64.DLL] -> not found in project
+  [D3D12.DLL] -> not found in project
+  [XAUDIO2_9REDIST.DLL] -> not found in project
+  [STEAM_API64.DLL] -> not found in project
+  [OPENIMAGEDENOISE.DLL] -> not found in project
+  [EOSSDK-WIN64-SHIPPING.DLL] -> not found in project
+  [DBGHELP.DLL] -> not found in project
+  [XINPUT1_4.DLL] -> not found in project
+  [SHLWAPI.DLL] -> not found in project
+  [MFPLAT.DLL] -> not found in project
+  [MFREADWRITE.DLL] -> not found in project
+  [MF.DLL] -> not found in project
+------------------------------------------------
+
+ (ProgramLoader)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  REPORT: Execute script: SetAnalyzerSet.java 'ASCII Strings;Create Function;Data Reference;Demangler Microsoft;Disassemble Entry Points;External Entry References;Function Start Search;Reference;Windows x86 PE RTTI Analyzer'  (HeadlessAnalyzer)  
+INFO  SCRIPT: D:\Dev\MiseryFramework\tools\static\ghidra_scripts\SetAnalyzerSet.java (HeadlessAnalyzer)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested=9 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=ASCII Strings (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Create Function (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Data Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Demangler Microsoft (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Disassemble Entry Points (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=External Entry References (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Function Start Search (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: keep_requested_name=Windows x86 PE RTTI Analyzer (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option_inventory_size=122 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Create Strings Containing Existing Strings value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Create Strings Containing References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Force Model Reload value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Minimum String Length value=LEN_5 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Model File value=StringModel.sng (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Require Null Termination for String value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.Search Only in Accessible Memory Blocks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.String Start Alignment value=ALIGN_1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=ASCII Strings.String end alignment value=4 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Aggressive Instruction Finder value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Aggressive Instruction Finder.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives.Archive Chooser value=[Auto-Detect] (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Apply Data Archives.User Project Archive Path value= (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Call Convention ID value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Call Convention ID.Analysis Decompiler Timeout (sec) value=60 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Call-Fixup Installer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Condense Filler Bytes value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Condense Filler Bytes.Filler Value value=Auto (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Condense Filler Bytes.Minimum number of sequential bytes value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Allow Offcut References value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Auto Label Table value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Maxmimum Pointer Distance value=16777215 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Minimum Pointer Address value=4132 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Minimum Table Size value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Pointer Alignment value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Create Address Tables.Table Alignment value=4 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Address Table Alignment value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Address Table Minimum Size value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Align End of Strings value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Ascii String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Create Address Tables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Minimum String Length value=5 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.References to Pointers value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Respect Execute Flag value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Subroutine References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Switch Table References value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Data Reference.Unicode String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Analysis Clear Level value=ANALYSIS (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Analysis Decompiler Timeout (sec) value=60 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Commit Data Types value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Commit Void Return Values value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Parameter ID.Prototype Evaluation value=__fastcall (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Switch Analysis value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Decompiler Switch Analysis.Analysis Decompiler Timeout (sec) value=60 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Demangler Microsoft value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Disassemble Entry Points value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Disassemble Entry Points.Respect Execute Flag value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Embedded Media value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Embedded Media.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=External Entry References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Always Apply FID Labels value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Instruction Count Threshold value=14.6 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function ID.Multiple Match Threshold value=30.0 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function Start Search value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function Start Search.Bookmark Functions value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Function Start Search.Search Data Blocks value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered.Function Non-return Threshold value=3 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Discovered.Repair Flow Damage value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Known value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Non-Returning Functions - Known.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB MSDIA value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB MSDIA.Search untrusted symbol servers value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB Universal value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB Universal.Import Source Line Info value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=PDB Universal.Search untrusted symbol servers value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Address Table Alignment value=1 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Address Table Minimum Size value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Align End of Strings value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Ascii String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Create Address Tables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Minimum String Length value=5 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.References to Pointers value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Respect Execute Flag value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Subroutine References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Switch Table References value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Reference.Unicode String References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Scalar Operand References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Scalar Operand References.Relocation Table Guide value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Shared Return Calls value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Shared Return Calls.Allow Conditional Jumps value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Shared Return Calls.Assume Contiguous Functions Only value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack.Create Local Variables value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack.Create Param Variables value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Stack.Max Threads value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Subroutine References value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Subroutine References.Create Thunks Early value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Variadic Function Signature Override value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Variadic Function Signature Override.Create Analysis Bookmarks value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 PE Exception Handling value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 PE RTTI Analyzer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 Thread Environment Block (TEB) Analyzer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 Thread Environment Block (TEB) Analyzer.Starting Address of the TEB value= (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=Windows x86 Thread Environment Block (TEB) Analyzer.Windows OS Version value=Windows 7 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=WindowsPE x86 Propagate External Parameters value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=WindowsResourceReference value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=WindowsResourceReference.Create Analysis Bookmarks value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Create Data from pointer value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Function parameter/return Pointer analysis value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Max Threads value=2 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Min absolute reference value=4 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Require pointer param data type value=false (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Speculative reference max value=256 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Speculative reference min value=1024 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Stored Value Pointer analysis value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: option=x86 Constant Reference Analyzer.Trust values read from writable memory value=true (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: toggle_count=32 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: WARNING keep name is not an analyzer toggle: Create Function (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=ASCII Strings (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Data Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Demangler Microsoft (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Disassemble Entry Points (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=External Entry References (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Function Start Search (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Reference (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled=Windows x86 PE RTTI Analyzer (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: enabled_count=8 disabled_count=24 (GhidraScript)  
+INFO  SetAnalyzerSet.java> SETANALYZERSET: done (GhidraScript)  
+INFO  ANALYZING all memory and code: file:///D:/tools/ghidra-workspace/bin/MISERY-Win64-Shipping.exe (HeadlessAnalyzer)  
+INFO  Packed database cache: D:\Tools\ghidra-workspace\ghidra-cache\%USERNAME%-ghidra\packed-db-cache (PackedDatabaseCache)  
+INFO  -----------------------------------------------------
+    ASCII Strings                             18.138 secs
+    Create Function                            0.045 secs
+    Data Reference                            63.386 secs
+    Demangler Microsoft                        0.903 secs
+    Disassemble                                0.067 secs
+    Disassemble Entry Points                 521.882 secs
+    Disassemble Entry Points - One Time        0.009 secs
+    External Entry References                  0.030 secs
+    Function Start Search                      8.664 secs
+    Reference                                 27.170 secs
+    Subroutine References                      0.973 secs
+    Windows x86 PE RTTI Analyzer              13.463 secs
+-----------------------------------------------------
+     Total Time   654 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: file:///D:/tools/ghidra-workspace/bin/MISERY-Win64-Shipping.exe (HeadlessAnalyzer)  
+INFO  /MISERY-Win64-Shipping.exe: file created (%USERNAME%) (LocalFileSystem)  
+INFO  REPORT: Save succeeded for: /MISERY-Win64-Shipping.exe (T05-primary-minimal-analysis:/MISERY-Win64-Shipping.exe) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  

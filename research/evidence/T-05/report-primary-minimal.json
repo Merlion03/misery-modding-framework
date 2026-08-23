@@ -1,0 +1,249 @@
+{
+  "containment": {
+    "directories": {
+      "cache_dir": "D:\\tools\\ghidra-workspace\\ghidra-cache",
+      "ghidra_temp_dir": "D:\\tools\\ghidra-workspace\\ghidra-temp",
+      "java_tmpdir": "D:\\tools\\ghidra-workspace\\java-tmp",
+      "settings_dir": "D:\\tools\\ghidra-workspace\\ghidra-settings"
+    },
+    "not_redirected": "the file LaunchSupport writes to remember which JDK was chosen: launch.bat invokes LaunchSupport without our VM arguments, so it uses the default settings directory. A few hundred bytes.",
+    "verification": "free space on every watched volume is sampled about once a second for the whole of each stage; per-stage disk.free_min_bytes is the measurement that says whether C: was really protected.",
+    "vm_options": [
+      "-Dapplication.settingsdir=D:\\Tools\\ghidra-workspace\\ghidra-settings",
+      "-Dapplication.cachedir=D:\\Tools\\ghidra-workspace\\ghidra-cache",
+      "-Dapplication.tempdir=D:\\Tools\\ghidra-workspace\\ghidra-temp",
+      "-Djava.io.tmpdir=D:\\Tools\\ghidra-workspace\\java-tmp"
+    ],
+    "why": "Ghidra's default settings, cache and temp locations are all on the system volume, which has ~6.3 GiB free (A-14, RISK-13). All four are redirected onto D: via GHIDRA_HEADLESS_JAVA_OPTIONS, which launch.bat places last on the java command line so it overrides support\\launch.properties."
+  },
+  "environment": {
+    "cpu_count": 12,
+    "ghidra": {
+      "application_name": "Ghidra",
+      "application_version": "12.1.3",
+      "build_date": "2026-Aug-17 1710 UTC",
+      "install_dir": "D:\\Tools\\ghidra_12.1.3_PUBLIC",
+      "properties_path": "D:\\Tools\\ghidra_12.1.3_PUBLIC\\Ghidra\\application.properties",
+      "release_name": "PUBLIC"
+    },
+    "headless_maxmem": "4G",
+    "jdk": {
+      "banner_first_line": "openjdk version \"21.0.12.1\" 2026-08-18 LTS",
+      "java_executable": "D:\\Tools\\jdk-21\\bin\\java.exe",
+      "java_home": "D:\\Tools\\jdk-21",
+      "major": 21,
+      "version": "21.0.12.1"
+    },
+    "platform": "win32",
+    "python": "3.14.0"
+  },
+  "generated_at": "2026-08-23T17:59:20Z",
+  "generator": "tools/static/ghidra_import.py",
+  "generator_version": "1.0.0",
+  "notes": [
+    "T-05 primary minimal-analysis stage, re-run after the workflow died mid-stage on a session limit"
+  ],
+  "question": "plan.md T-05 / RISK-13: what does a headless Ghidra project for the 134 658 048-byte MISERY-Win64-Shipping.exe cost in wall-clock seconds and in bytes on disk, measured in stages so the answer is a curve?",
+  "stages": [
+    {
+      "analysis_enabled": true,
+      "analyzers_requested": [
+        "ASCII Strings",
+        "Create Function",
+        "Data Reference",
+        "Demangler Microsoft",
+        "Disassemble Entry Points",
+        "External Entry References",
+        "Function Start Search",
+        "Reference",
+        "Windows x86 PE RTTI Analyzer"
+      ],
+      "argv": [
+        "D:\\Tools\\ghidra_12.1.3_PUBLIC\\support\\analyzeHeadless.bat",
+        "D:\\tools\\ghidra-projects",
+        "T05-primary-minimal-analysis",
+        "-import",
+        "D:\\tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+        "-scriptPath",
+        "D:\\Dev\\MiseryFramework\\tools\\static\\ghidra_scripts",
+        "-preScript",
+        "SetAnalyzerSet.java",
+        "ASCII Strings;Create Function;Data Reference;Demangler Microsoft;Disassemble Entry Points;External Entry References;Function Start Search;Reference;Windows x86 PE RTTI Analyzer",
+        "-analysisTimeoutPerFile",
+        "9000"
+      ],
+      "containment_usage_after": {
+        "cache_dir": {
+          "bytes": 32129216,
+          "dirs": 5,
+          "errors": [],
+          "exists": true,
+          "files": 3,
+          "path": "D:\\Tools\\ghidra-workspace\\ghidra-cache"
+        },
+        "ghidra_temp_dir": {
+          "bytes": 0,
+          "dirs": 1,
+          "errors": [],
+          "exists": true,
+          "files": 0,
+          "path": "D:\\Tools\\ghidra-workspace\\ghidra-temp"
+        },
+        "java_tmpdir": {
+          "bytes": 0,
+          "dirs": 0,
+          "errors": [],
+          "exists": true,
+          "files": 0,
+          "path": "D:\\Tools\\ghidra-workspace\\java-tmp"
+        },
+        "settings_dir": {
+          "bytes": 2449038,
+          "dirs": 16,
+          "errors": [],
+          "exists": true,
+          "files": 137,
+          "path": "D:\\Tools\\ghidra-workspace\\ghidra-settings"
+        }
+      },
+      "description": "import plus a deliberately minimal analyzer set applied by SetAnalyzerSet.java: functions, strings, references, RTTI.",
+      "disk": {
+        "C:\\": {
+          "consumed_peak_bytes": 87719936,
+          "free_after_bytes": 6699462656,
+          "free_before_bytes": 6749827072,
+          "free_max_bytes": 6751342592,
+          "free_min_bytes": 6662107136,
+          "sample_interval_seconds": 1.0,
+          "samples": 750
+        },
+        "D:\\": {
+          "consumed_peak_bytes": 1617022976,
+          "free_after_bytes": 78781997056,
+          "free_before_bytes": 79042502656,
+          "free_max_bytes": 80235978752,
+          "free_min_bytes": 77425479680,
+          "sample_interval_seconds": 1.0,
+          "samples": 750
+        }
+      },
+      "exit_code": 0,
+      "ghidra_reported": {
+        "analysis_succeeded_line": true,
+        "analyzer_count": 12,
+        "analyzer_seconds": {
+          "ASCII Strings": 18.138,
+          "Create Function": 0.045,
+          "Data Reference": 63.386,
+          "Demangler Microsoft": 0.903,
+          "Disassemble": 0.067,
+          "Disassemble Entry Points": 521.882,
+          "Disassemble Entry Points - One Time": 0.009,
+          "External Entry References": 0.03,
+          "Function Start Search": 8.664,
+          "Reference": 27.17,
+          "Subroutine References": 0.973,
+          "Windows x86 PE RTTI Analyzer": 13.463
+        },
+        "error_lines": 0,
+        "import_succeeded_line": true,
+        "prescript_enabled_analyzers": [
+          "ASCII Strings",
+          "Data Reference",
+          "Demangler Microsoft",
+          "Disassemble Entry Points",
+          "External Entry References",
+          "Function Start Search",
+          "Reference",
+          "Windows x86 PE RTTI Analyzer"
+        ],
+        "prescript_enabled_count": 8,
+        "prescript_lines": 145,
+        "report_lines": [
+          "Processing input files:",
+          "Execute script: SetAnalyzerSet.java 'ASCII Strings;Create Function;Data Reference;Demangler Microsoft;Disassemble Entry Points;External Entry References;Function Start Search;Reference;Windows x86 PE RTTI Analyzer'",
+          "Analysis succeeded for file: file:///D:/tools/ghidra-workspace/bin/MISERY-Win64-Shipping.exe",
+          "Save succeeded for: /MISERY-Win64-Shipping.exe (T05-primary-minimal-analysis:/MISERY-Win64-Shipping.exe)",
+          "Import succeeded"
+        ],
+        "total_time_seconds": 654,
+        "warn_lines": 6
+      },
+      "hard_process_timeout_seconds": 10800,
+      "kill_note": null,
+      "log": {
+        "raw_bytes": 56036,
+        "raw_path": "D:\\Dev\\MiseryFramework\\workspace\\T-05\\raw-primary-minimal-analysis.log",
+        "raw_sha256": "03d9cc3358a286a3b9de4561fcdb4a988fa20bafa2f8f3a865af88449b3d02d4",
+        "redacted_bytes": 54505,
+        "redacted_path": "D:\\Dev\\MiseryFramework\\research\\evidence\\T-05\\primary-minimal-analysis.log",
+        "redacted_sha256": "919f071c895f98e4cca0b742bec64e57f4ac8e5591e5ec215d4fdc4eb8022b8b",
+        "redaction_residual_profile_paths": 0
+      },
+      "outcome": "completed",
+      "project": {
+        "bytes": 1289356419,
+        "exists": true,
+        "files": 10,
+        "gpr": {
+          "bytes": 0,
+          "dirs": 0,
+          "errors": [],
+          "exists": true,
+          "files": 1,
+          "path": "D:\\tools\\ghidra-projects\\T05-primary-minimal-analysis.gpr"
+        },
+        "project_name": "T05-primary-minimal-analysis",
+        "project_root": "D:\\tools\\ghidra-projects",
+        "rep": {
+          "bytes": 1289356419,
+          "dirs": 5,
+          "errors": [],
+          "exists": true,
+          "files": 9,
+          "path": "D:\\tools\\ghidra-projects\\T05-primary-minimal-analysis.rep"
+        }
+      },
+      "project_bytes_per_target_byte": 9.57504,
+      "project_deleted": {
+        "errors": [],
+        "removed": [
+          "D:\\tools\\ghidra-projects\\T05-primary-minimal-analysis.rep",
+          "D:\\tools\\ghidra-projects\\T05-primary-minimal-analysis.gpr"
+        ]
+      },
+      "project_kept": false,
+      "seconds_per_megabyte": 5.83479,
+      "soft_analysis_timeout_seconds": 9000,
+      "stage": "minimal-analysis",
+      "started_at": "2026-08-23T17:46:51Z",
+      "target_bytes": 134658048,
+      "target_copy": "D:\\tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+      "target_role": "primary",
+      "target_sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+      "timed_out_hard": false,
+      "vm_options": [
+        "-Dapplication.settingsdir=D:\\Tools\\ghidra-workspace\\ghidra-settings",
+        "-Dapplication.cachedir=D:\\Tools\\ghidra-workspace\\ghidra-cache",
+        "-Dapplication.tempdir=D:\\Tools\\ghidra-workspace\\ghidra-temp",
+        "-Djava.io.tmpdir=D:\\Tools\\ghidra-workspace\\java-tmp"
+      ],
+      "wall_clock_seconds": 749.303
+    }
+  ],
+  "targets": [
+    {
+      "bytes": 134658048,
+      "copy": "D:\\tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+      "copy_seconds": 0.0,
+      "reused_existing_copy": true,
+      "role": "primary",
+      "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+      "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+      "sha256_matches": true,
+      "source": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    }
+  ],
+  "task": "plan.md T-05 (method S-02), risk RISK-13, M2s exit criterion 3",
+  "what_this_measures": "wall-clock seconds and bytes on disk for a headless Ghidra import and analysis, per stage, per target. It measures COST and nothing about the contents of the binary."
+}

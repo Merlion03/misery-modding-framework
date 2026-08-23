@@ -1,0 +1,113 @@
+INFO  Using log config file: jar:file:/D:/tools/ghidra_12.1.3_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\application.log (LoggingInitialization)  
+INFO  Loading user preferences: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (1174 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (DefaultSSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: SHA1PRNG (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (DefaultTrustManagerFactory)  
+INFO  Headless startup complete (3036 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 59 extension points (20 false positives) (ClassSearcher)  
+INFO  HEADLESS Script Paths:
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    D:\tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\8051\ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: D:\tools\ghidra-projects\T05-control-import-only (HeadlessAnalyzer)  
+INFO  Creating project: D:\tools\ghidra-projects\T05-control-import-only (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: D:\tools\ghidra-projects\T05-control-import-only (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll (HeadlessAnalyzer)  
+INFO  Using Loader: Portable Executable (PE) (ProgramLoader)  
+INFO  Using Language/Compiler: x86:LE:64:default:windows (ProgramLoader)  
+INFO  Using Library Search Path: [REDACTED per C-13: verbatim machine PATH dump, 60 entries] (ProgramLoader)  
+INFO  Additional info:
+Loading file:///D:/tools/ghidra-workspace/bin/tbbmalloc.dll?MD5=543ca145b5cc0365252902fc1cd91ef3...
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-CONVERT-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-convert-l1-1-0.dll?MD5=3560176d0cdbe2f5d33f543348e0a027...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-convert-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-ENVIRONMENT-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-environment-l1-1-0.dll?MD5=e93c7f013493b12ad40229b19db02ce6...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-environment-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-RUNTIME-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-runtime-l1-1-0.dll?MD5=bbaa58e9e1abdf7d8c4c69652d29d789...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-runtime-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-STDIO-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-stdio-l1-1-0.dll?MD5=ef37235fc43157a4c93241d5e49e304b...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-stdio-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library API-MS-WIN-CRT-STRING-L1-1-0.DLL...
+Loading file:///D:/tools/jdk-21/bin/api-ms-win-crt-string-l1-1-0.dll?MD5=639b1fb35cb61ba633eb1791b750631f...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-string-l1-1-0.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library KERNEL32.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/kernel32.dll
+Loading file:///C:/Windows/System32/kernel32.dll?MD5=ec27f68a2a404b024f59fb8ad2cac6b0...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\kernel32.exports
+Library not saved to project.
+------------------------------------------------
+
+Searching 50 paths for library VCRUNTIME140.DLL...
+Skipping library which is the wrong architecture: file:///C:/Windows/SysWOW64/vcruntime140.dll
+Loading file:///D:/tools/jdk-21/bin/vcruntime140.dll?MD5=caf9edded91c1f6c0022b278c16679aa...
+Using existing exports file: D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140.exports
+Library not saved to project.
+------------------------------------------------
+
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\kernel32.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\vcruntime140.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-runtime-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-convert-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-environment-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-string-l1-1-0.exports
+Applying D:\Tools\ghidra-workspace\ghidra-settings\%USERNAME%-ghidra\ghidra_12.1.3_PUBLIC\symbols\win64\api-ms-win-crt-stdio-l1-1-0.exports
+Linking the External Programs of 'tbbmalloc.dll' to imported libraries...
+  [KERNEL32.DLL] -> not found in project
+  [VCRUNTIME140.DLL] -> not found in project
+  [API-MS-WIN-CRT-RUNTIME-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-CONVERT-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-ENVIRONMENT-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-STRING-L1-1-0.DLL] -> not found in project
+  [API-MS-WIN-CRT-STDIO-L1-1-0.DLL] -> not found in project
+------------------------------------------------
+
+ (ProgramLoader)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  /tbbmalloc.dll: file created (%USERNAME%) (LocalFileSystem)  
+INFO  REPORT: Save succeeded for: /tbbmalloc.dll (T05-control-import-only:/tbbmalloc.dll) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  
