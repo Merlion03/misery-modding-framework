@@ -226,12 +226,42 @@ def profile_prefixes() -> list[tuple[str, str]]:
     makes ``%LOCALAPPDATA%`` win over ``%USERPROFILE%\\AppData\\Local``.
     """
     pairs = []
+    seen = set()
     for name in ("LOCALAPPDATA", "APPDATA", "USERPROFILE"):
         value = os.environ.get(name)
-        if value:
-            pairs.append((normalize_path(value), "%" + name + "%"))
+        if not value:
+            continue
+        # Both forms of the same directory. Windows may hand the variable out in 8.3
+        # short form (C:\Users\RUNNER~1\AppData\Local) while a path we are privatising
+        # arrived resolved to its long form (C:\Users\runneradmin\...), or the reverse.
+        # Comparing only the raw value then finds no prefix, the literal profile path
+        # survives into the document, and the C-13 guard refuses to emit anything --
+        # so the tool becomes unusable on that host rather than merely imprecise.
+        # A GitHub Windows runner is exactly such a host; that is where this surfaced.
+        for form in (value, _resolved_or_none(value)):
+            if not form:
+                continue
+            expanded = normalize_path(form)
+            key = expanded.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            pairs.append((expanded, "%" + name + "%"))
     pairs.sort(key=lambda item: len(item[0]), reverse=True)
     return pairs
+
+
+def _resolved_or_none(path: str) -> str | None:
+    """realpath(path), or None when it cannot be resolved.
+
+    Resolution touches the filesystem, so it can fail on a stale or unmounted
+    directory. A failure here must not take down privatisation: returning None
+    just means this form contributes no prefix.
+    """
+    try:
+        return os.path.realpath(path)
+    except OSError:
+        return None
 
 
 def privatize_path(path: str | None) -> str | None:
@@ -263,10 +293,24 @@ def forbidden_strings(extra: list[str] | None = None) -> list[str]:
     the Steam ``LastOwner`` value when the app manifest contained one.
     """
     values = []
+    seen = set()
     for name in ("LOCALAPPDATA", "APPDATA", "USERPROFILE"):
         value = os.environ.get(name)
-        if value:
-            values.append(normalize_path(value))
+        if not value:
+            continue
+        # Both the raw and the resolved form, for the reason given in profile_prefixes.
+        # Here the asymmetry is the more dangerous half: if the variable is long-form
+        # and a short-form profile path reaches the document, a guard that knows only
+        # the long form MISSES the leak. An over-eager guard costs a refusal; a guard
+        # that misses publishes a user's directory layout to a public repository.
+        for form in (value, _resolved_or_none(value)):
+            if not form:
+                continue
+            expanded = normalize_path(form)
+            if expanded.lower() in seen:
+                continue
+            seen.add(expanded.lower())
+            values.append(expanded)
     username = os.environ.get("USERNAME") or ""
     # A user name that happens to be a common word (e.g. "Steam") would make this a
     # false positive; that is the safe direction to fail in for a public repository.

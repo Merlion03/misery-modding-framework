@@ -716,6 +716,41 @@ class TestEndToEnd(EnvSandbox):
         self.assertEqual("disk-scan", document["method"])
         self.assertEqual(fm.privatize_path(install), document["install_dir"])
 
+    def test_profile_privatisation_survives_an_aliased_profile_variable(self) -> None:
+        """LOCALAPPDATA naming the same directory by another route must still privatise.
+
+        Windows can hand a profile variable out in 8.3 short form while the paths we
+        privatise arrive resolved to their long form. The prefix comparison then finds
+        nothing, the literal profile path survives, and the C-13 guard refuses to emit
+        the document at all -- the tool stops working on that host. A GitHub Windows
+        runner is such a host, and this went unnoticed locally because 8.3 generation
+        is disabled on the development volume.
+
+        8.3 cannot be forced here, so the same asymmetry is built with a junction: the
+        variable points at the alias, the fact arrives via the real directory.
+        """
+        real = os.path.join(self.root, "profile-real")
+        alias = os.path.join(self.root, "profile-alias")
+        os.makedirs(real, exist_ok=True)
+        if subprocess.run(["cmd", "/c", "mklink", "/J", alias, real],
+                          capture_output=True).returncode != 0:
+            self.skipTest("cannot create a junction on this filesystem")
+        saved = os.environ.get("LOCALAPPDATA")
+        os.environ["LOCALAPPDATA"] = alias
+        try:
+            under_real = os.path.join(real, "MISERY", "Saved")
+            self.assertEqual("%LOCALAPPDATA%" + os.sep + os.path.join("MISERY", "Saved"),
+                             fm.privatize_path(under_real),
+                             "a path under the profile must privatise even when the "
+                             "variable names that directory by a different route")
+            self.assertEqual([], fm.check_privacy(fm.privatize_path(under_real)),
+                             "and the privatised form must satisfy the C-13 guard")
+        finally:
+            if saved is None:
+                os.environ.pop("LOCALAPPDATA", None)
+            else:
+                os.environ["LOCALAPPDATA"] = saved
+
     def test_refuses_to_write_inside_the_installation(self) -> None:
         install = make_install_tree(os.path.join(self.root, "install"))
         for relative in ("install.json", os.path.join("MISERY", "install.json")):
