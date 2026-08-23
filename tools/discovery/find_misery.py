@@ -322,6 +322,29 @@ def forbidden_strings(extra: list[str] | None = None) -> list[str]:
     return values
 
 
+def locate_in_document(node, needle: str, path: str = "$") -> list[str]:
+    """JSON key paths whose value contains ``needle`` (case-insensitive).
+
+    Used only to make a C-13 refusal actionable: the offending VALUE is never printed,
+    but the field carrying it has to be nameable or the guard cannot be acted on. Keys
+    are reported, not values, so nothing sensitive reaches the log.
+    """
+    hits = []
+    low = needle.lower()
+    if isinstance(node, dict):
+        for key, value in node.items():
+            hits.extend(locate_in_document(value, needle, "%s.%s" % (path, key)))
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            hits.extend(locate_in_document(value, needle, "%s[%d]" % (path, index)))
+    elif isinstance(node, str):
+        for spelling in {needle, needle.replace("\\", "/")}:
+            if spelling.lower() in node.lower():
+                hits.append(path)
+                break
+    return hits
+
+
 def check_privacy(text: str, extra: list[str] | None = None) -> list[str]:
     r"""Return every forbidden value that occurs in ``text`` (case-insensitive).
 
@@ -1427,12 +1450,25 @@ def main(argv: list[str] | None = None) -> int:
 
     leaks = check_privacy(text, [last_owner] if last_owner else None)
     if leaks:
+        # Report WHERE, not just how many. The value itself stays redacted -- printing it
+        # into a public CI log would be the leak this guard exists to prevent -- but the
+        # JSON key path carrying it is not sensitive and is the only thing that makes the
+        # refusal actionable. Without it the message says "3 values forbidden" and leaves
+        # the reader to guess which field failed to go through privatize_path().
         print(
             "error: refusing to emit install.json, it contains %d value(s) forbidden by "
             "C-13 (account id or literal user-profile path): %s"
             % (len(leaks), ", ".join("<%d chars>" % len(item) for item in leaks)),
             file=sys.stderr,
         )
+        for value in leaks:
+            where = locate_in_document(document, value)
+            print(
+                "  <%d chars> appears at: %s"
+                % (len(value), ", ".join(where) if where else
+                   "(not at any single key -- check the serialised form)"),
+                file=sys.stderr,
+            )
         return 1
 
     if args.out and args.out != "-":
