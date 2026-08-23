@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import datetime as _dt
 import io
+import os
 import re
 import sys
 from pathlib import Path
@@ -307,6 +308,23 @@ def warnings_for(args: argparse.Namespace) -> list[str]:
     return notes
 
 
+def _pathguard():
+    """Import the shared plan.md 1.5 layer 1 guard.
+
+    tools/ is not a package -- these scripts run directly -- so the sibling directory
+    is put on sys.path here rather than at module import time, keeping the dependency
+    local to the one call that needs it. pathguard is the SINGLE implementation of
+    "is this path inside an installation"; it is imported, never copy-pasted.
+    """
+    import sys as _sys
+    guard_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "inventory")
+    if guard_dir not in _sys.path:
+        _sys.path.insert(0, guard_dir)
+    import pathguard
+    return pathguard
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
 
@@ -317,6 +335,34 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 2
 
     log_path = Path(args.log).resolve() if args.log else default_log_path()
+
+    # plan.md 1.5 layer 1: no tool accepts a path inside the game installation as an
+    # output path. That sentence is written without qualification, and until the M1.0
+    # closure audit this file was the counter-example that made it false -- --log took
+    # any path at all.
+    #
+    # check_output_path is not the right primitive here: it REQUIRES a named install
+    # root, deliberately, because a tool operating on a tree that cannot say which tree
+    # is a bug. This tool does not operate on a tree -- it appends to a repository
+    # document -- so it uses the two shared primitives directly. protected_roots with no
+    # named root still covers what matters: an installation detected structurally above
+    # the output path, plus every install root the repository knows about.
+    # pathguard is imported, never reimplemented: an inline copy built on abspath is
+    # exactly how a junction bypass got in once.
+    guard = _pathguard()
+    for source, root in guard.protected_roots(None, out_path=str(log_path)):
+        if guard.is_inside(str(log_path), root):
+            print(
+                "error: refusing to write the log inside a game installation.\n"
+                "  --log     : %s\n"
+                "  installation: %s\n"
+                "  detected as : %s\n"
+                "The installation is a read-only research target (plan.md decision D-01;"
+                " safety model 1.5, layer 1). Nothing was written."
+                % (log_path, root, source),
+                file=sys.stderr,
+            )
+            return 2
     date = (args.date or "").strip() or _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%d")
 
     existing = read_log(log_path)

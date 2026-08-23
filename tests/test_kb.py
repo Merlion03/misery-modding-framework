@@ -18,6 +18,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -2407,3 +2408,53 @@ class TestClassICriteriaFiveAndSix(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestNewLogEntryHonoursLayerOne(unittest.TestCase):
+    """plan.md 1.5 layer 1 is stated without qualification, so it must hold for EVERY
+    writer. The M1.0 closure audit found new_log_entry.py was the counter-example that
+    made the sentence false: --log accepted any path, including one inside the game
+    installation. The other three writers were already guarded, which is precisely why
+    the gap was easy to miss -- the claim read as true.
+    """
+
+    def _run(self, log_path):
+        import subprocess
+        return subprocess.run(
+            [sys.executable, str(REPO_ROOT / "tools" / "kb" / "new_log_entry.py"),
+             "--log", str(log_path), "--question", "guard test",
+             "--method", "m", "--evidence", "e", "--finding", "f",
+             "--level", "OBSERVED", "--confidence", "0.9"],
+            capture_output=True, text=True)
+
+    def test_refuses_a_log_path_inside_an_installation(self):
+        with tempfile.TemporaryDirectory() as _tmp:
+            tmp = os.path.realpath(_tmp)
+            # A directory carrying both plan.md 2.1 step-6 markers IS an installation as
+            # far as the guard is concerned, so no real game folder is touched here.
+            install = os.path.join(tmp, "FakeInstall")
+            os.makedirs(os.path.join(install, "MISERY", "Binaries", "Win64"))
+            os.makedirs(os.path.join(install, "MISERY", "Content", "Paks"))
+            open(os.path.join(install, "MISERY", "Binaries", "Win64",
+                              "MISERY-Win64-Shipping.exe"), "wb").close()
+            open(os.path.join(install, "MISERY", "Content", "Paks",
+                              "global.utoc"), "wb").close()
+
+            target = os.path.join(install, "sneaky.md")
+            result = self._run(target)
+
+            self.assertNotEqual(0, result.returncode,
+                                "writing inside an installation must not succeed")
+            self.assertFalse(os.path.exists(target),
+                             "and nothing may be written before the refusal")
+            self.assertIn("D-01", result.stderr,
+                          "the refusal must cite the decision it enforces")
+
+    def test_a_path_outside_any_installation_is_still_accepted(self):
+        with tempfile.TemporaryDirectory() as _tmp:
+            tmp = os.path.realpath(_tmp)
+            target = os.path.join(tmp, "ordinary.md")
+            result = self._run(target)
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertTrue(os.path.exists(target),
+                            "the guard must not block legitimate output")
