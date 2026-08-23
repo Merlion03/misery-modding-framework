@@ -158,7 +158,11 @@ class EnvSandbox(unittest.TestCase):
         fm._winreg = lambda: None  # registry absent -> steps 2 and 7 must degrade
         self.tmp = tempfile.TemporaryDirectory(prefix="misery-discovery-")
         self.addCleanup(self.tmp.cleanup)
-        self.root = self.tmp.name
+        # realpath: some Windows hosts hand out TEMP in 8.3 short form while the
+        # code under test resolves paths to their long form; comparing a raw temp
+        # path against a resolved one then fails there and passes here.
+        # tests/test_inventory.py already resolves at this point.
+        self.root = os.path.realpath(self.tmp.name)
         # An empty repo root, so research/config/local.json is genuinely absent.
         self.repo_root = os.path.join(self.root, "repo")
         os.makedirs(self.repo_root, exist_ok=True)
@@ -429,7 +433,8 @@ class TestPathHandling(unittest.TestCase):
         self.assertTrue(os.path.isdir(os.path.join(root, "research", "schema")), root)
 
     def test_canonical_case_takes_the_case_from_the_filesystem(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="misery-case-") as tmp:
+        with tempfile.TemporaryDirectory(prefix="misery-case-") as _tmp:
+            tmp = os.path.realpath(_tmp)  # 8.3 short form on some CI hosts
             real = os.path.join(tmp, "MixedCase", "SubDir")
             os.makedirs(real)
             self.assertEqual(fm.normalize_path(real),

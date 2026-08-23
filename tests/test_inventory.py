@@ -899,7 +899,8 @@ class TestSteamRootDerivation(unittest.TestCase):
         )
 
     def test_returns_none_for_unrelated_layout(self) -> None:
-        with tempfile.TemporaryDirectory() as temp:
+        with tempfile.TemporaryDirectory() as _temp:
+            temp = os.path.realpath(_temp)  # 8.3 short form on some CI hosts
             self.assertIsNone(snap.derive_steam_root(os.path.join(temp, "MISERY")))
 
 

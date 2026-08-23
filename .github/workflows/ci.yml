@@ -340,6 +340,13 @@ jobs:
       # that may be newer than the one the snapshot was taken at, which is
       # exactly what a dated snapshot means.
       - name: Snapshot freshness (informational, cannot fail the job)
+        # The name says "cannot fail the job", so make that TRUE rather than merely
+        # intended. `exit 0` at the end of the script only covers the case where the
+        # script RUNS; a parse error never reaches it, and on the first CI run that is
+        # exactly what happened -- a misplaced '+' failed the job from a step that
+        # advertises it cannot. A claim a step makes about itself has to be enforced by
+        # the runner, not by the author's intent.
+        continue-on-error: true
         if: always()
         shell: pwsh
         run: |
@@ -354,12 +361,16 @@ jobs:
           if ($code -eq 0) {
             $lines += 'CURRENT -- the committed block still matches a fresh measurement.'
           } elseif ($code -eq 1) {
-            $lines += ('STALE -- the committed block no longer matches. Not a failure: '
-                       + 'refresh it with `python .github\scripts\kb_status.py --write`.')
+            # NOTE: in PowerShell a line break inside (...) continues the expression only
+            # when the line ENDS with the operator. A leading '+' on the next line is a
+            # parse error, and it took down this whole step on the first CI run -- while
+            # the step's own heading claimed it could not fail the job.
+            $lines += ('STALE -- the committed block no longer matches. Not a failure: ' +
+                       'refresh it with `python .github\scripts\kb_status.py --write`.')
           } else {
-            $lines += ('The generator could not be RUN (exit ' + $code + '). That one IS '
-                       + 'worth fixing: a status generator nobody can run is a status '
-                       + 'nobody has.')
+            $lines += ('The generator could not be RUN (exit ' + $code + '). That one IS ' +
+                       'worth fixing: a status generator nobody can run is a status ' +
+                       'nobody has.')
           }
           $lines += ''
           $lines += '```'
