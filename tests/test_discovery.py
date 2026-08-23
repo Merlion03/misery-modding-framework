@@ -751,6 +751,45 @@ class TestEndToEnd(EnvSandbox):
             else:
                 os.environ["LOCALAPPDATA"] = saved
 
+    def test_a_profile_path_inside_free_text_is_privatised(self) -> None:
+        """A profile path in the MIDDLE of a trace detail must not reach the document.
+
+        privatize_path only rewrites a string that IS a path. Trace details are prose
+        ("drives searched: ..."), so the prefix test never fired and a literal
+        user-profile path survived into discovery_trace[].detail while every declared
+        path field was clean. The C-13 guard then refused to emit anything, which is
+        how this was found -- on a CI host, not here.
+        """
+        profile = os.path.join(self.root, "profile")
+        os.makedirs(profile, exist_ok=True)
+        saved = os.environ.get("LOCALAPPDATA")
+        os.environ["LOCALAPPDATA"] = profile
+        try:
+            leaky = os.path.join(profile, "Temp", "scan-root")
+            document = {
+                "install_dir": "D:" + os.sep + "Games",
+                "discovery_trace": [
+                    {"step": 7, "detail": "drives searched: " + leaky + " (1 candidate)"}
+                ],
+            }
+            cleaned = fm.privatize_document(document)
+            detail = cleaned["discovery_trace"][0]["detail"]
+            self.assertNotIn(profile, detail,
+                             "the profile directory must not survive in free text")
+            self.assertIn("%LOCALAPPDATA%", detail,
+                          "and it must be replaced by the placeholder, not deleted")
+            self.assertIn("(1 candidate)", detail,
+                          "the rest of the sentence must be preserved")
+            self.assertEqual([], fm.check_privacy(fm.dump_json(cleaned)),
+                             "and the result must satisfy the C-13 guard")
+            # A path outside the profile is not a leak and must be left alone.
+            self.assertEqual("D:" + os.sep + "Games", cleaned["install_dir"])
+        finally:
+            if saved is None:
+                os.environ.pop("LOCALAPPDATA", None)
+            else:
+                os.environ["LOCALAPPDATA"] = saved
+
     def test_refuses_to_write_inside_the_installation(self) -> None:
         install = make_install_tree(os.path.join(self.root, "install"))
         for relative in ("install.json", os.path.join("MISERY", "install.json")):

@@ -286,6 +286,47 @@ def privatize_path(path: str | None) -> str | None:
     return text
 
 
+def privatize_text(text: str) -> str:
+    """Replace profile directories ANYWHERE in a free-text string (C-13).
+
+    privatize_path only rewrites a string that IS a path: it matches a prefix and
+    returns the tail. Trace details are sentences -- "drives searched: <profile path>"
+    -- where the profile directory sits in the middle, so the prefix test never fires
+    and the literal path reaches the document. That is how a user-profile path survived
+    into discovery_trace[].detail while every declared path field was clean.
+
+    Longest expansion first, so LOCALAPPDATA wins over USERPROFILE plus AppData/Local.
+    """
+    if not text:
+        return text
+    result = text
+    for expanded, placeholder in profile_prefixes():
+        if not expanded:
+            continue
+        for spelling in (expanded, expanded.replace(chr(92), "/")):
+            index = result.lower().find(spelling.lower())
+            while index >= 0:
+                result = result[:index] + placeholder + result[index + len(spelling):]
+                index = result.lower().find(spelling.lower(), index + len(placeholder))
+    return result
+
+
+def privatize_document(node):
+    """Apply privatize_text to every string in the document, recursively.
+
+    One choke point instead of remembering at each call site. A note added later cannot
+    reintroduce the leak, which is the property that matters: the previous design was
+    correct only while every author remembered, and one did not.
+    """
+    if isinstance(node, dict):
+        return {key: privatize_document(value) for key, value in node.items()}
+    if isinstance(node, list):
+        return [privatize_document(value) for value in node]
+    if isinstance(node, str):
+        return privatize_text(node)
+    return node
+
+
 def forbidden_strings(extra: list[str] | None = None) -> list[str]:
     """Values that must never appear in the emitted document (C-13).
 
@@ -1446,6 +1487,9 @@ def main(argv: list[str] | None = None) -> int:
     if found.appmanifest:
         last_owner = found.appmanifest.pop("_last_owner_value", None)
     document = build_document(found, validation, trace, args.app_id)
+    # C-13 choke point: every string in the document, not only the declared
+    # path fields. A trace note is prose and carried a raw profile path.
+    document = privatize_document(document)
     text = dump_json(document)
 
     leaks = check_privacy(text, [last_owner] if last_owner else None)
