@@ -693,10 +693,25 @@ class TestEndToEnd(EnvSandbox):
 
     def test_deep_scan_finds_a_tree_by_the_validation_predicate(self) -> None:
         install = make_install_tree(os.path.join(self.root, "deep", "somewhere", "MISERY"))
-        code, stdout, _stderr = self.run_main(
-            ["--deep", "--deep-drives", os.path.join(self.root, "deep")]
+        scan_root = os.path.join(self.root, "deep")
+        code, stdout, stderr = self.run_main(["--deep", "--deep-drives", scan_root])
+        # The scan already reports which roots it searched and how many candidates it
+        # found; attach that to the failure. This test failed on a CI host while passing
+        # locally, and "AssertionError: 0 != 1" said nothing about which of the two --
+        # the walk or the validation predicate -- had given up.
+        context = (
+            "\n  scan root : %s"
+            "\n  install   : %s"
+            "\n  exists    : %s"
+            "\n  exit code : %s"
+            "\n  stderr    : %s"
+            "\n  stdout    : %s"
+            % (scan_root, install,
+               os.path.isfile(os.path.join(install, "MISERY", "Binaries", "Win64",
+                                           "MISERY-Win64-Shipping.exe")),
+               code, stderr.strip()[:2000], stdout.strip()[:600])
         )
-        self.assertEqual(0, code)
+        self.assertEqual(0, code, context)
         document = json.loads(stdout)
         self.assertEqual("disk-scan", document["method"])
         self.assertEqual(fm.privatize_path(install), document["install_dir"])
