@@ -1,0 +1,34 @@
+tools/static/link_path_probe.py 1.0.0
+target      MISERY/Binaries/Win64/MISERY.exe  (282826240 bytes)
+sha256      a155f897e156fa646b7b5f664f4816b57cfc19a3baedf1ed01e278f01fec91d7
+ue tree     5.4.4 CL 35576357  ++UE5+Release-5.4
+surface     282824704 bytes of on-disk section data, 215114752 of it executable, in 10 sections
+
+needle                   guard         role   occurs lea   recs  rec>   form                      
+link_relink_branch       UE_LOG_FATAL  requir 1      0     1     1      static-record             
+setup_offset             UE_LOG_FATAL  requir 1      0     1     1      static-record             
+struct_property_link     UE_LOG_ERROR  corrob 1      0     1     1      static-record             
+link_owner_ensure        ENSUREMSGF    corrob 1      0     1     1      static-record             
+native_never_loaded      CHECKF        corrob 1      1     0     0      riprel-lea                
+cpp_size_mismatch        CHECKF        corrob 1      1     0     0      riprel-lea                
+
+  link_relink_branch       Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:855
+  setup_offset             Engine/Source/Runtime/CoreUObject/Private/UObject/Property.cpp:1340
+  struct_property_link     Engine/Source/Runtime/CoreUObject/Private/UObject/PropertyStruct.cpp:116
+  link_owner_ensure        Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:819
+  native_never_loaded      Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:5368
+  cpp_size_mismatch        Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:3484
+
+serializer fproperty_serialize    lines 836-872       streams 6 member(s)
+serializer ustruct_serialize      lines 2003-2199     streams 6 member(s)
+serializer uclass_serialize       lines 5269-5542     streams 15 member(s)
+
+probe required_needles_unique            PASS
+probe required_needles_referenced        PASS
+probe compile_gating_consistent          PASS
+probe negative_control                   PASS
+probe required_needles_distinct_origin   PASS
+probe no_serializer_streams_the_offset   PASS
+
+VERDICT     PATH_PRESENT_AND_REFERENCED
+            every required needle is present exactly once and is addressed by code in an executable section

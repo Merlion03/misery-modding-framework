@@ -1,26 +1,38 @@
-# research/reflection/ — карта reflection (все файлы данных пусты)
+# research/reflection/ — карта reflection
 
-> **СТАТУС: ДАННЫХ НЕТ.**
-> Все семь файлов `*.jsonl` в подкаталоге сборки имеют нулевой размер. Это не сбой выгрузки и не
-> недоделанный коммит: карта reflection ещё не строилась. Ни RF-01 (разбор `global.ucas`), ни
-> RF-12 (обход `UClass` → `UFunction` → `FProperty`) не выполнялись, External Read-Only Inspector
-> не написан, M1..M3 не начинались. Пустой файл здесь — корректная запись факта «ни одной
-> сущности не зафиксировано».
-> Каталог создан задачей R-02 (plan.md §1.4) ради exit criterion «все файлы из §9.2 существуют,
-> пусть и с заголовками-заглушками».
+> **СТАТУС: ПЕРВЫЙ ЗАХОД ЕСТЬ, статика.**
+> Прежняя редакция этого файла утверждала «ДАННЫХ НЕТ» и была верна до 2026-08-23.
+> Теперь **RF-01 выполнен**: незашифрованный `global.ucas` разобран офлайн, только чтением,
+> без ключа и без единой записи в память процесса, и `classes.jsonl`, `functions.jsonl`,
+> `relations.jsonl` подкаталога сборки непусты. **RF-12** (обход `UClass` → `UFunction` →
+> `FProperty`) по-прежнему не выполнялся, External Read-Only Inspector не написан, и
+> критерии выхода из M3 требуют именно двусторонней сверки статики с наблюдением — так что
+> этап не закрыт.
+> `properties.jsonl` и `enums.jsonl` остаются пустыми **осознанно**, и причина у них разная:
+> свойств в этом контейнере не может быть в принципе, а енумы в нём есть, но неотличимы от
+> структур. Обе причины выписаны в
+> `research/reflection/misery-24826585-ue5.4.4-0eef3715244b/README.md`.
+> Каталог создан задачей R-02 (plan.md §1.4) ради exit criterion «все файлы из §9.2
+> существуют, пусть и с заголовками-заглушками».
 
 ## Что здесь лежит
 
 ```
 research/reflection/misery-24826585-ue5.4.4-0eef3715244b/
-├── classes.jsonl                  (пуст) — kind = "class" и kind = "struct"
-├── functions.jsonl                (пуст) — kind = "function"
-├── properties.jsonl               (пуст) — kind = "property"
-├── enums.jsonl                    (пуст) — kind = "enum"
-├── relations.jsonl                (пуст) — kind = "relation": наследование, владение, ссылки
+├── README.md                      — прогон RF-01: объём, оценки, решение по C-13
+├── classes.jsonl                    5 строк — kind = "class" (все пять; ни одной kind = "struct" в этом прогоне)
+├── functions.jsonl                 18 строк — kind = "function"
+├── properties.jsonl               (пуст, ОСОЗНАННО) — kind = "property"
+├── enums.jsonl                    (пуст, ОСОЗНАННО) — kind = "enum"
+├── relations.jsonl                 33 строки — kind = "relation": владение, CDO
 ├── replicated-properties.jsonl    (пуст) — §12.4
 └── rpcs.jsonl                     (пуст) — §12.4
 ```
+
+Записи с конвертом выписаны по модулю `/Script/MISERY`; полная карта сборки — 34 912
+script-объектов и 32 797 имён — лежит компактными таблицами в
+`research/evidence/RF-01/`. Почему разделено именно так и что при этом **не** урезано —
+решение по C-13 в README подкаталога сборки.
 
 Производный `reflection.sqlite` здесь **не хранится**: по plan.md §9.1 база данных строится из
 JSONL, считается кэшем, а не первоисточником, и вынесена в `.gitignore`
@@ -83,12 +95,16 @@ plan.md §9.2 и §19 задают путь как `research/reflection/<build_k
 
 | Файл | Milestone | Чем производится |
 |---|---|---|
-| `classes.jsonl`, `functions.jsonl`, `properties.jsonl`, `enums.jsonl`, `relations.jsonl` | **M3** | RF-01 (статика: разбор `global.ucas`) и RF-12 (наблюдение: обход `UClass` → `UFunction` → `FProperty`) через ERI, возможности I-02..I-06, экспорт I-16 |
+| `classes.jsonl`, `functions.jsonl`, `relations.jsonl` | **M3** | RF-01 (статика: разбор `global.ucas`) — **выполнен 2026-08-23**, `tools/reflection/global_ucas.py`; ждут RF-12 (наблюдение: обход `UClass` → `UFunction` → `FProperty`) через ERI, возможности I-02..I-06, экспорт I-16 |
+| `properties.jsonl` | **M3** | только RF-12. RF-01 заполнить его не может: свойства не являются `UObject`-ами и в `global.ucas` отсутствуют по построению формата |
+| `enums.jsonl` | **M3** | только RF-12 (или `.usmap`). RF-01 видит енумы, но не может отличить их от структур: тега типа в формате нет |
 | `replicated-properties.jsonl` | **M8** | флаги `FProperty` из дампа M3 (plan.md §12.2 п.2) |
 | `rpcs.jsonl` | **M8** | флаги `Net`, `NetServer`, `NetClient`, `NetMulticast` у `UFunction` из дампа M3 (plan.md §12.2 п.3) |
 
 Предпосылки M3: M2s (pipeline статического анализа даёт гипотезы для проверки) и закрытый гейт
-Q-8.3 по анти-читу (plan.md §8.6, §18.2). Ни то, ни другое не выполнено.
+Q-8.3 по анти-читу (plan.md §8.6, §18.2). **Ни то, ни другое к RF-01 не относится, и это
+главный практический результат этого метода:** статическая половина M3 получена без ERI, без
+процесса и без снятия гейта — гейт нужен только наблюдающей половине (RF-12).
 
 ## Что означает «достаточно»
 

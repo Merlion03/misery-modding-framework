@@ -1,0 +1,2360 @@
+{
+  "by_kind": {
+    "install-literal": {
+      "absent": 2,
+      "prediction_failures": 0,
+      "present": 0,
+      "probes": 2
+    },
+    "literal": {
+      "absent": 7,
+      "prediction_failures": 4,
+      "present": 21,
+      "probes": 28
+    },
+    "ue_log": {
+      "absent": 2,
+      "prediction_failures": 1,
+      "present": 10,
+      "probes": 12
+    }
+  },
+  "engine_branch": "++UE5+Release-5.4",
+  "engine_changelist": 35576357,
+  "file_sha256": "sha256:a155f897e156fa646b7b5f664f4816b57cfc19a3baedf1ed01e278f01fec91d7",
+  "file_size": 282826240,
+  "findings": [
+    {
+      "by_kind": {
+        "install-literal": {
+          "absent": 2,
+          "prediction_failures": 0,
+          "present": 0,
+          "probes": 2
+        },
+        "literal": {
+          "absent": 7,
+          "prediction_failures": 4,
+          "present": 21,
+          "probes": 28
+        },
+        "ue_log": {
+          "absent": 2,
+          "prediction_failures": 1,
+          "present": 10,
+          "probes": 12
+        }
+      },
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.79,
+        "evidence_level": "INFERRED",
+        "note": "Class I: a string literal is evidence that a translation unit containing it was compiled in, not proof that the code around it is reachable, and its ABSENCE is evidence only when a control literal of the same kind, from the same file, is present. The literal_reads carry only offsets, lengths and bytes. What we would see if the preprocessor readings were wrong: a hit on one of the rows predicted absent while its controls are present.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "whole-file search for each declared byte string",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. One method: exact byte-string search over the whole image in two encodings, against a table of predictions declared before the run."
+          }
+        ]
+      },
+      "prediction_failures": 5,
+      "predictions_checked": 38,
+      "question": "Does this image contain the string literals that the source chain for package admission and class registration is built from, and does it contain the literals that only a non-Shipping / editor configuration would keep?"
+    }
+  ],
+  "generated_at": "2026-08-23T18:26:08Z",
+  "generator_version": "loader_admission_probe/1.0.0",
+  "literal_reads": [
+    {
+      "bytes_hex": "4d006f0075006e007400650064002000500061006b002000660069006c006500200027002500730027002c0020006d006f0075006e007400200070006f0069006e0074003a0020002700250073002700",
+      "claim": "80 bytes at offset 222263456 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4d006f0075006e007400650064002000500061006b002000660069006c006500200027002500730027002c0020006d006f0075006e007400200070006f0069006e0074003a0020002700250073002700",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "80 bytes at offset 222263456 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4d006f0075006e007400650064002000500061006b002000660069006c006500200027002500730027002c0020006d006f0075006e007400200070006f0069006e0074003a0020002700250073002700. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4d006f0075006e007400650064002000500061006b002000660069006c006500200027002500730027002c0020006d006f0075006e007400200070006f0069006e0074003a0020002700250073002700",
+          "length": 80,
+          "offset": 222263456,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222263456+80",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:pak-mount-success:utf-16le",
+      "length": 80,
+      "offset": 222263456,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "4d006f0075006e00740065006400200049006f00530074006f0072006500200063006f006e007400610069006e006500720020002200250073002200",
+      "claim": "60 bytes at offset 222263112 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4d006f0075006e00740065006400200049006f00530074006f0072006500200063006f006e007400610069006e006500720020002200250073002200",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "60 bytes at offset 222263112 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4d006f0075006e00740065006400200049006f00530074006f0072006500200063006f006e007400610069006e006500720020002200250073002200. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4d006f0075006e00740065006400200049006f00530074006f0072006500200063006f006e007400610069006e006500720020002200250073002200",
+          "length": 60,
+          "offset": 222263112,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222263112+60",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:pak-mount-iostore-ok:utf-16le",
+      "length": 60,
+      "offset": 222263112,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "49006f00530074006f0072006500200063006f006e007400610069006e00650072002000220025007300220020006e006f007400200066006f0075006e006400",
+      "claim": "64 bytes at offset 222263344 of <install>/MISERY/Binaries/Win64/MISERY.exe are 49006f00530074006f0072006500200063006f006e007400610069006e00650072002000220025007300220020006e006f007400200066006f0075006e006400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "64 bytes at offset 222263344 of <install>/MISERY/Binaries/Win64/MISERY.exe are 49006f00530074006f0072006500200063006f006e007400610069006e00650072002000220025007300220020006e006f007400200066006f0075006e006400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "49006f00530074006f0072006500200063006f006e007400610069006e00650072002000220025007300220020006e006f007400200066006f0075006e006400",
+          "length": 64,
+          "offset": 222263344,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222263344+64",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:pak-mount-iostore-missing:utf-16le",
+      "length": 64,
+      "offset": 222263344,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "44006500660065007200720069006e00670020006d006f0075006e00740020006f0066002000700061006b0020002200250073002200200075006e00740069006c00200065006e006300720079007000740069006f006e0020006b00650079002000270025007300270020006200650063006f006d0065007300200061007600610069006c00610062006c006500",
+      "claim": "142 bytes at offset 222262816 of <install>/MISERY/Binaries/Win64/MISERY.exe are 44006500660065007200720069006e00670020006d006f0075006e00740020006f0066002000700061006b0020002200250073002200200075006e00740069006c00200065006e006300720079007000740069006f006e0020006b00650079002000270025007300270020006200650063006f006d0065007300200061007600610069006c00610062006c006500",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "142 bytes at offset 222262816 of <install>/MISERY/Binaries/Win64/MISERY.exe are 44006500660065007200720069006e00670020006d006f0075006e00740020006f0066002000700061006b0020002200250073002200200075006e00740069006c00200065006e006300720079007000740069006f006e0020006b00650079002000270025007300270020006200650063006f006d0065007300200061007600610069006c00610062006c006500. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "44006500660065007200720069006e00670020006d006f0075006e00740020006f0066002000700061006b0020002200250073002200200075006e00740069006c00200065006e006300720079007000740069006f006e0020006b00650079002000270025007300270020006200650063006f006d0065007300200061007600610069006c00610062006c006500",
+          "length": 142,
+          "offset": 222262816,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222262816+142",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:pak-mount-deferred-key:utf-16le",
+      "length": 142,
+      "offset": 222262816,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "610073007300650074007300200069006e00200074006800690073002000700061006b002000660069006c00650020006d006100790020006e006f0074002000620065002000610063006300650073007300690062006c006500200075006e00740069006c0020006100200063006f00720072006500730070006f006e00640069006e006700200055004600530020004d006f0075006e007400200050006f0069006e00740020006900730020006100640064006500640020007400680072006f00750067006800200046005000610063006b006100670065004e0061006d0065003a003a00520065006700690073007400650072004d006f0075006e00740050006f0069006e0074002e00",
+      "claim": "268 bytes at offset 222263796 of <install>/MISERY/Binaries/Win64/MISERY.exe are 610073007300650074007300200069006e00200074006800690073002000700061006b002000660069006c00650020006d006100790020006e006f0074002000620065002000610063006300650073007300690062006c006500200075006e00740069006c0020006100200063006f00720072006500730070006f006e00640069006e006700200055004600530020004d006f0075006e007400200050006f0069006e00740020006900730020006100640064006500640020007400680072006f00750067006800200046005000610063006b006100670065004e0061006d0065003a003a00520065006700690073007400650072004d006f0075006e00740050006f0069006e0074002e00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "268 bytes at offset 222263796 of <install>/MISERY/Binaries/Win64/MISERY.exe are 610073007300650074007300200069006e00200074006800690073002000700061006b002000660069006c00650020006d006100790020006e006f0074002000620065002000610063006300650073007300690062006c006500200075006e00740069006c0020006100200063006f00720072006500730070006f006e00640069006e006700200055004600530020004d006f0075006e007400200050006f0069006e00740020006900730020006100640064006500640020007400680072006f00750067006800200046005000610063006b006100670065004e0061006d0065003a003a00520065006700690073007400650072004d006f0075006e00740050006f0069006e0074002e00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "610073007300650074007300200069006e00200074006800690073002000700061006b002000660069006c00650020006d006100790020006e006f0074002000620065002000610063006300650073007300690062006c006500200075006e00740069006c0020006100200063006f00720072006500730070006f006e00640069006e006700200055004600530020004d006f0075006e007400200050006f0069006e00740020006900730020006100640064006500640020007400680072006f00750067006800200046005000610063006b006100670065004e0061006d0065003a003a00520065006700690073007400650072004d006f0075006e00740050006f0069006e0074002e00",
+          "length": 268,
+          "offset": 222263796,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222263796+268",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:pak-mount-point-warning:utf-16le",
+      "length": 268,
+      "offset": 222263796,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "460061006c006c0069006e00670020006200610063006b00200074006f00200069006d007000650072006600650063007400200068006100730068006d0061007000200066006f007200200063006f006e007400610069006e006500720020002700250073002700",
+      "claim": "104 bytes at offset 222224496 of <install>/MISERY/Binaries/Win64/MISERY.exe are 460061006c006c0069006e00670020006200610063006b00200074006f00200069006d007000650072006600650063007400200068006100730068006d0061007000200066006f007200200063006f006e007400610069006e006500720020002700250073002700",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "104 bytes at offset 222224496 of <install>/MISERY/Binaries/Win64/MISERY.exe are 460061006c006c0069006e00670020006200610063006b00200074006f00200069006d007000650072006600650063007400200068006100730068006d0061007000200066006f007200200063006f006e007400610069006e006500720020002700250073002700. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "460061006c006c0069006e00670020006200610063006b00200074006f00200069006d007000650072006600650063007400200068006100730068006d0061007000200066006f007200200063006f006e007400610069006e006500720020002700250073002700",
+          "length": 104,
+          "offset": 222224496,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222224496+104",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:iostore-imperfect-hash:utf-16le",
+      "length": 104,
+      "offset": 222224496,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "54006f00630020007300690067006e0061007400750072006500200068006100730068003a00200025007300",
+      "claim": "44 bytes at offset 222224640 of <install>/MISERY/Binaries/Win64/MISERY.exe are 54006f00630020007300690067006e0061007400750072006500200068006100730068003a00200025007300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "44 bytes at offset 222224640 of <install>/MISERY/Binaries/Win64/MISERY.exe are 54006f00630020007300690067006e0061007400750072006500200068006100730068003a00200025007300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "54006f00630020007300690067006e0061007400750072006500200068006100730068003a00200025007300",
+          "length": 44,
+          "offset": 222224640,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222224640+44",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:iostore-toc-signature-hash:utf-16le",
+      "length": 44,
+      "offset": 222224640,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "5200650064006900720065006300740069006e0067002000660072006f006d00200025007300200074006f0020003000780025006c006c007800",
+      "claim": "58 bytes at offset 222221232 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5200650064006900720065006300740069006e0067002000660072006f006d00200025007300200074006f0020003000780025006c006c007800",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "58 bytes at offset 222221232 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5200650064006900720065006300740069006e0067002000660072006f006d00200025007300200074006f0020003000780025006c006c007800. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5200650064006900720065006300740069006e0067002000660072006f006d00200025007300200074006f0020003000780025006c006c007800",
+          "length": 58,
+          "offset": 222221232,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222221232+58",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:filepackagestore-redirect:utf-16le",
+      "length": 58,
+      "offset": 222221232,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "53006300720069007000740020006f0062006a00650063007400200025007300200028003000780025003000310036006c006c005800290020006900730020006d0069007300730069006e0067002000610020004e006f00740069006600790052006500670069007300740072006100740069006f006e004500760065006e0074002000660072006f006d002000740068006500200069006e0069007400690061006c0020006c006f00610064002000700068006100730065002e00",
+      "claim": "188 bytes at offset 217182784 of <install>/MISERY/Binaries/Win64/MISERY.exe are 53006300720069007000740020006f0062006a00650063007400200025007300200028003000780025003000310036006c006c005800290020006900730020006d0069007300730069006e0067002000610020004e006f00740069006600790052006500670069007300740072006100740069006f006e004500760065006e0074002000660072006f006d002000740068006500200069006e0069007400690061006c0020006c006f00610064002000700068006100730065002e00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "188 bytes at offset 217182784 of <install>/MISERY/Binaries/Win64/MISERY.exe are 53006300720069007000740020006f0062006a00650063007400200025007300200028003000780025003000310036006c006c005800290020006900730020006d0069007300730069006e0067002000610020004e006f00740069006600790052006500670069007300740072006100740069006f006e004500760065006e0074002000660072006f006d002000740068006500200069006e0069007400690061006c0020006c006f00610064002000700068006100730065002e00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "53006300720069007000740020006f0062006a00650063007400200025007300200028003000780025003000310036006c006c005800290020006900730020006d0069007300730069006e0067002000610020004e006f00740069006600790052006500670069007300740072006100740069006f006e004500760065006e0074002000660072006f006d002000740068006500200069006e0069007400690061006c0020006c006f00610064002000700068006100730065002e00",
+          "length": 188,
+          "offset": 217182784,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@217182784+188",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:do-check-scriptobject-verify:utf-16le",
+      "length": 188,
+      "offset": 217182784,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "2d00700061006b006400690072003d00",
+      "claim": "16 bytes at offset 222259896 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2d00700061006b006400690072003d00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 222259896 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2d00700061006b006400690072003d00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2d00700061006b006400690072003d00",
+          "length": 16,
+          "offset": 222259896,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222259896+16",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-pakdir:utf-16le",
+      "length": 16,
+      "offset": 222259896,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "2d00700061006b006c006900730074003d00",
+      "claim": "18 bytes at offset 222264952 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2d00700061006b006c006900730074003d00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "18 bytes at offset 222264952 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2d00700061006b006c006900730074003d00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2d00700061006b006c006900730074003d00",
+          "length": 18,
+          "offset": 222264952,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222264952+18",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-paklist:utf-16le",
+      "length": 18,
+      "offset": 222264952,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "5300740061007200740075007000500061006b007300570069006c00640063006100720064003d00",
+      "claim": "40 bytes at offset 222260600 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5300740061007200740075007000500061006b007300570069006c00640063006100720064003d00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "40 bytes at offset 222260600 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5300740061007200740075007000500061006b007300570069006c00640063006100720064003d00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5300740061007200740075007000500061006b007300570069006c00640063006100720064003d00",
+          "length": 40,
+          "offset": 222260600,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222260600+40",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-startup-wildcard:utf-16le",
+      "length": 40,
+      "offset": 222260600,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "500061006b0073002f00",
+      "claim": "10 bytes at offset 222259924 of <install>/MISERY/Binaries/Win64/MISERY.exe are 500061006b0073002f00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 222259924 of <install>/MISERY/Binaries/Win64/MISERY.exe are 500061006b0073002f00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "500061006b0073002f00",
+          "length": 10,
+          "offset": 222259924,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222259924+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:pakfolder-project-content:utf-16le",
+      "length": 10,
+      "offset": 222259924,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "43006f0075006c00640020006e006f0074002000660069006e006400200063006c0061007300730020006f0062006a00650063007400200066006f007200200025007300",
+      "claim": "68 bytes at offset 217186944 of <install>/MISERY/Binaries/Win64/MISERY.exe are 43006f0075006c00640020006e006f0074002000660069006e006400200063006c0061007300730020006f0062006a00650063007400200066006f007200200025007300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "68 bytes at offset 217186944 of <install>/MISERY/Binaries/Win64/MISERY.exe are 43006f0075006c00640020006e006f0074002000660069006e006400200063006c0061007300730020006f0062006a00650063007400200066006f007200200025007300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "43006f0075006c00640020006e006f0074002000660069006e006400200063006c0061007300730020006f0062006a00650063007400200066006f007200200025007300",
+          "length": 68,
+          "offset": 217186944,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@217186944+68",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:createexport-no-class:utf-16le",
+      "length": 68,
+      "offset": 217186944,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "5f0050002e00700061006b00",
+      "claim": "12 bytes at offset 222264152 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5f0050002e00700061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 222264152 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5f0050002e00700061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5f0050002e00700061006b00",
+          "length": 12,
+          "offset": 222264152,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222264152+12",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:mount-patch-suffix:utf-16le",
+      "length": 12,
+      "offset": 222264152,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "2e00750074006f006300",
+      "claim": "10 bytes at offset 215809240 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2e00750074006f006300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 215809240 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2e00750074006f006300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2e00750074006f006300",
+          "length": 10,
+          "offset": 215809240,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@215809240+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:mount-utoc-extension:utf-16le",
+      "length": 10,
+      "offset": 215809240,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300",
+      "claim": "36 bytes at offset 222260680 of <install>/MISERY/Binaries/Win64/MISERY.exe are 25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "36 bytes at offset 222260680 of <install>/MISERY/Binaries/Win64/MISERY.exe are 25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300",
+          "length": 36,
+          "offset": 222260680,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222260680+36",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:global-utoc-path:utf-16le",
+      "length": 36,
+      "offset": 222260680,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "2e007500630061007300",
+      "claim": "10 bytes at offset 215814648 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2e007500630061007300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 215814648 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2e007500630061007300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2e007500630061007300",
+          "length": 10,
+          "offset": 215814648,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@215814648+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:iostore-ucas-extension:utf-16le",
+      "length": 10,
+      "offset": 215814648,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "5f00730025006400",
+      "claim": "8 bytes at offset 215814632 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5f00730025006400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 215814632 of <install>/MISERY/Binaries/Win64/MISERY.exe are 5f00730025006400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5f00730025006400",
+          "length": 8,
+          "offset": 215814632,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@215814632+8",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:iostore-partition-suffix:utf-16le",
+      "length": 8,
+      "offset": 215814632,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "2a002e00700061006b00",
+      "claim": "10 bytes at offset 216935072 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2a002e00700061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 216935072 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2a002e00700061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2a002e00700061006b00",
+          "length": 10,
+          "offset": 216935072,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@216935072+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:all-paks-wildcard:utf-16le",
+      "length": 10,
+      "offset": 216935072,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "4e006f00500061006b00",
+      "claim": "10 bytes at offset 222259936 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4e006f00500061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 222259936 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4e006f00500061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4e006f00500061006b00",
+          "length": 10,
+          "offset": 222259936,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222259936+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-nopak:utf-16le",
+      "length": 10,
+      "offset": 222259936,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300",
+      "claim": "40 bytes at offset 222259848 of <install>/MISERY/Binaries/Win64/MISERY.exe are 53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "40 bytes at offset 222259848 of <install>/MISERY/Binaries/Win64/MISERY.exe are 53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300",
+          "length": 40,
+          "offset": 222259848,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222259848+40",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-skipoptional:utf-16le",
+      "length": 40,
+      "offset": 222259848,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "63006800650063006b00700061006b00",
+      "claim": "16 bytes at offset 222249304 of <install>/MISERY/Binaries/Win64/MISERY.exe are 63006800650063006b00700061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 222249304 of <install>/MISERY/Binaries/Win64/MISERY.exe are 63006800650063006b00700061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "63006800650063006b00700061006b00",
+          "length": 16,
+          "offset": 222249304,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222249304+16",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-checkpak:utf-16le",
+      "length": 16,
+      "offset": 222249304,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "4c006f006f006b004c006f006f007300650046006900720073007400",
+      "claim": "28 bytes at offset 222260648 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4c006f006f006b004c006f006f007300650046006900720073007400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "28 bytes at offset 222260648 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4c006f006f006b004c006f006f007300650046006900720073007400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4c006f006f006b004c006f006f007300650046006900720073007400",
+          "length": 28,
+          "offset": 222260648,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@222260648+28",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-lookloosefirst:utf-16le",
+      "length": 28,
+      "offset": 222260648,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "500072006f0063006500730073004500780070006f0072007400420075006e0064006c0065007300",
+      "claim": "40 bytes at offset 217178496 of <install>/MISERY/Binaries/Win64/MISERY.exe are 500072006f0063006500730073004500780070006f0072007400420075006e0064006c0065007300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "40 bytes at offset 217178496 of <install>/MISERY/Binaries/Win64/MISERY.exe are 500072006f0063006500730073004500780070006f0072007400420075006e0064006c0065007300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "500072006f0063006500730073004500780070006f0072007400420075006e0064006c0065007300",
+          "length": 40,
+          "offset": 217178496,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@217178496+40",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:loaderstate-cooked:utf-16le",
+      "length": 40,
+      "offset": 217178496,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "4400650066006500720072006500640050006f00730074004c006f006100640044006f006e006500",
+      "claim": "40 bytes at offset 217178680 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4400650066006500720072006500640050006f00730074004c006f006100640044006f006e006500",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "40 bytes at offset 217178680 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4400650066006500720072006500640050006f00730074004c006f006100640044006f006e006500. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4400650066006500720072006500640050006f00730074004c006f006100640044006f006e006500",
+          "length": 40,
+          "offset": 217178680,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@217178680+40",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:loaderstate-deferred:utf-16le",
+      "length": 40,
+      "offset": 217178680,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+      "claim": "16 bytes at offset 215806568 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 215806568 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+          "length": 16,
+          "offset": 215806568,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@215806568+16",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:toc-magic:ascii",
+      "length": 16,
+      "offset": 215806568,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "4500760065006e0074005f00500072006f0063006500730073004500780070006f0072007400420075006e0064006c006500",
+      "claim": "50 bytes at offset 217185656 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4500760065006e0074005f00500072006f0063006500730073004500780070006f0072007400420075006e0064006c006500",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "50 bytes at offset 217185656 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4500760065006e0074005f00500072006f0063006500730073004500780070006f0072007400420075006e0064006c006500. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4500760065006e0074005f00500072006f0063006500730073004500780070006f0072007400420075006e0064006c006500",
+          "length": 50,
+          "offset": 217185656,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@217185656+50",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:timelimit-control-exportbundle:utf-16le",
+      "length": 50,
+      "offset": 217185656,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500",
+      "claim": "56 bytes at offset 217123056 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "56 bytes at offset 217123056 of <install>/MISERY/Binaries/Win64/MISERY.exe are 4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500",
+          "length": 56,
+          "offset": 217123056,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@217123056+56",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:timelimit-control-queue:utf-16le",
+      "length": 56,
+      "offset": 217123056,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400",
+      "claim": "70 bytes at offset 217192912 of <install>/MISERY/Binaries/Win64/MISERY.exe are 500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "70 bytes at offset 217192912 of <install>/MISERY/Binaries/Win64/MISERY.exe are 500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400",
+          "length": 70,
+          "offset": 217192912,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@217192912+70",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:timelimit-control-loaded:utf-16le",
+      "length": 70,
+      "offset": 217192912,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    },
+    {
+      "bytes_hex": "2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400",
+      "claim": "38 bytes at offset 215893040 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "38 bytes at offset 215893040 of <install>/MISERY/Binaries/Win64/MISERY.exe are 2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400",
+          "length": 38,
+          "offset": 215893040,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY.exe@215893040+38",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:script-package-root:utf-16le",
+      "length": 38,
+      "offset": 215893040,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY.exe"
+    }
+  ],
+  "literal_reads_reproduced": true,
+  "machine": "IMAGE_FILE_MACHINE_AMD64",
+  "probes": [
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 40,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 80,
+          "offsets": [
+            222263456
+          ],
+          "rvas": [
+            222269088
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-success",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8631",
+      "text": "Mounted Pak file '%s', mount point: '%s'",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the tail of FPakPlatformFile::Mount. Present iff the legacy pak mount code was linked at all."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 30,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 60,
+          "offsets": [
+            222263112
+          ],
+          "rvas": [
+            222268744
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-iostore-ok",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8574",
+      "text": "Mounted IoStore container \"%s\"",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the sibling-.utoc branch of FPakPlatformFile::Mount, the only place a non-global container reaches FFilePackageStoreBackend."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 64,
+          "offsets": [
+            222263344
+          ],
+          "rvas": [
+            222268976
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-iostore-missing",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8604",
+      "text": "IoStore container \"%s\" not found",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the branch a bare .pak with no sibling .utoc takes; it sets bIoStoreSuccess = false while the pak still enters PakFiles."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 71,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 142,
+          "offsets": [
+            222262816
+          ],
+          "rvas": [
+            222268448
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-deferred-key",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8532",
+      "text": "Deferring mount of pak \"%s\" until encryption key '%s' becomes available",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the EncryptionKeyGuid gate, the only key check inside Mount."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 134,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 268,
+          "offsets": [
+            222263796
+          ],
+          "rvas": [
+            222269428
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-point-warning",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8663",
+      "text": "assets in this pak file may not be accessible until a corresponding UFS Mount Point is added through FPackageName::RegisterMountPoint.",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the only mount-point-shaped admission remark in the pak path. It is a Display log, not a rejection; presence lets a reader check that for themselves."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 52,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 104,
+          "offsets": [
+            222224496
+          ],
+          "rvas": [
+            222230128
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "iostore-imperfect-hash",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:727",
+      "text": "Falling back to imperfect hashmap for container '%s'",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "FFileIoStoreReader::Initialize, the per-container TOC intake."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 22,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 44,
+          "offsets": [
+            222224640
+          ],
+          "rvas": [
+            222230272
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "iostore-toc-signature-hash",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:746",
+      "text": "Toc signature hash: %s",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "unconditional log in FFileIoStoreReader::Initialize; a control for the signature probes below, which are conditional."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 29,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 58,
+          "offsets": [
+            222221232
+          ],
+          "rvas": [
+            222226864
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "filepackagestore-redirect",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/FilePackageStore.cpp:364",
+      "text": "Redirecting from %s to 0x%llx",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "FFilePackageStoreBackend::GetPackageRedirectInfo -- the package store backend that turns a container header into loadable package ids."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 17,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 34,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "unknown",
+      "id": "iostore-missing-signature",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/Core/Private/IO/IoStore.cpp:3277",
+      "text": "Missing signature",
+      "total_hits": 0,
+      "verdict": "NO_PREDICTION",
+      "why": "reachable only when IsSigningEnabled() can return true, and IsSigningEnabled (IoStore.cpp:61-68) is `return GetPakSigningKeysDelegate().IsBound()` under UE_BUILD_SHIPPING and a literal false otherwise. Declared unknown because MSVC is not obliged to drop an unreferenced literal, so a hit is weak evidence and a miss is strong."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 64,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "alt2-linkerload-state",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2103",
+      "text": "WaitingForLinkerLoadDependencies",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "inside #if ALT2_ENABLE_LINKERLOAD_SUPPORT, which is #defined to WITH_EDITOR at AsyncLoading2.cpp:263-264. A hit would mean this build kept the file-system fallback that lets AsyncLoading2 load a legacy .uasset with no package-store entry -- which would change the answer for a mod in a legacy pak."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 100,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 200,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "alt2-linkerload-import",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5693",
+      "text": "Package %s might be missing an import from cooked package %s because it's exports are not yet ready.",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "second, independently placed string inside the same #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 94,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 188,
+          "offsets": [
+            217182784
+          ],
+          "rvas": [
+            217188416
+          ]
+        }
+      },
+      "expected": "absent",
+      "id": "do-check-scriptobject-verify",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:4940",
+      "text": "Script object %s (0x%016llX) is missing a NotifyRegistrationEvent from the initial load phase.",
+      "total_hits": 1,
+      "verdict": "PREDICTION_FAILED",
+      "why": "reached through `#elif DO_CHECK` in FGlobalImportStore::RegistrationComplete (4953-4966). DO_CHECK is 0 in a Shipping build, so a hit says this image is not Shipping -- a discriminator for D-04, measured here as a by-product rather than assumed."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 8,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 16,
+          "offsets": [
+            222259896
+          ],
+          "rvas": [
+            222265528
+          ]
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-pakdir",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8137",
+      "text": "-pakdir=",
+      "total_hits": 1,
+      "verdict": "PREDICTION_FAILED",
+      "why": "inside #if !UE_BUILD_SHIPPING in FPakPlatformFile::GetPakFolders. If absent, the only pak directories this build ever scans are the three hardcoded ones, which bounds mod discovery."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 9,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 18,
+          "offsets": [
+            222264952
+          ],
+          "rvas": [
+            222270584
+          ]
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-paklist",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8812",
+      "text": "-paklist=",
+      "total_hits": 1,
+      "verdict": "PREDICTION_FAILED",
+      "why": "inside #if !UE_BUILD_SHIPPING in MountAllPakFiles."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 20,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 40,
+          "offsets": [
+            222260600
+          ],
+          "rvas": [
+            222266232
+          ]
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-startup-wildcard",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8237",
+      "text": "StartupPaksWildcard=",
+      "total_hits": 1,
+      "verdict": "PREDICTION_FAILED",
+      "why": "inside #if !UE_BUILD_SHIPPING in FPakPlatformFile::Initialize."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 4,
+          "needle_length": 10,
+          "offsets": [
+            222259924,
+            222260684,
+            222265004,
+            243459248
+          ],
+          "rvas": [
+            222265556,
+            222266316,
+            222270636,
+            243464880
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "pakfolder-project-content",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8147-8149",
+      "text": "Paks/",
+      "total_hits": 4,
+      "verdict": "PREDICTION_HELD",
+      "why": "the three hardcoded pak folders are built with FString::Printf(TEXT(\"%sPaks/\"), ...); the literal survives in any configuration."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 35,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 70,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "unknown",
+      "id": "registration-deferred-log",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/UObject/UObjectBase.cpp:195",
+      "text": "UObjectBase::DeferredRegister %s %s",
+      "total_hits": 0,
+      "verdict": "NO_PREDICTION",
+      "why": "the native-class registration step the source chain ends on. A Verbose UE_LOG, so its survival depends on the build's logging configuration and not on the code path being present; declared unknown so that neither outcome can be read as evidence about the path."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 34,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 68,
+          "offsets": [
+            217186944
+          ],
+          "rvas": [
+            217192576
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "createexport-no-class",
+      "kind": "ue_log",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:6614",
+      "text": "Could not find class object for %s",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "inside FAsyncPackage2::EventDrivenCreateExport, the place where an export -- a UClass export included -- becomes a UObject on the IoStore path."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 6,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 12,
+          "offsets": [
+            222264152
+          ],
+          "rvas": [
+            222269784
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "mount-patch-suffix",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8486",
+      "text": "_P.pak",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the operand of PakFilename.EndsWith inside FPakPlatformFile::Mount itself. Its presence is evidence that Mount was compiled into this image; it also names the ONLY filename-derived rule inside Mount, and that rule adjusts PakOrder, i.e. precedence, and nothing else."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 3,
+          "needle_length": 10,
+          "offsets": [
+            215809240,
+            222224706,
+            222260706
+          ],
+          "rvas": [
+            215814872,
+            222230338,
+            222266338
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "mount-utoc-extension",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8564",
+      "text": ".utoc",
+      "total_hits": 3,
+      "verdict": "PREDICTION_HELD",
+      "why": "FPaths::ChangeExtension(InPakFilename, TEXT(\".utoc\")) inside Mount -- the sibling-container rule that decides whether a mounted pak contributes package-store entries at all."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 18,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 36,
+          "offsets": [
+            222260680
+          ],
+          "rvas": [
+            222266312
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "global-utoc-path",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8243",
+      "text": "%sPaks/global.utoc",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the Printf format in FPakPlatformFile::Initialize whose FileExists result gates creation of the IoStore file backend and of FFilePackageStoreBackend."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 10,
+          "offsets": [
+            215814648
+          ],
+          "rvas": [
+            215820280
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "iostore-ucas-extension",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:704",
+      "text": ".ucas",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "FFileIoStoreReader::Initialize builds the payload path from it."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 4,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 8,
+          "offsets": [
+            215814632
+          ],
+          "rvas": [
+            215820264
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "iostore-partition-suffix",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:702",
+      "text": "_s%d",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the partition suffix in the same function; a second, independently placed literal from that translation unit."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 1,
+          "needle_length": 5,
+          "offsets": [
+            222264972
+          ],
+          "rvas": [
+            222270604
+          ]
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 10,
+          "offsets": [
+            216935072
+          ],
+          "rvas": [
+            216940704
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "all-paks-wildcard",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:81",
+      "text": "*.pak",
+      "total_hits": 2,
+      "verdict": "PREDICTION_HELD",
+      "why": "ALL_PAKS_WILDCARD -- the pattern FindAllPakFiles matches, so the shape of automatic discovery: any *.pak in the scanned folders, with no name allowlist."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 10,
+          "offsets": [
+            222259936
+          ],
+          "rvas": [
+            222265568
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "cmdline-nopak",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8176",
+      "text": "NoPak",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "an FParse::Param literal in this file that is NOT inside #if !UE_BUILD_SHIPPING. Control for the three switches predicted absent: if this one is present and those are absent, the absences are the preprocessor and not a general stripping of FParse literals."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 20,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 40,
+          "offsets": [
+            222259848
+          ],
+          "rvas": [
+            222265480
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "cmdline-skipoptional",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8110",
+      "text": "SkipOptionalPakFiles",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "second such control, in FindPakFilesInDirectory."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 8,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 16,
+          "offsets": [
+            222249304
+          ],
+          "rvas": [
+            222254936
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "cmdline-checkpak",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:5981",
+      "text": "checkpak",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "third such control; also the switch that turns on CheckIoStoreContainerBlockSignatures at mount time."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 14,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 28,
+          "offsets": [
+            222260648
+          ],
+          "rvas": [
+            222266280
+          ]
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-lookloosefirst",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8240",
+      "text": "LookLooseFirst",
+      "total_hits": 1,
+      "verdict": "PREDICTION_FAILED",
+      "why": "inside #if !UE_BUILD_SHIPPING in FPakPlatformFile::Initialize; fourth member of the shipping-gate group."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 2,
+          "needle_length": 20,
+          "offsets": [
+            217185857,
+            217190161
+          ],
+          "rvas": [
+            217191489,
+            217195793
+          ]
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 40,
+          "offsets": [
+            217178496
+          ],
+          "rvas": [
+            217184128
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "loaderstate-cooked",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2107",
+      "text": "ProcessExportBundles",
+      "total_hits": 3,
+      "verdict": "PREDICTION_HELD",
+      "why": "a switch arm of LexToString(EAsyncPackageLoadingState2), compiled in every configuration. THE control for the two ALT2 arms below: same function, adjacent lines."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 23,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 46,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "loaderstate-alt2-create",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2102",
+      "text": "CreateLinkerLoadExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "an arm of the SAME switch, inside #if ALT2_ENABLE_LINKERLOAD_SUPPORT. Present-vs-absent against the control above is a controlled test of that macro in this image, and the macro decides whether AsyncLoading2 can load a package that has no package-store entry."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 64,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "loaderstate-alt2-wait",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2103",
+      "text": "WaitingForLinkerLoadDependencies",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "a second arm inside the same #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 1,
+          "needle_length": 20,
+          "offsets": [
+            217191073
+          ],
+          "rvas": [
+            217196705
+          ]
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 40,
+          "offsets": [
+            217178680
+          ],
+          "rvas": [
+            217184312
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "loaderstate-deferred",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2112",
+      "text": "DeferredPostLoadDone",
+      "total_hits": 2,
+      "verdict": "PREDICTION_HELD",
+      "why": "a second unconditional arm, after the #if, so the control is not a single point."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 1,
+          "needle_length": 16,
+          "offsets": [
+            215806568
+          ],
+          "rvas": [
+            215812200
+          ]
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "toc-magic",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/Core/Internal/IO/IoStore.h:40",
+      "text": "-==--==--==--==-",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "FIoStoreTocHeader::TocMagicImg. A char[] and therefore ASCII, not UTF-16LE; it is the byte string CheckMagic compares against and it is present in every container this install ships."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 47,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 94,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "unknown",
+      "id": "bootstrap-target-shipping",
+      "kind": "install-literal",
+      "observed": "absent",
+      "source": "not engine source: the packaged-game bootstrap's own target",
+      "text": "MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+      "total_hits": 0,
+      "verdict": "NO_PREDICTION",
+      "why": "expected present only in the small root-level launcher, absent in the two game binaries. Its presence there is what makes MISERY-Win64-Shipping.exe 'the shipped image' for this question."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 40,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 80,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "unknown",
+      "id": "bootstrap-self-name",
+      "kind": "install-literal",
+      "observed": "absent",
+      "source": "not engine source: the bootstrap's own module name",
+      "text": "BootstrapPackagedGame-Win64-Shipping.exe",
+      "total_hits": 0,
+      "verdict": "NO_PREDICTION",
+      "why": "identifies the launcher as UE's BootstrapPackagedGame."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 26,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 52,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "timelimit-alt2-serialize",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5652",
+      "text": "SerializeLinkerLoadExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "argument of an IsTimeLimitExceeded call inside the ALT2 #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 39,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 78,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "timelimit-alt2-postload",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5854",
+      "text": "ExecutePostLoadLinkerLoadPackageExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "second such argument inside the ALT2 #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 47,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 94,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "timelimit-alt2-deferred",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5932",
+      "text": "ExecuteDeferredPostLoadLinkerLoadPackageExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "third such argument inside the ALT2 #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 1,
+          "needle_length": 25,
+          "offsets": [
+            217185464
+          ],
+          "rvas": [
+            217191096
+          ]
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 50,
+          "offsets": [
+            217185656
+          ],
+          "rvas": [
+            217191288
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "timelimit-control-exportbundle",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:6285",
+      "text": "Event_ProcessExportBundle",
+      "total_hits": 2,
+      "verdict": "PREDICTION_HELD",
+      "why": "the matching control: same kind of call, same file, OUTSIDE the #if. If the controls are absent too, the test is void rather than negative, and must be reported that way."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 3,
+          "needle_length": 28,
+          "offsets": [
+            217123027,
+            217126032,
+            217182160
+          ],
+          "rvas": [
+            217128659,
+            217131664,
+            217187792
+          ]
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 56,
+          "offsets": [
+            217123056
+          ],
+          "rvas": [
+            217128688
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "timelimit-control-queue",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:4514",
+      "text": "CreateAsyncPackagesFromQueue",
+      "total_hits": 4,
+      "verdict": "PREDICTION_HELD",
+      "why": "second control, in the function that resolves a package request."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 35,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 70,
+          "offsets": [
+            217192912
+          ],
+          "rvas": [
+            217198544
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "timelimit-control-loaded",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:7746",
+      "text": "ProcessLoadedPackagesFromGameThread",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "third control."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 2,
+          "needle_length": 19,
+          "offsets": [
+            217002656,
+            218566736
+          ],
+          "rvas": [
+            217008288,
+            218572368
+          ]
+        },
+        "utf-16le": {
+          "count": 4,
+          "needle_length": 38,
+          "offsets": [
+            215893040,
+            217337072,
+            218585240,
+            234747200
+          ],
+          "rvas": [
+            215898672,
+            217342704,
+            218590872,
+            234752832
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "script-package-root",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/UObject/UObjectBase.cpp:472",
+      "text": "/Script/CoreUObject",
+      "total_hits": 6,
+      "verdict": "PREDICTION_HELD",
+      "why": "the package-name literal UObjectBase::Register compares against for per-module bootstrap. Native class registration takes its package name from literals like this one, in the image, and never from a container."
+    }
+  ],
+  "section_count": 10,
+  "subcommand": "image",
+  "target": "<install>/MISERY/Binaries/Win64/MISERY.exe",
+  "warnings": []
+}

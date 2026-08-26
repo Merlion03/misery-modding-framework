@@ -1,0 +1,27 @@
+sigscan 1.0.0 (S-07)
+target:   MISERY/Binaries/Win64/MISERY.exe
+          282 826 240 bytes, sha256 a155f897e156fa646b7b5f664f4816b5
+          D-04 read-only oracle: a conclusion reached here must be re-verified on the Shipping image
+library:  sigmake document
+          cut from MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe (sha256 0eef3715244b467c830022c4260a0e2c)
+          same image as the signature source: no
+surface:  exec -- every section with raw data whose characteristics carry IMAGE_SCN_MEM_EXECUTE or IMAGE_SCN_CNT_CODE
+          215 114 752 bytes over 2 range(s): .text[1536+215084032], .uedbg[215085568+30720]
+          NOT searched: read-only and writable data, resources, the headers and any overlay -- a byte sequence present there is NOT counted by this run
+
+verdicts: unique 655   ambiguous 113   absent 762   (of 1530 scanned)
+          masked-byte fraction: min 0.000  mean 0.000  max 0.000
+
+verdict     occur.       len  mask  anch first rva   label
+... 1530 more (see the artifact)
+
+refutation probes:
+
+class-P literal reads: 6, reproduced
+
+warnings:
+  - this target is NOT the image the signatures were cut from (sha256 a155f897e156fa64 vs 0eef3715244b467c); every 'absent' below is therefore consistent with the function existing at a different address
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-all-oracle-d04.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-all-oracle-d04.jsonl

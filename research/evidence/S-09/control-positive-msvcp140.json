@@ -1,0 +1,1290 @@
+{
+  "candidate_sample": [
+    {
+      "distinct_slot_targets": 3,
+      "file_offset": 404024,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "zero",
+      "prior_slot_rva": 407088,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 407096,
+      "run_slot_count": 5,
+      "section": ".rdata",
+      "slot_count": 5,
+      "slot_target_rvas_first": 14400,
+      "slot_targets_at_function_starts": 3,
+      "tier": "unreferenced",
+      "vtable_rva": 407096
+    },
+    {
+      "distinct_slot_targets": 3,
+      "file_offset": 411592,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 414656,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 430024,
+      "run_rva": 414664,
+      "run_slot_count": 4,
+      "section": ".rdata",
+      "slot_count": 4,
+      "slot_target_rvas_first": 14400,
+      "slot_targets_at_function_starts": 1,
+      "tier": "unreferenced",
+      "vtable_rva": 414664
+    },
+    {
+      "distinct_slot_targets": 3,
+      "file_offset": 412688,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 415752,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 432048,
+      "run_rva": 415760,
+      "run_slot_count": 3,
+      "section": ".rdata",
+      "slot_count": 3,
+      "slot_target_rvas_first": 31520,
+      "slot_targets_at_function_starts": 1,
+      "tier": "code-referenced",
+      "vtable_rva": 415760
+    },
+    {
+      "distinct_slot_targets": 15,
+      "file_offset": 413296,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 416360,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 433592,
+      "run_rva": 416368,
+      "run_slot_count": 15,
+      "section": ".rdata",
+      "slot_count": 15,
+      "slot_target_rvas_first": 31008,
+      "slot_targets_at_function_starts": 10,
+      "tier": "code-stored",
+      "vtable_rva": 416368
+    },
+    {
+      "distinct_slot_targets": 8,
+      "file_offset": 413992,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 417056,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 434208,
+      "run_rva": 417064,
+      "run_slot_count": 10,
+      "section": ".rdata",
+      "slot_count": 10,
+      "slot_target_rvas_first": 31520,
+      "slot_targets_at_function_starts": 1,
+      "tier": "code-stored",
+      "vtable_rva": 417064
+    },
+    {
+      "distinct_slot_targets": 15,
+      "file_offset": 419496,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 422560,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 435608,
+      "run_rva": 422568,
+      "run_slot_count": 15,
+      "section": ".rdata",
+      "slot_count": 15,
+      "slot_target_rvas_first": 102192,
+      "slot_targets_at_function_starts": 12,
+      "tier": "code-stored",
+      "vtable_rva": 422568
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 419984,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 423048,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 436608,
+      "run_rva": 423056,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 110912,
+      "slot_targets_at_function_starts": 0,
+      "tier": "code-stored",
+      "vtable_rva": 423056
+    },
+    {
+      "distinct_slot_targets": 12,
+      "file_offset": 420544,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 423608,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 438704,
+      "run_rva": 423616,
+      "run_slot_count": 12,
+      "section": ".rdata",
+      "slot_count": 12,
+      "slot_target_rvas_first": 150304,
+      "slot_targets_at_function_starts": 5,
+      "tier": "code-stored",
+      "vtable_rva": 423616
+    },
+    {
+      "distinct_slot_targets": 5,
+      "file_offset": 421344,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 424408,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 439472,
+      "run_rva": 424416,
+      "run_slot_count": 5,
+      "section": ".rdata",
+      "slot_count": 5,
+      "slot_target_rvas_first": 150576,
+      "slot_targets_at_function_starts": 3,
+      "tier": "code-stored",
+      "vtable_rva": 424416
+    },
+    {
+      "distinct_slot_targets": 5,
+      "file_offset": 422824,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 425888,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 440824,
+      "run_rva": 425896,
+      "run_slot_count": 5,
+      "section": ".rdata",
+      "slot_count": 5,
+      "slot_target_rvas_first": 150576,
+      "slot_targets_at_function_starts": 3,
+      "tier": "code-stored",
+      "vtable_rva": 425896
+    },
+    {
+      "distinct_slot_targets": 2,
+      "file_offset": 423752,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 426816,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 442008,
+      "run_rva": 426824,
+      "run_slot_count": 2,
+      "section": ".rdata",
+      "slot_count": 2,
+      "slot_target_rvas_first": 32368,
+      "slot_targets_at_function_starts": 1,
+      "tier": "code-stored",
+      "vtable_rva": 426824
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 425784,
+      "is_run_start": true,
+      "nearest_source_path": null,
+      "nearest_source_path_distance": null,
+      "nearest_source_path_rva": null,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 428848,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": 443488,
+      "run_rva": 428856,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 392976,
+      "slot_targets_at_function_starts": 1,
+      "tier": "code-referenced",
+      "vtable_rva": 428856
+    }
+  ],
+  "candidates_total": 97,
+  "code_references": {
+    "bytes_scanned": 401408,
+    "distinct_lea_targets_in_surface": 259,
+    "distinct_store_targets_in_surface": 119,
+    "lea_shaped_sequences": 1890,
+    "lea_targets_in_surface": 1615,
+    "sections": [
+      ".text"
+    ],
+    "store_idiom_targets_in_surface": 458,
+    "targets_outside_surface": 275
+  },
+  "cross_check": {
+    "artifact": "C:/Temp/claude/msvcp140-rtti.json",
+    "census": {
+      "comparison_is_valid_only_if_the_sections_match": true,
+      "my_runs_by_minimum_length": {
+        "16": 1,
+        "4": 59,
+        "8": 36
+      },
+      "my_sections": [
+        ".rdata",
+        ".data"
+      ],
+      "my_slots": 658,
+      "runs_agree": true,
+      "slots_agree": true,
+      "their_runs_by_minimum_length": {
+        "16": 1,
+        "4": 59,
+        "8": 36
+      },
+      "their_sections": [
+        ".rdata",
+        ".data"
+      ],
+      "their_slots": 658
+    },
+    "independent_rtti_locator_count": {
+      "agree": true,
+      "found_by_rtti_scan_from_the_name_side": 93,
+      "found_from_the_vtable_side": 93,
+      "method": "the slot before each candidate is followed and the record it points at is accepted only when its first DWORD is 1 and its sixth DWORD equals its own image-relative address"
+    },
+    "known_vtables": {
+      "in_the_rtti_artifact": 93,
+      "not_recovered": [],
+      "recall": 1.0,
+      "recall_code_stored": 0.8925,
+      "recall_code_stored_or_referenced": 0.9462,
+      "recovered_as_a_candidate": 93,
+      "recovered_by_tier": {
+        "code-referenced": 5,
+        "code-stored": 83,
+        "unreferenced": 5
+      },
+      "slot_count_disagreement_examples": [],
+      "slot_count_disagreements": 0
+    },
+    "note": null,
+    "owner_adjacency": {
+      "adjacent_pairs": 92,
+      "adjacent_pairs_with_the_same_owner": 89,
+      "chance_rate_from_owner_frequencies": 0.917,
+      "contiguous_same_owner_blocks": 4,
+      "distinct_owners": 3,
+      "observed_rate": 0.9674,
+      "rva_span": [
+        414456,
+        428856
+      ],
+      "what_it_tests": "whether vtable ORDER in this image carries information about origin. An observed rate near the chance rate would mean that nothing positional in this tool's output -- clusters, nearest literal, neighbourhood -- can be read as evidence of anything."
+    },
+    "readable": true,
+    "rtti_generator": "tools/static/rtti_scan.py",
+    "rtti_generator_version": "1.1.0",
+    "rtti_sha256": "7c26614e1d733892c2deac7e245ce115504b1d80592dd0a01b08e3e5a55f89ca",
+    "rtti_target": "MSVCP140.dll"
+  },
+  "d04_oracle_only": false,
+  "declared_pointer_tables": [
+    {
+      "end_rva": 406104,
+      "kind": "import-address-table",
+      "name": "KERNEL32.dll",
+      "start_rva": 405504
+    },
+    {
+      "end_rva": 406248,
+      "kind": "import-address-table",
+      "name": "VCRUNTIME140.dll",
+      "start_rva": 406112
+    },
+    {
+      "end_rva": 406264,
+      "kind": "import-address-table",
+      "name": "VCRUNTIME140_1.dll",
+      "start_rva": 406256
+    },
+    {
+      "end_rva": 406304,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-convert-l1-1-0.dll",
+      "start_rva": 406272
+    },
+    {
+      "end_rva": 406320,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-environment-l1-1-0.dll",
+      "start_rva": 406312
+    },
+    {
+      "end_rva": 406376,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "start_rva": 406328
+    },
+    {
+      "end_rva": 406424,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-heap-l1-1-0.dll",
+      "start_rva": 406384
+    },
+    {
+      "end_rva": 406512,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-locale-l1-1-0.dll",
+      "start_rva": 406432
+    },
+    {
+      "end_rva": 406608,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-math-l1-1-0.dll",
+      "start_rva": 406520
+    },
+    {
+      "end_rva": 406744,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "start_rva": 406616
+    },
+    {
+      "end_rva": 406920,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "start_rva": 406752
+    },
+    {
+      "end_rva": 407000,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-string-l1-1-0.dll",
+      "start_rva": 406928
+    },
+    {
+      "end_rva": 407072,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-time-l1-1-0.dll",
+      "start_rva": 407008
+    },
+    {
+      "end_rva": 407088,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-utility-l1-1-0.dll",
+      "start_rva": 407080
+    }
+  ],
+  "file": {
+    "image_base": 6442450944,
+    "install_relative": "MSVCP140.dll",
+    "machine": 34404,
+    "name": "MSVCP140.dll",
+    "path": "C:\\Windows\\System32\\MSVCP140.dll",
+    "pe_format": "PE32+",
+    "pointer_size": 8,
+    "sha256": "7c26614e1d733892c2deac7e245ce115504b1d80592dd0a01b08e3e5a55f89ca",
+    "size": 643512,
+    "size_of_image": 643072
+  },
+  "generated_at": "2026-08-23T18:24:01Z",
+  "generator": "tools/static/vtable_scan.py",
+  "generator_version": "1.1.0",
+  "interpreted_annotation": {
+    "claim_class": "I",
+    "confidence": 0.85,
+    "evidence_level": "INFERRED",
+    "note": "Interpretive: this layer says that named byte ranges ARE virtual function tables, counts them and describes their population, all of which decodes and attributes rather than reads. The primitive half is in literal_reads[]. Second method: the MSVC RTTI graph, walked by tools/static/rtti_scan.py from the decorated-name side, reaches 93 vtables in this image; 93 of them are recovered here from the pointer-run side with 0 slot-count disagreements. The two methods share no code and no starting point -- one starts at '.?A' name strings, the other at relocation fixups -- so the agreement is a genuine second method and not a re-read",
+    "oracle": [
+      "binary-analysis",
+      "external-doc"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "MSVCP140.dll",
+        "method": "S-09",
+        "note": "oracle binary-analysis + external-doc. A run of relocated, pointer-aligned values addressing executable sections is read as a virtual function table, which rests on the MSVC object layout convention (external-doc: it proves how the Microsoft toolchain lays a vtable out, not what this build contains) and on a pattern match over instruction bytes that is not a disassembler."
+      },
+      {
+        "artifact": null,
+        "independent_of": [
+          "S-09/run-and-reference-scan"
+        ],
+        "locator": "MSVCP140.dll",
+        "method": "S-09",
+        "note": "oracle binary-analysis. Second, independent method: the MSVC RTTI graph, walked by tools/static/rtti_scan.py from the decorated-name side, reaches 93 vtables in this image; 93 of them are recovered here from the pointer-run side with 0 slot-count disagreements. The two methods share no code and no starting point -- one starts at '.?A' name strings, the other at relocation fixups -- so the agreement is a genuine second method and not a re-read"
+      }
+    ]
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "9033008001000000203d008001000000",
+      "claim": "16 bytes at offset 411384 of MSVCP140.dll are 9033008001000000203d008001000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 411384 of MSVCP140.dll are 9033008001000000203d008001000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "9033008001000000203d008001000000",
+          "length": 16,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 411384,
+          "target": "MSVCP140.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MSVCP140.dll@411384+16",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@414456",
+      "length": 16,
+      "offset": 411384,
+      "reproduced": true,
+      "target": "MSVCP140.dll"
+    },
+    {
+      "bytes_hex": "2079008001000000f091008001000000507f008001000000f0a1008001000000",
+      "claim": "32 bytes at offset 413296 of MSVCP140.dll are 2079008001000000f091008001000000507f008001000000f0a1008001000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 413296 of MSVCP140.dll are 2079008001000000f091008001000000507f008001000000f0a1008001000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2079008001000000f091008001000000507f008001000000f0a1008001000000",
+          "length": 32,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 413296,
+          "target": "MSVCP140.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MSVCP140.dll@413296+32",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@416368",
+      "length": 32,
+      "offset": 413296,
+      "reproduced": true,
+      "target": "MSVCP140.dll"
+    },
+    {
+      "bytes_hex": "904c058001000000",
+      "claim": "8 bytes at offset 419624 of MSVCP140.dll are 904c058001000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 419624 of MSVCP140.dll are 904c058001000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "904c058001000000",
+          "length": 8,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 419624,
+          "target": "MSVCP140.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MSVCP140.dll@419624+8",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@422696",
+      "length": 8,
+      "offset": 419624,
+      "reproduced": true,
+      "target": "MSVCP140.dll"
+    },
+    {
+      "bytes_hex": "204b028001000000f091008001000000507f0080010000005014038001000000",
+      "claim": "32 bytes at offset 420544 of MSVCP140.dll are 204b028001000000f091008001000000507f0080010000005014038001000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 420544 of MSVCP140.dll are 204b028001000000f091008001000000507f0080010000005014038001000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "204b028001000000f091008001000000507f0080010000005014038001000000",
+          "length": 32,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 420544,
+          "target": "MSVCP140.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MSVCP140.dll@420544+32",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@423616",
+      "length": 32,
+      "offset": 420544,
+      "reproduced": true,
+      "target": "MSVCP140.dll"
+    },
+    {
+      "bytes_hex": "304c028001000000f091008001000000507f00800100000070b6008001000000",
+      "claim": "32 bytes at offset 422768 of MSVCP140.dll are 304c028001000000f091008001000000507f00800100000070b6008001000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 422768 of MSVCP140.dll are 304c028001000000f091008001000000507f00800100000070b6008001000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "304c028001000000f091008001000000507f00800100000070b6008001000000",
+          "length": 32,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 422768,
+          "target": "MSVCP140.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MSVCP140.dll@422768+32",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@425840",
+      "length": 32,
+      "offset": 422768,
+      "reproduced": true,
+      "target": "MSVCP140.dll"
+    },
+    {
+      "bytes_hex": "e04d058001000000",
+      "claim": "8 bytes at offset 425448 of MSVCP140.dll are e04d058001000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 425448 of MSVCP140.dll are e04d058001000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "e04d058001000000",
+          "length": 8,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 425448,
+          "target": "MSVCP140.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MSVCP140.dll@425448+8",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@428520",
+      "length": 8,
+      "offset": 425448,
+      "reproduced": true,
+      "target": "MSVCP140.dll"
+    }
+  ],
+  "refutation_probes": [
+    {
+      "aligned_runs_of_at_least_4": 59,
+      "misaligned_runs_of_at_least_4": 0,
+      "misaligned_slots_addressing_executable_sections": 0,
+      "probe": "misalignment control",
+      "ratio": 0.0,
+      "result": "REFUTATION FAILED (the population survives): the misaligned scan finds 0 runs against 59 aligned",
+      "what_would_refute": "if scanning the same bytes at a deliberately wrong alignment (shifted by half a pointer) produced a comparable number of runs, the population reported here would be an artefact of the scan rather than a property of the image"
+    },
+    {
+      "overlapping_candidates": {},
+      "overlapping_total": 0,
+      "probe": "declared non-vtable pointer tables",
+      "result": "0 candidates overlap a declared non-vtable table; they are FLAGGED in their rows and left in the population, because deleting a counter-example is how a scanner starts agreeing with itself",
+      "table_kinds": [
+        "import-address-table"
+      ],
+      "tables_found": 14,
+      "what_would_refute": "the import, delay-import and TLS directories declare ranges of pointer-width slots that are not vtables. A large overlap with the code-stored tier would show the tier is not selecting what it claims"
+    },
+    {
+      "candidates_of_4_or_more_slots": 59,
+      "degenerate": 0,
+      "degenerate_by_tier": {},
+      "examples": [],
+      "probe": "degenerate candidates (all slots identical)",
+      "what_would_refute": "a candidate of 4 or more slots all holding the SAME address is a filled array, not a vtable. A large count would mean the run rule is picking up initialised tables in bulk"
+    },
+    {
+      "code_addressing_slots": 658,
+      "examples": [],
+      "probe": "does the relocation filter do anything",
+      "rejected_as_not_relocated": 0,
+      "result": "the filter rejects 0 of 658 code-addressing slots",
+      "what_would_refute": "if the relocation table rejected no code-addressing slot at all, the filter would be a claim about method with nothing behind it, and the difference between this tool and a plain run-length census would be smaller than stated"
+    },
+    {
+      "candidates_in_a_cluster_of_2_or_more": 0,
+      "chance_same_owner_rate": 0.917,
+      "clusters": 83,
+      "code_stored_candidates": 83,
+      "decisive_test_available": true,
+      "observed_same_owner_rate": 0.9674,
+      "probe": "positional premise",
+      "result": "REFUTATION FAILED (the premise holds): adjacent vtables share an owner at 0.967 against a chance rate of 0.917",
+      "what_would_refute": "if candidates were scattered rather than grouped, the cluster and nearest-literal fields would carry no information. The decisive test needs known owners and therefore needs --rtti-json; see cross_check.owner_adjacency"
+    }
+  ],
+  "relocations": {
+    "blocks": 7,
+    "by_type": {
+      "0": 3,
+      "10": 1013
+    },
+    "directory_rva": 638976,
+    "directory_size": 2088,
+    "entries": 1016,
+    "misaligned_in_surface": 0,
+    "note": null,
+    "pointer_width_entries": 1013,
+    "pointer_width_entries_in_surface": 1013,
+    "pointer_width_type": 10,
+    "relocations_stripped": false,
+    "usable": true
+  },
+  "runtime_functions": {
+    "directory_rva": 614400,
+    "directory_size": 16392,
+    "distinct_starts": 1366,
+    "entry_size": 12,
+    "function_count": 1366,
+    "note": null
+  },
+  "segmentation": {
+    "code_references_used": true,
+    "interior_cut_points": 0,
+    "raw_runs": 97,
+    "runs_split": 0,
+    "segments": 97
+  },
+  "slot_scan": {
+    "census_without_relocation_filter": {
+      "definition": "a run is a maximal sequence of consecutive pointer-aligned slots each holding a value inside a section marked executable; no relocation filter, no segmentation. This is the definition rtti_scan.py's internal census uses, reproduced by an independent implementation so the two can be compared.",
+      "pointer_slots_addressing_executable_sections": 658,
+      "runs_by_minimum_length": {
+        "16": 1,
+        "4": 59,
+        "8": 36
+      },
+      "sections": [
+        ".rdata",
+        ".data"
+      ]
+    },
+    "code_addressing_slots_rejected_by_relocation_filter_examples": [],
+    "relocation_filter_applied": true,
+    "runs": 97,
+    "slots_addressing_executable_and_relocated": 658,
+    "slots_addressing_executable_not_relocated": 0,
+    "slots_addressing_executable_sections": 658,
+    "slots_examined": 25024,
+    "unaligned_section_starts": []
+  },
+  "source_path_literals": {
+    "count": 0,
+    "pattern": "[A-Za-z]:[\\\\/]build[\\\\/]\\+\\+UE5[\\\\/]Sync[\\\\/][ -~]{1,320}?\\x00",
+    "rva_span": null,
+    "sample": [],
+    "scanned": true,
+    "sections": {}
+  },
+  "statistics": {
+    "by_tier": {
+      "code-referenced": {
+        "candidates": 5,
+        "candidates_with_at_least_2_slots": 4,
+        "slot_count_histogram": {
+          "1": 1,
+          "3": 3,
+          "6": 1
+        },
+        "slot_count_max": 6,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 3,
+          "90": 3,
+          "99": 6
+        },
+        "slot_total": 16
+      },
+      "code-stored": {
+        "candidates": 83,
+        "candidates_with_at_least_2_slots": 70,
+        "slot_count_histogram": {
+          "1": 13,
+          "10": 8,
+          "11": 4,
+          "12": 9,
+          "14": 3,
+          "15": 8,
+          "2": 17,
+          "3": 2,
+          "4": 4,
+          "5": 6,
+          "6": 6,
+          "8": 3
+        },
+        "slot_count_max": 15,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 5,
+          "90": 14,
+          "99": 15
+        },
+        "slot_total": 553
+      },
+      "unreferenced": {
+        "candidates": 9,
+        "candidates_with_at_least_2_slots": 7,
+        "slot_count_histogram": {
+          "1": 2,
+          "4": 2,
+          "5": 1,
+          "56": 1,
+          "6": 3
+        },
+        "slot_count_max": 56,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 4,
+          "90": 6,
+          "99": 56
+        },
+        "slot_total": 89
+      }
+    },
+    "clusters": {
+      "all_tiers": {
+        "candidates": 97,
+        "candidates_in_a_cluster_of_2_or_more": 0,
+        "cluster_size_histogram": {
+          "1": 97
+        },
+        "clusters": 97,
+        "definition": "a cluster is a maximal chain of candidates where each one's last slot is immediately followed by the next one's first slot, with no padding between them",
+        "largest_cluster": 1
+      },
+      "code-stored": {
+        "candidates": 83,
+        "candidates_in_a_cluster_of_2_or_more": 0,
+        "cluster_size_histogram": {
+          "1": 83
+        },
+        "clusters": 83,
+        "definition": "a cluster is a maximal chain of candidates where each one's last slot is immediately followed by the next one's first slot, with no padding between them",
+        "largest_cluster": 1
+      }
+    },
+    "rtti_split": {
+      "by_tier": {
+        "code-referenced": {
+          "with_an_rtti_locator": {
+            "candidates": 5,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 4,
+            "contiguous_run_size_histogram": {
+              "1": 5
+            },
+            "contiguous_runs": 5,
+            "distinct_slot_targets": 6,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.3125,
+            "share_of_targets_that_are_shared": 0.5,
+            "slot_count_histogram": {
+              "1": 1,
+              "3": 3,
+              "6": 1
+            },
+            "slot_count_max": 6,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 3,
+              "90": 3,
+              "99": 6
+            },
+            "slot_targets_at_a_function_start": 5,
+            "slot_targets_shared_within_this_subpopulation": 3,
+            "slot_total": 16
+          },
+          "without_an_rtti_locator": {
+            "candidates": 0,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 0,
+            "contiguous_run_size_histogram": {},
+            "contiguous_runs": 0,
+            "distinct_slot_targets": 0,
+            "largest_contiguous_run": null,
+            "share_of_slots_at_a_function_start": null,
+            "share_of_targets_that_are_shared": null,
+            "slot_count_histogram": {},
+            "slot_count_max": null,
+            "slot_count_min": null,
+            "slot_count_percentiles": {
+              "50": null,
+              "90": null,
+              "99": null
+            },
+            "slot_targets_at_a_function_start": 0,
+            "slot_targets_shared_within_this_subpopulation": 0,
+            "slot_total": 0
+          }
+        },
+        "code-stored": {
+          "with_an_rtti_locator": {
+            "candidates": 83,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 70,
+            "contiguous_run_size_histogram": {
+              "1": 83
+            },
+            "contiguous_runs": 83,
+            "distinct_slot_targets": 249,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.5407,
+            "share_of_targets_that_are_shared": 0.2851,
+            "slot_count_histogram": {
+              "1": 13,
+              "10": 8,
+              "11": 4,
+              "12": 9,
+              "14": 3,
+              "15": 8,
+              "2": 17,
+              "3": 2,
+              "4": 4,
+              "5": 6,
+              "6": 6,
+              "8": 3
+            },
+            "slot_count_max": 15,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 5,
+              "90": 14,
+              "99": 15
+            },
+            "slot_targets_at_a_function_start": 299,
+            "slot_targets_shared_within_this_subpopulation": 71,
+            "slot_total": 553
+          },
+          "without_an_rtti_locator": {
+            "candidates": 0,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 0,
+            "contiguous_run_size_histogram": {},
+            "contiguous_runs": 0,
+            "distinct_slot_targets": 0,
+            "largest_contiguous_run": null,
+            "share_of_slots_at_a_function_start": null,
+            "share_of_targets_that_are_shared": null,
+            "slot_count_histogram": {},
+            "slot_count_max": null,
+            "slot_count_min": null,
+            "slot_count_percentiles": {
+              "50": null,
+              "90": null,
+              "99": null
+            },
+            "slot_targets_at_a_function_start": 0,
+            "slot_targets_shared_within_this_subpopulation": 0,
+            "slot_total": 0
+          }
+        },
+        "unreferenced": {
+          "with_an_rtti_locator": {
+            "candidates": 5,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 5,
+            "contiguous_run_size_histogram": {
+              "1": 5
+            },
+            "contiguous_runs": 5,
+            "distinct_slot_targets": 14,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.4615,
+            "share_of_targets_that_are_shared": 0.5,
+            "slot_count_histogram": {
+              "4": 2,
+              "6": 3
+            },
+            "slot_count_max": 6,
+            "slot_count_min": 4,
+            "slot_count_percentiles": {
+              "50": 4,
+              "90": 6,
+              "99": 6
+            },
+            "slot_targets_at_a_function_start": 12,
+            "slot_targets_shared_within_this_subpopulation": 7,
+            "slot_total": 26
+          },
+          "without_an_rtti_locator": {
+            "candidates": 4,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 2,
+            "contiguous_run_size_histogram": {
+              "1": 4
+            },
+            "contiguous_runs": 4,
+            "distinct_slot_targets": 61,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.7143,
+            "share_of_targets_that_are_shared": 0.0,
+            "slot_count_histogram": {
+              "1": 2,
+              "5": 1,
+              "56": 1
+            },
+            "slot_count_max": 56,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 1,
+              "90": 56,
+              "99": 56
+            },
+            "slot_targets_at_a_function_start": 45,
+            "slot_targets_shared_within_this_subpopulation": 0,
+            "slot_total": 63
+          }
+        }
+      },
+      "contiguity_is_confounded_across_this_split": "READ THE CONTIGUITY FIGURES WITH THIS IN MIND. A candidate spans its slots only, and an RTTI-bearing vtable always has its locator pointer in the slot immediately before it. Two RTTI-bearing candidates are therefore separated by that pointer BY CONSTRUCTION and can never be adjacent under the definition used here, which forces the locator-bearing side to a largest run of 1 whatever the image looks like. The difference in contiguity between the two sides is thus an artefact of the definition and is NOT evidence that the two populations are laid out differently. Contiguity WITHIN the no-locator side remains meaningful; contiguity ACROSS the split does not, and no conclusion is drawn from it here",
+      "cross_link": {
+        "candidates_without_a_locator_sharing_a_slot_target_with_a_named_vtable": 1,
+        "distinct_shared_targets": 1,
+        "share_of_the_no_locator_population": 0.25,
+        "what_it_means": "a slot address that occurs both in an RTTI-named vtable and in an unnamed candidate. Most such hits will be a shared compiler-emitted thunk or a pure-virtual stub rather than a real inherited override, so the count is an upper bound on 'unnamed vtables related to a named class' and must not be read as that number"
+      },
+      "definition_of_the_split": "the slot immediately before the candidate is followed and accepted as an RTTI complete-object-locator only when the first DWORD of the record it points at is 1 and its sixth DWORD equals that record's own image-relative address; anything else counts as NO locator",
+      "what_the_comparison_can_and_cannot_show": "the locator-bearing side is the only subpopulation of this image whose members are independently known to be vtables, so it is used as the reference shape. Matching it is consistent with being vtables of the same toolchain and is not evidence of being one; not matching it is the informative outcome, and is reported rather than explained away",
+      "with_an_rtti_locator": {
+        "candidates": 93,
+        "candidates_in_a_contiguous_run_of_2_or_more": 0,
+        "candidates_with_at_least_2_slots": 79,
+        "contiguous_run_size_histogram": {
+          "1": 93
+        },
+        "contiguous_runs": 93,
+        "distinct_slot_targets": 262,
+        "largest_contiguous_run": 1,
+        "share_of_slots_at_a_function_start": 0.5311,
+        "share_of_targets_that_are_shared": 0.2939,
+        "slot_count_histogram": {
+          "1": 14,
+          "10": 8,
+          "11": 4,
+          "12": 9,
+          "14": 3,
+          "15": 8,
+          "2": 17,
+          "3": 5,
+          "4": 6,
+          "5": 6,
+          "6": 10,
+          "8": 3
+        },
+        "slot_count_max": 15,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 5,
+          "90": 14,
+          "99": 15
+        },
+        "slot_targets_at_a_function_start": 316,
+        "slot_targets_shared_within_this_subpopulation": 77,
+        "slot_total": 595
+      },
+      "without_an_rtti_locator": {
+        "candidates": 4,
+        "candidates_in_a_contiguous_run_of_2_or_more": 0,
+        "candidates_with_at_least_2_slots": 2,
+        "contiguous_run_size_histogram": {
+          "1": 4
+        },
+        "contiguous_runs": 4,
+        "distinct_slot_targets": 61,
+        "largest_contiguous_run": 1,
+        "share_of_slots_at_a_function_start": 0.7143,
+        "share_of_targets_that_are_shared": 0.0,
+        "slot_count_histogram": {
+          "1": 2,
+          "5": 1,
+          "56": 1
+        },
+        "slot_count_max": 56,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 1,
+          "90": 56,
+          "99": 56
+        },
+        "slot_targets_at_a_function_start": 45,
+        "slot_targets_shared_within_this_subpopulation": 0,
+        "slot_total": 63
+      }
+    },
+    "shared_slot_targets": {
+      "distinct_slot_targets": 322,
+      "most_shared_targets": [
+        {
+          "candidate_count": 49,
+          "is_function_start": false,
+          "target_rva": 32592
+        },
+        {
+          "candidate_count": 49,
+          "is_function_start": false,
+          "target_rva": 37360
+        },
+        {
+          "candidate_count": 15,
+          "is_function_start": false,
+          "target_rva": 15648
+        },
+        {
+          "candidate_count": 12,
+          "is_function_start": true,
+          "target_rva": 88480
+        },
+        {
+          "candidate_count": 11,
+          "is_function_start": true,
+          "target_rva": 31520
+        },
+        {
+          "candidate_count": 10,
+          "is_function_start": false,
+          "target_rva": 14576
+        },
+        {
+          "candidate_count": 9,
+          "is_function_start": false,
+          "target_rva": 14400
+        },
+        {
+          "candidate_count": 9,
+          "is_function_start": true,
+          "target_rva": 32368
+        }
+      ],
+      "share_of_targets_that_are_shared": 0.2391,
+      "targets_used_by_more_than_one_candidate": 77
+    },
+    "slot_targets_at_function_starts": {
+      "at_a_runtime_function_start": 361,
+      "caveat": "a leaf function with no unwind data need not appear in the runtime function table at all, so a slot target that is NOT a function start is weak evidence and is never used here to reject a candidate",
+      "share": 0.5486,
+      "slots": 658
+    },
+    "source_path_relation": {
+      "candidate_rva_span": [
+        407096,
+        428856
+      ],
+      "candidates_within_4096_bytes_of_a_literal": 0,
+      "candidates_within_65536_bytes_of_a_literal": 0,
+      "distance_percentiles": {
+        "50": null,
+        "90": null,
+        "99": null
+      },
+      "literal_rva_span": null,
+      "literals": 0,
+      "what_this_does_and_does_not_show": "a small distance means the candidate and the literal are in the same region of the section, which for MSVC output means a nearby linker contribution and therefore a nearby object file. It is NOT a claim that the candidate belongs to that file: string literals and vtables are placed by different grouping rules, and the same-function join reported alongside is the stronger test."
+    },
+    "source_path_same_function_join": {
+      "reason": "the join needs both the source-path literals and the code-reference pass",
+      "skipped": true
+    },
+    "totals": {
+      "candidates": 97,
+      "sections": {
+        ".rdata": 97
+      },
+      "slot_total": 658
+    }
+  },
+  "summary": {
+    "candidates_by_tier": {
+      "code-referenced": 5,
+      "code-stored": 83,
+      "unreferenced": 9
+    },
+    "candidates_code_referenced_or_stored": 88,
+    "candidates_code_stored": 83,
+    "candidates_code_stored_with_2_or_more_slots": 70,
+    "candidates_total": 97,
+    "candidates_with_an_rtti_complete_object_locator": 93,
+    "candidates_without_an_rtti_complete_object_locator": 4,
+    "census_without_relocation_filter": {
+      "16": 1,
+      "4": 59,
+      "8": 36
+    },
+    "code_stored_without_an_rtti_locator": 0,
+    "cross_check_census_agrees": true,
+    "cross_check_recall": 1.0,
+    "cross_check_recall_code_stored": 0.8925,
+    "cross_check_slot_count_disagreements": 0,
+    "interior_cut_points": 0,
+    "literal_reads_reproduced": true,
+    "primary_estimate": "the defensible vtable population of this image is the 83 candidates in the code-stored tier: a relocated run of code addresses whose first address a constructor-shaped instruction pair writes into an object. Recall for that tier, measured against the RTTI-reachable vtables, is reported in cross_check; precision is not measurable on this file and is measured on a control binary instead (research/evidence/S-09/).",
+    "raw_runs": 97,
+    "slots_addressing_executable_and_relocated": 658,
+    "slots_addressing_executable_sections": 658
+  },
+  "task": "S-09",
+  "tested_surface": {
+    "bytes_in_surface": 200192,
+    "executable_sections": [
+      ".text"
+    ],
+    "not_tested": [
+      "a section with no raw bytes holds nothing on disk and cannot be searched",
+      "the virtual tail of a section (vsize beyond rsize) is zero-filled by the loader and is not on disk",
+      "code generated or unpacked at run time is out of scope: only the on-disk image is read",
+      "a vtable whose slots the loader patches by a mechanism other than a base relocation would be missed by the relocation filter"
+    ],
+    "sections_not_scanned": [
+      ".pdata",
+      ".reloc",
+      ".rsrc",
+      ".text"
+    ],
+    "sections_scanned": [
+      {
+        "characteristics": "0x40000040",
+        "file_offset": 402432,
+        "name": ".rdata",
+        "raw_size": 192000,
+        "rva": 405504,
+        "virtual_size": 191562
+      },
+      {
+        "characteristics": "0xc0000040",
+        "file_offset": 594432,
+        "name": ".data",
+        "raw_size": 8192,
+        "rva": 598016,
+        "virtual_size": 13120
+      }
+    ],
+    "slot_alignment": 8,
+    "slots_in_surface": 25024
+  },
+  "timings_seconds": {
+    "code_references": 0.016,
+    "digest": 0.001,
+    "literal_reads": 0.001,
+    "load_surface": 0.002,
+    "prior_slots": 0.005,
+    "probes": 0.017,
+    "relocations": 0.001,
+    "runs": 0.008,
+    "runtime_functions": 0.002,
+    "segmentation": 0.001,
+    "source_path_join": 0.005,
+    "source_path_literals": 0.004
+  },
+  "warnings": []
+}

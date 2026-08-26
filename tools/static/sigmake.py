@@ -41,7 +41,36 @@ class I.
 **A RUNTIME_FUNCTION range is not a compiler function.** This is not a caveat
 appended for form; it is measured, and the measurements are in
 ``boundary_oracle.census`` of every document this tool writes. Four distinct
-discrepancies exist and each is counted rather than assumed away:
+discrepancies exist and each is counted rather than assumed away.
+
+Sized on the image this repository studies -- these are the numbers, not an
+illustration, and they are re-derived on every run rather than quoted from
+here:
+
+===============================  ==========  ==========================
+discrepancy                      measured    share
+===============================  ==========  ==========================
+records that are NOT entry       169 032     41.09% of 411 385 records
+points (UNW_FLAG_CHAININFO)
+primary ranges owning >= 1       77 846      32.12% of 242 353 primaries
+continuation chunk
+adjacent pairs End[i]==           179 628     43.66% of the records
+Begin[i+1]
+records sharing an               222 934     54.19% of the records; one
+UnwindInfoAddress with                       address is shared by 46 543
+another record
+executable bytes NOT covered     16 658 307  16.94% of 98 343 936
+by any range
+===============================  ==========  ==========================
+
+Two of those deserve emphasis because they are larger than a reader would
+guess. **Two records in five are not function starts at all.** And the
+uncovered-bytes figure is the *lower-bound* character of the table made
+concrete: an independently labelled set of 2 178 function entry points (the
+vtable slot targets of ``research/evidence/S-10``) put 605 of them -- 27.78% --
+at an address with no ``RUNTIME_FUNCTION`` record whatsoever, and not one of
+those 605 fell inside another record's range. They are leaf functions the
+compiler gave no unwind data. Every one is refused ``boundary_unknown``.
 
 *Chunked functions.* MSVC splits a function into hot and cold ranges. Every
 range past the first gets its own ``RUNTIME_FUNCTION`` whose ``UNWIND_INFO``
@@ -146,6 +175,15 @@ future ``absent`` is:
 Neither is used to mask by default. They are the honest statement of what is
 unknown, sized.
 
+The bound has a computable null baseline, and it should be quoted with one. A
+uniformly random 4-byte window resolves into the image with probability
+``size_of_image / 2**32`` -- for the 138 403 840-byte image this repository
+studies that is 3.22%, not something to be waved at as "most windows".
+Measured over the 1 530 accepted signatures of the whole-RTTI evidence run,
+3 342 of 30 288 windows resolved, which is 11.03%: about 3.4x the null rate, so
+the bound is carrying real displacements and is not pure arithmetic noise. What
+it cannot do is say WHICH windows those are.
+
 How a length is chosen
 ----------------------
 ``--mode grow`` (default) tries an ascending ladder of lengths and keeps the
@@ -165,6 +203,36 @@ same matcher ``sigscan`` will later use, imported rather than reimplemented, so
 having two matchers. A pattern found twice is rejected ``not_unique``. A pattern
 found *zero* times is rejected ``absent_in_source`` and is a bug report about
 this tool, never a fact about the image.
+
+What the refusals look like when the tool is actually run
+---------------------------------------------------------
+The gate is worth nothing if it never fires, so here is what it did on the
+2 178 independently labelled targets of the whole-RTTI evidence run
+(``research/evidence/S-06/signatures-all-rtti.json``). 1 530 accepted, 648
+refused:
+
+``boundary_unknown``  605   no ``RUNTIME_FUNCTION`` record at the address
+``not_unique``         41   the pattern still matched 2 to 7 places at 96 bytes
+``too_short``           2   the whole function is 11 and 6 bytes long
+
+The 41 matter most, because they are the failure this pair exists to prevent
+made visible. One example: the 37-byte body of an ICU
+``LocaleCacheKey<...>::operator==`` occurs **seven** times in ``.text`` at seven
+distinct RVAs, byte for byte, and the first of the seven is the requested
+address -- so a tool that returned the first hit would have looked right here
+and been wrong for the other six. There is no length that fixes it; the
+function is only 37 bytes long and all 37 are duplicated. The signature is
+refused and the address stays unfindable by this method, which is the correct
+answer.
+
+Four rejection codes -- ``too_masked``, ``anchor_too_short``, ``low_variety``
+and ``chunk_not_function_start`` -- did not fire on that run at all. The first
+three cannot fire while the mask is empty (see the mask policy below: a
+fully literal pattern has an anchor as long as itself), and the fourth cannot
+fire on vtable slot targets, which point at entry points by construction. They
+are exercised only by the synthetic controls of the
+``gate-refuses-a-non-signature`` probe, and that is stated here rather than
+left for a reader to discover that a code has never been seen to fire.
 
 Two output layers, never merged (plan.md 10.3)
 ----------------------------------------------
@@ -972,9 +1040,12 @@ def fragility(body: bytes, rva: int, size_of_image: int) -> dict:
         every 4-byte window whose value, read as a signed displacement from the
         end of the window, resolves inside the image. This is the strict upper
         bound on the RIP-relative displacements the range could contain. It is
-        large by construction -- a 138 MB image occupies about 6% of the signed
-        32-bit displacement space, so random bytes qualify at roughly that rate --
-        and it is reported as a bound, never as a count of real displacements.
+        large by construction: a uniformly random window resolves with
+        probability ``size_of_image / 2**32`` (3.22% for the 138 403 840-byte
+        image this repository studies), so a share of these windows is pure
+        arithmetic. Reported as a bound, never as a count of real
+        displacements; compare it against that null rate before reading
+        anything into it.
     """
     rel32: list[int] = []
     for position in range(0, max(0, len(body) - 4)):
@@ -1700,7 +1771,15 @@ def _mask_policy(mask_mode: str, relocs: RelocationTable) -> dict:
     return {
         "mask_mode": mask_mode,
         "exact_component": {
-            "oracle": "the PE base relocation table (.reloc)",
+            # NOT spelled "oracle": tools/kb/validate.py treats any object
+            # carrying an "oracle" key as a graded evidence record (its
+            # MARKER_KEYS), and this object is descriptive prose with no grade
+            # on it. Naming it "source" -- as boundary_oracle already does --
+            # keeps the validator's record detector from inventing a record
+            # here and then correctly complaining that it has no
+            # evidence_level. The graded records of this document are
+            # literal_reads[] and interpreted_annotation, and nothing else.
+            "source": "the PE base relocation table (.reloc)",
             "what_it_proves": ("every position the loader patches when the image is "
                               "not at its preferred base; an enumeration, so no "
                               "false positives and no guessing"),

@@ -1,0 +1,2280 @@
+{
+  "build_version": {
+    "BranchName": "++UE5+Release-5.4",
+    "Changelist": 35576357,
+    "CompatibleChangelist": 33043543,
+    "IsLicenseeVersion": 0,
+    "IsPromotedBuild": 1,
+    "MajorVersion": 5,
+    "MinorVersion": 4,
+    "PatchVersion": 4
+  },
+  "constants": [
+    {
+      "citation": "Source/Runtime/Core/Public/UObject/ObjectVersion.h:13",
+      "derived": true,
+      "does_not_prove": "that any package is ever loaded at run time, nor which of the several code paths that compare against the tag is reached",
+      "family": "package-file-tag",
+      "id": "package_file_tag",
+      "kind": "define",
+      "name": "PACKAGE_FILE_TAG",
+      "proves_if_found": "that the four-byte package-file tag the engine compares every .uasset header against is stored, or materialised as an immediate, at this offset; with the source citation, that the package-loading code path was linked in",
+      "role": "the tag every FPackageFileSummary is checked against",
+      "searched": true,
+      "source_line": 13,
+      "source_path": "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+      "source_text": "#define PACKAGE_FILE_TAG\t\t\t0x9E2A83C1",
+      "value": 2653586369,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Public/UObject/ObjectVersion.h:14",
+      "derived": true,
+      "does_not_prove": "that any package is ever loaded at run time, nor which of the several code paths that compare against the tag is reached",
+      "family": "package-file-tag",
+      "id": "package_file_tag_swapped",
+      "kind": "define",
+      "name": "PACKAGE_FILE_TAG_SWAPPED",
+      "proves_if_found": "that the four-byte package-file tag the engine compares every .uasset header against is stored, or materialised as an immediate, at this offset; with the source citation, that the package-loading code path was linked in",
+      "role": "the byte-swapped form, compared when a package comes from the other endianness",
+      "searched": true,
+      "source_line": 14,
+      "source_path": "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+      "source_text": "#define PACKAGE_FILE_TAG_SWAPPED\t0xC1832A9E",
+      "value": 3246598814,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Public/UObject/ObjectVersion.h:725",
+      "derived": true,
+      "does_not_prove": "that the engine is unmodified, nor that a custom build did not backport a later serializer while leaving this pair alone",
+      "enumerators_walked": 311,
+      "family": "object-version-enumerator",
+      "id": "ue4_object_version_automatic",
+      "kind": "enum",
+      "name": "EUnrealEngineObjectUE4Version::VER_UE4_AUTOMATIC_VERSION",
+      "not_searched_reason": "a bare four-byte integer of this magnitude occurs by construction throughout any image; it is searched only as the first half of the eight-byte FPackageFileVersion pair shape, see measurement.version_pair_shape",
+      "proves_if_found": "that the serialization version pair the engine stamps into every package it writes is present as initialised data, which names one UE minor line",
+      "role": "the UE4 half of FPackageFileVersion, frozen for the whole of UE5",
+      "searched": false,
+      "source_line": 725,
+      "source_path": "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+      "source_text": "VER_UE4_AUTOMATIC_VERSION = VER_UE4_AUTOMATIC_VERSION_PLUS_ONE - 1",
+      "value": 522,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Public/UObject/ObjectVersion.h:95",
+      "derived": true,
+      "does_not_prove": "that the engine is unmodified, nor that a custom build did not backport a later serializer while leaving this pair alone",
+      "enumerators_walked": 311,
+      "family": "object-version-enumerator",
+      "id": "ue4_oldest_loadable_package",
+      "kind": "enum",
+      "name": "EUnrealEngineObjectUE4Version::VER_UE4_OLDEST_LOADABLE_PACKAGE",
+      "not_searched_reason": "not searched for; PREDICTED. It is the refutation attempt of the pair shape: the eight bytes after GPackageFileUEVersion must read (this value, 0), because GOldestLoadablePackageFileUEVersion is declared immediately after it and CreateUE4Version leaves the UE5 half zero",
+      "proves_if_found": "that the serialization version pair the engine stamps into every package it writes is present as initialised data, which names one UE minor line",
+      "role": "the neighbour prediction that makes the pair shape falsifiable",
+      "searched": false,
+      "source_line": 95,
+      "source_path": "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+      "source_text": "VER_UE4_OLDEST_LOADABLE_PACKAGE = 214,",
+      "value": 214,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Public/UObject/ObjectVersion.h:46",
+      "derived": true,
+      "does_not_prove": "that the engine is unmodified, nor that a custom build did not backport a later serializer while leaving this pair alone",
+      "enumerators_walked": 15,
+      "family": "object-version-enumerator",
+      "id": "ue5_object_version_initial",
+      "kind": "enum",
+      "name": "EUnrealEngineObjectUE5Version::INITIAL_VERSION",
+      "not_searched_reason": "low-entropy scalar; see ue4_object_version_automatic",
+      "proves_if_found": "that the serialization version pair the engine stamps into every package it writes is present as initialised data, which names one UE minor line",
+      "role": "the floor of the UE5 serialization version band",
+      "searched": false,
+      "source_line": 46,
+      "source_path": "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+      "source_text": "INITIAL_VERSION = 1000,",
+      "value": 1000,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Public/UObject/ObjectVersion.h:89",
+      "derived": true,
+      "does_not_prove": "that the engine is unmodified, nor that a custom build did not backport a later serializer while leaving this pair alone",
+      "enumerators_walked": 15,
+      "family": "object-version-enumerator",
+      "id": "ue5_object_version_automatic",
+      "kind": "enum",
+      "name": "EUnrealEngineObjectUE5Version::AUTOMATIC_VERSION",
+      "not_searched_reason": "low-entropy scalar; see ue4_object_version_automatic",
+      "proves_if_found": "that the serialization version pair the engine stamps into every package it writes is present as initialised data, which names one UE minor line",
+      "role": "the value a package written by THIS engine tree would carry",
+      "searched": false,
+      "source_line": 89,
+      "source_path": "Source/Runtime/Core/Public/UObject/ObjectVersion.h",
+      "source_text": "AUTOMATIC_VERSION = AUTOMATIC_VERSION_PLUS_ONE - 1",
+      "value": 1012,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/PakFile/Public/IPlatformFilePak.h:127",
+      "derived": true,
+      "does_not_prove": "that a container of that kind is shipped with this build, nor that the code path runs. The containers themselves are F-02's surface, not this one",
+      "family": "container-magic",
+      "id": "pak_file_magic",
+      "kind": "literal",
+      "name": "FPakInfo::PakFile_Magic",
+      "proves_if_found": "that the container magic is present in the image, hence that the reader or writer which compares against it was linked in",
+      "role": "the trailing magic of every .pak footer",
+      "searched": true,
+      "source_line": 127,
+      "source_path": "Source/Runtime/PakFile/Public/IPlatformFilePak.h",
+      "source_text": "PakFile_Magic = 0x5A6F12E1,",
+      "value": 1517228769,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/PakFile/Public/IPlatformFilePak.h:154",
+      "derived": true,
+      "does_not_prove": "anything about this image at all -- they are not searched for",
+      "enumerators_walked": 14,
+      "family": "container-version-enumerator",
+      "id": "pak_version_latest",
+      "kind": "enum",
+      "name": "FPakInfo::PakFile_Version_Latest",
+      "not_searched_reason": "a single-digit integer; searching for it would return noise. Derived here so that the pak version F-02 reads out of the footer has a cited reference",
+      "proves_if_found": "nothing by itself -- these values are derived from the source only, to give the container readings of F-02/V-05 a cited reference to compare against",
+      "role": "the pak version this engine tree writes",
+      "searched": false,
+      "source_line": 154,
+      "source_path": "Source/Runtime/PakFile/Public/IPlatformFilePak.h",
+      "source_text": "PakFile_Version_Latest = PakFile_Version_Last - 1",
+      "value": 11,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Internal/IO/IoStore.h:40",
+      "derived": true,
+      "does_not_prove": "that a container of that kind is shipped with this build, nor that the code path runs. The containers themselves are F-02's surface, not this one",
+      "family": "container-magic",
+      "id": "iostore_toc_magic",
+      "kind": "ascii",
+      "name": "FIoStoreTocHeader::TocMagicImg",
+      "proves_if_found": "that the container magic is present in the image, hence that the reader or writer which compares against it was linked in",
+      "role": "the sixteen-byte magic at the head of every .utoc",
+      "searched": true,
+      "source_line": 40,
+      "source_path": "Source/Runtime/Core/Internal/IO/IoStore.h",
+      "source_text": "static constexpr inline char TocMagicImg[] = \"-==--==--==--==-\";",
+      "text_value": "-==--==--==--==-",
+      "width": 16
+    },
+    {
+      "citation": "Source/Runtime/Core/Internal/IO/IoStore.h:32",
+      "derived": true,
+      "does_not_prove": "anything about this image at all -- they are not searched for",
+      "enumerators_walked": 9,
+      "family": "container-version-enumerator",
+      "id": "iostore_toc_version_latest",
+      "kind": "enum",
+      "name": "EIoStoreTocVersion::Latest",
+      "not_searched_reason": "a single-digit integer; see pak_version_latest",
+      "proves_if_found": "nothing by itself -- these values are derived from the source only, to give the container readings of F-02/V-05 a cited reference to compare against",
+      "role": "the .utoc version this engine tree writes",
+      "searched": false,
+      "source_line": 32,
+      "source_path": "Source/Runtime/Core/Internal/IO/IoStore.h",
+      "source_text": "Latest = LatestPlusOne - 1",
+      "value": 6,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/Misc/Fnv.cpp:10",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "fnv32_offset_basis",
+      "kind": "literal",
+      "name": "FFnv::MemFnv32 offset basis",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "FNV-1a 32-bit offset basis",
+      "searched": true,
+      "source_line": 10,
+      "source_path": "Source/Runtime/Core/Private/Misc/Fnv.cpp",
+      "source_text": "static const uint32 Offset = 0x811c9dc5;",
+      "value": 2166136261,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/Misc/Fnv.cpp:11",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "fnv32_prime",
+      "kind": "literal",
+      "name": "FFnv::MemFnv32 prime",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "FNV-1a 32-bit prime",
+      "searched": true,
+      "source_line": 11,
+      "source_path": "Source/Runtime/Core/Private/Misc/Fnv.cpp",
+      "source_text": "static const uint32 Prime = 0x01000193;",
+      "value": 16777619,
+      "width": 4
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/Misc/Fnv.cpp:29",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "fnv64_offset_basis",
+      "kind": "literal",
+      "name": "FFnv::MemFnv64 offset basis",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "FNV-1a 64-bit offset basis; the same value is the seed of the pak path hash and of FIoStore's chunk-id hash",
+      "searched": true,
+      "source_line": 29,
+      "source_path": "Source/Runtime/Core/Private/Misc/Fnv.cpp",
+      "source_text": "static const uint64 Offset = 0xcbf29ce484222325;",
+      "value": 14695981039346656037,
+      "width": 8
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/Misc/Fnv.cpp:30",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "fnv64_prime",
+      "kind": "literal",
+      "name": "FFnv::MemFnv64 prime",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "FNV-1a 64-bit prime",
+      "searched": true,
+      "source_line": 30,
+      "source_path": "Source/Runtime/Core/Private/Misc/Fnv.cpp",
+      "source_text": "static const uint64 Prime = 0x00000100000001b3;",
+      "value": 1099511628211,
+      "width": 8
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/Hash/CityHash.cpp:122",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "cityhash_k0",
+      "kind": "literal",
+      "name": "CityHash k0",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "CityHash mixing constant; FName hashes lower-cased strings with CityHash64",
+      "searched": true,
+      "source_line": 122,
+      "source_path": "Source/Runtime/Core/Private/Hash/CityHash.cpp",
+      "source_text": "static const uint64 k0 = 0xc3a5c85c97cb3127ULL;",
+      "value": 14097894508562428199,
+      "width": 8
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/Hash/CityHash.cpp:123",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "cityhash_k1",
+      "kind": "literal",
+      "name": "CityHash k1",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "CityHash mixing constant",
+      "searched": true,
+      "source_line": 123,
+      "source_path": "Source/Runtime/Core/Private/Hash/CityHash.cpp",
+      "source_text": "static const uint64 k1 = 0xb492b66fbe98f273ULL;",
+      "value": 13011662864482103923,
+      "width": 8
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/Hash/CityHash.cpp:124",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "cityhash_k2",
+      "kind": "literal",
+      "name": "CityHash k2",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "CityHash mixing constant, and the one used for short inputs",
+      "searched": true,
+      "source_line": 124,
+      "source_path": "Source/Runtime/Core/Private/Hash/CityHash.cpp",
+      "source_text": "static const uint64 k2 = 0x9ae16a3b2f90404fULL;",
+      "value": 11160318154034397263,
+      "width": 8
+    },
+    {
+      "citation": "Source/Runtime/Core/Public/Hash/CityHash.h:93",
+      "derived": true,
+      "does_not_prove": "which caller uses the hash. The FNV and CityHash constants are also present in third-party code vendored into the engine tree, so a hit does not single out the engine's own call site",
+      "family": "hash-seed",
+      "id": "cityhash_kmul",
+      "kind": "literal",
+      "name": "CityHash Hash128to64 kMul",
+      "proves_if_found": "that the seed or multiplier of a named hash function is present as a constant; two constants of the same algorithm present together make an accidental match implausible",
+      "role": "the multiplier of Hash128to64, reached from every CityHash64 of a long input",
+      "searched": true,
+      "source_line": 93,
+      "source_path": "Source/Runtime/Core/Public/Hash/CityHash.h",
+      "source_text": "const uint64 kMul = 0x9ddfea08eb382d69ULL;",
+      "value": 11376068507788127593,
+      "width": 8
+    },
+    {
+      "bytes_hex": "00000000b71dc1046e3b8209d926430ddc7604136b6bc517b24d861a0550471eb8ed08260ff0c922d6d68a2f61cb4b2b649b0c35d386cd310aa08e3cbdbd4f3870db114cc7c6d0481ee09345a9fd5241acad155f1bb0d45bc2969756758b5652c836196a7f2bd86ea60d9b6311105a6714401d79a35ddc7d7a7b9f70cd665e74e0b6239857abe29c8e8da191399060953cc0278b8bdde68f52fba582e5e66486585b2bbeef46eaba3660a9b7817d68b3842d2fad3330eea9ea16ada45d0b6ca0906d32d42770f3d0fe56b0dd494b71d94c1b36c7fb06f7c32220b4ce953d75ca28803af29f9dfbf646bbb8fbf1a679fff4f63ee143ebffe59acdbce82dd07dec77708634c06d4730194b043dae56c539ab0682271c1b4323c53d002e7220c12acf9d8e1278804f16a1a60c1b16bbcd1f13eb8a01a4f64b057dd00808cacdc90c07ab9778b0b6567c69901571de8dd475dbdd936b6cc0526fb5e6116202fbd066bf469f5e085b5e5ad17d1d576660dc5363309b4dd42d5a490d0b1944ba16d84097c6a5ac20db64a8f9fd27a54ee0e6a14bb0a1bffcad60bb258b23b69296e2b22f2bad8a98366c8e41102f83f60dee87f35da9994440689d9d662b902a7bea94e71db4e0500075e4892636e93e3bf7ed3b6bb0f38c7671f7555032fae24df3fe5ff0bcc6e8ed7dc231cb3ecf86d6ffcb8386b8d5349b79d1edbd3adc5aa0fbd8eee00c6959fdcd6d80db8e6037c64f643296087a858bc97e5cad8a73ebb04b77560d044fe110c54b383686468f2b47428a7b005c3d66c158e4408255535d43519e3b1d252926dc21f0009f2c471d5e28424d1936f550d8322c769b3f9b6b5a3b26d6150391cbd40748ed970afff0560efaa011104dbdd014949b93192386521d0e562ff1b94beef5606dadf8d7706cfcd2202be2653deae6bc1ba9eb0b0668efb6bb27d701a6e6d3d880a5de6f9d64da6acd23c4ddd0e2c004f6a1cdb3eb60c97e8d3ebdc990ffb910b6bcb4a7ab7db0a2fb3aae15e6fbaaccc0b8a77bdd79a3c660369b717df79fa85bb4921f4675961a163288ad0bf38c742db081c330718599908a5d2e8d4b59f7ab085440b6c95045e68e4ef2fb4f4a2bdd0c479cc0cd43217d827b9660437f4f460072f85bc176fd0b86684a16476c93300461242dc565e94b9b115e565a1587701918306dd81c353d9f0282205e065b061d0bec1bdc0f51a69337e6bb52333f9d113e8880d03a8dd097243acd5620e3eb152d54f6d4297926a9c5ce3b68c1171d2bcca000eac8a550add6124d6cd2cb6b2fdf7c76eedbc1cba1e376d660e7aff023ea18ede2ee1dbda5f0aaa064f4738627f9c49be6fd09fdb889bee0798d67c63a80d0dbfb84d58bbc9a62967d9ebbb03e930cadff97b110b0af060d71abdf2b32a66836f3a26d66b4bcda7b75b8035d36b5b440f7b1",
+      "citation": "Source/Runtime/Core/Private/Misc/Crc.cpp:40",
+      "derived": true,
+      "does_not_prove": "that the table is used for any particular purpose, nor which of the several FCrc entry points is reached",
+      "family": "hash-table",
+      "first_words": [
+        0,
+        79764919,
+        159529838,
+        222504665,
+        319059676,
+        398814059,
+        445009330,
+        507990021
+      ],
+      "id": "crc_table_deprecated",
+      "kind": "table",
+      "name": "FCrc::CRCTable_DEPRECATED",
+      "prefix_words": null,
+      "proves_if_found": "that the engine's lookup table is present in full at this offset. A table cannot be constant-folded or inlined away, so this is an ANCHOR: an address the M3 reflection work can start from",
+      "role": "the MSB-first CRC-32 table of FCrc::MemCrc_DEPRECATED and FCrc::Strihash_DEPRECATED -- the hash FName used before UE5 and the one FPackageName still uses for short hashes",
+      "searched": true,
+      "sha256_of_the_packed_table": "0053f121cdcaf9f510a940ba891fb2bccd41487953c5a4c0048c4a3ccdec782e",
+      "source_line": 40,
+      "source_path": "Source/Runtime/Core/Private/Misc/Crc.cpp",
+      "source_text": "uint32 FCrc::CRCTable_DEPRECATED[256] =",
+      "width": 1024,
+      "word_count": 256
+    },
+    {
+      "bytes_hex": "0000000004c11db709823b6e0d4326d9130476dc17c56b6b1a864db21e4750052608edb822c9f00f2f8ad6d62b4bcb61350c9b6431cd86d33c8ea00a384fbdbd4c11db7048d0c6c74593e01e4152fda95f15adac5bd4b01b569796c252568b756a1936c86ed82b7f639b0da6675a1011791d40147ddc5da3709f7b7a745e66cd9823b6e09ce2ab5791a18d8e956090398b27c03c8fe6dd8b82a5fb528664e6e5be2b5b58baea46efb7a96036b3687d81ad2f2d84a9ee3033a4ad16eaa06c0b5dd4326d90d0f37027ddb056fed9714b49c7361b4cc3f706fbceb42022ca753d95f23a8028f6fb9d9ffbb8bb46ff79a6f1e13ef6f4e5ffeb43e8bccd9aec7dd02d3486707730476dc03d044b1939c556ae278206ab23431b1c2e003dc52ac12072128e9dcf164f80781b0ca6a11fcdbb16018aeb13054bf6a40808d07d0cc9cdca7897ab077c56b6b07115906975d48dde6b93dddb6f52c06c6211e6b566d0fb025e9f46bf5a5e5b08571d7dd153dc60664d9b3063495a2dd444190b0d40d816baaca5c697a864db20a527fdf9a1e6e04ebfa1b04bbb60adfcb6238b25b2e296928aad2b2f8e6c3698832f104187ee0df699a95df39d684044902b669d94ea7b2ae0b41de7e4750050e9362689edf73b3ef3b06b3bf771768cfa325055fef34de2c6bcf05fc27dede8cf3ecb31cbffd686d5b88683d1799b34dc3abdedd8fba05a690ce0ee6dcdfd59608edb80644fc6377a0896327ec98b85738aad5c774bb0eb4f040d564bc510e14686363842472b8f5c007b8a58c1663d558240e451435d53251d3b9e21dc26292c9f00f0285e1d4736194d4232d850f53f9b762c3b5a6b9b0315d62607d4cb910a97ed480e56f0ff1011a0fa14d0bd4d19939b941d528623f12f560ef5ee4bb9f8ad6d60fc6c70d7e22b20d2e6ea3d65eba91bbcef68060bd727bbb6d3e6a601dea580d8da649d6fc423cd6ac0e2d0ddcda1f604c960ebb3bd3e8d7eb9ff90c9b4bcb610b07daba7ae3afba2aafbe615a7b8c0cca379dd7b9b3660c69ff77d7192b45ba89675461f8832161a8cf30bad81b02d74857130c35d8a9099594b8d2e5408abf750c9b6404e8ee6454a4ffbf2470cdd2b43cdc09c7b827d217f4360967200464f76c15bf868860bfd6c47164a6104309365c52d24119b4be9155a565e181970871cd86d30029f3d35065e20820b1d065b0fdc1bec3793a6513352bbe63e119d3f3ad080882497d08d2056cd3a2d15ebe329d4f654c5a92679c1683bcecc2b1d17c8ea00a0d6ad50a5d26c4d12df2f6bcbdbee767ce3a1cbc1e760d676ea23f0afeee2ed18f0a5bd1df464a0aaf9278673fde69bc489b8fd098d79e0be803ac66784fbdbd09abc8bd59e7d9662933eb0bb97ffad0cafb010b1ab710d06a6322bdfa2f33668bcb4666db8757bdab5365d03b1f740b400000000d219c1dca0f29e0f72eb5fd3452421a9973de075e5d6bfa637cf7e7a8a4843525851828e2abadd5df8a31c81cf6c62fb1d75a3276f9efcf4bd873d2810519b13c2485acfb0a3051c62bac4c05575baba876c7b66f58724b5279ee5699a19d8414800199d3aeb464ee8f28792df3df9e80d2438347fcf67e7add6a63b20a33626f2baf7fa8051a829524869f56587178fb79ed653c5758980176c485caaeb757478f2b4a80a19eb7bd8002aa7efcf54dd3dd695014f3dcad29d240b0e30f2ad35e2eb6ce99000333a4219f2e675d68c9ca7cf4d40d5241293073dd34fbabaee6768a32fbb1a487068c851b1b4ff9ecfce2d870e125f6c51c18d75901d41466c4c935fad90e1b4f24333ad339f04624de5d67b8c39a490d3ea76891236cb0e2f1e1917eec26bfcb111b9e570cd8e2a0eb75c33cf6b2ed890b8fcc151645117f75f830e3683f1e5695023fca88c1433d6f6c62a172ab4c148f966d88925db5fb40d094675d17bad2a02a9b4ebde9e7b95a44c6254783e890babec90ca7761e55a6ab3fc9bb6c117c465130e05b924c17bc3f6d8ba1f8433e5cc562a2410ebad193839b4d8e44b5f8737994646ebae8938917c90f94d0e7ba69edc62674271b4c179a3ad00a5d1465f76035f9eaa3490e0d0e689210c94627edf467bbf03fbfc822b29e543f75b0e1c248917ddf8bed8a3826cc1625e1e2a3d8dcc33fc51828cd89850951944227e4697f067874bc7a8f93115b138ed675a673eb543a6e208c49bcadadd5a16a83605c57a2fc4194de0ba639ff97bbfed12246c3f0be5b092dd438b40c48257322fdd84e0361c58d7f9622205e0a3fe770bfc2da5123df1189500d9ca8cc105b8679ed66a7e5f0a5db121708fa8e0acfd43bf7f2f5a7ea3a22feebe70362f6202dd70b1d0c4b16de70bcf1735120ecb47f9511895e090c42867adecfa7e6c30889533e35a8cf23f6d438c45bf5a4d99cdb1124a1fa8d396b27e75ad6067b471128ceba2c0952a7ef75a5404254395d857a8ca0b85b10bd7383636ffea2ff72398c4a8f04add692c7d121756af0bd68adde089590ff94885c3cab4d411d3750863382adbb121eb0786ee957d54f754a1261c0b72f405caae4982f7869b9b365ae97069893b69a8550ca6d62fdebf17f3ac5448207e4d89fcd39b2fc70182ee1b7369b1c8a170701496bf0e6e44a6cfb2364d9061e45451bd59d36c958bcaad49f921f29a2b3833461cf74d3cceee8ce0bc05d3336e1c12efe36982f23170432e439b1cfd9182dd21a64da35b7454628706bf3d54d4a6fc886921c1a0bb38007cc9d35faf1bca9e732c05e009fe1c21d58cf77e065eeebfdaf33819e12121d83d53ca87ee81d34632b61c38486405f99416eea647c4f7679b79705ab3ab699b6fd982c4bc0b9b05603c547b1aee4dbac69ca6e5154ebf24c90000000001d8ac8703b1590e0269f5890762b21c06ba1e9b04d3eb12050b47950ec564380f1dc8bf0d743d360cac91b109a7d624087f7aa30a168f2a0bce23ad1d8ac8701c5264f71e3b917e1fe33df91ae87a6c1b30d6eb1959236218818fe5134fac48129700cf10fef546112659c1142d1e5415f5b2d3179c475a1644ebdd3b1590e03acd3c6738a4c9ee397c65693c7722fc3daf8e7b3fc67bf23e1ed77535d0f4d83408585f3661add637b9015132b246c4336aea4331031fca30dbb34d269f58902747f417252e019e24f6ad1921fdea8c2025460b224cb38223941f05285a3ca82982902f2beb65a62a33c9212f388eb42ee022332c89d7ba2d517b3d762b21c077f38d47759a78ce7442d449714993dc70913f5b72f8cad27320665578ee45f87936e97f7b5f1cf67a87b0717f8cf7e47e545b637c3daeea7de5026d6ba1e9b06a7945376810b0be69c81c396cc35bac6d1bf72b6f7202a26eaaae2565648d8864bc210f66d5d486670d780162063f9463de931361b7669a606fca1d4d3eb1204ce61da74e8fe82e4f5744a94a5c033c4b84afbb49ed5a324835f6b543fbd5184223799f404a8c1641922091449967044541cb8347283e0a46f0928d50b47950516cd5d75305205e52dd8cd957d6cb4c560e67cb5467924255bf3ec55e711d685fa9b1ef5dc044665c18e8e15913af7458cb03f35aa2f67a5b7a5afdec564380ed8eef07efe71a8eee3fb609eb34f19ceaec5d1be885a892e95d0415e29327b8e34b8b3fe1227eb6e0fad231e5f195a4e4293923e640ccaae798602df1dc8bf0f0042777f26dd2fef3b57e79f6be39ecf766956bf50f60e2f4d7cc65ff19efc8fec1434ffca8b6c6fd701a41f87b5dd4f9a3f153fbca04dafa12a85dd743d360d69b7fe7d4f28a6ed52a26e9d021617cd1f9cdfbd3903872d24894f5d986b758d85e1bdfda37ee56dbef42d1dee40544df3ca9c3dd555c4adc8df0cdcac91b10cb11b797c978421ec8a0ee99cdaba90ccc73058bce1af002cfc25c85c40c7f28c5d4d3afc7bd2626c6658aa1c36ecd34c2b661b3c0df943ac10738bd9a7d62409ba5cec799cc3b4e981497c99d1fd05c9cc77cdb9eae89529f7625d594b806789560aaff97095f7696d1f3f193dab464920218e3906bed6a91b341ed87f7aa30862f06b78446f33e859e5fb98095182c814db4ab8324412282fceda58932ce0888ea628f8a8397068b5b3b818e507c148f88d0938de1251a8c39899da168f2a0a0b05e27a2d9abaea3010729a60a40bca7d2ec3ba5bb19b2a463b535afad9698ae753a1fac1ccf96adc46311a8cf2484a9178803ab7e7d8aaaa6d10dbce23ad0bd3a9657bf5363debe8bcf59bb8088ccba58244bb831d1c2b9e97d45b2275ee8b3fff26fb19607e6b04eab61b545ecf4b49d4073b6f4b5fab72c197d00000000dc6d9ab7bc1a28d96077b26e7cf54c05a098d6b2c0ef64dc1c82fe6bf9ea980a258702bd45f0b0d3999d2a64851fd40f59724eb83905fcd6e5686661f7142da32b79b7144b0e057a97639fcd8be161a6578cfb1137fb497feb96d3c80efeb5a9d2932f1eb2e49d706e8907c7720bf9acae66631bce11d175127c4bc2eae946f13684dc4656f36e288a9ef49f961c0af44a7190432a06222df66bb89a1303defbcf6e444caf19f62273746c956ff692feb39b0849d3ecba270f8120901dfd6b52c190f1e5a1e7438b7d8ad93c61082757bd65bde0dd120f8e017f9539e417f358387a69ef580ddb818460413698e2bf5d448f25ea24f89784f8950d33d11390550d7e0ae26d09b88cb164223bade6dc50718b46e711fcf489cd916e3e28f9085ff49492e894e32086488eba31540c445a8861deede8166c83347bf6342607bdf6fa6a27419a1d952f46700f985af2f1f3869f6b44e6e8d92a3a85439ddfed25fc0380bf4b63f70d25bf9a9792a31869f97f75f34e1f024120c36fdb973bfad6a4e7974c1387e0fe7d5b8d64ca470f9aa19b620016fb15b278277828cfc2104eae1e7dd4197e0a6677a267fcc0bee502ab6288981c02ff2a72de92b0c5cceefb07108361b070f4d3deac994969b01bb7026c762db50c019fdbd06c056c3504630de969f9ba891e4bd45573d16349f12f08959cb5bff5eb07d129869d66a6e63d1d7a8ba7aa1afc15c4c6918f73da137118067eebaf660959c1ba64c3765f0ca51783613fa0e3168dce3f7b177923f9e912ff9473a59fe3c1cb438e5b7c51f210be8d9f8a09ede838673185a2d02d075cbbf16ac60c911d74624d70eed5a81888b4747512031402a06dc86f3adad4edc4b108805e0668f7ec68b49a76df4c0f7bec9062e15bf01553352c78c98230fa37e9ec97ad5e8ce01f30508d8587b5e5e3e66988795109ffcb3fd5925188c910afe3157d3554750a873aa9671d8dbb1b564f6776ccf807017e96db6ce421c7ee1a4a1b8380fd7bf43293a799a82442f1ce459e9c54f2feebe69c22867c2b3e048240e26918f7821eaa995e73302e77f5ad48ab9837ffcbef859117821f260b00e14dd76d7bfab71ac9946b7753238e1f35425272aff532051d9bee68872cf2ea79472e87e3f04ef0519e929dcb2980e180eb5c8c1a5c3cfba832e0963285fc14ccee20795659400ee4379c637e80790b18e1a5668256c5113038197caa8f05fe54e4d993ce53b9e47c3d6589e68a9d1cebb94171710e2106c360fd6b59d7e1e9a7bc3d843d0b5df38f65819e15d264f673b3b89be904d8ec5b6a0481c1dd18033fb6c46ea501a419176f78748dd86a08c61ab6655cadd612eec30a7f747416fd8a1fca9010a8aae7a2c6768a387193e25e104f8fc4a72ff876c9f395ec7eef171215337a88a2530d3acc8f60a07b00000000490d678d921acf1adb17a89720f4838369f9e40eb2ee4c99fbe32b1441e9070608e4608bd3f3c81c9afeaf91611d84852810e308f3074b9fba0a2c1283d20e0ccadf698111c8c11658c5a69ba3268d8fea2bea02313c429578312518c23b090a8b366e875021c610192ca19de2cf8a89abc2ed0470d5459339d8221e036501af4a686622917fceb5d872a9382391822c6a9ce5a1b18b4d36f8862abb428c06a90b816124d096c9b3999bae3e6278852a2b75e2a7f0624a30b96f2dbd80b70fa3c9ba682e12adc0b95ba0a734a0438c20e94eebad3259433a7b5424b7c15e08a588536f285344c7bf1a49a032e1aa8b26a8a7ecab73b0443c3abd23b106ca035e4fc764d394d0cc44ddddabc9263e80dd6f33e750b4244fc7fd29284a472304580e2e63d5d539cb429c34accf67d787db2edae056f5cd48c1bcc02f4c85180d52cc156adf1702c2485e0fa5c5a5ec8ed1ece1e95c37f641cb7efb2646c4f10a548dfc6dd956ebc54e1fe6a2c3e40589d7ad08ee5a761f46cd3f12214005af02f14ca2657c97b5cdebdeb8aa66255b81726c56e6ffb7414e68fe4c29e5444605f70d4b627ad65ccaed9f51ad6064b286742dbfe1f9f6a8496ebfa52ee3867d0cfdcf706b701467c3e75d6aa46aa6898f7eef84e8f3349340647d9e27e9c7940bfb8e996c76558ec4e11c83a36ce7608878ae6deff5757a47623c7720ef0d9406bc449961319f8ec9a6d683ae2b2d60853f646de2b2bf7a4a25f6772da84c7d01ba05706637de67cea0976aa92d6c8982392584e5b4fe934d23b79e2aae8e4608b0c74b6f3d1c5cc7aa5551a027aeb28b33e7bfecbe3ca8442975a523a4cfaf0fb686a2683b5db5c0ac14b8a721ef5b8c35a656ebb87d41432f344c24a20ef1071347fc609e9cebc809d5e6af842e0584906708e31dbc1f4b8af5122c074f18001506156798dd02cf0f940fa8826fec839626e1e41bfdf64c8cb4fb2b018d23091fc42e6e921f39c6055634a188add78a9ce4daed113fcd458676c0220bccca0e1985c769945ed0c10317dda68eec3e8d9aa533ea177e2442803729250d0b5e05e24253626f9944caf8d049ad752baa866162a7e1ecb9b0497bf0bd2ef64ab702e403ba6569d8adcdfe91a0aa736a438167234ee6eaf8594e7db15429f0888c0beec1816c631a96c4f4539ba379a878886de175efe03a624777736f20fac9650ce880686b655b7fc3f21272a47fe9918f6ba09ce8e67b8b4071328627fc083b044d413663c09a21cb57d32cacda28cf87ce61c2e043bad548d4f3d82f5949d2034b00df64c6dbc8cc5192c5abdc692680c8202be745fb3c4fd2b231285f8be90a41c2e46dcc19f3c55b50fea2d6ab1d89c2e210ee4f390746d8700a2155ca000d47830d6aca581ac25d1117a5d0eaf48ec4a3f9e94978ee41de31e32653000000001b280d7836501af02d7817886ca035e0778838985af02f1041d82268d9406bc0c26866b8ef107130f4387c48b5e05e20aec8535883b044d0989849a8b641ca37ad69c74f8011d0c79b39ddbfdae1ffd7c1c9f2afecb1e527f799e85f6f01a1f77429ac8f5951bb074279b67f03a194171889996f35f18ee72ed9839f684289d9736a84a15e129329453a9e5104e2bc391fcab14132b2a6c9299aabb1b102e219aa2aef618752f8e99c7af591dda2d7f9c68ada81ebf2cd09f0dac071de0343eec52b4e96e853591ef37b5466b2a3760ea98b7b7684f36cfe9fdb61860743282e1c6b2556311332de2a3b3fa66be31dce70cb10b65db3073e469b0a46d08513b2cbad1ecae6d50942fdfd043abc252652a70d2b2a8a753ca2915d31da09c5787212ed750a3f95628224bd6ffa65654d927e4d40ea53355762481d5a1a66c4d9857decd4fd5094c3754bbcce0d0a64ec65114ce11d3c34f695271cfbedbf84b245a4acbf3d89d4a8b592fca5cdd32487a5c80c8adde5749d55fe5c902db8c79a6ba3ef97138e97809b95bf8de3d467af8bcf4fa2f3e237b57bf91fb8036187f1ab7aaffcd357d7eb5b4cffe6230d27c44b160fc9333b77debb205fd3c30e86505c15ae5d2438d64aac23fe47d4622665bc790e68c454767f4c4f5e7234d7c63b9cccee36e4e196216cfabe2c14bb660e7ca04e03048d36148c961e19f4a5cb3ad3bee337ab939b202388b32d5bc96b0f33d243024bff3b15c3e41318bb7c8b511367a35c6b4adb4be351f3469b102b64f30b03698b267b7e033d53737b138af0e408a2fd9c25daea143ef2e76c7f2ac5046402c87c497adff45252d28ccaca9b24d1e2965cfc9a81d4e7b28caca66aaec4bd42a3bc903ab4348b12b94ccd89b30ad6a1be72fbd9a9fae0f1a482a12986eaba018b9297799c1a8c51916214c9d8ca0fe1d5b22299c23a39b1cf427869ed2a6341e0524e39f7da5511faa27bc8793d60e074454d9863cd56b06eb517684cdd0c4041a52138562d3a105b55a28812fdb9a01f8594d8080d8ff00575ce28271dd5002a65f8783dede3503095754e29616e662419431e339158363ee919ee1c8102c611f92fbe067134960b09ac0e42a1b7264fd99a5e585181765529c0ae7741db867a39f6fe6db1edd660c9c30fe356d827ee2ef55ff9a6ee77f4deafafd6b6b487dbce99ffcc4682d7c13e1a4f8896016785ee2c1f926637379f1e76efbd766dc7b00e40bfa7865b97aafe1d0ca0b80624adc02b5cba483074b73071ac95586a84982047fc8fa85cd482d0c44ccb78df64c600f21cd188e934dcf0a8ecfe98b3c4f3e09ebce4688594e910ab4d6a8fb06567f79d1d707f86357d07c7ed5f6fdcc55217f1bd459fea9548e7720d014f69250c37445d1bbf5f7516c71ead34af058539d728fd2e5f33d52327000000004f5768119eaed022d1f9b833399cbdf376cbd5e2a7326dd1e86505c073397be63c6e13f7ed97abc4a2c0c3d54aa5c61505f2ae04d40b16379b5c7e26e672f7cca9259fdd78dc27ee378b4fffdfee4a3f90b9222e41409a1d0e17f20c954b8c2ada1ce43b0be55c0844b23419acd731d9e38059c83279e1fb7d2e89eac824f22f87739a3e568a220d19dd4a1cf1b84fdcbeef27cd6f169ffe2041f7efbb1d89c9f44ae1d825b359eb6ae431fa8281343acdd65c2b1c2fe41853788c092e5605e361016df2b0f8d5c1ffafbdd017cab810589dd00189646832c63300235d6f7e0512381614c3c1ae278c96c63664f3c3f62ba4abe7fa5d13d4b50a7bc59488f9e9dbdf91f80a2629cb457141daad14441ae2432c0b33ba94387cedfc29e7b1820fa8e6ea1e791f522d36483a3cde2d3ffc917a57ed4083efde0fd487cf72fa0e253dad6634ec54de07a303b6164b66b3d60431dbc7d5c863f49a9f0be501c375c34e941dd29f6da5e1d03acdf0385fc8307708a021a6f11812e9a670035cac0bc613fb63d7c202dbe48d55b3f56530b6352a67de24fb9e6617b4c90e062f95702060c21831b13ba002fe6cc8131609cdd3595ea5c288a71df1c7f075e0badefc0af589941b24702c286b274439834241f9cc1529e81dec91db52bbf9cac9e787ec86b0effd574957ce181e3fdff07b3a1fbf2c520e6ed5ea3d2182822c2dd0ee6562878674b37e3e47fc295656144c53965b1b3b878ae283b4c5b5eba55ee9958311befd92c04745a18f102db06775287028224061f9dbf852b68c9043cba219a984f571b8550cc98b1a5ba19af23ea45abd69cc4b6c90747823c71c69b89b624ff7cc0a5e2635b26d6962da7c8107dfbcce50b7ad1fa90f9e50fe678fe5f41c4aaaa3745b7b5acc68340da479dc68a1b9933fc9a842c6719b0d91198a96cd67acd99a0fbd0863b78e4734df9faf51da5fe006b24e31ff0a7d7ea8626c0386eb864cd183979d283ba4d27f53b53a1a5675754d3e64a4b48657ebe3ee4670bf90603fe8f871ee114042a146285349232d9306744582d78dfdb198da95a0b958178cf60f7f9d27f6c7ae68a1afbf80c4aa7fcf93c26e1e6a7a5d513d124cca616c6a8536047b54cfbc481b98d459f3fdd199bcaab9886d5301bb220469aa5f2ae040107d8851c18430628ed3587366b65db329e135a2f8188d91b74fe5802c139ba66344f3b7b2bd4b84fdea2395158f26555ad84e448b21f677c4769e66717ce5a33e2b8db2efd23581a0855d9048e0585007b73041d64e88729919e06302459e454d12f6549ceb4e67d3bc26763bd923b6748e4ba7a577f394ea209b85970e126fd8597a7e09a0c24d46f7aa5cae92af9ce1c5c78d303c7fbe7f6b17afe4376989ab6001987a99b9ab35ced1baddabd47a92fcbc6b430504580c526c49000000005ba1dccab743b994ece2655e6a466e9f31e7b255dd05d70b86a40bc1d48cdd3e8f2d01f463cf64aa386eb860becab3a1e56b6f6b09890a355228d6ffadd8a7cbf6797b011a9b1e5f413ac295c79ec9549c3f159e70dd70c02b7cac0a79547af522f5a63fce17c36195b61fab1312146a48b3c8a0a451adfefff071345f70522104d18eebe833ebb5b392377f35363cbe6e97e0748275852ad9d459e08bfc8f1fd05d53d53cbf368b671eea41e1bae180ba1b3d4a56f958140d5884def2a8f5eaa909292045eb4c7e1e4a90b498ee9b75c34f47bf2fad22e1740cfe2b262428d47d85f41e91679140cac64d8a4c62464b17c39a81fb21ffdfa0802315bee0a442e541788809a31dd65202c11cd4a6cadd8f07161763e573493844af836a6c797c31cda5b6dd2fc0e8868e1c22002a17e35b8bcb29b769ae77ecc872bd133803894899df43a47bba1dffda66d7797e6d1622dfb1dcce3dd482959c0848c7b4deb79c15027d70f767232b56bbe9adf2b028f6536ce21ab109bc4110d576e190f663ba312aa956d34ff70d72933d8bd698fcd07744363c9521686734fda2351c2b5d6ebdf797825f92c9d9fe4e035f5a45c204fb9908e819fc56b3b8209c4c4851a817e98d62fb0be83ca0aa34f6260e3f377dafe3fd914d86a3caec5a6998c48c96c365505c2f8735027426e9c8f282e209a9233ec345c15b9d1e6087577900553322a189f9ce43eca795e2306d13463bac48e7e766a4058238ffa45ef2ad8c880df62d54c71acf3199416eed53c7cae6929c6b3a5870895f062b2883ccd4d8f2f88f792e32639b4b6c383a97a6be9e9c67e53f40ad09dd25f3527cf93900542fc65bf5f30cb7179652ecb64a986a12415931b39d93dd51f8cd86f02407267007127dd1dbd89133be86ca92624c4c36698d1797b547fb75d019a0d40cd3f2fcda2ca95d06e645bf63b81e1ebf7298bab4b3c31b68792ff90d277458d1ed8ba8a0d9d0097c133ceb194d674ac587e1eece46ba4f128c56ad77d20d0cab185f247de70485a12de867c473b3c618b9356213786ec3cfb28221aaecd9807626c7e0f1719c412dbb70a348e52b02942fada69feef60743241ae5267a4144fab0136c2c4f48cdf085a42f95dbff8e4911792a42d0228b9e1ace69fb4495c8278e6a3856ba31998a70dd7bef2e86da33e4007e38255bdfe4efb73d81b1ec9c5d7bbeb48b84e515574e09f732105256eedad4f2e51b8f5339d163b15c8f381080459890a350c3317f9a2fd31ac47472c60ef2d6cdcfa97711054595745b1e34a8914c1c7e6e17bda2a4fb5fc7faa0fe1b30265a10f17dfbcc3b9119a965cab875af3548049b6ee9d851820bbd0fd9aa61c55f0e6a0404afb6cee84dd390b3ec0f5ae1c4d9a5ba65056f568760310d26bcfb8b82b73ad0236bf03cc10eae6760d264",
+      "citation": "Source/Runtime/Core/Private/Misc/Crc.cpp:60",
+      "derived": true,
+      "does_not_prove": "that the table is used for any particular purpose, nor which of the several FCrc entry points is reached",
+      "family": "hash-table",
+      "first_words": [
+        0,
+        3072180484,
+        1849393673,
+        3643163405,
+        3698721811,
+        1802224919,
+        2991425050,
+        89147166
+      ],
+      "id": "crc_tables_sb8_deprecated",
+      "kind": "table",
+      "name": "FCrc::CRCTablesSB8_DEPRECATED",
+      "prefix_words": 256,
+      "proves_if_found": "that the engine's lookup table is present in full at this offset. A table cannot be constant-folded or inlined away, so this is an ANCHOR: an address the M3 reflection work can start from",
+      "role": "the slice-by-eight form of the deprecated table",
+      "searched": true,
+      "sha256_of_the_packed_table": "5a11b0410430470f678fa638fe8f45e34425d7771854f86fc90d9a5d4a4d3373",
+      "source_line": 60,
+      "source_path": "Source/Runtime/Core/Private/Misc/Crc.cpp",
+      "source_text": "uint32 FCrc::CRCTablesSB8_DEPRECATED[8][256] =",
+      "width": 8192,
+      "word_count": 2048
+    },
+    {
+      "bytes_hex": "00000000963007772c610eeeba51099919c46d078ff46a7035a563e9a395649e3288db0ea4b8dc791ee9d5e088d9d2972b4cb609bd7cb17e072db8e7911dbf906410b71df220b06a4871b9f3de41be847dd4da1aebe4dd6d51b5d4f4c785d38356986c13c0a86b647af962fdecc9658a4f5c0114d96c0663633d0ffaf50d088dc8206e3b5e10694ce44160d5727167a2d1e4033c47d4044bfd850dd26bb50aa5faa8b5356c98b242d6c9bbdb40f9bcace36cd832755cdf45cf0dd6dc593dd1abac30d9263a00de518051d7c81661d0bfb5f4b42123c4b3569995bacf0fa5bdb89eb802280888055fb2d90cc624e90bb1877c6f2f114c6858ab1d61c13d2d66b69041dc760671db01bc20d2982a10d5ef8985b1711fb5b606a5e4bf9f33d4b8e8a2c9077834f9000f8ea8099618980ee1bb0d6a7f2d3d6d08976c6491015c63e6f4516b6b62616c1cd83065854e0062f2ed95066c7ba5011bc1f4088257c40ff5c6d9b06550e9b712eab8be8b7c88b9fcdf1ddd62492dda15f37cd38c654cd4fb5861b24dce51b53a7400bca3e230bbd441a5df4ad795d83d6dc4d1a4fbf4d6d36ae96943fcd96e34468867add0b860da732d0444e51d03335f4c0aaac97c0ddd3c710550aa41022710100bbe86200cc925b56857b3856f2009d466b99fe461ce0ef9de5e98c9d9292298d0b0b4a8d7c7173db359810db42e3b5cbdb7ad6cbac02083b8edb6b3bf9a0ce2b6039ad2b1743947d5eaaf77d29d1526db048316dc73120b63e3843b64943e6a6d0da85a6a7a0bcf0ee49dff099327ae000ab19e077d44930ff0d2a3088768f2011efec206695d5762f7cb67658071366c19e7066b6e761bd4fee02bd3895a7ada10cc4add676fdfb9f9f9efbe8e43beb717d58eb060e8a3d6d67e93d1a1c4c2d83852f2df4ff167bbd16757bca6dd06b53f4b36b248da2b0dd84c1b0aaff64a0336607a0441c3ef60df55df67a8ef8e6e3179be69468cb361cb1a8366bca0d26f2536e2685295770ccc03470bbbb91602222f260555be3bbac5280bbdb2925ab42b046ab35ca7ffd7c231cfd0b58b9ed92c1daede5bb0c2649b26f263ec9ca36a750a936d02a906099c3f360eeb8567077213570005824abf95147ab8e2ae2bb17b381bb60c9b8ed2920dbed5e5b7efdc7c21dfdb0bd4d2d38642e2d4f1f8b3dd686e83da1fcd16be815b26b9f6e177b06f7747b718e65a0888706a0fffca3b06665c0b0111ff9e658f69ae62f8d3ff6b6145cf6c1678e20aa0eed20dd75483044ec2b30339612667a7f71660d04d476949db776e3e4a6ad1aedc5ad6d9660bdf40f03bd83753aebca9c59ebbde7fcfb247e9ffb5301cf2bdbd8ac2baca3093b353a6a3b4240536d0ba9306d7cd2957de54bf67d9232e7a66b3b84a61c4021b685d942b6f2a37be0bb4a18e0cc31bdf055a8def022d0000000041311b1982623632c3532d2b04c56c6445f4777d86a75a56c796414f088ad9c849bbc2d18ae8effacbd9f4e30c4fb5ac4d7eaeb58e2d839ecf1c98875112c24a1023d953d370f4789241ef6155d7ae2e14e6b537d7b5981c9684830559981b8218a9009bdbfa2db09acb36a95d5d77e61c6c6cffdf3f41d49e0e5acda2248495e3159f8c2046b2a76177a9bea6e1e8f1e7d0f3e82483dec365b2c5daaaae5d5deb9f464428cc6b6f69fd7076ae6b3139ef5a2a202c09070b6d381c12f33646dfb2075dc6715470ed30656bf4f7f32abbb6c231a275911c8934a00790fbbc9f17ba8d840e79dea92538efb23cff79f373be48e86a7d1bc5413c2ade58054f79f0447e62e9872d4fc2c61c54db018a159440bb0e8d83e823a6c2d938bf0dc5a0384cf4bb218fa7960ace968d130900cc5c4831d7458b62fa6eca53e177545dbbba156ca0a3d63f8d88970e96915098d7de11a9ccc7d2fae1ec93cbfaf55cd762721de6796bdeb554409f844f5958120e161923150fda7038249b41233da76bfd65e65ae67c2509cb576438d04ea3ae9101e29f8a1821cca73360fdbc2aafe124adeed03fb42d83129f6cb20986ab2448c9ea1553d029467efb687765e2f6793f2fb7482436741b091d352a1204f2bc534bb38d485270de657931ef7e60fef3e6e7bfc2fdfe7c91d0d53da0cbccfa368a83bb07919a7854bcb13965a7a84b98833b0aa99822c9fab50988cbae104f5def5f0e6cf446cd3fd96d8c0ec27443125af3022341eac1706cc1804177d847d7369706e62d8ec5b500a584841bbc1a8a41715bbb5a6898e87743d9d96c5a1e4f2d155f7e360c9c2d1b27dd1c003e120098b9533183a09062ae8bd153b59216c5f4dd57f4efc494a7c2efd596d9f6e9bc07aea88d1cb76bde319c2aef2a85ed796bcaac4870d36f1b5df82e2a46e1e136de66a007c57f6354e8542265f34de5f3b202a4c2a91b6791843026a09f29b8aec5e4f99fdefd3accf3d67bfde8cfbc6ba980fd5ab2993e099fb27f3884abb0241c2cf115073532462a1e73773107b4e17048f5d06b513683467a77b25d634ed7facb0fe6e1d2ccb5ccf98d84d7e04a1296af0b238db6c870a09d8941bb84465d2303076c381ac43f1531850e0e2842984f6703a9547ec0fa795581cb624c1fc538815ef423989da70eb3dc9615aa1b0054e55a314ffc996262d7d85379ce174fe149567efa50952dd77bd41ccc62138a8d2d52bb963491e8bb1fd0d9a006ecf37e5eadc265476e91486c2fa05375e836123aa90709236a5424082b653f11e479a796a548bc8f661b91a4272a8abde0bccbf2a18dd0eb62defdc023efe6d9bde1bc14fcd0a70d3f838a267eb2913fb924d070f815cb693b46e6427a77fd5bb56b65dcf45a7ec5370953ee763848f7b1ae09b8f09f12a133cc3f8a72fd249300000000376ac2016ed4840359be4602dca80907ebc2cb06b27c8d0485164f05b851130e8f3bd10fd685970de1ef550c64f91a095393d8080a2d9e0a3d475c0b70a3261c47c9e41d1e77a21f291d601eac0b2f1b9b61ed1ac2dfab18f5b56919c8f23512ff98f713a626b111914c7310145a3c152330fe147a8eb8164de47a17e0464d38d72c8f398e92c93bb9f80b3a3cee443f0b84863e523ac03c6550023d58175e366f7d9c3736c3da3501a9183484bf5731b3d59530ea6bd332dd01113390e56b24a78fa925fe31ef27c95b2d264c4d62237b27a0222299e62015f3242128b4782a1fdeba2b4660fc29710a3e28f41c712dc376b32c9ac8f52eada2372fc08d9a70f7e75871ae591e739933dc721c2593772b4f517672f11774459bd57578dc897e4fb64b7f16080d7d2162cf7ca4748079931e4278caa0047afdcac67bb02ebc6c87447e6ddefa386fe990fa6e6c86b56b5bec776a025231683538f369087faf623f156d6366ab2b6151c1e960d4d7a665e3bd6464ba0322668d69e06720cbd74817a115494e1f534b7975914afc63de4fcb091c4e92b75a4ca5dd984d989ac446aff00647f64e4045c12482444432cd4173580f402ae649421d8c8b435068f154670233553ebc755709d6b7568cc0f853bbaa3a52e2147c50d57ebe51e839e25adf53205b86ed6659b187a4583491eb5d03fb295c5a456f5e6d2fad5f801b35e1b771f7e0eecfb1e2d9a573e35cb33ce66bd9fee73267b8e5050d7ae4384a26ef0f20e4ee569ea2ec61f460ede4e22fe8d388ede98a36abebbd5c69eaf0b813fdc7d2d1fc9e6c97fea90655ff2c101afa1b7ad8fb42c49ef975ae5cf848e900f37f83c2f2263d84f0115746f1944109f4a32bcbf5fa958df7cdff4ff6605d78d95737bad80e89fcda39e33edbbcf571de8b9fb3dfd221f5dde54b37dcd80c6bd7ef66a9d6b6d8efd481b22dd504a462d033cea0d16a70e6d35d1a24d210fe5ec527949cc47e2adac6494018c7cc5657c2fb3c95c3a282d3c195e811c0a8af4dcb9fc58fcac67bc9c8f1110bc9740744cc436d86cd1ad3c0cf2db902ce4096af9177fc6d902e422b921928e9939c3ea696ab546497f2ea2295c580e094f8c7bc9fcfad7e9e9613389ca179fa9d246fb598130577994abb319b7dd1f39a3035898d075f4b8c5ee10d8e698bcf8fec9d808adbf7428b82490489b523c68888649a83bf0e5882e6b01e80d1dadc8154cc938463a651853a1817870d72d586a0d0e2a997ba20a8ce0466aaf96ea4ab7c78ebae4b1229af12ac6fad25c6adac1881f1a72feb33a6765575a4413fb7a5c429f8a0f3433aa1aafd7ca39d97bea2d073c4b5e71906b4bea740b689cd82b70cdbcdb23bb10fb3620f49b155658bb06822d7bb5f4815ba06f653b8319c91b9b48adebc83e01cbdda5e5abfed3498be000000006567bcb88bc809aaeeafb5125797628f32f0de37dc5f6b25b938d79def28b4c58a4f087d64e0bd6f018701d7b8bfd64addd86af23377dfe0561063589f571950fa30a5e8149f10fa71f8ac42c8c07bdfada7c76743087275266fcecd707fad951518112dfbb7a43f9ed0188727e8cf1a428f73a2ac20c6b0c9477a083eaf32a05bc88e18b5673b0ad00087b26938502f0c5fec97e2f059858797e53dd1878665b4e03add5a4f8fcf3f2833778610e4eae37758520dd8ed4068bf51f8a1f82bf0c49f97482a30225a4f579ee2f66f497f9308f5c77da740d518c0fc6d4ed09f352bb7238dc518969fa07f2a271947fdba7c204102928ff410f7e848a83d58149b583fa823b6901d31d3f7a1896acf76140fa8caace1077fbe8460c306d270a05eb7171ce659b8a9f43cdf154c85e7c2d1e0807e690e2fcb7b6b4877c3a20f0dcbc768b17329c704614ca0b8d9f5986f4490ffd3fc7e5066ee1b37da564d27b90e284005b6c6efb0a4a3880c1c1ab0db817fd767399178d22bf41f6e9303f7263b66909a83883f2f91ed589329546044b43107f80cdfa84d1ebacff1a6ecdf92fe89b82e4667179b54027027ecbb48f071de2f4cc93080f9db55e745639ca03f6bf9c783d3176836c1720f8a79cb375de4ae50e15c40ff544e2598e8f673888bae16ef3716f84082049d273ebc241fe92141785599afd7e08bcab05c333bb659ed5ed1e555b07e5047d519ecff6c213b62094687dae7e932c8828e8e70d49eed28b1f951905f56e4823a31583a83098fa7e66e331f08c1860d6da63ab5a4e140bdc186fc052f2949174a4ef5aff376223296119e8a78be2b981dd997204bc9f4782eae48c0c001fdd2a566416a1c5e96f779392a4f97969f5df2f123e505196b4d607ed7f58ed162e7ebb6de5f528e09c237e9b57ad9460068bc21bcd0ea31df888f56633061f9d622049e6a9abda6bd07d8c101bf366eb4ad530908159a4e721dff29cea511867bb774e1c70fcdd91092a8beac2a461119382376a5807566c6d810017a60feaecf729bc973ca22f1a457479618efa939adfdcc5e114506ee4d766389f1ce8d2644dce841f86451792ff9341e9341dab12653bfd69aebe9c6f9b38ca1450b620ef01907694ca1be519b3cdb3627843599929650fe2e2e99b95426fcdee89e12715d8c7716e134ce2e36a9ab498a1145e63f03208183bb7691e0e313f65c5bfd59e949983e55f12106826c44613ed4aace8bc6cfa9377e38417fd65d26c36eb389767cd6eecac46fd61d590ab1a1e1e41e14f38179a84bd769cb13b20e77ab5ca1c2b939c67e0180fea99ce59915240b36a0366e511c8ea7166686c271da3e2cde6f2c49b9d394f081040995e6b8b17b490da31e2eb11b483ed2432d596efbc3f6dbe9a69167511fa9b0cc7ace0c749461b966f10605de00000000b029603d6053c07ad07aa047c0a680f5708fe0c8a0f5408f10dc20b2c14b70307162100da118b04a1131d07701edf0c5b1c490f861be30bfd19750828297e06032be805de2c4201a52ed402742316095f21800a82262a0ef924bc0d243dc9050f3f5f06d238f502a93a63017837a10a533537098e329d0df5300b0e2042fc1c1b406a1fc647c01bbd4556186c489413474a02109a4da814e14f3e173c564b1f1754dd1cca537718b151e11b605c23104b5eb51396591f17ed5b8914386b821a13691419ce6ebe1db56c281e6461ea154f637c169264d612e9664011347f35191f7da31ac27a091eb9789f1d68755d164377cb159e706111e572f71234958f358f9719365290b33229922531f89fe73ad39d71390e9adb3d75984d3ea88138368383ae355e84043125869232f48b5039df89c63a028e6c3e798cfa3dacbcf13387be67305ab9cd3421bb5b37f0b6993cdbb40f3f06b3a53b7db13338a0a846308baad03356ad7a372dafec34fca22e3fd7a0b83c0aa7123871a5843ba4d773299fd5e52a42d24f2e39d0d92de8dd1b26c3df8d251ed8272165dab122b8c3c42a93c152294ec6f82d35c46e2ee4c9ac25cfcb3a2612cc902269ce0621bcfe0d2f97fc9b2c4afb312831f9a72be0f46520cbf6f32316f159276df3cf24b0eaba2c9be82c2f46ef862b3ded1028ece0d223c7e244201ae5ee2461e77827b92b0e6b12299868cf2e326cb42ca46f652166644e23f06793245a63e826cc60353fb9681e3d2f6bc33a856fb838136c6935d167423747649f30ed60e4327b633102706d1a00e66ec7074c6abc05da696d081862460a8e619b0d2465e00fb2663d16c76e1614516dcb13fb69b0116d6a611caf614a1e396297199366ec1b05653969f277026b6474df6cce70a46e587375639a785e610c7b8366a67ff864307c257d45740e7fd377d3787973a87aef7079772d7b5275bb788f72117cf470877f21408c710a421a72d745b076ac4726757d4ae47e5648727d8b4fd879f04d4e7a2d543b720656ad71db510775a0539176715e537d5a5cc57e875b6f7afc59f9792dbe815e96bc175d4bbbbd5930b92b5ae1b4e951cab67f5217b1d5566cb34355b1aa365d9aa8a05e47af0a5a3cad9c59eda05e52c6a2c8511ba5625560a7f456b597ff589e95695b4392c35f3890555ce99d9757c29f01541f98ab50649a3d53b983485b9281de584f86745c3484e25fe5892054ce8bb657138c1c53688e8a50bdfc7d4286feeb415bf9414520fbd746f1f6154ddaf4834e07f3294a7cf1bf49a1e8ca418aea5c4257edf6462cef6045fde2a24ed6e0344d0be79e4970e5084aa5d503448ed7954753d03f4328d2a940f9df6b4bd2ddfd480fda574c74d8c14fa9c1b44782c322445fc4884024c61e43f5cbdc48dec94a4b03cee04f78cc764ca00000000a5d35ccb0ba1c84dae7294861642919bb391cd501de359d6b830051d6d8253ecc8510f2766239ba1c3f0c76a7bc0c277de139ebc70610a3ad5b256f19b02d6033ed18ac890a31e4e357042858d40479828931b5386e18fd52332d31ef68085ef5353d924fd214da258f21169e0c21474451148bfeb63dc394eb080f23605ac0793d6f0cc3da4644a9877388120473d9c859461572be6f5d18e35a91a5b87ffebfe54a320502637a6f5f56b6d4dc56e70e81632bb4664a63de3b7faf6ad077a0408d426cfa6a6b2490375ee82bb45eb9f1e96b754b0e423d215377f19c08529e865567523cb24e1a56ef7bd6ed6c7b8737314e4b8dd66703e78b52cf56c0a580fc9d904c467ab9042c278cc897a48c994df9b955f71e901d9d43a5d1201880be3a45b57280a29c3aeaffa9f6517ca9a78b219c6b31c6b5235b9b80efef7088e0c52dbd2c7fca94641597a1a8ae14a1f974499435ceaebd7da4f388b119a8adde03f59812b912b15ad34f849668cc84c7b291b10b08769843622bad8fd5a0ff408ffdca8c351ae3c45f47d608e4c4d6593e99e395847ecaddee23ff115378da7e4925efb2f3c2c6fa999ff336221cf367f841c6ab42a6efe328fbda2f9c10d220b64de7ec0caacea466f7fb68dd74fb390729cef5bdcee7bdd793d2716ac8f71e7095c2d2ca72eb9aa02fde561bacde07c1f1ebcb7b16c283114bf74fad814b01e7dc7ecd5d3b5785376662498ce5621856b857d4ec5f7e9c86024b503b596e3f21045bf39be372bbf1be47774a3d4726906072ea2a875ba240da6e6ef4316661de6c53ad648b7ae50ed64f29b5554f786f087ab4d5ef53fcbfb2663002e9435f18b47693a2535fdbc80e6a17738d6a46a9d05f8a133776c2796a430ecee111c194bc240d2e5b0d4544063889ff8538d825d80d149f3f245cf5621190483934ff52640133e883287b82de1db7395d1de6e300282a59e7016233ba34ae87513ca1ad0c096d17eb20257db615e9c63515b81c682074a68f093cccd23cf07189199f6bd42c53d133051bbb6e30d700ed3086dab0054a60572c020a0a19cebb41ee81111cdb4dabfbf205c1a6c7c97a25c798a078f2541a9fdb1c70c2eed0cd99cbbfd7c4fe736d23d73b077ee2f7bcfde2a666a0d76adc47fe22b61acbee02f1c3e128acf62d924bdf65f816eaa94395eaf899c8df34232ff67c4972c3b0f429e6dfee74d3135493fa5b3ececf97854dcfc65f10fa0ae5f7d3428faae68e3821b441627c818dd89ba8c5b2c69d0909459d58d318a89469ff81dc03a2b410bef9917fa4a4a4b31e438dfb741eb837cf9db86615c08daaaf27a4e2c57a912e719199215bccacede12b85a58b76b06930f5b038eaa885f4504facbc3a1299708749bc1f9d1489d327f3a09b4dae9557f62d95062c70a0ca96978982fccabc4e400000000b40b77a629119f979d1ae83113244ff4a72f38523a35d0638e3ea7c5674eef33d34598954e5f70a4fa540702746aa0c7c061d7615d7b3f50e97048f6ce9cde677a97a9c1e78d41f053863656ddb8919369b3e635f4a90e0440a279a2a9d231541dd946f280c3aec334c8d965baf67ea00efd090693e7e13727ec96919c39bdcf2832ca69b5282258012355fe8f1df23b3b16859da60c6dac12071a0afb7752fc4f7c255ad266cd6b666dbacde8531d085c586aaec142829f7549f53952a563a8e6ae140e7bb4fc3fcfbf8b9941812c5cf58a5bfa6890b3cbdc9bc46d35eb8c9b81e0fb3d1cfa130ca8f164aa26cfc36f92c4b4c90fde5cf8bbd52b5e79750b44cd7e7ce2506494d3e46fe3756a5144b0de5a33164340db27f74bac811e3be477aa3093d1372a7be083210c460d1fab83b914dc25240e3414900543b2b7e9d52303e2a2859ef84ab42af33d12a4cd9ad710c6ed718ddc054039d772e6d0a73a1064ac4db6f9b6a5874dbdd221c38375e477880242ea92ea735e999dd5e54cb68b5147c12dcc5d291c78565ebaf668f97f42638ed9df7966e86b72114e820259b836092e1eab13c62f1f18b1899126164c252d61eab83789db0c3cfe7d2bd068ec9fdb1f4a02c1f77bb6ca80dd38f427188cff50be11e5b88fa5eecf294c9e87dff895f079658f1848d1846fee5fbac82bebb1bf8d76ab57bcc2a0201af2ea168846e1612edbfb891f6ff0feb9e1ce597c55c52edac8dfc6eb7cd4b14d95a4f9bb21af8e1dbcb5662c08be118a8680b64f328bc1e9af9129d81b9a5e7e3c76c8ef887dbf4915675778a16c20de2f52871b9b59f0bd0643188cb2486f2a5b3827dcef33507a7229b84bc622cfed481c6828fc171f8e610df7bfd50680196ed3ab47dad8dce147c234d0f3c943767df7e4b3c9fc931554e67b24e0ed0c82099d4474bd9633d2208cdbe39487ac451ab90b80aeb27c2633a8941787a3e3b1a04f752014440286895eeab73d559d11b36b3ad407604d729a7aa5432e71d2e5c7019a13730aedb5ee1005845a1b7222d425d5e7602ea241fd344a70493f3dd68b9f1dcc3f946a6aa28e825b1685f5fd98bb52382cb0259eb1aacdaf05a1ba09ecd1f2ff58da8559c5c06d6871cb1acefff5bd0b4bfecaadd6e4229c62ef553a4503c3abf108b40d6c125c3cd8192b9a56278c5fe22cfbf97f3613c8cb3d646e224d2c9896465b3e0b5cb30fbf57c4a93169636c856214ca1878fcfbac738b5d17a6a003a3add7a53eb73f948abc48320482eff7b08998512d937060999807c670e84f30c4e3389659f9d0a7edf2a70163cc00c4d7c777624add9f53fed6e8f5d93a7e646d3109c2f02be1f344209655ca1e31907e154636e30fae075704d9a1be7491570a7fe6f197650ec0236e7966ad50dea3195ba90584414134304a3692000000009e00aacc7d072542e3078f8efa0e4a84640ee04887096fc61909c50ab51be5d32b1b4f1fc81cc091561c6a5d4f15af57d115059b32128a15ac1220d92b31bb7cb53111b056369e3ec83634f2d13ff1f84f3f5b34ac38d4ba32387e769e2a5eaf002af463e32d7bed7d2dd1216424142bfa24bee71923316987239ba5566276f9c862dc352b6553bbb565f977ac6c3c7d326c96b1d16b193f4f6bb3f3e379932a7d7939e69e7eb668007e1ca41977d9ae877773626470fcecfa7056207d53cd85e35367490054e8c79e54420b875d8701195d2dcdfa5aa243645a088fc84828565648829ab54f0d142b4fa7d8324662d2ac46c81e4f414790d141ed5cedc29d2973c237e590c5b86b0ec512a717ccd7ad89cc7d616acbf2eff4cb582358d978fac6d9d23625de5db8bbdef774a2d7327e3cd798b2dfd0173c41d0bdf0c6f3265558f38c99bbf4031725f4a9db3cfd6cd1a2fdc61d41fa4993dffae35f73e8c386ede8694a0eefe6c490ef4c0889e6890217e623cef4e1ac406ae1068cbba0ebd025a0411cc6a7ce9258a7645e41aea154dfae0b983ca98416a2a92eda0ebb0e0390bba4cf73bc2b41edbc818df4b544876ab5ee4b89b261c517b2cb09909150ac0e91fa60ed9675ee7396df226a9f1a28f49fb0e417983f6a899895a6258ab57fbb8a1fb3588d903dc68d3af1df84fffb41845537a283dab93c837075da853b534485919fa7821e113982b4dd208b71d7be8bdb1b5d8c5495c38cfe596f9ede80f19e744c1299fbc28c99510e959094040b903ec8e897b14676971b8af1b4802f6fb42ae38cb3a56d12b30fa10bbacaab95ba606776bdefe9e8bd452544af65fcdaafcf3039a840bea7a8ea72bea12f7820a185b4c3a60a3a5da6a0f68ce74daa12e7e766f1e068e86fe0c22476e9072ee8e9ade20bee226c95ee88a039fca879a7fc02b544fb8d3bdafb27f7c3f2e2fd5df24831bef5c7bf20f56d73a7d6f6d639d65c1adad1d39444d179585dd8bc52c3d8169e20df9910bedf33dc12cd13058ccdb9c96fca3647f1ca9c8be8c3598176c3f34d95c47cc30bc4d60f3747a67aa9470cb64a408338d44029f4cd49ecfe53494632b04ec9bc2e4e6370825c43a91c5ce965ff5b66eb615bcc277852092de652a3e105552c6f9b5586a31c761d068276b7ca61713844ff719288e67857827878fd4e9b7f72c0057fd80ca96df8d5376d5219d46add974a6a775b5363b251cd63189d2e649713b0643ddf6125d083ff257a4f1c22f5c182225f0d9b2b9a07052b30cbe62cbf45782c1589d43e35504a3e9f9ca93910123739bade2e307fd4b030d51853375a96cd37f05a4a146bffd414c13337134ebda913e471b01a217b2e1a8bb7cd1d0439531daef5ff0f8e2c610f24e08208ab6e1c0801a20501c4a89b016e647806e1eae6064b26",
+      "citation": "Source/Runtime/Core/Private/Misc/Crc.cpp:208",
+      "derived": true,
+      "does_not_prove": "that the table is used for any particular purpose, nor which of the several FCrc entry points is reached",
+      "family": "hash-table",
+      "first_words": [
+        0,
+        1996959894,
+        3993919788,
+        2567524794,
+        124634137,
+        1886057615,
+        3915621685,
+        2657392035
+      ],
+      "id": "crc_tables_sb8",
+      "kind": "table",
+      "name": "FCrc::CRCTablesSB8",
+      "prefix_words": 256,
+      "proves_if_found": "that the engine's lookup table is present in full at this offset. A table cannot be constant-folded or inlined away, so this is an ANCHOR: an address the M3 reflection work can start from",
+      "role": "the reflected CRC-32 table of FCrc::MemCrc32, the software path of every FCrc::MemCrc32 call in the engine",
+      "searched": true,
+      "sha256_of_the_packed_table": "21ed943bd7cc421b04a4c88ca86abe13b6b7d9d793f0106cfc23328ec4eb72c1",
+      "source_line": 208,
+      "source_path": "Source/Runtime/Core/Private/Misc/Crc.cpp",
+      "source_text": "uint32 FCrc::CRCTablesSB8[8][256] =",
+      "width": 8192,
+      "word_count": 2048
+    }
+  ],
+  "custom_versions": {
+    "does_not_prove": "that the custom version is ever used, that the asset data in this build carries it, nor -- without a reference tree for the NEIGHBOURING releases -- that the GUID is specific to UE 5.4",
+    "guid_definitions_not_reached_by_a_registration": [
+      "UNiagaraEmitter::EmitterMergeMessageId",
+      "UNiagaraSystem::ComputeEmitterExecutionOrderMessageId",
+      "UNiagaraSystem::ResolveDIsMessageId"
+    ],
+    "guid_definitions_total": 97,
+    "join_key": "the Class::Member the registration names as its key",
+    "joined": [
+      {
+        "bytes_hex": "ed0a3111614d552ea39a67af2c08a1c5",
+        "components": [
+          288426733,
+          777342305,
+          2942802595,
+          3315664940
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/2D/Paper2D/Source/Paper2D/Private/PaperCustomVersion.cpp",
+        "friendly_name": "Paper2DVer",
+        "guid": "11310AED2E554D61AF679AA3C5A1082C",
+        "key": "FPaperCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/2D/Paper2D/Source/Paper2D/Private/PaperCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "fb0c82a75943a720142c548c50cf2396",
+        "components": [
+          2810318075,
+          547832665,
+          2354326548,
+          2518929232
+        ],
+        "definition_line": 15,
+        "definition_path": "Plugins/Animation/ControlRig/Source/ControlRig/Private/ControlRigModule.cpp",
+        "friendly_name": "Dev-ControlRig",
+        "guid": "A7820CFB20A743598C542C149623CF50",
+        "key": "FControlRigObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 17,
+        "registration_path": "Plugins/Animation/ControlRig/Source/ControlRig/Private/ControlRigModule.cpp"
+      },
+      {
+        "bytes_hex": "aae1ed937573ca10288af94da057b149",
+        "components": [
+          2481840554,
+          281703285,
+          1308199464,
+          1236359072
+        ],
+        "definition_line": 19,
+        "definition_path": "Plugins/Animation/DeformerGraph/Source/OptimusCore/Private/OptimusCoreModule.cpp",
+        "friendly_name": "Dev-Optimus",
+        "guid": "93EDE1AA10CA73754DF98A2849B157A0",
+        "key": "FOptimusObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 21,
+        "registration_path": "Plugins/Animation/DeformerGraph/Source/OptimusCore/Private/OptimusCoreModule.cpp"
+      },
+      {
+        "bytes_hex": "78bbdff6e4a050bb4db8184023afcb60",
+        "components": [
+          4141857656,
+          3142623460,
+          1075361869,
+          1623961379
+        ],
+        "definition_line": 13,
+        "definition_path": "Plugins/Animation/IKRig/Source/IKRig/Private/IKRig.cpp",
+        "friendly_name": "Dev-IKRig",
+        "guid": "F6DFBB78BB50A0E44018B84D60CBAF23",
+        "key": "FIKRigObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 15,
+        "registration_path": "Plugins/Animation/IKRig/Source/IKRig/Private/IKRig.cpp"
+      },
+      {
+        "bytes_hex": "27fdd923df0f6a4f805405eab03a4b7d",
+        "components": [
+          601488679,
+          1332350943,
+          3926217856,
+          2102082224
+        ],
+        "definition_line": 9,
+        "definition_path": "Plugins/Animation/MLDeformer/MLDeformerFramework/Source/MLDeformerFramework/Private/MLDeformerObjectVersion.cpp",
+        "friendly_name": "Dev-MLDeformer",
+        "guid": "23D9FD274F6A0FDFEA0554807D4B3AB0",
+        "key": "FMLDeformerObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 12,
+        "registration_path": "Plugins/Animation/MLDeformer/MLDeformerFramework/Source/MLDeformerFramework/Private/MLDeformerObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "98bde79db245d467739d0e8c67e3e1fd",
+        "components": [
+          2649210264,
+          1741964722,
+          2349768051,
+          4259439463
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Animation/RigLogic/Source/RigLogicModule/Private/DNAAssetCustomVersion.cpp",
+        "friendly_name": "DNAAssetVer",
+        "guid": "9DE7BD9867D445B28C0E9D73FDE1E367",
+        "key": "FDNAAssetCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/Animation/RigLogic/Source/RigLogicModule/Private/DNAAssetCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "2923a576b545230941d8ae98d86a2fcf",
+        "components": [
+          1990533929,
+          153306549,
+          2561595457,
+          3475991256
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/ChaosCloth/Source/ChaosCloth/Private/ChaosCloth/ChaosClothConfigCustomVersion.cpp",
+        "friendly_name": "ChaosClothConfigVer",
+        "guid": "76A52329092345B598AED841CF2F6AD8",
+        "key": "FChaosClothConfigCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 8,
+        "registration_path": "Plugins/ChaosCloth/Source/ChaosCloth/Private/ChaosCloth/ChaosClothConfigCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "0769bc5fae40c85584f1678e3ff1ff5e",
+        "components": [
+          1606183175,
+          1439187118,
+          2389176708,
+          1593831743
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/ChaosCloth/Source/ChaosCloth/Private/ChaosCloth/ChaosClothSharedConfigCustomVersion.cpp",
+        "friendly_name": "ChaosClothSharedConfigVer",
+        "guid": "5FBC690755C840AE8E67F1845EFFF13F",
+        "key": "FChaosClothSharedConfigCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/ChaosCloth/Source/ChaosCloth/Private/ChaosCloth/ChaosClothSharedConfigCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "2192ef4c3ad40e478c3d607e26579916",
+        "components": [
+          1290768929,
+          1192154170,
+          2120236428,
+          379148070
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Compositing/Composure/Source/Composure/Private/ComposureCustomVersion.cpp",
+        "friendly_name": "ComposureVer",
+        "guid": "4CEF9221470ED43A7E603D8C16995726",
+        "key": "FComposureCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/Compositing/Composure/Source/Composure/Private/ComposureCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "f37abb24834f4656c22d2f1fff96ad49",
+        "components": [
+          616266483,
+          1447448451,
+          523185602,
+          1236113151
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Enterprise/VariantManagerContent/Source/VariantManagerContent/Private/VariantManagerObjectVersion.cpp",
+        "friendly_name": "VariantManagerObjectVer",
+        "guid": "24BB7AF356464F831F2F2DC249AD96FF",
+        "key": "FVariantManagerObjectVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/Enterprise/VariantManagerContent/Source/VariantManagerContent/Private/VariantManagerObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "ae366da28853932696cbc5a8afb4952b",
+        "components": [
+          2725066414,
+          647189384,
+          2831534998,
+          731231407
+        ],
+        "definition_line": 8,
+        "definition_path": "Plugins/Experimental/Animation/CurveExpression/Source/Runtime/Private/CurveExpressionCustomVersion.cpp",
+        "friendly_name": "CurveExpressionVersion",
+        "guid": "A26D36AE26935388A8C5CB962B95B4AF",
+        "key": "FCurveExpressionCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 11,
+        "registration_path": "Plugins/Experimental/Animation/CurveExpression/Source/Runtime/Private/CurveExpressionCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "838f2185ca41f1ed47f90e8006cb142f",
+        "components": [
+          2233569155,
+          3992011210,
+          2148464967,
+          789891846
+        ],
+        "definition_line": 79,
+        "definition_path": "Plugins/Experimental/Avalanche/Source/AvalancheMedia/Private/Playable/AvaPlayableRemoteControlValues.cpp",
+        "friendly_name": "AvaPlayableRemoteControlValueVersion",
+        "guid": "85218F83EDF141CA800EF9472F14CB06",
+        "key": "FAvaPlayableRemoteControlValueCustomVersion::Key",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 80,
+        "registration_path": "Plugins/Experimental/Avalanche/Source/AvalancheMedia/Private/Playable/AvaPlayableRemoteControlValues.cpp"
+      },
+      {
+        "bytes_hex": "f93bd168c848c363cf87e7b9399f3222",
+        "components": [
+          1758542841,
+          1673742536,
+          3118958543,
+          573742905
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Experimental/Avalanche/Source/AvalancheOutliner/Private/Data/AvaOutlinerVersion.cpp",
+        "friendly_name": "AvalancheOutliner",
+        "guid": "68D13BF963C348C8B9E787CF22329F39",
+        "key": "FAvaOutlinerVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 8,
+        "registration_path": "Plugins/Experimental/Avalanche/Source/AvalancheOutliner/Private/Data/AvaOutlinerVersion.cpp"
+      },
+      {
+        "bytes_hex": "0cc4b4d3a14d5ad14059f2ad6751c6b2",
+        "components": [
+          3551839244,
+          3512356257,
+          2918340928,
+          2999341415
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Experimental/Avalanche/Source/AvalancheSequence/Private/AvaSequenceVersion.cpp",
+        "friendly_name": "AvalancheSequenceVersion",
+        "guid": "D3B4C40CD15A4DA1ADF25940B2C65167",
+        "key": "FAvaSequenceVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 8,
+        "registration_path": "Plugins/Experimental/Avalanche/Source/AvalancheSequence/Private/AvaSequenceVersion.cpp"
+      },
+      {
+        "bytes_hex": "fb7af5fc8442765059e6a9b9332da0ff",
+        "components": [
+          4243946235,
+          1349927556,
+          3114919513,
+          4288687411
+        ],
+        "definition_line": 39,
+        "definition_path": "Plugins/Experimental/DynamicMaterial/Source/DynamicMaterial/Private/Components/DMTextureUV.cpp",
+        "friendly_name": "DMTextureUV",
+        "guid": "FCF57AFB50764284B9A9E659FFA02D33",
+        "key": "UDMTextureUV::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 40,
+        "registration_path": "Plugins/Experimental/DynamicMaterial/Source/DynamicMaterial/Private/Components/DMTextureUV.cpp"
+      },
+      {
+        "bytes_hex": "120327c11e0b73ab45c71e0b730fc771",
+        "components": [
+          3240559378,
+          2876443422,
+          186566469,
+          1908871027
+        ],
+        "definition_line": 7,
+        "definition_path": "Plugins/Experimental/Mutable/Source/CustomizableObject/Private/MuCO/CustomizableObjectCustomVersion.cpp",
+        "friendly_name": "CustomizableObjectVer",
+        "guid": "C1270312AB730B1E0B1EC74571C70F73",
+        "key": "FCustomizableObjectCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 10,
+        "registration_path": "Plugins/Experimental/Mutable/Source/CustomizableObject/Private/MuCO/CustomizableObjectCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "120327c11e0b73ab90c71e0b05717a91",
+        "components": [
+          3240559378,
+          2876443422,
+          186566544,
+          2440720645
+        ],
+        "definition_line": 9,
+        "definition_path": "Plugins/Experimental/Mutable/Source/CustomizableObjectPopulation/Private/MuCOP/CustomizableObjectPopulationCustomVersion.cpp",
+        "friendly_name": "CustomizableObjectPopulationVer",
+        "guid": "C1270312AB730B1E0B1EC790917A7105",
+        "key": "FCustomizableObjectPopulationCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 12,
+        "registration_path": "Plugins/Experimental/Mutable/Source/CustomizableObjectPopulation/Private/MuCOP/CustomizableObjectPopulationCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "7e154a13a349e2d53c844e8d319efe98",
+        "components": [
+          323622270,
+          3588376995,
+          2370733116,
+          2566823473
+        ],
+        "definition_line": 43,
+        "definition_path": "Plugins/Experimental/StructUtils/Source/StructUtils/Private/PropertyBag.cpp",
+        "friendly_name": "PropertyBagCustomVersion",
+        "guid": "134A157ED5E249A38D4E843C98FE9E31",
+        "key": "FPropertyBagCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 46,
+        "registration_path": "Plugins/Experimental/StructUtils/Source/StructUtils/Private/PropertyBag.cpp"
+      },
+      {
+        "bytes_hex": "2e2ff78455c28141b51c722622b2df37",
+        "components": [
+          2230791982,
+          1099022933,
+          645012661,
+          937407010
+        ],
+        "definition_line": 10,
+        "definition_path": "Plugins/Experimental/TextureGraph/Source/TextureGraph/Private/TG_CustomVersion.cpp",
+        "friendly_name": "TG_BaseVer",
+        "guid": "84F72F2E4181C25526721CB537DFB222",
+        "key": "FTG_CustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 13,
+        "registration_path": "Plugins/Experimental/TextureGraph/Source/TextureGraph/Private/TG_CustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "a7fbd240e54c484b755a38b09e494e88",
+        "components": [
+          1087568807,
+          1263029477,
+          2956483189,
+          2286832030
+        ],
+        "definition_line": 8,
+        "definition_path": "Plugins/Experimental/Water/Source/Runtime/Private/WaterVersion.cpp",
+        "friendly_name": "Water",
+        "guid": "40D2FBA74B484CE5B0385A75884E499E",
+        "key": "FWaterCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 11,
+        "registration_path": "Plugins/Experimental/Water/Source/Runtime/Private/WaterVersion.cpp"
+      },
+      {
+        "bytes_hex": "fa7af5fc8342765058e6a9b9322da0ff",
+        "components": [
+          4243946234,
+          1349927555,
+          3114919512,
+          4288687410
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/FX/Niagara/Source/NiagaraCore/Private/NiagaraCustomVersion.cpp",
+        "friendly_name": "NiagaraVer",
+        "guid": "FCF57AFA50764283B9A9E658FFA02D32",
+        "key": "FNiagaraCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/FX/Niagara/Source/NiagaraCore/Private/NiagaraCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "0d926327394b780fb34b6e986d668da8",
+        "components": [
+          660836877,
+          259541817,
+          2557365171,
+          2827839085
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/PCG/Source/PCG/Private/PCGCustomVersion.cpp",
+        "friendly_name": "PCGBaseVer",
+        "guid": "2763920D0F784B39986E4BB3A88D666D",
+        "key": "FPCGCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/PCG/Source/PCG/Private/PCGCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "4e7ce782a5432333c5136bb4f30d3197",
+        "components": [
+          2196208718,
+          857949093,
+          3026916293,
+          2536574451
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Runtime/AudioSynesthesia/Source/AudioSynesthesiaCore/Private/AudioSynesthesiaCustomVersion.cpp",
+        "friendly_name": "AudioSynesthesiaVer",
+        "guid": "82E77C4E332343A5B46B13C597310DF3",
+        "key": "FAudioSynesthesiaCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/Runtime/AudioSynesthesia/Source/AudioSynesthesiaCore/Private/AudioSynesthesiaCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "7b47250901403d7673d6919d11b4750b",
+        "components": [
+          153438075,
+          1983725569,
+          2643580531,
+          192263185
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Runtime/CommonUI/Source/CommonUI/Private/CommonCustomVersion.cpp",
+        "friendly_name": "CommonUIVer",
+        "guid": "0925477B763D40019D91D6730B75B411",
+        "key": "FCommonCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/Runtime/CommonUI/Source/CommonUI/Private/CommonCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "e7a30463594f5900bd21fc8c4efd2177",
+        "components": [
+          1661248487,
+          5853017,
+          2365333949,
+          1998716238
+        ],
+        "definition_line": 15,
+        "definition_path": "Plugins/Runtime/ComputeFramework/Source/ComputeFramework/Private/ComputeFrameworkModule.cpp",
+        "friendly_name": "Dev-ComputeFramework",
+        "guid": "6304A3E700594F598CFC21BD7721FD4E",
+        "key": "FComputeFrameworkObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 17,
+        "registration_path": "Plugins/Runtime/ComputeFramework/Source/ComputeFramework/Private/ComputeFrameworkModule.cpp"
+      },
+      {
+        "bytes_hex": "4ac7eba6b846ad3bb2d630aa25ea587d",
+        "components": [
+          2800469834,
+          1001211576,
+          2855327410,
+          2102979109
+        ],
+        "definition_line": 7,
+        "definition_path": "Plugins/Runtime/InstancedActors/Source/InstancedActors/Private/InstancedActorsCustomVersion.cpp",
+        "friendly_name": "InstancedActors",
+        "guid": "A6EBC74A3BAD46B8AA30D6B27D58EA25",
+        "key": "FInstancedActorsCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 10,
+        "registration_path": "Plugins/Runtime/InstancedActors/Source/InstancedActors/Private/InstancedActorsCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "9b9549dce74dc05388ea5691395d7c5e",
+        "components": [
+          3695809947,
+          1405111783,
+          2438392456,
+          1585208633
+        ],
+        "definition_line": 23,
+        "definition_path": "Plugins/Runtime/RigVM/Source/RigVM/Private/RigVMModule.cpp",
+        "friendly_name": "Dev-RigVM",
+        "guid": "DC49959B53C04DE79156EA885E7C5D39",
+        "key": "FRigVMObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 25,
+        "registration_path": "Plugins/Runtime/RigVM/Source/RigVM/Private/RigVMModule.cpp"
+      },
+      {
+        "bytes_hex": "3113e22823471f5064fa10811eda10ea",
+        "components": [
+          685904689,
+          1344227107,
+          2165373540,
+          3926972958
+        ],
+        "definition_line": 22,
+        "definition_path": "Plugins/Runtime/StateTree/Source/StateTreeModule/Private/StateTree.cpp",
+        "friendly_name": "StateTreeAsset",
+        "guid": "28E21331501F47238110FA64EA10DA1E",
+        "key": "FStateTreeCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 23,
+        "registration_path": "Plugins/Runtime/StateTree/Source/StateTreeModule/Private/StateTree.cpp"
+      },
+      {
+        "bytes_hex": "def0c460344c268b017293aacc09ff5d",
+        "components": [
+          1623519454,
+          2334542900,
+          2861789697,
+          1576995276
+        ],
+        "definition_line": 15,
+        "definition_path": "Plugins/Runtime/StateTree/Source/StateTreeModule/Private/StateTreeInstanceData.cpp",
+        "friendly_name": "StateTreeInstanceStorage",
+        "guid": "60C4F0DE8B264C34AA9372015DFF09CC",
+        "key": "FStateTreeInstanceStorageCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 16,
+        "registration_path": "Plugins/Runtime/StateTree/Source/StateTreeModule/Private/StateTreeInstanceData.cpp"
+      },
+      {
+        "bytes_hex": "22ac282cfe46cf1511f019bd053c2a65",
+        "components": [
+          740863010,
+          365905662,
+          3172593681,
+          1697266693
+        ],
+        "definition_line": 31,
+        "definition_path": "Plugins/Runtime/WorldConditions/Source/WorldConditions/Private/WorldConditionQuery.cpp",
+        "friendly_name": "WorldConditionCustomVersion",
+        "guid": "2C28AC2215CF46FEBD19F011652A3C05",
+        "key": "FWorldConditionCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 34,
+        "registration_path": "Plugins/Runtime/WorldConditions/Source/WorldConditions/Private/WorldConditionQuery.cpp"
+      },
+      {
+        "bytes_hex": "6005fca64833b8458ae1e5d045cd2931",
+        "components": [
+          2801534304,
+          1169699656,
+          3504726410,
+          824823109
+        ],
+        "definition_line": 16,
+        "definition_path": "Plugins/Runtime/ZoneGraph/Source/ZoneGraph/Private/ZoneShapeComponent.cpp",
+        "friendly_name": "ZoneShapeComponent",
+        "guid": "A6FC056045B83348D0E5E18A3129CD45",
+        "key": "FZoneShapeCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 18,
+        "registration_path": "Plugins/Runtime/ZoneGraph/Source/ZoneGraph/Private/ZoneShapeComponent.cpp"
+      },
+      {
+        "bytes_hex": "dcf6c40674b918f596c0b087055b85e3",
+        "components": [
+          113571548,
+          4112038260,
+          2276507798,
+          3817167621
+        ],
+        "definition_line": 7,
+        "definition_path": "Plugins/Runtime/nDisplay/Source/DisplayCluster/Private/DisplayClusterVersion.cpp",
+        "friendly_name": "nDisplayVer",
+        "guid": "06C4F6DCF518B97487B0C096E3855B05",
+        "key": "FDisplayClusterCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 8,
+        "registration_path": "Plugins/Runtime/nDisplay/Source/DisplayCluster/Private/DisplayClusterVersion.cpp"
+      },
+      {
+        "bytes_hex": "d105aa0266431aaf3379019219649c72",
+        "components": [
+          44697041,
+          2937733990,
+          2449570099,
+          1922851865
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/Runtime/nDisplay/Source/DisplayCluster/Private/Version/DisplayClusterICVFXCameraCustomVersion.cpp",
+        "friendly_name": "DisplayClusterICVFXCameraVer",
+        "guid": "02AA05D1AF1A436692017933729C6419",
+        "key": "FDisplayClusterICVFXCameraCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 8,
+        "registration_path": "Plugins/Runtime/nDisplay/Source/DisplayCluster/Private/Version/DisplayClusterICVFXCameraCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "83b6a775287e4c4f8548e5dd39393285",
+        "components": [
+          1973925507,
+          1330413096,
+          3722791045,
+          2234661177
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/VirtualProduction/DMX/DMXEngine/Source/DMXRuntime/Private/DMXRuntimeMainStreamObjectVersion.cpp",
+        "friendly_name": "DMXRuntimeMainStreamObjectVersion",
+        "guid": "75A7B6834F4C7E28DDE5488585323939",
+        "key": "FDMXRuntimeMainStreamObjectVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/VirtualProduction/DMX/DMXEngine/Source/DMXRuntime/Private/DMXRuntimeMainStreamObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "83b6a775287e4c4f8548e5dd40393285",
+        "components": [
+          1973925507,
+          1330413096,
+          3722791045,
+          2234661184
+        ],
+        "definition_line": 8,
+        "definition_path": "Plugins/VirtualProduction/DMX/DMXPixelMapping/Source/DMXPixelMappingRuntime/Private/DMXPixelMappingMainStreamObjectVersion.cpp",
+        "friendly_name": "DMXMainStreamObjectVer",
+        "guid": "75A7B6834F4C7E28DDE5488585323940",
+        "key": "FDMXPixelMappingMainStreamObjectVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 11,
+        "registration_path": "Plugins/VirtualProduction/DMX/DMXPixelMapping/Source/DMXPixelMappingRuntime/Private/DMXPixelMappingMainStreamObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "56236694ac92ae4d98bef8ab2f8cfe19",
+        "components": [
+          2489721686,
+          1303286444,
+          2885205656,
+          436112431
+        ],
+        "definition_line": 7,
+        "definition_path": "Plugins/VirtualProduction/DMX/DMXProtocol/Source/DMXProtocol/Public/DMXProtocolObjectVersion.cpp",
+        "friendly_name": "DMXProtocolObjectVersion",
+        "guid": "946623564DAE92ACABF8BE9819FE8C2F",
+        "key": "FDMXProtocolObjectVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 10,
+        "registration_path": "Plugins/VirtualProduction/DMX/DMXProtocol/Source/DMXProtocol/Public/DMXProtocolObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "c2c5e283eb114d36df3ca99071a32cfb",
+        "components": [
+          2212677058,
+          911020523,
+          2427010271,
+          4214006641
+        ],
+        "definition_line": 6,
+        "definition_path": "Plugins/VirtualProduction/RemoteControl/Source/RemoteControl/Public/RemoteControlObjectVersion.cpp",
+        "friendly_name": "RemoteControlObjectVer",
+        "guid": "83E2C5C2364D11EB90A93CDFFB2CA371",
+        "key": "FRemoteControlObjectVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Plugins/VirtualProduction/RemoteControl/Source/RemoteControl/Public/RemoteControlObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "e9367607d99f11449d7f47266e9f7e0a",
+        "components": [
+          125187817,
+          1142005721,
+          642219933,
+          176070510
+        ],
+        "definition_line": 8,
+        "definition_path": "Plugins/VirtualProduction/RemoteControlProtocolDMX/Source/RemoteControlProtocolDMX/Private/RemoteControlProtocolDMXObjectVersion.cpp",
+        "friendly_name": "RemoteControlProtocolDMXObjectVersion",
+        "guid": "077636E944119FD926477F9D0A7E9F6E",
+        "key": "FRemoteControlProtocolDMXObjectVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 11,
+        "registration_path": "Plugins/VirtualProduction/RemoteControlProtocolDMX/Source/RemoteControlProtocolDMX/Private/RemoteControlProtocolDMXObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "b3dc7d8ebb47da80a246d39ff64d9893",
+        "components": [
+          2390613171,
+          2161788859,
+          2681423522,
+          2476232182
+        ],
+        "definition_line": 73,
+        "definition_path": "Source/Developer/DirectoryWatcher/Private/FileCache.cpp",
+        "friendly_name": "FileCacheVersion",
+        "guid": "8E7DDCB380DA47BB9FD346A293984DF6",
+        "key": "FFileCacheCustomVersion::Key",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 74,
+        "registration_path": "Source/Developer/DirectoryWatcher/Private/FileCache.cpp"
+      },
+      {
+        "bytes_hex": "9186e0af52490d3a3b6773b61e2df27c",
+        "components": [
+          2950727313,
+          973949266,
+          3061016379,
+          2096246046
+        ],
+        "definition_line": 36,
+        "definition_path": "Source/Editor/AnimGraph/Private/AnimGraphNode_PoseDriver.cpp",
+        "friendly_name": "PoseDriverVer",
+        "guid": "AFE086913A0D4952B673673B7CF22D1E",
+        "key": "FPoseDriverCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 37,
+        "registration_path": "Source/Editor/AnimGraph/Private/AnimGraphNode_PoseDriver.cpp"
+      },
+      {
+        "bytes_hex": "cdb08acbde4b8ce7931362a862efe914",
+        "components": [
+          3414864077,
+          3884731358,
+          2824999827,
+          350875490
+        ],
+        "definition_line": 27,
+        "definition_path": "Source/Editor/SerializedRecorderInterface/Private/MovieSceneSectionSerialization.cpp",
+        "friendly_name": "LiveLinkCustomVersion",
+        "guid": "CB8AB0CDE78C4BDEA862139314E9EF62",
+        "key": "FTempCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 28,
+        "registration_path": "Source/Editor/SerializedRecorderInterface/Private/MovieSceneSectionSerialization.cpp"
+      },
+      {
+        "bytes_hex": "bdfdb52e104dac018ff33681daa59333",
+        "components": [
+          783678909,
+          28069136,
+          2167862159,
+          865314266
+        ],
+        "definition_line": 6,
+        "definition_path": "Source/Runtime/AnimGraphRuntime/Private/AnimationCustomVersion.cpp",
+        "friendly_name": "AnimGraphVer",
+        "guid": "2EB5FDBD01AC4D108136F38F3393A5DA",
+        "key": "FAnimationCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Source/Runtime/AnimGraphRuntime/Private/AnimationCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "f20a68fba34bef59b519a8ba3d44c873",
+        "components": [
+          4217899762,
+          1508854691,
+          3131578805,
+          1942504509
+        ],
+        "definition_line": 6,
+        "definition_path": "Source/Runtime/ClothingSystemRuntimeCommon/Private/ClothingAssetCustomVersion.cpp",
+        "friendly_name": "ClothingAssetVer",
+        "guid": "FB680AF259EF4BA3BAA819B573C8443D",
+        "key": "FClothingAssetCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Source/Runtime/ClothingSystemRuntimeCommon/Private/ClothingAssetCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "0eb75099174e1ab40dfaccbbd67f8157",
+        "components": [
+          2572203790,
+          3021622807,
+          3150772749,
+          1468104662
+        ],
+        "definition_line": 6,
+        "definition_path": "Source/Runtime/ClothingSystemRuntimeNv/Private/ClothConfigNvCustomVersion.cpp",
+        "friendly_name": "ClothConfigNvVer",
+        "guid": "9950B70EB41A4E17BBCCFA0D57817FD6",
+        "key": "FClothConfigNvCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Source/Runtime/ClothingSystemRuntimeNv/Private/ClothConfigNvCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "22d5549cbe4f26a846072194d082b461",
+        "components": [
+          2622805282,
+          2821083070,
+          2485192518,
+          1639219920
+        ],
+        "definition_line": 266,
+        "definition_path": "Source/Runtime/Core/Private/Misc/EngineVersion.cpp",
+        "friendly_name": "Release",
+        "guid": "9C54D522A8264FBE9421074661B482D0",
+        "key": "FReleaseObjectVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 268,
+        "registration_path": "Source/Runtime/Core/Private/Misc/EngineVersion.cpp"
+      },
+      {
+        "bytes_hex": "e432d8b00d4f891fb77ecfaca24afd36",
+        "components": [
+          2966958820,
+          529092365,
+          2899279543,
+          922569378
+        ],
+        "definition_line": 171,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Blueprints",
+        "guid": "B0D832E41F894F0DACCF7EB736FD4AA2",
+        "key": "FBlueprintsObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 173,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "2843c6e1534d2ca2868e6ca38cbd1764",
+        "components": [
+          3787866920,
+          2720812371,
+          2741800582,
+          1679277452
+        ],
+        "definition_line": 176,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Build",
+        "guid": "E1C64328A22C4D53A36C8E866417BD8C",
+        "key": "FBuildObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 178,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "3cc15e37fb48e406f08400b57e712a26",
+        "components": [
+          928956732,
+          115624187,
+          3036710128,
+          640315774
+        ],
+        "definition_line": 181,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Core",
+        "guid": "375EC13C06E448FBB50084F0262A717E",
+        "key": "FCoreObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 183,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "ed68b0e4e94294f40bda31a241bb462e",
+        "components": [
+          3836766445,
+          4103357161,
+          2721176075,
+          776387393
+        ],
+        "definition_line": 186,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Editor",
+        "guid": "E4B068EDF49442E9A231DA0B2E46BB41",
+        "key": "FEditorObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 188,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "3f74fccf8044b043df14919373201d17",
+        "components": [
+          3489428543,
+          1135625344,
+          2475758815,
+          387784819
+        ],
+        "definition_line": 191,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Framework",
+        "guid": "CFFC743F43B04480939114DF171D2073",
+        "key": "FFrameworkObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 193,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "b5492bb0e94420bbb73204a36003e452",
+        "components": [
+          2955626933,
+          3139454185,
+          2734961335,
+          1390674784
+        ],
+        "definition_line": 196,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Mobile",
+        "guid": "B02B49B5BB2044E9A30432B752E40360",
+        "key": "FMobileObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 198,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "5c10e4a4b549a159c440c5a7eedf7e54",
+        "components": [
+          2766409820,
+          1503742389,
+          2814722244,
+          1417601006
+        ],
+        "definition_line": 201,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Networking",
+        "guid": "A4E4105C59A149B5A7C540C4547EDFEE",
+        "key": "FNetworkingObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 203,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "c931c839dc47e65a179c449a7c8e1c3e",
+        "components": [
+          969421257,
+          1525041116,
+          2588187671,
+          1042058876
+        ],
+        "definition_line": 206,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Online",
+        "guid": "39C831C95AE647DC9A449C173E1C8E7C",
+        "key": "FOnlineObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 208,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "331bf078984feaebea84b4b9a25ab9cc",
+        "components": [
+          2029001523,
+          3958001560,
+          3115615466,
+          3434699426
+        ],
+        "definition_line": 211,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Physics",
+        "guid": "78F01B33EBEA4F98B9B484EACCB95AA2",
+        "key": "FPhysicsObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 213,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "0f383166e0434d2d27cf09805aa95669",
+        "components": [
+          1714501647,
+          760038368,
+          2148126503,
+          1767287130
+        ],
+        "definition_line": 216,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Platform",
+        "guid": "6631380F2D4D43E08009CF276956A95A",
+        "key": "FPlatformObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 218,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "9f8bf812fc4a75880cd97ca629bd3a38",
+        "components": [
+          318278559,
+          2289388284,
+          2793199884,
+          943373609
+        ],
+        "definition_line": 221,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Rendering",
+        "guid": "12F88B9F88754AFCA67CD90C383ABD29",
+        "key": "FRenderingObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 223,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "4ce75a7b104c70d2985758a95a2a210b",
+        "components": [
+          2069555020,
+          3530574864,
+          2841139096,
+          186722906
+        ],
+        "definition_line": 226,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Sequencer",
+        "guid": "7B5AE74CD2704C10A95857980B212A5A",
+        "key": "FSequencerObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 228,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "186929d7dd4bd61da864e29d8438c13c",
+        "components": [
+          3609815320,
+          500583389,
+          2648859816,
+          1019295876
+        ],
+        "definition_line": 231,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-VR",
+        "guid": "D72969181DD64BDD9DE264A83CC13884",
+        "key": "FVRObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 233,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "7852a1c2fe4ae7bfff90176c55f71d53",
+        "components": [
+          3265352312,
+          3219606270,
+          1813483775,
+          1394472789
+        ],
+        "definition_line": 236,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-LoadTimes",
+        "guid": "C2A15278BFE74AFE6C1790FF531DF755",
+        "key": "FLoadTimesObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 238,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "d4a3ac6ec14cec40ed8b86b7c58f4209",
+        "components": [
+          1856807892,
+          1089227969,
+          3079048173,
+          155357125
+        ],
+        "definition_line": 241,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Private-Geometry",
+        "guid": "6EACA3D440EC4CC1B7868BED09428FC5",
+        "key": "FGeometryObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 243,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "dd75e5292746a3e076d2109deadc2c23",
+        "components": [
+          702903773,
+          3768796711,
+          2635125366,
+          590142698
+        ],
+        "definition_line": 246,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-AnimPhys",
+        "guid": "29E575DDE0A346279D10D276232CDCEA",
+        "key": "FAnimPhysObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 248,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "5da643af4749d37f8e3e739805bbc1d9",
+        "components": [
+          2940446301,
+          2144553287,
+          2557689486,
+          3653352197
+        ],
+        "definition_line": 251,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Anim",
+        "guid": "AF43A65D7FD3494798733E8ED9C1BB05",
+        "key": "FAnimObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 253,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "ec6c266b8f4bc71ed9e40ba307fc4209",
+        "components": [
+          1797680364,
+          516377487,
+          2735465689,
+          155384839
+        ],
+        "definition_line": 256,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-ReflectionCapture",
+        "guid": "6B266CEC1EC74B8FA30BE4D90942FC07",
+        "key": "FReflectionCaptureObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 258,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "613df70dea473fa2e98927b79a49410c",
+        "components": [
+          234306913,
+          2722056170,
+          3072821737,
+          205605274
+        ],
+        "definition_line": 261,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Automation",
+        "guid": "0DF73D61A23F47EAB72789E90C41499A",
+        "key": "FAutomationObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 263,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "86181d60844f64acded316aad6c7ea0d",
+        "components": [
+          1612519558,
+          2892255108,
+          2853622750,
+          233490390
+        ],
+        "definition_line": 266,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "FortniteMain",
+        "guid": "601D1886AC644F84AA16D3DE0DEAC7D6",
+        "key": "FFortniteMainBranchObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 268,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "5b2cbc8de043a754bbfc68a76090a27d",
+        "components": [
+          2377919579,
+          1420248032,
+          2808675515,
+          2107805792
+        ],
+        "definition_line": 272,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "FortniteValkyrie",
+        "guid": "8DBC2C5B54A743E0A768FCBB7DA29060",
+        "key": "FFortniteValkyrieBranchObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 274,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "b7064c5bf84a632470bf5b80ddd0f5cd",
+        "components": [
+          1531709111,
+          610487032,
+          2153496432,
+          3455439069
+        ],
+        "definition_line": 277,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "FortniteSeason",
+        "guid": "5B4C06B724634AF8805BBF70CDF5D0DD",
+        "key": "FFortniteSeasonBranchObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 279,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "686308e7584c236b701b3984915e2616",
+        "components": [
+          3876086632,
+          1797475416,
+          2218335088,
+          371613329
+        ],
+        "definition_line": 286,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "FortniteRelease",
+        "guid": "E70863686B234C5884391B7016265E91",
+        "key": "FFortniteReleaseBranchCustomObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 288,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "d6bcff9d58014f49821221e288a8923c",
+        "components": [
+          2650782934,
+          1229914456,
+          3793818242,
+          1016244360
+        ],
+        "definition_line": 292,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Enterprise",
+        "guid": "9DFFBCD6494F0158E22112823C92A888",
+        "key": "FEnterpriseObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 294,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "acd0aef26f41fe9a7faa6486fcd626fa",
+        "components": [
+          4071542956,
+          2600354159,
+          2254744191,
+          4196849404
+        ],
+        "definition_line": 297,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Niagara",
+        "guid": "F2AED0AC9AFE416F8664AA7FFA26D6FC",
+        "key": "FNiagaraObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 299,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "0b1f4f17a545c6b4e82e3fb17d91fbd0",
+        "components": [
+          391061259,
+          3032892837,
+          2973708008,
+          3506147709
+        ],
+        "definition_line": 302,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Destruction",
+        "guid": "174F1F0BB4C645A5B13F2EE8D0FB917D",
+        "key": "FDestructionObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 304,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "834af9356c4058e2f50918a37c241096",
+        "components": [
+          905529987,
+          3797434476,
+          2736261621,
+          2517640316
+        ],
+        "definition_line": 307,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-Physics-Ext",
+        "guid": "35F94A83E258406CA31809F59610247C",
+        "key": "FExternalPhysicsCustomObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 309,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "6ec18fb6e2421b8b5c2153b4fe448805",
+        "components": [
+          3062874478,
+          2333819618,
+          3025346908,
+          92816638
+        ],
+        "definition_line": 313,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-PhysicsMaterial-Chaos",
+        "guid": "B68FC16E8B1B42E2B453215C058844FE",
+        "key": "FExternalPhysicsMaterialCustomObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 315,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "0685e1b2c2cf7342bbf44ea507ba8b75",
+        "components": [
+          3001124102,
+          1114886082,
+          2773415099,
+          1972091399
+        ],
+        "definition_line": 319,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-CineCamera",
+        "guid": "B2E185064273CFC2A54EF4BB758BBA07",
+        "key": "FCineCameraObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 321,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "3689f564ba421bfd897296ba4efad0d5",
+        "components": [
+          1693813046,
+          4246422202,
+          3130421897,
+          3587242574
+        ],
+        "definition_line": 324,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-VirtualProduction",
+        "guid": "64F58936FD1B42BABA967289D5D0FA4E",
+        "key": "FVirtualProductionObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 326,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "81d57d69ab414fe6ec514aaa28b6b7be",
+        "components": [
+          1769854337,
+          3863953835,
+          2856997356,
+          3199710760
+        ],
+        "definition_line": 329,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "UE5-Main",
+        "guid": "697DD581E64F41ABAA4A51ECBEB7B628",
+        "key": "FUE5MainStreamObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 331,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "425e9bd8464dbd24a8ac1284791764df",
+        "components": [
+          3634060866,
+          616385862,
+          2215816360,
+          3747878777
+        ],
+        "definition_line": 335,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "UE5-Release",
+        "guid": "D89B5E4224BD4D468412ACA8DF641779",
+        "key": "FUE5ReleaseStreamObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 337,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "525dda5948493212785978b88be9b870",
+        "components": [
+          1507482962,
+          305285448,
+          3094894968,
+          1891166603
+        ],
+        "definition_line": 341,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "UE5-PrivateFrosty",
+        "guid": "59DA5D5212324948B878597870B8E98B",
+        "key": "FUE5PrivateFrostyStreamObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 343,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "325a072608470f73328ce988059d59f1",
+        "components": [
+          638016050,
+          1930381064,
+          2297007154,
+          4049181957
+        ],
+        "definition_line": 346,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "UE5-Dev-Cooker",
+        "guid": "26075A32730F470888E98C32F1599D05",
+        "key": "FUE5CookerObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 348,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "27d80e6f954809a68d99919ca40e1890",
+        "components": [
+          1863243815,
+          2785626261,
+          2626787725,
+          2417495716
+        ],
+        "definition_line": 351,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "Dev-MediaFramework",
+        "guid": "6F0ED827A60948959C91998D90180EA4",
+        "key": "FMediaFrameworkObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 353,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "e38bd5308242ea9559b1e3a66ab0ebd8",
+        "components": [
+          819301347,
+          2515157634,
+          2799939929,
+          3639324778
+        ],
+        "definition_line": 355,
+        "definition_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp",
+        "friendly_name": "UE5-Dev-LWCRendering",
+        "guid": "30D58BE395EA4282A6E3B159D8EBB06A",
+        "key": "FUE5LWCRenderingStreamObjectVersion::GUID",
+        "registration_kind": "FDevVersionRegistration",
+        "registration_line": 357,
+        "registration_path": "Source/Runtime/Core/Private/UObject/DevObjectVersion.cpp"
+      },
+      {
+        "bytes_hex": "e79e7f713a49b0e93291b3880781381b",
+        "components": [
+          1904189159,
+          3920644410,
+          2293469490,
+          456687879
+        ],
+        "definition_line": 31,
+        "definition_path": "Source/Runtime/CoreUObject/Private/AssetRegistry/AssetData.cpp",
+        "friendly_name": "AssetRegistry",
+        "guid": "717F9EE7E9B0493A88B391321B388107",
+        "key": "FAssetRegistryVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 32,
+        "registration_path": "Source/Runtime/CoreUObject/Private/AssetRegistry/AssetData.cpp"
+      },
+      {
+        "bytes_hex": "3610b0288f49b466ca5a4299b5a978db",
+        "components": [
+          682627126,
+          1723091343,
+          2571262666,
+          3682118069
+        ],
+        "definition_line": 28,
+        "definition_path": "Source/Runtime/Datasmith/DatasmithCore/Private/DatasmithCloth.cpp",
+        "friendly_name": "DatasmithCloth",
+        "guid": "28B0103666B4498F99425ACADB78A9B5",
+        "key": "FDatasmithClothSerializationVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 31,
+        "registration_path": "Source/Runtime/Datasmith/DatasmithCore/Private/DatasmithCloth.cpp"
+      },
+      {
+        "bytes_hex": "1c1be3b6ec119fd2859f7e85e270996f",
+        "components": [
+          3068336924,
+          3533640172,
+          2239668101,
+          1872326882
+        ],
+        "definition_line": 40,
+        "definition_path": "Source/Runtime/Engine/Private/Components/ShapeComponent.cpp",
+        "friendly_name": "ShapeComponentVer",
+        "guid": "B6E31B1CD29F11EC857E9F856F9970E2",
+        "key": "FShapeComponentCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 43,
+        "registration_path": "Source/Runtime/Engine/Private/Components/ShapeComponent.cpp"
+      },
+      {
+        "bytes_hex": "40eb564adc11f5107e34d392e76ac9b2",
+        "components": [
+          1247210304,
+          284496348,
+          2463315070,
+          2999544551
+        ],
+        "definition_line": 125,
+        "definition_path": "Source/Runtime/Engine/Private/Particles/ParticleComponents.cpp",
+        "friendly_name": "ParticleSystemVer",
+        "guid": "4A56EB4010F511DC92D3347EB2C96AE7",
+        "key": "FParticleSystemCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 127,
+        "registration_path": "Source/Runtime/Engine/Private/Particles/ParticleComponents.cpp"
+      },
+      {
+        "bytes_hex": "004a8ad7974658e8b519a8bab4467d48",
+        "components": [
+          3616164352,
+          3898099351,
+          3131578805,
+          1216169652
+        ],
+        "definition_line": 107,
+        "definition_path": "Source/Runtime/Engine/Private/SkeletalMesh.cpp",
+        "friendly_name": "SkeletalMeshVer",
+        "guid": "D78A4A00E8584697BAA819B5487D46B4",
+        "key": "FSkeletalMeshCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 108,
+        "registration_path": "Source/Runtime/Engine/Private/SkeletalMesh.cpp"
+      },
+      {
+        "bytes_hex": "86f879551f4c3a937b08ba832fb96163",
+        "components": [
+          1434056838,
+          2470071327,
+          2210007163,
+          1667348783
+        ],
+        "definition_line": 169,
+        "definition_path": "Source/Runtime/Engine/Private/SkeletalMesh.cpp",
+        "friendly_name": "RecomputeTangentCustomVer",
+        "guid": "5579F886933A4C1F83BA087B6361B92F",
+        "key": "FRecomputeTangentCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 171,
+        "registration_path": "Source/Runtime/Engine/Private/SkeletalMesh.cpp"
+      },
+      {
+        "bytes_hex": "52be2f610b4053da914f0d917c85b19f",
+        "components": [
+          1630518866,
+          3662888971,
+          2433568657,
+          2679211388
+        ],
+        "definition_line": 173,
+        "definition_path": "Source/Runtime/Engine/Private/SkeletalMesh.cpp",
+        "friendly_name": "OverlappingVerticeDetectionVer",
+        "guid": "612FBE52DA53400B910D4F919FB1857C",
+        "key": "FOverlappingVerticesCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 175,
+        "registration_path": "Source/Runtime/Engine/Private/SkeletalMesh.cpp"
+      },
+      {
+        "bytes_hex": "0153d279f841af47e710cfad165c4197",
+        "components": [
+          2043826945,
+          1202668024,
+          2916028647,
+          2537643030
+        ],
+        "definition_line": 6,
+        "definition_path": "Source/Runtime/Engine/Private/SoundSubmixCustomVersion.cpp",
+        "friendly_name": "SoundSubmixVer",
+        "guid": "79D2530147AF41F8ADCF10E797415C16",
+        "key": "FSoundSubmixCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Source/Runtime/Engine/Private/SoundSubmixCustomVersion.cpp"
+      },
+      {
+        "bytes_hex": "753f4e80494b8870068cd6a4dcb67e3c",
+        "components": [
+          2152611701,
+          1887980361,
+          2765523974,
+          1014937308
+        ],
+        "definition_line": 43,
+        "definition_path": "Source/Runtime/Engine/Private/VT/VirtualTexture.cpp",
+        "friendly_name": "VirtualTextureBuiltDataVersion",
+        "guid": "804E3F7570884B49A4D68C063C7EB6DC",
+        "key": "FVirtualTextureBuiltDataCustomVersion::Key",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 44,
+        "registration_path": "Source/Runtime/Engine/Private/VT/VirtualTexture.cpp"
+      },
+      {
+        "bytes_hex": "f448d01e684c2e2fa453d0892d108ff1",
+        "components": [
+          516966644,
+          791563368,
+          2312131492,
+          4052684845
+        ],
+        "definition_line": 334,
+        "definition_path": "Source/Runtime/Engine/Private/WorldSettings.cpp",
+        "friendly_name": "WorldSettingVer",
+        "guid": "1ED048F42F2E4C6889D053A4F18F102D",
+        "key": "FWorldSettingCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 336,
+        "registration_path": "Source/Runtime/Engine/Private/WorldSettings.cpp"
+      },
+      {
+        "bytes_hex": "194d0c4370495471699b6987e5b090df",
+        "components": [
+          1124879641,
+          1901349232,
+          2271845225,
+          3750801637
+        ],
+        "definition_line": 89,
+        "definition_path": "Source/Runtime/Foliage/Private/InstancedFoliage.cpp",
+        "friendly_name": "FoliageVer",
+        "guid": "430C4D197154497087699B69DF90B0E5",
+        "key": "FFoliageCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 91,
+        "registration_path": "Source/Runtime/Foliage/Private/InstancedFoliage.cpp"
+      },
+      {
+        "bytes_hex": "bd32feaa144c9553255e6ab6ddd13210",
+        "components": [
+          2868785853,
+          1402293268,
+          3060424229,
+          271765981
+        ],
+        "definition_line": 48,
+        "definition_path": "Source/Runtime/Foliage/Private/ProceduralFoliageSpawner.cpp",
+        "friendly_name": "ProceduralFoliageVer",
+        "guid": "AAFE32BD53954C14B66A5E251032D1DD",
+        "key": "FProceduralFoliageCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 50,
+        "registration_path": "Source/Runtime/Foliage/Private/ProceduralFoliageSpawner.cpp"
+      },
+      {
+        "bytes_hex": "965196abfc08d8458d22d7b79e56ad78",
+        "components": [
+          2878755222,
+          1171785980,
+          3084329613,
+          2024625822
+        ],
+        "definition_line": 6,
+        "definition_path": "Source/Runtime/LiveLinkInterface/Private/LiveLinkCustomVersion.cpp",
+        "friendly_name": "LiveLinkVer",
+        "guid": "AB96519645D808FCB7D7228D78AD569E",
+        "key": "FLiveLinkCustomVersion::GUID",
+        "registration_kind": "FCustomVersionRegistration",
+        "registration_line": 9,
+        "registration_path": "Source/Runtime/LiveLinkInterface/Private/LiveLinkCustomVersion.cpp"
+      }
+    ],
+    "joined_total": 94,
+    "proves_if_found": "that the sixteen-byte key of one FCustomVersion is stored at this offset, hence that the module which registers that custom version was linked in",
+    "registrations_total": 108,
+    "registrations_unresolved": [
+      {
+        "class": "FNearestNeighborModelCustomVersion",
+        "friendly_name": "NearestNeighborModelVer",
+        "key": "FNearestNeighborModelCustomVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 65,
+        "member": "GUID",
+        "path": "Plugins/Animation/MLDeformer/NearestNeighborModel/Source/NearestNeighborModel/Private/NearestNeighborModel.cpp",
+        "variable": "GRegisterNearestNeighborModelCustomVersion"
+      },
+      {
+        "class": "ULidarPointCloud",
+        "friendly_name": "LiDAR Point Cloud File Version",
+        "key": "ULidarPointCloud::PointCloudFileGUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 38,
+        "member": "PointCloudFileGUID",
+        "path": "Plugins/Enterprise/LidarPointCloud/Source/LidarPointCloudRuntime/Private/LidarPointCloud.cpp",
+        "variable": "PCPFileVersion"
+      },
+      {
+        "class": "FAvaExtrudeModifierVersion",
+        "friendly_name": "AvaExtrudeModifierVersion",
+        "key": "FAvaExtrudeModifierVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 35,
+        "member": "GUID",
+        "path": "Plugins/Experimental/Avalanche/Source/AvalancheModifiers/Private/Modifiers/AvaExtrudeModifier.cpp",
+        "variable": "GRegisterAvaExtrudeModifierVersion"
+      },
+      {
+        "class": "FSVGActorVersion",
+        "friendly_name": "SVGActorVersion",
+        "key": "FSVGActorVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 44,
+        "member": "GUID",
+        "path": "Plugins/Experimental/SVGImporter/Source/SVGImporter/Private/SVGActor.cpp",
+        "variable": "GRegisterSVGActorVersion"
+      },
+      {
+        "class": "ECommonUIObjectVersion",
+        "friendly_name": "CommonUI",
+        "key": "ECommonUIObjectVersion::Guid",
+        "kind": "FCustomVersionRegistration",
+        "line": 7,
+        "member": "Guid",
+        "path": "Plugins/Runtime/CommonUI/Source/CommonUI/Private/CommonUIObjectVersion.cpp",
+        "variable": "GCommonUIModuleVersion"
+      },
+      {
+        "class": "FFusionPatchCustomVersion",
+        "friendly_name": "FusionPatchVer",
+        "key": "FFusionPatchCustomVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 7,
+        "member": "GUID",
+        "path": "Plugins/Runtime/Harmonix/Source/HarmonixDsp/Private/HarmonixDsp/FusionSampler/FusionPatchCustomVersion.cpp",
+        "variable": "GRegisterFusionPatchCustomVersion"
+      },
+      {
+        "class": "FEngineNetworkCustomVersion",
+        "friendly_name": "EngineNetworkVersion",
+        "key": "FEngineNetworkCustomVersion::Guid",
+        "kind": "FCustomVersionRegistration",
+        "line": 83,
+        "member": "Guid",
+        "path": "Source/Runtime/Core/Private/Misc/NetworkVersion.cpp",
+        "variable": "GRegisterEngineNetworkCustomVersion"
+      },
+      {
+        "class": "FGameNetworkCustomVersion",
+        "friendly_name": "GameNetworkVersion",
+        "key": "FGameNetworkCustomVersion::Guid",
+        "kind": "FCustomVersionRegistration",
+        "line": 86,
+        "member": "Guid",
+        "path": "Source/Runtime/Core/Private/Misc/NetworkVersion.cpp",
+        "variable": "GRegisterGameNetworkCustomVersion"
+      },
+      {
+        "class": "FReplayCustomVersion",
+        "friendly_name": "Replay",
+        "key": "FReplayCustomVersion::Guid",
+        "kind": "FCustomVersionRegistration",
+        "line": 8,
+        "member": "Guid",
+        "path": "Source/Runtime/Engine/Private/ReplayTypes.cpp",
+        "variable": "GRegisterReplayCustomVersion"
+      },
+      {
+        "class": "EVisualLoggerVersion",
+        "friendly_name": "VisualLogger",
+        "key": "EVisualLoggerVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 1169,
+        "member": "GUID",
+        "path": "Source/Runtime/Engine/Private/VisualLogger/VisualLogger.cpp",
+        "variable": "GVisualLoggerVersion"
+      },
+      {
+        "class": "FInterchangeCustomVersion",
+        "friendly_name": "InterchangeAssetImportDataVer",
+        "key": "FInterchangeCustomVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 7,
+        "member": "GUID",
+        "path": "Source/Runtime/Interchange/Core/Private/InterchangeCustomVersion.cpp",
+        "variable": "GRegisterInterchangeCustomVersion"
+      },
+      {
+        "class": "FLandscapeCustomVersion",
+        "friendly_name": "Landscape",
+        "key": "FLandscapeCustomVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 29,
+        "member": "GUID",
+        "path": "Source/Runtime/Landscape/Private/LandscapeModule.cpp",
+        "variable": "GRegisterLandscapeCustomVersion"
+      },
+      {
+        "class": "FMovieSceneEvaluationCustomVersion",
+        "friendly_name": "MovieSceneEvaluation",
+        "key": "FMovieSceneEvaluationCustomVersion::GUID",
+        "kind": "FCustomVersionRegistration",
+        "line": 7,
+        "member": "GUID",
+        "path": "Source/Runtime/MovieScene/Private/Evaluation/MovieSceneEvaluationCustomVersion.cpp",
+        "variable": "GRegisterMovieSceneEvaluationCustomVersion"
+      },
+      {
+        "class": "FLocalFileReplayCustomVersion",
+        "friendly_name": "LocalFileReplay",
+        "key": "FLocalFileReplayCustomVersion::Guid",
+        "kind": "FCustomVersionRegistration",
+        "line": 80,
+        "member": "Guid",
+        "path": "Source/Runtime/NetworkReplayStreaming/LocalFileNetworkReplayStreaming/Private/LocalFileNetworkReplayStreaming.cpp",
+        "variable": "GRegisterLocalFileReplayCustomVersion"
+      }
+    ],
+    "registrations_unresolved_total": 14,
+    "walk": {
+      "bytes_read": 894499180,
+      "files_read": 90482,
+      "files_scanned": 3852,
+      "files_truncated": [
+        "Source/ThirdParty/WebRTC/5414/Include/rtc_tools/rtc_event_log_visualizer/conversational_speech_en.h",
+        "Source/ThirdParty/libSampleRate/Private/high_qual_coeffs.h"
+      ],
+      "root": "D:/Program Files/UE_5.4/Engine",
+      "searched_roots": [
+        "Source",
+        "Plugins"
+      ],
+      "seconds": 277.971,
+      "skipped_directory_names": [
+        ".git",
+        "Intermediate",
+        "Binaries",
+        "DerivedDataCache"
+      ],
+      "suffixes": [
+        ".h",
+        ".cpp",
+        ".inl",
+        ".hpp",
+        ".cc"
+      ]
+    },
+    "what_unresolved_means": "the registration statement was found but the sixteen bytes were not, usually because the key is a static const FGuid initialised inline in a header rather than defined in a .cpp. Such a GUID is not searched for, so it can be neither found nor missing"
+  },
+  "derivation_failures": [],
+  "derived_at": "2026-08-23T18:31:32+00:00",
+  "evidence": {
+    "claim_class": "I",
+    "confidence": 0.79,
+    "evidence_level": "OBSERVED",
+    "note": "This object is a statement about the SOURCE TREE and about nothing else -- it says what the engine's own code writes down, at UE 5.4.4 CL 35576357, branch ++UE5+Release-5.4. It is class I because it names the values, not merely the characters. One method only, so the confidence stays below the 0.80 band plan.md 10.3 reserves for two-method claims. Whether any of these values occurs in the game image is a separate measurement with a separate oracle, and it lives in occurrences[].",
+    "oracle": [
+      "external-doc",
+      "filesystem"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "D:/Program Files/UE_5.4/Engine",
+        "method": "S-08",
+        "note": "oracle external-doc + filesystem. Every value below was read out of the source tree at the cited file and line at run time; nothing is hard-coded in the tool but where to look and how to parse what is there. The tree declares UE 5.4.4 CL 35576357, branch ++UE5+Release-5.4."
+      }
+    ]
+  },
+  "extra_citations": [
+    {
+      "citation": "Source/Runtime/PakFile/Private/IPlatformFilePak.cpp:6507",
+      "constant_id": "fnv64_offset_basis",
+      "found": true,
+      "line": 6507,
+      "path": "Source/Runtime/PakFile/Private/IPlatformFilePak.cpp",
+      "why": "FPakFile path hashing seeds FNV-1a with the same basis"
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/IO/IoStore.cpp:3548",
+      "constant_id": "fnv64_offset_basis",
+      "found": true,
+      "line": 3548,
+      "path": "Source/Runtime/Core/Private/IO/IoStore.cpp",
+      "why": "FIoStore chunk hashing falls back to the same basis when no seed is given"
+    },
+    {
+      "citation": "Source/Runtime/Core/Private/UObject/UnrealNames.cpp:744",
+      "constant_id": "cityhash_k2",
+      "found": true,
+      "line": 744,
+      "path": "Source/Runtime/Core/Private/UObject/UnrealNames.cpp",
+      "why": "the FName hash of UE5 is CityHash64 over the lower-cased string"
+    }
+  ],
+  "generator": "tools/static/find_constants.py",
+  "generator_version": "1.0.0",
+  "seconds": 278.244,
+  "ue5_object_version_enum": {
+    "enumerators": {
+      "ADD_SOFTOBJECTPATH_LIST": 1008,
+      "AUTOMATIC_VERSION": 1012,
+      "AUTOMATIC_VERSION_PLUS_ONE": 1013,
+      "DATA_RESOURCES": 1009,
+      "FSOFTOBJECTPATH_REMOVE_ASSET_PATH_FNAMES": 1007,
+      "INITIAL_VERSION": 1000,
+      "LARGE_WORLD_COORDINATES": 1004,
+      "NAMES_REFERENCED_FROM_EXPORT_DATA": 1001,
+      "OPTIONAL_RESOURCES": 1003,
+      "PAYLOAD_TOC": 1002,
+      "PROPERTY_TAG_COMPLETE_TYPE_NAME": 1012,
+      "PROPERTY_TAG_EXTENSION_AND_OVERRIDABLE_SERIALIZATION": 1011,
+      "REMOVE_OBJECT_EXPORT_PACKAGE_GUID": 1005,
+      "SCRIPT_SERIALIZATION_OFFSET": 1010,
+      "TRACK_OBJECT_EXPORT_IS_INHERITED": 1006
+    },
+    "enumerators_walked": 15,
+    "source_path": "Source/Runtime/Core/Public/UObject/ObjectVersion.h"
+  },
+  "ue_source_root": "D:/Program Files/UE_5.4/Engine",
+  "what_this_object_is": "a statement about the UNREAL ENGINE SOURCE TREE at the path and changelist named above, and about nothing else. It says what the engine's code writes down. Whether any of it is in the game image is the separate question answered by occurrences[]"
+}

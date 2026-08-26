@@ -1,0 +1,24 @@
+sigscan 1.0.0 (S-07)
+target:   MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe
+          134 658 048 bytes, sha256 0eef3715244b467c830022c4260a0e2c
+library:  sigmake document
+          cut from MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe (sha256 0eef3715244b467c830022c4260a0e2c)
+          same image as the signature source: yes
+surface:  exec -- every section with raw data whose characteristics carry IMAGE_SCN_MEM_EXECUTE or IMAGE_SCN_CNT_CODE
+          98 343 936 bytes over 1 range(s): .text[1536+98343936]
+          NOT searched: read-only and writable data, resources, the headers and any overlay -- a byte sequence present there is NOT counted by this run
+
+verdicts: unique 1530   ambiguous 0   absent 0   (of 1530 scanned)
+          at the recorded source address: 1530   elsewhere: 0
+          masked-byte fraction: min 0.000  mean 0.000  max 0.000
+
+verdict     occur.       len  mask  anch first rva   label
+... 1530 more (see the artifact)
+
+refutation probes:
+
+class-P literal reads: 6, reproduced
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-all-self-shipping.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-all-self-shipping.jsonl

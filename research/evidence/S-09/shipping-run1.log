@@ -1,0 +1,80 @@
+D:\Games\Steam\steamapps\common\MISERY\MISERY\Binaries\Win64\MISERY-Win64-Shipping.exe (tools/static/vtable_scan.py 1.1.0)
+  PE32+, image base 0x140000000, 134658048 bytes on disk
+
+Tested surface
+  .rdata     file [98345472, 125648384)  27302912 bytes
+  .data      file [125648384, 127140864)  1492480 bytes
+  .msvcjmc   file [132077568, 132078080)  512 bytes
+  .rodata    file [132078080, 132080128)  2048 bytes
+  _RDATA     file [132080128, 132463104)  382976 bytes
+  not scanned: .pdata, .reloc, .rsrc, .text
+  3647616 slots at alignment 8
+
+Slots and runs
+  slots examined                       : 3647616
+  addressing executable sections       : 712064
+  ... and carrying a relocation fixup  : 712043
+  ... and NOT relocated (not pointers) : 21
+  raw runs                             : 100816
+  interior cut points (runs split)     : 17441
+  census without the fixup filter      : >=4 8227, >=8 7369, >=16 6068
+
+Candidates
+  code-stored       13385  (>=2 slots  12657)  slots   328192  median 8  max 395
+  code-referenced   37024  (>=2 slots  16896)  slots   277952  median 1  max 498
+  unreferenced      67848  (>=2 slots   9069)  slots   105899  median 1  max 24543
+  with an RTTI complete-object-locator : 587
+  without one                          : 117670
+  code-stored without one              : 12840
+
+Population
+  distinct slot targets                : 143548
+  targets used by >1 candidate         : 25434 (0.1772)
+  slot targets at a function start     : 335858 of 712043 (0.4717)
+  code-stored clusters (back to back)  : 6090 for 13385 candidates, largest 96
+  UE source-path literals              : 530, median distance 50736 bytes
+  same-function join                   : 160 of 118257 candidates
+
+The population WITHOUT an RTTI locator, against the one with
+                                          with RTTI      no RTTI
+  candidates                                    587       117670
+  slots, median                                   4            1
+  slots, 90th percentile                         15            9
+  slots, max                                     74        24543
+  distinct slot targets                        2178       141483
+  share of targets shared                    0.1786       0.1773
+  share of slots at a function start         0.5391       0.4713
+  contiguous runs [confounded, see below]          587       100229
+  largest contiguous run [confounded]             1          315
+  code-stored tier only                         545        12840
+  [confounded] an RTTI vtable always carries its locator pointer in the slot before it,
+               so two of them can never be adjacent under this definition. The
+               contiguity gap across the split is an artefact and means nothing.
+  no-locator candidates sharing a slot target with a named vtable: 15471 (0.1315), over 113 distinct targets
+
+Cross-check against research/evidence/S-10/shipping-rtti.json
+  census slots agree                   : True
+  census runs agree (4/8/16)           : True
+  known vtables recovered              : 587 of 587 (recall 1.0)
+  slot-count disagreements             : 0
+  recall, code-stored tier only        : 0.9284
+  RTTI locators, vtable side vs names  : 587 vs 587 (agree True)
+  adjacent vtables share an owner      : 0.9488 (chance 0.3598)
+
+Refutation probes
+  misalignment control
+    REFUTATION FAILED (the population survives): the misaligned scan finds 0 runs against 8227 aligned
+  declared non-vtable pointer tables
+    150 candidates overlap a declared non-vtable table; they are FLAGGED in their rows and left in the population, because deleting a counter-example is how a scanner starts agreeing with itself
+  degenerate candidates (all slots identical)
+  does the relocation filter do anything
+    the filter rejects 21 of 712064 code-addressing slots
+  positional premise
+    REFUTATION FAILED (the premise holds): adjacent vtables share an owner at 0.949 against a chance rate of 0.360
+
+Literal reads (class P): 6 ranges, all re-read through a second handle: reproduced
+Timings (s): {"code_references": 3.952, "digest": 0.292, "literal_reads": 0.023, "load_surface": 0.113, "prior_slots": 1.403, "probes": 2.144, "relocations": 1.227, "runs": 1.958, "runtime_functions": 0.338, "segmentation": 1.078, "source_path_join": 6.063, "source_path_literals": 0.407}
+
+written: D:\Dev\MiseryFramework\research\evidence\S-09\shipping-vtables.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-09\vtables.jsonl

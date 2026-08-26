@@ -1,0 +1,2407 @@
+{
+  "candidate_sample": [
+    {
+      "distinct_slot_targets": 3,
+      "file_offset": 98353272,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Source/Runtime/Core/Private/Async/TaskGraph.cpp",
+      "nearest_source_path_distance": 203368,
+      "nearest_source_path_rva": 98560224,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "zero",
+      "prior_slot_rva": 98356848,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 98356856,
+      "run_slot_count": 5,
+      "section": ".rdata",
+      "slot_count": 5,
+      "slot_target_rvas_first": 65123120,
+      "slot_targets_at_function_starts": 3,
+      "tier": "unreferenced",
+      "vtable_rva": 98356856
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 104117624,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Source/Runtime/MovieScene/Public/MovieSceneSequence.h",
+      "nearest_source_path_distance": 58904,
+      "nearest_source_path_rva": 104062304,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "not-an-image-address",
+      "prior_slot_rva": 104121200,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 104121208,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 46590352,
+      "slot_targets_at_function_starts": 0,
+      "tier": "unreferenced",
+      "vtable_rva": 104121208
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 105406872,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Source/Runtime/Engine/Classes/Animation/AnimSequenceBase.h",
+      "nearest_source_path_distance": 7752,
+      "nearest_source_path_rva": 105402704,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "not-an-image-address",
+      "prior_slot_rva": 105410448,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 105410456,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 47144016,
+      "slot_targets_at_function_starts": 0,
+      "tier": "unreferenced",
+      "vtable_rva": 105410456
+    },
+    {
+      "distinct_slot_targets": 2,
+      "file_offset": 106942736,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Source/Runtime/Engine/Private/AssetManager.cpp",
+      "nearest_source_path_distance": 9104,
+      "nearest_source_path_rva": 106955424,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "zero",
+      "prior_slot_rva": 106946312,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 106946320,
+      "run_slot_count": 2,
+      "section": ".rdata",
+      "slot_count": 2,
+      "slot_target_rvas_first": 53509248,
+      "slot_targets_at_function_starts": 2,
+      "tier": "unreferenced",
+      "vtable_rva": 106946320
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 108346096,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Source/Runtime/Engine/Private/KismetSystemLibrary.cpp",
+      "nearest_source_path_distance": 87056,
+      "nearest_source_path_rva": 108436736,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "data-address",
+      "prior_slot_rva": 108349672,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 108349680,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 57437088,
+      "slot_targets_at_function_starts": 1,
+      "tier": "unreferenced",
+      "vtable_rva": 108349680
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 110192904,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Plugins/Online/OnlineSubsystemUtils/Source/OnlineSubsystemUtils/Private/IpNetDriver.cpp",
+      "nearest_source_path_distance": 246312,
+      "nearest_source_path_rva": 109950176,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "data-address",
+      "prior_slot_rva": 110196480,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 110196488,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 65509792,
+      "slot_targets_at_function_starts": 1,
+      "tier": "unreferenced",
+      "vtable_rva": 110196488
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 111809520,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Source/Runtime/GameplayTasks/Classes/GameplayTaskOwnerInterface.h",
+      "nearest_source_path_distance": 39888,
+      "nearest_source_path_rva": 111773216,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "not-an-image-address",
+      "prior_slot_rva": 111813096,
+      "reference_site_rvas": [
+        71188720
+      ],
+      "rtti_locator_rva": null,
+      "run_rva": 111813104,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 71188528,
+      "slot_targets_at_function_starts": 1,
+      "tier": "code-referenced",
+      "vtable_rva": 111813104
+    },
+    {
+      "distinct_slot_targets": 49,
+      "file_offset": 113305600,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Plugins/Animation/IKRig/Source/IKRig/Public/Rig/Solvers/IKRigSolver.h",
+      "nearest_source_path_distance": 11776,
+      "nearest_source_path_rva": 113297408,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "not-an-image-address",
+      "prior_slot_rva": 113309176,
+      "reference_site_rvas": [
+        75231797,
+        75251146
+      ],
+      "rtti_locator_rva": null,
+      "run_rva": 113309184,
+      "run_slot_count": 578,
+      "section": ".rdata",
+      "slot_count": 94,
+      "slot_target_rvas_first": 75251136,
+      "slot_targets_at_function_starts": 34,
+      "tier": "code-referenced",
+      "vtable_rva": 113309184
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 114984952,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Plugins/Runtime/MeshModelingToolset/Source/ModelingComponents/Public/BaseTools/SingleTargetWithSelectionTool.h",
+      "nearest_source_path_distance": 288296,
+      "nearest_source_path_rva": 114700240,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "not-an-image-address",
+      "prior_slot_rva": 114988528,
+      "reference_site_rvas": [],
+      "rtti_locator_rva": null,
+      "run_rva": 114988536,
+      "run_slot_count": 1,
+      "section": ".rdata",
+      "slot_count": 1,
+      "slot_target_rvas_first": 81303008,
+      "slot_targets_at_function_starts": 1,
+      "tier": "unreferenced",
+      "vtable_rva": 114988536
+    },
+    {
+      "distinct_slot_targets": 4,
+      "file_offset": 120522384,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Plugins/WorldMetrics/Source/WorldMetricsCore/Public/WorldMetricsExtension.h",
+      "nearest_source_path_distance": 4162784,
+      "nearest_source_path_rva": 116363184,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "rtti-complete-object-locator",
+      "prior_slot_rva": 120525960,
+      "reference_site_rvas": [
+        97247376,
+        97249062
+      ],
+      "rtti_locator_rva": 120653512,
+      "run_rva": 120525968,
+      "run_slot_count": 4,
+      "section": ".rdata",
+      "slot_count": 4,
+      "slot_target_rvas_first": 89519216,
+      "slot_targets_at_function_starts": 1,
+      "tier": "code-stored",
+      "vtable_rva": 120525968
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 126283280,
+      "is_run_start": true,
+      "nearest_source_path": "Engine/Plugins/WorldMetrics/Source/WorldMetricsCore/Public/WorldMetricsExtension.h",
+      "nearest_source_path_distance": 9924704,
+      "nearest_source_path_rva": 116363184,
+      "overlaps_declared_table": null,
+      "prior_slot_kind": "not-an-image-address",
+      "prior_slot_rva": 126287880,
+      "reference_site_rvas": [
+        57424352
+      ],
+      "rtti_locator_rva": null,
+      "run_rva": 126287888,
+      "run_slot_count": 1,
+      "section": ".data",
+      "slot_count": 1,
+      "slot_target_rvas_first": 57451168,
+      "slot_targets_at_function_starts": 1,
+      "tier": "code-referenced",
+      "vtable_rva": 126287888
+    },
+    {
+      "distinct_slot_targets": 1,
+      "file_offset": 127140768,
+      "is_run_start": false,
+      "nearest_source_path": "Engine/Plugins/WorldMetrics/Source/WorldMetricsCore/Public/WorldMetricsExtension.h",
+      "nearest_source_path_distance": 10782192,
+      "nearest_source_path_rva": 116363184,
+      "overlaps_declared_table": "delay-load-import-address-table",
+      "prior_slot_kind": "code-address",
+      "prior_slot_rva": 127145368,
+      "reference_site_rvas": [
+        95593956
+      ],
+      "rtti_locator_rva": null,
+      "run_rva": 127145272,
+      "run_slot_count": 14,
+      "section": ".data",
+      "slot_count": 1,
+      "slot_target_rvas_first": 95593956,
+      "slot_targets_at_function_starts": 0,
+      "tier": "code-referenced",
+      "vtable_rva": 127145376
+    }
+  ],
+  "candidates_total": 118257,
+  "code_references": {
+    "bytes_scanned": 98343936,
+    "distinct_lea_targets_in_surface": 132914,
+    "distinct_store_targets_in_surface": 23587,
+    "lea_shaped_sequences": 554880,
+    "lea_targets_in_surface": 326773,
+    "sections": [
+      ".text"
+    ],
+    "store_idiom_targets_in_surface": 72283,
+    "targets_outside_surface": 228107
+  },
+  "cross_check": {
+    "artifact": "research/evidence/S-10/shipping-rtti.json",
+    "census": {
+      "comparison_is_valid_only_if_the_sections_match": true,
+      "my_runs_by_minimum_length": {
+        "16": 6068,
+        "4": 8227,
+        "8": 7369
+      },
+      "my_sections": [
+        ".rdata",
+        ".data",
+        ".msvcjmc",
+        ".rodata",
+        "_RDATA"
+      ],
+      "my_slots": 712064,
+      "runs_agree": true,
+      "slots_agree": true,
+      "their_runs_by_minimum_length": {
+        "16": 6068,
+        "4": 8227,
+        "8": 7369
+      },
+      "their_sections": [
+        ".rdata",
+        ".data",
+        ".msvcjmc",
+        ".rodata",
+        "_RDATA"
+      ],
+      "their_slots": 712064
+    },
+    "independent_rtti_locator_count": {
+      "agree": true,
+      "found_by_rtti_scan_from_the_name_side": 587,
+      "found_from_the_vtable_side": 587,
+      "method": "the slot before each candidate is followed and the record it points at is accepted only when its first DWORD is 1 and its sixth DWORD equals its own image-relative address"
+    },
+    "known_vtables": {
+      "in_the_rtti_artifact": 587,
+      "not_recovered": [],
+      "recall": 1.0,
+      "recall_code_stored": 0.9284,
+      "recall_code_stored_or_referenced": 0.9983,
+      "recovered_as_a_candidate": 587,
+      "recovered_by_tier": {
+        "code-referenced": 41,
+        "code-stored": 545,
+        "unreferenced": 1
+      },
+      "slot_count_disagreement_examples": [],
+      "slot_count_disagreements": 0
+    },
+    "note": null,
+    "owner_adjacency": {
+      "adjacent_pairs": 586,
+      "adjacent_pairs_with_the_same_owner": 556,
+      "chance_rate_from_owner_frequencies": 0.3598,
+      "contiguous_same_owner_blocks": 31,
+      "distinct_owners": 12,
+      "observed_rate": 0.9488,
+      "rva_span": [
+        115413072,
+        120526016
+      ],
+      "what_it_tests": "whether vtable ORDER in this image carries information about origin. An observed rate near the chance rate would mean that nothing positional in this tool's output -- clusters, nearest literal, neighbourhood -- can be read as evidence of anything."
+    },
+    "readable": true,
+    "rtti_generator": "tools/static/rtti_scan.py",
+    "rtti_generator_version": "1.1.0",
+    "rtti_sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "rtti_target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+  },
+  "d04_oracle_only": false,
+  "declared_pointer_tables": [
+    {
+      "end_rva": 98349264,
+      "kind": "import-address-table",
+      "name": "ADVAPI32.dll",
+      "start_rva": 98349056
+    },
+    {
+      "end_rva": 98349368,
+      "kind": "import-address-table",
+      "name": "CRYPT32.dll",
+      "start_rva": 98349272
+    },
+    {
+      "end_rva": 98349424,
+      "kind": "import-address-table",
+      "name": "DSOUND.dll",
+      "start_rva": 98349376
+    },
+    {
+      "end_rva": 98349688,
+      "kind": "import-address-table",
+      "name": "GDI32.dll",
+      "start_rva": 98349432
+    },
+    {
+      "end_rva": 98349792,
+      "kind": "import-address-table",
+      "name": "IMM32.dll",
+      "start_rva": 98349696
+    },
+    {
+      "end_rva": 98349840,
+      "kind": "import-address-table",
+      "name": "IPHLPAPI.DLL",
+      "start_rva": 98349800
+    },
+    {
+      "end_rva": 98351864,
+      "kind": "import-address-table",
+      "name": "KERNEL32.dll",
+      "start_rva": 98349848
+    },
+    {
+      "end_rva": 98352728,
+      "kind": "import-address-table",
+      "name": "MSVCP140.dll",
+      "start_rva": 98351872
+    },
+    {
+      "end_rva": 98352792,
+      "kind": "import-address-table",
+      "name": "OLEAUT32.dll",
+      "start_rva": 98352736
+    },
+    {
+      "end_rva": 98352848,
+      "kind": "import-address-table",
+      "name": "OPENGL32.dll",
+      "start_rva": 98352800
+    },
+    {
+      "end_rva": 98352912,
+      "kind": "import-address-table",
+      "name": "SETUPAPI.dll",
+      "start_rva": 98352856
+    },
+    {
+      "end_rva": 98352960,
+      "kind": "import-address-table",
+      "name": "SHELL32.dll",
+      "start_rva": 98352920
+    },
+    {
+      "end_rva": 98353008,
+      "kind": "import-address-table",
+      "name": "UIAutomationCore.DLL",
+      "start_rva": 98352968
+    },
+    {
+      "end_rva": 98354160,
+      "kind": "import-address-table",
+      "name": "USER32.dll",
+      "start_rva": 98353016
+    },
+    {
+      "end_rva": 98354176,
+      "kind": "import-address-table",
+      "name": "UxTheme.dll",
+      "start_rva": 98354168
+    },
+    {
+      "end_rva": 98354400,
+      "kind": "import-address-table",
+      "name": "VCRUNTIME140.dll",
+      "start_rva": 98354184
+    },
+    {
+      "end_rva": 98354416,
+      "kind": "import-address-table",
+      "name": "VCRUNTIME140_1.dll",
+      "start_rva": 98354408
+    },
+    {
+      "end_rva": 98354440,
+      "kind": "import-address-table",
+      "name": "WINHTTP.dll",
+      "start_rva": 98354424
+    },
+    {
+      "end_rva": 98354472,
+      "kind": "import-address-table",
+      "name": "WINMM.dll",
+      "start_rva": 98354448
+    },
+    {
+      "end_rva": 98354824,
+      "kind": "import-address-table",
+      "name": "WS2_32.dll",
+      "start_rva": 98354480
+    },
+    {
+      "end_rva": 98354848,
+      "kind": "import-address-table",
+      "name": "api-ms-win-core-synch-l1-2-0.dll",
+      "start_rva": 98354832
+    },
+    {
+      "end_rva": 98354864,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-conio-l1-1-0.dll",
+      "start_rva": 98354856
+    },
+    {
+      "end_rva": 98354992,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-convert-l1-1-0.dll",
+      "start_rva": 98354872
+    },
+    {
+      "end_rva": 98355032,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-environment-l1-1-0.dll",
+      "start_rva": 98355000
+    },
+    {
+      "end_rva": 98355104,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "start_rva": 98355040
+    },
+    {
+      "end_rva": 98355200,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-heap-l1-1-0.dll",
+      "start_rva": 98355112
+    },
+    {
+      "end_rva": 98355224,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-locale-l1-1-0.dll",
+      "start_rva": 98355208
+    },
+    {
+      "end_rva": 98355648,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-math-l1-1-0.dll",
+      "start_rva": 98355232
+    },
+    {
+      "end_rva": 98355664,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-multibyte-l1-1-0.dll",
+      "start_rva": 98355656
+    },
+    {
+      "end_rva": 98355928,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "start_rva": 98355672
+    },
+    {
+      "end_rva": 98356248,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "start_rva": 98355936
+    },
+    {
+      "end_rva": 98356512,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-string-l1-1-0.dll",
+      "start_rva": 98356256
+    },
+    {
+      "end_rva": 98356576,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-time-l1-1-0.dll",
+      "start_rva": 98356520
+    },
+    {
+      "end_rva": 98356624,
+      "kind": "import-address-table",
+      "name": "api-ms-win-crt-utility-l1-1-0.dll",
+      "start_rva": 98356584
+    },
+    {
+      "end_rva": 98356640,
+      "kind": "import-address-table",
+      "name": "bcrypt.dll",
+      "start_rva": 98356632
+    },
+    {
+      "end_rva": 98356680,
+      "kind": "import-address-table",
+      "name": "dwmapi.dll",
+      "start_rva": 98356648
+    },
+    {
+      "end_rva": 98356704,
+      "kind": "import-address-table",
+      "name": "dxgi.dll",
+      "start_rva": 98356688
+    },
+    {
+      "end_rva": 98356848,
+      "kind": "import-address-table",
+      "name": "ole32.dll",
+      "start_rva": 98356712
+    },
+    {
+      "end_rva": 98553464,
+      "kind": "tls-callback-array",
+      "name": null,
+      "start_rva": 98553448
+    },
+    {
+      "end_rva": 127144392,
+      "kind": "delay-load-import-address-table",
+      "name": "EOSSDK-Win64-Shipping.dll",
+      "start_rva": 127144072
+    },
+    {
+      "end_rva": 127144536,
+      "kind": "delay-load-import-address-table",
+      "name": "GFSDK_Aftermath_Lib.x64.dll",
+      "start_rva": 127144400
+    },
+    {
+      "end_rva": 127144608,
+      "kind": "delay-load-import-address-table",
+      "name": "MF.dll",
+      "start_rva": 127144544
+    },
+    {
+      "end_rva": 127144712,
+      "kind": "delay-load-import-address-table",
+      "name": "MFPlat.DLL",
+      "start_rva": 127144616
+    },
+    {
+      "end_rva": 127144728,
+      "kind": "delay-load-import-address-table",
+      "name": "MFReadWrite.dll",
+      "start_rva": 127144720
+    },
+    {
+      "end_rva": 127144808,
+      "kind": "delay-load-import-address-table",
+      "name": "OpenImageDenoise.dll",
+      "start_rva": 127144736
+    },
+    {
+      "end_rva": 127144832,
+      "kind": "delay-load-import-address-table",
+      "name": "SHLWAPI.dll",
+      "start_rva": 127144816
+    },
+    {
+      "end_rva": 127144848,
+      "kind": "delay-load-import-address-table",
+      "name": "XAudio2_9Redist.dll",
+      "start_rva": 127144840
+    },
+    {
+      "end_rva": 127144872,
+      "kind": "delay-load-import-address-table",
+      "name": "XINPUT1_4.dll",
+      "start_rva": 127144856
+    },
+    {
+      "end_rva": 127144888,
+      "kind": "delay-load-import-address-table",
+      "name": "d3d11.dll",
+      "start_rva": 127144880
+    },
+    {
+      "end_rva": 127144928,
+      "kind": "delay-load-import-address-table",
+      "name": "d3d12.dll",
+      "start_rva": 127144896
+    },
+    {
+      "end_rva": 127144952,
+      "kind": "delay-load-import-address-table",
+      "name": "d3d9.dll",
+      "start_rva": 127144936
+    },
+    {
+      "end_rva": 127145088,
+      "kind": "delay-load-import-address-table",
+      "name": "dbghelp.dll",
+      "start_rva": 127144960
+    },
+    {
+      "end_rva": 127145176,
+      "kind": "delay-load-import-address-table",
+      "name": "libvorbis_64.dll",
+      "start_rva": 127145096
+    },
+    {
+      "end_rva": 127145264,
+      "kind": "delay-load-import-address-table",
+      "name": "libvorbisfile_64.dll",
+      "start_rva": 127145184
+    },
+    {
+      "end_rva": 127145384,
+      "kind": "delay-load-import-address-table",
+      "name": "steam_api64.dll",
+      "start_rva": 127145272
+    }
+  ],
+  "file": {
+    "image_base": 5368709120,
+    "install_relative": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+    "machine": 34404,
+    "name": "MISERY-Win64-Shipping.exe",
+    "path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+    "pe_format": "PE32+",
+    "pointer_size": 8,
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "size": 134658048,
+    "size_of_image": 138403840
+  },
+  "generated_at": "2026-08-23T18:24:20Z",
+  "generator": "tools/static/vtable_scan.py",
+  "generator_version": "1.1.0",
+  "interpreted_annotation": {
+    "claim_class": "I",
+    "confidence": 0.85,
+    "evidence_level": "INFERRED",
+    "note": "Interpretive: this layer says that named byte ranges ARE virtual function tables, counts them and describes their population, all of which decodes and attributes rather than reads. The primitive half is in literal_reads[]. Second method: the MSVC RTTI graph, walked by tools/static/rtti_scan.py from the decorated-name side, reaches 587 vtables in this image; 587 of them are recovered here from the pointer-run side with 0 slot-count disagreements. The two methods share no code and no starting point -- one starts at '.?A' name strings, the other at relocation fixups -- so the agreement is a genuine second method and not a re-read",
+    "oracle": [
+      "binary-analysis",
+      "external-doc"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+        "method": "S-09",
+        "note": "oracle binary-analysis + external-doc. A run of relocated, pointer-aligned values addressing executable sections is read as a virtual function table, which rests on the MSVC object layout convention (external-doc: it proves how the Microsoft toolchain lays a vtable out, not what this build contains) and on a pattern match over instruction bytes that is not a disassembler."
+      },
+      {
+        "artifact": null,
+        "independent_of": [
+          "S-09/run-and-reference-scan"
+        ],
+        "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+        "method": "S-09",
+        "note": "oracle binary-analysis. Second, independent method: the MSVC RTTI graph, walked by tools/static/rtti_scan.py from the decorated-name side, reaches 587 vtables in this image; 587 of them are recovered here from the pointer-run side with 0 slot-count disagreements. The two methods share no code and no starting point -- one starts at '.?A' name strings, the other at relocation fixups -- so the agreement is a genuine second method and not a re-read"
+      }
+    ]
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "3082f240010000001592cb45010000001592cb45010000001592cb4501000000",
+      "claim": "32 bytes at offset 98551088 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 3082f240010000001592cb45010000001592cb45010000001592cb4501000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 98551088 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 3082f240010000001592cb45010000001592cb45010000001592cb4501000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "3082f240010000001592cb45010000001592cb45010000001592cb4501000000",
+          "length": 32,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 98551088,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98551088+32",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@98554672",
+      "length": 32,
+      "offset": 98551088,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "f0ca024201000000505c774201000000",
+      "claim": "16 bytes at offset 103166360 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are f0ca024201000000505c774201000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 103166360 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are f0ca024201000000505c774201000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "f0ca024201000000505c774201000000",
+          "length": 16,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 103166360,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@103166360+16",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@103169944",
+      "length": 16,
+      "offset": 103166360,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "00e13b4301000000",
+      "claim": "8 bytes at offset 107110008 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 00e13b4301000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 107110008 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 00e13b4301000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00e13b4301000000",
+          "length": 8,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 107110008,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@107110008+8",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@107113592",
+      "length": 8,
+      "offset": 107110008,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "d0ec2e4401000000c009f34001000000d0782c410100000030fa004101000000",
+      "claim": "32 bytes at offset 111541912 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are d0ec2e4401000000c009f34001000000d0782c410100000030fa004101000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 111541912 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are d0ec2e4401000000c009f34001000000d0782c410100000030fa004101000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "d0ec2e4401000000c009f34001000000d0782c410100000030fa004101000000",
+          "length": 32,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 111541912,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@111541912+32",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@111545496",
+      "length": 32,
+      "offset": 111541912,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "38c8f14401000000f0bc4644010000008082f240010000006093f24401000000",
+      "claim": "32 bytes at offset 115195064 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 38c8f14401000000f0bc4644010000008082f240010000006093f24401000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 115195064 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 38c8f14401000000f0bc4644010000008082f240010000006093f24401000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "38c8f14401000000f0bc4644010000008082f240010000006093f24401000000",
+          "length": 32,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 115195064,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@115195064+32",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@115198648",
+      "length": 32,
+      "offset": 115195064,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "80d79d4501000000b0d59d4501000000",
+      "claim": "16 bytes at offset 126977616 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 80d79d4501000000b0d59d4501000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 126977616 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 80d79d4501000000b0d59d4501000000. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "80d79d4501000000b0d59d4501000000",
+          "length": 16,
+          "note": "one range inside the surface named in tested_surface; the interpretive half is the candidate row with the same RVA",
+          "offset": 126977616,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@126977616+16",
+            "method": "S-09",
+            "note": "oracle binary-analysis. Read by tools/static/vtable_scan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the candidate row with the same RVA in vtables.jsonl, and the statistics of this document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "candidate@126982224",
+      "length": 16,
+      "offset": 126977616,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    }
+  ],
+  "refutation_probes": [
+    {
+      "aligned_runs_of_at_least_4": 8227,
+      "misaligned_runs_of_at_least_4": 0,
+      "misaligned_slots_addressing_executable_sections": 27,
+      "probe": "misalignment control",
+      "ratio": 0.0,
+      "result": "REFUTATION FAILED (the population survives): the misaligned scan finds 0 runs against 8227 aligned",
+      "what_would_refute": "if scanning the same bytes at a deliberately wrong alignment (shifted by half a pointer) produced a comparable number of runs, the population reported here would be an artefact of the scan rather than a property of the image"
+    },
+    {
+      "overlapping_candidates": {
+        "delay-load-import-address-table/code-referenced": 149,
+        "tls-callback-array/unreferenced": 1
+      },
+      "overlapping_total": 150,
+      "probe": "declared non-vtable pointer tables",
+      "result": "150 candidates overlap a declared non-vtable table; they are FLAGGED in their rows and left in the population, because deleting a counter-example is how a scanner starts agreeing with itself",
+      "table_kinds": [
+        "delay-load-import-address-table",
+        "import-address-table",
+        "tls-callback-array"
+      ],
+      "tables_found": 55,
+      "what_would_refute": "the import, delay-import and TLS directories declare ranges of pointer-width slots that are not vtables. A large overlap with the code-stored tier would show the tier is not selecting what it claims"
+    },
+    {
+      "candidates_of_4_or_more_slots": 17133,
+      "degenerate": 24,
+      "degenerate_by_tier": {
+        "code-referenced": 20,
+        "code-stored": 1,
+        "unreferenced": 3
+      },
+      "examples": [
+        {
+          "slot_count": 9,
+          "target_rva": 97227285,
+          "vtable_rva": 99433776
+        },
+        {
+          "slot_count": 8,
+          "target_rva": 15927744,
+          "vtable_rva": 99972048
+        },
+        {
+          "slot_count": 4,
+          "target_rva": 15927744,
+          "vtable_rva": 104019120
+        },
+        {
+          "slot_count": 4,
+          "target_rva": 43221520,
+          "vtable_rva": 125822832
+        }
+      ],
+      "probe": "degenerate candidates (all slots identical)",
+      "what_would_refute": "a candidate of 4 or more slots all holding the SAME address is a filled array, not a vtable. A large count would mean the run rule is picking up initialised tables in bulk"
+    },
+    {
+      "code_addressing_slots": 712064,
+      "examples": [
+        {
+          "implied_target_rva": 40201831,
+          "section": ".rdata",
+          "slot_rva": 117085640,
+          "value_hex": "0x142656e67"
+        },
+        {
+          "implied_target_rva": 42117803,
+          "section": ".data",
+          "slot_rva": 125738744,
+          "value_hex": "0x14282aaab"
+        },
+        {
+          "implied_target_rva": 10485760,
+          "section": ".data",
+          "slot_rva": 125785872,
+          "value_hex": "0x140a00000"
+        },
+        {
+          "implied_target_rva": 32505856,
+          "section": ".data",
+          "slot_rva": 125790368,
+          "value_hex": "0x141f00000"
+        },
+        {
+          "implied_target_rva": 30932992,
+          "section": ".data",
+          "slot_rva": 125791328,
+          "value_hex": "0x141d80000"
+        },
+        {
+          "implied_target_rva": 71827456,
+          "section": ".data",
+          "slot_rva": 125795608,
+          "value_hex": "0x144480000"
+        }
+      ],
+      "probe": "does the relocation filter do anything",
+      "rejected_as_not_relocated": 21,
+      "result": "the filter rejects 21 of 712064 code-addressing slots",
+      "what_would_refute": "if the relocation table rejected no code-addressing slot at all, the filter would be a claim about method with nothing behind it, and the difference between this tool and a plain run-length census would be smaller than stated"
+    },
+    {
+      "candidates_in_a_cluster_of_2_or_more": 9491,
+      "chance_same_owner_rate": 0.3598,
+      "clusters": 6090,
+      "code_stored_candidates": 13385,
+      "decisive_test_available": true,
+      "observed_same_owner_rate": 0.9488,
+      "probe": "positional premise",
+      "result": "REFUTATION FAILED (the premise holds): adjacent vtables share an owner at 0.949 against a chance rate of 0.360",
+      "what_would_refute": "if candidates were scattered rather than grouped, the cluster and nearest-literal fields would carry no information. The decisive test needs known owners and therefore needs --rtti-json; see cross_check.owner_adjacency"
+    }
+  ],
+  "relocations": {
+    "blocks": 4121,
+    "by_type": {
+      "0": 1980,
+      "10": 941132
+    },
+    "directory_rva": 136482816,
+    "directory_size": 1919192,
+    "entries": 943112,
+    "misaligned_in_surface": 0,
+    "note": null,
+    "pointer_width_entries": 941132,
+    "pointer_width_entries_in_surface": 941132,
+    "pointer_width_type": 10,
+    "relocations_stripped": false,
+    "usable": true
+  },
+  "runtime_functions": {
+    "directory_rva": 130871296,
+    "directory_size": 4936620,
+    "distinct_starts": 411385,
+    "entry_size": 12,
+    "function_count": 411385,
+    "note": null
+  },
+  "segmentation": {
+    "code_references_used": true,
+    "interior_cut_points": 17441,
+    "raw_runs": 100816,
+    "runs_split": 3817,
+    "segments": 118257
+  },
+  "slot_scan": {
+    "census_without_relocation_filter": {
+      "definition": "a run is a maximal sequence of consecutive pointer-aligned slots each holding a value inside a section marked executable; no relocation filter, no segmentation. This is the definition rtti_scan.py's internal census uses, reproduced by an independent implementation so the two can be compared.",
+      "pointer_slots_addressing_executable_sections": 712064,
+      "runs_by_minimum_length": {
+        "16": 6068,
+        "4": 8227,
+        "8": 7369
+      },
+      "sections": [
+        ".rdata",
+        ".data",
+        ".msvcjmc",
+        ".rodata",
+        "_RDATA"
+      ]
+    },
+    "code_addressing_slots_rejected_by_relocation_filter_examples": [
+      {
+        "implied_target_rva": 40201831,
+        "section": ".rdata",
+        "slot_rva": 117085640,
+        "value_hex": "0x142656e67"
+      },
+      {
+        "implied_target_rva": 42117803,
+        "section": ".data",
+        "slot_rva": 125738744,
+        "value_hex": "0x14282aaab"
+      },
+      {
+        "implied_target_rva": 10485760,
+        "section": ".data",
+        "slot_rva": 125785872,
+        "value_hex": "0x140a00000"
+      },
+      {
+        "implied_target_rva": 32505856,
+        "section": ".data",
+        "slot_rva": 125790368,
+        "value_hex": "0x141f00000"
+      },
+      {
+        "implied_target_rva": 30932992,
+        "section": ".data",
+        "slot_rva": 125791328,
+        "value_hex": "0x141d80000"
+      },
+      {
+        "implied_target_rva": 71827456,
+        "section": ".data",
+        "slot_rva": 125795608,
+        "value_hex": "0x144480000"
+      },
+      {
+        "implied_target_rva": 75104256,
+        "section": ".data",
+        "slot_rva": 125799120,
+        "value_hex": "0x1447a0000"
+      },
+      {
+        "implied_target_rva": 18874368,
+        "section": ".data",
+        "slot_rva": 125800344,
+        "value_hex": "0x141200000"
+      },
+      {
+        "implied_target_rva": 27262976,
+        "section": ".data",
+        "slot_rva": 125800408,
+        "value_hex": "0x141a00000"
+      },
+      {
+        "implied_target_rva": 75104256,
+        "section": ".data",
+        "slot_rva": 125810424,
+        "value_hex": "0x1447a0000"
+      },
+      {
+        "implied_target_rva": 71827456,
+        "section": ".data",
+        "slot_rva": 125815256,
+        "value_hex": "0x144480000"
+      },
+      {
+        "implied_target_rva": 18874368,
+        "section": ".data",
+        "slot_rva": 125821104,
+        "value_hex": "0x141200000"
+      },
+      {
+        "implied_target_rva": 18874368,
+        "section": ".data",
+        "slot_rva": 125821856,
+        "value_hex": "0x141200000"
+      },
+      {
+        "implied_target_rva": 18874368,
+        "section": ".data",
+        "slot_rva": 125834040,
+        "value_hex": "0x141200000"
+      },
+      {
+        "implied_target_rva": 4194304,
+        "section": ".data",
+        "slot_rva": 125871496,
+        "value_hex": "0x140400000"
+      },
+      {
+        "implied_target_rva": 10485760,
+        "section": ".data",
+        "slot_rva": 126336960,
+        "value_hex": "0x140a00000"
+      },
+      {
+        "implied_target_rva": 18874368,
+        "section": ".data",
+        "slot_rva": 126362576,
+        "value_hex": "0x141200000"
+      },
+      {
+        "implied_target_rva": 18874368,
+        "section": ".data",
+        "slot_rva": 126501888,
+        "value_hex": "0x141200000"
+      },
+      {
+        "implied_target_rva": 10485760,
+        "section": ".data",
+        "slot_rva": 126508264,
+        "value_hex": "0x140a00000"
+      },
+      {
+        "implied_target_rva": 53739520,
+        "section": ".data",
+        "slot_rva": 126508288,
+        "value_hex": "0x143340000"
+      },
+      {
+        "implied_target_rva": 32505856,
+        "section": ".data",
+        "slot_rva": 126508296,
+        "value_hex": "0x141f00000"
+      }
+    ],
+    "relocation_filter_applied": true,
+    "runs": 100816,
+    "slots_addressing_executable_and_relocated": 712043,
+    "slots_addressing_executable_not_relocated": 21,
+    "slots_addressing_executable_sections": 712064,
+    "slots_examined": 3647616,
+    "unaligned_section_starts": []
+  },
+  "source_path_literals": {
+    "count": 530,
+    "pattern": "[A-Za-z]:[\\\\/]build[\\\\/]\\+\\+UE5[\\\\/]Sync[\\\\/][ -~]{1,320}?\\x00",
+    "rva_span": [
+      98560224,
+      116363184
+    ],
+    "sample": [
+      {
+        "path": "Engine/Source/Runtime/Core/Private/Async/TaskGraph.cpp",
+        "rva": 98560224
+      },
+      {
+        "path": "Engine/Source/Runtime/CoreUObject/Public/UObject/UnrealType.h",
+        "rva": 98941248
+      },
+      {
+        "path": "Engine/Source/Runtime/Slate/Private/Framework/MultiBox/SWidgetBlock.cpp",
+        "rva": 99446720
+      },
+      {
+        "path": "Engine/Source/Runtime/AudioExtensions/Public/ISoundfieldEndpoint.h",
+        "rva": 101488832
+      },
+      {
+        "path": "Engine/Source/Runtime/D3D12RHI/Private/D3D12Resources.cpp",
+        "rva": 103375376
+      },
+      {
+        "path": "Engine/Source/Runtime/OpenGLDrv/Private/Windows/OpenGLWindows.cpp",
+        "rva": 103495968
+      },
+      {
+        "path": "Engine/Source/Runtime/UMG/Private/Components/DynamicEntryBoxBase.cpp",
+        "rva": 104906352
+      },
+      {
+        "path": "Engine/Source/Runtime/Engine/Public/Audio.h",
+        "rva": 105117136
+      },
+      {
+        "path": "Engine/Source/Runtime/CoreUObject/Public/UObject/Class.h",
+        "rva": 107720896
+      },
+      {
+        "path": "Engine/Source/Runtime/SandboxFile/Private/IPlatformFileSandboxWrapper.cpp",
+        "rva": 109776752
+      },
+      {
+        "path": "Engine/Source/Runtime/Interchange/Core/Public/InterchangeTranslatorBase.h",
+        "rva": 113680080
+      },
+      {
+        "path": "Engine/Plugins/WorldMetrics/Source/WorldMetricsCore/Public/WorldMetricsExtension.h",
+        "rva": 116363184
+      }
+    ],
+    "scanned": true,
+    "sections": {
+      ".rdata": 530
+    }
+  },
+  "statistics": {
+    "by_tier": {
+      "code-referenced": {
+        "candidates": 37024,
+        "candidates_with_at_least_2_slots": 16896,
+        "slot_count_histogram": {
+          "1": 20128,
+          "10": 426,
+          "11": 58,
+          "12": 61,
+          "13": 49,
+          "14": 30,
+          "15": 152,
+          "16": 25,
+          "17": 106,
+          "18": 33,
+          "19": 12,
+          "2": 7443,
+          "20": 45,
+          "21": 3251,
+          "22": 13,
+          "23": 14,
+          "24": 17,
+          "25": 5,
+          "26": 15,
+          "27": 21,
+          "28": 73,
+          "29": 6,
+          "3": 2045,
+          "30": 1,
+          "31": 16,
+          "32": 3,
+          "33": 1,
+          "34": 2,
+          "35": 2,
+          "36": 6,
+          "37": 6,
+          "38": 7,
+          "39": 6,
+          "4": 583,
+          "40": 3,
+          "41": 7,
+          "42": 5,
+          "43": 2,
+          "45": 2,
+          "48": 1,
+          "49": 2,
+          "5": 104,
+          "50": 2,
+          "51": 1,
+          "52": 6,
+          "53": 1,
+          "54": 2,
+          "55": 3,
+          "56": 2,
+          "57": 2,
+          "58": 1,
+          "6": 195,
+          "62": 6,
+          "64": 2,
+          "7": 79,
+          "8": 214,
+          "9": 554,
+          "gt_64": 1167
+        },
+        "slot_count_max": 498,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 1,
+          "90": 21,
+          "99": 108
+        },
+        "slot_total": 277952
+      },
+      "code-stored": {
+        "candidates": 13385,
+        "candidates_with_at_least_2_slots": 12657,
+        "slot_count_histogram": {
+          "1": 728,
+          "10": 815,
+          "11": 133,
+          "12": 68,
+          "13": 1269,
+          "14": 74,
+          "15": 330,
+          "16": 126,
+          "17": 292,
+          "18": 75,
+          "19": 9,
+          "2": 1961,
+          "20": 31,
+          "21": 16,
+          "22": 20,
+          "23": 23,
+          "24": 29,
+          "25": 15,
+          "26": 16,
+          "27": 24,
+          "28": 278,
+          "29": 13,
+          "3": 1387,
+          "30": 23,
+          "31": 15,
+          "32": 5,
+          "33": 11,
+          "34": 2,
+          "35": 1,
+          "36": 8,
+          "37": 7,
+          "38": 4,
+          "39": 2,
+          "4": 916,
+          "40": 2,
+          "41": 4,
+          "42": 16,
+          "43": 17,
+          "45": 3,
+          "46": 3,
+          "48": 3,
+          "49": 6,
+          "5": 503,
+          "50": 7,
+          "51": 31,
+          "52": 3,
+          "53": 5,
+          "54": 3,
+          "55": 2,
+          "56": 6,
+          "57": 3,
+          "58": 8,
+          "59": 4,
+          "6": 548,
+          "61": 1,
+          "62": 18,
+          "63": 1,
+          "64": 1,
+          "7": 289,
+          "8": 576,
+          "9": 487,
+          "gt_64": 2109
+        },
+        "slot_count_max": 395,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 8,
+          "90": 91,
+          "99": 227
+        },
+        "slot_total": 328192
+      },
+      "unreferenced": {
+        "candidates": 67848,
+        "candidates_with_at_least_2_slots": 9069,
+        "slot_count_histogram": {
+          "1": 58779,
+          "10": 19,
+          "11": 14,
+          "12": 18,
+          "13": 2,
+          "14": 3,
+          "16": 5,
+          "17": 2,
+          "18": 3,
+          "19": 1,
+          "2": 7548,
+          "20": 1,
+          "21": 2,
+          "22": 26,
+          "27": 1,
+          "3": 1105,
+          "38": 1,
+          "4": 95,
+          "40": 1,
+          "5": 77,
+          "6": 41,
+          "7": 21,
+          "8": 60,
+          "9": 16,
+          "gt_64": 7
+        },
+        "slot_count_max": 24543,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 1,
+          "90": 2,
+          "99": 3
+        },
+        "slot_total": 105899
+      }
+    },
+    "clusters": {
+      "all_tiers": {
+        "candidates": 118257,
+        "candidates_in_a_cluster_of_2_or_more": 21258,
+        "cluster_size_histogram": {
+          "1": 96999,
+          "10": 42,
+          "11": 29,
+          "12": 42,
+          "13": 37,
+          "14": 27,
+          "15": 24,
+          "16": 32,
+          "2": 1940,
+          "3": 530,
+          "4": 307,
+          "5": 176,
+          "6": 157,
+          "7": 106,
+          "8": 88,
+          "9": 52,
+          "gt_16": 228
+        },
+        "clusters": 100816,
+        "definition": "a cluster is a maximal chain of candidates where each one's last slot is immediately followed by the next one's first slot, with no padding between them",
+        "largest_cluster": 315
+      },
+      "code-stored": {
+        "candidates": 13385,
+        "candidates_in_a_cluster_of_2_or_more": 9491,
+        "cluster_size_histogram": {
+          "1": 3894,
+          "10": 32,
+          "11": 18,
+          "12": 18,
+          "13": 11,
+          "14": 10,
+          "15": 13,
+          "16": 1,
+          "2": 952,
+          "3": 413,
+          "4": 270,
+          "5": 163,
+          "6": 107,
+          "7": 61,
+          "8": 53,
+          "9": 23,
+          "gt_16": 51
+        },
+        "clusters": 6090,
+        "definition": "a cluster is a maximal chain of candidates where each one's last slot is immediately followed by the next one's first slot, with no padding between them",
+        "largest_cluster": 96
+      }
+    },
+    "rtti_split": {
+      "by_tier": {
+        "code-referenced": {
+          "with_an_rtti_locator": {
+            "candidates": 41,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 37,
+            "contiguous_run_size_histogram": {
+              "1": 41
+            },
+            "contiguous_runs": 41,
+            "distinct_slot_targets": 149,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.4822,
+            "share_of_targets_that_are_shared": 0.1611,
+            "slot_count_histogram": {
+              "1": 4,
+              "11": 2,
+              "12": 1,
+              "15": 1,
+              "17": 1,
+              "19": 1,
+              "2": 10,
+              "21": 2,
+              "22": 1,
+              "3": 6,
+              "4": 4,
+              "5": 5,
+              "6": 1,
+              "7": 1,
+              "8": 1
+            },
+            "slot_count_max": 22,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 3,
+              "90": 17,
+              "99": 22
+            },
+            "slot_targets_at_a_function_start": 122,
+            "slot_targets_shared_within_this_subpopulation": 24,
+            "slot_total": 253
+          },
+          "without_an_rtti_locator": {
+            "candidates": 36983,
+            "candidates_in_a_contiguous_run_of_2_or_more": 5875,
+            "candidates_with_at_least_2_slots": 16859,
+            "contiguous_run_size_histogram": {
+              "1": 31108,
+              "10": 8,
+              "11": 4,
+              "12": 4,
+              "13": 1,
+              "14": 4,
+              "15": 3,
+              "16": 6,
+              "2": 914,
+              "3": 257,
+              "4": 106,
+              "5": 45,
+              "6": 22,
+              "7": 10,
+              "8": 10,
+              "9": 8,
+              "gt_16": 46
+            },
+            "contiguous_runs": 32556,
+            "distinct_slot_targets": 43396,
+            "largest_contiguous_run": 315,
+            "share_of_slots_at_a_function_start": 0.4246,
+            "share_of_targets_that_are_shared": 0.2266,
+            "slot_count_histogram": {
+              "1": 20124,
+              "10": 426,
+              "11": 56,
+              "12": 60,
+              "13": 49,
+              "14": 30,
+              "15": 151,
+              "16": 25,
+              "17": 105,
+              "18": 33,
+              "19": 11,
+              "2": 7433,
+              "20": 45,
+              "21": 3249,
+              "22": 12,
+              "23": 14,
+              "24": 17,
+              "25": 5,
+              "26": 15,
+              "27": 21,
+              "28": 73,
+              "29": 6,
+              "3": 2039,
+              "30": 1,
+              "31": 16,
+              "32": 3,
+              "33": 1,
+              "34": 2,
+              "35": 2,
+              "36": 6,
+              "37": 6,
+              "38": 7,
+              "39": 6,
+              "4": 579,
+              "40": 3,
+              "41": 7,
+              "42": 5,
+              "43": 2,
+              "45": 2,
+              "48": 1,
+              "49": 2,
+              "5": 99,
+              "50": 2,
+              "51": 1,
+              "52": 6,
+              "53": 1,
+              "54": 2,
+              "55": 3,
+              "56": 2,
+              "57": 2,
+              "58": 1,
+              "6": 194,
+              "62": 6,
+              "64": 2,
+              "7": 78,
+              "8": 213,
+              "9": 554,
+              "gt_64": 1167
+            },
+            "slot_count_max": 498,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 1,
+              "90": 21,
+              "99": 108
+            },
+            "slot_targets_at_a_function_start": 117912,
+            "slot_targets_shared_within_this_subpopulation": 9832,
+            "slot_total": 277699
+          }
+        },
+        "code-stored": {
+          "with_an_rtti_locator": {
+            "candidates": 545,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 503,
+            "contiguous_run_size_histogram": {
+              "1": 545
+            },
+            "contiguous_runs": 545,
+            "distinct_slot_targets": 2072,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.5426,
+            "share_of_targets_that_are_shared": 0.1728,
+            "slot_count_histogram": {
+              "1": 42,
+              "10": 18,
+              "11": 25,
+              "12": 7,
+              "13": 4,
+              "14": 11,
+              "15": 14,
+              "16": 1,
+              "17": 1,
+              "18": 1,
+              "19": 1,
+              "2": 164,
+              "20": 2,
+              "21": 3,
+              "22": 2,
+              "23": 5,
+              "24": 1,
+              "25": 1,
+              "26": 3,
+              "28": 3,
+              "3": 46,
+              "33": 1,
+              "36": 2,
+              "38": 1,
+              "39": 1,
+              "4": 27,
+              "40": 1,
+              "49": 5,
+              "5": 24,
+              "50": 4,
+              "53": 4,
+              "58": 2,
+              "6": 51,
+              "61": 1,
+              "7": 28,
+              "8": 30,
+              "9": 7,
+              "gt_64": 1
+            },
+            "slot_count_max": 74,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 4,
+              "90": 15,
+              "99": 53
+            },
+            "slot_targets_at_a_function_start": 2262,
+            "slot_targets_shared_within_this_subpopulation": 358,
+            "slot_total": 4169
+          },
+          "without_an_rtti_locator": {
+            "candidates": 12840,
+            "candidates_in_a_contiguous_run_of_2_or_more": 9491,
+            "candidates_with_at_least_2_slots": 12154,
+            "contiguous_run_size_histogram": {
+              "1": 3349,
+              "10": 32,
+              "11": 18,
+              "12": 18,
+              "13": 11,
+              "14": 10,
+              "15": 13,
+              "16": 1,
+              "2": 952,
+              "3": 413,
+              "4": 270,
+              "5": 163,
+              "6": 107,
+              "7": 61,
+              "8": 53,
+              "9": 23,
+              "gt_16": 51
+            },
+            "contiguous_runs": 5545,
+            "distinct_slot_targets": 42930,
+            "largest_contiguous_run": 96,
+            "share_of_slots_at_a_function_start": 0.4197,
+            "share_of_targets_that_are_shared": 0.17,
+            "slot_count_histogram": {
+              "1": 686,
+              "10": 797,
+              "11": 108,
+              "12": 61,
+              "13": 1265,
+              "14": 63,
+              "15": 316,
+              "16": 125,
+              "17": 291,
+              "18": 74,
+              "19": 8,
+              "2": 1797,
+              "20": 29,
+              "21": 13,
+              "22": 18,
+              "23": 18,
+              "24": 28,
+              "25": 14,
+              "26": 13,
+              "27": 24,
+              "28": 275,
+              "29": 13,
+              "3": 1341,
+              "30": 23,
+              "31": 15,
+              "32": 5,
+              "33": 10,
+              "34": 2,
+              "35": 1,
+              "36": 6,
+              "37": 7,
+              "38": 3,
+              "39": 1,
+              "4": 889,
+              "40": 1,
+              "41": 4,
+              "42": 16,
+              "43": 17,
+              "45": 3,
+              "46": 3,
+              "48": 3,
+              "49": 1,
+              "5": 479,
+              "50": 3,
+              "51": 31,
+              "52": 3,
+              "53": 1,
+              "54": 3,
+              "55": 2,
+              "56": 6,
+              "57": 3,
+              "58": 6,
+              "59": 4,
+              "6": 497,
+              "62": 18,
+              "63": 1,
+              "64": 1,
+              "7": 261,
+              "8": 546,
+              "9": 480,
+              "gt_64": 2108
+            },
+            "slot_count_max": 395,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 8,
+              "90": 91,
+              "99": 227
+            },
+            "slot_targets_at_a_function_start": 135978,
+            "slot_targets_shared_within_this_subpopulation": 7297,
+            "slot_total": 324023
+          }
+        },
+        "unreferenced": {
+          "with_an_rtti_locator": {
+            "candidates": 1,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 1,
+            "contiguous_run_size_histogram": {
+              "1": 1
+            },
+            "contiguous_runs": 1,
+            "distinct_slot_targets": 6,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.5,
+            "share_of_targets_that_are_shared": 0.0,
+            "slot_count_histogram": {
+              "6": 1
+            },
+            "slot_count_max": 6,
+            "slot_count_min": 6,
+            "slot_count_percentiles": {
+              "50": 6,
+              "90": 6,
+              "99": 6
+            },
+            "slot_targets_at_a_function_start": 3,
+            "slot_targets_shared_within_this_subpopulation": 0,
+            "slot_total": 6
+          },
+          "without_an_rtti_locator": {
+            "candidates": 67847,
+            "candidates_in_a_contiguous_run_of_2_or_more": 0,
+            "candidates_with_at_least_2_slots": 9068,
+            "contiguous_run_size_histogram": {
+              "1": 67847
+            },
+            "contiguous_runs": 67847,
+            "distinct_slot_targets": 65293,
+            "largest_contiguous_run": 1,
+            "share_of_slots_at_a_function_start": 0.7515,
+            "share_of_targets_that_are_shared": 0.0894,
+            "slot_count_histogram": {
+              "1": 58779,
+              "10": 19,
+              "11": 14,
+              "12": 18,
+              "13": 2,
+              "14": 3,
+              "16": 5,
+              "17": 2,
+              "18": 3,
+              "19": 1,
+              "2": 7548,
+              "20": 1,
+              "21": 2,
+              "22": 26,
+              "27": 1,
+              "3": 1105,
+              "38": 1,
+              "4": 95,
+              "40": 1,
+              "5": 77,
+              "6": 40,
+              "7": 21,
+              "8": 60,
+              "9": 16,
+              "gt_64": 7
+            },
+            "slot_count_max": 24543,
+            "slot_count_min": 1,
+            "slot_count_percentiles": {
+              "50": 1,
+              "90": 2,
+              "99": 3
+            },
+            "slot_targets_at_a_function_start": 79581,
+            "slot_targets_shared_within_this_subpopulation": 5840,
+            "slot_total": 105893
+          }
+        }
+      },
+      "contiguity_is_confounded_across_this_split": "READ THE CONTIGUITY FIGURES WITH THIS IN MIND. A candidate spans its slots only, and an RTTI-bearing vtable always has its locator pointer in the slot immediately before it. Two RTTI-bearing candidates are therefore separated by that pointer BY CONSTRUCTION and can never be adjacent under the definition used here, which forces the locator-bearing side to a largest run of 1 whatever the image looks like. The difference in contiguity between the two sides is thus an artefact of the definition and is NOT evidence that the two populations are laid out differently. Contiguity WITHIN the no-locator side remains meaningful; contiguity ACROSS the split does not, and no conclusion is drawn from it here",
+      "cross_link": {
+        "candidates_without_a_locator_sharing_a_slot_target_with_a_named_vtable": 15471,
+        "distinct_shared_targets": 113,
+        "share_of_the_no_locator_population": 0.1315,
+        "what_it_means": "a slot address that occurs both in an RTTI-named vtable and in an unnamed candidate. Most such hits will be a shared compiler-emitted thunk or a pure-virtual stub rather than a real inherited override, so the count is an upper bound on 'unnamed vtables related to a named class' and must not be read as that number"
+      },
+      "definition_of_the_split": "the slot immediately before the candidate is followed and accepted as an RTTI complete-object-locator only when the first DWORD of the record it points at is 1 and its sixth DWORD equals that record's own image-relative address; anything else counts as NO locator",
+      "what_the_comparison_can_and_cannot_show": "the locator-bearing side is the only subpopulation of this image whose members are independently known to be vtables, so it is used as the reference shape. Matching it is consistent with being vtables of the same toolchain and is not evidence of being one; not matching it is the informative outcome, and is reported rather than explained away",
+      "with_an_rtti_locator": {
+        "candidates": 587,
+        "candidates_in_a_contiguous_run_of_2_or_more": 0,
+        "candidates_with_at_least_2_slots": 541,
+        "contiguous_run_size_histogram": {
+          "1": 587
+        },
+        "contiguous_runs": 587,
+        "distinct_slot_targets": 2178,
+        "largest_contiguous_run": 1,
+        "share_of_slots_at_a_function_start": 0.5391,
+        "share_of_targets_that_are_shared": 0.1786,
+        "slot_count_histogram": {
+          "1": 46,
+          "10": 18,
+          "11": 27,
+          "12": 8,
+          "13": 4,
+          "14": 11,
+          "15": 15,
+          "16": 1,
+          "17": 2,
+          "18": 1,
+          "19": 2,
+          "2": 174,
+          "20": 2,
+          "21": 5,
+          "22": 3,
+          "23": 5,
+          "24": 1,
+          "25": 1,
+          "26": 3,
+          "28": 3,
+          "3": 52,
+          "33": 1,
+          "36": 2,
+          "38": 1,
+          "39": 1,
+          "4": 31,
+          "40": 1,
+          "49": 5,
+          "5": 29,
+          "50": 4,
+          "53": 4,
+          "58": 2,
+          "6": 53,
+          "61": 1,
+          "7": 29,
+          "8": 31,
+          "9": 7,
+          "gt_64": 1
+        },
+        "slot_count_max": 74,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 4,
+          "90": 15,
+          "99": 53
+        },
+        "slot_targets_at_a_function_start": 2387,
+        "slot_targets_shared_within_this_subpopulation": 389,
+        "slot_total": 4428
+      },
+      "without_an_rtti_locator": {
+        "candidates": 117670,
+        "candidates_in_a_contiguous_run_of_2_or_more": 21258,
+        "candidates_with_at_least_2_slots": 38081,
+        "contiguous_run_size_histogram": {
+          "1": 96412,
+          "10": 42,
+          "11": 29,
+          "12": 42,
+          "13": 37,
+          "14": 27,
+          "15": 24,
+          "16": 32,
+          "2": 1940,
+          "3": 530,
+          "4": 307,
+          "5": 176,
+          "6": 157,
+          "7": 106,
+          "8": 88,
+          "9": 52,
+          "gt_16": 228
+        },
+        "contiguous_runs": 100229,
+        "distinct_slot_targets": 141483,
+        "largest_contiguous_run": 315,
+        "share_of_slots_at_a_function_start": 0.4713,
+        "share_of_targets_that_are_shared": 0.1773,
+        "slot_count_histogram": {
+          "1": 79589,
+          "10": 1242,
+          "11": 178,
+          "12": 139,
+          "13": 1316,
+          "14": 96,
+          "15": 467,
+          "16": 155,
+          "17": 398,
+          "18": 110,
+          "19": 20,
+          "2": 16778,
+          "20": 75,
+          "21": 3264,
+          "22": 56,
+          "23": 32,
+          "24": 45,
+          "25": 19,
+          "26": 28,
+          "27": 46,
+          "28": 348,
+          "29": 19,
+          "3": 4485,
+          "30": 24,
+          "31": 31,
+          "32": 8,
+          "33": 11,
+          "34": 4,
+          "35": 3,
+          "36": 12,
+          "37": 13,
+          "38": 11,
+          "39": 7,
+          "4": 1563,
+          "40": 5,
+          "41": 11,
+          "42": 21,
+          "43": 19,
+          "45": 5,
+          "46": 3,
+          "48": 4,
+          "49": 3,
+          "5": 655,
+          "50": 5,
+          "51": 32,
+          "52": 9,
+          "53": 2,
+          "54": 5,
+          "55": 5,
+          "56": 8,
+          "57": 5,
+          "58": 7,
+          "59": 4,
+          "6": 731,
+          "62": 24,
+          "63": 1,
+          "64": 3,
+          "7": 360,
+          "8": 819,
+          "9": 1050,
+          "gt_64": 3282
+        },
+        "slot_count_max": 24543,
+        "slot_count_min": 1,
+        "slot_count_percentiles": {
+          "50": 1,
+          "90": 9,
+          "99": 101
+        },
+        "slot_targets_at_a_function_start": 333471,
+        "slot_targets_shared_within_this_subpopulation": 25081,
+        "slot_total": 707615
+      }
+    },
+    "shared_slot_targets": {
+      "distinct_slot_targets": 143548,
+      "most_shared_targets": [
+        {
+          "candidate_count": 10495,
+          "is_function_start": false,
+          "target_rva": 15927744
+        },
+        {
+          "candidate_count": 9843,
+          "is_function_start": false,
+          "target_rva": 15892896
+        },
+        {
+          "candidate_count": 6829,
+          "is_function_start": false,
+          "target_rva": 15893088
+        },
+        {
+          "candidate_count": 5723,
+          "is_function_start": false,
+          "target_rva": 15893120
+        },
+        {
+          "candidate_count": 3162,
+          "is_function_start": true,
+          "target_rva": 18001200
+        },
+        {
+          "candidate_count": 3156,
+          "is_function_start": false,
+          "target_rva": 18001104
+        },
+        {
+          "candidate_count": 3065,
+          "is_function_start": false,
+          "target_rva": 18001088
+        },
+        {
+          "candidate_count": 2996,
+          "is_function_start": true,
+          "target_rva": 18003664
+        }
+      ],
+      "share_of_targets_that_are_shared": 0.1772,
+      "targets_used_by_more_than_one_candidate": 25434
+    },
+    "slot_targets_at_function_starts": {
+      "at_a_runtime_function_start": 335858,
+      "caveat": "a leaf function with no unwind data need not appear in the runtime function table at all, so a slot target that is NOT a function start is weak evidence and is never used here to reject a candidate",
+      "share": 0.4717,
+      "slots": 712043
+    },
+    "source_path_relation": {
+      "candidate_rva_span": [
+        98356856,
+        127145376
+      ],
+      "candidates_within_4096_bytes_of_a_literal": 9426,
+      "candidates_within_65536_bytes_of_a_literal": 65168,
+      "distance_percentiles": {
+        "50": 50736,
+        "90": 9857448,
+        "99": 10458048
+      },
+      "literal_rva_span": [
+        98560224,
+        116363184
+      ],
+      "literals": 530,
+      "what_this_does_and_does_not_show": "a small distance means the candidate and the literal are in the same region of the section, which for MSVC output means a nearby linker contribution and therefore a nearby object file. It is NOT a claim that the candidate belongs to that file: string literals and vtables are placed by different grouping rules, and the same-function join reported alongside is the stronger test."
+    },
+    "source_path_same_function_join": {
+      "candidates_considered": 118257,
+      "candidates_joined_to_a_source_path": 160,
+      "examples": [
+        {
+          "slot_count": 4,
+          "source_paths": [
+            "Engine/Source/Runtime/CookOnTheFly/Private/CookOnTheFlyServerConnection.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 98566688
+        },
+        {
+          "slot_count": 20,
+          "source_paths": [
+            "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp"
+          ],
+          "tier": "code-referenced",
+          "vtable_rva": 98929624
+        },
+        {
+          "slot_count": 13,
+          "source_paths": [
+            "Engine/Source/Runtime/Slate/Private/Framework/Docking/SDockingArea.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 99428968
+        },
+        {
+          "slot_count": 2,
+          "source_paths": [
+            "Engine/Source/Runtime/Analytics/AnalyticsET/Private/IAnalyticsProviderET.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 99554008
+        },
+        {
+          "slot_count": 8,
+          "source_paths": [
+            "Engine/Source/Runtime/Core/Public/Containers/DynamicRHIResourceArray.h"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 102017088
+        },
+        {
+          "slot_count": 1,
+          "source_paths": [
+            "Engine/Source/Runtime/D3D12RHI/Private/D3D12Resources.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 103373168
+        },
+        {
+          "slot_count": 1,
+          "source_paths": [
+            "Engine/Source/Runtime/VulkanRHI/Private/VulkanUniformBuffer.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 103459328
+        },
+        {
+          "slot_count": 13,
+          "source_paths": [
+            "Engine/Source/Runtime/TimeManagement/Private/Widgets/SFrameRatePicker.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 103913752
+        },
+        {
+          "slot_count": 13,
+          "source_paths": [
+            "Engine/Source/Runtime/UMG/Private/Components/SpinBox.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 104973304
+        },
+        {
+          "slot_count": 6,
+          "source_paths": [
+            "Engine/Source/Runtime/StreamingPauseRendering/Private/StreamingPauseRendering.cpp"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 105346032
+        },
+        {
+          "slot_count": 13,
+          "source_paths": [
+            "Engine/Source/Runtime/Slate/Public/Widgets/Views/STableRow.h"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 114117088
+        },
+        {
+          "slot_count": 1,
+          "source_paths": [
+            "Engine/Plugins/Runtime/ResonanceAudio/Source/ResonanceAudio/Private/ResonanceAudioLibrary/resonance_audio/dsp/biquad_filter.cc",
+            "Engine/Plugins/Runtime/ResonanceAudio/Source/ResonanceAudio/Private/ResonanceAudioLibrary/resonance_audio/dsp/circular_buffer.cc"
+          ],
+          "tier": "code-stored",
+          "vtable_rva": 118832448
+        }
+      ],
+      "functions_referencing_a_source_path_literal": 1106,
+      "method": "a candidate and a source-path literal are joined when ONE runtime function (from the EXCEPTION directory) contains a RIP-relative lea of both. Reference sites per address are capped at 8, so a candidate referenced from more places than that can be missed."
+    },
+    "totals": {
+      "candidates": 118257,
+      "sections": {
+        ".data": 21481,
+        ".rdata": 96776
+      },
+      "slot_total": 712043
+    }
+  },
+  "summary": {
+    "candidates_by_tier": {
+      "code-referenced": 37024,
+      "code-stored": 13385,
+      "unreferenced": 67848
+    },
+    "candidates_code_referenced_or_stored": 50409,
+    "candidates_code_stored": 13385,
+    "candidates_code_stored_with_2_or_more_slots": 12657,
+    "candidates_total": 118257,
+    "candidates_with_an_rtti_complete_object_locator": 587,
+    "candidates_without_an_rtti_complete_object_locator": 117670,
+    "census_without_relocation_filter": {
+      "16": 6068,
+      "4": 8227,
+      "8": 7369
+    },
+    "code_stored_without_an_rtti_locator": 12840,
+    "cross_check_census_agrees": true,
+    "cross_check_recall": 1.0,
+    "cross_check_recall_code_stored": 0.9284,
+    "cross_check_slot_count_disagreements": 0,
+    "interior_cut_points": 17441,
+    "literal_reads_reproduced": true,
+    "primary_estimate": "the defensible vtable population of this image is the 13385 candidates in the code-stored tier: a relocated run of code addresses whose first address a constructor-shaped instruction pair writes into an object. Recall for that tier, measured against the RTTI-reachable vtables, is reported in cross_check; precision is not measurable on this file and is measured on a control binary instead (research/evidence/S-09/).",
+    "raw_runs": 100816,
+    "slots_addressing_executable_and_relocated": 712043,
+    "slots_addressing_executable_sections": 712064
+  },
+  "task": "S-09",
+  "tested_surface": {
+    "bytes_in_surface": 29180928,
+    "executable_sections": [
+      ".text"
+    ],
+    "not_tested": [
+      "a section with no raw bytes holds nothing on disk and cannot be searched",
+      "the virtual tail of a section (vsize beyond rsize) is zero-filled by the loader and is not on disk",
+      "code generated or unpacked at run time is out of scope: only the on-disk image is read",
+      "a vtable whose slots the loader patches by a mechanism other than a base relocation would be missed by the relocation filter"
+    ],
+    "sections_not_scanned": [
+      ".pdata",
+      ".reloc",
+      ".rsrc",
+      ".text"
+    ],
+    "sections_scanned": [
+      {
+        "characteristics": "0x40000040",
+        "file_offset": 98345472,
+        "name": ".rdata",
+        "raw_size": 27302912,
+        "rva": 98349056,
+        "virtual_size": 27302796
+      },
+      {
+        "characteristics": "0xc0000040",
+        "file_offset": 125648384,
+        "name": ".data",
+        "raw_size": 1492480,
+        "rva": 125652992,
+        "virtual_size": 5215788
+      },
+      {
+        "characteristics": "0xc0000040",
+        "file_offset": 132077568,
+        "name": ".msvcjmc",
+        "raw_size": 512,
+        "rva": 135811072,
+        "virtual_size": 8
+      },
+      {
+        "characteristics": "0x40000040",
+        "file_offset": 132078080,
+        "name": ".rodata",
+        "raw_size": 2048,
+        "rva": 135815168,
+        "virtual_size": 1936
+      },
+      {
+        "characteristics": "0x40000040",
+        "file_offset": 132080128,
+        "name": "_RDATA",
+        "raw_size": 382976,
+        "rva": 135819264,
+        "virtual_size": 382480
+      }
+    ],
+    "slot_alignment": 8,
+    "slots_in_surface": 3647616
+  },
+  "timings_seconds": {
+    "code_references": 3.952,
+    "digest": 0.292,
+    "literal_reads": 0.023,
+    "load_surface": 0.113,
+    "prior_slots": 1.403,
+    "probes": 2.144,
+    "relocations": 1.227,
+    "runs": 1.958,
+    "runtime_functions": 0.338,
+    "segmentation": 1.078,
+    "source_path_join": 6.063,
+    "source_path_literals": 0.407
+  },
+  "warnings": []
+}

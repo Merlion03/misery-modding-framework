@@ -1,0 +1,428 @@
+{
+  "$comment": "Census of compiled-in source-path literals in one PE image. The class-P layer is literal_reads[]; everything that says what a byte MEANS is class I and lives in source_path_literals[], queries[] and power[]. This document does NOT answer CK-01: the cook-time flag it asks about is a property of the content, not of the executable.",
+  "generator": "tools/static/tu_literals.py",
+  "generator_version": "1.0.0",
+  "generated_at": "2026-08-23T18:20:02Z",
+  "task": "CK-01",
+  "file": {
+    "install_relative": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+    "name": "MISERY-Win64-Shipping.exe",
+    "size": 134658048,
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "pe_format": "PE32+",
+    "machine": 34404,
+    "image_base": 5368709120,
+    "size_of_image": 138403840,
+    "section_count": 9
+  },
+  "scan_surface": {
+    "bytes_in_file": 134658048,
+    "slice_bytes": 33554432,
+    "slice_overlap": 4096,
+    "sections_in_image": [
+      ".text",
+      ".rdata",
+      ".data",
+      ".pdata",
+      ".msvcjmc",
+      ".rodata",
+      "_RDATA",
+      ".rsrc",
+      ".reloc"
+    ],
+    "note": "the surface is the whole file, not a chosen section: a null result over an unnamed surface is nothing at all",
+    "slices": 5,
+    "bytes_read": 134674432,
+    "marker_hits_ascii": 535,
+    "marker_hits_utf16": 100,
+    "runs_dropped_at_slice_edge": 0,
+    "runs_dropped_too_short": 0,
+    "utf16_parity_rejected": 0,
+    "duplicate_runs_suppressed": 1
+  },
+  "source_path_literals": {
+    "distinct_relative_paths": 549,
+    "total_occurrences": 550,
+    "sections_hit": {
+      ".rdata": 550
+    },
+    "prefixes": {
+      "D:/build/++UE5/Sync/": 469,
+      "D:/build/++UE5/Sync/Engine/Source/Runtime/": 1,
+      "D:/build/++UE5/Sync/Engine/Plugins/Online/": 2,
+      "F:/Unreal Engine/Engine/UE_5.4/": 1,
+      "F:/Unreal Engine/Projects/miseryGit/": 2,
+      "D:/build/++UE5/Sync/Engine/Plugins/FX/": 15,
+      "D:/build/++UE5/Sync/Engine/Plugins/Runtime/": 33,
+      "D:/build/++UE5/Sync/Engine/Plugins/Animation/": 2,
+      "D:/build/++UE5/Sync/Engine/Plugins/MovieScene/": 2,
+      "D:/build/++UE5/Sync/Engine/Plugins/Compression/": 2,
+      "D:/build/++UE5/Sync/Engine/Plugins/Enterprise/": 1,
+      "D:/build/++UE5/Sync/Engine/Plugins/Interchange/": 6,
+      "G?D:/build/++UE5/Sync/Engine/Plugins/Runtime/": 1,
+      "D:/build/++UE5/Sync/Engine/Plugins/": 2,
+      "D:/Primary/": 11
+    },
+    "drive_roots": {
+      "D:/build/": 535,
+      "F:/Unreal Engine/": 3,
+      "G?D:/build/": 1,
+      "D:/Primary/": 11
+    }
+  },
+  "queries": [
+    {
+      "query": "Runtime/CoreUObject/Private/Serialization/UnversionedPropertySerialization.cpp",
+      "found": false,
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+          "occurrence_count": 1,
+          "first_offset": 98927440,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp",
+          "occurrence_count": 1,
+          "first_offset": 99038272,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/LinkerSave.cpp",
+      "found": false,
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/PropertyTag.cpp",
+      "found": false,
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/SavePackage2.cpp",
+      "found": false,
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp",
+          "occurrence_count": 1,
+          "first_offset": 98910080,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/PackageFileSummary.cpp",
+      "found": false,
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/Serialization/NoSuchFileForCK01Decoy.cpp",
+      "found": false,
+      "match_count": 0,
+      "matches": []
+    }
+  ],
+  "power": {
+    "corpus_roots": [
+      "Runtime/Core/Private",
+      "Runtime/CoreUObject/Private"
+    ],
+    "cpp_total": 786,
+    "roots_missing": 0,
+    "platform_excluded": 80,
+    "test_excluded": 23,
+    "candidates": 683,
+    "candidates_with_literal": 61,
+    "p_present_overall": 0.0893,
+    "contingency_check_family": {
+      "check_present": 52,
+      "check_absent": 341,
+      "nocheck_present": 9,
+      "nocheck_absent": 281,
+      "unreadable": 0
+    },
+    "p_present_given_check": 0.1323,
+    "p_present_given_no_check": 0.031,
+    "contingency_log_family": {
+      "log_present": 60,
+      "log_absent": 169,
+      "nolog_present": 1,
+      "nolog_absent": 453
+    },
+    "p_present_given_log": 0.262,
+    "p_present_given_no_log": 0.0022,
+    "contingency_fatal_family": {
+      "fatal_present": 60,
+      "fatal_absent": 28,
+      "nofatal_present": 1,
+      "nofatal_absent": 594
+    },
+    "p_present_given_fatal": 0.6818,
+    "p_present_given_no_fatal": 0.0017,
+    "probe_corpus_partition": {
+      "buckets_sum_to_file_count": true,
+      "note": "every .cpp under the corpus roots lands in exactly one bucket; a mismatch here would move the measured power directly"
+    }
+  },
+  "probes": {
+    "decoy_query": {
+      "query": "Runtime/CoreUObject/Private/Serialization/NoSuchFileForCK01Decoy.cpp",
+      "found": false,
+      "passed": true,
+      "note": "a fabricated path must come back absent; if it did not, every absence in this document would be worthless"
+    },
+    "roundtrip_query": {
+      "passed": true,
+      "query": "Engine/Source/Runtime/Core/Private/Async/TaskGraph.cpp",
+      "note": "a path taken from the census is queried back through the same matcher and must return with the same first offset"
+    },
+    "prefix_census": {
+      "distinct_prefixes": 15,
+      "prefixes": {
+        "D:/build/++UE5/Sync/": 469,
+        "D:/build/++UE5/Sync/Engine/Source/Runtime/": 1,
+        "D:/build/++UE5/Sync/Engine/Plugins/Online/": 2,
+        "F:/Unreal Engine/Engine/UE_5.4/": 1,
+        "F:/Unreal Engine/Projects/miseryGit/": 2,
+        "D:/build/++UE5/Sync/Engine/Plugins/FX/": 15,
+        "D:/build/++UE5/Sync/Engine/Plugins/Runtime/": 33,
+        "D:/build/++UE5/Sync/Engine/Plugins/Animation/": 2,
+        "D:/build/++UE5/Sync/Engine/Plugins/MovieScene/": 2,
+        "D:/build/++UE5/Sync/Engine/Plugins/Compression/": 2,
+        "D:/build/++UE5/Sync/Engine/Plugins/Enterprise/": 1,
+        "D:/build/++UE5/Sync/Engine/Plugins/Interchange/": 6,
+        "G?D:/build/++UE5/Sync/Engine/Plugins/Runtime/": 1,
+        "D:/build/++UE5/Sync/Engine/Plugins/": 2,
+        "D:/Primary/": 11
+      },
+      "distinct_drive_roots": 4,
+      "drive_roots": {
+        "D:/build/": 535,
+        "F:/Unreal Engine/": 3,
+        "G?D:/build/": 1,
+        "D:/Primary/": 11
+      },
+      "passed": false,
+      "note": "one build root is the expected result; more than one means the code in this image was compiled on more than one machine, which changes what the census means. Not a failure of the scan -- a fact about the image. Read drive_roots, not prefixes: see drive_roots() for the two reasons the raw prefix is deeper or dirtier than the build root"
+    },
+    "run_accounting": {
+      "runs_found": 634,
+      "classified_as_source_paths": 550,
+      "unclassified_runs": 84,
+      "passed": true,
+      "note": "nothing is dropped silently: classified plus unclassified must equal the runs the scan found"
+    }
+  },
+  "literal_reads": [
+    {
+      "join_key": "Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "interpretation_lives_in": "the matching entry of source_path_literals[] / queries[] in the same document -- plan.md 10.3, the class-P / class-I split",
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+      "offset": 98927440,
+      "length": 64,
+      "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f",
+      "claim": "64 bytes at offset 98927440 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f",
+      "reproduced": true,
+      "evidence": {
+        "evidence_level": "OBSERVED",
+        "claim_class": "P",
+        "confidence": 0.99,
+        "oracle": [
+          "binary-analysis"
+        ],
+        "sources": [
+          {
+            "method": "CK-01",
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98927440+64",
+            "note": "oracle binary-analysis. Read by tools/static/tu_literals.py, read-only. Reproduction: the same range was read again through a freshly opened handle and gave the same bytes."
+          }
+        ],
+        "read_locus": {
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+          "address_kind": "file-offset",
+          "offset": 98927440,
+          "length": 64,
+          "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f"
+        },
+        "note": "64 bytes at offset 98927440 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f. This record gives the position and the extent, and nothing else."
+      }
+    },
+    {
+      "join_key": "Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp",
+      "interpretation_lives_in": "the matching entry of source_path_literals[] / queries[] in the same document -- plan.md 10.3, the class-P / class-I split",
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+      "offset": 99038272,
+      "length": 64,
+      "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f",
+      "claim": "64 bytes at offset 99038272 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f",
+      "reproduced": true,
+      "evidence": {
+        "evidence_level": "OBSERVED",
+        "claim_class": "P",
+        "confidence": 0.99,
+        "oracle": [
+          "binary-analysis"
+        ],
+        "sources": [
+          {
+            "method": "CK-01",
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@99038272+64",
+            "note": "oracle binary-analysis. Read by tools/static/tu_literals.py, read-only. Reproduction: the same range was read again through a freshly opened handle and gave the same bytes."
+          }
+        ],
+        "read_locus": {
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+          "address_kind": "file-offset",
+          "offset": 99038272,
+          "length": 64,
+          "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f"
+        },
+        "note": "64 bytes at offset 99038272 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f. This record gives the position and the extent, and nothing else."
+      }
+    }
+  ],
+  "unclassified_run_samples": [
+    {
+      "offset": 98723296,
+      "length": 168,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99579152,
+      "length": 220,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99583904,
+      "length": 218,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99973680,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99973888,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99974096,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99974304,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99974512,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99974720,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99974928,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99975136,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99975344,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 99975552,
+      "length": 204,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 101568160,
+      "length": 182,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 101568352,
+      "length": 182,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 101607280,
+      "length": 232,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 101607568,
+      "length": 232,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 101607808,
+      "length": 232,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 101608080,
+      "length": 232,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 101744656,
+      "length": 162,
+      "encoding": "utf-16le"
+    }
+  ],
+  "timings_seconds": {
+    "digest": 0.622,
+    "pe_headers": 0.0,
+    "scan": 0.389,
+    "classify": 0.002,
+    "power": 2.372,
+    "total": 3.387
+  },
+  "warnings": []
+}

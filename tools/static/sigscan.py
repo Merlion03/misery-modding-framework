@@ -85,6 +85,16 @@ A section restriction (``--sections``) narrows any of them, and the resulting
 byte ranges are published in ``surface.ranges`` so a null result is a statement
 about a named extent instead of about the file as a whole.
 
+**Uniqueness is a property of a pattern AND a surface, never of a pattern.**
+That is easy to nod at and easy to forget, so it is worth one measured example.
+Of the 1 530 signatures that ``sigmake`` accepted as unique in
+``MISERY-Win64-Shipping.exe``, scanning the same 1 530 against the larger
+``MISERY.exe`` of the same installation returned 655 unique, 113 **ambiguous**
+and 762 absent. 113 patterns that identify exactly one location in the image
+they were cut from identify two or more in another image -- one of them 81
+places. A caller that treated ``unique`` as an attribute of the signature,
+cached once and reused, would be wrong 113 times.
+
 Two output layers, never merged (plan.md 10.3)
 ----------------------------------------------
 As in ``tools/fingerprint/container_info.py`` and ``tools/static/rtti_scan.py``:
@@ -102,6 +112,23 @@ As in ``tools/fingerprint/container_info.py`` and ``tools/static/rtti_scan.py``:
     for, which leans on the signature's provenance and on the assumption that
     the code has not been duplicated; and they say what a hit or a miss in a
     foreign image means, which is an inference about two different builds.
+
+One consequence of the class-P rule is worth stating so it is not rediscovered
+as a bug. A class-P claim has to name its target, because this installation
+holds two files called ``MISERY.exe`` and a bare basename would locate nothing
+-- so the install-relative path goes into the claim text. But
+``tools/kb/validate.py`` derives class I for any claim containing a CamelCase
+identifier, on the ground that such a token names a layout, and it cannot tell
+a struct name from a directory name. A target under
+``Engine/Binaries/ThirdParty/...`` therefore trips the rule on the word
+``ThirdParty`` alone, and its ``literal_reads`` are refused as class P.
+
+That is the validator being conservative in the direction it is supposed to be
+conservative in: the cost is one artifact's primitive layer, and the alternative
+would be admitting an interpretation as a measurement. The remedy is
+``--literal-samples 0`` for such a target, which drops the class-P layer and
+keeps the class-I verdicts -- and the reason belongs in the evidence README, not
+in a silenced rule.
 
 Safety properties (plan.md 1.5, decisions D-01 and D-04)
 --------------------------------------------------------

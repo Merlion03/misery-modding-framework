@@ -1,0 +1,500 @@
+{
+  "$comment": "Census of compiled-in source-path literals in one PE image. The class-P layer is literal_reads[]; everything that says what a byte MEANS is class I and lives in source_path_literals[], queries[] and power[]. This document does NOT answer CK-01: the cook-time flag it asks about is a property of the content, not of the executable.",
+  "generator": "tools/static/tu_literals.py",
+  "generator_version": "1.0.0",
+  "generated_at": "2026-08-23T18:21:32Z",
+  "task": "CK-01",
+  "file": {
+    "install_relative": "MISERY/Binaries/Win64/MISERY.exe",
+    "name": "MISERY.exe",
+    "size": 282826240,
+    "sha256": "a155f897e156fa646b7b5f664f4816b57cfc19a3baedf1ed01e278f01fec91d7",
+    "pe_format": "PE32+",
+    "machine": 34404,
+    "image_base": 5368709120,
+    "size_of_image": 287883264,
+    "section_count": 10
+  },
+  "scan_surface": {
+    "bytes_in_file": 282826240,
+    "slice_bytes": 33554432,
+    "slice_overlap": 4096,
+    "sections_in_image": [
+      ".text",
+      ".uedbg",
+      ".rdata",
+      ".data",
+      ".pdata",
+      ".msvcjmc",
+      ".rodata",
+      "_RDATA",
+      ".rsrc",
+      ".reloc"
+    ],
+    "note": "the surface is the whole file, not a chosen section: a null result over an unnamed surface is nothing at all",
+    "slices": 9,
+    "bytes_read": 282859008,
+    "marker_hits_ascii": 6144,
+    "marker_hits_utf16": 341,
+    "runs_dropped_at_slice_edge": 0,
+    "runs_dropped_too_short": 0,
+    "utf16_parity_rejected": 0,
+    "duplicate_runs_suppressed": 5
+  },
+  "source_path_literals": {
+    "distinct_relative_paths": 6093,
+    "total_occurrences": 6156,
+    "sections_hit": {
+      ".rdata": 6156
+    },
+    "prefixes": {
+      "D:/build/++UE5/Sync/": 4568,
+      "?D:/build/++UE5/Sync/": 3,
+      "c1D:/build/++UE5/Sync/": 1,
+      "D:/build/++UE5/Sync/Engine/Source/Runtime/Experimental/": 4,
+      ")D:/build/++UE5/Sync/": 1,
+      "D:/build/++UE5/Sync/Engine/Source/Runtime/": 1,
+      "D:/build/++UE5/Sync/Engine/Plugins/Runtime/": 617,
+      "D:/build/++UE5/Sync/Engine/Plugins/Online/": 118,
+      "F:/Unreal Engine/Engine/UE_5.4/": 48,
+      "F:/Unreal Engine/Projects/miseryGit/misery/Plugins/": 95,
+      "F:/Unreal Engine/Engine/UE_5.4/Engine/Plugins/Online/": 4,
+      "F:/Unreal Engine/Projects/miseryGit/": 6,
+      "D:/build/++UE5/Sync/Engine/Plugins/FX/": 252,
+      "D:/build/++UE5/Sync/Engine/Plugins/": 32,
+      "D:/build/++UE5/Sync/Engine/Plugins/2D/": 11,
+      "D:/build/++UE5/Sync/Engine/Plugins/Animation/": 79,
+      "D:/build/++UE5/Sync/Engine/Plugins/Experimental/": 112,
+      "D:/build/++UE5/Sync/Engine/Plugins/MovieScene/": 11,
+      "D:/build/++UE5/Sync/Engine/Plugins/Cameras/": 10,
+      "D:/build/++UE5/Sync/Engine/Plugins/Compression/": 5,
+      "D:/build/++UE5/Sync/Engine/Plugins/Developer/": 6,
+      "D:/build/++UE5/Sync/Engine/Plugins/Enterprise/": 23,
+      "D:/build/++UE5/Sync/Engine/Plugins/Interchange/": 75,
+      "D:/build/++UE5/Sync/Engine/Plugins/Media/": 44,
+      "D:/build/++UE5/Sync/Engine/Plugins/Messaging/": 18,
+      "D:/Primary/": 12
+    },
+    "drive_roots": {
+      "D:/build/": 5986,
+      "?D:/build/": 3,
+      "c1D:/build/": 1,
+      ")D:/build/": 1,
+      "F:/Unreal Engine/": 153,
+      "D:/Primary/": 12
+    }
+  },
+  "queries": [
+    {
+      "query": "Runtime/CoreUObject/Private/Serialization/UnversionedPropertySerialization.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/Serialization/UnversionedPropertySerialization.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217245616,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217216672,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217442944,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/LinkerSave.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/LinkerSave.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217475024,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/PropertyTag.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/PropertyTag.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217630352,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/SavePackage2.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/SavePackage2.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217653776,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217169184,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/UObject/PackageFileSummary.cpp",
+      "found": true,
+      "match_count": 1,
+      "matches": [
+        {
+          "relative_path": "Engine/Source/Runtime/CoreUObject/Private/UObject/PackageFileSummary.cpp",
+          "occurrence_count": 1,
+          "first_offset": 217521648,
+          "encodings": [
+            "ascii"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Runtime/CoreUObject/Private/Serialization/NoSuchFileForCK01Decoy.cpp",
+      "found": false,
+      "match_count": 0,
+      "matches": []
+    }
+  ],
+  "power": {
+    "corpus_roots": [
+      "Runtime/Core/Private",
+      "Runtime/CoreUObject/Private"
+    ],
+    "cpp_total": 786,
+    "roots_missing": 0,
+    "platform_excluded": 80,
+    "test_excluded": 23,
+    "candidates": 683,
+    "candidates_with_literal": 358,
+    "p_present_overall": 0.5242,
+    "contingency_check_family": {
+      "check_present": 316,
+      "check_absent": 77,
+      "nocheck_present": 42,
+      "nocheck_absent": 248,
+      "unreadable": 0
+    },
+    "p_present_given_check": 0.8041,
+    "p_present_given_no_check": 0.1448,
+    "contingency_log_family": {
+      "log_present": 198,
+      "log_absent": 31,
+      "nolog_present": 160,
+      "nolog_absent": 294
+    },
+    "p_present_given_log": 0.8646,
+    "p_present_given_no_log": 0.3524,
+    "contingency_fatal_family": {
+      "fatal_present": 83,
+      "fatal_absent": 5,
+      "nofatal_present": 275,
+      "nofatal_absent": 320
+    },
+    "p_present_given_fatal": 0.9432,
+    "p_present_given_no_fatal": 0.4622,
+    "probe_corpus_partition": {
+      "buckets_sum_to_file_count": true,
+      "note": "every .cpp under the corpus roots lands in exactly one bucket; a mismatch here would move the measured power directly"
+    }
+  },
+  "probes": {
+    "decoy_query": {
+      "query": "Runtime/CoreUObject/Private/Serialization/NoSuchFileForCK01Decoy.cpp",
+      "found": false,
+      "passed": true,
+      "note": "a fabricated path must come back absent; if it did not, every absence in this document would be worthless"
+    },
+    "roundtrip_query": {
+      "passed": true,
+      "query": "Engine/Source/Runtime/Core/Public/Delegates/DelegateInstancesImpl.h",
+      "note": "a path taken from the census is queried back through the same matcher and must return with the same first offset"
+    },
+    "prefix_census": {
+      "distinct_prefixes": 26,
+      "prefixes": {
+        "D:/build/++UE5/Sync/": 4568,
+        "?D:/build/++UE5/Sync/": 3,
+        "c1D:/build/++UE5/Sync/": 1,
+        "D:/build/++UE5/Sync/Engine/Source/Runtime/Experimental/": 4,
+        ")D:/build/++UE5/Sync/": 1,
+        "D:/build/++UE5/Sync/Engine/Source/Runtime/": 1,
+        "D:/build/++UE5/Sync/Engine/Plugins/Runtime/": 617,
+        "D:/build/++UE5/Sync/Engine/Plugins/Online/": 118,
+        "F:/Unreal Engine/Engine/UE_5.4/": 48,
+        "F:/Unreal Engine/Projects/miseryGit/misery/Plugins/": 95,
+        "F:/Unreal Engine/Engine/UE_5.4/Engine/Plugins/Online/": 4,
+        "F:/Unreal Engine/Projects/miseryGit/": 6,
+        "D:/build/++UE5/Sync/Engine/Plugins/FX/": 252,
+        "D:/build/++UE5/Sync/Engine/Plugins/": 32,
+        "D:/build/++UE5/Sync/Engine/Plugins/2D/": 11,
+        "D:/build/++UE5/Sync/Engine/Plugins/Animation/": 79,
+        "D:/build/++UE5/Sync/Engine/Plugins/Experimental/": 112,
+        "D:/build/++UE5/Sync/Engine/Plugins/MovieScene/": 11,
+        "D:/build/++UE5/Sync/Engine/Plugins/Cameras/": 10,
+        "D:/build/++UE5/Sync/Engine/Plugins/Compression/": 5,
+        "D:/build/++UE5/Sync/Engine/Plugins/Developer/": 6,
+        "D:/build/++UE5/Sync/Engine/Plugins/Enterprise/": 23,
+        "D:/build/++UE5/Sync/Engine/Plugins/Interchange/": 75,
+        "D:/build/++UE5/Sync/Engine/Plugins/Media/": 44,
+        "D:/build/++UE5/Sync/Engine/Plugins/Messaging/": 18,
+        "D:/Primary/": 12
+      },
+      "distinct_drive_roots": 6,
+      "drive_roots": {
+        "D:/build/": 5986,
+        "?D:/build/": 3,
+        "c1D:/build/": 1,
+        ")D:/build/": 1,
+        "F:/Unreal Engine/": 153,
+        "D:/Primary/": 12
+      },
+      "passed": false,
+      "note": "one build root is the expected result; more than one means the code in this image was compiled on more than one machine, which changes what the census means. Not a failure of the scan -- a fact about the image. Read drive_roots, not prefixes: see drive_roots() for the two reasons the raw prefix is deeper or dirtier than the build root"
+    },
+    "run_accounting": {
+      "runs_found": 6480,
+      "classified_as_source_paths": 6156,
+      "unclassified_runs": 324,
+      "passed": true,
+      "note": "nothing is dropped silently: classified plus unclassified must equal the runs the scan found"
+    }
+  },
+  "literal_reads": [
+    {
+      "join_key": "Runtime/CoreUObject/Private/Serialization/UnversionedPropertySerialization.cpp",
+      "interpretation_lives_in": "the matching entry of source_path_literals[] / queries[] in the same document -- plan.md 10.3, the class-P / class-I split",
+      "target": "MISERY/Binaries/Win64/MISERY.exe",
+      "offset": 217245616,
+      "length": 64,
+      "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 53 65",
+      "claim": "64 bytes at offset 217245616 of MISERY/Binaries/Win64/MISERY.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 53 65",
+      "reproduced": true,
+      "evidence": {
+        "evidence_level": "OBSERVED",
+        "claim_class": "P",
+        "confidence": 0.99,
+        "oracle": [
+          "binary-analysis"
+        ],
+        "sources": [
+          {
+            "method": "CK-01",
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY.exe@217245616+64",
+            "note": "oracle binary-analysis. Read by tools/static/tu_literals.py, read-only. Reproduction: the same range was read again through a freshly opened handle and gave the same bytes."
+          }
+        ],
+        "read_locus": {
+          "target": "MISERY/Binaries/Win64/MISERY.exe",
+          "address_kind": "file-offset",
+          "offset": 217245616,
+          "length": 64,
+          "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 53 65"
+        },
+        "note": "64 bytes at offset 217245616 of MISERY/Binaries/Win64/MISERY.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 53 65. This record gives the position and the extent, and nothing else."
+      }
+    },
+    {
+      "join_key": "Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "interpretation_lives_in": "the matching entry of source_path_literals[] / queries[] in the same document -- plan.md 10.3, the class-P / class-I split",
+      "target": "MISERY/Binaries/Win64/MISERY.exe",
+      "offset": 217216672,
+      "length": 64,
+      "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f",
+      "claim": "64 bytes at offset 217216672 of MISERY/Binaries/Win64/MISERY.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f",
+      "reproduced": true,
+      "evidence": {
+        "evidence_level": "OBSERVED",
+        "claim_class": "P",
+        "confidence": 0.99,
+        "oracle": [
+          "binary-analysis"
+        ],
+        "sources": [
+          {
+            "method": "CK-01",
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY.exe@217216672+64",
+            "note": "oracle binary-analysis. Read by tools/static/tu_literals.py, read-only. Reproduction: the same range was read again through a freshly opened handle and gave the same bytes."
+          }
+        ],
+        "read_locus": {
+          "target": "MISERY/Binaries/Win64/MISERY.exe",
+          "address_kind": "file-offset",
+          "offset": 217216672,
+          "length": 64,
+          "bytes_hex": "44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f"
+        },
+        "note": "64 bytes at offset 217216672 of MISERY/Binaries/Win64/MISERY.exe are 44 3a 5c 62 75 69 6c 64 5c 2b 2b 55 45 35 5c 53 79 6e 63 5c 45 6e 67 69 6e 65 5c 53 6f 75 72 63 65 5c 52 75 6e 74 69 6d 65 5c 43 6f 72 65 55 4f 62 6a 65 63 74 5c 50 72 69 76 61 74 65 5c 55 4f. This record gives the position and the extent, and nothing else."
+      }
+    }
+  ],
+  "unclassified_run_samples": [
+    {
+      "offset": 215556064,
+      "length": 212,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 215915616,
+      "length": 168,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 215986080,
+      "length": 170,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 215986256,
+      "length": 170,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 215986432,
+      "length": 170,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 215987024,
+      "length": 170,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216102224,
+      "length": 150,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216107584,
+      "length": 154,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216108976,
+      "length": 154,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216120848,
+      "length": 166,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216121232,
+      "length": 166,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216416816,
+      "length": 168,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216416992,
+      "length": 168,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216417168,
+      "length": 168,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216417344,
+      "length": 166,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216417520,
+      "length": 166,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216417712,
+      "length": 166,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216417888,
+      "length": 166,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216418064,
+      "length": 166,
+      "encoding": "utf-16le"
+    },
+    {
+      "offset": 216418240,
+      "length": 166,
+      "encoding": "utf-16le"
+    }
+  ],
+  "timings_seconds": {
+    "digest": 0.318,
+    "pe_headers": 0.0,
+    "scan": 0.721,
+    "classify": 0.021,
+    "power": 0.636,
+    "total": 1.709
+  },
+  "warnings": []
+}

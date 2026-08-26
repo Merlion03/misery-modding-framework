@@ -1,0 +1,43 @@
+# Determinism proof for method RF-01, tools/reflection/global_ucas.py 1.0.0
+# Two runs of the SAME command into the SAME output directory, --no-timestamp,
+# --recorded-at pinned. Every artifact is hashed after each run.
+# Command (both runs, identical):
+#   python tools/reflection/global_ucas.py <install>/MISERY/Content/Paks/global.utoc
+#     --staged-plugins research/evidence/V-07/staged-plugins.txt --no-timestamp
+#     --out ... --names-out ... --objects-out ... --modules-out ... --jsonl-dir ...
+#     --jsonl-scope /Script/MISERY --module /Script/MISERY
+#     --build-key sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+#     --recorded-at 2026-08-23T00:00:00Z
+#
+# Regenerated 2026-08-23 after two source-string corrections in global_ucas.py (the
+# script_objects_order note and the ascii_default_scan/ascii_script_scan note); the prior
+# table's global-ucas.json / script-objects.tsv hashes are stale against the fixed tool and
+# are replaced here. global-names.txt, script-modules.tsv and the five JSONL files are
+# untouched by that fix and their hashes are unchanged from the prior table.
+#
+# One committed file is INTENTIONALLY absent from this determinism proof:
+# research/evidence/RF-01/global-ucas.json as committed to the repository was produced by
+# the "how to reproduce" command in this directory's README.md, which passes --recorded-at
+# but NOT --no-timestamp -- so its generated_at field is a live timestamp, not the pinned
+# 2026-08-23T00:00:00Z used here. Its sha256 differs from run1/run2 below by exactly that one
+# field; every other field is identical to what this table proves reproduces byte for byte.
+# Adversarial review 2026-08-23 flagged the earlier version of this table for not saying so.
+run	artifact	sha256
+run1	global-ucas.json	b1483572e3f59a0e0230e1ba55da574d76e03327dec4ee130d4cc8f64d6210d8
+run1	global-names.txt	bcfcb767932ef26dea0c3d26096b78f6c5b64e83e25a4c8b4fb22c3702a55bba
+run1	script-objects.tsv	020ac18303249d0814d8769951a77d2bc8f9b7165ff6ba255a635c4aa0738775
+run1	script-modules.tsv	2f7656dbb6b2985a25d81d38e82fd7b1a7a0ef84da16e48ef7876eca11d50de7
+run1	jsonl/classes.jsonl	c6fc3c06e2cd2d38ae11cd903e52162e94ef2c5f61695b186431a2207dad5522
+run1	jsonl/functions.jsonl	ce7052ebb9680d94528bbd32e85b70bc7bbdaa0c3acf92470f44f7f04a3c751f
+run1	jsonl/relations.jsonl	7709ff2f4ffc319223804f7b38aa6ff3545517a037b2abc50c0abc3c0e8fa2c9
+run1	jsonl/enums.jsonl	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+run1	jsonl/properties.jsonl	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+run2	global-ucas.json	b1483572e3f59a0e0230e1ba55da574d76e03327dec4ee130d4cc8f64d6210d8
+run2	global-names.txt	bcfcb767932ef26dea0c3d26096b78f6c5b64e83e25a4c8b4fb22c3702a55bba
+run2	script-objects.tsv	020ac18303249d0814d8769951a77d2bc8f9b7165ff6ba255a635c4aa0738775
+run2	script-modules.tsv	2f7656dbb6b2985a25d81d38e82fd7b1a7a0ef84da16e48ef7876eca11d50de7
+run2	jsonl/classes.jsonl	c6fc3c06e2cd2d38ae11cd903e52162e94ef2c5f61695b186431a2207dad5522
+run2	jsonl/functions.jsonl	ce7052ebb9680d94528bbd32e85b70bc7bbdaa0c3acf92470f44f7f04a3c751f
+run2	jsonl/relations.jsonl	7709ff2f4ffc319223804f7b38aa6ff3545517a037b2abc50c0abc3c0e8fa2c9
+run2	jsonl/enums.jsonl	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+run2	jsonl/properties.jsonl	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855

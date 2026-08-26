@@ -1,0 +1,183 @@
+{
+  "generated_at": "2026-08-23T18:37:02Z",
+  "generator": "tools/static/sigmake.py",
+  "generator_version": "1.0.0",
+  "mask_policy": {
+    "mask_mode": "reloc"
+  },
+  "signatures": [
+    {
+      "accepted": true,
+      "label": "FAutoConsoleObject::vtable_slot_0",
+      "length": 16,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 08 57 48 83 EC 20 48 8D 05 2F 93 EE",
+      "source_file_offset": 15890352,
+      "source_rva": 15892912
+    },
+    {
+      "accepted": true,
+      "label": "TCommonDelegateInstanceState<IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_0",
+      "length": 24,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "40 53 48 83 EC 20 48 8B D9 F6 C2 01 74 0A BA 18 00 00 00 E8 98 91 FD 02",
+      "source_file_offset": 15890480,
+      "source_rva": 15893040
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FDefaultModuleImpl>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_5",
+      "length": 12,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 83 EC 28 48 8B 01 FF 50 30 84 C0",
+      "source_file_offset": 15890976,
+      "source_rva": 15893536
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FDefaultModuleImpl>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_0",
+      "length": 24,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "40 53 48 83 EC 20 48 8B D9 F6 C2 01 74 0A BA 28 00 00 00 E8 58 2E FD 02",
+      "source_file_offset": 15915888,
+      "source_rva": 15918448
+    },
+    {
+      "accepted": true,
+      "label": "SharedPointerInternals::TReferenceControllerBase<1>::vtable_slot_1",
+      "length": 12,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "40 53 48 83 EC 20 48 8D 05 C3 25 EE",
+      "source_file_offset": 15917760,
+      "source_rva": 15920320
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FDefaultModuleImpl>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_12",
+      "length": 32,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "40 53 48 83 EC 20 48 8B 41 18 48 8D 54 24 30 48 8B D9 48 89 44 24 30 48 8D 4C 24 30 E8 0F 50 FF",
+      "source_file_offset": 15939920,
+      "source_rva": 15942480
+    },
+    {
+      "accepted": true,
+      "label": "SharedPointerInternals::TReferenceControllerWithDeleter<_priv_exr_context_t *,SharedPointerInternals::DefaultDeleter<_priv_exr_context_t *>,1>::vtable_slot_1",
+      "length": 12,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "40 53 48 83 EC 20 48 8D 05 93 3E EC",
+      "source_file_offset": 16042480,
+      "source_rva": 16045040
+    },
+    {
+      "accepted": true,
+      "label": "FDefaultModuleImpl::vtable_slot_0",
+      "length": 12,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "40 53 48 83 EC 20 48 8D 05 43 38 EC",
+      "source_file_offset": 16043744,
+      "source_rva": 16046304
+    },
+    {
+      "accepted": true,
+      "label": "TAutoConsoleVariable<bool>::vtable_slot_0",
+      "length": 16,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 08 57 48 83 EC 20 48 8D 05 7F 4C EB",
+      "source_file_offset": 16105056,
+      "source_rva": 16107616
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FDefaultModuleImpl>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_11",
+      "length": 32,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "40 53 48 83 EC 20 48 8B 41 18 48 8D 54 24 30 48 8B 59 20 48 8D 4C 24 30 48 89 44 24 30 E8 3E 09",
+      "source_file_offset": 17006624,
+      "source_rva": 17009184
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FDefaultModuleImpl>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_10",
+      "length": 40,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 20 48 8B E9 48 8B DA 48 8B CA FF 15 5D 27 AE 04 83 7B 30 00 48",
+      "source_file_offset": 19826736,
+      "source_rva": 19829296
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FDefaultModuleImpl>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_8",
+      "length": 64,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 08 57 48 83 EC 20 83 7A 08 00 48 8B DA 48 8B F9 74 0F 48 8B 0A 48 85 C9 74 07 48 8B 01 33 D2 FF 10 83 7B 08 03 74 19 33 D2 48 8B CB 44 8D 4A 10 44 8D 42 03 E8 53 FD C6 FF C7 43 08",
+      "source_file_offset": 19826912,
+      "source_rva": 19829472
+    },
+    {
+      "accepted": true,
+      "label": "FGlobalShaderType::vtable_slot_0",
+      "length": 20,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 08 57 48 83 EC 20 8B DA 48 8B F9 E8 8C 90 AA 00",
+      "source_file_offset": 33343440,
+      "source_rva": 33346000
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FExrReaderGpuModule>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_10",
+      "length": 40,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 20 48 8B DA 48 8B E9 48 89 54 24 30 48 8B CA FF 15 A8 A9 DB 00",
+      "source_file_offset": 83953120,
+      "source_rva": 83955680
+    },
+    {
+      "accepted": true,
+      "label": "TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegistrant<FExrReaderGpuModule>,IModuleInterface * __cdecl(void),FDefaultDelegateUserPolicy>::vtable_slot_8",
+      "length": 64,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 08 57 48 83 EC 20 83 7A 08 00 48 8B DA 48 8B F9 74 0F 48 8B 0A 48 85 C9 74 07 48 8B 01 33 D2 FF 10 83 7B 08 03 74 19 33 D2 48 8B CB 44 8D 4A 10 44 8D 42 03 E8 A3 7F F4 FB C7 43 08",
+      "source_file_offset": 83953296,
+      "source_rva": 83955856
+    },
+    {
+      "accepted": true,
+      "label": "FExrReaderGpuModule::vtable_slot_1",
+      "length": 16,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 08 57 48 81 EC 90 00 00 00 33 DB E8",
+      "source_file_offset": 83953424,
+      "source_rva": 83955984
+    }
+  ],
+  "source_image": {
+    "image_base": 5368709120,
+    "install_relative": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+    "machine": 34404,
+    "name": "MISERY-Win64-Shipping.exe",
+    "path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+    "pe_format": "PE32+",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "size": 134658048,
+    "size_of_image": 138403840,
+    "timestamp": 1918640348
+  },
+  "task": "S-06"
+}

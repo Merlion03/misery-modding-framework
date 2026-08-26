@@ -1,0 +1,83 @@
+sigmake 1.0.0 (S-06)
+image:    MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe
+          134 658 048 bytes, PE32+, sha256 0eef3715244b467c830022c4260a0e2c
+
+boundary oracle (.pdata, and what it is NOT):
+          411 385 RUNTIME_FUNCTION records, 411 385 distinct BeginAddress
+          169 032 carry UNW_FLAG_CHAININFO -> continuation chunks, NOT function starts
+          77 846 primaries own at least one chunk; 179 628 adjacent pairs End[i]==Begin[i+1]
+          197 872 distinct UnwindInfoAddress; one is shared by up to 46 543 records
+          ranges cover 81 685 629 of 98 343 936 executable bytes on disk (0.831) -- the rest is functions with no record at all
+
+mask policy: reloc
+          .reloc: 941 132 entries, 0 of them in an executable section
+          per section: .data 65 614, .rdata 875 518
+          NOT masked: RIP-relative displacements and rel32 targets (no instruction decoder in Phase 1)
+
+surface:  98 343 936 bytes over 1 range(s) -- exec
+
+accepted 16 of 26 requested (10 rejected)
+          boundary_unknown             10
+          length 12..64; masked fraction min 0.000 mean 0.000 max 0.000
+          masked-fraction histogram: 0.00:16, 0.00-0.05:0, 0.05-0.10:0, 0.10-0.20:0, 0.20-0.30:0, 0.30+:0
+          16 accepted signatures have ZERO masked bytes
+          also unique over every initialised section: 16; appearing more than once there: 0
+
+ok  rva         range   len  mask rel32 occ    label
+NO  0xf281a0        -     -     -     - -      FDefaultModuleImpl::vtable_slot_7
+      -> boundary_unknown
+yes 0xf281b0       98    16     0     0 1      FAutoConsoleObject::vtable_slot_0
+NO  0xf28220        -     -     -     - -      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+      -> boundary_unknown
+yes 0xf28230       33    24     0     1 1      TCommonDelegateInstanceState<IModuleInterface * __cdecl...
+NO  0xf28260        -     -     -     - -      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+      -> boundary_unknown
+NO  0xf28270        -     -     -     - -      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+      -> boundary_unknown
+NO  0xf28280        -     -     -     - -      FDefaultModuleImpl::vtable_slot_5
+      -> boundary_unknown
+yes 0xf28420       20    12     0     0 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+yes 0xf2e570       33    24     0     1 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+yes 0xf2ecc0       43    12     0     0 1      SharedPointerInternals::TReferenceControllerBase<1>::vt...
+NO  0xf309c0        -     -     -     - -      FDefaultModuleImpl::vtable_slot_1
+      -> boundary_unknown
+yes 0xf34350       47    32     0     0 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+NO  0xf34df0        -     -     -     - -      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+      -> boundary_unknown
+NO  0xf355e0        -     -     -     - -      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+      -> boundary_unknown
+yes 0xf4d3f0       43    12     0     0 1      SharedPointerInternals::TReferenceControllerWithDeleter...
+yes 0xf4d8e0       43    12     0     0 1      FDefaultModuleImpl::vtable_slot_0
+yes 0xf5c860       98    16     0     0 1      TAutoConsoleVariable<bool>::vtable_slot_0
+yes 0x1038a20      45    32     0     0 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+yes 0x12e9230     170    40     0     0 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+yes 0x12e92e0     126    64     0     1 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+NO  0x13fa480       -     -     -     - -      SharedPointerInternals::TReferenceControllerWithDeleter...
+      -> boundary_unknown
+yes 0x1fcd1d0      52    20     0     1 1      FGlobalShaderType::vtable_slot_0
+yes 0x5010fe0     176    40     0     0 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+yes 0x5011090     126    64     0     1 1      TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModul...
+yes 0x5011110     321    16     0     0 1      FExrReaderGpuModule::vtable_slot_1
+NO  0x5cb9215       -     -     -     - -      SharedPointerInternals::TReferenceControllerBase<1>::vt...
+      -> boundary_unknown
+
+refutation probes:
+  [not refuted] reloc-oracle-covers-code
+      0 of 941132 relocation entries are in an executable section
+      finding: the relocation oracle is exact and EMPTY over code (0 of 941132 entries fall in an executable section), so no code signature in this document is made build-stable by relocation masking; the build-varying bytes in code are the non-relocated displacements, which Phase 1 cannot locate
+  [not refuted] boundary-oracle-is-not-a-function-inventory
+      169 032 of 411 385 records are continuation chunks; 10 requested addresses were refused because the table could not place them
+  [not refuted] gate-refuses-a-non-signature
+      3 of 3 control patterns were rejected for the expected reason
+  [not refuted] one-byte-flip-control
+      0 of 16 flipped patterns still matched the source image
+  [not refuted] acceptance-population
+      16 of 26 requested addresses produced an accepted signature
+
+class-P literal reads: 6, reproduced
+
+written: D:\Dev\MiseryFramework\research\evidence\S-06\signatures-ue.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-06\signatures-ue.jsonl
+
+written: D:\Dev\MiseryFramework\research\evidence\S-06\library-ue.json

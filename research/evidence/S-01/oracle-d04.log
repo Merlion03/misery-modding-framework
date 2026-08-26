@@ -1,0 +1,359 @@
+D:\Games\Steam\steamapps\common\MISERY\MISERY\Binaries\Win64\MISERY.exe (tools/static/extract_strings.py 1.0.0)
+  PE32+, image base 0x140000000, 282826240 bytes on disk, SizeOfHeaders 1536
+  D-04: this file is the read-only ORACLE. Any conclusion drawn here must be re-verified on MISERY-Win64-Shipping.exe before it counts.
+
+Tested surface: 11 regions tiling [0, 282826240), min length 4 characters
+  headers    headers                [0, 1536)  1536 bytes  rva=yes
+  section    .text                  [1536, 215085568)  215084032 bytes  rva=yes
+  section    .uedbg                 [215085568, 215116288)  30720 bytes  rva=yes
+  section    .rdata                 [215116288, 266441216)  51324928 bytes  rva=yes
+  section    .data                  [266441216, 268123648)  1682432 bytes  rva=yes
+  section    .pdata                 [268123648, 279345152)  11221504 bytes  rva=yes
+  section    .msvcjmc               [279345152, 279345664)  512 bytes  rva=yes
+  section    .rodata                [279345664, 279347712)  2048 bytes  rva=yes
+  section    _RDATA                 [279347712, 279747072)  399360 bytes  rva=yes
+  section    .rsrc                  [279747072, 279776256)  29184 bytes  rva=yes
+  section    .reloc                 [279776256, 282826240)  3049984 bytes  rva=yes
+
+Records
+  total                          : 3561583
+  ascii                          : 3446534
+  utf-16le                       : 115049
+  in the ascii noise band (<10)   : 3268775
+  low information                 : 39968
+  NUL-terminated                  : 259152
+  clipped (length cap / region end): 0
+  WITHOUT an RVA                  : 0
+  in a section's raw tail         : 0
+  abutting a wide non-ASCII char  : 2346
+  utf-16 rejected, odd alignment  : 3023
+  ranges claimed by both encodings: 1886
+
+By region
+  3248529    .text
+  304483     .rdata
+  5160       .data
+  2516       _RDATA
+  564        .uedbg
+  303        .rsrc
+  15         .rodata
+  13         headers
+
+By category
+  3496750    unclassified
+  50619      unreal-type-name
+  6255       build-source-path
+  5696       unreal-console-variable
+  800        unreal-log-category
+  626        unreal-script-path
+  596        unreal-content-path
+  133        dll-name
+  61         unreal-script-path-absorbed-prefix
+  41         ini-or-config-path
+  6          source-file-name
+
+ASCII length histogram (observed / random control expectation / ratio)
+  4    2583206      2131494.9      1.212
+  5    398118       793528.4       0.502
+  6    126433       294909.6       0.429
+  7    69034        106911.9       0.646
+  8    49384        40306.9        1.225
+  9    42600        15559.7        2.738
+  10   23518        5074.2         4.635
+  11   18665        1921.8         9.712
+  12   22709        708.0          32.075
+  13   13856        303.4          45.669
+  14   5958         118.0          50.492
+  15   5478         50.6           108.261
+  16   4013         -              -
+  17   3724         -              -
+  18   3530         -              -
+  19   3556         -              -
+  20   3390         -              -
+  21   3343         -              -
+  22   3242         -              -
+  23   3109         -              -
+  24   59668        -              -
+  lengths noise-dominated (ratio < 2): [4, 5, 6, 7, 8]
+
+Q1  /Script/ package paths: 209 distinct (189 in both encodings, 0 ascii only, 20 utf-16 only)
+    occurrences: ascii 192, utf-16 495 (61 reached through an absorbed prefix)
+    declared as a UE module by the local engine tree: 195
+    NOT declared there (14): MISERY, Module, MovieSceneCore, MovieSceneCoreTypes, OnlineSubsystemSteamCore, OptimizationTools, Plugins, SIZZ_Menu_Wheel, SteamCorePro, SteamCoreShared, SteamCoreSockets, TestEnumBitfieldsPackage, UniversalVoiceChatPro, Unknown
+      MISERY                       corroborated by 1 other reading(s)
+      OptimizationTools            corroborated by 1 other reading(s)
+      SIZZ_Menu_Wheel              corroborated by 1 other reading(s)
+      SteamCorePro                 corroborated by 2 other reading(s)
+      UniversalVoiceChatPro        corroborated by 1 other reading(s)
+      ACLPlugin                          ascii 1    utf16 1   
+      AIModule                           ascii 1    utf16 91  
+      ActorLayerUtilities                ascii 1    utf16 1   
+      ActorSequence                      ascii 1    utf16 1   
+      AdvancedWidgets                    ascii 1    utf16 1   
+      AndroidFileServer                  ascii 1    utf16 1   
+      AndroidPermission                  ascii 1    utf16 1   
+      AndroidRuntimeSettings             ascii 0    utf16 1   
+      AnimGraph                          ascii 0    utf16 1   
+      AnimGraphRuntime                   ascii 1    utf16 13  
+      AnimationCore                      ascii 1    utf16 1   
+      AnimationSharing                   ascii 1    utf16 1   
+      AppleImageUtils                    ascii 1    utf16 1   
+      ArchVisCharacter                   ascii 1    utf16 1   
+      AssetRegistry                      ascii 1    utf16 1   
+      AssetTags                          ascii 0    utf16 1   
+      AudioAnalyzer                      ascii 1    utf16 1   
+      AudioCapture                       ascii 1    utf16 1   
+      AudioExtensions                    ascii 1    utf16 1   
+      AudioLinkCore                      ascii 1    utf16 1   
+      AudioLinkEngine                    ascii 1    utf16 1   
+      AudioMixer                         ascii 1    utf16 1   
+      AudioPlatformConfiguration         ascii 1    utf16 1   
+      AudioSynesthesia                   ascii 1    utf16 1   
+      AudioWidgets                       ascii 1    utf16 1   
+      AutomationController               ascii 1    utf16 2   
+      AutomationMessages                 ascii 1    utf16 1   
+      AutomationTest                     ascii 1    utf16 1   
+      AutomationUtils                    ascii 1    utf16 1   
+      AvfMediaFactory                    ascii 1    utf16 1   
+      BlueprintGraph                     ascii 0    utf16 4   
+      BuildPatchServices                 ascii 1    utf16 1   
+      CableComponent                     ascii 1    utf16 1   
+      Chaos                              ascii 1    utf16 1   
+      ChaosCaching                       ascii 1    utf16 1   
+      ChaosCloth                         ascii 1    utf16 1   
+      ChaosNiagara                       ascii 1    utf16 1   
+      ChaosSolverEngine                  ascii 1    utf16 1   
+      ChaosVDRuntime                     ascii 1    utf16 1   
+      CinematicCamera                    ascii 1    utf16 3   
+      ClothingSystemRuntimeCommon        ascii 1    utf16 1   
+      ClothingSystemRuntimeInterface     ascii 1    utf16 1   
+      ClothingSystemRuntimeNv            ascii 1    utf16 1   
+      Constraints                        ascii 1    utf16 1   
+      ControlRig                         ascii 1    utf16 2   
+      ControlRigSpline                   ascii 1    utf16 1   
+      Core                               ascii 0    utf16 1   
+      CoreOnline                         ascii 1    utf16 1   
+      CoreUObject                        ascii 2    utf16 4   
+      CsvMetrics                         ascii 1    utf16 1   
+      CustomMeshComponent                ascii 1    utf16 1   
+      DataflowCore                       ascii 1    utf16 1   
+      DataflowEngine                     ascii 1    utf16 1   
+      DataflowEnginePlugin               ascii 1    utf16 1   
+      DataflowNodes                      ascii 1    utf16 1   
+      DatasmithContent                   ascii 1    utf16 1   
+      DeveloperSettings                  ascii 1    utf16 1   
+      DrawPrimitiveDebugger              ascii 1    utf16 2   
+      Engine                             ascii 1    utf16 85  
+      EngineMessages                     ascii 1    utf16 1   
+      EngineSettings                     ascii 1    utf16 2   
+      EnhancedInput                      ascii 1    utf16 2   
+      EyeTracker                         ascii 1    utf16 1   
+      FacialAnimation                    ascii 0    utf16 1   
+      FieldNotification                  ascii 1    utf16 1   
+      FieldSystemEngine                  ascii 1    utf16 1   
+      Foliage                            ascii 1    utf16 8   
+      FractureEngine                     ascii 1    utf16 1   
+      FullBodyIK                         ascii 1    utf16 1   
+      FunctionalTesting                  ascii 1    utf16 1   
+      GLTFExporter                       ascii 1    utf16 1   
+      GameplayCameras                    ascii 1    utf16 1   
+      GameplayDebugger                   ascii 1    utf16 2   
+      GameplayTags                       ascii 1    utf16 2   
+      GameplayTasks                      ascii 1    utf16 1   
+      GeometryCache                      ascii 1    utf16 1   
+      GeometryCacheTracks                ascii 1    utf16 1   
+      GeometryCollectionEngine           ascii 1    utf16 1   
+      GeometryCollectionNodes            ascii 1    utf16 1   
+      GeometryCollectionTracks           ascii 1    utf16 1   
+      GeometryFramework                  ascii 0    utf16 1   
+      GooglePAD                          ascii 1    utf16 1   
+      HeadMountedDisplay                 ascii 1    utf16 1   
+      HttpNetworkReplayStreaming         ascii 1    utf16 1   
+      IKRig                              ascii 1    utf16 1   
+      IOSRuntimeSettings                 ascii 0    utf16 1   
+      ImageCore                          ascii 1    utf16 1   
+      ImageWriteQueue                    ascii 1    utf16 1   
+      ImgMedia                           ascii 1    utf16 1   
+      ImgMediaEngine                     ascii 1    utf16 1   
+      ImgMediaFactory                    ascii 1    utf16 1   
+      InputCore                          ascii 1    utf16 1   
+      InteractiveToolsFramework          ascii 1    utf16 1   
+      InterchangeCommon                  ascii 1    utf16 1   
+      InterchangeCommonParser            ascii 1    utf16 1   
+      InterchangeCore                    ascii 1    utf16 1   
+      InterchangeEngine                  ascii 1    utf16 1   
+      InterchangeExport                  ascii 1    utf16 1   
+      InterchangeFactoryNodes            ascii 1    utf16 1   
+      InterchangeImport                  ascii 1    utf16 1   
+      InterchangeMessages                ascii 1    utf16 1   
+      InterchangeNodes                   ascii 1    utf16 1   
+      InterchangePipelines               ascii 1    utf16 1   
+      IrisCore                           ascii 1    utf16 1   
+      JsonUtilities                      ascii 1    utf16 1   
+      Landscape                          ascii 1    utf16 22  
+      LevelSequence                      ascii 1    utf16 1   
+      LiveCoding                         ascii 1    utf16 1   
+      LocalFileNetworkReplayStreaming    ascii 1    utf16 1   
+      LocalizableMessage                 ascii 1    utf16 1   
+      LocalizableMessageBlueprint        ascii 1    utf16 1   
+      Localization                       ascii 1    utf16 3   
+      LocationServicesBPLibrary          ascii 1    utf16 1   
+      MISERY                             ascii 1    utf16 1   
+      MRMesh                             ascii 1    utf16 1   
+      MacTargetPlatform                  ascii 0    utf16 1   
+      MaterialShaderQualitySettings      ascii 1    utf16 1   
+      MediaAssets                        ascii 1    utf16 1   
+      MediaCompositing                   ascii 1    utf16 1   
+      MediaPlate                         ascii 1    utf16 1   
+      MediaUtils                         ascii 1    utf16 1   
+      MeshDescription                    ascii 1    utf16 1   
+      MeshModelingTools                  ascii 1    utf16 1   
+      MeshModelingToolsExp               ascii 1    utf16 1   
+      MetasoundEngine                    ascii 1    utf16 1   
+      MetasoundFrontend                  ascii 1    utf16 1   
+      MobilePatchingUtils                ascii 1    utf16 1   
+      ModelingComponents                 ascii 1    utf16 1   
+      ModelingOperators                  ascii 1    utf16 1   
+      Module                             ascii 0    utf16 1   
+      MoviePlayer                        ascii 1    utf16 2   
+      MovieScene                         ascii 1    utf16 8   
+      MovieSceneCapture                  ascii 1    utf16 1   
+      MovieSceneCore                     ascii 0    utf16 1   
+      MovieSceneCoreTypes                ascii 0    utf16 1   
+      MovieSceneTracks                   ascii 1    utf16 15  
+      NavigationSystem                   ascii 1    utf16 5   
+      NetCore                            ascii 1    utf16 1   
+      Niagara                            ascii 1    utf16 4   
+      NiagaraAnimNotifies                ascii 1    utf16 1   
+      NiagaraCore                        ascii 1    utf16 1   
+      NiagaraFluids                      ascii 0    utf16 1   
+      NiagaraShader                      ascii 1    utf16 1   
+      NiagaraSimCaching                  ascii 1    utf16 1   
+      OnlineSubsystem                    ascii 1    utf16 1   
+      OnlineSubsystemSteamCore           ascii 2    utf16 1   
+      OnlineSubsystemUtils               ascii 1    utf16 4   
+      OodleNetworkHandlerComponent       ascii 0    utf16 1   
+      OptimizationTools                  ascii 1    utf16 1   
+      Overlay                            ascii 1    utf16 1   
+      PBIK                               ascii 1    utf16 1   
+      PacketHandler                      ascii 1    utf16 1   
+      Paper2D                            ascii 1    utf16 3   
+      PhysicsCore                        ascii 1    utf16 1   
+      Plugins                            ascii 0    utf16 2   
+      ProceduralMeshComponent            ascii 1    utf16 1   
+      ProfilerMessages                   ascii 1    utf16 1   
+      PropertyPath                       ascii 1    utf16 1   
+      RenderDocPlugin                    ascii 1    utf16 2   
+      Renderer                           ascii 1    utf16 1   
+      ResonanceAudio                     ascii 1    utf16 1   
+      RigVM                              ascii 1    utf16 1   
+      SIZZ_Menu_Wheel                    ascii 1    utf16 1   
+      ScreenShotComparisonTools          ascii 1    utf16 1   
+      SequencerScripting                 ascii 1    utf16 1   
+      Serialization                      ascii 1    utf16 1   
+      SessionMessages                    ascii 1    utf16 1   
+      SignificanceManager                ascii 1    utf16 1   
+      SkeletalMeshDescription            ascii 1    utf16 1   
+      Slate                              ascii 1    utf16 2   
+      SlateCore                          ascii 1    utf16 6   
+      SlateRHIRenderer                   ascii 1    utf16 1   
+      SlateReflector                     ascii 1    utf16 1   
+      SoundFields                        ascii 1    utf16 1   
+      SourceControl                      ascii 1    utf16 1   
+      StaticMeshDescription              ascii 1    utf16 1   
+      SteamCorePro                       ascii 1    utf16 1   
+      SteamCoreShared                    ascii 1    utf16 1   
+      SteamCoreSockets                   ascii 2    utf16 1   
+      StructUtils                        ascii 1    utf16 1   
+      StructUtilsEngine                  ascii 1    utf16 1   
+      Synthesis                          ascii 1    utf16 1   
+      TakeMovieScene                     ascii 1    utf16 1   
+      TcpMessaging                       ascii 1    utf16 1   
+      TemplateSequence                   ascii 1    utf16 1   
+      TestEnumBitfieldsPackage           ascii 0    utf16 1   
+      TextureUtilitiesCommon             ascii 1    utf16 1   
+      TimeManagement                     ascii 1    utf16 1   
+      ToolMenus                          ascii 1    utf16 1   
+      ToolWidgets                        ascii 1    utf16 1   
+      TraceUtilities                     ascii 1    utf16 1   
+      TypedElementFramework              ascii 1    utf16 1   
+      TypedElementRuntime                ascii 1    utf16 1   
+      UMG                                ascii 1    utf16 2   
+      UMGEditor                          ascii 0    utf16 2   
+      UObjectPlugin                      ascii 1    utf16 1   
+      UdpMessaging                       ascii 1    utf16 1   
+      UniversalObjectLocator             ascii 1    utf16 1   
+      UniversalVoiceChatPro              ascii 1    utf16 1   
+      Unknown                            ascii 0    utf16 1   
+      UnrealEd                           ascii 0    utf16 12  
+      UnrealEdMessages                   ascii 1    utf16 1   
+      VariantManagerContent              ascii 1    utf16 1   
+      VectorVM                           ascii 1    utf16 1   
+      WaveTable                          ascii 1    utf16 1   
+      WindowsTargetPlatform              ascii 0    utf16 1   
+      WmfMediaFactory                    ascii 1    utf16 1   
+      WorldMetricsCore                   ascii 1    utf16 1   
+      WorldMetricsTest                   ascii 1    utf16 1   
+
+Q2  absolute source-path literals: 6255
+      6042     root D:/build/++UE5/Sync
+      149      root <no Engine/{Source,Plugins,Intermediate} component>
+      52       root F:/Unreal Engine/Engine/UE_5.4
+      12       root D:/Primary
+      4633     tree Engine/Source
+      1422     tree Engine/Plugins
+      149      tree <none>
+      51       tree Engine/Intermediate
+    separators: {"backslash": 6255}
+    distinct modules named: 264 (6 in both encodings)
+      declared by the local engine tree: 248
+      NOT declared there: AudioCaputureWasapi, ChaosVisualDebugger, Dispatcher, FactoryNodes, Import, Module, Nodes, OnlineSubsystemSteamCore, OptimizationTools, Pipelines, SIZZ_Menu_Wheel, Source, SteamCorePro, SteamCoreShared, SteamCoreSockets, UniversalVoiceChatPro
+    modules: ACLPlugin, AIModule, AVEncoder, AVIWriter, ActorSequence, AdvancedWidgets, Advertising, Analytics, AnalyticsET, AndroidPermission, AnimGraphRuntime, AnimationCore, AnimationSharing, AppFramework, AppleImageUtils, ApplicationCore, AssetRegistry, AudioAnalyzer, AudioCapture, AudioCaptureCore, AudioCaptureRtAudio, AudioCaputureWasapi, AudioExtensions, AudioLinkCore, AudioLinkEngine, AudioMixer, AudioMixerCore, AudioMixerPlatformAudioLink, AudioMixerXAudio2, AudioPlatformConfiguration, AudioSynesthesia, AudioSynesthesiaCore, AudioWidgets, AutomationController, AutomationTest, AutomationUtils, AutomationWorker, BackChannel, BuildPatchServices, CableComponent, Cbor, Chaos, ChaosCaching, ChaosCloth, ChaosCore, ChaosNiagara, ChaosSolverEngine, ChaosVisualDebugger, CharacterAI, CinematicCamera, ClothingSystemRuntimeCommon, ClothingSystemRuntimeInterface, ColorManagement, Constraints, ControlRig, ControlRigSpline, CookOnTheFly, Core, CoreOnline, CoreUObject, CsvMetrics, D3D11RHI, D3D12RHI, DataflowEnginePlugin, DataflowNodes, DatasmithContent, DesktopPlatform, DeveloperSettings, Dispatcher, DrawPrimitiveDebugger, DumpGPUServices, DynamicMesh, EOSShared, Engine, EngineSettings, EnhancedInput, EventLoop, ExampleDeviceProfileSelector, ExrReaderGpu, FactoryNodes, FieldNotification, FieldSystemEngine, Foliage, FractureEngine, FullBodyIK, FunctionalTesting, GLTFCore, GLTFExporter, GameplayCameras, GameplayDebugger, GameplayMediaEncoder, GameplayTags, GameplayTasks, GeometryAlgorithms, GeometryCache, GeometryCollectionEngine, GeometryCollectionNodes, GeometryCollectionTracks, GeometryCore, GeometryFramework, HTTP, HeadMountedDisplay, HttpNetworkReplayStreaming, ICMP, IESFile, IKRig, ImageCore, ImageWrapper, ImageWriteQueue, ImgMedia, Import, InputCore, InputDebugging, InstallBundleManager, InteractiveToolsFramework, IoStoreOnDemand, Json, JsonUtilities, Landscape, Launch, LevelSequence, LiveCoding, LocalFileNetworkReplayStreaming, LocalizableMessage, Localization, LocationServicesBPLibrary, MRMesh, MaterialShaderQualitySettings, MediaAssets, MediaCompositing, MediaPlate, MediaUtils, MeshConversion, MeshConversionEngineTypes, MeshDescription, MeshModelingTools, MeshModelingToolsExp, MeshUtilitiesCommon, MessageLog, Messaging, MessagingCommon, MetasoundEngine, MetasoundEngineTest, MetasoundFrontend, MetasoundGenerator, MetasoundGraphCore, MetasoundStandardNodes, MobilePatchingUtils, ModelingComponents, ModelingOperators, Module, MoviePlayer, MovieScene, MovieSceneCapture, MovieSceneTracks, NavigationSystem, Navmesh, NetworkFile, NetworkReplayStreaming, Networking, Niagara, NiagaraCore, NiagaraShader, NiagaraVertexFactories, Nodes, NonRealtimeAudioRenderer, NullDrv, NullNetworkReplayStreaming, OnlineServicesCommon, OnlineServicesCommonEngineUtils, OnlineServicesInterface, OnlineSubsystemSteamCore, OnlineSubsystemUtils, OpenExrWrapper, OpenGLDrv, OpenImageDenoise, OptimizationTools, Overlay, PBIK, PacketHandler, PakFile, Paper2D, PhysicsCore, Pipelines, PixWinPlugin, PlanarCut, PlatformCryptoOpenSSL, PlatformCryptoTypes, PreLoadScreen, ProceduralMeshComponent, ProfileVisualizer, ProfilerService, Projects, PropertyPath, RHI, RHICore, RSA, RawMesh, RealtimeProfiler, ReliabilityHandlerComponent, RenderCore, RenderDocPlugin, Renderer, ResonanceAudio, RigVM, SIZZ_Menu_Wheel, SSL, SandboxFile, ScreenShotComparisonTools, SequencerScripting, Serialization, SignalProcessing, SignificanceManager, SkeletalMeshDescription, Slate, SlateCore, SlateNullRenderer, SlateRHIRenderer, SlateReflector, Sockets, SoundFieldRendering, SoundFields, Source, SourceControl, StaticMeshDescription, SteamCorePro, SteamCoreShared, SteamCoreSockets, StorageServerClient, StreamingFile, StreamingPauseRendering, StructUtils, StructUtilsEngine, SynthBenchmark, Synthesis, TcpMessaging, TelemetryUtils, TemplateSequence, TextureUtilitiesCommon, TimeManagement, ToolMenus, ToolWidgets, TraceUtilities, TypedElementFramework, TypedElementRuntime, UMG, UdpMessaging, UniversalObjectLocator, UniversalVoiceChatPro, VariantManagerContent, VectorVM, VirtualFileCache, Voice, Voronoi, VulkanRHI, WaveTable, WebMMedia, WebMMoviePlayer, WindowsMoviePlayer, WindowsPlatformFeatures, WmfMedia, WorldMetricsCore, WorldMetricsTest, XmlParser
+    distinct FILE names: 6186 (13 in both encodings)
+    query Class.cpp                                    PRESENT (ascii 1, utf16 0, module CoreUObject)
+    query UnversionedPropertySerialization.cpp         PRESENT (ascii 1, utf16 0, module CoreUObject)
+    query UnversionedPropertySerialization.h           NOT FOUND on the tested surface (absence of a path literal, not of the code)
+    paths with no extractable module: {"D:/Primary/Engine/Source": 12, "D:/build/++UE5/Sync": 157, "F:/Unreal Engine/Projects/miseryGit": 10, "d:/w/depot/depot": 1, "v:/devel/projects/oodle2": 43}
+
+Q3  game-origin candidates
+    corroborated by a second oracle (5):
+      MISERY                       container-metadata: a MISERY.uproject entry in the V-07 pak directory index
+      OptimizationTools            container-metadata: a OptimizationTools.uplugin entry in the V-07 pak directory index
+      SIZZ_Menu_Wheel              container-metadata: a SIZZ_Menu_Wheel.uplugin entry in the V-07 pak directory index
+      SteamCorePro                 container-metadata: a SteamCorePro.uplugin entry in the V-07 pak directory index; filesystem: a directory named SteamCorePro in the installation's own Plugins tree
+      UniversalVoiceChatPro        container-metadata: a UniversalVoiceChatPro.uplugin entry in the V-07 pak directory index
+    heuristic only, one method, 0.65 (9): Module, MovieSceneCore, MovieSceneCoreTypes, OnlineSubsystemSteamCore, Plugins, SteamCoreShared, SteamCoreSockets, TestEnumBitfieldsPackage, Unknown
+    V-07 plugin names also seen as /Script/ modules: 59
+    V-07 plugin names never seen as a /Script/ module: 65
+    /Script/ modules that are not any plugin name: 149
+    non-engine plugin names seen as /Script/ modules: OptimizationTools, SIZZ_Menu_Wheel, SteamCorePro, UniversalVoiceChatPro
+
+Refutation probes
+  P1-low-length-noise-floor                  REFUTED THE CONCLUSION
+      At the minimum length this scan uses, is the ASCII population distinguishable from incidental byte runs?
+      note: it does NOT invalidate the index. It says that a count of records is not a count of strings at these lengths, which is why every record carries char_count and noise_band and why no consumer should filter by record count alone.
+  P2-utf16-is-not-an-integer-table           did not refute
+      Are the UTF-16LE runs strings, or arrays of small integers read as text?
+      observed: {"accepted": 115049, "low_information_accepted": 871, "low_information_share": 0.0076, "random_control_expectation_at_target_size": {}, "rejected_odd_alignment": 3023, "rejected_short_after_length_cap": 0, "runs_abutting_a_wide_non_ascii_character": 2346}
+  P3-region-cover-is-complete                did not refute
+      Do the scanned regions tile the whole file, with no byte uncovered and none covered twice?
+      observed: {"by_kind": {"headers": 1, "section": 10}, "bytes_covered": 282826240, "contiguous": true, "ends_at_eof": true, "file_size": 282826240, "regions": 11, "starts_at_zero": true}
+  P4-rva-round-trips-through-the-pe-parser   did not refute
+      Does every RVA this index reports translate back to the file offset it came from?
+      observed: {"absent_rva_but_mappable": [], "absent_rva_but_mappable_count": 0, "boundary_records_available": 16, "boundary_records_checked": 16, "method": "each reported rva fed to pe_info.PEHeaders.rva_to_offset and required to return the record's own file offset; each absent rva checked against the raw section table for an owner that would have made it addressable", "mismatch_count": 0, "mismatches": [], "records_checked": 3494, "records_with_absent_rva_checked": 0, "sample_cap": 4096, "spread_sample_records": 3479}
+  P5-cross-encoding-double-count             did not refute
+      How many byte ranges are claimed by both the ASCII and the UTF-16 pass, so that one region of the file is counted twice?
+      observed: {"ascii_records": 3446534, "overlap_over_utf16": 0.0164, "overlapping_pairs": 1886, "utf16_records": 115049}
+
+UE module index (D:/Program Files/UE_5.4/Engine)
+  1876 modules declared, 145097 files walked, 2.109 s
+
+Container index (research/evidence/V-07/staged-plugins.json)
+  124 plugin names, 4 of them outside Engine/
+
+Literal reads (class P): 8 ranges, all re-read through a second handle: reproduced
+Timings (s): {"file_digest": 0.221, "findings": 0.277, "literal_reads": 0.004, "noise_control": 1.494, "string_scan": 83.195, "total": 87.306, "ue_module_index": 2.109}
+
+written: D:\Dev\MiseryFramework\research\evidence\S-01\oracle-d04-strings.json
+written: D:\Dev\MiseryFramework\workspace\strings\oracle-d04-strings.jsonl (3561583 records, 1900679797 bytes)
+  C-13: this file carries the image's string table verbatim. It belongs in workspace/ (gitignored), not in git. Publish the summary, the counts and this file's sha256 instead.

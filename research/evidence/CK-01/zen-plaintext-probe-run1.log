@@ -1,0 +1,56 @@
+CK-01 zen-plaintext probe -- attacks the BLOCKED verdict of research/modkit/ck-01.md
+Read-only. Nothing decrypted, no key sought (D-02).
+
+CROSS-CHECK 1 -- array arithmetic against container_info.py
+  chunk ids            @ 144
+  offset and lengths   @ 234264
+  perfect-hash seeds   @ 429364
+  compression blocks   @ 468384
+  directory index      @ 1427352   expected 1427352   AGREE
+
+CROSS-CHECK 2 -- chunk type census against iostore_chunks.py
+  1  ExportBundleData      12933   expected  12933 
+  2  BulkData               5513   expected   5513 
+  5  ScriptObjects             0   expected      0 
+  6  ContainerHeader           1   expected      1 
+  8  ShaderCodeLibrary         2   expected      2 
+  9  ShaderCode             1061   expected   1061 
+  verdict: two independently written parsers agree
+
+PROBE -- first 8 ExportBundleData chunks, read where they physically live
+  chunk 0      len=2396      block=16853  method=0 phys=714059776    H=5.781 plausible=False
+      bHasVersioningInfo=3393978855 HeaderSize=356663779 Name.Index=3305126432
+      first 32 bytes: e7014ccae3414215203a00c5ca03e42f46732b5cc0aba9f996a2ed18fba5c978
+  chunk 4      len=319       block=9446   method=0 phys=419999312    H=5.906 plausible=False
+      bHasVersioningInfo=4254034782 HeaderSize=299931015 Name.Index=983722164
+      first 32 bytes: 5e6b8ffd8795e011b468a23a34f7b5a228c5245359840403a3998d9207587619
+  chunk 5      len=62445     block=29444  method=0 phys=1391097856   H=5.875 plausible=False
+      bHasVersioningInfo=754556041 HeaderSize=2974683811 Name.Index=551458631
+      first 32 bytes: 899cf92ca3124eb14797de201c1ea8986372518b7dadba4ed016fb1589c9ec1f
+  chunk 6      len=5999      block=43807  method=0 phys=2222835712   H=5.844 plausible=False
+      bHasVersioningInfo=570385012 HeaderSize=1601644522 Name.Index=3811124522
+      first 32 bytes: 7462ff21ea27775f2a2529e33d655aaa7ee4bca01f67eb2b4e6ba41a079def15
+  chunk 7      len=556       block=12442  method=0 phys=553033728    H=5.644 plausible=False
+      bHasVersioningInfo=3683898650 HeaderSize=3186900229 Name.Index=3681553935
+      first 32 bytes: 1ad593db053df4bd0f0e70db06e7c6414d12541498ee3e0cc8e2154ac15033e4
+  chunk 9      len=574       block=9807   method=0 phys=430471200    H=5.707 plausible=False
+      bHasVersioningInfo=1736772534 HeaderSize=309802363 Name.Index=121398458
+      first 32 bytes: b60b85677b357712ba643c073d9ede6f80931eeee5e89807d3726bb6b88b0c10
+  chunk 10     len=6326      block=35802  method=0 phys=1751658496   H=5.863 plausible=False
+      bHasVersioningInfo=3102779440 HeaderSize=1673830767 Name.Index=850066073
+      first 32 bytes: 30a8f0b86fa1c46399faaa32d47251f830963bf24cca7d189284565e9c29ad21
+  chunk 11     len=6429      block=31075  method=0 phys=1476841472   H=5.875 plausible=False
+      bHasVersioningInfo=2767161465 HeaderSize=2437716991 Name.Index=1502233647
+      first 32 bytes: 7988efa4ff9b4c912f448a595386675f85f770c51c6202a04e00a523e53237b2
+  plausible package headers found: 0 of 8
+
+CROSS-CHECK 3 -- positive control, global.ucas (container flags 0x00)
+  leading two uint32: 32797, 823985  (small and structured, not random)
+  first 32 bytes: 1d800000b1920c00000064c100000000edae2af87aba870ddf718262dd42129b
+
+ENTROPY over 1048576-byte samples (8.000 is the ceiling)
+  MISERY-Windows.ucas @0       bytes=1048576 H=7.9699 distinct=256
+  MISERY-Windows.ucas @2GiB    bytes=1048576 H=7.9954 distinct=256
+  global.ucas @0 (control)     bytes=1048576 H=6.3649 distinct=256
+
+OUTCOME: the probe tried to refute "encrypted" and did not.

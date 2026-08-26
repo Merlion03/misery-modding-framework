@@ -1,0 +1,1722 @@
+{
+  "by_kind": {
+    "install-literal": {
+      "absent": 2,
+      "prediction_failures": 0,
+      "present": 0,
+      "probes": 2
+    },
+    "literal": {
+      "absent": 13,
+      "prediction_failures": 3,
+      "present": 15,
+      "probes": 28
+    },
+    "ue_log": {
+      "absent": 12,
+      "prediction_failures": 9,
+      "present": 0,
+      "probes": 12
+    }
+  },
+  "engine_branch": "++UE5+Release-5.4",
+  "engine_changelist": 35576357,
+  "file_sha256": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "file_size": 134658048,
+  "findings": [
+    {
+      "by_kind": {
+        "install-literal": {
+          "absent": 2,
+          "prediction_failures": 0,
+          "present": 0,
+          "probes": 2
+        },
+        "literal": {
+          "absent": 13,
+          "prediction_failures": 3,
+          "present": 15,
+          "probes": 28
+        },
+        "ue_log": {
+          "absent": 12,
+          "prediction_failures": 9,
+          "present": 0,
+          "probes": 12
+        }
+      },
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.79,
+        "evidence_level": "INFERRED",
+        "note": "Class I: a string literal is evidence that a translation unit containing it was compiled in, not proof that the code around it is reachable, and its ABSENCE is evidence only when a control literal of the same kind, from the same file, is present. The literal_reads carry only offsets, lengths and bytes. What we would see if the preprocessor readings were wrong: a hit on one of the rows predicted absent while its controls are present.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "whole-file search for each declared byte string",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. One method: exact byte-string search over the whole image in two encodings, against a table of predictions declared before the run."
+          }
+        ]
+      },
+      "prediction_failures": 12,
+      "predictions_checked": 38,
+      "question": "Does this image contain the string literals that the source chain for package admission and class registration is built from, and does it contain the literals that only a non-Shipping / editor configuration would keep?"
+    }
+  ],
+  "generated_at": "2026-08-23T18:26:02Z",
+  "generator_version": "loader_admission_probe/1.0.0",
+  "literal_reads": [
+    {
+      "bytes_hex": "4d0069007300730069006e00670020007300690067006e0061007400750072006500",
+      "claim": "34 bytes at offset 98686168 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 4d0069007300730069006e00670020007300690067006e0061007400750072006500",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "34 bytes at offset 98686168 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 4d0069007300730069006e00670020007300690067006e0061007400750072006500. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4d0069007300730069006e00670020007300690067006e0061007400750072006500",
+          "length": 34,
+          "offset": 98686168,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98686168+34",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:iostore-missing-signature:utf-16le",
+      "length": 34,
+      "offset": 98686168,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "500061006b0073002f00",
+      "claim": "10 bytes at offset 101595300 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 500061006b0073002f00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 101595300 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 500061006b0073002f00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "500061006b0073002f00",
+          "length": 10,
+          "offset": 101595300,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@101595300+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:pakfolder-project-content:utf-16le",
+      "length": 10,
+      "offset": 101595300,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "5f0050002e00700061006b00",
+      "claim": "12 bytes at offset 101595504 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 5f0050002e00700061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 101595504 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 5f0050002e00700061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5f0050002e00700061006b00",
+          "length": 12,
+          "offset": 101595504,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@101595504+12",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:mount-patch-suffix:utf-16le",
+      "length": 12,
+      "offset": 101595504,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "2e00750074006f006300",
+      "claim": "10 bytes at offset 98685336 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2e00750074006f006300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 98685336 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2e00750074006f006300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2e00750074006f006300",
+          "length": 10,
+          "offset": 98685336,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98685336+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:mount-utoc-extension:utf-16le",
+      "length": 10,
+      "offset": 98685336,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300",
+      "claim": "36 bytes at offset 101595464 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "36 bytes at offset 101595464 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "25007300500061006b0073002f0067006c006f00620061006c002e00750074006f006300",
+          "length": 36,
+          "offset": 101595464,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@101595464+36",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:global-utoc-path:utf-16le",
+      "length": 36,
+      "offset": 101595464,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "2e007500630061007300",
+      "claim": "10 bytes at offset 98685368 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2e007500630061007300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 98685368 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2e007500630061007300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2e007500630061007300",
+          "length": 10,
+          "offset": 98685368,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98685368+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:iostore-ucas-extension:utf-16le",
+      "length": 10,
+      "offset": 98685368,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "5f00730025006400",
+      "claim": "8 bytes at offset 98685352 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 5f00730025006400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 98685352 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 5f00730025006400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5f00730025006400",
+          "length": 8,
+          "offset": 98685352,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98685352+8",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:iostore-partition-suffix:utf-16le",
+      "length": 8,
+      "offset": 98685352,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "2a002e00700061006b00",
+      "claim": "10 bytes at offset 98822768 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2a002e00700061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 98822768 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2a002e00700061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2a002e00700061006b00",
+          "length": 10,
+          "offset": 98822768,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98822768+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:all-paks-wildcard:utf-16le",
+      "length": 10,
+      "offset": 98822768,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "4e006f00500061006b00",
+      "claim": "10 bytes at offset 101595312 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 4e006f00500061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "10 bytes at offset 101595312 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 4e006f00500061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4e006f00500061006b00",
+          "length": 10,
+          "offset": 101595312,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@101595312+10",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-nopak:utf-16le",
+      "length": 10,
+      "offset": 101595312,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300",
+      "claim": "40 bytes at offset 101595248 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "40 bytes at offset 101595248 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "53006b00690070004f007000740069006f006e0061006c00500061006b00460069006c0065007300",
+          "length": 40,
+          "offset": 101595248,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@101595248+40",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-skipoptional:utf-16le",
+      "length": 40,
+      "offset": 101595248,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "63006800650063006b00700061006b00",
+      "claim": "16 bytes at offset 101593640 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 63006800650063006b00700061006b00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 101593640 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 63006800650063006b00700061006b00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "63006800650063006b00700061006b00",
+          "length": 16,
+          "offset": 101593640,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@101593640+16",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:cmdline-checkpak:utf-16le",
+      "length": 16,
+      "offset": 101593640,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+      "claim": "16 bytes at offset 98684440 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 98684440 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+          "length": 16,
+          "offset": 98684440,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98684440+16",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:toc-magic:ascii",
+      "length": 16,
+      "offset": 98684440,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500",
+      "claim": "56 bytes at offset 98900344 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "56 bytes at offset 98900344 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "4300720065006100740065004100730079006e0063005000610063006b006100670065007300460072006f006d0051007500650075006500",
+          "length": 56,
+          "offset": 98900344,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98900344+56",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:timelimit-control-queue:utf-16le",
+      "length": 56,
+      "offset": 98900344,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400",
+      "claim": "70 bytes at offset 98913680 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "70 bytes at offset 98913680 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "500072006f0063006500730073004c006f0061006400650064005000610063006b006100670065007300460072006f006d00470061006d006500540068007200650061006400",
+          "length": 70,
+          "offset": 98913680,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98913680+70",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:timelimit-control-loaded:utf-16le",
+      "length": 70,
+      "offset": 98913680,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400",
+      "claim": "38 bytes at offset 98713432 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "38 bytes at offset 98713432 of <install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2f005300630072006900700074002f0043006f007200650055004f0062006a00650063007400",
+          "length": 38,
+          "offset": 98713432,
+          "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98713432+38",
+            "method": "SP-1",
+            "note": "oracle binary-analysis. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "probe:script-package-root:utf-16le",
+      "length": 38,
+      "offset": 98713432,
+      "reproduced": true,
+      "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    }
+  ],
+  "literal_reads_reproduced": true,
+  "machine": "IMAGE_FILE_MACHINE_AMD64",
+  "probes": [
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 40,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 80,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-success",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8631",
+      "text": "Mounted Pak file '%s', mount point: '%s'",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "the tail of FPakPlatformFile::Mount. Present iff the legacy pak mount code was linked at all."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 30,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 60,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-iostore-ok",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8574",
+      "text": "Mounted IoStore container \"%s\"",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "the sibling-.utoc branch of FPakPlatformFile::Mount, the only place a non-global container reaches FFilePackageStoreBackend."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 64,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-iostore-missing",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8604",
+      "text": "IoStore container \"%s\" not found",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "the branch a bare .pak with no sibling .utoc takes; it sets bIoStoreSuccess = false while the pak still enters PakFiles."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 71,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 142,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-deferred-key",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8532",
+      "text": "Deferring mount of pak \"%s\" until encryption key '%s' becomes available",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "the EncryptionKeyGuid gate, the only key check inside Mount."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 134,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 268,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "pak-mount-point-warning",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8663",
+      "text": "assets in this pak file may not be accessible until a corresponding UFS Mount Point is added through FPackageName::RegisterMountPoint.",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "the only mount-point-shaped admission remark in the pak path. It is a Display log, not a rejection; presence lets a reader check that for themselves."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 52,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 104,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "iostore-imperfect-hash",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:727",
+      "text": "Falling back to imperfect hashmap for container '%s'",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "FFileIoStoreReader::Initialize, the per-container TOC intake."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 22,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 44,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "iostore-toc-signature-hash",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:746",
+      "text": "Toc signature hash: %s",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "unconditional log in FFileIoStoreReader::Initialize; a control for the signature probes below, which are conditional."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 29,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 58,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "filepackagestore-redirect",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/FilePackageStore.cpp:364",
+      "text": "Redirecting from %s to 0x%llx",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "FFilePackageStoreBackend::GetPackageRedirectInfo -- the package store backend that turns a container header into loadable package ids."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 17,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 34,
+          "offsets": [
+            98686168
+          ],
+          "rvas": [
+            98689752
+          ]
+        }
+      },
+      "expected": "unknown",
+      "id": "iostore-missing-signature",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/Core/Private/IO/IoStore.cpp:3277",
+      "text": "Missing signature",
+      "total_hits": 1,
+      "verdict": "NO_PREDICTION",
+      "why": "reachable only when IsSigningEnabled() can return true, and IsSigningEnabled (IoStore.cpp:61-68) is `return GetPakSigningKeysDelegate().IsBound()` under UE_BUILD_SHIPPING and a literal false otherwise. Declared unknown because MSVC is not obliged to drop an unreferenced literal, so a hit is weak evidence and a miss is strong."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 64,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "alt2-linkerload-state",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2103",
+      "text": "WaitingForLinkerLoadDependencies",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "inside #if ALT2_ENABLE_LINKERLOAD_SUPPORT, which is #defined to WITH_EDITOR at AsyncLoading2.cpp:263-264. A hit would mean this build kept the file-system fallback that lets AsyncLoading2 load a legacy .uasset with no package-store entry -- which would change the answer for a mod in a legacy pak."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 100,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 200,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "alt2-linkerload-import",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5693",
+      "text": "Package %s might be missing an import from cooked package %s because it's exports are not yet ready.",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "second, independently placed string inside the same #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 94,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 188,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "do-check-scriptobject-verify",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:4940",
+      "text": "Script object %s (0x%016llX) is missing a NotifyRegistrationEvent from the initial load phase.",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "reached through `#elif DO_CHECK` in FGlobalImportStore::RegistrationComplete (4953-4966). DO_CHECK is 0 in a Shipping build, so a hit says this image is not Shipping -- a discriminator for D-04, measured here as a by-product rather than assumed."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 8,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 16,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-pakdir",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8137",
+      "text": "-pakdir=",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "inside #if !UE_BUILD_SHIPPING in FPakPlatformFile::GetPakFolders. If absent, the only pak directories this build ever scans are the three hardcoded ones, which bounds mod discovery."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 9,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 18,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-paklist",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8812",
+      "text": "-paklist=",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "inside #if !UE_BUILD_SHIPPING in MountAllPakFiles."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 20,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 40,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-startup-wildcard",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8237",
+      "text": "StartupPaksWildcard=",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "inside #if !UE_BUILD_SHIPPING in FPakPlatformFile::Initialize."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 3,
+          "needle_length": 10,
+          "offsets": [
+            101595300,
+            101595468,
+            101595868
+          ],
+          "rvas": [
+            101598884,
+            101599052,
+            101599452
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "pakfolder-project-content",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8147-8149",
+      "text": "Paks/",
+      "total_hits": 3,
+      "verdict": "PREDICTION_HELD",
+      "why": "the three hardcoded pak folders are built with FString::Printf(TEXT(\"%sPaks/\"), ...); the literal survives in any configuration."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 35,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 70,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "unknown",
+      "id": "registration-deferred-log",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/UObject/UObjectBase.cpp:195",
+      "text": "UObjectBase::DeferredRegister %s %s",
+      "total_hits": 0,
+      "verdict": "NO_PREDICTION",
+      "why": "the native-class registration step the source chain ends on. A Verbose UE_LOG, so its survival depends on the build's logging configuration and not on the code path being present; declared unknown so that neither outcome can be read as evidence about the path."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 34,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 68,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "createexport-no-class",
+      "kind": "ue_log",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:6614",
+      "text": "Could not find class object for %s",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "inside FAsyncPackage2::EventDrivenCreateExport, the place where an export -- a UClass export included -- becomes a UObject on the IoStore path."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 6,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 12,
+          "offsets": [
+            101595504
+          ],
+          "rvas": [
+            101599088
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "mount-patch-suffix",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8486",
+      "text": "_P.pak",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the operand of PakFilename.EndsWith inside FPakPlatformFile::Mount itself. Its presence is evidence that Mount was compiled into this image; it also names the ONLY filename-derived rule inside Mount, and that rule adjusts PakOrder, i.e. precedence, and nothing else."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 3,
+          "needle_length": 10,
+          "offsets": [
+            98685336,
+            101590034,
+            101595490
+          ],
+          "rvas": [
+            98688920,
+            101593618,
+            101599074
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "mount-utoc-extension",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8564",
+      "text": ".utoc",
+      "total_hits": 3,
+      "verdict": "PREDICTION_HELD",
+      "why": "FPaths::ChangeExtension(InPakFilename, TEXT(\".utoc\")) inside Mount -- the sibling-container rule that decides whether a mounted pak contributes package-store entries at all."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 18,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 36,
+          "offsets": [
+            101595464
+          ],
+          "rvas": [
+            101599048
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "global-utoc-path",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8243",
+      "text": "%sPaks/global.utoc",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the Printf format in FPakPlatformFile::Initialize whose FileExists result gates creation of the IoStore file backend and of FFilePackageStoreBackend."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 10,
+          "offsets": [
+            98685368
+          ],
+          "rvas": [
+            98688952
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "iostore-ucas-extension",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:704",
+      "text": ".ucas",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "FFileIoStoreReader::Initialize builds the payload path from it."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 4,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 8,
+          "offsets": [
+            98685352
+          ],
+          "rvas": [
+            98688936
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "iostore-partition-suffix",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IoDispatcherFileBackend.cpp:702",
+      "text": "_s%d",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "the partition suffix in the same function; a second, independently placed literal from that translation unit."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 1,
+          "needle_length": 5,
+          "offsets": [
+            101595840
+          ],
+          "rvas": [
+            101599424
+          ]
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 10,
+          "offsets": [
+            98822768
+          ],
+          "rvas": [
+            98826352
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "all-paks-wildcard",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:81",
+      "text": "*.pak",
+      "total_hits": 2,
+      "verdict": "PREDICTION_HELD",
+      "why": "ALL_PAKS_WILDCARD -- the pattern FindAllPakFiles matches, so the shape of automatic discovery: any *.pak in the scanned folders, with no name allowlist."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 5,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 10,
+          "offsets": [
+            101595312
+          ],
+          "rvas": [
+            101598896
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "cmdline-nopak",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8176",
+      "text": "NoPak",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "an FParse::Param literal in this file that is NOT inside #if !UE_BUILD_SHIPPING. Control for the three switches predicted absent: if this one is present and those are absent, the absences are the preprocessor and not a general stripping of FParse literals."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 20,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 40,
+          "offsets": [
+            101595248
+          ],
+          "rvas": [
+            101598832
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "cmdline-skipoptional",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8110",
+      "text": "SkipOptionalPakFiles",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "second such control, in FindPakFilesInDirectory."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 8,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 16,
+          "offsets": [
+            101593640
+          ],
+          "rvas": [
+            101597224
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "cmdline-checkpak",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:5981",
+      "text": "checkpak",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "third such control; also the switch that turns on CheckIoStoreContainerBlockSignatures at mount time."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 14,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 28,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "cmdline-lookloosefirst",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/PakFile/Private/IPlatformFilePak.cpp:8240",
+      "text": "LookLooseFirst",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "inside #if !UE_BUILD_SHIPPING in FPakPlatformFile::Initialize; fourth member of the shipping-gate group."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 20,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 40,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "loaderstate-cooked",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2107",
+      "text": "ProcessExportBundles",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "a switch arm of LexToString(EAsyncPackageLoadingState2), compiled in every configuration. THE control for the two ALT2 arms below: same function, adjacent lines."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 23,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 46,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "loaderstate-alt2-create",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2102",
+      "text": "CreateLinkerLoadExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "an arm of the SAME switch, inside #if ALT2_ENABLE_LINKERLOAD_SUPPORT. Present-vs-absent against the control above is a controlled test of that macro in this image, and the macro decides whether AsyncLoading2 can load a package that has no package-store entry."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 64,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "loaderstate-alt2-wait",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2103",
+      "text": "WaitingForLinkerLoadDependencies",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "a second arm inside the same #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 20,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 40,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "loaderstate-deferred",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:2112",
+      "text": "DeferredPostLoadDone",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "a second unconditional arm, after the #if, so the control is not a single point."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 1,
+          "needle_length": 16,
+          "offsets": [
+            98684440
+          ],
+          "rvas": [
+            98688024
+          ]
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 32,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "toc-magic",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/Core/Internal/IO/IoStore.h:40",
+      "text": "-==--==--==--==-",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "FIoStoreTocHeader::TocMagicImg. A char[] and therefore ASCII, not UTF-16LE; it is the byte string CheckMagic compares against and it is present in every container this install ships."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 47,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 94,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "unknown",
+      "id": "bootstrap-target-shipping",
+      "kind": "install-literal",
+      "observed": "absent",
+      "source": "not engine source: the packaged-game bootstrap's own target",
+      "text": "MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+      "total_hits": 0,
+      "verdict": "NO_PREDICTION",
+      "why": "expected present only in the small root-level launcher, absent in the two game binaries. Its presence there is what makes MISERY-Win64-Shipping.exe 'the shipped image' for this question."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 40,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 80,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "unknown",
+      "id": "bootstrap-self-name",
+      "kind": "install-literal",
+      "observed": "absent",
+      "source": "not engine source: the bootstrap's own module name",
+      "text": "BootstrapPackagedGame-Win64-Shipping.exe",
+      "total_hits": 0,
+      "verdict": "NO_PREDICTION",
+      "why": "identifies the launcher as UE's BootstrapPackagedGame."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 26,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 52,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "timelimit-alt2-serialize",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5652",
+      "text": "SerializeLinkerLoadExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "argument of an IsTimeLimitExceeded call inside the ALT2 #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 39,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 78,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "timelimit-alt2-postload",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5854",
+      "text": "ExecutePostLoadLinkerLoadPackageExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "second such argument inside the ALT2 #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 47,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 94,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "absent",
+      "id": "timelimit-alt2-deferred",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:5932",
+      "text": "ExecuteDeferredPostLoadLinkerLoadPackageExports",
+      "total_hits": 0,
+      "verdict": "PREDICTION_HELD",
+      "why": "third such argument inside the ALT2 #if."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 25,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 0,
+          "needle_length": 50,
+          "offsets": [],
+          "rvas": []
+        }
+      },
+      "expected": "present",
+      "id": "timelimit-control-exportbundle",
+      "kind": "literal",
+      "observed": "absent",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:6285",
+      "text": "Event_ProcessExportBundle",
+      "total_hits": 0,
+      "verdict": "PREDICTION_FAILED",
+      "why": "the matching control: same kind of call, same file, OUTSIDE the #if. If the controls are absent too, the test is void rather than negative, and must be reported that way."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 28,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 56,
+          "offsets": [
+            98900344
+          ],
+          "rvas": [
+            98903928
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "timelimit-control-queue",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:4514",
+      "text": "CreateAsyncPackagesFromQueue",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "second control, in the function that resolves a package request."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 0,
+          "needle_length": 35,
+          "offsets": [],
+          "rvas": []
+        },
+        "utf-16le": {
+          "count": 1,
+          "needle_length": 70,
+          "offsets": [
+            98913680
+          ],
+          "rvas": [
+            98917264
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "timelimit-control-loaded",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp:7746",
+      "text": "ProcessLoadedPackagesFromGameThread",
+      "total_hits": 1,
+      "verdict": "PREDICTION_HELD",
+      "why": "third control."
+    },
+    {
+      "by_encoding": {
+        "ascii": {
+          "count": 1,
+          "needle_length": 19,
+          "offsets": [
+            98872608
+          ],
+          "rvas": [
+            98876192
+          ]
+        },
+        "utf-16le": {
+          "count": 2,
+          "needle_length": 38,
+          "offsets": [
+            98713432,
+            98979952
+          ],
+          "rvas": [
+            98717016,
+            98983536
+          ]
+        }
+      },
+      "expected": "present",
+      "id": "script-package-root",
+      "kind": "literal",
+      "observed": "present",
+      "source": "Runtime/CoreUObject/Private/UObject/UObjectBase.cpp:472",
+      "text": "/Script/CoreUObject",
+      "total_hits": 3,
+      "verdict": "PREDICTION_HELD",
+      "why": "the package-name literal UObjectBase::Register compares against for per-module bootstrap. Native class registration takes its package name from literals like this one, in the image, and never from a container."
+    }
+  ],
+  "section_count": 9,
+  "subcommand": "image",
+  "target": "<install>/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+  "warnings": []
+}

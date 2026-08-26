@@ -1,0 +1,77 @@
+C:\Windows\System32\MSVCP140.dll (tools/static/vtable_scan.py 1.1.0)
+  PE32+, image base 0x180000000, 643512 bytes on disk
+
+Tested surface
+  .rdata     file [402432, 594432)  192000 bytes
+  .data      file [594432, 602624)  8192 bytes
+  not scanned: .pdata, .reloc, .rsrc, .text
+  25024 slots at alignment 8
+
+Slots and runs
+  slots examined                       : 25024
+  addressing executable sections       : 658
+  ... and carrying a relocation fixup  : 658
+  ... and NOT relocated (not pointers) : 0
+  raw runs                             : 97
+  interior cut points (runs split)     : 0
+  census without the fixup filter      : >=4 59, >=8 36, >=16 1
+
+Candidates
+  code-stored          83  (>=2 slots     70)  slots      553  median 5  max 15
+  code-referenced       5  (>=2 slots      4)  slots       16  median 3  max 6
+  unreferenced          9  (>=2 slots      7)  slots       89  median 4  max 56
+  with an RTTI complete-object-locator : 93
+  without one                          : 4
+  code-stored without one              : 0
+
+Population
+  distinct slot targets                : 322
+  targets used by >1 candidate         : 77 (0.2391)
+  slot targets at a function start     : 361 of 658 (0.5486)
+  code-stored clusters (back to back)  : 83 for 83 candidates, largest 1
+  UE source-path literals              : 0, median distance None bytes
+  same-function join                   : skipped
+
+The population WITHOUT an RTTI locator, against the one with
+                                          with RTTI      no RTTI
+  candidates                                     93            4
+  slots, median                                   5            1
+  slots, 90th percentile                         14           56
+  slots, max                                     15           56
+  distinct slot targets                         262           61
+  share of targets shared                    0.2939          0.0
+  share of slots at a function start         0.5311       0.7143
+  contiguous runs [confounded, see below]           93            4
+  largest contiguous run [confounded]             1            1
+  code-stored tier only                          83            0
+  [confounded] an RTTI vtable always carries its locator pointer in the slot before it,
+               so two of them can never be adjacent under this definition. The
+               contiguity gap across the split is an artefact and means nothing.
+  no-locator candidates sharing a slot target with a named vtable: 1 (0.25), over 1 distinct targets
+
+Cross-check against C:/Temp/claude/msvcp140-rtti.json
+  census slots agree                   : True
+  census runs agree (4/8/16)           : True
+  known vtables recovered              : 93 of 93 (recall 1.0)
+  slot-count disagreements             : 0
+  recall, code-stored tier only        : 0.8925
+  RTTI locators, vtable side vs names  : 93 vs 93 (agree True)
+  adjacent vtables share an owner      : 0.9674 (chance 0.917)
+
+Refutation probes
+  misalignment control
+    REFUTATION FAILED (the population survives): the misaligned scan finds 0 runs against 59 aligned
+  declared non-vtable pointer tables
+    0 candidates overlap a declared non-vtable table; they are FLAGGED in their rows and left in the population, because deleting a counter-example is how a scanner starts agreeing with itself
+  degenerate candidates (all slots identical)
+  does the relocation filter do anything
+    the filter rejects 0 of 658 code-addressing slots
+  positional premise
+    REFUTATION FAILED (the premise holds): adjacent vtables share an owner at 0.967 against a chance rate of 0.917
+
+Literal reads (class P): 6 ranges, all re-read through a second handle: reproduced
+Timings (s): {"code_references": 0.016, "digest": 0.001, "literal_reads": 0.001, "load_surface": 0.002, "prior_slots": 0.005, "probes": 0.017, "relocations": 0.001, "runs": 0.008, "runtime_functions": 0.002, "segmentation": 0.001, "source_path_join": 0.005, "source_path_literals": 0.004}
+
+written: D:\Dev\MiseryFramework\research\evidence\S-09\control-positive-msvcp140.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-09\control-positive-msvcp140.jsonl

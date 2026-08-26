@@ -1,0 +1,37 @@
+tools/static/tu_literals.py 1.0.0
+Image: MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe  size=134658048  sha256=0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+Surface: whole file, 134658048 bytes in 5 slices; marker hits ascii=535 utf16=100
+Source-path literals: 549 distinct relative paths, 550 occurrences
+  build roots (drive + first component): {"D:/build/": 535, "F:/Unreal Engine/": 3, "G?D:/build/": 1, "D:/Primary/": 11}
+  sections hit: {".rdata": 550}
+
+Queries
+  ABSENT Runtime/CoreUObject/Private/Serialization/UnversionedPropertySerialization.cpp
+  FOUND  Runtime/CoreUObject/Private/UObject/Class.cpp  occurrences=1 first_offset=98927440
+  FOUND  Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp  occurrences=1 first_offset=99038272
+  ABSENT Runtime/CoreUObject/Private/UObject/LinkerSave.cpp
+  ABSENT Runtime/CoreUObject/Private/UObject/PropertyTag.cpp
+  ABSENT Runtime/CoreUObject/Private/UObject/SavePackage2.cpp
+  FOUND  Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp  occurrences=1 first_offset=98910080
+  ABSENT Runtime/CoreUObject/Private/UObject/PackageFileSummary.cpp
+  ABSENT Runtime/CoreUObject/Private/Serialization/NoSuchFileForCK01Decoy.cpp
+
+Power of the presence test, over translation units a UE5 game cannot run without
+  corpus Runtime/Core/Private, Runtime/CoreUObject/Private
+  .cpp files 786 = platform-excluded 80 + test-excluded 23 + candidates 683
+  candidates whose path literal is in this image: 61 of 683 (P=0.0893)
+  P(literal | uses check family)    = 0.1323
+  P(literal | no check family)      = 0.031
+  P(literal | uses UE_LOG family)   = 0.262
+  P(literal | no UE_LOG family)     = 0.0022
+  P(literal | uses fatal family)    = 0.6818
+  P(literal | no fatal family)      = 0.0017
+
+Probes
+  decoy_query        PASS
+  roundtrip_query    PASS
+  prefix_census      SEE NOTE
+  run_accounting     PASS
+
+Literal reads (class P): 2 ranges, re-read through a second handle: reproduced
+Timings (s): {"classify": 0.001, "digest": 0.143, "pe_headers": 0.0, "power": 3.859, "scan": 0.312, "total": 4.317}

@@ -1,0 +1,1968 @@
+{
+  "comparison": {
+    "export_entry_stride": {
+      "left": 96,
+      "method": "(DependsOffset - ExportOffset) / ExportCount",
+      "right": 112
+    },
+    "export_shape": {
+      "left": [
+        "unversioned-fragments"
+      ],
+      "right": [
+        "versioned-tagged-properties"
+      ]
+    },
+    "identical_uasset_sha256": false,
+    "identical_uexp_sha256": false,
+    "left": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+    "name_count": {
+      "left": 34,
+      "right": 52
+    },
+    "names_only_in_left": [],
+    "names_only_in_right": [
+      "AllNodes",
+      "ArrayProperty",
+      "BoolProperty",
+      "ChildNodes",
+      "ComponentClass",
+      "ComponentTemplate",
+      "CustomTimeDilation",
+      "DefaultSceneRootNode",
+      "FloatProperty",
+      "Guid",
+      "InitialLifeSpan",
+      "InternalVariableName",
+      "NameProperty",
+      "RootNodes",
+      "StructProperty",
+      "Tags",
+      "VariableGuid",
+      "bCanBeDamaged"
+    ],
+    "right": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+    "summary_field_differences": {
+      "asset_registry_data_offset": {
+        "left": 2560,
+        "right": 3294
+      },
+      "bulk_data_start_offset": {
+        "left": 3306,
+        "right": 4703
+      },
+      "custom_version_count": {
+        "left": 0,
+        "right": 10
+      },
+      "custom_versions": {
+        "left": [],
+        "right": [
+          {
+            "guid": "12F88B9F88754AFCA67CD90C383ABD29",
+            "version": 48
+          },
+          {
+            "guid": "375EC13C06E448FBB50084F0262A717E",
+            "version": 4
+          },
+          {
+            "guid": "59DA5D5212324948B878597870B8E98B",
+            "version": 8
+          },
+          {
+            "guid": "5B4C06B724634AF8805BBF70CDF5D0DD",
+            "version": 12
+          },
+          {
+            "guid": "601D1886AC644F84AA16D3DE0DEAC7D6",
+            "version": 134
+          },
+          {
+            "guid": "697DD581E64F41ABAA4A51ECBEB7B628",
+            "version": 119
+          },
+          {
+            "guid": "B0D832E41F894F0DACCF7EB736FD4AA2",
+            "version": 10
+          },
+          {
+            "guid": "CFFC743F43B04480939114DF171D2073",
+            "version": 37
+          },
+          {
+            "guid": "D89B5E4224BD4D468412ACA8DF641779",
+            "version": 51
+          },
+          {
+            "guid": "E70863686B234C5884391B7016265E91",
+            "version": 13
+          }
+        ]
+      },
+      "depends_offset": {
+        "left": 2524,
+        "right": 3258
+      },
+      "effective_versions_assumed": {
+        "left": true,
+        "right": false
+      },
+      "export_offset": {
+        "left": 1660,
+        "right": 2250
+      },
+      "file_version_ue4": {
+        "left": 0,
+        "right": 522
+      },
+      "file_version_ue5": {
+        "left": 0,
+        "right": 1012
+      },
+      "generations": {
+        "left": [
+          {
+            "export_count": 9,
+            "name_count": 34
+          }
+        ],
+        "right": [
+          {
+            "export_count": 9,
+            "name_count": 52
+          }
+        ]
+      },
+      "header_saved_unversioned": {
+        "left": true,
+        "right": false
+      },
+      "import_offset": {
+        "left": 1116,
+        "right": 1706
+      },
+      "legacy_ue3_version": {
+        "left": 0,
+        "right": 864
+      },
+      "name_count": {
+        "left": 34,
+        "right": 52
+      },
+      "name_offset": {
+        "left": 239,
+        "right": 439
+      },
+      "names_referenced_from_export_data_count": {
+        "left": 9,
+        "right": 29
+      },
+      "package_flags": {
+        "left": "0x80002200",
+        "right": "0x80000200"
+      },
+      "package_flags_decoded": {
+        "left": [
+          "PKG_Cooked",
+          "PKG_UnversionedProperties",
+          "PKG_FilterEditorOnly"
+        ],
+        "right": [
+          "PKG_Cooked",
+          "PKG_FilterEditorOnly"
+        ]
+      },
+      "package_flags_value": {
+        "left": 2147492352,
+        "right": 2147484160
+      },
+      "preload_dependency_offset": {
+        "left": 2564,
+        "right": 3298
+      },
+      "soft_object_paths_offset": {
+        "left": 1116,
+        "right": 1706
+      },
+      "summary_bytes_consumed": {
+        "left": 239,
+        "right": 439
+      },
+      "total_header_size": {
+        "left": 2772,
+        "right": 3506
+      },
+      "uses_unversioned_properties": {
+        "left": true,
+        "right": false
+      }
+    },
+    "uasset_size": {
+      "left": 2772,
+      "right": 3506
+    },
+    "uexp_size": {
+      "left": 538,
+      "right": 1201
+    }
+  },
+  "generated_at": "2026-08-23T19:02:02Z",
+  "left_report": {
+    "decoded_layer_evidence": {
+      "claim_class": "I",
+      "confidence": 0.9,
+      "evidence_level": "OBSERVED",
+      "note": "grades the decoded layer of this report, not any single claim in it. If the layout assumption were wrong the two methods would disagree: the measured export-map width would not equal the width the package flag implies, and the report says so per file.",
+      "oracle": [
+        "filesystem",
+        "external-doc"
+      ],
+      "read_locus": null,
+      "sources": [
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+          "method": "tools/content/package_summary.py field-by-field decode of the package header",
+          "note": "every field name, gate and mask is a citation into the UE 5.4.4 tree at changelist 35576357"
+        },
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+          "method": "export-map width measured from the summary offsets alone",
+          "note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to the package flag it is used to check"
+        }
+      ]
+    },
+    "engine_changelist": 35576357,
+    "engine_tree": "D:/Program Files/UE_5.4",
+    "export_entry_stride": {
+      "agrees_with_package_flag": true,
+      "expected_from_package_flag": 96,
+      "export_map_span_bytes": 864,
+      "measured_from_summary_offsets": 96,
+      "measured_note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to PKG_UnversionedProperties",
+      "observed": [
+        96
+      ],
+      "observed_note": "width consumed while parsing; by construction it follows the flag",
+      "parse_consumed_expected_width": true
+    },
+    "exports": [
+      {
+        "class_index": -5,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 3,
+        "entry_bytes": 96,
+        "first_export_dependency": 0,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 0,
+        "is_asset": true,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000009",
+        "object_name": "BP_RefParent_C",
+        "outer_index": 0,
+        "package_flags": "0x00000000",
+        "serial_offset": 2772,
+        "serial_size": 265,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 3,
+        "super_index": -4,
+        "template_index": -2
+      },
+      {
+        "class_index": 1,
+        "create_before_create_dependencies": 0,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 96,
+        "first_export_dependency": 9,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 1,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000039",
+        "object_name": "Default__BP_RefParent_C",
+        "outer_index": 0,
+        "package_flags": "0x00000000",
+        "serial_offset": 3037,
+        "serial_size": 39,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 6,
+        "super_index": 0,
+        "template_index": -1
+      },
+      {
+        "class_index": -6,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 96,
+        "first_export_dependency": 17,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 2,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000029",
+        "object_name": "ParentLight_GEN_VARIABLE",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "serial_offset": 3076,
+        "serial_size": 14,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 1,
+        "super_index": 0,
+        "template_index": -13
+      },
+      {
+        "class_index": -7,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 96,
+        "first_export_dependency": 21,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 3,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000029",
+        "object_name": "DefaultSceneRoot_GEN_VARIABLE",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "serial_offset": 3090,
+        "serial_size": 14,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 1,
+        "super_index": 0,
+        "template_index": -14
+      },
+      {
+        "class_index": -8,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 4,
+        "entry_bytes": 96,
+        "first_export_dependency": 25,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 4,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SCS_Node_0",
+        "outer_index": 8,
+        "package_flags": "0x00000000",
+        "serial_offset": 3104,
+        "serial_size": 58,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -15
+      },
+      {
+        "class_index": -8,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 2,
+        "entry_bytes": 96,
+        "first_export_dependency": 32,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 5,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SCS_Node_1",
+        "outer_index": 8,
+        "package_flags": "0x00000000",
+        "serial_offset": 3162,
+        "serial_size": 44,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -15
+      },
+      {
+        "class_index": -8,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 2,
+        "entry_bytes": 96,
+        "first_export_dependency": 37,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 6,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SCS_Node_2",
+        "outer_index": 8,
+        "package_flags": "0x00000000",
+        "serial_offset": 3206,
+        "serial_size": 44,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -15
+      },
+      {
+        "class_index": -9,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 3,
+        "entry_bytes": 96,
+        "first_export_dependency": 42,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 7,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SimpleConstructionScript_0",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "serial_offset": 3250,
+        "serial_size": 38,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -16
+      },
+      {
+        "class_index": -10,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 96,
+        "first_export_dependency": 48,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 8,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000029",
+        "object_name": "ParentMesh_GEN_VARIABLE",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "serial_offset": 3288,
+        "serial_size": 18,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 1,
+        "super_index": 0,
+        "template_index": -17
+      }
+    ],
+    "file": {
+      "path": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+      "sha256": "ec7cfec8ce68df72339ccf1861741ce766b8f7edbd2d0d3adb32340aaa5070fc",
+      "size": 2772
+    },
+    "generated_at": "2026-08-23T19:02:02Z",
+    "imports": [
+      {
+        "class_name": "Actor",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 0,
+        "object_name": "Default__Actor",
+        "outer_index": -12
+      },
+      {
+        "class_name": "BlueprintGeneratedClass",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 1,
+        "object_name": "Default__BlueprintGeneratedClass",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 2,
+        "object_name": "Object",
+        "outer_index": -11
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 3,
+        "object_name": "Actor",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 4,
+        "object_name": "BlueprintGeneratedClass",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 5,
+        "object_name": "PointLightComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 6,
+        "object_name": "SceneComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 7,
+        "object_name": "SCS_Node",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 8,
+        "object_name": "SimpleConstructionScript",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 9,
+        "object_name": "StaticMeshComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Package",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 10,
+        "object_name": "/Script/CoreUObject",
+        "outer_index": 0
+      },
+      {
+        "class_name": "Package",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 11,
+        "object_name": "/Script/Engine",
+        "outer_index": 0
+      },
+      {
+        "class_name": "PointLightComponent",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 12,
+        "object_name": "Default__PointLightComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "SceneComponent",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 13,
+        "object_name": "Default__SceneComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "SCS_Node",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 14,
+        "object_name": "Default__SCS_Node",
+        "outer_index": -12
+      },
+      {
+        "class_name": "SimpleConstructionScript",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 15,
+        "object_name": "Default__SimpleConstructionScript",
+        "outer_index": -12
+      },
+      {
+        "class_name": "StaticMeshComponent",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 16,
+        "object_name": "Default__StaticMeshComponent",
+        "outer_index": -12
+      }
+    ],
+    "literal_reads": [
+      {
+        "bytes_hex": "c1832a9ef8ffffff",
+        "claim": "the 8 bytes at offset 0 of UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset are c1832a9ef8ffffff",
+        "evidence": {
+          "claim_class": "P",
+          "confidence": 0.97,
+          "evidence_level": "OBSERVED",
+          "note": "the claim states offset and length only. If this were wrong -- if the bytes were not stable -- the second read through a fresh handle would differ, and 'reproduced' would be false.",
+          "oracle": [
+            "filesystem"
+          ],
+          "read_locus": {
+            "address_kind": "file-offset",
+            "length": 8,
+            "offset": 0,
+            "target": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset"
+          },
+          "sources": [
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset@0+8",
+              "method": "tools/content/package_summary.py read at a determinate offset",
+              "note": "first read, through the handle opened for parsing"
+            },
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uasset@0+8",
+              "method": "second read through a freshly opened handle",
+              "note": "method re-run and result reproduced: yes"
+            }
+          ]
+        },
+        "length": 8,
+        "offset": 0,
+        "reproduced": true,
+        "target": "package header first 8 bytes"
+      }
+    ],
+    "names": {
+      "count": 34,
+      "entries": [
+        "BlueprintType",
+        "DefaultSceneRoot",
+        "Engine",
+        "None",
+        "ObjectProperty",
+        "parent-tag-a",
+        "parent-tag-b",
+        "ParentLight",
+        "ParentMesh",
+        "/Game/Ref/BP_RefParent",
+        "/Script/CoreUObject",
+        "/Script/Engine",
+        "Actor",
+        "BlueprintGeneratedClass",
+        "BP_RefParent_C",
+        "Class",
+        "Default__Actor",
+        "Default__BlueprintGeneratedClass",
+        "Default__BP_RefParent_C",
+        "Default__PointLightComponent",
+        "Default__SceneComponent",
+        "Default__SCS_Node",
+        "Default__SimpleConstructionScript",
+        "Default__StaticMeshComponent",
+        "DefaultSceneRoot_GEN_VARIABLE",
+        "Object",
+        "Package",
+        "ParentLight_GEN_VARIABLE",
+        "ParentMesh_GEN_VARIABLE",
+        "PointLightComponent",
+        "SceneComponent",
+        "SCS_Node",
+        "SimpleConstructionScript",
+        "StaticMeshComponent"
+      ]
+    },
+    "probes": {
+      "entries": [
+        {
+          "first_bytes_hex": "0000000007030800000000000000fcffffff0000000003000000040000000000",
+          "index": 0,
+          "object_name": "BP_RefParent_C",
+          "payload_available": true,
+          "serial_size": 265,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 3,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x0307",
+                "skip_num": 7,
+                "value_num": 1
+              }
+            ],
+            "header_bytes": 6,
+            "highest_schema_index_touched": 7,
+            "schema_indices_touched": [
+              [
+                7,
+                7
+              ]
+            ],
+            "unmasked_value_count": 1,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "15021204160300000038410000a03f0200000005000000000000000600000000",
+          "index": 1,
+          "object_name": "Default__BP_RefParent_C",
+          "payload_available": true,
+          "serial_size": 39,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 3,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0215",
+                "skip_num": 21,
+                "value_num": 1
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0412",
+                "skip_num": 18,
+                "value_num": 2
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x0316",
+                "skip_num": 22,
+                "value_num": 1
+              }
+            ],
+            "header_bytes": 6,
+            "highest_schema_index_touched": 64,
+            "schema_indices_touched": [
+              [
+                21,
+                21
+              ],
+              [
+                40,
+                41
+              ],
+              [
+                64,
+                64
+              ]
+            ],
+            "unmasked_value_count": 4,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "000000006c010000000000000000",
+          "index": 2,
+          "object_name": "ParentLight_GEN_VARIABLE",
+          "payload_available": true,
+          "serial_size": 14,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 3,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x016C",
+                "skip_num": 108,
+                "value_num": 0
+              }
+            ],
+            "header_bytes": 6,
+            "highest_schema_index_touched": -1,
+            "schema_indices_touched": [],
+            "unmasked_value_count": 0,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "000000002c010000000000000000",
+          "index": 3,
+          "object_name": "DefaultSceneRoot_GEN_VARIABLE",
+          "payload_available": true,
+          "serial_size": 14,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 3,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x012C",
+                "skip_num": 44,
+                "value_num": 0
+              }
+            ],
+            "header_bytes": 6,
+            "highest_schema_index_touched": -1,
+            "schema_indices_touched": [],
+            "unmasked_value_count": 0,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "00000000000405020105f9ffffff04000000020000000600000007000000539b",
+          "index": 4,
+          "object_name": "SCS_Node_0",
+          "payload_available": true,
+          "serial_size": 58,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 5,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0400",
+                "skip_num": 0,
+                "value_num": 2
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0205",
+                "skip_num": 5,
+                "value_num": 1
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x0501",
+                "skip_num": 1,
+                "value_num": 2
+              }
+            ],
+            "header_bytes": 10,
+            "highest_schema_index_touched": 10,
+            "schema_indices_touched": [
+              [
+                0,
+                1
+              ],
+              [
+                7,
+                7
+              ],
+              [
+                9,
+                10
+              ]
+            ],
+            "unmasked_value_count": 5,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "0000000000040705f6ffffff09000000cddb7a8759fe8f46a4bf099eacb38687",
+          "index": 5,
+          "object_name": "SCS_Node_1",
+          "payload_available": true,
+          "serial_size": 44,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 4,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0400",
+                "skip_num": 0,
+                "value_num": 2
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x0507",
+                "skip_num": 7,
+                "value_num": 2
+              }
+            ],
+            "header_bytes": 8,
+            "highest_schema_index_touched": 10,
+            "schema_indices_touched": [
+              [
+                0,
+                1
+              ],
+              [
+                9,
+                10
+              ]
+            ],
+            "unmasked_value_count": 4,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "0000000000040705faffffff030000006d000c6522bfbd4ca85b3e5e94b435a6",
+          "index": 6,
+          "object_name": "SCS_Node_2",
+          "payload_available": true,
+          "serial_size": 44,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 4,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0400",
+                "skip_num": 0,
+                "value_num": 2
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x0507",
+                "skip_num": 7,
+                "value_num": 2
+              }
+            ],
+            "header_bytes": 8,
+            "highest_schema_index_touched": 10,
+            "schema_indices_touched": [
+              [
+                0,
+                1
+              ],
+              [
+                9,
+                10
+              ]
+            ],
+            "unmasked_value_count": 4,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "0000000000070100000005000000030000000500000006000000070000000500",
+          "index": 7,
+          "object_name": "SimpleConstructionScript_0",
+          "payload_available": true,
+          "serial_size": 38,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 3,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x0700",
+                "skip_num": 0,
+                "value_num": 3
+              }
+            ],
+            "header_bytes": 6,
+            "highest_schema_index_touched": 2,
+            "schema_indices_touched": [
+              [
+                0,
+                2
+              ]
+            ],
+            "unmasked_value_count": 3,
+            "zero_mask_value_count": 0
+          }
+        },
+        {
+          "first_bytes_hex": "000000007f01000000000000000000000000",
+          "index": 8,
+          "object_name": "ParentMesh_GEN_VARIABLE",
+          "payload_available": true,
+          "serial_size": 18,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 3,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x017F",
+                "skip_num": 127,
+                "value_num": 0
+              }
+            ],
+            "header_bytes": 6,
+            "highest_schema_index_touched": -1,
+            "schema_indices_touched": [],
+            "unmasked_value_count": 0,
+            "zero_mask_value_count": 0
+          }
+        }
+      ],
+      "exports_probed": 9
+    },
+    "summary": {
+      "additional_packages_to_cook_count": 0,
+      "asset_registry_data_offset": 2560,
+      "bulk_data_start_offset": 3306,
+      "chunk_ids": [],
+      "compatible_with_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "compression_flags": 0,
+      "custom_version_count": 0,
+      "custom_versions": [],
+      "data_resource_offset": -1,
+      "depends_offset": 2524,
+      "effective_file_version_ue4": 522,
+      "effective_file_version_ue5": 1012,
+      "effective_versions_assumed": true,
+      "export_count": 9,
+      "export_offset": 1660,
+      "file_version_licensee_ue4": 0,
+      "file_version_ue4": 0,
+      "file_version_ue5": 0,
+      "filter_editor_only": true,
+      "gatherable_text_data_count": 0,
+      "gatherable_text_data_offset": 0,
+      "generations": [
+        {
+          "export_count": 9,
+          "name_count": 34
+        }
+      ],
+      "guid": "13C2AA344E28B539DB04D7880E501358",
+      "header_saved_unversioned": true,
+      "import_count": 17,
+      "import_offset": 1116,
+      "legacy_file_version": -8,
+      "legacy_ue3_version": 0,
+      "name_count": 34,
+      "name_offset": 239,
+      "names_referenced_from_export_data_count": 9,
+      "package_flags": "0x80002200",
+      "package_flags_decoded": [
+        "PKG_Cooked",
+        "PKG_UnversionedProperties",
+        "PKG_FilterEditorOnly"
+      ],
+      "package_flags_value": 2147492352,
+      "package_name": "/Game/Ref/BP_RefParent",
+      "package_source": 3363347422,
+      "payload_toc_offset": -1,
+      "preload_dependency_count": 52,
+      "preload_dependency_offset": 2564,
+      "saved_by_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "searchable_names_offset": 0,
+      "soft_object_paths_count": 0,
+      "soft_object_paths_offset": 1116,
+      "soft_package_references_count": 0,
+      "soft_package_references_offset": 0,
+      "summary_bytes_consumed": 239,
+      "tag": "0x9E2A83C1",
+      "thumbnail_table_offset": 0,
+      "total_header_size": 2772,
+      "uses_unversioned_properties": true,
+      "world_tile_info_data_offset": 0
+    },
+    "tool": "tools/content/package_summary.py",
+    "tool_version": "1.0.0",
+    "uexp": {
+      "base_offset_equals_total_header_size": true,
+      "base_offset_used": 2772,
+      "path": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefParent.uexp",
+      "sha256": "89d997ceed327ceeea7065f4e5ce53dcb9da8cf3de9b60d697e2b63a5331714c",
+      "size": 538
+    }
+  },
+  "right_report": {
+    "decoded_layer_evidence": {
+      "claim_class": "I",
+      "confidence": 0.9,
+      "evidence_level": "OBSERVED",
+      "note": "grades the decoded layer of this report, not any single claim in it. If the layout assumption were wrong the two methods would disagree: the measured export-map width would not equal the width the package flag implies, and the report says so per file.",
+      "oracle": [
+        "filesystem",
+        "external-doc"
+      ],
+      "read_locus": null,
+      "sources": [
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+          "method": "tools/content/package_summary.py field-by-field decode of the package header",
+          "note": "every field name, gate and mask is a citation into the UE 5.4.4 tree at changelist 35576357"
+        },
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+          "method": "export-map width measured from the summary offsets alone",
+          "note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to the package flag it is used to check"
+        }
+      ]
+    },
+    "engine_changelist": 35576357,
+    "engine_tree": "D:/Program Files/UE_5.4",
+    "export_entry_stride": {
+      "agrees_with_package_flag": true,
+      "expected_from_package_flag": 112,
+      "export_map_span_bytes": 1008,
+      "measured_from_summary_offsets": 112,
+      "measured_note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to PKG_UnversionedProperties",
+      "observed": [
+        112
+      ],
+      "observed_note": "width consumed while parsing; by construction it follows the flag",
+      "parse_consumed_expected_width": true
+    },
+    "exports": [
+      {
+        "class_index": -5,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 3,
+        "entry_bytes": 112,
+        "first_export_dependency": 0,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 0,
+        "is_asset": true,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000009",
+        "object_name": "BP_RefParent_C",
+        "outer_index": 0,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 38,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 3506,
+        "serial_size": 293,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 3,
+        "super_index": -4,
+        "template_index": -2
+      },
+      {
+        "class_index": 1,
+        "create_before_create_dependencies": 0,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 112,
+        "first_export_dependency": 9,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 1,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000039",
+        "object_name": "Default__BP_RefParent_C",
+        "outer_index": 0,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 149,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 3799,
+        "serial_size": 153,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 6,
+        "super_index": 0,
+        "template_index": -1
+      },
+      {
+        "class_index": -6,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 112,
+        "first_export_dependency": 17,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 2,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000029",
+        "object_name": "ParentLight_GEN_VARIABLE",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 9,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 3952,
+        "serial_size": 17,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 1,
+        "super_index": 0,
+        "template_index": -13
+      },
+      {
+        "class_index": -7,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 112,
+        "first_export_dependency": 21,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 3,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000029",
+        "object_name": "DefaultSceneRoot_GEN_VARIABLE",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 9,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 3969,
+        "serial_size": 17,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 1,
+        "super_index": 0,
+        "template_index": -14
+      },
+      {
+        "class_index": -8,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 4,
+        "entry_bytes": 112,
+        "first_export_dependency": 25,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 4,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SCS_Node_0",
+        "outer_index": 8,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 214,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 3986,
+        "serial_size": 218,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -15
+      },
+      {
+        "class_index": -8,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 2,
+        "entry_bytes": 112,
+        "first_export_dependency": 32,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 5,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SCS_Node_1",
+        "outer_index": 8,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 165,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 4204,
+        "serial_size": 169,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -15
+      },
+      {
+        "class_index": -8,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 2,
+        "entry_bytes": 112,
+        "first_export_dependency": 37,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 6,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SCS_Node_2",
+        "outer_index": 8,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 165,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 4373,
+        "serial_size": 169,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -15
+      },
+      {
+        "class_index": -9,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 3,
+        "entry_bytes": 112,
+        "first_export_dependency": 42,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 7,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000008",
+        "object_name": "SimpleConstructionScript_0",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 136,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 4542,
+        "serial_size": 140,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -16
+      },
+      {
+        "class_index": -10,
+        "create_before_create_dependencies": 1,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 112,
+        "first_export_dependency": 48,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 8,
+        "is_asset": false,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": false,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x00000029",
+        "object_name": "ParentMesh_GEN_VARIABLE",
+        "outer_index": 1,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 9,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 4682,
+        "serial_size": 21,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 1,
+        "super_index": 0,
+        "template_index": -17
+      }
+    ],
+    "file": {
+      "path": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset",
+      "sha256": "17c1cc6e4e7fcd5274788aef75b8312787868dac144eea44598ded05a64dfeda",
+      "size": 3506
+    },
+    "generated_at": "2026-08-23T19:02:02Z",
+    "imports": [
+      {
+        "class_name": "Actor",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 0,
+        "object_name": "Default__Actor",
+        "outer_index": -12
+      },
+      {
+        "class_name": "BlueprintGeneratedClass",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 1,
+        "object_name": "Default__BlueprintGeneratedClass",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 2,
+        "object_name": "Object",
+        "outer_index": -11
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 3,
+        "object_name": "Actor",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 4,
+        "object_name": "BlueprintGeneratedClass",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 5,
+        "object_name": "PointLightComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 6,
+        "object_name": "SceneComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 7,
+        "object_name": "SCS_Node",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 8,
+        "object_name": "SimpleConstructionScript",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 9,
+        "object_name": "StaticMeshComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "Package",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 10,
+        "object_name": "/Script/CoreUObject",
+        "outer_index": 0
+      },
+      {
+        "class_name": "Package",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 11,
+        "object_name": "/Script/Engine",
+        "outer_index": 0
+      },
+      {
+        "class_name": "PointLightComponent",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 12,
+        "object_name": "Default__PointLightComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "SceneComponent",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 13,
+        "object_name": "Default__SceneComponent",
+        "outer_index": -12
+      },
+      {
+        "class_name": "SCS_Node",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 14,
+        "object_name": "Default__SCS_Node",
+        "outer_index": -12
+      },
+      {
+        "class_name": "SimpleConstructionScript",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 15,
+        "object_name": "Default__SimpleConstructionScript",
+        "outer_index": -12
+      },
+      {
+        "class_name": "StaticMeshComponent",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 16,
+        "object_name": "Default__StaticMeshComponent",
+        "outer_index": -12
+      }
+    ],
+    "literal_reads": [
+      {
+        "bytes_hex": "c1832a9ef8ffffff",
+        "claim": "the 8 bytes at offset 0 of UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset are c1832a9ef8ffffff",
+        "evidence": {
+          "claim_class": "P",
+          "confidence": 0.97,
+          "evidence_level": "OBSERVED",
+          "note": "the claim states offset and length only. If this were wrong -- if the bytes were not stable -- the second read through a fresh handle would differ, and 'reproduced' would be false.",
+          "oracle": [
+            "filesystem"
+          ],
+          "read_locus": {
+            "address_kind": "file-offset",
+            "length": 8,
+            "offset": 0,
+            "target": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset"
+          },
+          "sources": [
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset@0+8",
+              "method": "tools/content/package_summary.py read at a determinate offset",
+              "note": "first read, through the handle opened for parsing"
+            },
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uasset@0+8",
+              "method": "second read through a freshly opened handle",
+              "note": "method re-run and result reproduced: yes"
+            }
+          ]
+        },
+        "length": 8,
+        "offset": 0,
+        "reproduced": true,
+        "target": "package header first 8 bytes"
+      }
+    ],
+    "names": {
+      "count": 52,
+      "entries": [
+        "/Script/CoreUObject",
+        "AllNodes",
+        "ArrayProperty",
+        "bCanBeDamaged",
+        "BlueprintType",
+        "BoolProperty",
+        "ChildNodes",
+        "ComponentClass",
+        "ComponentTemplate",
+        "CustomTimeDilation",
+        "DefaultSceneRoot",
+        "DefaultSceneRootNode",
+        "Engine",
+        "FloatProperty",
+        "Guid",
+        "InitialLifeSpan",
+        "InternalVariableName",
+        "NameProperty",
+        "None",
+        "ObjectProperty",
+        "parent-tag-a",
+        "parent-tag-b",
+        "ParentLight",
+        "ParentMesh",
+        "RootNodes",
+        "SimpleConstructionScript",
+        "StructProperty",
+        "Tags",
+        "VariableGuid",
+        "/Game/Ref/BP_RefParent",
+        "/Script/Engine",
+        "Actor",
+        "BlueprintGeneratedClass",
+        "BP_RefParent_C",
+        "Class",
+        "Default__Actor",
+        "Default__BlueprintGeneratedClass",
+        "Default__BP_RefParent_C",
+        "Default__PointLightComponent",
+        "Default__SceneComponent",
+        "Default__SCS_Node",
+        "Default__SimpleConstructionScript",
+        "Default__StaticMeshComponent",
+        "DefaultSceneRoot_GEN_VARIABLE",
+        "Object",
+        "Package",
+        "ParentLight_GEN_VARIABLE",
+        "ParentMesh_GEN_VARIABLE",
+        "PointLightComponent",
+        "SceneComponent",
+        "SCS_Node",
+        "StaticMeshComponent"
+      ]
+    },
+    "probes": {
+      "entries": [
+        {
+          "first_bytes_hex": "0019000000000000001300000000000000000000000400000000080000001200",
+          "first_property_tag_name": "<name 6400 out of range>",
+          "first_property_tag_name_index": 6400,
+          "index": 0,
+          "object_name": "BP_RefParent_C",
+          "payload_available": true,
+          "serial_size": 293,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "00030000000000000005000000000000000000000000000000000f0000000000",
+          "first_property_tag_name": "<name 768 out of range>",
+          "first_property_tag_name_index": 768,
+          "index": 1,
+          "object_name": "Default__BP_RefParent_C",
+          "payload_available": true,
+          "serial_size": 153,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "0012000000000000000000000000000000",
+          "first_property_tag_name": "<name 4608 out of range>",
+          "first_property_tag_name_index": 4608,
+          "index": 2,
+          "object_name": "ParentLight_GEN_VARIABLE",
+          "payload_available": true,
+          "serial_size": 17,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "0012000000000000000000000000000000",
+          "first_property_tag_name": "<name 4608 out of range>",
+          "first_property_tag_name_index": 4608,
+          "index": 3,
+          "object_name": "DefaultSceneRoot_GEN_VARIABLE",
+          "payload_available": true,
+          "serial_size": 17,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "0007000000000000001300000000000000000000000400000000f9ffffff0800",
+          "first_property_tag_name": "<name 1792 out of range>",
+          "first_property_tag_name_index": 1792,
+          "index": 4,
+          "object_name": "SCS_Node_0",
+          "payload_available": true,
+          "serial_size": 218,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "0007000000000000001300000000000000000000000400000000f6ffffff0800",
+          "first_property_tag_name": "<name 1792 out of range>",
+          "first_property_tag_name_index": 1792,
+          "index": 5,
+          "object_name": "SCS_Node_1",
+          "payload_available": true,
+          "serial_size": 169,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "0007000000000000001300000000000000000000000400000000faffffff0800",
+          "first_property_tag_name": "<name 1792 out of range>",
+          "first_property_tag_name_index": 1792,
+          "index": 6,
+          "object_name": "SCS_Node_2",
+          "payload_available": true,
+          "serial_size": 169,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "0018000000000000000200000000000000010000001300000000000000000000",
+          "first_property_tag_name": "<name 6144 out of range>",
+          "first_property_tag_name_index": 6144,
+          "index": 7,
+          "object_name": "SimpleConstructionScript_0",
+          "payload_available": true,
+          "serial_size": 140,
+          "shape": "versioned-tagged-properties"
+        },
+        {
+          "first_bytes_hex": "001200000000000000000000000000000000000000",
+          "first_property_tag_name": "<name 4608 out of range>",
+          "first_property_tag_name_index": 4608,
+          "index": 8,
+          "object_name": "ParentMesh_GEN_VARIABLE",
+          "payload_available": true,
+          "serial_size": 21,
+          "shape": "versioned-tagged-properties"
+        }
+      ],
+      "exports_probed": 9
+    },
+    "summary": {
+      "additional_packages_to_cook_count": 0,
+      "asset_registry_data_offset": 3294,
+      "bulk_data_start_offset": 4703,
+      "chunk_ids": [],
+      "compatible_with_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "compression_flags": 0,
+      "custom_version_count": 10,
+      "custom_versions": [
+        {
+          "guid": "12F88B9F88754AFCA67CD90C383ABD29",
+          "version": 48
+        },
+        {
+          "guid": "375EC13C06E448FBB50084F0262A717E",
+          "version": 4
+        },
+        {
+          "guid": "59DA5D5212324948B878597870B8E98B",
+          "version": 8
+        },
+        {
+          "guid": "5B4C06B724634AF8805BBF70CDF5D0DD",
+          "version": 12
+        },
+        {
+          "guid": "601D1886AC644F84AA16D3DE0DEAC7D6",
+          "version": 134
+        },
+        {
+          "guid": "697DD581E64F41ABAA4A51ECBEB7B628",
+          "version": 119
+        },
+        {
+          "guid": "B0D832E41F894F0DACCF7EB736FD4AA2",
+          "version": 10
+        },
+        {
+          "guid": "CFFC743F43B04480939114DF171D2073",
+          "version": 37
+        },
+        {
+          "guid": "D89B5E4224BD4D468412ACA8DF641779",
+          "version": 51
+        },
+        {
+          "guid": "E70863686B234C5884391B7016265E91",
+          "version": 13
+        }
+      ],
+      "data_resource_offset": -1,
+      "depends_offset": 3258,
+      "effective_file_version_ue4": 522,
+      "effective_file_version_ue5": 1012,
+      "effective_versions_assumed": false,
+      "export_count": 9,
+      "export_offset": 2250,
+      "file_version_licensee_ue4": 0,
+      "file_version_ue4": 522,
+      "file_version_ue5": 1012,
+      "filter_editor_only": true,
+      "gatherable_text_data_count": 0,
+      "gatherable_text_data_offset": 0,
+      "generations": [
+        {
+          "export_count": 9,
+          "name_count": 52
+        }
+      ],
+      "guid": "13C2AA344E28B539DB04D7880E501358",
+      "header_saved_unversioned": false,
+      "import_count": 17,
+      "import_offset": 1706,
+      "legacy_file_version": -8,
+      "legacy_ue3_version": 864,
+      "name_count": 52,
+      "name_offset": 439,
+      "names_referenced_from_export_data_count": 29,
+      "package_flags": "0x80000200",
+      "package_flags_decoded": [
+        "PKG_Cooked",
+        "PKG_FilterEditorOnly"
+      ],
+      "package_flags_value": 2147484160,
+      "package_name": "/Game/Ref/BP_RefParent",
+      "package_source": 3363347422,
+      "payload_toc_offset": -1,
+      "preload_dependency_count": 52,
+      "preload_dependency_offset": 3298,
+      "saved_by_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "searchable_names_offset": 0,
+      "soft_object_paths_count": 0,
+      "soft_object_paths_offset": 1706,
+      "soft_package_references_count": 0,
+      "soft_package_references_offset": 0,
+      "summary_bytes_consumed": 439,
+      "tag": "0x9E2A83C1",
+      "thumbnail_table_offset": 0,
+      "total_header_size": 3506,
+      "uses_unversioned_properties": false,
+      "world_tile_info_data_offset": 0
+    },
+    "tool": "tools/content/package_summary.py",
+    "tool_version": "1.0.0",
+    "uexp": {
+      "base_offset_equals_total_header_size": true,
+      "base_offset_used": 3506,
+      "path": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefParent.uexp",
+      "sha256": "3b6597e47aea9ac738def3dbcbcaf74b883d1a5c23b5f915f2223f82c84e468a",
+      "size": 1201
+    }
+  },
+  "tool": "tools/content/package_summary.py",
+  "tool_version": "1.0.0"
+}

@@ -1,0 +1,795 @@
+{
+  "findings": [
+    {
+      "claim": "the 118 bytes at offset 98927520 are the message literal of Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:855, which sits in UStruct::Link, inside the bRelinkExistingProperties branch; it is reached from executable code by the riprel-lea form (1 direct RIP-relative reference(s), 0 static log record(s) pointing at it, 0 reference(s) to those records)",
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "Two independent methods over two different objects. Neither alone supports a claim about this build: the tree says what UE 5.4.4 does, the image says what was linked in.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "UStruct::Link / FProperty::SetupOffset / FProperty::Serialize",
+            "method": "CK-04 first-party source read at the build's changelist",
+            "note": "oracle external-doc: every needle's text, file and line were read out of the UE source tree at run time (Changelist 35576357). This proves what the ENGINE does, never what this build does."
+          },
+          {
+            "artifact": null,
+            "independent_of": [
+              "CK-04 first-party source read at the build's changelist"
+            ],
+            "locator": "probe.hits[].offsets / probe.hits[].reference_offsets",
+            "method": "CK-04 image needle location and RIP-relative reference pass",
+            "note": "oracle binary-analysis: a different data source -- the shipped PE, not the source tree. Answers whether the code path is IN this image, which the tree cannot."
+          }
+        ]
+      },
+      "id": "link_relink_branch",
+      "role": "required",
+      "state": "PRESENT",
+      "why_this_needle": "its presence shows the branch that RECOMPUTES offsets was compiled into the image; UStruct::Link's other branch calls LinkWithoutChangingOffset instead and contains no Fatal log"
+    },
+    {
+      "claim": "the 120 bytes at offset 99068944 are the message literal of Engine/Source/Runtime/CoreUObject/Private/UObject/Property.cpp:1340, which sits in UE::CoreUObject::Private::OnInvalidPropertySize, whose only caller in the tree is FProperty::SetupOffset; it is reached from executable code by the riprel-lea form (1 direct RIP-relative reference(s), 0 static log record(s) pointing at it, 0 reference(s) to those records)",
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "Two independent methods over two different objects. Neither alone supports a claim about this build: the tree says what UE 5.4.4 does, the image says what was linked in.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "UStruct::Link / FProperty::SetupOffset / FProperty::Serialize",
+            "method": "CK-04 first-party source read at the build's changelist",
+            "note": "oracle external-doc: every needle's text, file and line were read out of the UE source tree at run time (Changelist 35576357). This proves what the ENGINE does, never what this build does."
+          },
+          {
+            "artifact": null,
+            "independent_of": [
+              "CK-04 first-party source read at the build's changelist"
+            ],
+            "locator": "probe.hits[].offsets / probe.hits[].reference_offsets",
+            "method": "CK-04 image needle location and RIP-relative reference pass",
+            "note": "oracle binary-analysis: a different data source -- the shipped PE, not the source tree. Answers whether the code path is IN this image, which the tree cannot."
+          }
+        ]
+      },
+      "id": "setup_offset",
+      "role": "required",
+      "state": "PRESENT",
+      "why_this_needle": "SetupOffset is the function that assigns Offset_Internal from the owner struct's running PropertiesSize; the overflow guard that formats this message is inside it"
+    },
+    {
+      "claim": "no byte sequence on the searched surface matches the message literal of Engine/Source/Runtime/CoreUObject/Private/UObject/PropertyStruct.cpp:116; for a UE_LOG_ERROR-guarded message that is the expected reading of an image built with that macro compiled out, and it says nothing about whether FStructProperty::LinkInternal is present",
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "Two independent methods over two different objects. Neither alone supports a claim about this build: the tree says what UE 5.4.4 does, the image says what was linked in.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "UStruct::Link / FProperty::SetupOffset / FProperty::Serialize",
+            "method": "CK-04 first-party source read at the build's changelist",
+            "note": "oracle external-doc: every needle's text, file and line were read out of the UE source tree at run time (Changelist 35576357). This proves what the ENGINE does, never what this build does."
+          },
+          {
+            "artifact": null,
+            "independent_of": [
+              "CK-04 first-party source read at the build's changelist"
+            ],
+            "locator": "probe.hits[].offsets / probe.hits[].reference_offsets",
+            "method": "CK-04 image needle location and RIP-relative reference pass",
+            "note": "oracle binary-analysis: a different data source -- the shipped PE, not the source tree. Answers whether the code path is IN this image, which the tree cannot."
+          }
+        ]
+      },
+      "id": "struct_property_link",
+      "role": "corroborating",
+      "state": "NOT_FOUND_WITHIN_TESTED_SURFACE",
+      "why_this_needle": "LinkInternal is where a struct property's ElementSize is recomputed from the resolved struct at load time"
+    },
+    {
+      "claim": "no byte sequence on the searched surface matches the message literal of Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:819; for a ENSUREMSGF-guarded message that is the expected reading of an image built with that macro compiled out, and it says nothing about whether UStruct::Link, inside the bRelinkExistingProperties branch is present",
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "Two independent methods over two different objects. Neither alone supports a claim about this build: the tree says what UE 5.4.4 does, the image says what was linked in.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "UStruct::Link / FProperty::SetupOffset / FProperty::Serialize",
+            "method": "CK-04 first-party source read at the build's changelist",
+            "note": "oracle external-doc: every needle's text, file and line were read out of the UE source tree at run time (Changelist 35576357). This proves what the ENGINE does, never what this build does."
+          },
+          {
+            "artifact": null,
+            "independent_of": [
+              "CK-04 first-party source read at the build's changelist"
+            ],
+            "locator": "probe.hits[].offsets / probe.hits[].reference_offsets",
+            "method": "CK-04 image needle location and RIP-relative reference pass",
+            "note": "oracle binary-analysis: a different data source -- the shipped PE, not the source tree. Answers whether the code path is IN this image, which the tree cannot."
+          }
+        ]
+      },
+      "id": "link_owner_ensure",
+      "role": "corroborating",
+      "state": "NOT_FOUND_WITHIN_TESTED_SURFACE",
+      "why_this_needle": "sits two statements above the Property->Link(Ar) call itself"
+    },
+    {
+      "claim": "no byte sequence on the searched surface matches the message literal of Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:5368; for a CHECKF-guarded message that is the expected reading of an image built with that macro compiled out, and it says nothing about whether UClass::Serialize, immediately above its Link(Ar, true) call is present",
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "Two independent methods over two different objects. Neither alone supports a claim about this build: the tree says what UE 5.4.4 does, the image says what was linked in.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "UStruct::Link / FProperty::SetupOffset / FProperty::Serialize",
+            "method": "CK-04 first-party source read at the build's changelist",
+            "note": "oracle external-doc: every needle's text, file and line were read out of the UE source tree at run time (Changelist 35576357). This proves what the ENGINE does, never what this build does."
+          },
+          {
+            "artifact": null,
+            "independent_of": [
+              "CK-04 first-party source read at the build's changelist"
+            ],
+            "locator": "probe.hits[].offsets / probe.hits[].reference_offsets",
+            "method": "CK-04 image needle location and RIP-relative reference pass",
+            "note": "oracle binary-analysis: a different data source -- the shipped PE, not the source tree. Answers whether the code path is IN this image, which the tree cannot."
+          }
+        ]
+      },
+      "id": "native_never_loaded",
+      "role": "corroborating",
+      "state": "NOT_FOUND_WITHIN_TESTED_SURFACE",
+      "why_this_needle": "states in first-party words that a native class is never loaded from a package, which is the whole of question 1"
+    },
+    {
+      "claim": "no byte sequence on the searched surface matches the message literal of Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:3484; for a CHECKF-guarded message that is the expected reading of an image built with that macro compiled out, and it says nothing about whether UScriptStruct::DestroyStruct is present",
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "Two independent methods over two different objects. Neither alone supports a claim about this build: the tree says what UE 5.4.4 does, the image says what was linked in.",
+        "oracle": [
+          "binary-analysis",
+          "external-doc"
+        ],
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "UStruct::Link / FProperty::SetupOffset / FProperty::Serialize",
+            "method": "CK-04 first-party source read at the build's changelist",
+            "note": "oracle external-doc: every needle's text, file and line were read out of the UE source tree at run time (Changelist 35576357). This proves what the ENGINE does, never what this build does."
+          },
+          {
+            "artifact": null,
+            "independent_of": [
+              "CK-04 first-party source read at the build's changelist"
+            ],
+            "locator": "probe.hits[].offsets / probe.hits[].reference_offsets",
+            "method": "CK-04 image needle location and RIP-relative reference pass",
+            "note": "oracle binary-analysis: a different data source -- the shipped PE, not the source tree. Answers whether the code path is IN this image, which the tree cannot."
+          }
+        ]
+      },
+      "id": "cpp_size_mismatch",
+      "role": "corroborating",
+      "state": "NOT_FOUND_WITHIN_TESTED_SURFACE",
+      "why_this_needle": "the only size cross-check in this area, and it compares C++ sizeof against the reflected size of a NATIVE struct -- not a cook-time size against a load-time size"
+    }
+  ],
+  "generated_at": "2026-08-23T18:11:32Z",
+  "generator": {
+    "name": "tools/static/link_path_probe.py",
+    "version": "1.0.0"
+  },
+  "hits": [
+    {
+      "byte_length": 118,
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:855",
+      "encloses": "UStruct::Link, inside the bRelinkExistingProperties branch",
+      "encoding": "utf-16le",
+      "guard": "UE_LOG_FATAL",
+      "id": "link_relink_branch",
+      "occurrences": 1,
+      "offsets": [
+        98927520
+      ],
+      "reachable_from_code": true,
+      "reference_form": "riprel-lea",
+      "reference_offsets": [
+        18479137
+      ],
+      "references": 1,
+      "references_to_static_record": 0,
+      "role": "required",
+      "rva": 98931104,
+      "searched": true,
+      "section": ".rdata",
+      "static_record_pointers": [],
+      "va": 5467640224,
+      "why": "its presence shows the branch that RECOMPUTES offsets was compiled into the image; UStruct::Link's other branch calls LinkWithoutChangingOffset instead and contains no Fatal log"
+    },
+    {
+      "byte_length": 120,
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Property.cpp:1340",
+      "encloses": "UE::CoreUObject::Private::OnInvalidPropertySize, whose only caller in the tree is FProperty::SetupOffset",
+      "encoding": "utf-16le",
+      "guard": "UE_LOG_FATAL",
+      "id": "setup_offset",
+      "occurrences": 1,
+      "offsets": [
+        99068944
+      ],
+      "reachable_from_code": true,
+      "reference_form": "riprel-lea",
+      "reference_offsets": [
+        19262681
+      ],
+      "references": 1,
+      "references_to_static_record": 0,
+      "role": "required",
+      "rva": 99072528,
+      "searched": true,
+      "section": ".rdata",
+      "static_record_pointers": [],
+      "va": 5467781648,
+      "why": "SetupOffset is the function that assigns Offset_Internal from the owner struct's running PropertiesSize; the overflow guard that formats this message is inside it"
+    },
+    {
+      "byte_length": null,
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/PropertyStruct.cpp:116",
+      "encloses": "FStructProperty::LinkInternal",
+      "encoding": null,
+      "guard": "UE_LOG_ERROR",
+      "id": "struct_property_link",
+      "occurrences": 0,
+      "offsets": [],
+      "reachable_from_code": false,
+      "reference_form": null,
+      "reference_offsets": [],
+      "references": 0,
+      "references_to_static_record": 0,
+      "role": "corroborating",
+      "rva": null,
+      "searched": true,
+      "section": null,
+      "static_record_pointers": [],
+      "va": null,
+      "why": "LinkInternal is where a struct property's ElementSize is recomputed from the resolved struct at load time"
+    },
+    {
+      "byte_length": null,
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:819",
+      "encloses": "UStruct::Link, inside the bRelinkExistingProperties branch",
+      "encoding": null,
+      "guard": "ENSUREMSGF",
+      "id": "link_owner_ensure",
+      "occurrences": 0,
+      "offsets": [],
+      "reachable_from_code": false,
+      "reference_form": null,
+      "reference_offsets": [],
+      "references": 0,
+      "references_to_static_record": 0,
+      "role": "corroborating",
+      "rva": null,
+      "searched": true,
+      "section": null,
+      "static_record_pointers": [],
+      "va": null,
+      "why": "sits two statements above the Property->Link(Ar) call itself"
+    },
+    {
+      "byte_length": null,
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:5368",
+      "encloses": "UClass::Serialize, immediately above its Link(Ar, true) call",
+      "encoding": null,
+      "guard": "CHECKF",
+      "id": "native_never_loaded",
+      "occurrences": 0,
+      "offsets": [],
+      "reachable_from_code": false,
+      "reference_form": null,
+      "reference_offsets": [],
+      "references": 0,
+      "references_to_static_record": 0,
+      "role": "corroborating",
+      "rva": null,
+      "searched": true,
+      "section": null,
+      "static_record_pointers": [],
+      "va": null,
+      "why": "states in first-party words that a native class is never loaded from a package, which is the whole of question 1"
+    },
+    {
+      "byte_length": null,
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:3484",
+      "encloses": "UScriptStruct::DestroyStruct",
+      "encoding": null,
+      "guard": "CHECKF",
+      "id": "cpp_size_mismatch",
+      "occurrences": 0,
+      "offsets": [],
+      "reachable_from_code": false,
+      "reference_form": null,
+      "reference_offsets": [],
+      "references": 0,
+      "references_to_static_record": 0,
+      "role": "corroborating",
+      "rva": null,
+      "searched": true,
+      "section": null,
+      "static_record_pointers": [],
+      "va": null,
+      "why": "the only size cross-check in this area, and it compares C++ sizeof against the reflected size of a NATIVE struct -- not a cook-time size against a load-time size"
+    }
+  ],
+  "literal_reads": [
+    {
+      "bytes_hex": "27 00 53 00 74 00 72 00 75 00 63 00 74 00 20 00 72 00 65 00 63 00 75 00 72 00 73 00 69 00 6f 00 6e 00 20 00 76 00 69 00 61 00 20 00 61 00 72 00 72 00 61 00 79 00 73 00 20 00 69 00 73 00 20 00 75 00 6e 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 69 00 65 00 73 00 2e 00",
+      "claim": "118 bytes at offset 98927520 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 27 00 53 00 74 00 72 00 75 00 63 00 74 00 20 00 72 00 65 00 63 00 75 00 72 00 73 00 69 00 6f 00 6e 00 20 00 76 00 69 00 61 00 20 00 61 00 72 00 72 00 61 00 79 00 73 00 20 00 69 00 73 00 20 00 75 00 6e 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 69 00 65 00 73 00 2e 00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "118 bytes at offset 98927520 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 27 00 53 00 74 00 72 00 75 00 63 00 74 00 20 00 72 00 65 00 63 00 75 00 72 00 73 00 69 00 6f 00 6e 00 20 00 76 00 69 00 61 00 20 00 61 00 72 00 72 00 61 00 79 00 73 00 20 00 69 00 73 00 20 00 75 00 6e 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 69 00 65 00 73 00 2e 00. This record gives the position and the extent, and nothing else. Method rerun and result reproduced.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "27 00 53 00 74 00 72 00 75 00 63 00 74 00 20 00 72 00 65 00 63 00 75 00 72 00 73 00 69 00 6f 00 6e 00 20 00 76 00 69 00 61 00 20 00 61 00 72 00 72 00 61 00 79 00 73 00 20 00 69 00 73 00 20 00 75 00 6e 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 69 00 65 00 73 00 2e 00",
+          "length": 118,
+          "offset": 98927520,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@98927520+118",
+            "method": "CK-04 image needle read",
+            "note": "oracle binary-analysis. Read by tools/static/link_path_probe.py, read-only. Method rerun and result reproduced."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching entry of findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "link_relink_branch",
+      "length": 118,
+      "offset": 98927520,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "49 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 75 00 20 00 77 00 68 00 65 00 6e 00 20 00 6c 00 69 00 6e 00 6b 00 69 00 6e 00 67 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 25 00 73 00 20 00 6f 00 66 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 64 00",
+      "claim": "120 bytes at offset 99068944 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 49 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 75 00 20 00 77 00 68 00 65 00 6e 00 20 00 6c 00 69 00 6e 00 6b 00 69 00 6e 00 67 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 25 00 73 00 20 00 6f 00 66 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 64 00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "120 bytes at offset 99068944 of MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe are 49 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 75 00 20 00 77 00 68 00 65 00 6e 00 20 00 6c 00 69 00 6e 00 6b 00 69 00 6e 00 67 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 25 00 73 00 20 00 6f 00 66 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 64 00. This record gives the position and the extent, and nothing else. Method rerun and result reproduced.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "49 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 75 00 20 00 77 00 68 00 65 00 6e 00 20 00 6c 00 69 00 6e 00 6b 00 69 00 6e 00 67 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 79 00 20 00 25 00 73 00 20 00 6f 00 66 00 20 00 73 00 69 00 7a 00 65 00 20 00 25 00 64 00",
+          "length": 120,
+          "offset": 99068944,
+          "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe@99068944+120",
+            "method": "CK-04 image needle read",
+            "note": "oracle binary-analysis. Read by tools/static/link_path_probe.py, read-only. Method rerun and result reproduced."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching entry of findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "setup_offset",
+      "length": 120,
+      "offset": 99068944,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe"
+    }
+  ],
+  "needles": [
+    {
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:855",
+      "encloses": "UStruct::Link, inside the bRelinkExistingProperties branch",
+      "found_in_source": true,
+      "guard": "UE_LOG_FATAL",
+      "id": "link_relink_branch",
+      "matches_in_file": 1,
+      "pattern": "UE_LOG\\(LogClass,\\s*Fatal,\\s*TEXT\\(\"(\\'Struct recursion via arrays[^\"]*)\"\\)",
+      "role": "required",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "source_line": 855,
+      "text": "'Struct recursion via arrays is unsupported for properties.",
+      "text_chars": 59,
+      "why": "its presence shows the branch that RECOMPUTES offsets was compiled into the image; UStruct::Link's other branch calls LinkWithoutChangingOffset instead and contains no Fatal log"
+    },
+    {
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Property.cpp:1340",
+      "encloses": "UE::CoreUObject::Private::OnInvalidPropertySize, whose only caller in the tree is FProperty::SetupOffset",
+      "found_in_source": true,
+      "guard": "UE_LOG_FATAL",
+      "id": "setup_offset",
+      "matches_in_file": 1,
+      "pattern": "UE_LOG\\(LogProperty,\\s*Fatal,\\s*TEXT\\(\"(Invalid property size[^\"]*)\"\\)",
+      "role": "required",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Property.cpp",
+      "source_line": 1340,
+      "text": "Invalid property size %u when linking property %s of size %d",
+      "text_chars": 60,
+      "why": "SetupOffset is the function that assigns Offset_Internal from the owner struct's running PropertiesSize; the overflow guard that formats this message is inside it"
+    },
+    {
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/PropertyStruct.cpp:116",
+      "encloses": "FStructProperty::LinkInternal",
+      "found_in_source": true,
+      "guard": "UE_LOG_ERROR",
+      "id": "struct_property_link",
+      "matches_in_file": 1,
+      "pattern": "UE_LOG\\(LogProperty,\\s*Error,\\s*TEXT\\(\"(Struct type unknown for property[^\"]*)\"\\)",
+      "role": "corroborating",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/PropertyStruct.cpp",
+      "source_line": 116,
+      "text": "Struct type unknown for property '%s'; perhaps the USTRUCT() was renamed or deleted?",
+      "text_chars": 84,
+      "why": "LinkInternal is where a struct property's ElementSize is recomputed from the resolved struct at load time"
+    },
+    {
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:819",
+      "encloses": "UStruct::Link, inside the bRelinkExistingProperties branch",
+      "found_in_source": true,
+      "guard": "ENSUREMSGF",
+      "id": "link_owner_ensure",
+      "matches_in_file": 1,
+      "pattern": "ensureMsgf\\(Property->GetOwner<UObject>\\(\\) == this,\\s*TEXT\\(\"([^\"]*)\"\\)",
+      "role": "corroborating",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "source_line": 819,
+      "text": "Linking '%s'. Property '%s' has outer '%s'",
+      "text_chars": 42,
+      "why": "sits two statements above the Property->Link(Ar) call itself"
+    },
+    {
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:5368",
+      "encloses": "UClass::Serialize, immediately above its Link(Ar, true) call",
+      "found_in_source": true,
+      "guard": "CHECKF",
+      "id": "native_never_loaded",
+      "matches_in_file": 1,
+      "pattern": "checkf\\(!HasAnyClassFlags\\(CLASS_Native\\),\\s*TEXT\\(\"([^\"]*)\"\\)",
+      "role": "corroborating",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "source_line": 5368,
+      "text": "Class %s loaded with CLASS_Native....we should not be loading any native classes.",
+      "text_chars": 81,
+      "why": "states in first-party words that a native class is never loaded from a package, which is the whole of question 1"
+    },
+    {
+      "citation": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:3484",
+      "encloses": "UScriptStruct::DestroyStruct",
+      "found_in_source": true,
+      "guard": "CHECKF",
+      "id": "cpp_size_mismatch",
+      "matches_in_file": 1,
+      "pattern": "checkf\\(Stride == ClearedSize && PropertiesSize == ClearedSize,\\s*TEXT\\(\"([^\"]*)\"\\)",
+      "role": "corroborating",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "source_line": 3484,
+      "text": "C++ and the property system struct size mismatch for %s (C++ Size: %d, Property Size: %d)",
+      "text_chars": 89,
+      "why": "the only size cross-check in this area, and it compares C++ sizeof against the reflected size of a NATIVE struct -- not a cook-time size against a load-time size"
+    }
+  ],
+  "negative_control": {
+    "derived_from": "link_relink_branch",
+    "kind": "negative control",
+    "note": "a real needle with its tail replaced. A tool that cannot return zero cannot report an absence.",
+    "occurrences": 0,
+    "passed": true
+  },
+  "probes": [
+    {
+      "ambiguous": [],
+      "breaks_conclusion_if": "a required needle is absent -- the code path was not linked into this image; or occurs more than once -- attribution is ambiguous",
+      "id": "required_needles_unique",
+      "missing": [],
+      "passed": true,
+      "question": "is every needle the verdict depends on present exactly once on the searched surface?"
+    },
+    {
+      "breaks_conclusion_if": "a needle is reached by neither form -- the literal survived as dead data and no code formats it, so its presence says nothing about the function",
+      "forms": {
+        "link_relink_branch": "riprel-lea",
+        "setup_offset": "riprel-lea"
+      },
+      "id": "required_needles_referenced",
+      "note": "the LEA decoder handles one instruction form and the pointer decoder one data form, so the count UNDERCOUNTS; only zero carries weight here, and an undercount can make the evidence look weaker than it is, never stronger",
+      "passed": true,
+      "question": "does code in an executable section reach each required needle -- directly by a RIP-relative LEA, or through a static log record in .rdata that points at it?",
+      "unreferenced": []
+    },
+    {
+      "breaks_conclusion_if": "check/ensure text is present while no Fatal text is -- the model of compile-time gating is inverted, and then every absence in this document is uninterpretable",
+      "check_text_present": [],
+      "check_text_searched": [
+        "link_owner_ensure",
+        "native_never_loaded",
+        "cpp_size_mismatch"
+      ],
+      "configuration_reading": "checks compiled out",
+      "fatal_text_present": [
+        "link_relink_branch",
+        "setup_offset"
+      ],
+      "id": "compile_gating_consistent",
+      "passed": true,
+      "question": "is the observed presence pattern consistent with the model 'Fatal log text always survives, check/ensure text does not survive a Shipping link'?"
+    },
+    {
+      "breaks_conclusion_if": "the mutated string is 'found' -- the matcher reports hits that are not there and every positive in this document is worthless",
+      "detail": {
+        "derived_from": "link_relink_branch",
+        "kind": "negative control",
+        "note": "a real needle with its tail replaced. A tool that cannot return zero cannot report an absence.",
+        "occurrences": 0,
+        "passed": true
+      },
+      "id": "negative_control",
+      "passed": true,
+      "question": "does a deliberately mutated needle return zero occurrences?"
+    },
+    {
+      "breaks_conclusion_if": "both needles trace to the same line or file, in which case they are one observation wearing two names",
+      "citations": [
+        "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp:855",
+        "Engine/Source/Runtime/CoreUObject/Private/UObject/Property.cpp:1340"
+      ],
+      "id": "required_needles_distinct_origin",
+      "passed": true,
+      "question": "do the required needles come from different source files, so that one accidental data blob cannot explain both?",
+      "sections_found_in": [
+        ".rdata"
+      ]
+    },
+    {
+      "breaks_conclusion_if": "any of them does -- then an offset or a cook-time parent size IS written into the package and could be read back, and the whole recompute reading is wrong",
+      "id": "no_serializer_streams_the_offset",
+      "note": "the member lists are EXTRACTED from the tree, not asserted here; see source_probes[].streams for what each one does stream",
+      "passed": true,
+      "question": "do FProperty::Serialize / UStruct::Serialize / UClass::Serialize stream Offset_Internal, PropertiesSize or MinAlignment?",
+      "serializers_checked": [
+        "fproperty_serialize",
+        "ustruct_serialize",
+        "uclass_serialize"
+      ],
+      "serializers_not_found": [],
+      "violations": []
+    }
+  ],
+  "question": "CK-04 -- plan.md 14A.4",
+  "question_text": "does the shipped image contain the UStruct::Link / FProperty::SetupOffset code path that the first-party source says recomputes property offsets at load time?",
+  "source_probes": [
+    {
+      "found": true,
+      "id": "fproperty_serialize",
+      "line_span": [
+        836,
+        872
+      ],
+      "must_not_stream": [
+        "Offset_Internal"
+      ],
+      "passed": true,
+      "signature": "void FProperty::Serialize( FArchive& Ar )",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Property.cpp",
+      "streams": [
+        "ArrayDim",
+        "ElementSize",
+        "SaveFlags",
+        "RepIndex",
+        "RepNotifyFunc",
+        "BlueprintReplicationCondition"
+      ],
+      "violations": [],
+      "why": "Offset_Internal is the member that holds a property's offset from the container base. If a cooked package carried the offset, this is the one place it could be written."
+    },
+    {
+      "found": true,
+      "id": "ustruct_serialize",
+      "line_span": [
+        2003,
+        2199
+      ],
+      "must_not_stream": [
+        "PropertiesSize",
+        "MinAlignment"
+      ],
+      "passed": true,
+      "signature": "void UStruct::Serialize(FArchive& Ar)",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "streams": [
+        "SuperStruct",
+        "Children",
+        "ChildArray",
+        "ScriptBytecodeSize",
+        "ScriptStorageSize",
+        "ScriptAndPropertyObjectReferences"
+      ],
+      "violations": [],
+      "why": "PropertiesSize is the parent size that every child offset is measured from. If the cook-time parent size were recorded anywhere, this is where."
+    },
+    {
+      "found": true,
+      "id": "uclass_serialize",
+      "line_span": [
+        5269,
+        5542
+      ],
+      "must_not_stream": [
+        "PropertiesSize",
+        "MinAlignment",
+        "Offset_Internal"
+      ],
+      "passed": true,
+      "signature": "void UClass::Serialize( FArchive& Ar )",
+      "source_file": "Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+      "streams": [
+        "FuncMap",
+        "SavedClassFlags",
+        "ClassFlags",
+        "ClassWithin",
+        "ClassConfigName",
+        "NumInterfaces",
+        "ClassGeneratedBy",
+        "SerializedInterfaces",
+        "Interfaces",
+        "bDeprecatedForceScriptOrder",
+        "Dummy",
+        "bCookedAsBool",
+        "PerspectiveNewCDO",
+        "ClassDefaultObject",
+        "SparseClassDataStruct"
+      ],
+      "violations": [],
+      "why": "the class-level serializer, for the same two members"
+    }
+  ],
+  "surface": {
+    "bytes_in_executable_sections": 98343936,
+    "bytes_with_on_disk_data": 134656512,
+    "file_size": 134658048,
+    "image_base": 5368709120,
+    "literal_search_surface": "the whole file, byte 0 to file_size",
+    "reference_search_surface": "only sections whose characteristics carry IMAGE_SCN_MEM_EXECUTE (0x20000000)",
+    "sections": [
+      {
+        "executable": true,
+        "file_offset": 1536,
+        "name": ".text",
+        "raw_bytes_on_disk": 98343936,
+        "rva": 4096,
+        "virtual_size": 98343548
+      },
+      {
+        "executable": false,
+        "file_offset": 98345472,
+        "name": ".rdata",
+        "raw_bytes_on_disk": 27302912,
+        "rva": 98349056,
+        "virtual_size": 27302796
+      },
+      {
+        "executable": false,
+        "file_offset": 125648384,
+        "name": ".data",
+        "raw_bytes_on_disk": 1492480,
+        "rva": 125652992,
+        "virtual_size": 5215788
+      },
+      {
+        "executable": false,
+        "file_offset": 127140864,
+        "name": ".pdata",
+        "raw_bytes_on_disk": 4936704,
+        "rva": 130871296,
+        "virtual_size": 4936620
+      },
+      {
+        "executable": false,
+        "file_offset": 132077568,
+        "name": ".msvcjmc",
+        "raw_bytes_on_disk": 512,
+        "rva": 135811072,
+        "virtual_size": 8
+      },
+      {
+        "executable": false,
+        "file_offset": 132078080,
+        "name": ".rodata",
+        "raw_bytes_on_disk": 2048,
+        "rva": 135815168,
+        "virtual_size": 1936
+      },
+      {
+        "executable": false,
+        "file_offset": 132080128,
+        "name": "_RDATA",
+        "raw_bytes_on_disk": 382976,
+        "rva": 135819264,
+        "virtual_size": 382480
+      },
+      {
+        "executable": false,
+        "file_offset": 132463104,
+        "name": ".rsrc",
+        "raw_bytes_on_disk": 275456,
+        "rva": 136204288,
+        "virtual_size": 275424
+      },
+      {
+        "executable": false,
+        "file_offset": 132738560,
+        "name": ".reloc",
+        "raw_bytes_on_disk": 1919488,
+        "rva": 136482816,
+        "virtual_size": 1919192
+      }
+    ]
+  },
+  "target": {
+    "path_in_install": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+    "read_only": true,
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "size": 134658048
+  },
+  "ue_source_tree": {
+    "build_version": {
+      "BranchName": "++UE5+Release-5.4",
+      "Changelist": 35576357,
+      "IsPromotedBuild": 1,
+      "MajorVersion": 5,
+      "MinorVersion": 4,
+      "PatchVersion": 4
+    },
+    "given": true,
+    "note": "oracle external-doc per plan.md 10.5: this tree proves what UE 5.4.4 does at this changelist, and nothing about this build."
+  },
+  "verdict": "PATH_PRESENT_AND_REFERENCED",
+  "verdict_why": "every required needle is present exactly once and is addressed by code in an executable section",
+  "warnings": [],
+  "what_this_does_not_answer": "whether offsets are recomputed. That is answered by reading the source, is graded in research/packages/sp1-static-proxy.md, and is NOT strengthened by this document. This document answers only whether the code path is in this image."
+}

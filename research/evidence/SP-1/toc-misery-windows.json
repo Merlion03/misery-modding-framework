@@ -1,0 +1,709 @@
+{
+  "chunk_type_census": {
+    "BulkData": 5513,
+    "ContainerHeader": 1,
+    "ExportBundleData": 12933,
+    "ShaderCode": 1061,
+    "ShaderCodeLibrary": 2
+  },
+  "chunks_listed": [
+    {
+      "chunk_id_hex": "d9e2493200ae661400000001",
+      "chunk_length": 2396,
+      "chunk_offset": 1104478208,
+      "chunk_type_byte": 1,
+      "chunk_type_name": "ExportBundleData",
+      "index": 0,
+      "offset_and_length_hex": "0041d50000000000095c"
+    },
+    {
+      "chunk_id_hex": "6cf7c0333cb6fb1600000002",
+      "chunk_length": 210548,
+      "chunk_offset": 4036362240,
+      "chunk_type_byte": 2,
+      "chunk_type_name": "BulkData",
+      "index": 1,
+      "offset_and_length_hex": "00f09600000000033674"
+    },
+    {
+      "chunk_id_hex": "82c37a2ff6f0dfcc00000002",
+      "chunk_length": 81920,
+      "chunk_offset": 4052549632,
+      "chunk_type_byte": 2,
+      "chunk_type_name": "BulkData",
+      "index": 2,
+      "offset_and_length_hex": "00f18d00000000014000"
+    },
+    {
+      "chunk_id_hex": "879cf784d0a3b15000000002",
+      "chunk_length": 26832,
+      "chunk_offset": 4232314880,
+      "chunk_type_byte": 2,
+      "chunk_type_name": "BulkData",
+      "index": 3,
+      "offset_and_length_hex": "00fc44000000000068d0"
+    },
+    {
+      "chunk_id_hex": "ddae19615efaa64900000001",
+      "chunk_length": 319,
+      "chunk_offset": 619053056,
+      "chunk_type_byte": 1,
+      "chunk_type_name": "ExportBundleData",
+      "index": 4,
+      "offset_and_length_hex": "0024e60000000000013f"
+    },
+    {
+      "chunk_id_hex": "63efd4c2f5a8a28300000001",
+      "chunk_length": 62445,
+      "chunk_offset": 1929641984,
+      "chunk_type_byte": 1,
+      "chunk_type_name": "ExportBundleData",
+      "index": 5,
+      "offset_and_length_hex": "0073040000000000f3ed"
+    },
+    {
+      "chunk_id_hex": "dd353fe85598727e00000001",
+      "chunk_length": 5999,
+      "chunk_offset": 2870935552,
+      "chunk_type_byte": 1,
+      "chunk_type_name": "ExportBundleData",
+      "index": 6,
+      "offset_and_length_hex": "00ab1f0000000000176f"
+    },
+    {
+      "chunk_id_hex": "6c0b11dba988a21500000001",
+      "chunk_length": 556,
+      "chunk_offset": 815398912,
+      "chunk_type_byte": 1,
+      "chunk_type_name": "ExportBundleData",
+      "index": 7,
+      "offset_and_length_hex": "00309a0000000000022c"
+    }
+  ],
+  "chunks_listed_cap": 8,
+  "container_flags_decoded": [
+    "Encrypted",
+    "Indexed"
+  ],
+  "container_flags_hex": "0x0a",
+  "decrypted_anything": false,
+  "engine_branch": "++UE5+Release-5.4",
+  "engine_changelist": 35576357,
+  "file_sha256": "sha256:233b715a091f318aa7ac338b3076e21bfc9a10274ba154d7a62fd0ef0e41d029",
+  "file_size": 2916142,
+  "findings": [
+    {
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.79,
+        "evidence_level": "INFERRED",
+        "note": "Class I: calling twelve bytes a chunk id of type ScriptObjects, and naming the consequence for loader selection, leans on the UE 5.4.4 source layout, which is an external document about vanilla UE and not about this build. The bytes alone are in literal_reads. What we would see if this were wrong: the twelve-byte pattern absent from every container in the install, or present with a different trailing discriminator byte.",
+        "oracle": [
+          "container-metadata",
+          "external-doc"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "chunk-id table of the container named in `target`",
+            "method": "SP-1",
+            "note": "oracle container-metadata. One method: the chunk-id table was read and searched for a twelve-byte pattern derived from IoChunkId.h."
+          }
+        ]
+      },
+      "probe_bytes_hex": "000000000000000000000005",
+      "probe_source": "Runtime/Core/Public/IO/IoChunkId.h:136 (CreateIoChunkId)",
+      "question": "Does this container hold the chunk whose presence selects MakeAsyncPackageLoader2 for a cooked build?",
+      "script_objects_chunk_index": null,
+      "script_objects_chunk_present": false,
+      "selector_source": "Runtime/CoreUObject/Private/Serialization/AsyncPackageLoader.cpp:202,212-215"
+    }
+  ],
+  "generated_at": "2026-08-23T18:25:57Z",
+  "generator_version": "loader_admission_probe/1.0.0",
+  "header_values": {
+    "compression_block_size": 65536,
+    "compression_method_name_count": 0,
+    "compression_method_name_length": 32,
+    "container_flags": 10,
+    "container_id": 3459511801983883622,
+    "directory_index_size": 844960,
+    "partition_count": 1,
+    "partition_size": 18446744073709551615,
+    "toc_chunk_perfect_hash_seeds_count": 9755,
+    "toc_chunks_without_perfect_hash_count": 0,
+    "toc_compressed_block_entry_count": 79914,
+    "toc_compressed_block_entry_size": 12,
+    "toc_entry_count": 19510,
+    "toc_header_size": 144
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+      "claim": "16 bytes at offset 0 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 0 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2d3d3d2d2d3d3d2d2d3d3d2d2d3d3d2d",
+          "length": 16,
+          "offset": 0,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@0+16",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_magic",
+      "length": 16,
+      "offset": 0,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "90000000",
+      "claim": "4 bytes at offset 20 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 90000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 20 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 90000000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "90000000",
+          "length": 4,
+          "offset": 20,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@20+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_header_size",
+      "length": 4,
+      "offset": 20,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "364c0000",
+      "claim": "4 bytes at offset 24 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 364c0000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 24 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 364c0000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "364c0000",
+          "length": 4,
+          "offset": 24,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@24+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_entry_count",
+      "length": 4,
+      "offset": 24,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "2a380100",
+      "claim": "4 bytes at offset 28 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 2a380100",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 28 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 2a380100. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2a380100",
+          "length": 4,
+          "offset": 28,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@28+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_compressed_block_entry_count",
+      "length": 4,
+      "offset": 28,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "0c000000",
+      "claim": "4 bytes at offset 32 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 0c000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 32 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 0c000000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "0c000000",
+          "length": 4,
+          "offset": 32,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@32+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_compressed_block_entry_size",
+      "length": 4,
+      "offset": 32,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "00000000",
+      "claim": "4 bytes at offset 36 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 00000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 36 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 00000000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00000000",
+          "length": 4,
+          "offset": 36,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@36+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "compression_method_name_count",
+      "length": 4,
+      "offset": 36,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "20000000",
+      "claim": "4 bytes at offset 40 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 20000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 40 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 20000000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "20000000",
+          "length": 4,
+          "offset": 40,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@40+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "compression_method_name_length",
+      "length": 4,
+      "offset": 40,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "00000100",
+      "claim": "4 bytes at offset 44 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 00000100",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 44 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 00000100. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00000100",
+          "length": 4,
+          "offset": 44,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@44+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "compression_block_size",
+      "length": 4,
+      "offset": 44,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "a0e40c00",
+      "claim": "4 bytes at offset 48 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are a0e40c00",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 48 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are a0e40c00. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "a0e40c00",
+          "length": 4,
+          "offset": 48,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@48+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "directory_index_size",
+      "length": 4,
+      "offset": 48,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "01000000",
+      "claim": "4 bytes at offset 52 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 01000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 52 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 01000000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "01000000",
+          "length": 4,
+          "offset": 52,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@52+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "partition_count",
+      "length": 4,
+      "offset": 52,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "66598595a7a70230",
+      "claim": "8 bytes at offset 56 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 66598595a7a70230",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 56 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 66598595a7a70230. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "66598595a7a70230",
+          "length": 8,
+          "offset": 56,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@56+8",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "container_id",
+      "length": 8,
+      "offset": 56,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "0a",
+      "claim": "1 byte at offset 80 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 0a",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "1 byte at offset 80 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 0a. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "0a",
+          "length": 1,
+          "offset": 80,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@80+1",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "container_flags",
+      "length": 1,
+      "offset": 80,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "1b260000",
+      "claim": "4 bytes at offset 84 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 1b260000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 84 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 1b260000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "1b260000",
+          "length": 4,
+          "offset": 84,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@84+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_chunk_perfect_hash_seeds_count",
+      "length": 4,
+      "offset": 84,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "ffffffffffffffff",
+      "claim": "8 bytes at offset 88 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are ffffffffffffffff",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 88 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are ffffffffffffffff. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "ffffffffffffffff",
+          "length": 8,
+          "offset": 88,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@88+8",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "partition_size",
+      "length": 8,
+      "offset": 88,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "00000000",
+      "claim": "4 bytes at offset 96 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 00000000",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 96 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 00000000. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00000000",
+          "length": 4,
+          "offset": 96,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@96+4",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_chunks_without_perfect_hash_count",
+      "length": 4,
+      "offset": 96,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    },
+    {
+      "bytes_hex": "06",
+      "claim": "1 byte at offset 16 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 06",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "1 byte at offset 16 of <install>/MISERY/Content/Paks/MISERY-Windows.utoc are 06. This record gives the position and the extent, and nothing else.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "06",
+          "length": 1,
+          "offset": 16,
+          "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc@16+1",
+            "method": "SP-1",
+            "note": "oracle container-metadata. Read by loader_admission_probe/1.0.0, read-only. Reproduction: reproduced: the same bytes were read twice."
+          }
+        ]
+      },
+      "interpretation_lives_in": "findings[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "toc_version",
+      "length": 1,
+      "offset": 16,
+      "reproduced": true,
+      "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc"
+    }
+  ],
+  "literal_reads_reproduced": true,
+  "read_regions": [
+    {
+      "length": 144,
+      "offset": 0,
+      "what": "toc header"
+    },
+    {
+      "length": 234120,
+      "offset": 144,
+      "what": "chunk-id table"
+    },
+    {
+      "length": 195100,
+      "offset": 234264,
+      "what": "offset/length table"
+    }
+  ],
+  "subcommand": "toc",
+  "target": "<install>/MISERY/Content/Paks/MISERY-Windows.utoc",
+  "toc_version": 6,
+  "warnings": []
+}

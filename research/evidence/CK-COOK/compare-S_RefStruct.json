@@ -1,0 +1,717 @@
+{
+  "comparison": {
+    "export_entry_stride": {
+      "left": 96,
+      "method": "(DependsOffset - ExportOffset) / ExportCount",
+      "right": 112
+    },
+    "export_shape": {
+      "left": [
+        "unversioned-fragments"
+      ],
+      "right": [
+        "versioned-tagged-properties"
+      ]
+    },
+    "identical_uasset_sha256": false,
+    "identical_uexp_sha256": false,
+    "left": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+    "name_count": {
+      "left": 11,
+      "right": 13
+    },
+    "names_only_in_left": [],
+    "names_only_in_right": [
+      "Guid",
+      "StructProperty"
+    ],
+    "right": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+    "summary_field_differences": {
+      "asset_registry_data_offset": {
+        "left": 713,
+        "right": 805
+      },
+      "bulk_data_start_offset": {
+        "left": 831,
+        "right": 1005
+      },
+      "custom_version_count": {
+        "left": 0,
+        "right": 2
+      },
+      "custom_versions": {
+        "left": [],
+        "right": [
+          {
+            "guid": "375EC13C06E448FBB50084F0262A717E",
+            "version": 4
+          },
+          {
+            "guid": "CFFC743F43B04480939114DF171D2073",
+            "version": 37
+          }
+        ]
+      },
+      "depends_offset": {
+        "left": 709,
+        "right": 801
+      },
+      "effective_versions_assumed": {
+        "left": true,
+        "right": false
+      },
+      "export_offset": {
+        "left": 613,
+        "right": 689
+      },
+      "file_version_ue4": {
+        "left": 0,
+        "right": 522
+      },
+      "file_version_ue5": {
+        "left": 0,
+        "right": 1012
+      },
+      "generations": {
+        "left": [
+          {
+            "export_count": 1,
+            "name_count": 11
+          }
+        ],
+        "right": [
+          {
+            "export_count": 1,
+            "name_count": 13
+          }
+        ]
+      },
+      "header_saved_unversioned": {
+        "left": true,
+        "right": false
+      },
+      "import_offset": {
+        "left": 517,
+        "right": 593
+      },
+      "legacy_ue3_version": {
+        "left": 0,
+        "right": 864
+      },
+      "name_count": {
+        "left": 11,
+        "right": 13
+      },
+      "name_offset": {
+        "left": 238,
+        "right": 278
+      },
+      "names_referenced_from_export_data_count": {
+        "left": 3,
+        "right": 6
+      },
+      "package_flags": {
+        "left": "0x80002200",
+        "right": "0x80000200"
+      },
+      "package_flags_decoded": {
+        "left": [
+          "PKG_Cooked",
+          "PKG_UnversionedProperties",
+          "PKG_FilterEditorOnly"
+        ],
+        "right": [
+          "PKG_Cooked",
+          "PKG_FilterEditorOnly"
+        ]
+      },
+      "package_flags_value": {
+        "left": 2147492352,
+        "right": 2147484160
+      },
+      "preload_dependency_offset": {
+        "left": 717,
+        "right": 809
+      },
+      "soft_object_paths_offset": {
+        "left": 517,
+        "right": 593
+      },
+      "summary_bytes_consumed": {
+        "left": 238,
+        "right": 278
+      },
+      "total_header_size": {
+        "left": 725,
+        "right": 817
+      },
+      "uses_unversioned_properties": {
+        "left": true,
+        "right": false
+      }
+    },
+    "uasset_size": {
+      "left": 725,
+      "right": 817
+    },
+    "uexp_size": {
+      "left": 110,
+      "right": 192
+    }
+  },
+  "generated_at": "2026-08-23T19:02:02Z",
+  "left_report": {
+    "decoded_layer_evidence": {
+      "claim_class": "I",
+      "confidence": 0.9,
+      "evidence_level": "OBSERVED",
+      "note": "grades the decoded layer of this report, not any single claim in it. If the layout assumption were wrong the two methods would disagree: the measured export-map width would not equal the width the package flag implies, and the report says so per file.",
+      "oracle": [
+        "filesystem",
+        "external-doc"
+      ],
+      "read_locus": null,
+      "sources": [
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+          "method": "tools/content/package_summary.py field-by-field decode of the package header",
+          "note": "every field name, gate and mask is a citation into the UE 5.4.4 tree at changelist 35576357"
+        },
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+          "method": "export-map width measured from the summary offsets alone",
+          "note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to the package flag it is used to check"
+        }
+      ]
+    },
+    "engine_changelist": 35576357,
+    "engine_tree": "D:/Program Files/UE_5.4",
+    "export_entry_stride": {
+      "agrees_with_package_flag": true,
+      "expected_from_package_flag": 96,
+      "export_map_span_bytes": 96,
+      "measured_from_summary_offsets": 96,
+      "measured_note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to PKG_UnversionedProperties",
+      "observed": [
+        96
+      ],
+      "observed_note": "width consumed while parsing; by construction it follows the flag",
+      "parse_consumed_expected_width": true
+    },
+    "exports": [
+      {
+        "class_index": -1,
+        "create_before_create_dependencies": 0,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 96,
+        "first_export_dependency": 0,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 0,
+        "is_asset": true,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": true,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x0000000B",
+        "object_name": "S_RefStruct",
+        "outer_index": 0,
+        "package_flags": "0x00000000",
+        "serial_offset": 725,
+        "serial_size": 106,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -3
+      }
+    ],
+    "file": {
+      "path": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+      "sha256": "9821621d79879041075e35d3798d276e09a7e27e75d132f136f03e586539d652",
+      "size": 725
+    },
+    "generated_at": "2026-08-23T19:02:02Z",
+    "imports": [
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 0,
+        "object_name": "UserDefinedStruct",
+        "outer_index": -2
+      },
+      {
+        "class_name": "Package",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 1,
+        "object_name": "/Script/Engine",
+        "outer_index": 0
+      },
+      {
+        "class_name": "UserDefinedStruct",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 2,
+        "object_name": "Default__UserDefinedStruct",
+        "outer_index": -2
+      }
+    ],
+    "literal_reads": [
+      {
+        "bytes_hex": "c1832a9ef8ffffff",
+        "claim": "the 8 bytes at offset 0 of UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset are c1832a9ef8ffffff",
+        "evidence": {
+          "claim_class": "P",
+          "confidence": 0.97,
+          "evidence_level": "OBSERVED",
+          "note": "the claim states offset and length only. If this were wrong -- if the bytes were not stable -- the second read through a fresh handle would differ, and 'reproduced' would be false.",
+          "oracle": [
+            "filesystem"
+          ],
+          "read_locus": {
+            "address_kind": "file-offset",
+            "length": 8,
+            "offset": 0,
+            "target": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset"
+          },
+          "sources": [
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset@0+8",
+              "method": "tools/content/package_summary.py read at a determinate offset",
+              "note": "first read, through the handle opened for parsing"
+            },
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uasset@0+8",
+              "method": "second read through a freshly opened handle",
+              "note": "method re-run and result reproduced: yes"
+            }
+          ]
+        },
+        "length": 8,
+        "offset": 0,
+        "reproduced": true,
+        "target": "package header first 8 bytes"
+      }
+    ],
+    "names": {
+      "count": 11,
+      "entries": [
+        "BoolProperty",
+        "MemberVar_0_7C799F884D94BC480036B98198000506",
+        "None",
+        "/Game/Ref/S_RefStruct",
+        "/Script/CoreUObject",
+        "/Script/Engine",
+        "Class",
+        "Default__UserDefinedStruct",
+        "Package",
+        "S_RefStruct",
+        "UserDefinedStruct"
+      ]
+    },
+    "probes": {
+      "entries": [
+        {
+          "first_bytes_hex": "000000000103ca591048b3325746bb11b02247f8cf3200000000000000000000",
+          "index": 0,
+          "object_name": "S_RefStruct",
+          "payload_available": true,
+          "serial_size": 106,
+          "shape": "unversioned-fragments",
+          "unversioned_header": {
+            "fragment_count": 3,
+            "fragments": [
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": false,
+                "packed": "0x0000",
+                "skip_num": 0,
+                "value_num": 0
+              },
+              {
+                "has_any_zeroes": false,
+                "is_last": true,
+                "packed": "0x0301",
+                "skip_num": 1,
+                "value_num": 1
+              }
+            ],
+            "header_bytes": 6,
+            "highest_schema_index_touched": 1,
+            "schema_indices_touched": [
+              [
+                1,
+                1
+              ]
+            ],
+            "unmasked_value_count": 1,
+            "zero_mask_value_count": 0
+          }
+        }
+      ],
+      "exports_probed": 1
+    },
+    "summary": {
+      "additional_packages_to_cook_count": 0,
+      "asset_registry_data_offset": 713,
+      "bulk_data_start_offset": 831,
+      "chunk_ids": [],
+      "compatible_with_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "compression_flags": 0,
+      "custom_version_count": 0,
+      "custom_versions": [],
+      "data_resource_offset": -1,
+      "depends_offset": 709,
+      "effective_file_version_ue4": 522,
+      "effective_file_version_ue5": 1012,
+      "effective_versions_assumed": true,
+      "export_count": 1,
+      "export_offset": 613,
+      "file_version_licensee_ue4": 0,
+      "file_version_ue4": 0,
+      "file_version_ue5": 0,
+      "filter_editor_only": true,
+      "gatherable_text_data_count": 0,
+      "gatherable_text_data_offset": 0,
+      "generations": [
+        {
+          "export_count": 1,
+          "name_count": 11
+        }
+      ],
+      "guid": "CA51FFDD49B4FEB1A16A519C66C25A4A",
+      "header_saved_unversioned": true,
+      "import_count": 3,
+      "import_offset": 517,
+      "legacy_file_version": -8,
+      "legacy_ue3_version": 0,
+      "name_count": 11,
+      "name_offset": 238,
+      "names_referenced_from_export_data_count": 3,
+      "package_flags": "0x80002200",
+      "package_flags_decoded": [
+        "PKG_Cooked",
+        "PKG_UnversionedProperties",
+        "PKG_FilterEditorOnly"
+      ],
+      "package_flags_value": 2147492352,
+      "package_name": "/Game/Ref/S_RefStruct",
+      "package_source": 3321298568,
+      "payload_toc_offset": -1,
+      "preload_dependency_count": 2,
+      "preload_dependency_offset": 717,
+      "saved_by_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "searchable_names_offset": 0,
+      "soft_object_paths_count": 0,
+      "soft_object_paths_offset": 517,
+      "soft_package_references_count": 0,
+      "soft_package_references_offset": 0,
+      "summary_bytes_consumed": 238,
+      "tag": "0x9E2A83C1",
+      "thumbnail_table_offset": 0,
+      "total_header_size": 725,
+      "uses_unversioned_properties": true,
+      "world_tile_info_data_offset": 0
+    },
+    "tool": "tools/content/package_summary.py",
+    "tool_version": "1.0.0",
+    "uexp": {
+      "base_offset_equals_total_header_size": true,
+      "base_offset_used": 725,
+      "path": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/S_RefStruct.uexp",
+      "sha256": "21a7f4b4ffe6a32a4f61b06feaff2a837760c04db3f9f3fd469361404ce2d3eb",
+      "size": 110
+    }
+  },
+  "right_report": {
+    "decoded_layer_evidence": {
+      "claim_class": "I",
+      "confidence": 0.9,
+      "evidence_level": "OBSERVED",
+      "note": "grades the decoded layer of this report, not any single claim in it. If the layout assumption were wrong the two methods would disagree: the measured export-map width would not equal the width the package flag implies, and the report says so per file.",
+      "oracle": [
+        "filesystem",
+        "external-doc"
+      ],
+      "read_locus": null,
+      "sources": [
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+          "method": "tools/content/package_summary.py field-by-field decode of the package header",
+          "note": "every field name, gate and mask is a citation into the UE 5.4.4 tree at changelist 35576357"
+        },
+        {
+          "artifact": null,
+          "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+          "method": "export-map width measured from the summary offsets alone",
+          "note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to the package flag it is used to check"
+        }
+      ]
+    },
+    "engine_changelist": 35576357,
+    "engine_tree": "D:/Program Files/UE_5.4",
+    "export_entry_stride": {
+      "agrees_with_package_flag": true,
+      "expected_from_package_flag": 112,
+      "export_map_span_bytes": 112,
+      "measured_from_summary_offsets": 112,
+      "measured_note": "(DependsOffset - ExportOffset) / ExportCount, computed without reference to PKG_UnversionedProperties",
+      "observed": [
+        112
+      ],
+      "observed_note": "width consumed while parsing; by construction it follows the flag",
+      "parse_consumed_expected_width": true
+    },
+    "exports": [
+      {
+        "class_index": -1,
+        "create_before_create_dependencies": 0,
+        "create_before_serialization_dependencies": 0,
+        "entry_bytes": 112,
+        "first_export_dependency": 0,
+        "forced_export": false,
+        "generate_public_hash": false,
+        "index": 0,
+        "is_asset": true,
+        "is_inherited_instance": false,
+        "not_always_loaded_for_editor_game": true,
+        "not_for_client": false,
+        "not_for_server": false,
+        "object_flags": "0x0000000B",
+        "object_name": "S_RefStruct",
+        "outer_index": 0,
+        "package_flags": "0x00000000",
+        "script_serialization_end_offset": 74,
+        "script_serialization_start_offset": 0,
+        "serial_offset": 817,
+        "serial_size": 188,
+        "serialization_before_create_dependencies": 2,
+        "serialization_before_serialization_dependencies": 0,
+        "super_index": 0,
+        "template_index": -3
+      }
+    ],
+    "file": {
+      "path": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset",
+      "sha256": "38feb526c54aece62af7d1fff74c5c7a40ab72e60e0f7e3c75623ce4a16be65c",
+      "size": 817
+    },
+    "generated_at": "2026-08-23T19:02:02Z",
+    "imports": [
+      {
+        "class_name": "Class",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 0,
+        "object_name": "UserDefinedStruct",
+        "outer_index": -2
+      },
+      {
+        "class_name": "Package",
+        "class_package": "/Script/CoreUObject",
+        "import_optional": false,
+        "index": 1,
+        "object_name": "/Script/Engine",
+        "outer_index": 0
+      },
+      {
+        "class_name": "UserDefinedStruct",
+        "class_package": "/Script/Engine",
+        "import_optional": false,
+        "index": 2,
+        "object_name": "Default__UserDefinedStruct",
+        "outer_index": -2
+      }
+    ],
+    "literal_reads": [
+      {
+        "bytes_hex": "c1832a9ef8ffffff",
+        "claim": "the 8 bytes at offset 0 of UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset are c1832a9ef8ffffff",
+        "evidence": {
+          "claim_class": "P",
+          "confidence": 0.97,
+          "evidence_level": "OBSERVED",
+          "note": "the claim states offset and length only. If this were wrong -- if the bytes were not stable -- the second read through a fresh handle would differ, and 'reproduced' would be false.",
+          "oracle": [
+            "filesystem"
+          ],
+          "read_locus": {
+            "address_kind": "file-offset",
+            "length": 8,
+            "offset": 0,
+            "target": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset"
+          },
+          "sources": [
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset@0+8",
+              "method": "tools/content/package_summary.py read at a determinate offset",
+              "note": "first read, through the handle opened for parsing"
+            },
+            {
+              "artifact": null,
+              "locator": "UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uasset@0+8",
+              "method": "second read through a freshly opened handle",
+              "note": "method re-run and result reproduced: yes"
+            }
+          ]
+        },
+        "length": 8,
+        "offset": 0,
+        "reproduced": true,
+        "target": "package header first 8 bytes"
+      }
+    ],
+    "names": {
+      "count": 13,
+      "entries": [
+        "/Script/CoreUObject",
+        "BoolProperty",
+        "Guid",
+        "MemberVar_0_7C799F884D94BC480036B98198000506",
+        "None",
+        "StructProperty",
+        "/Game/Ref/S_RefStruct",
+        "/Script/Engine",
+        "Class",
+        "Default__UserDefinedStruct",
+        "Package",
+        "S_RefStruct",
+        "UserDefinedStruct"
+      ]
+    },
+    "probes": {
+      "entries": [
+        {
+          "first_bytes_hex": "0002000000000000000500000000000000010000000200000000000000010000",
+          "first_property_tag_name": "<name 512 out of range>",
+          "first_property_tag_name_index": 512,
+          "index": 0,
+          "object_name": "S_RefStruct",
+          "payload_available": true,
+          "serial_size": 188,
+          "shape": "versioned-tagged-properties"
+        }
+      ],
+      "exports_probed": 1
+    },
+    "summary": {
+      "additional_packages_to_cook_count": 0,
+      "asset_registry_data_offset": 805,
+      "bulk_data_start_offset": 1005,
+      "chunk_ids": [],
+      "compatible_with_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "compression_flags": 0,
+      "custom_version_count": 2,
+      "custom_versions": [
+        {
+          "guid": "375EC13C06E448FBB50084F0262A717E",
+          "version": 4
+        },
+        {
+          "guid": "CFFC743F43B04480939114DF171D2073",
+          "version": 37
+        }
+      ],
+      "data_resource_offset": -1,
+      "depends_offset": 801,
+      "effective_file_version_ue4": 522,
+      "effective_file_version_ue5": 1012,
+      "effective_versions_assumed": false,
+      "export_count": 1,
+      "export_offset": 689,
+      "file_version_licensee_ue4": 0,
+      "file_version_ue4": 522,
+      "file_version_ue5": 1012,
+      "filter_editor_only": true,
+      "gatherable_text_data_count": 0,
+      "gatherable_text_data_offset": 0,
+      "generations": [
+        {
+          "export_count": 1,
+          "name_count": 13
+        }
+      ],
+      "guid": "CA51FFDD49B4FEB1A16A519C66C25A4A",
+      "header_saved_unversioned": false,
+      "import_count": 3,
+      "import_offset": 593,
+      "legacy_file_version": -8,
+      "legacy_ue3_version": 864,
+      "name_count": 13,
+      "name_offset": 278,
+      "names_referenced_from_export_data_count": 6,
+      "package_flags": "0x80000200",
+      "package_flags_decoded": [
+        "PKG_Cooked",
+        "PKG_FilterEditorOnly"
+      ],
+      "package_flags_value": 2147484160,
+      "package_name": "/Game/Ref/S_RefStruct",
+      "package_source": 3321298568,
+      "payload_toc_offset": -1,
+      "preload_dependency_count": 2,
+      "preload_dependency_offset": 809,
+      "saved_by_engine_version": {
+        "branch": "",
+        "changelist": 0,
+        "major": 0,
+        "minor": 0,
+        "patch": 0
+      },
+      "searchable_names_offset": 0,
+      "soft_object_paths_count": 0,
+      "soft_object_paths_offset": 593,
+      "soft_package_references_count": 0,
+      "soft_package_references_offset": 0,
+      "summary_bytes_consumed": 278,
+      "tag": "0x9E2A83C1",
+      "thumbnail_table_offset": 0,
+      "total_header_size": 817,
+      "uses_unversioned_properties": false,
+      "world_tile_info_data_offset": 0
+    },
+    "tool": "tools/content/package_summary.py",
+    "tool_version": "1.0.0",
+    "uexp": {
+      "base_offset_equals_total_header_size": true,
+      "base_offset_used": 817,
+      "path": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/S_RefStruct.uexp",
+      "sha256": "c9f4b48d916379280b3b9fa2157a67d49e9ee42d4777cc87b56c9515320352bc",
+      "size": 192
+    }
+  },
+  "tool": "tools/content/package_summary.py",
+  "tool_version": "1.0.0"
+}

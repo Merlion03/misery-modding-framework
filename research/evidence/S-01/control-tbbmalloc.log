@@ -1,0 +1,121 @@
+D:\Games\Steam\steamapps\common\MISERY\MISERY\Binaries\Win64\tbbmalloc.dll (tools/static/extract_strings.py 1.0.0)
+  PE32+, image base 0x180000000, 76528 bytes on disk, SizeOfHeaders 1024
+
+Tested surface: 8 regions tiling [0, 76528), min length 4 characters
+  headers    headers                [0, 1024)  1024 bytes  rva=yes
+  section    .text                  [1024, 40448)  39424 bytes  rva=yes
+  section    .rdata                 [40448, 50688)  10240 bytes  rva=yes
+  section    .data                  [50688, 51200)  512 bytes  rva=yes
+  section    .pdata                 [51200, 54272)  3072 bytes  rva=yes
+  section    .rsrc                  [54272, 54784)  512 bytes  rva=yes
+  section    .reloc                 [54784, 55296)  512 bytes  rva=yes
+  overlay    overlay                [55296, 76528)  21232 bytes  rva=NO
+
+Records
+  total                          : 1150
+  ascii                          : 1150
+  utf-16le                       : 0
+  in the ascii noise band (<10)   : 906
+  low information                 : 32
+  NUL-terminated                  : 129
+  clipped (length cap / region end): 0
+  WITHOUT an RVA                  : 313
+  in a section's raw tail         : 0
+  abutting a wide non-ASCII char  : 0
+  utf-16 rejected, odd alignment  : 0
+  ranges claimed by both encodings: 0
+
+By region
+  686        .text
+  313        overlay
+  125        .rdata
+  10         .rsrc
+  8          .data
+  8          headers
+
+By category
+  1134       unclassified
+  8          dll-name
+  7          unreal-type-name
+  1          build-source-path
+
+ASCII length histogram (observed / random control expectation / ratio)
+  4    634          576.7          1.099
+  5    133          214.7          0.619
+  6    59           79.8           0.739
+  7    30           28.9           1.038
+  8    31           10.9           2.844
+  9    19           4.2            4.524
+  10   18           1.4            12.857
+  11   9            0.5            18.0
+  12   9            0.2            45.0
+  13   26           0.1            260.0
+  14   6            0.0            None
+  15   12           0.0            None
+  16   15           -              -
+  17   4            -              -
+  18   15           -              -
+  19   9            -              -
+  20   4            -              -
+  21   6            -              -
+  22   2            -              -
+  23   6            -              -
+  24   103          -              -
+  lengths noise-dominated (ratio < 2): [4, 5, 6, 7]
+
+Q1  /Script/ package paths: 0 distinct (0 in both encodings, 0 ascii only, 0 utf-16 only)
+    occurrences: ascii 0, utf-16 0 (0 reached through an absorbed prefix)
+    declared as a UE module by the local engine tree: 0
+    NOT declared there (0): none
+
+Q2  absolute source-path literals: 1
+      1        root D:/p4/UE5/Main
+      1        tree Engine/Source
+    separators: {"backslash": 1}
+    distinct modules named: 0 (0 in both encodings)
+      declared by the local engine tree: 0
+      NOT declared there: none
+    modules: 
+    distinct FILE names: 1 (0 in both encodings)
+    query Class.cpp                                    NOT FOUND on the tested surface (absence of a path literal, not of the code)
+    query UnversionedPropertySerialization.cpp         NOT FOUND on the tested surface (absence of a path literal, not of the code)
+    query UnversionedPropertySerialization.h           NOT FOUND on the tested surface (absence of a path literal, not of the code)
+    paths with no extractable module: {"D:/p4/UE5/Main": 1}
+
+Q3  game-origin candidates
+    corroborated by a second oracle (0):
+    heuristic only, one method, 0.65 (0): none
+    V-07 plugin names also seen as /Script/ modules: 0
+    V-07 plugin names never seen as a /Script/ module: 124
+    /Script/ modules that are not any plugin name: 0
+    non-engine plugin names seen as /Script/ modules: none
+
+Refutation probes
+  P1-low-length-noise-floor                  REFUTED THE CONCLUSION
+      At the minimum length this scan uses, is the ASCII population distinguishable from incidental byte runs?
+      note: it does NOT invalidate the index. It says that a count of records is not a count of strings at these lengths, which is why every record carries char_count and noise_band and why no consumer should filter by record count alone.
+  P2-utf16-is-not-an-integer-table           did not refute
+      Are the UTF-16LE runs strings, or arrays of small integers read as text?
+      observed: {"accepted": 0, "low_information_accepted": 0, "low_information_share": null, "random_control_expectation_at_target_size": {}, "rejected_odd_alignment": 0, "rejected_short_after_length_cap": 0, "runs_abutting_a_wide_non_ascii_character": 0}
+  P3-region-cover-is-complete                did not refute
+      Do the scanned regions tile the whole file, with no byte uncovered and none covered twice?
+      observed: {"by_kind": {"headers": 1, "overlay": 1, "section": 6}, "bytes_covered": 76528, "contiguous": true, "ends_at_eof": true, "file_size": 76528, "regions": 8, "starts_at_zero": true}
+  P4-rva-round-trips-through-the-pe-parser   did not refute
+      Does every RVA this index reports translate back to the file offset it came from?
+      observed: {"absent_rva_but_mappable": [], "absent_rva_but_mappable_count": 0, "boundary_records_available": 12, "boundary_records_checked": 12, "method": "each reported rva fed to pe_info.PEHeaders.rva_to_offset and required to return the record's own file offset; each absent rva checked against the raw section table for an owner that would have made it addressable", "mismatch_count": 0, "mismatches": [], "records_checked": 1150, "records_with_absent_rva_checked": 313, "sample_cap": 4096, "spread_sample_records": 1150}
+  P5-cross-encoding-double-count             did not refute
+      How many byte ranges are claimed by both the ASCII and the UTF-16 pass, so that one region of the file is counted twice?
+      observed: {"ascii_records": 1150, "overlap_over_utf16": null, "overlapping_pairs": 0, "utf16_records": 0}
+
+UE module index (D:/Program Files/UE_5.4/Engine)
+  1876 modules declared, 145097 files walked, 1.247 s
+
+Container index (research/evidence/V-07/staged-plugins.json)
+  124 plugin names, 4 of them outside Engine/
+
+Literal reads (class P): 8 ranges, all re-read through a second handle: reproduced
+Timings (s): {"file_digest": 0.0, "findings": 0.0, "literal_reads": 0.0, "noise_control": 1.438, "string_scan": 0.035, "total": 2.725, "ue_module_index": 1.247}
+
+written: D:\Dev\MiseryFramework\research\evidence\S-01\control-tbbmalloc.json
+written: D:\Dev\MiseryFramework\workspace\strings\control-tbbmalloc.jsonl (1150 records, 646761 bytes)
+  C-13: this file carries the image's string table verbatim. It belongs in workspace/ (gitignored), not in git. Publish the summary, the counts and this file's sha256 instead.

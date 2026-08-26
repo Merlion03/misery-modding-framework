@@ -1,0 +1,926 @@
+{
+  "asset_registry": {
+    "cook_output_development_registry": "Saved/Cooked/<Platform>/<Project>/Metadata/DevelopmentAssetRegistry.bin",
+    "cook_output_runtime_registry": "Saved/Cooked/<Platform>/<Project>/AssetRegistry.bin",
+    "game_pak_entry": {
+      "encrypted": true,
+      "path": "MISERY/AssetRegistry.bin",
+      "size": 4148187,
+      "source": "research/evidence/CK-01/pak-paths.txt line 4388"
+    },
+    "ours_pak_entry": {
+      "encrypted": false,
+      "path": "CookRef/AssetRegistry.bin"
+    },
+    "staged_location": "inside the .pak as <Project>/AssetRegistry.bin -- a loose file, NOT an IoStore chunk; no EIoChunkType carries it"
+  },
+  "ck04_parent_grown": {
+    "child_cdo_base_parent": {
+      "export_name": "Default__BP_RefChild_C",
+      "first_bytes_hex": "29040b020a030000b4410000204038b496490100000003000000000000000000",
+      "fragments": [
+        {
+          "has_any_zeroes": false,
+          "is_last": false,
+          "packed": "0x0429",
+          "skip_num": 41,
+          "value_num": 2
+        },
+        {
+          "has_any_zeroes": false,
+          "is_last": false,
+          "packed": "0x020B",
+          "skip_num": 11,
+          "value_num": 1
+        },
+        {
+          "has_any_zeroes": false,
+          "is_last": true,
+          "packed": "0x030A",
+          "skip_num": 10,
+          "value_num": 1
+        }
+      ],
+      "header_bytes": 6,
+      "schema_indices_touched": [
+        [
+          41,
+          42
+        ],
+        [
+          54,
+          54
+        ],
+        [
+          65,
+          65
+        ]
+      ],
+      "serial_size": 34
+    },
+    "child_cdo_grown_parent": {
+      "export_name": "Default__BP_RefChild_C",
+      "first_bytes_hex": "2a040b020a030000b4410000204038b496490100000003000000000000000000",
+      "fragments": [
+        {
+          "has_any_zeroes": false,
+          "is_last": false,
+          "packed": "0x042A",
+          "skip_num": 42,
+          "value_num": 2
+        },
+        {
+          "has_any_zeroes": false,
+          "is_last": false,
+          "packed": "0x020B",
+          "skip_num": 11,
+          "value_num": 1
+        },
+        {
+          "has_any_zeroes": false,
+          "is_last": true,
+          "packed": "0x030A",
+          "skip_num": 10,
+          "value_num": 1
+        }
+      ],
+      "header_bytes": 6,
+      "schema_indices_touched": [
+        [
+          42,
+          43
+        ],
+        [
+          55,
+          55
+        ],
+        [
+          66,
+          66
+        ]
+      ],
+      "serial_size": 34
+    },
+    "question": "does a property offset appear in the serialized data, and does the child package depend on the parent's property set?",
+    "uexp_bytes_identical": false,
+    "uexp_size_unchanged": true
+  },
+  "container_level": {
+    "game_global": {
+      "by_type": {
+        "ScriptObjects": {
+          "bytes": 2269159,
+          "count": 1,
+          "max_length": 2269159,
+          "min_length": 2269159
+        }
+      },
+      "checks": {
+        "block_count_in_header": 35,
+        "block_count_predicted_from_chunk_lengths": 35,
+        "compressed_sum_vs_ucas_size": {
+          "compressed_sum": 2269159,
+          "difference": 9,
+          "ucas_size": 2269168
+        },
+        "uncompressed_block_model_holds": true,
+        "uncompressed_sum_equals_total_chunk_length": true
+      },
+      "compression_blocks": {
+        "compressed_size_sum": 2269159,
+        "count": 35,
+        "method_index_census": {
+          "0": 35
+        },
+        "uncompressed_size_sum": 2269159
+      },
+      "directory_index": {
+        "readable": false,
+        "reason": "no directory index"
+      },
+      "header": {
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "container_flags": "0x00",
+        "container_id": "0xffffffffffffffff",
+        "directory_index_size": 0,
+        "encrypted": false,
+        "toc_compressed_block_entry_count": 35,
+        "toc_entry_count": 1,
+        "version": 6
+      },
+      "total_chunk_length": 2269159,
+      "ucas_size": 2269168,
+      "utoc_size": 623
+    },
+    "game_main": {
+      "by_type": {
+        "BulkData": {
+          "bytes": 2047178937,
+          "count": 5513,
+          "max_length": 22364160,
+          "min_length": 8
+        },
+        "ContainerHeader": {
+          "bytes": 767320,
+          "count": 1,
+          "max_length": 767320,
+          "min_length": 767320
+        },
+        "ExportBundleData": {
+          "bytes": 2257891527,
+          "count": 12933,
+          "max_length": 69266213,
+          "min_length": 297
+        },
+        "ShaderCode": {
+          "bytes": 13360633,
+          "count": 1061,
+          "max_length": 125671,
+          "min_length": 172
+        },
+        "ShaderCodeLibrary": {
+          "bytes": 541304,
+          "count": 2,
+          "max_length": 382656,
+          "min_length": 158648
+        }
+      },
+      "checks": {
+        "block_count_in_header": 79914,
+        "block_count_predicted_from_chunk_lengths": 79914,
+        "compressed_sum_vs_ucas_size": {
+          "compressed_sum": 4319739721,
+          "difference": 15457815,
+          "ucas_size": 4335197536
+        },
+        "uncompressed_block_model_holds": true,
+        "uncompressed_sum_equals_total_chunk_length": true
+      },
+      "compression_blocks": {
+        "compressed_size_sum": 4319739721,
+        "count": 79914,
+        "method_index_census": {
+          "0": 79914
+        },
+        "uncompressed_size_sum": 4319739721
+      },
+      "directory_index": {
+        "readable": false,
+        "reason": "container carries EIoContainerFlags::Encrypted"
+      },
+      "header": {
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "container_flags": "0x0a",
+        "container_id": "0x3002a7a795855966",
+        "directory_index_size": 844960,
+        "encrypted": true,
+        "toc_compressed_block_entry_count": 79914,
+        "toc_entry_count": 19510,
+        "version": 6
+      },
+      "total_chunk_length": 4319739721,
+      "ucas_size": 4335197536,
+      "utoc_size": 2916142
+    },
+    "ours_global": {
+      "by_type": {
+        "ScriptObjects": {
+          "bytes": 2129430,
+          "count": 1,
+          "max_length": 2129430,
+          "min_length": 2129430
+        }
+      },
+      "checks": {
+        "block_count_in_header": 33,
+        "block_count_predicted_from_chunk_lengths": 33,
+        "compressed_sum_vs_ucas_size": {
+          "compressed_sum": 2129430,
+          "difference": 10,
+          "ucas_size": 2129440
+        },
+        "uncompressed_block_model_holds": true,
+        "uncompressed_sum_equals_total_chunk_length": true
+      },
+      "compression_blocks": {
+        "compressed_size_sum": 2129430,
+        "count": 33,
+        "method_index_census": {
+          "0": 33
+        },
+        "uncompressed_size_sum": 2129430
+      },
+      "directory_index": {
+        "readable": false,
+        "reason": "no directory index"
+      },
+      "header": {
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "container_flags": "0x00",
+        "container_id": "0xffffffffffffffff",
+        "directory_index_size": 0,
+        "encrypted": false,
+        "toc_compressed_block_entry_count": 33,
+        "toc_entry_count": 1,
+        "version": 6
+      },
+      "total_chunk_length": 2129430,
+      "ucas_size": 2129440,
+      "utoc_size": 599
+    },
+    "ours_unversioned_compressed": {
+      "by_type": {
+        "BulkData": {
+          "bytes": 5646636,
+          "count": 26,
+          "max_length": 1376256,
+          "min_length": 6043
+        },
+        "ContainerHeader": {
+          "bytes": 13456,
+          "count": 1,
+          "max_length": 13456,
+          "min_length": 13456
+        },
+        "ExportBundleData": {
+          "bytes": 100498755,
+          "count": 375,
+          "max_length": 36361280,
+          "min_length": 297
+        },
+        "ShaderCode": {
+          "bytes": 7649468,
+          "count": 482,
+          "max_length": 125671,
+          "min_length": 172
+        },
+        "ShaderCodeLibrary": {
+          "bytes": 215968,
+          "count": 2,
+          "max_length": 157372,
+          "min_length": 58596
+        }
+      },
+      "checks": {
+        "block_count_in_header": 2485,
+        "block_count_predicted_from_chunk_lengths": 2485,
+        "compressed_sum_vs_ucas_size": {
+          "compressed_sum": 26864306,
+          "difference": 580062,
+          "ucas_size": 27444368
+        },
+        "uncompressed_block_model_holds": true,
+        "uncompressed_sum_equals_total_chunk_length": true
+      },
+      "compression_blocks": {
+        "compressed_size_sum": 26864306,
+        "count": 2485,
+        "method_index_census": {
+          "0": 697,
+          "1": 1788
+        },
+        "uncompressed_size_sum": 114024283
+      },
+      "directory_index": {
+        "bytes_consumed": 20036,
+        "directory_entry_count": 93,
+        "extension_histogram": {
+          ".uasset": 373,
+          ".ubulk": 26,
+          ".umap": 2,
+          ".ushaderbytecode": 2
+        },
+        "file_entry_count": 403,
+        "mount_point": "../../../",
+        "named_chunk_count": 403,
+        "string_table_count": 479
+      },
+      "header": {
+        "compression_block_size": 65536,
+        "compression_method_name_count": 1,
+        "container_flags": "0x09",
+        "container_id": "0x617dabce14320c09",
+        "directory_index_size": 20036,
+        "encrypted": false,
+        "toc_compressed_block_entry_count": 2485,
+        "toc_entry_count": 886,
+        "version": 6
+      },
+      "total_chunk_length": 114024283,
+      "ucas_size": 27444368,
+      "utoc_size": 100534
+    },
+    "ours_unversioned_uncompressed": {
+      "by_type": {
+        "BulkData": {
+          "bytes": 5646636,
+          "count": 26,
+          "max_length": 1376256,
+          "min_length": 6043
+        },
+        "ContainerHeader": {
+          "bytes": 13456,
+          "count": 1,
+          "max_length": 13456,
+          "min_length": 13456
+        },
+        "ExportBundleData": {
+          "bytes": 100498755,
+          "count": 375,
+          "max_length": 36361280,
+          "min_length": 297
+        },
+        "ShaderCode": {
+          "bytes": 7649468,
+          "count": 482,
+          "max_length": 125671,
+          "min_length": 172
+        },
+        "ShaderCodeLibrary": {
+          "bytes": 215968,
+          "count": 2,
+          "max_length": 157372,
+          "min_length": 58596
+        }
+      },
+      "checks": {
+        "block_count_in_header": 2485,
+        "block_count_predicted_from_chunk_lengths": 2485,
+        "compressed_sum_vs_ucas_size": {
+          "compressed_sum": 114024283,
+          "difference": 589109,
+          "ucas_size": 114613392
+        },
+        "uncompressed_block_model_holds": true,
+        "uncompressed_sum_equals_total_chunk_length": true
+      },
+      "compression_blocks": {
+        "compressed_size_sum": 114024283,
+        "count": 2485,
+        "method_index_census": {
+          "0": 2485
+        },
+        "uncompressed_size_sum": 114024283
+      },
+      "directory_index": {
+        "bytes_consumed": 20036,
+        "directory_entry_count": 93,
+        "extension_histogram": {
+          ".uasset": 373,
+          ".ubulk": 26,
+          ".umap": 2,
+          ".ushaderbytecode": 2
+        },
+        "file_entry_count": 403,
+        "mount_point": "../../../",
+        "named_chunk_count": 403,
+        "string_table_count": 479
+      },
+      "header": {
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "container_flags": "0x08",
+        "container_id": "0x617dabce14320c09",
+        "directory_index_size": 20036,
+        "encrypted": false,
+        "toc_compressed_block_entry_count": 2485,
+        "toc_entry_count": 886,
+        "version": 6
+      },
+      "total_chunk_length": 114024283,
+      "ucas_size": 114613392,
+      "utoc_size": 100502
+    },
+    "ours_versioned_compressed": {
+      "by_type": {
+        "BulkData": {
+          "bytes": 5646636,
+          "count": 26,
+          "max_length": 1376256,
+          "min_length": 6043
+        },
+        "ContainerHeader": {
+          "bytes": 13456,
+          "count": 1,
+          "max_length": 13456,
+          "min_length": 13456
+        },
+        "ExportBundleData": {
+          "bytes": 101301924,
+          "count": 375,
+          "max_length": 36362085,
+          "min_length": 361
+        },
+        "ShaderCode": {
+          "bytes": 7649468,
+          "count": 482,
+          "max_length": 125671,
+          "min_length": 172
+        },
+        "ShaderCodeLibrary": {
+          "bytes": 215968,
+          "count": 2,
+          "max_length": 157372,
+          "min_length": 58596
+        }
+      },
+      "checks": {
+        "block_count_in_header": 2486,
+        "block_count_predicted_from_chunk_lengths": 2486,
+        "compressed_sum_vs_ucas_size": {
+          "compressed_sum": 27172902,
+          "difference": 597098,
+          "ucas_size": 27770000
+        },
+        "uncompressed_block_model_holds": true,
+        "uncompressed_sum_equals_total_chunk_length": true
+      },
+      "compression_blocks": {
+        "compressed_size_sum": 27172902,
+        "count": 2486,
+        "method_index_census": {
+          "0": 665,
+          "1": 1821
+        },
+        "uncompressed_size_sum": 114827452
+      },
+      "directory_index": {
+        "bytes_consumed": 20036,
+        "directory_entry_count": 93,
+        "extension_histogram": {
+          ".uasset": 373,
+          ".ubulk": 26,
+          ".umap": 2,
+          ".ushaderbytecode": 2
+        },
+        "file_entry_count": 403,
+        "mount_point": "../../../",
+        "named_chunk_count": 403,
+        "string_table_count": 479
+      },
+      "header": {
+        "compression_block_size": 65536,
+        "compression_method_name_count": 1,
+        "container_flags": "0x09",
+        "container_id": "0x617dabce14320c09",
+        "directory_index_size": 20036,
+        "encrypted": false,
+        "toc_compressed_block_entry_count": 2486,
+        "toc_entry_count": 886,
+        "version": 6
+      },
+      "total_chunk_length": 114827452,
+      "ucas_size": 27770000,
+      "utoc_size": 100546
+    }
+  },
+  "cook_variants_explained": {
+    "G": "same settings as U, but BP_RefParent has gained one property (an AudioComponent SCS node) -- the CK-04 experiment",
+    "U": "cook commandlet WITH -unversioned and the ini gate True -> unversioned header, unversioned properties. This is what UAT BuildCookRun does by default (ProjectParams.cs:1962 UnversionedCookedContent = true, CookCommand.Automation.cs:44 appends -unversioned)",
+    "V": "cook commandlet WITHOUT -unversioned, [Core.System] CanUseUnversionedPropertySerialization irrelevant (SAVE_Unversioned_Properties is never set) -> versioned header, versioned properties",
+    "X": "cook commandlet WITH -unversioned and the ini gate False -> unversioned header, VERSIONED properties. U vs X differs in exactly one setting"
+  },
+  "engine": {
+    "branch": "++UE5+Release-5.4",
+    "changelist": 35576357,
+    "installed_build": true,
+    "tree": "D:/Program Files/UE_5.4",
+    "version": "5.4.4"
+  },
+  "package_level": {
+    "one_setting_diff_U_vs_X": {
+      "export_entry_stride": {
+        "left": 96,
+        "method": "(DependsOffset - ExportOffset) / ExportCount",
+        "right": 112
+      },
+      "export_shape": {
+        "left": [
+          "unversioned-fragments"
+        ],
+        "right": [
+          "versioned-tagged-properties"
+        ]
+      },
+      "identical_uasset_sha256": false,
+      "identical_uexp_sha256": false,
+      "left": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef/Content/Ref/BP_RefChild.uasset",
+      "name_count": {
+        "left": 36,
+        "right": 54
+      },
+      "names_only_in_left": [],
+      "names_only_in_right": [
+        "AllNodes",
+        "ArrayProperty",
+        "ComponentClass",
+        "ComponentTemplate",
+        "CustomTimeDilation",
+        "DefaultSceneRootNode",
+        "FloatProperty",
+        "Guid",
+        "InitialLifeSpan",
+        "InternalVariableName",
+        "NameProperty",
+        "NetCullDistanceSquared",
+        "ParentComponentOrVariableName",
+        "ParentComponentOwnerClassName",
+        "RootNodes",
+        "StructProperty",
+        "Tags",
+        "VariableGuid"
+      ],
+      "right": "D:/UEScratch/CookRef/Saved/X_Cooked/CookRef/Content/Ref/BP_RefChild.uasset",
+      "summary_field_differences": {
+        "asset_registry_data_offset": {
+          "left": 2699,
+          "right": 3262
+        },
+        "bulk_data_start_offset": {
+          "left": 3242,
+          "right": 4382
+        },
+        "depends_offset": {
+          "left": 2667,
+          "right": 3230
+        },
+        "export_offset": {
+          "left": 1899,
+          "right": 2334
+        },
+        "generations": {
+          "left": [
+            {
+              "export_count": 8,
+              "name_count": 36
+            }
+          ],
+          "right": [
+            {
+              "export_count": 8,
+              "name_count": 54
+            }
+          ]
+        },
+        "import_offset": {
+          "left": 1227,
+          "right": 1662
+        },
+        "name_count": {
+          "left": 36,
+          "right": 54
+        },
+        "names_referenced_from_export_data_count": {
+          "left": 9,
+          "right": 30
+        },
+        "package_flags": {
+          "left": "0x80002200",
+          "right": "0x80000200"
+        },
+        "package_flags_decoded": {
+          "left": [
+            "PKG_Cooked",
+            "PKG_UnversionedProperties",
+            "PKG_FilterEditorOnly"
+          ],
+          "right": [
+            "PKG_Cooked",
+            "PKG_FilterEditorOnly"
+          ]
+        },
+        "package_flags_value": {
+          "left": 2147492352,
+          "right": 2147484160
+        },
+        "preload_dependency_offset": {
+          "left": 2703,
+          "right": 3266
+        },
+        "soft_object_paths_offset": {
+          "left": 1227,
+          "right": 1662
+        },
+        "total_header_size": {
+          "left": 2867,
+          "right": 3430
+        },
+        "uses_unversioned_properties": {
+          "left": true,
+          "right": false
+        }
+      },
+      "uasset_size": {
+        "left": 2867,
+        "right": 3430
+      },
+      "uexp_size": {
+        "left": 379,
+        "right": 956
+      }
+    },
+    "one_setting_diff_X_vs_V": {
+      "export_entry_stride": {
+        "left": 112,
+        "method": "(DependsOffset - ExportOffset) / ExportCount",
+        "right": 112
+      },
+      "export_shape": {
+        "left": [
+          "versioned-tagged-properties"
+        ],
+        "right": [
+          "versioned-tagged-properties"
+        ]
+      },
+      "identical_uasset_sha256": false,
+      "identical_uexp_sha256": true,
+      "left": "D:/UEScratch/CookRef/Saved/X_Cooked/CookRef/Content/Ref/BP_RefChild.uasset",
+      "name_count": {
+        "left": 54,
+        "right": 54
+      },
+      "names_only_in_left": [],
+      "names_only_in_right": [],
+      "right": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef/Content/Ref/BP_RefChild.uasset",
+      "summary_field_differences": {
+        "asset_registry_data_offset": {
+          "left": 3262,
+          "right": 3442
+        },
+        "bulk_data_start_offset": {
+          "left": 4382,
+          "right": 4562
+        },
+        "custom_version_count": {
+          "left": 0,
+          "right": 9
+        },
+        "custom_versions": {
+          "left": [],
+          "right": [
+            {
+              "guid": "12F88B9F88754AFCA67CD90C383ABD29",
+              "version": 48
+            },
+            {
+              "guid": "375EC13C06E448FBB50084F0262A717E",
+              "version": 4
+            },
+            {
+              "guid": "59DA5D5212324948B878597870B8E98B",
+              "version": 8
+            },
+            {
+              "guid": "601D1886AC644F84AA16D3DE0DEAC7D6",
+              "version": 134
+            },
+            {
+              "guid": "697DD581E64F41ABAA4A51ECBEB7B628",
+              "version": 119
+            },
+            {
+              "guid": "B0D832E41F894F0DACCF7EB736FD4AA2",
+              "version": 10
+            },
+            {
+              "guid": "CFFC743F43B04480939114DF171D2073",
+              "version": 37
+            },
+            {
+              "guid": "D89B5E4224BD4D468412ACA8DF641779",
+              "version": 51
+            },
+            {
+              "guid": "E70863686B234C5884391B7016265E91",
+              "version": 13
+            }
+          ]
+        },
+        "depends_offset": {
+          "left": 3230,
+          "right": 3410
+        },
+        "effective_versions_assumed": {
+          "left": true,
+          "right": false
+        },
+        "export_offset": {
+          "left": 2334,
+          "right": 2514
+        },
+        "file_version_ue4": {
+          "left": 0,
+          "right": 522
+        },
+        "file_version_ue5": {
+          "left": 0,
+          "right": 1012
+        },
+        "header_saved_unversioned": {
+          "left": true,
+          "right": false
+        },
+        "import_offset": {
+          "left": 1662,
+          "right": 1842
+        },
+        "legacy_ue3_version": {
+          "left": 0,
+          "right": 864
+        },
+        "name_offset": {
+          "left": 238,
+          "right": 418
+        },
+        "preload_dependency_offset": {
+          "left": 3266,
+          "right": 3446
+        },
+        "soft_object_paths_offset": {
+          "left": 1662,
+          "right": 1842
+        },
+        "summary_bytes_consumed": {
+          "left": 238,
+          "right": 418
+        },
+        "total_header_size": {
+          "left": 3430,
+          "right": 3610
+        }
+      },
+      "uasset_size": {
+        "left": 3430,
+        "right": 3610
+      },
+      "uexp_size": {
+        "left": 956,
+        "right": 956
+      }
+    },
+    "subject": "/Game/Ref/BP_RefChild -- a Blueprint whose parent is another Blueprint, overriding four properties it inherits",
+    "variants": {
+      "G_unversioned_properties_parent_grown": {
+        "custom_version_count": 0,
+        "export_count": 8,
+        "export_entry_stride_agrees_with_flag": true,
+        "export_entry_stride_expected_from_flag": 96,
+        "export_entry_stride_measured": 96,
+        "export_map_span_bytes": 768,
+        "export_payload_shapes": [
+          "unversioned-fragments"
+        ],
+        "file_version_ue4": 0,
+        "file_version_ue5": 0,
+        "header_saved_unversioned": true,
+        "import_count": 22,
+        "name_count": 38,
+        "package_flags": "0x80002200",
+        "package_flags_decoded": [
+          "PKG_Cooked",
+          "PKG_UnversionedProperties",
+          "PKG_FilterEditorOnly"
+        ],
+        "total_header_size": 2964,
+        "uasset_sha256": "872d720404164eb8713acd665a2f2d2f19f0406a2f75f852a1c3551f735d9aa3",
+        "uasset_size": 2964,
+        "uexp_sha256": "5340c8ce43ff14176a766682ecdc8a77c51c226ddfdc408041bf6ce964ab795c",
+        "uexp_size": 379,
+        "uses_unversioned_properties": true
+      },
+      "U_unversioned_properties": {
+        "custom_version_count": 0,
+        "export_count": 8,
+        "export_entry_stride_agrees_with_flag": true,
+        "export_entry_stride_expected_from_flag": 96,
+        "export_entry_stride_measured": 96,
+        "export_map_span_bytes": 768,
+        "export_payload_shapes": [
+          "unversioned-fragments"
+        ],
+        "file_version_ue4": 0,
+        "file_version_ue5": 0,
+        "header_saved_unversioned": true,
+        "import_count": 21,
+        "name_count": 36,
+        "package_flags": "0x80002200",
+        "package_flags_decoded": [
+          "PKG_Cooked",
+          "PKG_UnversionedProperties",
+          "PKG_FilterEditorOnly"
+        ],
+        "total_header_size": 2867,
+        "uasset_sha256": "92384a3085c436ef2938c46320ba3a8b13e5432d947a247cc62b057efb288224",
+        "uasset_size": 2867,
+        "uexp_sha256": "8c2201ec93535851d10b247ca45845cc72c0d97354139a54ac50467a31821f21",
+        "uexp_size": 379,
+        "uses_unversioned_properties": true
+      },
+      "V_versioned_properties_versioned_header": {
+        "custom_version_count": 9,
+        "export_count": 8,
+        "export_entry_stride_agrees_with_flag": true,
+        "export_entry_stride_expected_from_flag": 112,
+        "export_entry_stride_measured": 112,
+        "export_map_span_bytes": 896,
+        "export_payload_shapes": [
+          "versioned-tagged-properties"
+        ],
+        "file_version_ue4": 522,
+        "file_version_ue5": 1012,
+        "header_saved_unversioned": false,
+        "import_count": 21,
+        "name_count": 54,
+        "package_flags": "0x80000200",
+        "package_flags_decoded": [
+          "PKG_Cooked",
+          "PKG_FilterEditorOnly"
+        ],
+        "total_header_size": 3610,
+        "uasset_sha256": "5d406a7f77880496ba5aabead5c52fc7d70e3ebec32ee0cc348c76c3261b9986",
+        "uasset_size": 3610,
+        "uexp_sha256": "52976e3a327a5f15f8c924c1b44aa51fc7cb05e91316b24989f842f0997b7254",
+        "uexp_size": 956,
+        "uses_unversioned_properties": false
+      },
+      "X_versioned_properties_unversioned_header": {
+        "custom_version_count": 0,
+        "export_count": 8,
+        "export_entry_stride_agrees_with_flag": true,
+        "export_entry_stride_expected_from_flag": 112,
+        "export_entry_stride_measured": 112,
+        "export_map_span_bytes": 896,
+        "export_payload_shapes": [
+          "versioned-tagged-properties"
+        ],
+        "file_version_ue4": 0,
+        "file_version_ue5": 0,
+        "header_saved_unversioned": true,
+        "import_count": 21,
+        "name_count": 54,
+        "package_flags": "0x80000200",
+        "package_flags_decoded": [
+          "PKG_Cooked",
+          "PKG_FilterEditorOnly"
+        ],
+        "total_header_size": 3430,
+        "uasset_sha256": "f99914c6abc44f887275367f48e9fcce8bbea483bab91073414926c33976e247",
+        "uasset_size": 3430,
+        "uexp_sha256": "52976e3a327a5f15f8c924c1b44aa51fc7cb05e91316b24989f842f0997b7254",
+        "uexp_size": 956,
+        "uses_unversioned_properties": false
+      }
+    }
+  },
+  "usmap": {
+    "engine_source_tree_mentions_usmap": false,
+    "game_install_contains_usmap": false,
+    "method": "case-sensitive grep for 'usmap' over Engine/Source, Engine/Plugins and Engine/Config; find over the whole cook and stage output; extension histogram of the 53-file install inventory",
+    "our_cook_produced_usmap": false
+  },
+  "what_this_is": "Structural comparison of reference cooked output produced on this machine by UE 5.4.4 at changelist 35576357 -- the same engine build MISERY was cooked with -- against the container metadata of the installed game that is readable without any decryption. Nothing here required a key, and nothing here is game content: the game columns are counts, sizes and chunk types read out of plaintext TOC arrays."
+}

@@ -1,0 +1,425 @@
+{
+  "cook_variants": {
+    "A_cooked_versioned_first_run": {
+      "cooked_file_count": 24,
+      "cooked_total_bytes": 42298729,
+      "files": {
+        "AssetRegistry.bin": {
+          "sha256": "d18648f6c966b09f35ff22ae437fe27e1d3429ad5addf0432f7322cb72a6bbd1",
+          "size": 106669
+        },
+        "Content/Ref/BP_RefChild.uasset": {
+          "sha256": "5d406a7f77880496ba5aabead5c52fc7d70e3ebec32ee0cc348c76c3261b9986",
+          "size": 3610
+        },
+        "Content/Ref/BP_RefChild.uexp": {
+          "sha256": "52976e3a327a5f15f8c924c1b44aa51fc7cb05e91316b24989f842f0997b7254",
+          "size": 956
+        },
+        "Content/Ref/BP_RefParent.uasset": {
+          "sha256": "17c1cc6e4e7fcd5274788aef75b8312787868dac144eea44598ded05a64dfeda",
+          "size": 3506
+        },
+        "Content/Ref/BP_RefParent.uexp": {
+          "sha256": "3b6597e47aea9ac738def3dbcbcaf74b883d1a5c23b5f915f2223f82c84e468a",
+          "size": 1201
+        },
+        "Content/Ref/RefMap.uexp": {
+          "sha256": "3701bbf5c926928885118574c7bb307f7f555c9425f824804a63f0bf7582d17e",
+          "size": 2586
+        },
+        "Content/Ref/RefMap.umap": {
+          "sha256": "f01cd7f6a58f6bdfe3099080e4514ee27d6afcdcdddb69d930747a3367b5cd6d",
+          "size": 4926
+        },
+        "Content/Ref/S_RefStruct.uasset": {
+          "sha256": "38feb526c54aece62af7d1fff74c5c7a40ab72e60e0f7e3c75623ce4a16be65c",
+          "size": 817
+        },
+        "Content/Ref/S_RefStruct.uexp": {
+          "sha256": "c9f4b48d916379280b3b9fa2157a67d49e9ee42d4777cc87b56c9515320352bc",
+          "size": 192
+        },
+        "Metadata/DevelopmentAssetRegistry.bin": {
+          "sha256": "b3bd90dec80b5fc136751ac149c840604615dd9714512ca598e0f47e32cf7a7c",
+          "size": 286803
+        },
+        "Metadata/packagestore.manifest": {
+          "sha256": "f7663c3c0c3abca58b133d7652a8f7a6f40633eaedf97d9cfd5aeec16bd7b511",
+          "size": 82377
+        },
+        "Metadata/scriptobjects.bin": {
+          "sha256": "969cfceb79663834c73b010d34004921d4068ff7bbefac968f2e7797532197f5",
+          "size": 2129430
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/A_Cooked/CookRef"
+    },
+    "G_cooked_unversioned_properties_parent_grown": {
+      "cooked_file_count": 23,
+      "cooked_total_bytes": 42293835,
+      "files": {
+        "AssetRegistry.bin": {
+          "sha256": "d28a173ccf572e1265641be5969f6a370acce2d83de5f3b057788653dece5c60",
+          "size": 106669
+        },
+        "Content/Ref/BP_RefChild.uasset": {
+          "sha256": "872d720404164eb8713acd665a2f2d2f19f0406a2f75f852a1c3551f735d9aa3",
+          "size": 2964
+        },
+        "Content/Ref/BP_RefChild.uexp": {
+          "sha256": "5340c8ce43ff14176a766682ecdc8a77c51c226ddfdc408041bf6ce964ab795c",
+          "size": 379
+        },
+        "Content/Ref/BP_RefParent.uasset": {
+          "sha256": "02e22dedf04446ff2c08f0506fdca8636ae8d5c87749ac57e95245f99156d4f1",
+          "size": 3210
+        },
+        "Content/Ref/BP_RefParent.uexp": {
+          "sha256": "56c849b87183f72c5cfa253fd1c40b83fc6399dffc85c6e8f3ce74f32458682f",
+          "size": 655
+        },
+        "Content/Ref/RefMap.uexp": {
+          "sha256": "df92067edb3662efedb9552282a11824a1706afcaef0492f02e5191f4eb8d744",
+          "size": 983
+        },
+        "Content/Ref/RefMap.umap": {
+          "sha256": "06fae08978194a724a6e870f925a344f23e7bf7a265ce1379f61f86aadaca6c3",
+          "size": 4137
+        },
+        "Content/Ref/S_RefStruct.uasset": {
+          "sha256": "6f2fa3c04a04e9da32de7133b8081c9dd5bd8f3f3100355c710bba1836d35d95",
+          "size": 725
+        },
+        "Content/Ref/S_RefStruct.uexp": {
+          "sha256": "21a7f4b4ffe6a32a4f61b06feaff2a837760c04db3f9f3fd469361404ce2d3eb",
+          "size": 110
+        },
+        "Metadata/DevelopmentAssetRegistry.bin": {
+          "sha256": "0ae5d0d6173fcc672358820295bcb66fede7dec98bde40877d8ffa3927f9832d",
+          "size": 286858
+        },
+        "Metadata/packagestore.manifest": {
+          "sha256": "f7663c3c0c3abca58b133d7652a8f7a6f40633eaedf97d9cfd5aeec16bd7b511",
+          "size": 82377
+        },
+        "Metadata/scriptobjects.bin": {
+          "sha256": "969cfceb79663834c73b010d34004921d4068ff7bbefac968f2e7797532197f5",
+          "size": 2129430
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/G_Cooked/CookRef"
+    },
+    "U_cooked_unversioned_header_unversioned_properties": {
+      "cooked_file_count": 24,
+      "cooked_total_bytes": 42292446,
+      "files": {
+        "AssetRegistry.bin": {
+          "sha256": "dafa8d824bc28661591ceade2e762eb6ab7391f6797f7ead532a460c9f473f27",
+          "size": 106669
+        },
+        "Content/Ref/BP_RefChild.uasset": {
+          "sha256": "92384a3085c436ef2938c46320ba3a8b13e5432d947a247cc62b057efb288224",
+          "size": 2867
+        },
+        "Content/Ref/BP_RefChild.uexp": {
+          "sha256": "8c2201ec93535851d10b247ca45845cc72c0d97354139a54ac50467a31821f21",
+          "size": 379
+        },
+        "Content/Ref/BP_RefParent.uasset": {
+          "sha256": "ec7cfec8ce68df72339ccf1861741ce766b8f7edbd2d0d3adb32340aaa5070fc",
+          "size": 2772
+        },
+        "Content/Ref/BP_RefParent.uexp": {
+          "sha256": "89d997ceed327ceeea7065f4e5ce53dcb9da8cf3de9b60d697e2b63a5331714c",
+          "size": 538
+        },
+        "Content/Ref/RefMap.uexp": {
+          "sha256": "e69f7a2c525a6dd07aa15b692ffd0888e513710528512c67e00d7adaa5341d58",
+          "size": 917
+        },
+        "Content/Ref/RefMap.umap": {
+          "sha256": "3f4ce6f22e93b757a7f93610b868c04c34e76bad876f86403001b058573b1e10",
+          "size": 3747
+        },
+        "Content/Ref/S_RefStruct.uasset": {
+          "sha256": "9821621d79879041075e35d3798d276e09a7e27e75d132f136f03e586539d652",
+          "size": 725
+        },
+        "Content/Ref/S_RefStruct.uexp": {
+          "sha256": "21a7f4b4ffe6a32a4f61b06feaff2a837760c04db3f9f3fd469361404ce2d3eb",
+          "size": 110
+        },
+        "Metadata/DevelopmentAssetRegistry.bin": {
+          "sha256": "6cf72166ff1999dd421ec152f67939388a97e8a106f5db491cf552060171ff1a",
+          "size": 286803
+        },
+        "Metadata/packagestore.manifest": {
+          "sha256": "f7663c3c0c3abca58b133d7652a8f7a6f40633eaedf97d9cfd5aeec16bd7b511",
+          "size": 82377
+        },
+        "Metadata/scriptobjects.bin": {
+          "sha256": "969cfceb79663834c73b010d34004921d4068ff7bbefac968f2e7797532197f5",
+          "size": 2129430
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/U_Cooked/CookRef"
+    },
+    "V_cooked_versioned_header_versioned_properties": {
+      "cooked_file_count": 23,
+      "cooked_total_bytes": 42297708,
+      "files": {
+        "AssetRegistry.bin": {
+          "sha256": "d18648f6c966b09f35ff22ae437fe27e1d3429ad5addf0432f7322cb72a6bbd1",
+          "size": 106669
+        },
+        "Content/Ref/BP_RefChild.uasset": {
+          "sha256": "5d406a7f77880496ba5aabead5c52fc7d70e3ebec32ee0cc348c76c3261b9986",
+          "size": 3610
+        },
+        "Content/Ref/BP_RefChild.uexp": {
+          "sha256": "52976e3a327a5f15f8c924c1b44aa51fc7cb05e91316b24989f842f0997b7254",
+          "size": 956
+        },
+        "Content/Ref/BP_RefParent.uasset": {
+          "sha256": "17c1cc6e4e7fcd5274788aef75b8312787868dac144eea44598ded05a64dfeda",
+          "size": 3506
+        },
+        "Content/Ref/BP_RefParent.uexp": {
+          "sha256": "3b6597e47aea9ac738def3dbcbcaf74b883d1a5c23b5f915f2223f82c84e468a",
+          "size": 1201
+        },
+        "Content/Ref/RefMap.uexp": {
+          "sha256": "3701bbf5c926928885118574c7bb307f7f555c9425f824804a63f0bf7582d17e",
+          "size": 2586
+        },
+        "Content/Ref/RefMap.umap": {
+          "sha256": "f01cd7f6a58f6bdfe3099080e4514ee27d6afcdcdddb69d930747a3367b5cd6d",
+          "size": 4926
+        },
+        "Content/Ref/S_RefStruct.uasset": {
+          "sha256": "38feb526c54aece62af7d1fff74c5c7a40ab72e60e0f7e3c75623ce4a16be65c",
+          "size": 817
+        },
+        "Content/Ref/S_RefStruct.uexp": {
+          "sha256": "c9f4b48d916379280b3b9fa2157a67d49e9ee42d4777cc87b56c9515320352bc",
+          "size": 192
+        },
+        "Metadata/DevelopmentAssetRegistry.bin": {
+          "sha256": "b3bd90dec80b5fc136751ac149c840604615dd9714512ca598e0f47e32cf7a7c",
+          "size": 286803
+        },
+        "Metadata/packagestore.manifest": {
+          "sha256": "f7663c3c0c3abca58b133d7652a8f7a6f40633eaedf97d9cfd5aeec16bd7b511",
+          "size": 82377
+        },
+        "Metadata/scriptobjects.bin": {
+          "sha256": "969cfceb79663834c73b010d34004921d4068ff7bbefac968f2e7797532197f5",
+          "size": 2129430
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/V_Cooked/CookRef"
+    },
+    "X_cooked_unversioned_header_versioned_properties": {
+      "cooked_file_count": 23,
+      "cooked_total_bytes": 42297612,
+      "files": {
+        "AssetRegistry.bin": {
+          "sha256": "d18648f6c966b09f35ff22ae437fe27e1d3429ad5addf0432f7322cb72a6bbd1",
+          "size": 106669
+        },
+        "Content/Ref/BP_RefChild.uasset": {
+          "sha256": "f99914c6abc44f887275367f48e9fcce8bbea483bab91073414926c33976e247",
+          "size": 3430
+        },
+        "Content/Ref/BP_RefChild.uexp": {
+          "sha256": "52976e3a327a5f15f8c924c1b44aa51fc7cb05e91316b24989f842f0997b7254",
+          "size": 956
+        },
+        "Content/Ref/BP_RefParent.uasset": {
+          "sha256": "bc15a9c97b37c0ad279b76fab623e7713ce924fc53698ea20c6b89d3e95ddfea",
+          "size": 3306
+        },
+        "Content/Ref/BP_RefParent.uexp": {
+          "sha256": "3b6597e47aea9ac738def3dbcbcaf74b883d1a5c23b5f915f2223f82c84e468a",
+          "size": 1201
+        },
+        "Content/Ref/RefMap.uexp": {
+          "sha256": "3701bbf5c926928885118574c7bb307f7f555c9425f824804a63f0bf7582d17e",
+          "size": 2586
+        },
+        "Content/Ref/RefMap.umap": {
+          "sha256": "d903c53e7dacc5caba73885ec770f955c11ef355e30bac0b97dda4f70cb0c53f",
+          "size": 4706
+        },
+        "Content/Ref/S_RefStruct.uasset": {
+          "sha256": "415f121ae877c0c25f58339c9fe473a6492021865a71a040f6a7d2813be30872",
+          "size": 777
+        },
+        "Content/Ref/S_RefStruct.uexp": {
+          "sha256": "c9f4b48d916379280b3b9fa2157a67d49e9ee42d4777cc87b56c9515320352bc",
+          "size": 192
+        },
+        "Metadata/DevelopmentAssetRegistry.bin": {
+          "sha256": "ef6050c57d711ded7ee0a5a46bc30c715ea0adeb93d1ec9a380c59cb6ee0708c",
+          "size": 286803
+        },
+        "Metadata/packagestore.manifest": {
+          "sha256": "f7663c3c0c3abca58b133d7652a8f7a6f40633eaedf97d9cfd5aeec16bd7b511",
+          "size": 82377
+        },
+        "Metadata/scriptobjects.bin": {
+          "sha256": "969cfceb79663834c73b010d34004921d4068ff7bbefac968f2e7797532197f5",
+          "size": 2129430
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/X_Cooked/CookRef"
+    }
+  },
+  "logs": {
+    "cookA.log": {
+      "sha256": "ad91b784cb87842b82eb68fffda18f00416c05c7fb51d42194026501cba1ef6f",
+      "size": 58914
+    },
+    "cookB.log": {
+      "sha256": "c9b23b17ad7bb212d3ade97d675753cf5908340bba814756aca964e6ce3d5168",
+      "size": 51762
+    },
+    "cookG.log": {
+      "sha256": "feafe72b973adf5ec300c53988772117c84542f92491dea27446aa54d341e0c1",
+      "size": 50622
+    },
+    "cookU.log": {
+      "sha256": "0e0752d2ed35bdec11ff0ee47f5421db3fe3e0ae6c43181d4c02ab36eb90ad79",
+      "size": 50301
+    },
+    "cookX.log": {
+      "sha256": "094a7cefa7d87905d2bfea4f1a781cf5852426946001ab77de2545c42f3490fd",
+      "size": 50294
+    },
+    "make_assets.log": {
+      "sha256": "dfabc01975d4a956135b6759743ee1a22aa34bb2c1d2956611cc0e56861b3e7a",
+      "size": 8855
+    },
+    "make_assets_grown.log": {
+      "sha256": "b4cabef72038e982df95691fb5e2c365b254832fe58263d747928e32eb29082c",
+      "size": 9026
+    },
+    "stageA.log": {
+      "sha256": "7fdb2e523701ae4daf7126e504c4fd78fcaad29e69884effc918e578a2186a37",
+      "size": 19155
+    },
+    "stageU.log": {
+      "sha256": "47241fc7e864813b6ccda1993188ec622692af57f2dee76db6ffd0f4767e1be3",
+      "size": 19153
+    },
+    "stageU_nocompress.log": {
+      "sha256": "44c3e0e9179c98df22ed2fd088418d3a700c84cbe0a2b2742906452ebb5457d0",
+      "size": 18032
+    },
+    "uat_cook_default.log": {
+      "sha256": "5fb341df0ec54c28753ff88aa25ce4fd706f1dcf4b32a83911f3ecb1c0654ebd",
+      "size": 53640
+    },
+    "uat_cook_default_run2.log": {
+      "sha256": "b1a41aef870f1496a0920cede978061fabf241a1fa18012ea81e0f0e96bf06b1",
+      "size": 51796
+    }
+  },
+  "note": "every artifact this run produced, with size and sha256. The artifacts themselves stay on D:\\UEScratch and are NOT committed: they are cooked engine content, and the repository must not carry cooked assets.",
+  "project_files": {
+    "Config/DefaultEngine.ini": {
+      "sha256": "6846934b8daf01927e3fb1a604265d9a195c24fa8195a1964698278d5ca83d6d",
+      "size": 797,
+      "text": "[/Script/EngineSettings.GameMapsSettings]\nGameDefaultMap=/Game/Ref/RefMap.RefMap\nEditorStartupMap=/Game/Ref/RefMap.RefMap\n\n[/Script/DeveloperToolSettings.ProjectPackagingSettings]\nbUseZenStore=False\nbUseIoStore=True\nUsePakFile=True\nbCompressed=False\n+MapsToCook=(FilePath=\"/Game/Ref/RefMap\")\n+DirectoriesToAlwaysCook=(Path=\"/Game/Ref\")\n\n[Core.System]\nCanUseUnversionedPropertySerialization=True\n\n[/Script/AndroidFileServerEditor.AndroidFileServerRuntimeSettings]\nbEnablePlugin=True\nbAllowNetworkConnection=True\nSecurityToken=5A0495D24039A896E2182B841307DE63\nbIncludeInShipping=False\nbAllowExternalStartInShipping=False\nbCompileAFSProject=False\nbUseCompression=False\nbLogFiles=False\nbReportStats=False\nConnectionType=USBOnly\nbUseManualIPAddress=False\nManualIPAddress=\n\n"
+    },
+    "Config/DefaultGame.ini": {
+      "sha256": "88df35e319b41894f3310b499d4dff75061c2e7c6241a74fb8534c26b52dd7a9",
+      "size": 111,
+      "text": "[/Script/EngineSettings.GeneralProjectSettings]\nProjectID=8F1C2D3E4A5B6C7D8E9F0A1B2C3D4E5F\nProjectName=CookRef\n"
+    },
+    "CookRef.uproject": {
+      "sha256": "07a8f7a0d81ef5be4b36dce55dcdab3921f89fb2b06331807fb84d589881af26",
+      "size": 293,
+      "text": "{\n\t\"FileVersion\": 3,\n\t\"EngineAssociation\": \"5.4\",\n\t\"Category\": \"\",\n\t\"Description\": \"Reference cook project for MISERY research (CK-01 / CK-04). No game content.\",\n\t\"Plugins\": [\n\t\t{ \"Name\": \"PythonScriptPlugin\", \"Enabled\": true },\n\t\t{ \"Name\": \"EditorScriptingUtilities\", \"Enabled\": true }\n\t]\n}\n"
+    }
+  },
+  "scratch_root": "D:/UEScratch",
+  "staged_containers": {
+    "A_staged_versioned_properties_compressed": {
+      "files": {
+        "CookRef-Windows.pak": {
+          "sha256": "1c6526cc9c7d2b5628a503b2712e55728a62bd8980f6d0c113e360af11b1b186",
+          "size": 9689937
+        },
+        "CookRef-Windows.ucas": {
+          "sha256": "aea357c87ab97667e59257284ffa15be3612eb8f7fcd156cb7006fbe9cfdd3cf",
+          "size": 27770000
+        },
+        "CookRef-Windows.utoc": {
+          "sha256": "499038ae570a296f3dc7b71202f54c6b5e323ba37414a89d438999c0e2c0c2e0",
+          "size": 100546
+        },
+        "global.ucas": {
+          "sha256": "d3c04c79e03f7caf796d86b061aaff8b6b45747f11c2f6aa1ee1f1b72fa5f036",
+          "size": 2129440
+        },
+        "global.utoc": {
+          "sha256": "c58d1cb7fbd169d1488219a2bc1f4df7db329d40b733b12df200ef87cd26aeb1",
+          "size": 599
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/A_Staged/CookRef/Content/Paks"
+    },
+    "U_staged_unversioned_properties_compressed": {
+      "files": {
+        "CookRef-Windows.pak": {
+          "sha256": "a7645f9d79827221ee4b057e6c55494e46b9ee6baf09cc6dc2c2bd001bb82d48",
+          "size": 9689937
+        },
+        "CookRef-Windows.ucas": {
+          "sha256": "8c6c078f602ebf6abffff0846ef651e10ac29d766e9fe119ea0e3fb9bf5fee91",
+          "size": 27444368
+        },
+        "CookRef-Windows.utoc": {
+          "sha256": "c0c2bd0f147c58eb3273e649422191e90b2cdf1851f627330f2700657df25f9d",
+          "size": 100534
+        },
+        "global.ucas": {
+          "sha256": "d3c04c79e03f7caf796d86b061aaff8b6b45747f11c2f6aa1ee1f1b72fa5f036",
+          "size": 2129440
+        },
+        "global.utoc": {
+          "sha256": "c58d1cb7fbd169d1488219a2bc1f4df7db329d40b733b12df200ef87cd26aeb1",
+          "size": 599
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/U_Staged/CookRef/Content/Paks"
+    },
+    "U_staged_unversioned_properties_uncompressed": {
+      "files": {
+        "CookRef-Windows.pak": {
+          "sha256": "cdf7dbe4dbd3f661141456911c28f1bc037f3b57de08f47cd44273635ce331a2",
+          "size": 22849170
+        },
+        "CookRef-Windows.ucas": {
+          "sha256": "137713f823996e681e5cb31d6d755ecc8a624898a4e797b2f3212abfdfb7dffb",
+          "size": 114613392
+        },
+        "CookRef-Windows.utoc": {
+          "sha256": "f329cec4490b950dd0a16048986bc3a6b7a4f33f4f8851593c17da236520a858",
+          "size": 100502
+        },
+        "global.ucas": {
+          "sha256": "d3c04c79e03f7caf796d86b061aaff8b6b45747f11c2f6aa1ee1f1b72fa5f036",
+          "size": 2129440
+        },
+        "global.utoc": {
+          "sha256": "c58d1cb7fbd169d1488219a2bc1f4df7db329d40b733b12df200ef87cd26aeb1",
+          "size": 599
+        }
+      },
+      "root": "D:/UEScratch/CookRef/Saved/StagedBuilds/Windows/CookRef/Content/Paks"
+    }
+  }
+}

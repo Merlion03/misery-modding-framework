@@ -1,0 +1,14 @@
+records 411385 dir rva 130871296 size 4936620
+distinct unwind addrs 197872 min 0x7391e50 max 0x77c6e2c
+unwind lives in .rdata
+bad_head 0
+(version, flags) histogram: {(1, 0): 219300, (1, 1): 146, (1, 4): 169032, (1, 3): 21889, (1, 2): 1018}
+chunk records 169032
+chunk primaries that ARE a BeginAddress in the table: 169032 of 169032
+chunk ranges overlapping their primary range: 0
+unwind 0x7391e64 shared by 46543 records; head=01040100 flags=0
+unwind 0x7391f04 shared by 22253 records; head=01060200 flags=0
+unwind 0x7391f0c shared by 18366 records; head=010a0400 flags=0
+distinct primaries owning >=1 chunk: 77846
+chunks-per-primary histogram: {1: 1487, 2: 65515, 3: 7824, 4: 2378, 5: 482, 6: 101, 7: 40, 8: 7, 9: 2, 10: 3, 11: 2, 12: 2}
+max chunks on one primary: [(93451152, 57)]

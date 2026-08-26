@@ -635,6 +635,23 @@ def _spread(items: list, count: int) -> list:
 CLASSIFICATION_RULES: tuple[tuple[str, re.Pattern, str], ...] = (
     ("unreal-script-path", re.compile(r"^/Script/[A-Za-z0-9_]+"),
      "the UE package path for a native module's reflection namespace"),
+    # The same path reached one to three characters late. This is not a
+    # generous-shape rule, it is a correction for a KNOWN artefact of the
+    # UTF-16 pass: the two bytes before a wide string frequently read as
+    # (printable, NUL) themselves -- the last character of the narrow string
+    # that precedes it plus its terminator do exactly that -- so the run scan
+    # starts the match one code unit early and produces "t/Script/CoreUObject".
+    # Under an anchored rule alone that record classifies as unclassified and
+    # the name is LOST from the UTF-16 population, which would make the
+    # two-encoding set look smaller than the image justifies. The prefix is
+    # bounded at three characters because each absorbed character costs a byte
+    # pair that has to read as (printable, NUL); the count of records reached
+    # this way is reported separately so the correction can be inspected.
+    ("unreal-script-path-absorbed-prefix",
+     re.compile(r"^.{1,3}/Script/[A-Za-z0-9_]+"),
+     "a UE package path preceded by one to three characters, the shape the "
+     "UTF-16 pass produces when the byte pair before a wide string reads as a "
+     "printable character followed by NUL"),
     ("unreal-content-path", re.compile(r"^/(Game|Engine|Temp|Memory|Paper2D|Niagara)"
                                        r"/[A-Za-z0-9_./]*$"),
      "a UE content mount point followed by a package path"),
@@ -667,6 +684,7 @@ CLASSIFICATION_RULES: tuple[tuple[str, re.Pattern, str], ...] = (
 # about the build -- whereas an arbitrary string from the image is content.
 PUBLISHABLE_CATEGORIES = frozenset({
     "unreal-script-path",
+    "unreal-script-path-absorbed-prefix",
     "unreal-content-path",
     "build-source-path",
     "ini-or-config-path",
@@ -1003,6 +1021,18 @@ def scan_region(image, region: RegionMap, entry: dict, patterns, min_length: int
     """
     ascii_re, utf16_re = patterns
     carried: list[tuple[int, int, int]] = []   # (start, end, encoding_code)
+    # How far each encoding's pattern has already CONSUMED, as a file offset.
+    # A window's buffer begins in the middle of whatever run straddled the
+    # previous commit boundary, so this window's pattern finds a match at
+    # position 0 covering that run's tail -- a run the previous window already
+    # emitted at its full capped extent. Emitting the tail as well would report
+    # one run twice, at two offsets, and a consumer counting occurrences would
+    # read the duplicate as a second occurrence. A single pass over the whole
+    # region would never produce it, so this bookkeeping is what makes the
+    # windowing invisible: it reproduces exactly what one finditer over the
+    # region would have consumed, including a match REJECTED for alignment or
+    # length, which finditer consumes just the same.
+    consumed_to = {ENCODING_ASCII: entry["start"], ENCODING_UTF16: entry["start"]}
     for origin, buffer, commit in iter_windows(image, entry, SCAN_WINDOW, LOOKAHEAD):
         limit = len(buffer)
         hits: list[tuple[int, int, str, bytes]] = []
@@ -1011,6 +1041,10 @@ def scan_region(image, region: RegionMap, entry: dict, patterns, min_length: int
             begin = match.start()
             if begin >= commit:
                 break
+            if origin + begin < consumed_to[ENCODING_ASCII]:
+                stats["runs_continued_from_a_previous_window"] += 1
+                continue
+            consumed_to[ENCODING_ASCII] = origin + match.end()
             end = min(match.end(), begin + MAX_STRING_BYTES)
             hits.append((begin, end, ENCODING_ASCII, buffer[begin:end]))
 
@@ -1018,6 +1052,10 @@ def scan_region(image, region: RegionMap, entry: dict, patterns, min_length: int
             begin = match.start()
             if begin >= commit:
                 break
+            if origin + begin < consumed_to[ENCODING_UTF16]:
+                stats["runs_continued_from_a_previous_window"] += 1
+                continue
+            consumed_to[ENCODING_UTF16] = origin + match.end()
             if (origin + begin) % 2:
                 # Rule (b) of decision 2: only even image offsets start a
                 # UTF-16 candidate. Counted, not silently dropped -- the size of
@@ -1037,15 +1075,29 @@ def scan_region(image, region: RegionMap, entry: dict, patterns, min_length: int
         # Cross-encoding overlap, counted while both lists are in hand. The
         # carry list holds the previous window's hits that reach past its commit
         # boundary, so a pair straddling the boundary is still seen.
-        extents = carried + [(begin, end, ENCODING_ORDER[encoding])
-                             for begin, end, encoding, _ in hits]
+        #
+        # A pair is attributed to the window in which its LATER-STARTING member
+        # is new, and counted only there. Every extent that starts earlier was
+        # already present in that window (as a hit or as a carry), so every
+        # overlapping pair is reached exactly once -- whereas counting every
+        # pair in the list would count a pair of two carried extents again in
+        # each window that carries both.
+        extents = [(begin, end, code, False) for begin, end, code in carried]
+        extents += [(begin, end, ENCODING_ORDER[encoding], True)
+                    for begin, end, encoding, _ in hits]
         extents.sort()
-        for index in range(len(extents) - 1):
-            begin, end, code = extents[index]
-            for other in extents[index + 1:]:
+        # Indexed, not sliced. `extents[index + 1:]` builds a fresh list on
+        # every iteration, so the inner loop costs O(n) copies per extent even
+        # when it breaks after one comparison: on a window holding a hundred
+        # thousand hits that is the dominant cost of the whole scan.
+        count = len(extents)
+        for index in range(count - 1):
+            _begin, end, code, _is_new = extents[index]
+            for probe in range(index + 1, count):
+                other = extents[probe]
                 if other[0] >= end:
                     break
-                if other[2] != code:
+                if other[2] != code and other[3]:
                     stats["ranges_claimed_by_both_encodings"] += 1
         # Rebase into the NEXT window's frame. The next buffer starts `commit`
         # bytes further into the file, so an extent carried across the boundary
@@ -1053,7 +1105,7 @@ def scan_region(image, region: RegionMap, entry: dict, patterns, min_length: int
         # a new-frame one compares two different coordinate systems and both
         # invents overlaps and misses real ones.
         carried = [(begin - commit, end - commit, code)
-                   for begin, end, code in extents if end > commit]
+                   for begin, end, code, _is_new in extents if end > commit]
 
         for begin, end, encoding, raw in hits:
             offset = origin + begin
@@ -1382,6 +1434,12 @@ def interpretive_annotation(target: str, confidence: float, note: str,
 # --------------------------------------------------------------------------- #
 
 SCRIPT_PATH_RE = re.compile(r"^/Script/([A-Za-z0-9_]+)")
+# Searched, not anchored, so that a record whose run began a few characters
+# early still yields its name. Which of the two rules reached a name is recorded
+# per occurrence rather than blurred, because a name reached only through an
+# absorbed prefix rests on a slightly longer chain of reasoning.
+SCRIPT_PATH_SEARCH_RE = re.compile(r"/Script/([A-Za-z0-9_]+)")
+SCRIPT_PATH_CATEGORIES = ("unreal-script-path", "unreal-script-path-absorbed-prefix")
 
 
 def build_script_path_finding(sink: StringSink, target: str,
@@ -1398,17 +1456,27 @@ def build_script_path_finding(sink: StringSink, target: str,
     """
     by_encoding: dict[str, Counter] = {ENCODING_ASCII: Counter(),
                                        ENCODING_UTF16: Counter()}
+    absorbed_prefix = Counter()
     first_offset: dict[str, dict] = {}
-    for record in sink.classified.get("unreal-script-path", ()):
-        match = SCRIPT_PATH_RE.match(record["text"])
-        if not match:
-            continue
-        name = match.group(1)
-        by_encoding[record["encoding"]][name] += 1
-        slot = first_offset.setdefault(name, {})
-        slot.setdefault(record["encoding"], {
-            "offset": record["offset"], "rva": record["rva"],
-            "region": record["region"], "text": record["text"]})
+    for category in SCRIPT_PATH_CATEGORIES:
+        for record in sink.classified.get(category, ()):
+            match = SCRIPT_PATH_SEARCH_RE.search(record["text"])
+            if not match:
+                continue
+            name = match.group(1)
+            by_encoding[record["encoding"]][name] += 1
+            if match.start():
+                absorbed_prefix[name] += 1
+            slot = first_offset.setdefault(name, {})
+            slot.setdefault(record["encoding"], {
+                "offset": record["offset"], "rva": record["rva"],
+                "region": record["region"], "text": record["text"],
+                # The offset the name itself starts at, which is not the
+                # record's offset when a prefix was absorbed.
+                "name_offset": record["offset"] + (
+                    match.start() * (1 if record["encoding"] == ENCODING_ASCII
+                                     else 2)),
+                "absorbed_prefix_characters": match.start()})
 
     ascii_names = set(by_encoding[ENCODING_ASCII])
     utf16_names = set(by_encoding[ENCODING_UTF16])
@@ -1459,7 +1527,13 @@ def build_script_path_finding(sink: StringSink, target: str,
             "literal proves the name is mentioned; UE emits such literals from "
             "generated reflection registration, from core-redirect tables and "
             "from packaged config defaults, so a redirect entry for a module that "
-            "no longer exists appears here too." % len(both)),
+            "no longer exists appears here too. One correction is applied and "
+            "counted rather than hidden: a UTF-16 run often starts one code unit "
+            "early because the byte pair before a wide string reads as "
+            "(printable, NUL), so the name is searched for inside the run instead "
+            "of being required at its start, and the number of occurrences "
+            "reached that way is published alongside."
+            % len(both)),
         methods=[
             {"id": "ascii-run-scan", "oracle": "binary-analysis",
              "note": "an 8-bit printable-run scan of every region of the image, "
@@ -1496,6 +1570,12 @@ def build_script_path_finding(sink: StringSink, target: str,
         "names_utf16_only": sorted(utf16_names - ascii_names),
         "occurrences_ascii": sum(by_encoding[ENCODING_ASCII].values()),
         "occurrences_utf16": sum(by_encoding[ENCODING_UTF16].values()),
+        "occurrences_reached_through_an_absorbed_prefix":
+            sum(absorbed_prefix.values()),
+        "names_reached_only_through_an_absorbed_prefix": sorted(
+            name for name, count in absorbed_prefix.items()
+            if count == (by_encoding[ENCODING_ASCII].get(name, 0)
+                         + by_encoding[ENCODING_UTF16].get(name, 0))),
         "occurrences_by_name": {
             name: {"ascii": by_encoding[ENCODING_ASCII].get(name, 0),
                    "utf16": by_encoding[ENCODING_UTF16].get(name, 0)}
@@ -2245,6 +2325,8 @@ def analyze(path: str, *, min_length: int = DEFAULT_MIN_LENGTH,
                 stats.get("utf16_rejected_short_after_cap", 0),
             "runs_clipped_by_length_cap": stats.get("runs_clipped_by_length_cap", 0),
             "runs_touching_region_end": stats.get("runs_touching_region_end", 0),
+            "runs_continued_from_a_previous_window":
+                stats.get("runs_continued_from_a_previous_window", 0),
             "ranges_claimed_by_both_encodings":
                 stats.get("ranges_claimed_by_both_encodings", 0),
             "by_region_kind": dict(sorted(sink.by_region_kind.items())),
@@ -2435,8 +2517,10 @@ def format_summary(document: dict, name_limit: int = 40) -> str:
         "only, %d utf-16 only)"
         % (script["distinct_names"], len(script["names_in_both_encodings"]),
            len(script["names_ascii_only"]), len(script["names_utf16_only"])))
-    add("    occurrences: ascii %d, utf-16 %d"
-        % (script["occurrences_ascii"], script["occurrences_utf16"]))
+    add("    occurrences: ascii %d, utf-16 %d (%d reached through an absorbed "
+        "prefix)"
+        % (script["occurrences_ascii"], script["occurrences_utf16"],
+           script["occurrences_reached_through_an_absorbed_prefix"]))
     if script["module_index_available"]:
         add("    declared as a UE module by the local engine tree: %d"
             % len(script["declared_as_ue_module"]))

@@ -1,0 +1,37 @@
+tools/static/tu_literals.py 1.0.0
+Image: MISERY/Binaries/Win64/MISERY.exe  size=282826240  sha256=a155f897e156fa646b7b5f664f4816b57cfc19a3baedf1ed01e278f01fec91d7
+Surface: whole file, 282826240 bytes in 9 slices; marker hits ascii=6144 utf16=341
+Source-path literals: 6093 distinct relative paths, 6156 occurrences
+  build roots (drive + first component): {"D:/build/": 5986, "?D:/build/": 3, "c1D:/build/": 1, ")D:/build/": 1, "F:/Unreal Engine/": 153, "D:/Primary/": 12}
+  sections hit: {".rdata": 6156}
+
+Queries
+  FOUND  Runtime/CoreUObject/Private/Serialization/UnversionedPropertySerialization.cpp  occurrences=1 first_offset=217245616
+  FOUND  Runtime/CoreUObject/Private/UObject/Class.cpp  occurrences=1 first_offset=217216672
+  FOUND  Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp  occurrences=1 first_offset=217442944
+  FOUND  Runtime/CoreUObject/Private/UObject/LinkerSave.cpp  occurrences=1 first_offset=217475024
+  FOUND  Runtime/CoreUObject/Private/UObject/PropertyTag.cpp  occurrences=1 first_offset=217630352
+  FOUND  Runtime/CoreUObject/Private/UObject/SavePackage2.cpp  occurrences=1 first_offset=217653776
+  FOUND  Runtime/CoreUObject/Private/Serialization/AsyncLoading2.cpp  occurrences=1 first_offset=217169184
+  FOUND  Runtime/CoreUObject/Private/UObject/PackageFileSummary.cpp  occurrences=1 first_offset=217521648
+  ABSENT Runtime/CoreUObject/Private/Serialization/NoSuchFileForCK01Decoy.cpp
+
+Power of the presence test, over translation units a UE5 game cannot run without
+  corpus Runtime/Core/Private, Runtime/CoreUObject/Private
+  .cpp files 786 = platform-excluded 80 + test-excluded 23 + candidates 683
+  candidates whose path literal is in this image: 358 of 683 (P=0.5242)
+  P(literal | uses check family)    = 0.8041
+  P(literal | no check family)      = 0.1448
+  P(literal | uses UE_LOG family)   = 0.8646
+  P(literal | no UE_LOG family)     = 0.3524
+  P(literal | uses fatal family)    = 0.9432
+  P(literal | no fatal family)      = 0.4622
+
+Probes
+  decoy_query        PASS
+  roundtrip_query    PASS
+  prefix_census      SEE NOTE
+  run_accounting     PASS
+
+Literal reads (class P): 2 ranges, re-read through a second handle: reproduced
+Timings (s): {"classify": 0.023, "digest": 0.319, "pe_headers": 0.0, "power": 0.555, "scan": 0.646, "total": 1.551}

@@ -1,0 +1,84 @@
+target: MISERY/Content/Paks/global.utoc (623 bytes) + MISERY/Content/Paks/global.ucas (2269168 bytes)
+toc: v6, 1 chunk(s), 35 block(s) of 65536, flags 0x00 ['<none set>'], directory index 0 bytes
+chunk: index 0, id 000000000000000000000005, type ScriptObjects, offset 0, length 2269159
+  selection: exact match on CreateIoChunkId(0, 0, ScriptObjects)
+
+D-02 identity proof (BLAKE3-160 of the assembled chunk vs the TOC's stored FIoChunkHash):
+  computed 332cd79f11db0092ef56bc025c032df78b0c3bf8
+  stored   332cd79f11db0092ef56bc025c032df78b0c3bf8  -> MATCH
+
+name table: 32797 names, 823985 string bytes, 0 UTF-16, HashVersion 0x00000000c1640000 (FNameHash::AlgorithmId: True)
+  stored CityHash64 recomputed: 32797 checked, 0 mismatched
+script objects: 34912 entries of 32 bytes, 34912 distinct global indexes
+  FromScriptPath recomputed: 34912 checked, 0 mismatched, 0 unresolved
+  CDOClassIndex, branch :934 (computed from the Default__ prefix): 6506 checked, 6506 matched, 0 mismatched
+  CDOClassIndex, branch :929 (inherited from the outer): 672 checked, 672 matched, 0 mismatched
+  roles: cdo_subobject=672, class_default_object=6506, class_with_cdo=6506, member_of_class_with_cdo=13396, package=394, package_member_unclassified=7438
+
+tiling self-checks (no gaps, no overlaps, nothing left over):
+  toc_tiling     9 section(s) cover 623 of 623 bytes, gaps 0, overlaps 0, trailing 0 -> EXACT
+  chunk_tiling   6 section(s) cover 2269159 of 2269159 bytes, gaps 0, overlaps 0, trailing 0 -> EXACT
+  ucas_tiling    blocks end at 2269159 packed / 2269168 AES-aligned; file is 2269168 -> packed=False aligned=True
+
+refutation probes (same facts, no layout):
+  ascii_script_scan  literal '/Script/' x394 vs 394 distinct name(s) -> AGREE (394 entities use them; 0 name(s) shared)
+  ascii_default_scan literal 'Default__' x6515 vs 6515 distinct name(s) -> AGREE (6520 entities use them; 5 name(s) shared)
+  blake3_self_test   21/21 first-party vectors
+
+modules: 394 root packages, 394 under /Script/
+  vs 124 staged .uplugin names: 81 names in both, 313 module names that are not a plugin name, 43 plugin names with no module of that name
+  staged outside Engine/Plugins: OptimizationTools        module of that name: yes  (MISERY/Plugins/Optimiza421ff074d458V5/OptimizationTools.uplugin)
+  staged outside Engine/Plugins: SIZZ_Menu_Wheel          module of that name: yes  (MISERY/Plugins/MenuWheel_5.4/SIZZ_Menu_Wheel.uplugin)
+  staged outside Engine/Plugins: SteamCorePro             module of that name: yes  (MISERY/Plugins/SteamCorePro/SteamCorePro.uplugin)
+  staged outside Engine/Plugins: UniversalVoiceChatPro    module of that name: yes  (MISERY/Plugins/UniversalVoiceChatPro/UniversalVoiceChatPro.uplugin)
+
+/Script/MISERY: PRESENT, 29 entries
+  package                      /Script/MISERY
+  class_default_object         /Script/MISERY/Default__MiseryBlueprintFunctionLibrary
+  class_default_object         /Script/MISERY/Default__MiseryEditableText
+  class_default_object         /Script/MISERY/Default__MiseryFocusSubsystem
+  class_default_object         /Script/MISERY/Default__MiseryFocusableWidget
+  class_default_object         /Script/MISERY/Default__MiseryGameViewportClient
+  class_with_cdo               /Script/MISERY/MiseryBlueprintFunctionLibrary
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/GetFirstFocusableChild
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/GetMiseryViewportClient
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/GetSlateFocusChild
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/InitFocusRule
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/IsSteamDeck
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/IsUsingSlateFocus
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/KeepSlateKeyboardFocus
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/Misery_SetInputMode_GameOnly
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/SetSlateFocus
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/SetSlateFocusDeferred
+  member_of_class_with_cdo     /Script/MISERY/MiseryBlueprintFunctionLibrary/TryShowOnScreenKeyboard
+  class_with_cdo               /Script/MISERY/MiseryEditableText
+  member_of_class_with_cdo     /Script/MISERY/MiseryEditableText/CommitEditing
+  member_of_class_with_cdo     /Script/MISERY/MiseryEditableText/EnterEditMode
+  member_of_class_with_cdo     /Script/MISERY/MiseryEditableText/ExitEditMode
+  member_of_class_with_cdo     /Script/MISERY/MiseryEditableText/GetEditableTextBox
+  member_of_class_with_cdo     /Script/MISERY/MiseryEditableText/HandleChildTextCommitted
+  member_of_class_with_cdo     /Script/MISERY/MiseryEditableText/IsEditing
+  class_with_cdo               /Script/MISERY/MiseryFocusSubsystem
+  class_with_cdo               /Script/MISERY/MiseryFocusableWidget
+  class_with_cdo               /Script/MISERY/MiseryGameViewportClient
+  member_of_class_with_cdo     /Script/MISERY/MiseryGameViewportClient/SetInjectedScrollBox
+
+VERDICT: VERIFIED
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\global-ucas.json
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\global-names.txt
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\script-objects.tsv
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\script-modules.tsv
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\jsonl\classes.jsonl
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\jsonl\enums.jsonl
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\jsonl\functions.jsonl
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\jsonl\properties.jsonl
+
+written: C:\Temp\claude\D--Games-Steam-steamapps-common-MISERY\c7c03d81-8536-47d9-b7a8-bb8df2d03a7c\scratchpad\det\jsonl\relations.jsonl

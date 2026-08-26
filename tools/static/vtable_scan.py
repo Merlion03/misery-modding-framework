@@ -1576,6 +1576,18 @@ def characterise_rtti_split(candidates: list[dict], functions: FunctionIndex,
             "reference shape. Matching it is consistent with being vtables of the "
             "same toolchain and is not evidence of being one; not matching it is "
             "the informative outcome, and is reported rather than explained away"),
+        "contiguity_is_confounded_across_this_split": (
+            "READ THE CONTIGUITY FIGURES WITH THIS IN MIND. A candidate spans its "
+            "slots only, and an RTTI-bearing vtable always has its locator pointer "
+            "in the slot immediately before it. Two RTTI-bearing candidates are "
+            "therefore separated by that pointer BY CONSTRUCTION and can never be "
+            "adjacent under the definition used here, which forces the "
+            "locator-bearing side to a largest run of 1 whatever the image looks "
+            "like. The difference in contiguity between the two sides is thus an "
+            "artefact of the definition and is NOT evidence that the two "
+            "populations are laid out differently. Contiguity WITHIN the "
+            "no-locator side remains meaningful; contiguity ACROSS the split does "
+            "not, and no conclusion is drawn from it here"),
         "with_an_rtti_locator": _subpopulation_shape(with_rtti, functions,
                                                     pointer_size),
         "without_an_rtti_locator": _subpopulation_shape(without, functions,
@@ -2617,8 +2629,8 @@ def format_summary(document: dict) -> str:
             ("distinct slot targets", "distinct_slot_targets"),
             ("share of targets shared", "share_of_targets_that_are_shared"),
             ("share of slots at a function start", "share_of_slots_at_a_function_start"),
-            ("contiguous runs", "contiguous_runs"),
-            ("largest contiguous run", "largest_contiguous_run"),
+            ("contiguous runs [confounded, see below]", "contiguous_runs"),
+            ("largest contiguous run [confounded]", "largest_contiguous_run"),
         )
         left = split["with_an_rtti_locator"]
         right = split["without_an_rtti_locator"]
@@ -2634,6 +2646,12 @@ def format_summary(document: dict) -> str:
         add("  code-stored tier only                %12d %12d"
             % (stored["with_an_rtti_locator"]["candidates"],
                stored["without_an_rtti_locator"]["candidates"]))
+        add("  [confounded] an RTTI vtable always carries its locator pointer in "
+            "the slot before it,")
+        add("               so two of them can never be adjacent under this "
+            "definition. The")
+        add("               contiguity gap across the split is an artefact and "
+            "means nothing.")
         link = split["cross_link"]
         add("  no-locator candidates sharing a slot target with a named vtable: "
             "%d (%s), over %d distinct targets"

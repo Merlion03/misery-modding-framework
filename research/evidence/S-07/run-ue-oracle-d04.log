@@ -1,0 +1,52 @@
+sigscan 1.0.0 (S-07)
+target:   MISERY/Binaries/Win64/MISERY.exe
+          282 826 240 bytes, sha256 a155f897e156fa646b7b5f664f4816b5
+          D-04 read-only oracle: a conclusion reached here must be re-verified on the Shipping image
+library:  sigmake document
+          cut from MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe (sha256 0eef3715244b467c830022c4260a0e2c)
+          same image as the signature source: no
+surface:  exec -- every section with raw data whose characteristics carry IMAGE_SCN_MEM_EXECUTE or IMAGE_SCN_CNT_CODE
+          215 114 752 bytes over 2 range(s): .text[1536+215084032], .uedbg[215085568+30720]
+          NOT searched: read-only and writable data, resources, the headers and any overlay -- a byte sequence present there is NOT counted by this run
+
+verdicts: unique 1   ambiguous 0   absent 15   (of 16 scanned)
+          masked-byte fraction: min 0.000  mean 0.000  max 0.000
+
+verdict     occur.       len  mask  anch first rva   label
+absent      0             16     0    16 -           FAutoConsoleObject::vtable_slot_0
+absent      0             12     0    12 -           FDefaultModuleImpl::vtable_slot_0
+absent      0             16     0    16 -           FExrReaderGpuModule::vtable_slot_1
+absent      0             20     0    20 -           FGlobalShaderType::vtable_slot_0
+absent      0             12     0    12 -           SharedPointerInternals::TReferenceControllerBase<1>::vtable_s...
+absent      0             12     0    12 -           SharedPointerInternals::TReferenceControllerWithDeleter<_priv...
+absent      0             16     0    16 -           TAutoConsoleVariable<bool>::vtable_slot_0
+absent      0             24     0    24 -           TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+absent      0             40     0    40 -           TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+absent      0             32     0    32 -           TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+absent      0             32     0    32 -           TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             12     0    12 0xb6dea70   TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+absent      0             64     0    64 -           TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+absent      0             40     0    40 -           TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+absent      0             64     0    64 -           TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+absent      0             24     0    24 -           TCommonDelegateInstanceState<IModuleInterface * __cdecl(void)...
+
+refutation probes:
+  [not refuted] all-wildcard-control
+      1048565 occurrences of a 12-byte all-wildcard pattern in a 1048576-byte window; 1048565 expected (one per position that can hold the pattern)
+  [not refuted] one-byte-flip-control
+      0 of 16 flipped patterns still matched somewhere on the surface
+  [not refuted] short-prefix-control
+      0 of 16 four-byte prefixes came out with fewer than two occurrences
+  [not refuted] buffer-size-invariance
+      0 of 16 counts changed when the buffer was reduced to 65 bytes
+  [not refuted] unique-verdict-population
+      1 of 16 signatures are unique on this surface
+
+class-P literal reads: 1, reproduced
+
+warnings:
+  - this target is NOT the image the signatures were cut from (sha256 a155f897e156fa64 vs 0eef3715244b467c); every 'absent' below is therefore consistent with the function existing at a different address
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-ue-oracle-d04.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-ue-oracle-d04.jsonl

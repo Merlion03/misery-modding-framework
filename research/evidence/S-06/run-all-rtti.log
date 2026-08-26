@@ -1,0 +1,70 @@
+sigmake 1.0.0 (S-06)
+image:    MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe
+          134 658 048 bytes, PE32+, sha256 0eef3715244b467c830022c4260a0e2c
+
+boundary oracle (.pdata, and what it is NOT):
+          411 385 RUNTIME_FUNCTION records, 411 385 distinct BeginAddress
+          169 032 carry UNW_FLAG_CHAININFO -> continuation chunks, NOT function starts
+          77 846 primaries own at least one chunk; 179 628 adjacent pairs End[i]==Begin[i+1]
+          197 872 distinct UnwindInfoAddress; one is shared by up to 46 543 records
+          ranges cover 81 685 629 of 98 343 936 executable bytes on disk (0.831) -- the rest is functions with no record at all
+
+mask policy: reloc
+          .reloc: 941 132 entries, 0 of them in an executable section
+          per section: .data 65 614, .rdata 875 518
+          NOT masked: RIP-relative displacements and rel32 targets (no instruction decoder in Phase 1)
+
+surface:  98 343 936 bytes over 1 range(s) -- exec
+
+accepted 1530 of 2178 requested (648 rejected)
+          boundary_unknown             605
+          not_unique                   41
+          too_short                    2
+          length 12..96; masked fraction min 0.000 mean 0.000 max 0.000
+          masked-fraction histogram: 0.00:1530, 0.00-0.05:0, 0.05-0.10:0, 0.10-0.20:0, 0.20-0.30:0, 0.30+:0
+          1530 accepted signatures have ZERO masked bytes
+          also unique over every initialised section: 1530; appearing more than once there: 0
+
+ok  rva         range   len  mask rel32 occ    label
+... 2178 more (see the artifact)
+
+refutation probes:
+  [not refuted] reloc-oracle-covers-code
+      0 of 941132 relocation entries are in an executable section
+      finding: the relocation oracle is exact and EMPTY over code (0 of 941132 entries fall in an executable section), so no code signature in this document is made build-stable by relocation masking; the build-varying bytes in code are the non-relocated displacements, which Phase 1 cannot locate
+  [not refuted] boundary-oracle-is-not-a-function-inventory
+      169 032 of 411 385 records are continuation chunks; 605 requested addresses were refused because the table could not place them
+  [not refuted] gate-refuses-a-non-signature
+      3 of 3 control patterns were rejected for the expected reason
+  [not refuted] one-byte-flip-control
+      0 of 1530 flipped patterns still matched the source image
+  [not refuted] acceptance-population
+      1530 of 2178 requested addresses produced an accepted signature
+
+class-P literal reads: 6, reproduced
+
+warnings:
+  - duplicate label "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_0"; the later target was renamed to "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_0#2"
+  - duplicate label "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_0"; the later target was renamed to "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_0#3"
+  - duplicate label "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_1"; the later target was renamed to "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_1#2"
+  - duplicate label "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_1"; the later target was renamed to "Imf_3_2::`anonymous namespace'::LineBufferTask::vtable_slot_1#3"
+  - duplicate label 'icu_64::FixedDecimal::vtable_slot_0'; the later target was renamed to 'icu_64::FixedDecimal::vtable_slot_0#2'
+  - duplicate label 'icu_64::UnicodeSet::vtable_slot_0'; the later target was renamed to 'icu_64::UnicodeSet::vtable_slot_0#2'
+  - duplicate label 'icu_64::UnicodeSet::vtable_slot_1'; the later target was renamed to 'icu_64::UnicodeSet::vtable_slot_1#2'
+  - duplicate label 'icu_64::UnicodeSet::vtable_slot_2'; the later target was renamed to 'icu_64::UnicodeSet::vtable_slot_2#2'
+  - duplicate label 'icu_64::number::impl::LongNameHandler::vtable_slot_0'; the later target was renamed to 'icu_64::number::impl::LongNameHandler::vtable_slot_0#2'
+  - duplicate label 'icu_64::number::impl::LongNameHandler::vtable_slot_1'; the later target was renamed to 'icu_64::number::impl::LongNameHandler::vtable_slot_1#2'
+  - duplicate label 'icu_64::number::impl::MutablePatternModifier::vtable_slot_0'; the later target was renamed to 'icu_64::number::impl::MutablePatternModifier::vtable_slot_0#2'
+  - duplicate label 'icu_64::number::impl::MutablePatternModifier::vtable_slot_0'; the later target was renamed to 'icu_64::number::impl::MutablePatternModifier::vtable_slot_0#3'
+  - duplicate label 'icu_64::number::impl::MutablePatternModifier::vtable_slot_1'; the later target was renamed to 'icu_64::number::impl::MutablePatternModifier::vtable_slot_1#2'
+  - duplicate label 'icu_64::number::impl::MutablePatternModifier::vtable_slot_1'; the later target was renamed to 'icu_64::number::impl::MutablePatternModifier::vtable_slot_1#3'
+  - duplicate label 'icu_64::number::impl::ScientificHandler::vtable_slot_0'; the later target was renamed to 'icu_64::number::impl::ScientificHandler::vtable_slot_0#2'
+  - duplicate label 'icu_64::number::impl::ScientificHandler::vtable_slot_1'; the later target was renamed to 'icu_64::number::impl::ScientificHandler::vtable_slot_1#2'
+  - duplicate label 'icu_64::numparse::impl::AffixPatternMatcherBuilder::vtable_slot_0'; the later target was renamed to 'icu_64::numparse::impl::AffixPatternMatcherBuilder::vtable_slot_0#2'
+  - duplicate label 'icu_64::numparse::impl::AffixPatternMatcherBuilder::vtable_slot_1'; the later target was renamed to 'icu_64::numparse::impl::AffixPatternMatcherBuilder::vtable_slot_1#2'
+
+written: D:\Dev\MiseryFramework\research\evidence\S-06\signatures-all-rtti.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-06\signatures-all-rtti.jsonl
+
+written: D:\Dev\MiseryFramework\research\evidence\S-06\library-all-rtti.json

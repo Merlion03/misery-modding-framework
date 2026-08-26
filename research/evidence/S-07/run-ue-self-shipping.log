@@ -1,0 +1,49 @@
+sigscan 1.0.0 (S-07)
+target:   MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe
+          134 658 048 bytes, sha256 0eef3715244b467c830022c4260a0e2c
+library:  sigmake document
+          cut from MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe (sha256 0eef3715244b467c830022c4260a0e2c)
+          same image as the signature source: yes
+surface:  exec -- every section with raw data whose characteristics carry IMAGE_SCN_MEM_EXECUTE or IMAGE_SCN_CNT_CODE
+          98 343 936 bytes over 1 range(s): .text[1536+98343936]
+          NOT searched: read-only and writable data, resources, the headers and any overlay -- a byte sequence present there is NOT counted by this run
+
+verdicts: unique 16   ambiguous 0   absent 0   (of 16 scanned)
+          at the recorded source address: 16   elsewhere: 0
+          masked-byte fraction: min 0.000  mean 0.000  max 0.000
+
+verdict     occur.       len  mask  anch first rva   label
+unique      1             16     0    16 0xf281b0    FAutoConsoleObject::vtable_slot_0
+unique      1             12     0    12 0xf4d8e0    FDefaultModuleImpl::vtable_slot_0
+unique      1             16     0    16 0x5011110   FExrReaderGpuModule::vtable_slot_1
+unique      1             20     0    20 0x1fcd1d0   FGlobalShaderType::vtable_slot_0
+unique      1             12     0    12 0xf2ecc0    SharedPointerInternals::TReferenceControllerBase<1>::vtable_s...
+unique      1             12     0    12 0xf4d3f0    SharedPointerInternals::TReferenceControllerWithDeleter<_priv...
+unique      1             16     0    16 0xf5c860    TAutoConsoleVariable<bool>::vtable_slot_0
+unique      1             24     0    24 0xf2e570    TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             40     0    40 0x12e9230   TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             32     0    32 0x1038a20   TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             32     0    32 0xf34350    TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             12     0    12 0xf28420    TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             64     0    64 0x12e92e0   TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             40     0    40 0x5010fe0   TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             64     0    64 0x5011090   TBaseRawMethodDelegateInstance<0,FStaticallyLinkedModuleRegis...
+unique      1             24     0    24 0xf28230    TCommonDelegateInstanceState<IModuleInterface * __cdecl(void)...
+
+refutation probes:
+  [not refuted] all-wildcard-control
+      1048565 occurrences of a 12-byte all-wildcard pattern in a 1048576-byte window; 1048565 expected (one per position that can hold the pattern)
+  [not refuted] one-byte-flip-control
+      0 of 16 flipped patterns still matched somewhere on the surface
+  [not refuted] short-prefix-control
+      0 of 16 four-byte prefixes came out with fewer than two occurrences
+  [not refuted] buffer-size-invariance
+      0 of 16 counts changed when the buffer was reduced to 65 bytes
+  [not refuted] unique-verdict-population
+      16 of 16 signatures are unique on this surface
+
+class-P literal reads: 6, reproduced
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-ue-self-shipping.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-07\scan-ue-self-shipping.jsonl

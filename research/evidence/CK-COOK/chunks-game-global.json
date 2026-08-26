@@ -1,0 +1,87 @@
+{
+  "census": {
+    "by_type": {
+      "ScriptObjects": {
+        "bytes": 2269159,
+        "count": 1,
+        "max_length": 2269159,
+        "min_length": 2269159
+      }
+    },
+    "chunk_count": 1,
+    "compression_blocks": {
+      "compressed_size_sum": 2269159,
+      "count": 35,
+      "method_index_census": {
+        "0": 35
+      },
+      "uncompressed_size_sum": 2269159
+    },
+    "total_chunk_length": 2269159
+  },
+  "checks": {
+    "block_count_in_header": 35,
+    "block_count_predicted_from_chunk_lengths": 35,
+    "compressed_sum_vs_ucas_size": {
+      "compressed_sum": 2269159,
+      "difference": 9,
+      "ucas_size": 2269168
+    },
+    "note": "for an UNCOMPRESSED container each chunk starts a fresh block, so the header's block count must equal the sum over chunks of ceil(length / CompressionBlockSize). A compressed container satisfies the same identity because the block count is derived from the UNcompressed lengths; what changes is compressed_size.",
+    "uncompressed_block_model_holds": true,
+    "uncompressed_sum_equals_total_chunk_length": true
+  },
+  "chunks_listed": [],
+  "decoded_layer_evidence": {
+    "claim_class": "I",
+    "confidence": 0.9,
+    "evidence_level": "OBSERVED",
+    "note": "grades the decoded layer of this report. If the chunk-id layout were misread, the type census would name types outside EIoChunkType and the block arithmetic would not close.",
+    "oracle": [
+      "container-metadata",
+      "external-doc"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/global.utoc",
+        "method": "tools/content/iostore_chunks.py census of the plaintext chunk id and offset/length arrays",
+        "note": "field offsets imported from tools/fingerprint/container_info.py, not re-derived here"
+      },
+      {
+        "artifact": null,
+        "locator": "Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/global.utoc",
+        "method": "block-count arithmetic over the same file",
+        "note": "sum over chunks of ceil(length / CompressionBlockSize) compared with the header's own block count -- an independent closure that fails loudly if the array offsets are wrong"
+      }
+    ]
+  },
+  "directory_index": {
+    "readable": false,
+    "reason": "no directory index"
+  },
+  "file": {
+    "path": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/global.utoc",
+    "size": 623
+  },
+  "generated_at": "2026-08-23T19:04:45Z",
+  "header": {
+    "compression_block_size": 65536,
+    "compression_method_name_count": 0,
+    "container_flags": "0x00",
+    "container_id": "0xffffffffffffffff",
+    "directory_index_size": 0,
+    "encrypted": false,
+    "toc_compressed_block_entry_count": 35,
+    "toc_entry_count": 1,
+    "version": 6
+  },
+  "literal_layer": "class-P literal reads for this file are produced by tools/fingerprint/container_info.py, which owns the FIoStoreTocHeader; this module emits only the decoded census so that one range of bytes is not graded twice",
+  "tool": "tools/content/iostore_chunks.py",
+  "tool_version": "1.0.0",
+  "ucas": {
+    "path": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/global.ucas",
+    "size": 2269168
+  }
+}

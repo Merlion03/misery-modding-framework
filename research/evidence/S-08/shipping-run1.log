@@ -1,0 +1,451 @@
+D:/Games/Steam/steamapps/common/MISERY/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe (tools/static/find_constants.py 1.0.0)
+  PE32+, image base 0x140000000, 134658048 bytes on disk
+
+Catalogue, derived from the source tree (oracles external-doc + filesystem)
+  tree            : D:/Program Files/UE_5.4/Engine
+  declares        : 5.4.4 CL 35576357, branch ++UE5+Release-5.4
+  constants       : 21 entries, 21 derived, 15 searched, 6 not searched by design
+  custom versions : 108 registrations, 97 FGuid definitions, 94 joined, 14 unresolved
+  tree walk       : 90482 files read, 3852 decoded, 894.5 MB, 278.0 s
+
+Values read out of the tree (these are facts about the TREE, not the image)
+  package_file_tag                   2653586369 (0x9E2A83C1)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:13
+  package_file_tag_swapped           3246598814 (0xC1832A9E)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:14
+  ue4_object_version_automatic       522 (0x20A)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:725   [NOT SEARCHED: a bare four-byte integer of this magnitude occurs by construction throughout any image; it is searched only as the first half of the eight-byte FPackageFileVersion pair shape, see measurement.version_pair_shape]
+  ue4_oldest_loadable_package        214 (0xD6)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:95   [NOT SEARCHED: not searched for; PREDICTED. It is the refutation attempt of the pair shape: the eight bytes after GPackageFileUEVersion must read (this value, 0), because GOldestLoadablePackageFileUEVersion is declared immediately after it and CreateUE4Version leaves the UE5 half zero]
+  ue5_object_version_initial         1000 (0x3E8)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:46   [NOT SEARCHED: low-entropy scalar; see ue4_object_version_automatic]
+  ue5_object_version_automatic       1012 (0x3F4)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:89   [NOT SEARCHED: low-entropy scalar; see ue4_object_version_automatic]
+  pak_file_magic                     1517228769 (0x5A6F12E1)
+      Source/Runtime/PakFile/Public/IPlatformFilePak.h:127
+  pak_version_latest                 11 (0xB)
+      Source/Runtime/PakFile/Public/IPlatformFilePak.h:154   [NOT SEARCHED: a single-digit integer; searching for it would return noise. Derived here so that the pak version F-02 reads out of the footer has a cited reference]
+  iostore_toc_magic                  '-==--==--==--==-'
+      Source/Runtime/Core/Internal/IO/IoStore.h:40
+  iostore_toc_version_latest         6 (0x6)
+      Source/Runtime/Core/Internal/IO/IoStore.h:32   [NOT SEARCHED: a single-digit integer; see pak_version_latest]
+  fnv32_offset_basis                 2166136261 (0x811C9DC5)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:10
+  fnv32_prime                        16777619 (0x1000193)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:11
+  fnv64_offset_basis                 14695981039346656037 (0xCBF29CE484222325)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:29
+  fnv64_prime                        1099511628211 (0x100000001B3)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:30
+  cityhash_k0                        14097894508562428199 (0xC3A5C85C97CB3127)
+      Source/Runtime/Core/Private/Hash/CityHash.cpp:122
+  cityhash_k1                        13011662864482103923 (0xB492B66FBE98F273)
+      Source/Runtime/Core/Private/Hash/CityHash.cpp:123
+  cityhash_k2                        11160318154034397263 (0x9AE16A3B2F90404F)
+      Source/Runtime/Core/Private/Hash/CityHash.cpp:124
+  cityhash_kmul                      11376068507788127593 (0x9DDFEA08EB382D69)
+      Source/Runtime/Core/Public/Hash/CityHash.h:93
+  crc_table_deprecated               256 words, 1024 bytes, sha256 0053f121cdcaf9f5
+      Source/Runtime/Core/Private/Misc/Crc.cpp:40
+  crc_tables_sb8_deprecated          2048 words, 8192 bytes, sha256 5a11b0410430470f
+      Source/Runtime/Core/Private/Misc/Crc.cpp:60
+  crc_tables_sb8                     2048 words, 8192 bytes, sha256 21ed943bd7cc421b
+      Source/Runtime/Core/Private/Misc/Crc.cpp:208
+
+Searched surface of the image (oracle binary-analysis)
+  .text      file [1536, 98345472)  98343936 bytes  executable
+  .rdata     file [98345472, 125648384)  27302912 bytes
+  .data      file [125648384, 127140864)  1492480 bytes
+  .pdata     file [127140864, 132077568)  4936704 bytes
+  .msvcjmc   file [132077568, 132078080)  512 bytes
+  .rodata    file [132078080, 132080128)  2048 bytes
+  _RDATA     file [132080128, 132463104)  382976 bytes
+  not scanned: .reloc, .rsrc
+  213 patterns (205 real, 8 control), 132461568 bytes examined in 21 windows, overlap 8191
+
+Occurrences, by family
+  family                          patterns   found   absent   occurrences
+  package-file-tag                       2       2        0            12
+  custom-version-guid                   94      61       33           122
+  custom-version-friendly-name          94      62       32           319
+  container-magic                        2       2        0             5
+  hash-seed                              8       8        0           145
+  hash-table                             5       5        0             6
+
+Occurrences, by pattern (first 200 rows)
+  FOUND  package_file_tag                           uint32-le                    4B  n=8
+         first offsets: 17501433, 17501473, 17502827, 19061165
+  FOUND  package_file_tag_swapped                   uint32-le                    4B  n=4
+         first offsets: 17501447, 17501462, 17501492, 19210746
+  FOUND  custom_version:FAnimObjectVersion::GUID    guid-16-bytes-le            16B  n=2
+         first offsets: 98772688, 125682928
+  FOUND  custom_version:FAnimPhysObjectVersion::GUI guid-16-bytes-le            16B  n=2
+         first offsets: 98772672, 125682912
+  FOUND  custom_version:FAnimationCustomVersion::GU guid-16-bytes-le            16B  n=2
+         first offsets: 104294808, 125875504
+  FOUND  custom_version:FAssetRegistryVersion::GUID guid-16-bytes-le            16B  n=2
+         first offsets: 98880616, 125697256
+  FOUND  custom_version:FAudioSynesthesiaCustomVers guid-16-bytes-le            16B  n=2
+         first offsets: 115838888, 126841648
+  FOUND  custom_version:FAutomationObjectVersion::G guid-16-bytes-le            16B  n=2
+         first offsets: 98769672, 125682960
+  absent custom_version:FAvaOutlinerVersion::GUID   guid-16-bytes-le            16B  n=0
+  absent custom_version:FAvaPlayableRemoteControlVa guid-16-bytes-le            16B  n=0
+  absent custom_version:FAvaSequenceVersion::GUID   guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FBlueprintsObjectVersion::G guid-16-bytes-le            16B  n=2
+         first offsets: 98772432, 125682672
+  FOUND  custom_version:FBuildObjectVersion::GUID   guid-16-bytes-le            16B  n=2
+         first offsets: 98772448, 125682688
+  FOUND  custom_version:FChaosClothConfigCustomVers guid-16-bytes-le            16B  n=2
+         first offsets: 113436440, 126701528
+  FOUND  custom_version:FChaosClothSharedConfigCust guid-16-bytes-le            16B  n=2
+         first offsets: 113445960, 126702568
+  FOUND  custom_version:FCineCameraObjectVersion::G guid-16-bytes-le            16B  n=2
+         first offsets: 98769752, 125683120
+  FOUND  custom_version:FClothConfigNvCustomVersion guid-16-bytes-le            16B  n=2
+         first offsets: 109808288, 126389720
+  FOUND  custom_version:FClothingAssetCustomVersion guid-16-bytes-le            16B  n=2
+         first offsets: 109796896, 126389376
+  absent custom_version:FCommonCustomVersion::GUID  guid-16-bytes-le            16B  n=0
+  absent custom_version:FComposureCustomVersion::GU guid-16-bytes-le            16B  n=0
+  absent custom_version:FComputeFrameworkObjectVers guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FControlRigObjectVersion::G guid-16-bytes-le            16B  n=2
+         first offsets: 112629912, 126634008
+  FOUND  custom_version:FCoreObjectVersion::GUID    guid-16-bytes-le            16B  n=2
+         first offsets: 98772464, 125682704
+  absent custom_version:FCurveExpressionCustomVersi guid-16-bytes-le            16B  n=0
+  absent custom_version:FCustomizableObjectCustomVe guid-16-bytes-le            16B  n=0
+  absent custom_version:FCustomizableObjectPopulati guid-16-bytes-le            16B  n=0
+  absent custom_version:FDMXPixelMappingMainStreamO guid-16-bytes-le            16B  n=0
+  absent custom_version:FDMXProtocolObjectVersion:: guid-16-bytes-le            16B  n=0
+  absent custom_version:FDMXRuntimeMainStreamObject guid-16-bytes-le            16B  n=0
+  absent custom_version:FDNAAssetCustomVersion::GUI guid-16-bytes-le            16B  n=0
+  absent custom_version:FDatasmithClothSerializatio guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FDestructionObjectVersion:: guid-16-bytes-le            16B  n=2
+         first offsets: 98769704, 125683072
+  absent custom_version:FDisplayClusterCustomVersio guid-16-bytes-le            16B  n=0
+  absent custom_version:FDisplayClusterICVFXCameraC guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FEditorObjectVersion::GUID  guid-16-bytes-le            16B  n=2
+         first offsets: 98772480, 125682720
+  FOUND  custom_version:FEnterpriseObjectVersion::G guid-16-bytes-le            16B  n=2
+         first offsets: 98772496, 125683040
+  FOUND  custom_version:FExternalPhysicsCustomObjec guid-16-bytes-le            16B  n=2
+         first offsets: 98769720, 125683088
+  FOUND  custom_version:FExternalPhysicsMaterialCus guid-16-bytes-le            16B  n=2
+         first offsets: 98769736, 125683104
+  absent custom_version:FFileCacheCustomVersion::Ke guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FFoliageCustomVersion::GUID guid-16-bytes-le            16B  n=2
+         first offsets: 103644288, 125840632
+  FOUND  custom_version:FFortniteMainBranchObjectVe guid-16-bytes-le            16B  n=2
+         first offsets: 98769216, 125682976
+  FOUND  custom_version:FFortniteReleaseBranchCusto guid-16-bytes-le            16B  n=2
+         first offsets: 98769264, 125683024
+  FOUND  custom_version:FFortniteSeasonBranchObject guid-16-bytes-le            16B  n=2
+         first offsets: 98769248, 125683008
+  FOUND  custom_version:FFortniteValkyrieBranchObje guid-16-bytes-le            16B  n=2
+         first offsets: 98769232, 125682992
+  FOUND  custom_version:FFrameworkObjectVersion::GU guid-16-bytes-le            16B  n=2
+         first offsets: 98772512, 125682736
+  FOUND  custom_version:FGeometryObjectVersion::GUI guid-16-bytes-le            16B  n=2
+         first offsets: 98772656, 125682896
+  FOUND  custom_version:FIKRigObjectVersion::GUID   guid-16-bytes-le            16B  n=2
+         first offsets: 113263168, 126693232
+  absent custom_version:FInstancedActorsCustomVersi guid-16-bytes-le            16B  n=0
+  absent custom_version:FLiveLinkCustomVersion::GUI guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FLoadTimesObjectVersion::GU guid-16-bytes-le            16B  n=2
+         first offsets: 98769656, 125682880
+  absent custom_version:FMLDeformerObjectVersion::G guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FMediaFrameworkObjectVersio guid-16-bytes-le            16B  n=2
+         first offsets: 98771168, 125683216
+  FOUND  custom_version:FMobileObjectVersion::GUID  guid-16-bytes-le            16B  n=2
+         first offsets: 98772528, 125682752
+  FOUND  custom_version:FNetworkingObjectVersion::G guid-16-bytes-le            16B  n=2
+         first offsets: 98772544, 125682768
+  FOUND  custom_version:FNiagaraCustomVersion::GUID guid-16-bytes-le            16B  n=2
+         first offsets: 110567768, 126485592
+  FOUND  custom_version:FNiagaraObjectVersion::GUID guid-16-bytes-le            16B  n=2
+         first offsets: 98769688, 125683056
+  FOUND  custom_version:FOnlineObjectVersion::GUID  guid-16-bytes-le            16B  n=2
+         first offsets: 98772560, 125682784
+  absent custom_version:FOptimusObjectVersion::GUID guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FOverlappingVerticesCustomV guid-16-bytes-le            16B  n=2
+         first offsets: 109221344, 126360536
+  absent custom_version:FPCGCustomVersion::GUID     guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FPaperCustomVersion::GUID   guid-16-bytes-le            16B  n=2
+         first offsets: 111710944, 126552440
+  FOUND  custom_version:FParticleSystemCustomVersio guid-16-bytes-le            16B  n=2
+         first offsets: 108749032, 126326232
+  FOUND  custom_version:FPhysicsObjectVersion::GUID guid-16-bytes-le            16B  n=2
+         first offsets: 98772576, 125682800
+  FOUND  custom_version:FPlatformObjectVersion::GUI guid-16-bytes-le            16B  n=2
+         first offsets: 98772592, 125682816
+  absent custom_version:FPoseDriverCustomVersion::G guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FProceduralFoliageCustomVer guid-16-bytes-le            16B  n=2
+         first offsets: 103681816, 125840944
+  FOUND  custom_version:FPropertyBagCustomVersion:: guid-16-bytes-le            16B  n=2
+         first offsets: 112115504, 126580008
+  FOUND  custom_version:FRecomputeTangentCustomVers guid-16-bytes-le            16B  n=2
+         first offsets: 109221328, 126360520
+  FOUND  custom_version:FReflectionCaptureObjectVer guid-16-bytes-le            16B  n=2
+         first offsets: 98769280, 125682944
+  FOUND  custom_version:FReleaseObjectVersion::GUID guid-16-bytes-le            16B  n=2
+         first offsets: 98726232, 125676304
+  absent custom_version:FRemoteControlObjectVersion guid-16-bytes-le            16B  n=0
+  absent custom_version:FRemoteControlProtocolDMXOb guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FRenderingObjectVersion::GU guid-16-bytes-le            16B  n=2
+         first offsets: 98772608, 125682832
+  FOUND  custom_version:FRigVMObjectVersion::GUID   guid-16-bytes-le            16B  n=2
+         first offsets: 112468288, 126613776
+  FOUND  custom_version:FSequencerObjectVersion::GU guid-16-bytes-le            16B  n=2
+         first offsets: 98772624, 125682848
+  FOUND  custom_version:FShapeComponentCustomVersio guid-16-bytes-le            16B  n=2
+         first offsets: 107378600, 126152080
+  FOUND  custom_version:FSkeletalMeshCustomVersion: guid-16-bytes-le            16B  n=2
+         first offsets: 109221312, 126360504
+  FOUND  custom_version:FSoundSubmixCustomVersion:: guid-16-bytes-le            16B  n=2
+         first offsets: 109314352, 126366896
+  absent custom_version:FStateTreeCustomVersion::GU guid-16-bytes-le            16B  n=0
+  absent custom_version:FStateTreeInstanceStorageCu guid-16-bytes-le            16B  n=0
+  absent custom_version:FTG_CustomVersion::GUID     guid-16-bytes-le            16B  n=0
+  absent custom_version:FTempCustomVersion::GUID    guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FUE5CookerObjectVersion::GU guid-16-bytes-le            16B  n=2
+         first offsets: 98771136, 125683200
+  FOUND  custom_version:FUE5LWCRenderingStreamObjec guid-16-bytes-le            16B  n=2
+         first offsets: 98771152, 125683232
+  FOUND  custom_version:FUE5MainStreamObjectVersion guid-16-bytes-le            16B  n=2
+         first offsets: 98769784, 125683152
+  FOUND  custom_version:FUE5PrivateFrostyStreamObje guid-16-bytes-le            16B  n=2
+         first offsets: 98771120, 125683184
+  FOUND  custom_version:FUE5ReleaseStreamObjectVers guid-16-bytes-le            16B  n=2
+         first offsets: 98769800, 125683168
+  FOUND  custom_version:FVRObjectVersion::GUID      guid-16-bytes-le            16B  n=2
+         first offsets: 98772640, 125682864
+  FOUND  custom_version:FVariantManagerObjectVersio guid-16-bytes-le            16B  n=2
+         first offsets: 113503272, 126706192
+  FOUND  custom_version:FVirtualProductionObjectVer guid-16-bytes-le            16B  n=2
+         first offsets: 98769768, 125683136
+  FOUND  custom_version:FVirtualTextureBuiltDataCus guid-16-bytes-le            16B  n=2
+         first offsets: 109624328, 126380528
+  absent custom_version:FWaterCustomVersion::GUID   guid-16-bytes-le            16B  n=0
+  absent custom_version:FWorldConditionCustomVersio guid-16-bytes-le            16B  n=0
+  FOUND  custom_version:FWorldSettingCustomVersion: guid-16-bytes-le            16B  n=2
+         first offsets: 109762920, 126388120
+  absent custom_version:FZoneShapeCustomVersion::GU guid-16-bytes-le            16B  n=0
+  absent custom_version:UDMTextureUV::GUID          guid-16-bytes-le            16B  n=0
+  FOUND  custom_version_name:FAnimObjectVersion::GU utf-16le                    16B  n=2
+         first offsets: 98773632, 98773664
+  FOUND  custom_version_name:FAnimPhysObjectVersion utf-16le                    24B  n=1
+         first offsets: 98773632
+  FOUND  custom_version_name:FAnimationCustomVersio utf-16le                    24B  n=1
+         first offsets: 104294944
+  FOUND  custom_version_name:FAssetRegistryVersion: utf-16le                    26B  n=45
+         first offsets: 98880368, 98882960, 98883072, 99052416
+  FOUND  custom_version_name:FAudioSynesthesiaCusto utf-16le                    38B  n=1
+         first offsets: 115838904
+  FOUND  custom_version_name:FAutomationObjectVersi utf-16le                    28B  n=1
+         first offsets: 98773736
+  absent custom_version_name:FAvaOutlinerVersion::G utf-16le                    34B  n=0
+  absent custom_version_name:FAvaPlayableRemoteCont utf-16le                    72B  n=0
+  absent custom_version_name:FAvaSequenceVersion::G utf-16le                    48B  n=0
+  FOUND  custom_version_name:FBlueprintsObjectVersi utf-16le                    28B  n=1
+         first offsets: 98773208
+  FOUND  custom_version_name:FBuildObjectVersion::G utf-16le                    18B  n=1
+         first offsets: 98773240
+  FOUND  custom_version_name:FChaosClothConfigCusto utf-16le                    38B  n=1
+         first offsets: 113435568
+  FOUND  custom_version_name:FChaosClothSharedConfi utf-16le                    50B  n=1
+         first offsets: 113445976
+  FOUND  custom_version_name:FCineCameraObjectVersi utf-16le                    28B  n=1
+         first offsets: 98767936
+  FOUND  custom_version_name:FClothConfigNvCustomVe utf-16le                    32B  n=1
+         first offsets: 109811512
+  FOUND  custom_version_name:FClothingAssetCustomVe utf-16le                    32B  n=1
+         first offsets: 109800440
+  absent custom_version_name:FCommonCustomVersion:: utf-16le                    22B  n=0
+  absent custom_version_name:FComposureCustomVersio utf-16le                    24B  n=0
+  absent custom_version_name:FComputeFrameworkObjec utf-16le                    40B  n=0
+  FOUND  custom_version_name:FControlRigObjectVersi utf-16le                    28B  n=1
+         first offsets: 112551024
+  FOUND  custom_version_name:FCoreObjectVersion::GU utf-16le                    16B  n=1
+         first offsets: 98773264
+  absent custom_version_name:FCurveExpressionCustom utf-16le                    44B  n=0
+  absent custom_version_name:FCustomizableObjectCus utf-16le                    42B  n=0
+  absent custom_version_name:FCustomizableObjectPop utf-16le                    62B  n=0
+  absent custom_version_name:FDMXPixelMappingMainSt utf-16le                    44B  n=0
+  absent custom_version_name:FDMXProtocolObjectVers utf-16le                    48B  n=0
+  absent custom_version_name:FDMXRuntimeMainStreamO utf-16le                    66B  n=0
+  absent custom_version_name:FDNAAssetCustomVersion utf-16le                    22B  n=0
+  absent custom_version_name:FDatasmithClothSeriali utf-16le                    28B  n=0
+  FOUND  custom_version_name:FDestructionObjectVers utf-16le                    30B  n=1
+         first offsets: 98773960
+  absent custom_version_name:FDisplayClusterCustomV utf-16le                    22B  n=0
+  absent custom_version_name:FDisplayClusterICVFXCa utf-16le                    56B  n=0
+  FOUND  custom_version_name:FEditorObjectVersion:: utf-16le                    20B  n=1
+         first offsets: 98773288
+  FOUND  custom_version_name:FEnterpriseObjectVersi utf-16le                    28B  n=1
+         first offsets: 98773904
+  FOUND  custom_version_name:FExternalPhysicsCustom utf-16le                    30B  n=1
+         first offsets: 98773992
+  FOUND  custom_version_name:FExternalPhysicsMateri utf-16le                    50B  n=1
+         first offsets: 98774024
+  absent custom_version_name:FFileCacheCustomVersio utf-16le                    32B  n=0
+  FOUND  custom_version_name:FFoliageCustomVersion: utf-16le                    20B  n=4
+         first offsets: 103644992, 103645288, 103645936, 103683300
+  FOUND  custom_version_name:FFortniteMainBranchObj utf-16le                    24B  n=1
+         first offsets: 98773768
+  FOUND  custom_version_name:FFortniteReleaseBranch utf-16le                    30B  n=1
+         first offsets: 98773872
+  FOUND  custom_version_name:FFortniteSeasonBranchO utf-16le                    28B  n=1
+         first offsets: 98773840
+  FOUND  custom_version_name:FFortniteValkyrieBranc utf-16le                    32B  n=1
+         first offsets: 98773800
+  FOUND  custom_version_name:FFrameworkObjectVersio utf-16le                    26B  n=1
+         first offsets: 98773312
+  FOUND  custom_version_name:FGeometryObjectVersion utf-16le                    32B  n=1
+         first offsets: 98773592
+  FOUND  custom_version_name:FIKRigObjectVersion::G utf-16le                    18B  n=1
+         first offsets: 113263360
+  absent custom_version_name:FInstancedActorsCustom utf-16le                    30B  n=0
+  absent custom_version_name:FLiveLinkCustomVersion utf-16le                    22B  n=0
+  FOUND  custom_version_name:FLoadTimesObjectVersio utf-16le                    26B  n=1
+         first offsets: 98773560
+  absent custom_version_name:FMLDeformerObjectVersi utf-16le                    28B  n=0
+  FOUND  custom_version_name:FMediaFrameworkObjectV utf-16le                    36B  n=1
+         first offsets: 98768136
+  FOUND  custom_version_name:FMobileObjectVersion:: utf-16le                    20B  n=1
+         first offsets: 98773344
+  FOUND  custom_version_name:FNetworkingObjectVersi utf-16le                    28B  n=1
+         first offsets: 98773368
+  FOUND  custom_version_name:FNiagaraCustomVersion: utf-16le                    20B  n=3
+         first offsets: 110568400, 110571088, 110581234
+  FOUND  custom_version_name:FNiagaraObjectVersion: utf-16le                    22B  n=1
+         first offsets: 98773936
+  FOUND  custom_version_name:FOnlineObjectVersion:: utf-16le                    20B  n=1
+         first offsets: 98773400
+  absent custom_version_name:FOptimusObjectVersion: utf-16le                    22B  n=0
+  FOUND  custom_version_name:FOverlappingVerticesCu utf-16le                    60B  n=1
+         first offsets: 109225560
+  absent custom_version_name:FPCGCustomVersion::GUI utf-16le                    20B  n=0
+  FOUND  custom_version_name:FPaperCustomVersion::G utf-16le                    20B  n=1
+         first offsets: 111711552
+  FOUND  custom_version_name:FParticleSystemCustomV utf-16le                    34B  n=1
+         first offsets: 108740752
+  FOUND  custom_version_name:FPhysicsObjectVersion: utf-16le                    22B  n=3
+         first offsets: 98773424, 98773992, 98774024
+  FOUND  custom_version_name:FPlatformObjectVersion utf-16le                    24B  n=1
+         first offsets: 98773448
+  absent custom_version_name:FPoseDriverCustomVersi utf-16le                    26B  n=0
+  FOUND  custom_version_name:FProceduralFoliageCust utf-16le                    40B  n=1
+         first offsets: 103683280
+  FOUND  custom_version_name:FPropertyBagCustomVers utf-16le                    48B  n=1
+         first offsets: 112115520
+  FOUND  custom_version_name:FRecomputeTangentCusto utf-16le                    50B  n=1
+         first offsets: 109225504
+  FOUND  custom_version_name:FReflectionCaptureObje utf-16le                    42B  n=1
+         first offsets: 98773688
+  FOUND  custom_version_name:FReleaseObjectVersion: utf-16le                    14B  n=67
+         first offsets: 98550028, 98550092, 98609888, 98734568
+  absent custom_version_name:FRemoteControlObjectVe utf-16le                    44B  n=0
+  absent custom_version_name:FRemoteControlProtocol utf-16le                    74B  n=0
+  FOUND  custom_version_name:FRenderingObjectVersio utf-16le                    26B  n=1
+         first offsets: 98773480
+  FOUND  custom_version_name:FRigVMObjectVersion::G utf-16le                    18B  n=1
+         first offsets: 112477504
+  FOUND  custom_version_name:FSequencerObjectVersio utf-16le                    26B  n=1
+         first offsets: 98773512
+  FOUND  custom_version_name:FShapeComponentCustomV utf-16le                    34B  n=1
+         first offsets: 107378696
+  FOUND  custom_version_name:FSkeletalMeshCustomVer utf-16le                    30B  n=4
+         first offsets: 106920114, 106920688, 109109002, 109222408
+  FOUND  custom_version_name:FSoundSubmixCustomVers utf-16le                    28B  n=1
+         first offsets: 109285736
+  absent custom_version_name:FStateTreeCustomVersio utf-16le                    28B  n=0
+  absent custom_version_name:FStateTreeInstanceStor utf-16le                    48B  n=0
+  absent custom_version_name:FTG_CustomVersion::GUI utf-16le                    20B  n=0
+  absent custom_version_name:FTempCustomVersion::GU utf-16le                    42B  n=0
+  FOUND  custom_version_name:FUE5CookerObjectVersio utf-16le                    28B  n=1
+         first offsets: 98768104
+  FOUND  custom_version_name:FUE5LWCRenderingStream utf-16le                    40B  n=1
+         first offsets: 98768176
+  FOUND  custom_version_name:FUE5MainStreamObjectVe utf-16le                    16B  n=1
+         first offsets: 98768016
+  FOUND  custom_version_name:FUE5PrivateFrostyStrea utf-16le                    34B  n=1
+         first offsets: 98768064
+  FOUND  custom_version_name:FUE5ReleaseStreamObjec utf-16le                    22B  n=1
+         first offsets: 98768040
+  FOUND  custom_version_name:FVRObjectVersion::GUID utf-16le                    12B  n=1
+         first offsets: 98773544
+  FOUND  custom_version_name:FVariantManagerObjectV utf-16le                    46B  n=1
+         first offsets: 113502456
+  FOUND  custom_version_name:FVirtualProductionObje utf-16le                    42B  n=1
+         first offsets: 98767968
+  FOUND  custom_version_name:FVirtualTextureBuiltDa utf-16le                    60B  n=1
+         first offsets: 109624344
+  FOUND  custom_version_name:FWaterCustomVersion::G utf-16le                    10B  n=137
+         first offsets: 99016806, 101601010, 101662878, 101662926
+  absent custom_version_name:FWorldConditionCustomV utf-16le                    54B  n=0
+  FOUND  custom_version_name:FWorldSettingCustomVer utf-16le                    30B  n=1
+         first offsets: 109756616
+  absent custom_version_name:FZoneShapeCustomVersio utf-16le                    36B  n=0
+  absent custom_version_name:UDMTextureUV::GUID     utf-16le                    22B  n=0
+  FOUND  iostore_toc_magic                          ascii                       16B  n=1
+         first offsets: 98684440
+  FOUND  pak_file_magic                             uint32-le                    4B  n=4
+         first offsets: 32905646, 32977325, 32977378, 33034907
+  FOUND  cityhash_k0                                uint64-le                    8B  n=1
+         first offsets: 16344460
+  FOUND  cityhash_k1                                uint64-le                    8B  n=2
+         first offsets: 16344533, 16344986
+  FOUND  cityhash_k2                                uint64-le                    8B  n=5
+         first offsets: 16344240, 16344409, 16344503, 16344578
+  FOUND  cityhash_kmul                              uint64-le                    8B  n=7
+         first offsets: 16344910, 16345366, 16345568, 37914326
+  FOUND  fnv32_offset_basis                         uint32-le                    4B  n=1
+         first offsets: 97292388
+  FOUND  fnv32_prime                                uint32-le                    4B  n=5
+         first offsets: 33842878, 41360429, 41361120, 97292412
+  FOUND  fnv64_offset_basis                         uint64-le                    8B  n=68
+         first offsets: 16848201, 17313074, 32973694, 89465450
+  FOUND  fnv64_prime                                uint64-le                    8B  n=56
+         first offsets: 16848214, 17313091, 32973673, 89465436
+  ... 5 more rows (see --json / --jsonl)
+
+The eight-byte package-version pair, searched as a SHAPE
+  UE4 anchor 522, band [1000, 1100]
+  pairs matching the shape         : 1
+  distinct UE5 values found        : 1012 x1
+  followed by the predicted bytes  : 1 of 1
+    offset 125682456  0a020000f4030000  ue5=1012  neighbour_matches=True
+
+Agreement with UE 5.4.4 CL 35576357, and what kind of act each reading is
+  verdict : AGREES
+  reason  : the source tree at the catalogued changelist puts EUnrealEngineObjectUE5Version::AUTOMATIC_VERSION at 1012; the values found next to the UE4 anchor on the searched surface are 1012
+  the eight-byte (UE4, UE5) package-version pair RE-READING of V-06
+  the custom-version GUID census                 NEW measurement act
+  the FCrc lookup tables                         NEW measurement act
+  PACKAGE_FILE_TAG and the container magics      NEW measurement act
+  the FNV and CityHash seeds                     NEW measurement act
+
+Refutation probes
+  synthetic controls
+    REFUTATION FAILED (the scan survives): no synthetic control occurs on the searched surface
+  table prefix against the whole table
+    the prefix of 1 table(s) occurs more often than the table itself; those prefix counts are NOT evidence about the table
+  is a short pattern's presence informative at all
+    0 short pattern(s) occur often enough that their presence carries no information and is reported as such
+  the version pair's declared neighbour
+    REFUTATION FAILED (the reading survives): 1 of 1 pairs are followed by exactly the eight bytes the source predicts
+  catalogue coverage
+    21 of 21 catalogue entries were derived from the tree and 15 were searched for in the image
+
+Literal reads (class P): 9 ranges, re-read through a second handle: reproduced
+
+Warnings (1)
+  - 14 of 108 version registrations could not be joined to an FGuid definition and are listed in custom_versions.registrations_unresolved; their GUIDs are NOT searched for and their absence from the occurrence list says nothing
+Timings (s): {"catalogue": 278.244, "digest": 0.112, "literal_reads": 0.002, "load_surface": 0.001, "patterns": 0.002, "probes": 0.0, "scan": 8.329, "total": 286.903, "version_pair_shape": 0.214}
+
+written: D:\Dev\MiseryFramework\research\evidence\S-08\shipping-constants.json
+
+written: D:\Dev\MiseryFramework\research\evidence\S-08\constants.jsonl
+
+written: D:\Dev\MiseryFramework\research\evidence\S-08\catalogue-ue544-cl35576357.json

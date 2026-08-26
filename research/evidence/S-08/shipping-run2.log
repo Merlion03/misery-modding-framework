@@ -1,0 +1,108 @@
+D:/Games/Steam/steamapps/common/MISERY/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe (tools/static/find_constants.py 1.0.0)
+  PE32+, image base 0x140000000, 134658048 bytes on disk
+
+Catalogue, derived from the source tree (oracles external-doc + filesystem)
+  tree            : D:/Program Files/UE_5.4/Engine
+  declares        : 5.4.4 CL 35576357, branch ++UE5+Release-5.4
+  REUSED from     : research/evidence/S-08/catalogue-ue544-cl35576357.json (the tree was not re-walked this run)
+  constants       : 21 entries, 21 derived, 15 searched, 6 not searched by design
+  custom versions : 108 registrations, 97 FGuid definitions, 94 joined, 14 unresolved
+  tree walk       : 90482 files read, 3852 decoded, 894.5 MB, 278.0 s
+
+Values read out of the tree (these are facts about the TREE, not the image)
+  package_file_tag                   2653586369 (0x9E2A83C1)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:13
+  package_file_tag_swapped           3246598814 (0xC1832A9E)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:14
+  ue4_object_version_automatic       522 (0x20A)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:725   [NOT SEARCHED: a bare four-byte integer of this magnitude occurs by construction throughout any image; it is searched only as the first half of the eight-byte FPackageFileVersion pair shape, see measurement.version_pair_shape]
+  ue4_oldest_loadable_package        214 (0xD6)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:95   [NOT SEARCHED: not searched for; PREDICTED. It is the refutation attempt of the pair shape: the eight bytes after GPackageFileUEVersion must read (this value, 0), because GOldestLoadablePackageFileUEVersion is declared immediately after it and CreateUE4Version leaves the UE5 half zero]
+  ue5_object_version_initial         1000 (0x3E8)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:46   [NOT SEARCHED: low-entropy scalar; see ue4_object_version_automatic]
+  ue5_object_version_automatic       1012 (0x3F4)
+      Source/Runtime/Core/Public/UObject/ObjectVersion.h:89   [NOT SEARCHED: low-entropy scalar; see ue4_object_version_automatic]
+  pak_file_magic                     1517228769 (0x5A6F12E1)
+      Source/Runtime/PakFile/Public/IPlatformFilePak.h:127
+  pak_version_latest                 11 (0xB)
+      Source/Runtime/PakFile/Public/IPlatformFilePak.h:154   [NOT SEARCHED: a single-digit integer; searching for it would return noise. Derived here so that the pak version F-02 reads out of the footer has a cited reference]
+  iostore_toc_magic                  '-==--==--==--==-'
+      Source/Runtime/Core/Internal/IO/IoStore.h:40
+  iostore_toc_version_latest         6 (0x6)
+      Source/Runtime/Core/Internal/IO/IoStore.h:32   [NOT SEARCHED: a single-digit integer; see pak_version_latest]
+  fnv32_offset_basis                 2166136261 (0x811C9DC5)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:10
+  fnv32_prime                        16777619 (0x1000193)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:11
+  fnv64_offset_basis                 14695981039346656037 (0xCBF29CE484222325)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:29
+  fnv64_prime                        1099511628211 (0x100000001B3)
+      Source/Runtime/Core/Private/Misc/Fnv.cpp:30
+  cityhash_k0                        14097894508562428199 (0xC3A5C85C97CB3127)
+      Source/Runtime/Core/Private/Hash/CityHash.cpp:122
+  cityhash_k1                        13011662864482103923 (0xB492B66FBE98F273)
+      Source/Runtime/Core/Private/Hash/CityHash.cpp:123
+  cityhash_k2                        11160318154034397263 (0x9AE16A3B2F90404F)
+      Source/Runtime/Core/Private/Hash/CityHash.cpp:124
+  cityhash_kmul                      11376068507788127593 (0x9DDFEA08EB382D69)
+      Source/Runtime/Core/Public/Hash/CityHash.h:93
+  crc_table_deprecated               256 words, 1024 bytes, sha256 0053f121cdcaf9f5
+      Source/Runtime/Core/Private/Misc/Crc.cpp:40
+  crc_tables_sb8_deprecated          2048 words, 8192 bytes, sha256 5a11b0410430470f
+      Source/Runtime/Core/Private/Misc/Crc.cpp:60
+  crc_tables_sb8                     2048 words, 8192 bytes, sha256 21ed943bd7cc421b
+      Source/Runtime/Core/Private/Misc/Crc.cpp:208
+
+Searched surface of the image (oracle binary-analysis)
+  .text      file [1536, 98345472)  98343936 bytes  executable
+  .rdata     file [98345472, 125648384)  27302912 bytes
+  .data      file [125648384, 127140864)  1492480 bytes
+  .pdata     file [127140864, 132077568)  4936704 bytes
+  .msvcjmc   file [132077568, 132078080)  512 bytes
+  .rodata    file [132078080, 132080128)  2048 bytes
+  _RDATA     file [132080128, 132463104)  382976 bytes
+  not scanned: .reloc, .rsrc
+  213 patterns (205 real, 8 control), 132461568 bytes examined in 21 windows, overlap 8191
+
+Occurrences, by family
+  family                          patterns   found   absent   occurrences
+  package-file-tag                       2       2        0            12
+  custom-version-guid                   94      61       33           122
+  custom-version-friendly-name          94      62       32           319
+  container-magic                        2       2        0             5
+  hash-seed                              8       8        0           145
+  hash-table                             5       5        0             6
+
+Occurrences, by pattern (first 0 rows)
+  ... 205 more rows (see --json / --jsonl)
+
+The eight-byte package-version pair, searched as a SHAPE
+  UE4 anchor 522, band [1000, 1100]
+  pairs matching the shape         : 1
+  distinct UE5 values found        : 1012 x1
+  followed by the predicted bytes  : 1 of 1
+    offset 125682456  0a020000f4030000  ue5=1012  neighbour_matches=True
+
+Agreement with UE 5.4.4 CL 35576357, and what kind of act each reading is
+  verdict : AGREES
+  reason  : the source tree at the catalogued changelist puts EUnrealEngineObjectUE5Version::AUTOMATIC_VERSION at 1012; the values found next to the UE4 anchor on the searched surface are 1012
+  the eight-byte (UE4, UE5) package-version pair RE-READING of V-06
+  the custom-version GUID census                 NEW measurement act
+  the FCrc lookup tables                         NEW measurement act
+  PACKAGE_FILE_TAG and the container magics      NEW measurement act
+  the FNV and CityHash seeds                     NEW measurement act
+
+Refutation probes
+  synthetic controls
+    REFUTATION FAILED (the scan survives): no synthetic control occurs on the searched surface
+  table prefix against the whole table
+    the prefix of 1 table(s) occurs more often than the table itself; those prefix counts are NOT evidence about the table
+  is a short pattern's presence informative at all
+    0 short pattern(s) occur often enough that their presence carries no information and is reported as such
+  the version pair's declared neighbour
+    REFUTATION FAILED (the reading survives): 1 of 1 pairs are followed by exactly the eight bytes the source predicts
+  catalogue coverage
+    21 of 21 catalogue entries were derived from the tree and 15 were searched for in the image
+
+Literal reads (class P): 9 ranges, re-read through a second handle: reproduced
+Timings (s): {"catalogue": 0.001, "digest": 0.11, "literal_reads": 0.002, "load_surface": 0.0, "patterns": 0.002, "probes": 0.0, "scan": 8.246, "total": 8.587, "version_pair_shape": 0.227}

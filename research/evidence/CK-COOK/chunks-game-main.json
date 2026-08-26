@@ -1,0 +1,111 @@
+{
+  "census": {
+    "by_type": {
+      "BulkData": {
+        "bytes": 2047178937,
+        "count": 5513,
+        "max_length": 22364160,
+        "min_length": 8
+      },
+      "ContainerHeader": {
+        "bytes": 767320,
+        "count": 1,
+        "max_length": 767320,
+        "min_length": 767320
+      },
+      "ExportBundleData": {
+        "bytes": 2257891527,
+        "count": 12933,
+        "max_length": 69266213,
+        "min_length": 297
+      },
+      "ShaderCode": {
+        "bytes": 13360633,
+        "count": 1061,
+        "max_length": 125671,
+        "min_length": 172
+      },
+      "ShaderCodeLibrary": {
+        "bytes": 541304,
+        "count": 2,
+        "max_length": 382656,
+        "min_length": 158648
+      }
+    },
+    "chunk_count": 19510,
+    "compression_blocks": {
+      "compressed_size_sum": 4319739721,
+      "count": 79914,
+      "method_index_census": {
+        "0": 79914
+      },
+      "uncompressed_size_sum": 4319739721
+    },
+    "total_chunk_length": 4319739721
+  },
+  "checks": {
+    "block_count_in_header": 79914,
+    "block_count_predicted_from_chunk_lengths": 79914,
+    "compressed_sum_vs_ucas_size": {
+      "compressed_sum": 4319739721,
+      "difference": 15457815,
+      "ucas_size": 4335197536
+    },
+    "note": "for an UNCOMPRESSED container each chunk starts a fresh block, so the header's block count must equal the sum over chunks of ceil(length / CompressionBlockSize). A compressed container satisfies the same identity because the block count is derived from the UNcompressed lengths; what changes is compressed_size.",
+    "uncompressed_block_model_holds": true,
+    "uncompressed_sum_equals_total_chunk_length": true
+  },
+  "chunks_listed": [],
+  "decoded_layer_evidence": {
+    "claim_class": "I",
+    "confidence": 0.9,
+    "evidence_level": "OBSERVED",
+    "note": "grades the decoded layer of this report. If the chunk-id layout were misread, the type census would name types outside EIoChunkType and the block arithmetic would not close.",
+    "oracle": [
+      "container-metadata",
+      "external-doc"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/MISERY-Windows.utoc",
+        "method": "tools/content/iostore_chunks.py census of the plaintext chunk id and offset/length arrays",
+        "note": "field offsets imported from tools/fingerprint/container_info.py, not re-derived here"
+      },
+      {
+        "artifact": null,
+        "locator": "Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/MISERY-Windows.utoc",
+        "method": "block-count arithmetic over the same file",
+        "note": "sum over chunks of ceil(length / CompressionBlockSize) compared with the header's own block count -- an independent closure that fails loudly if the array offsets are wrong"
+      }
+    ]
+  },
+  "directory_index": {
+    "readable": false,
+    "reason": "container carries EIoContainerFlags::Encrypted"
+  },
+  "file": {
+    "path": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/MISERY-Windows.utoc",
+    "size": 2916142
+  },
+  "generated_at": "2026-08-23T19:04:46Z",
+  "header": {
+    "compression_block_size": 65536,
+    "compression_method_name_count": 0,
+    "container_flags": "0x0a",
+    "container_id": "0x3002a7a795855966",
+    "directory_index_size": 844960,
+    "encrypted": true,
+    "toc_compressed_block_entry_count": 79914,
+    "toc_entry_count": 19510,
+    "version": 6
+  },
+  "literal_layer": "class-P literal reads for this file are produced by tools/fingerprint/container_info.py, which owns the FIoStoreTocHeader; this module emits only the decoded census so that one range of bytes is not graded twice",
+  "tool": "tools/content/iostore_chunks.py",
+  "tool_version": "1.0.0",
+  "ucas": {
+    "path": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Content/Paks/MISERY-Windows.ucas",
+    "size": 4335197536
+  }
+}

@@ -1,0 +1,459 @@
+==============================================================================
+# make_assets.log -- editor commandlet, create /Game/Ref assets (stage=base)
+# raw log: 108 lines, 8855 bytes (kept on D:, not committed)
+==============================================================================
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  0.59 seconds
+
+==============================================================================
+# cookA.log -- cook A: -run=Cook -TargetPlatform=Windows (no -unversioned), ini gate True
+# raw log: 478 lines, 58914 bytes (kept on D:, not committed)
+==============================================================================
+LogCook: Display: Cooked packages 0 Packages Remain 363 Total 363
+LogCook: Display: Cook Diagnostics: OpenFileHandles=226, VirtualMemory=1168MiB, VirtualMemoryAvailable=3991MiB
+LogCook: Display: Cooked packages 24 Packages Remain 357 Total 381
+LogCook: Display: Cooked packages 109 Packages Remain 272 Total 381
+LogCook: Display: Cooked packages 246 Packages Remain 135 Total 381
+LogCook: Display: Cooked packages 264 Packages Remain 117 Total 381
+LogCook: Display: Cooked packages 296 Packages Remain 85 Total 381
+LogCook: Display: Cooked packages 382 Packages Remain 0 Total 382
+LogCook: Display: Cook Diagnostics: OpenFileHandles=3460, VirtualMemory=1317MiB, VirtualMemoryAvailable=3686MiB
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  24.28 seconds
+
+==============================================================================
+# stageA.log -- UAT BuildCookRun -skipcook -stage -pak -iostore over cook A
+# raw log: 224 lines, 19155 bytes (kept on D:, not committed)
+==============================================================================
+LogPakFile: Display: Added 1555 files, 9689937 bytes total
+LogIoStore: Display: ==================== IoStore Utils ====================
+LogIoStore: Display: Parsing crypto keys from a crypto key cache file 'D:\UEScratch\CookRef\Saved\Cooked\Windows\CookRef\Metadata\Crypto.json'
+LogIoStore: Display: Container signing - DISABLED
+LogIoStore: Display: Directory index - ENABLED
+LogIoStore: Display: Using compression format 'Oodle'
+LogIoStore: Display: Using memory mapping alignment '16384'
+LogIoStore: Display: Using compression block size '65536'
+LogIoStore: Display: Using compression block alignment '2048'
+LogIoStore: Display: Using compression min bytes saved '1024'
+LogIoStore: Display: Using compression min percent saved '5'
+LogIoStore: Display: Using max partition size '0'
+LogIoStore: Display: Not using DDC for compression
+LogIoStore: Display: Using command list file: '<USERPROFILE>\AppData\Roaming\Unreal Engine\AutomationTool\Logs\D+Program+Files+UE_5.4\IoStoreCommands.txt'
+LogIoStore: Display: Selected Oodle level 4 (Normal) from command line for shaders
+LogIoStore: Display: Searching for cooked assets in folder 'D:\UEScratch\CookRef\Saved\Cooked\Windows'
+LogIoStore: Display: Found '780' files
+LogIoStore: Display: Using input asset registry: D:\UEScratch\CookRef\Saved\Cooked\Windows/CookRef/Metadata/DevelopmentAssetRegistry.bin
+LogIoStore: Display: Added 26 hashes to the hash database, init took 0.000029 seconds
+LogIoStore: Display: Creating container targets...
+LogIoStore: Display: Parsing packages...
+LogIoStore: Display: Reading package assets...
+LogIoStore: Display: Packages read 375 files in 0.00 seconds, 770,758 total bytes, 442,075,136 bytes per second
+LogIoStore: Display: Processing shader libraries, compressing with Oodle Mermaid, level 4 (Normal)
+LogIoStore: Display: CookRef-PCD3D_SM5(PCD3D_SM5): Recompressed 1400 shaders as 141 groups. Library size changed from 5278 KB (3.79 : 1 ratio) to 1708 KB (11.70 : 1 ratio), 32.36% of previous.
+LogIoStore: Display: Global-PCD3D_SM5(PCD3D_SM5): Recompressed 3888 shaders as 342 groups. Library size changed from 13735 KB (4.31 : 1 ratio) to 5762 KB (10.27 : 1 ratio), 41.95% of previous.
+LogIoStore: Display: Shaders processed in 0.34 seconds
+LogIoStore: Display: Processing redirects...
+LogIoStore: Display: Creating disk layout...
+LogIoStore: Display: Ordered 375 packages using fallback bundle order
+LogIoStore: Display: Serializing container(s)...
+LogIoStore: Display: Writing and compressing took 0.29 seconds, writes to disk took 0.02 seconds for 29,899,440 bytes @ 1,239,617,079 bytes per second.
+LogIoStore: Display: global: Found perfect hashmap for 1 items.
+LogIoStore: Display: CookRef-Windows: Found perfect hashmap for 886 items.
+LogIoStore: Display: Finalize took 0.0 seconds for 2 writers to write 101,145 bytes, 27,937,520 bytes per second
+LogIoStore: Display: 26 / 887 hashes were loaded from the hash database, by type:
+LogIoStore: Display:     BulkData                   26
+LogIoStore: Display: 401 / 887 chunks attempted to compress, by type:
+LogIoStore: Display:     ExportBundleData           375 / 375
+LogIoStore: Display:     BulkData                   26 / 26
+LogIoStore: Display:     ScriptObjects              0 / 1
+LogIoStore: Display:     ContainerHeader            0 / 1
+LogIoStore: Display:     ShaderCodeLibrary          0 / 2
+LogIoStore: Display:     ShaderCode                 0 / 482
+LogIoStore: Display: Source bytes read:
+LogIoStore: Display:     Zen:                                  0
+LogIoStore: Display:     Loose File:                 207,042,766
+LogIoStore: Display:         ExportBundleData        201,396,130 bytes over 750 reads
+LogIoStore: Display:         BulkData                  5,646,636 bytes over 26 reads
+LogIoStore: Display:     Memory:                      15,730,872
+LogIoStore: Display:         ShaderCodeLibrary           431,936 bytes over 4 reads
+LogIoStore: Display:         ShaderCode               15,298,936 bytes over 964 reads
+LogIoStore: Display: Calculating stats...
+LogIoStore: Display:
+LogIoStore: Display: Container Summary
+LogIoStore: Display: ==================
+LogIoStore: Display:
+LogIoStore: Display: Container                                               Flags      Chunk(s) #       TOC (KiB)       Raw Size (MiB)           Size (MiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                              -/-/-/-/-               1            0.58                 2.03                 2.03 -
+LogIoStore: Display: CookRef-Windows                                     C/-/-/I/-             886           98.19               110.06                26.48 (75.94% Oodle)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: Total                                                                     887           98.77               112.09                28.51
+LogIoStore: Display:
+LogIoStore: Display: ** Flags: (C)ompressed / (E)ncrypted / (S)igned) / (I)ndexed) / (O)nDemand **
+LogIoStore: Display:
+LogIoStore: Display: Compression block padding:     0.55 MiB
+LogIoStore: Display:
+LogIoStore: Display: Container Directory Index
+LogIoStore: Display: ==========================
+LogIoStore: Display:
+LogIoStore: Display: Container                                          Size (KiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                                   0.00
+LogIoStore: Display: CookRef-Windows                                         19.57
+LogIoStore: Display:
+LogIoStore: Display: Container Patch Report
+LogIoStore: Display: ========================
+LogIoStore: Display:
+LogIoStore: Display: Container                                             Total #       Modified #          Added #   Modified (MiB)      Added (MiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                                      1                0                0             0.00             0.00
+LogIoStore: Display: CookRef-Windows                                           886                0              886             0.00            25.93
+LogIoStore: Display:
+LogIoStore: Display: PackageStore
+LogIoStore: Display: =============
+LogIoStore: Display:
+LogIoStore: Display: Container                                          Size (KiB)      Packages #     Localized #
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: CookRef-Windows                                            10             375               0
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: Total                                                      10             375               0
+LogIoStore: Display:
+LogIoStore: Display:
+LogIoStore: Display: Input:       375 Packages
+LogIoStore: Display: Input:      0.09 GB UExp
+LogIoStore: Display: Input:      0.00 GB UAsset
+LogIoStore: Display: Input:      0.01 GB UBulk
+LogIoStore: Display: Input:      5.63 MB for 342 Global shaders
+LogIoStore: Display: Input:      0.18 MB for 58 Shared shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Unique shaders
+LogIoStore: Display: Input:      1.49 MB for 82 Inline shaders
+LogIoStore: Display:
+LogIoStore: Display: Output:    14235 Name map entries
+LogIoStore: Display: Output:      349 Imported package entries
+LogIoStore: Display: Output:      212 Packages without imports
+LogIoStore: Display: Output:        0 Public runtime script objects
+LogIoStore: Display: Output:     0.00 GB HeaderData
+LogIoStore: Display: Output:     2.03 MB InitialLoadData
+LogIoStore: Display:
+Stage command time: 8.90 s
+BUILD SUCCESSFUL
+AutomationTool exiting with ExitCode=0 (Success)
+
+==============================================================================
+# cookB.log -- cook B: same as A with ini gate False -- crashed, then rerun with the editor-layer override; kept because the crash is the finding
+# raw log: 420 lines, 51762 bytes (kept on D:, not committed)
+==============================================================================
+LogCook: Display: Cooked packages 0 Packages Remain 363 Total 363
+LogCook: Display: Cook Diagnostics: OpenFileHandles=226, VirtualMemory=1108MiB, VirtualMemoryAvailable=2120MiB
+LogCook: Display: Cooked packages 135 Packages Remain 246 Total 381
+LogCook: Display: Cooked packages 382 Packages Remain 0 Total 382
+LogCook: Display: Cook Diagnostics: OpenFileHandles=3460, VirtualMemory=1249MiB, VirtualMemoryAvailable=1499MiB
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  11.42 seconds
+
+==============================================================================
+# cookU.log -- cook U: -unversioned, ini gate True  -> unversioned properties
+# raw log: 396 lines, 50301 bytes (kept on D:, not committed)
+==============================================================================
+LogCsvProfiler: Display: Metadata set : commandline="" D:\UEScratch\CookRef\CookRef.uproject -run=Cook -TargetPlatform=Windows -unversioned -unattended -nosplash -nop4 -stdout -NoLogTimes""
+LogCook: Display: Cooked packages 0 Packages Remain 363 Total 363
+LogCook: Display: Cook Diagnostics: OpenFileHandles=226, VirtualMemory=1116MiB, VirtualMemoryAvailable=3409MiB
+LogCook: Display: Cooked packages 201 Packages Remain 180 Total 381
+LogCook: Display: Cooked packages 382 Packages Remain 0 Total 382
+LogCook: Display: Cook Diagnostics: OpenFileHandles=3461, VirtualMemory=1263MiB, VirtualMemoryAvailable=3430MiB
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  8.16 seconds
+
+==============================================================================
+# stageU.log -- UAT stage over cook U (compressed containers, the default)
+# raw log: 224 lines, 19153 bytes (kept on D:, not committed)
+==============================================================================
+LogPakFile: Display: Added 1555 files, 9689937 bytes total
+LogIoStore: Display: ==================== IoStore Utils ====================
+LogIoStore: Display: Parsing crypto keys from a crypto key cache file 'D:\UEScratch\CookRef\Saved\Cooked\Windows\CookRef\Metadata\Crypto.json'
+LogIoStore: Display: Container signing - DISABLED
+LogIoStore: Display: Directory index - ENABLED
+LogIoStore: Display: Using compression format 'Oodle'
+LogIoStore: Display: Using memory mapping alignment '16384'
+LogIoStore: Display: Using compression block size '65536'
+LogIoStore: Display: Using compression block alignment '2048'
+LogIoStore: Display: Using compression min bytes saved '1024'
+LogIoStore: Display: Using compression min percent saved '5'
+LogIoStore: Display: Using max partition size '0'
+LogIoStore: Display: Not using DDC for compression
+LogIoStore: Display: Using command list file: '<USERPROFILE>\AppData\Roaming\Unreal Engine\AutomationTool\Logs\D+Program+Files+UE_5.4\IoStoreCommands.txt'
+LogIoStore: Display: Selected Oodle level 4 (Normal) from command line for shaders
+LogIoStore: Display: Searching for cooked assets in folder 'D:\UEScratch\CookRef\Saved\Cooked\Windows'
+LogIoStore: Display: Found '780' files
+LogIoStore: Display: Using input asset registry: D:\UEScratch\CookRef\Saved\Cooked\Windows/CookRef/Metadata/DevelopmentAssetRegistry.bin
+LogIoStore: Display: Added 26 hashes to the hash database, init took 0.000041 seconds
+LogIoStore: Display: Creating container targets...
+LogIoStore: Display: Parsing packages...
+LogIoStore: Display: Reading package assets...
+LogIoStore: Display: Packages read 375 files in 0.00 seconds, 470,956 total bytes, 294,568,426 bytes per second
+LogIoStore: Display: Processing shader libraries, compressing with Oodle Mermaid, level 4 (Normal)
+LogIoStore: Display: CookRef-PCD3D_SM5(PCD3D_SM5): Recompressed 1400 shaders as 141 groups. Library size changed from 5278 KB (3.79 : 1 ratio) to 1708 KB (11.70 : 1 ratio), 32.36% of previous.
+LogIoStore: Display: Global-PCD3D_SM5(PCD3D_SM5): Recompressed 3888 shaders as 342 groups. Library size changed from 13735 KB (4.31 : 1 ratio) to 5762 KB (10.27 : 1 ratio), 41.95% of previous.
+LogIoStore: Display: Shaders processed in 0.18 seconds
+LogIoStore: Display: Processing redirects...
+LogIoStore: Display: Creating disk layout...
+LogIoStore: Display: Ordered 375 packages using fallback bundle order
+LogIoStore: Display: Serializing container(s)...
+LogIoStore: Display: Writing and compressing took 0.29 seconds, writes to disk took 0.02 seconds for 29,573,808 bytes @ 1,298,748,759 bytes per second.
+LogIoStore: Display: global: Found perfect hashmap for 1 items.
+LogIoStore: Display: CookRef-Windows: Found perfect hashmap for 886 items.
+LogIoStore: Display: Finalize took 0.0 seconds for 2 writers to write 101,133 bytes, 8,164,117 bytes per second
+LogIoStore: Display: 26 / 887 hashes were loaded from the hash database, by type:
+LogIoStore: Display:     BulkData                   26
+LogIoStore: Display: 401 / 887 chunks attempted to compress, by type:
+LogIoStore: Display:     ExportBundleData           375 / 375
+LogIoStore: Display:     BulkData                   26 / 26
+LogIoStore: Display:     ScriptObjects              0 / 1
+LogIoStore: Display:     ContainerHeader            0 / 1
+LogIoStore: Display:     ShaderCodeLibrary          0 / 2
+LogIoStore: Display:     ShaderCode                 0 / 482
+LogIoStore: Display: Source bytes read:
+LogIoStore: Display:     Zen:                                  0
+LogIoStore: Display:     Loose File:                 206,083,580
+LogIoStore: Display:         ExportBundleData        200,436,944 bytes over 750 reads
+LogIoStore: Display:         BulkData                  5,646,636 bytes over 26 reads
+LogIoStore: Display:     Memory:                      15,730,872
+LogIoStore: Display:         ShaderCodeLibrary           431,936 bytes over 4 reads
+LogIoStore: Display:         ShaderCode               15,298,936 bytes over 964 reads
+LogIoStore: Display: Calculating stats...
+LogIoStore: Display:
+LogIoStore: Display: Container Summary
+LogIoStore: Display: ==================
+LogIoStore: Display:
+LogIoStore: Display: Container                                               Flags      Chunk(s) #       TOC (KiB)       Raw Size (MiB)           Size (MiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                              -/-/-/-/-               1            0.58                 2.03                 2.03 -
+LogIoStore: Display: CookRef-Windows                                     C/-/-/I/-             886           98.18               109.28                26.17 (76.05% Oodle)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: Total                                                                     887           98.76               111.31                28.20
+LogIoStore: Display:
+LogIoStore: Display: ** Flags: (C)ompressed / (E)ncrypted / (S)igned) / (I)ndexed) / (O)nDemand **
+LogIoStore: Display:
+LogIoStore: Display: Compression block padding:     0.54 MiB
+LogIoStore: Display:
+LogIoStore: Display: Container Directory Index
+LogIoStore: Display: ==========================
+LogIoStore: Display:
+LogIoStore: Display: Container                                          Size (KiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                                   0.00
+LogIoStore: Display: CookRef-Windows                                         19.57
+LogIoStore: Display:
+LogIoStore: Display: Container Patch Report
+LogIoStore: Display: ========================
+LogIoStore: Display:
+LogIoStore: Display: Container                                             Total #       Modified #          Added #   Modified (MiB)      Added (MiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                                      1                0                0             0.00             0.00
+LogIoStore: Display: CookRef-Windows                                           886                0              886             0.00            25.64
+LogIoStore: Display:
+LogIoStore: Display: PackageStore
+LogIoStore: Display: =============
+LogIoStore: Display:
+LogIoStore: Display: Container                                          Size (KiB)      Packages #     Localized #
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: CookRef-Windows                                            10             375               0
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: Total                                                      10             375               0
+LogIoStore: Display:
+LogIoStore: Display:
+LogIoStore: Display: Input:       375 Packages
+LogIoStore: Display: Input:      0.09 GB UExp
+LogIoStore: Display: Input:      0.00 GB UAsset
+LogIoStore: Display: Input:      0.01 GB UBulk
+LogIoStore: Display: Input:      5.63 MB for 342 Global shaders
+LogIoStore: Display: Input:      0.18 MB for 58 Shared shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Unique shaders
+LogIoStore: Display: Input:      1.49 MB for 82 Inline shaders
+LogIoStore: Display:
+LogIoStore: Display: Output:     2796 Name map entries
+LogIoStore: Display: Output:      349 Imported package entries
+LogIoStore: Display: Output:      212 Packages without imports
+LogIoStore: Display: Output:        0 Public runtime script objects
+LogIoStore: Display: Output:     0.00 GB HeaderData
+LogIoStore: Display: Output:     2.03 MB InitialLoadData
+LogIoStore: Display:
+Stage command time: 4.24 s
+BUILD SUCCESSFUL
+AutomationTool exiting with ExitCode=0 (Success)
+
+==============================================================================
+# stageU_nocompress.log -- UAT stage over cook U with -forceuncompressed
+# raw log: 211 lines, 18032 bytes (kept on D:, not committed)
+==============================================================================
+LogPakFile: Display: Added 1555 files, 22849170 bytes total
+LogIoStore: Display: ==================== IoStore Utils ====================
+LogIoStore: Display: Parsing crypto keys from a crypto key cache file 'D:\UEScratch\CookRef\Saved\Cooked\Windows\CookRef\Metadata\Crypto.json'
+LogIoStore: Display: Container signing - DISABLED
+LogIoStore: Display: Directory index - ENABLED
+LogIoStore: Display: Using memory mapping alignment '16384'
+LogIoStore: Display: Using compression block size '65536'
+LogIoStore: Display: Using compression block alignment '2048'
+LogIoStore: Display: Using compression min bytes saved '1024'
+LogIoStore: Display: Using compression min percent saved '5'
+LogIoStore: Display: Using max partition size '0'
+LogIoStore: Display: Not using DDC for compression
+LogIoStore: Display: Using command list file: '<USERPROFILE>\AppData\Roaming\Unreal Engine\AutomationTool\Logs\D+Program+Files+UE_5.4\IoStoreCommands.txt'
+LogIoStore: Display: Selected Oodle level 4 (Normal) from command line for shaders
+LogIoStore: Display: Searching for cooked assets in folder 'D:\UEScratch\CookRef\Saved\Cooked\Windows'
+LogIoStore: Display: Found '780' files
+LogIoStore: Display: Using input asset registry: D:\UEScratch\CookRef\Saved\Cooked\Windows/CookRef/Metadata/DevelopmentAssetRegistry.bin
+LogIoStore: Display: Added 26 hashes to the hash database, init took 0.000041 seconds
+LogIoStore: Display: Creating container targets...
+LogIoStore: Display: Parsing packages...
+LogIoStore: Display: Reading package assets...
+LogIoStore: Display: Packages read 375 files in 0.01 seconds, 470,956 total bytes, 54,152,169 bytes per second
+LogIoStore: Display: Processing shader libraries, compressing with Oodle Mermaid, level 4 (Normal)
+LogIoStore: Display: CookRef-PCD3D_SM5(PCD3D_SM5): Recompressed 1400 shaders as 141 groups. Library size changed from 5278 KB (3.79 : 1 ratio) to 1708 KB (11.70 : 1 ratio), 32.36% of previous.
+LogIoStore: Display: Global-PCD3D_SM5(PCD3D_SM5): Recompressed 3888 shaders as 342 groups. Library size changed from 13735 KB (4.31 : 1 ratio) to 5762 KB (10.27 : 1 ratio), 41.95% of previous.
+LogIoStore: Display: Shaders processed in 1.37 seconds
+LogIoStore: Display: Processing redirects...
+LogIoStore: Display: Creating disk layout...
+LogIoStore: Display: Ordered 375 packages using fallback bundle order
+LogIoStore: Display: Serializing container(s)...
+LogIoStore: Display: Writing and compressing took 0.13 seconds, writes to disk took 0.07 seconds for 116,742,832 bytes @ 1,659,632,029 bytes per second.
+LogIoStore: Display: global: Found perfect hashmap for 1 items.
+LogIoStore: Display: CookRef-Windows: Found perfect hashmap for 886 items.
+LogIoStore: Display: Finalize took 0.0 seconds for 2 writers to write 101,101 bytes, 8,839,199 bytes per second
+LogIoStore: Display: 26 / 887 hashes were loaded from the hash database, by type:
+LogIoStore: Display:     BulkData                   26
+LogIoStore: Display: Source bytes read:
+LogIoStore: Display:     Zen:                                  0
+LogIoStore: Display:     Loose File:                 206,083,580
+LogIoStore: Display:         ExportBundleData        200,436,944 bytes over 750 reads
+LogIoStore: Display:         BulkData                  5,646,636 bytes over 26 reads
+LogIoStore: Display:     Memory:                      15,730,872
+LogIoStore: Display:         ShaderCodeLibrary           431,936 bytes over 4 reads
+LogIoStore: Display:         ShaderCode               15,298,936 bytes over 964 reads
+LogIoStore: Display: Calculating stats...
+LogIoStore: Display:
+LogIoStore: Display: Container Summary
+LogIoStore: Display: ==================
+LogIoStore: Display:
+LogIoStore: Display: Container                                               Flags      Chunk(s) #       TOC (KiB)       Raw Size (MiB)           Size (MiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                              -/-/-/-/-               1            0.58                 2.03                 2.03 -
+LogIoStore: Display: CookRef-Windows                                     -/-/-/I/-             886           98.15               109.30               109.30 -
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: Total                                                                     887           98.73               111.33               111.33
+LogIoStore: Display:
+LogIoStore: Display: ** Flags: (C)ompressed / (E)ncrypted / (S)igned) / (I)ndexed) / (O)nDemand **
+LogIoStore: Display:
+LogIoStore: Display: Compression block padding:     0.56 MiB
+LogIoStore: Display:
+LogIoStore: Display: Container Directory Index
+LogIoStore: Display: ==========================
+LogIoStore: Display:
+LogIoStore: Display: Container                                          Size (KiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                                   0.00
+LogIoStore: Display: CookRef-Windows                                         19.57
+LogIoStore: Display:
+LogIoStore: Display: Container Patch Report
+LogIoStore: Display: ========================
+LogIoStore: Display:
+LogIoStore: Display: Container                                             Total #       Modified #          Added #   Modified (MiB)      Added (MiB)
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: global                                                      1                0                0             0.00             0.00
+LogIoStore: Display: CookRef-Windows                                           886                0              886             0.00           108.75
+LogIoStore: Display:
+LogIoStore: Display: PackageStore
+LogIoStore: Display: =============
+LogIoStore: Display:
+LogIoStore: Display: Container                                          Size (KiB)      Packages #     Localized #
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: CookRef-Windows                                            10             375               0
+LogIoStore: Display: ----------------------------------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display: Total                                                      10             375               0
+LogIoStore: Display:
+LogIoStore: Display:
+LogIoStore: Display: Input:       375 Packages
+LogIoStore: Display: Input:      0.09 GB UExp
+LogIoStore: Display: Input:      0.00 GB UAsset
+LogIoStore: Display: Input:      0.01 GB UBulk
+LogIoStore: Display: Input:      5.63 MB for 342 Global shaders
+LogIoStore: Display: Input:      0.18 MB for 58 Shared shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Unique shaders
+LogIoStore: Display: Input:      1.49 MB for 82 Inline shaders
+LogIoStore: Display:
+LogIoStore: Display: Output:     2796 Name map entries
+LogIoStore: Display: Output:      349 Imported package entries
+LogIoStore: Display: Output:      212 Packages without imports
+LogIoStore: Display: Output:        0 Public runtime script objects
+LogIoStore: Display: Output:     0.00 GB HeaderData
+LogIoStore: Display: Output:     2.03 MB InitialLoadData
+LogIoStore: Display:
+Stage command time: 19.39 s
+BUILD SUCCESSFUL
+AutomationTool exiting with ExitCode=0 (Success)
+
+==============================================================================
+# cookX.log -- cook X: -unversioned, ini gate False -> versioned properties, unversioned header
+# raw log: 396 lines, 50294 bytes (kept on D:, not committed)
+==============================================================================
+LogCsvProfiler: Display: Metadata set : commandline="" D:\UEScratch\CookRef\CookRef.uproject -run=Cook -TargetPlatform=Windows -unversioned -unattended -nosplash -nop4 -stdout -NoLogTimes""
+LogCook: Display: Cooked packages 0 Packages Remain 363 Total 363
+LogCook: Display: Cook Diagnostics: OpenFileHandles=226, VirtualMemory=1103MiB, VirtualMemoryAvailable=3241MiB
+LogCook: Display: Cooked packages 140 Packages Remain 241 Total 381
+LogCook: Display: Cooked packages 382 Packages Remain 0 Total 382
+LogCook: Display: Cook Diagnostics: OpenFileHandles=3460, VirtualMemory=1247MiB, VirtualMemoryAvailable=3105MiB
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  5.42 seconds
+
+==============================================================================
+# make_assets_grown.log -- editor commandlet, add ParentExtraAudio to BP_RefParent
+# raw log: 109 lines, 9026 bytes (kept on D:, not committed)
+==============================================================================
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  0.40 seconds
+
+==============================================================================
+# cookG.log -- cook G: -unversioned, ini gate True, parent grown by one property
+# raw log: 399 lines, 50622 bytes (kept on D:, not committed)
+==============================================================================
+LogCsvProfiler: Display: Metadata set : commandline="" D:\UEScratch\CookRef\CookRef.uproject -run=Cook -TargetPlatform=Windows -unversioned -unattended -nosplash -nop4 -stdout -NoLogTimes""
+LogCook: Display: Cooked packages 0 Packages Remain 363 Total 363
+LogCook: Display: Cook Diagnostics: OpenFileHandles=227, VirtualMemory=1099MiB, VirtualMemoryAvailable=4925MiB
+LogCook: Display: Cooked packages 166 Packages Remain 215 Total 381
+LogCook: Display: Cooked packages 382 Packages Remain 0 Total 382
+LogCook: Display: Cook Diagnostics: OpenFileHandles=3462, VirtualMemory=1243MiB, VirtualMemoryAvailable=4939MiB
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  7.38 seconds
+
+==============================================================================
+# uat_cook_default.log -- RunUAT BuildCookRun -cook with no extra switches: what the standard packaging path passes to the cook commandlet
+# raw log: 453 lines, 53640 bytes (kept on D:, not committed)
+==============================================================================
+Running: D:\Program Files\UE_5.4\Engine\Binaries\Win64\UnrealEditor-Cmd.exe "D:\UEScratch\CookRef\CookRef.uproject" -run=Cook  -TargetPlatform=Windows  -unversioned -fileopenlog -abslog="D:\Program Files\UE_5.4\Engine\Programs\AutomationTool\Saved\Cook-2026.08.23-21.48.13.txt" -stdout -CrashForUAT -unattended -NoLogTimes  -UTF8Output
+LogCsvProfiler: Display: Metadata set : commandline="" D:\UEScratch\CookRef\CookRef.uproject -run=Cook -TargetPlatform=Windows -unversioned -fileopenlog -abslog="D:\Program Files\UE_5.4\Engine\Programs\AutomationTool\Saved\Cook-2026.08.23-21.48.13.txt" -stdout -CrashForUAT -unattended -NoLogTimes -UTF8Output""
+LogCook: Display: Cooked packages 0 Packages Remain 363 Total 363
+LogCook: Display: Cook Diagnostics: OpenFileHandles=227, VirtualMemory=1093MiB, VirtualMemoryAvailable=3582MiB
+LogCook: Display: Cooked packages 201 Packages Remain 180 Total 381
+LogCook: Display: Cooked packages 382 Packages Remain 0 Total 382
+LogCook: Display: Cook Diagnostics: OpenFileHandles=3417, VirtualMemory=1244MiB, VirtualMemoryAvailable=2734MiB
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  7.05 seconds
+BUILD SUCCESSFUL
+AutomationTool exiting with ExitCode=0 (Success)
+
+==============================================================================
+# uat_cook_default_run2.log -- the same UAT invocation a second time -- the reproduction of the -unversioned observation
+# raw log: 416 lines, 51796 bytes (kept on D:, not committed)
+==============================================================================
+Running: D:\Program Files\UE_5.4\Engine\Binaries\Win64\UnrealEditor-Cmd.exe "D:\UEScratch\CookRef\CookRef.uproject" -run=Cook  -TargetPlatform=Windows  -unversioned -fileopenlog -abslog="D:\Program Files\UE_5.4\Engine\Programs\AutomationTool\Saved\Cook-2026.08.23-21.57.30.txt" -stdout -CrashForUAT -unattended -NoLogTimes  -UTF8Output
+LogCsvProfiler: Display: Metadata set : commandline="" D:\UEScratch\CookRef\CookRef.uproject -run=Cook -TargetPlatform=Windows -unversioned -fileopenlog -abslog="D:\Program Files\UE_5.4\Engine\Programs\AutomationTool\Saved\Cook-2026.08.23-21.57.30.txt" -stdout -CrashForUAT -unattended -NoLogTimes -UTF8Output""
+LogCook: Display: Cooked packages 0 Packages Remain 363 Total 363
+LogCook: Display: Cook Diagnostics: OpenFileHandles=228, VirtualMemory=1090MiB, VirtualMemoryAvailable=4799MiB
+LogCook: Display: Cooked packages 177 Packages Remain 204 Total 381
+LogCook: Display: Cooked packages 382 Packages Remain 0 Total 382
+LogCook: Display: Cook Diagnostics: OpenFileHandles=3464, VirtualMemory=1232MiB, VirtualMemoryAvailable=4790MiB
+LogInit: Display: Success - 0 error(s), 0 warning(s)
+Execution of commandlet took:  5.20 seconds
+BUILD SUCCESSFUL
+AutomationTool exiting with ExitCode=0 (Success)
+

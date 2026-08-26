@@ -1,0 +1,8 @@
+claim 1: fixups counted independently = 941132
+         executable spans: [('0x1000', '0x5dcac00', '.text')]
+         fixups landing inside an executable span = 0
+claim 2: 7 reads of 37 bytes, distinct byte values = 1
+         sha256 of the common body = 742c29e848158a81e542313db8799746
+         plain bytes.find count over .text = 7
+claim 3: >=32-byte signatures reported present in the oracle = 179
+         direct byte-for-byte comparison: 179 of 179 identical

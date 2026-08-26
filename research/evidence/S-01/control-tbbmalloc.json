@@ -1,0 +1,1385 @@
+{
+  "container_index": {
+    "available": true,
+    "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "engine_plugin_names": [
+      "ACLPlugin",
+      "AISupport",
+      "ActorLayerUtilities",
+      "ActorSequence",
+      "AlembicImporter",
+      "AndroidFileServer",
+      "AndroidPermission",
+      "AnimationData",
+      "AnimationSharing",
+      "AppleImageUtils",
+      "ArchVisCharacter",
+      "AssetManagerEditor",
+      "AssetTags",
+      "AudioCapture",
+      "AudioSynesthesia",
+      "AudioWidgets",
+      "AutomationUtils",
+      "AvfMedia",
+      "BackChannel",
+      "BlueprintHeaderView",
+      "Bridge",
+      "CableComponent",
+      "CameraShakePreviewer",
+      "CascadeToNiagaraConverter",
+      "ChaosCaching",
+      "ChaosCloth",
+      "ChaosEditor",
+      "ChaosNiagara",
+      "ChaosSolverPlugin",
+      "ChaosUserDataPT",
+      "ChaosVD",
+      "CharacterAI",
+      "ChunkDownloader",
+      "ControlRig",
+      "ControlRigModules",
+      "ControlRigSpline",
+      "CustomMeshComponent",
+      "Dataflow",
+      "DatasmithContent",
+      "EOSShared",
+      "EditorScriptingUtilities",
+      "EnhancedInput",
+      "EnvironmentQueryEditor",
+      "ExampleDeviceProfileSelector",
+      "Fab",
+      "FacialAnimation",
+      "Fracture",
+      "FullBodyIK",
+      "GLTFExporter",
+      "GameplayCameras",
+      "GeometryCache",
+      "GeometryCollectionPlugin",
+      "GeometryMode",
+      "GeometryProcessing",
+      "GooglePAD",
+      "IKRig",
+      "ImgMedia",
+      "Interchange",
+      "InterchangeEditor",
+      "InterchangeTests",
+      "LauncherChunkInstaller",
+      "LevelSequenceEditor",
+      "LightMixer",
+      "LocalizableMessage",
+      "LocationServicesBPLibrary",
+      "MediaCompositing",
+      "MediaPlate",
+      "MeshModelingToolset",
+      "MeshModelingToolsetExp",
+      "MeshPainting",
+      "MetaHumanProjectUtilities",
+      "Metasound",
+      "MobilePatchingUtils",
+      "MsQuic",
+      "Niagara",
+      "NiagaraSimCaching",
+      "ObjectMixer",
+      "OnlineBase",
+      "OnlineServices",
+      "OnlineSubsystem",
+      "OnlineSubsystemNull",
+      "OnlineSubsystemUtils",
+      "OodleNetwork",
+      "OpenImageDenoise",
+      "Paper2D",
+      "PlanarCut",
+      "PlatformCrypto",
+      "PluginUtils",
+      "ProceduralMeshComponent",
+      "PropertyAccessEditor",
+      "ProxyLODPlugin",
+      "PythonScriptPlugin",
+      "ResonanceAudio",
+      "RigVM",
+      "SequencerAnimTools",
+      "SequencerScripting",
+      "SignificanceManager",
+      "SkeletalMeshModelingTools",
+      "SoundFields",
+      "SpeedTreeImporter",
+      "StructUtils",
+      "Synthesis",
+      "Takes",
+      "TcpMessaging",
+      "TemplateSequence",
+      "ToolPresets",
+      "TraceUtilities",
+      "UObjectPlugin",
+      "UVEditor",
+      "UdpMessaging",
+      "VariantManager",
+      "VariantManagerContent",
+      "WaveTable",
+      "WebMMedia",
+      "WebMMoviePlayer",
+      "WindowsDeviceProfileSelector",
+      "WindowsMoviePlayer",
+      "WmfMedia",
+      "WorldMetrics",
+      "XInputDevice"
+    ],
+    "entry_count": 126,
+    "non_engine_plugin_names": [
+      "OptimizationTools",
+      "SIZZ_Menu_Wheel",
+      "SteamCorePro",
+      "UniversalVoiceChatPro"
+    ],
+    "path": "research/evidence/V-07/staged-plugins.json",
+    "plugin_names": [
+      "ACLPlugin",
+      "AISupport",
+      "ActorLayerUtilities",
+      "ActorSequence",
+      "AlembicImporter",
+      "AndroidFileServer",
+      "AndroidPermission",
+      "AnimationData",
+      "AnimationSharing",
+      "AppleImageUtils",
+      "ArchVisCharacter",
+      "AssetManagerEditor",
+      "AssetTags",
+      "AudioCapture",
+      "AudioSynesthesia",
+      "AudioWidgets",
+      "AutomationUtils",
+      "AvfMedia",
+      "BackChannel",
+      "BlueprintHeaderView",
+      "Bridge",
+      "CableComponent",
+      "CameraShakePreviewer",
+      "CascadeToNiagaraConverter",
+      "ChaosCaching",
+      "ChaosCloth",
+      "ChaosEditor",
+      "ChaosNiagara",
+      "ChaosSolverPlugin",
+      "ChaosUserDataPT",
+      "ChaosVD",
+      "CharacterAI",
+      "ChunkDownloader",
+      "ControlRig",
+      "ControlRigModules",
+      "ControlRigSpline",
+      "CustomMeshComponent",
+      "Dataflow",
+      "DatasmithContent",
+      "EOSShared",
+      "EditorScriptingUtilities",
+      "EnhancedInput",
+      "EnvironmentQueryEditor",
+      "ExampleDeviceProfileSelector",
+      "Fab",
+      "FacialAnimation",
+      "Fracture",
+      "FullBodyIK",
+      "GLTFExporter",
+      "GameplayCameras",
+      "GeometryCache",
+      "GeometryCollectionPlugin",
+      "GeometryMode",
+      "GeometryProcessing",
+      "GooglePAD",
+      "IKRig",
+      "ImgMedia",
+      "Interchange",
+      "InterchangeEditor",
+      "InterchangeTests",
+      "LauncherChunkInstaller",
+      "LevelSequenceEditor",
+      "LightMixer",
+      "LocalizableMessage",
+      "LocationServicesBPLibrary",
+      "MediaCompositing",
+      "MediaPlate",
+      "MeshModelingToolset",
+      "MeshModelingToolsetExp",
+      "MeshPainting",
+      "MetaHumanProjectUtilities",
+      "Metasound",
+      "MobilePatchingUtils",
+      "MsQuic",
+      "Niagara",
+      "NiagaraSimCaching",
+      "ObjectMixer",
+      "OnlineBase",
+      "OnlineServices",
+      "OnlineSubsystem",
+      "OnlineSubsystemNull",
+      "OnlineSubsystemUtils",
+      "OodleNetwork",
+      "OpenImageDenoise",
+      "OptimizationTools",
+      "Paper2D",
+      "PlanarCut",
+      "PlatformCrypto",
+      "PluginUtils",
+      "ProceduralMeshComponent",
+      "PropertyAccessEditor",
+      "ProxyLODPlugin",
+      "PythonScriptPlugin",
+      "ResonanceAudio",
+      "RigVM",
+      "SIZZ_Menu_Wheel",
+      "SequencerAnimTools",
+      "SequencerScripting",
+      "SignificanceManager",
+      "SkeletalMeshModelingTools",
+      "SoundFields",
+      "SpeedTreeImporter",
+      "SteamCorePro",
+      "StructUtils",
+      "Synthesis",
+      "Takes",
+      "TcpMessaging",
+      "TemplateSequence",
+      "ToolPresets",
+      "TraceUtilities",
+      "UObjectPlugin",
+      "UVEditor",
+      "UdpMessaging",
+      "UniversalVoiceChatPro",
+      "VariantManager",
+      "VariantManagerContent",
+      "WaveTable",
+      "WebMMedia",
+      "WebMMoviePlayer",
+      "WindowsDeviceProfileSelector",
+      "WindowsMoviePlayer",
+      "WmfMedia",
+      "WorldMetrics",
+      "XInputDevice"
+    ],
+    "project_names": [
+      "MISERY"
+    ]
+  },
+  "d04_oracle_only": false,
+  "file": {
+    "image_base": 6442450944,
+    "install_relative": "MISERY/Binaries/Win64/tbbmalloc.dll",
+    "machine": 34404,
+    "name": "tbbmalloc.dll",
+    "path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\tbbmalloc.dll",
+    "pe_format": "PE32+",
+    "sha256": "904a0c131e0dcbdf3a8c580a26db1573a26396ac0bfc7e98ed1731bd073fbd92",
+    "size": 76528,
+    "size_of_headers": 1024,
+    "size_of_image": 200704
+  },
+  "findings": {
+    "engine_source_paths": {
+      "build_roots": {
+        "D:/p4/UE5/Main": 1
+      },
+      "declared_as_ue_module": {},
+      "distinct_files": 1,
+      "distinct_modules": 0,
+      "engine_trees": {
+        "Engine/Source": 1
+      },
+      "evidence": {
+        "claim_class": "I",
+        "confidence": 0.79,
+        "evidence_level": "INFERRED",
+        "note": "1 absolute source-file paths occur in the image, naming 1 distinct file names; the module names extracted from them number 0 distinct, of which 0 are declared by a <Module>.build.cs in the local UE 5.4.4 tree. Interpretive: it reads a byte run as a path, applies a layout rule to pick the module component out of it, and treats the result as naming a compilation unit that went into this image. WHAT WOULD REFUTE IT: a module name in the list that the engine tree does not declare AND that is not a plausible module (the 'not_declared_as_ue_module' list is published for exactly that inspection); or the extraction rule picking a grouping directory -- which is why the rule keys on the Private/Public/Classes/Internal component rather than on a fixed depth. WHAT IT DOES NOT SHOW: completeness. These paths come from __FILE__ expansions surviving in check() and assert() text, so the module list is the set of modules that have a surviving assertion string, which is a SUBSET of the modules compiled in -- a module with no such string is invisible here and its absence is not evidence. The same bound applies file by file, which is why every answer in 'file_queries' carries it.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll",
+            "method": "S-01",
+            "note": "oracle binary-analysis. a printable-run scan and the module-layout extraction rule; no engine tree was supplied, so nothing corroborated it"
+          }
+        ]
+      },
+      "file_examples": {
+        "frontend.cpp": {
+          "module": null,
+          "offset": 41328,
+          "region": ".rdata",
+          "rva": 45936,
+          "text": "D:\\p4\\UE5\\Main\\Engine\\Source\\ThirdParty\\Intel\\TBB\\IntelTBB-2019u8\\src\\tbbmalloc\\frontend.cpp"
+        }
+      },
+      "file_queries": {
+        "Class.cpp": {
+          "first_occurrence": {},
+          "matched_spellings": [],
+          "modules": [],
+          "occurrences": {},
+          "present": false,
+          "what_an_absent_answer_means": "no absolute source path ending in this file name was matched on the tested surface. That is a statement about surviving __FILE__ literals, not about compiled code: a translation unit whose assertion text the linker dropped, or which never had one, is invisible here and its absence is not evidence that it was not compiled in."
+        },
+        "UnversionedPropertySerialization.cpp": {
+          "first_occurrence": {},
+          "matched_spellings": [],
+          "modules": [],
+          "occurrences": {},
+          "present": false,
+          "what_an_absent_answer_means": "no absolute source path ending in this file name was matched on the tested surface. That is a statement about surviving __FILE__ literals, not about compiled code: a translation unit whose assertion text the linker dropped, or which never had one, is invisible here and its absence is not evidence that it was not compiled in."
+        },
+        "UnversionedPropertySerialization.h": {
+          "first_occurrence": {},
+          "matched_spellings": [],
+          "modules": [],
+          "occurrences": {},
+          "present": false,
+          "what_an_absent_answer_means": "no absolute source path ending in this file name was matched on the tested surface. That is a statement about surviving __FILE__ literals, not about compiled code: a translation unit whose assertion text the linker dropped, or which never had one, is invisible here and its absence is not evidence that it was not compiled in."
+        }
+      },
+      "files": [
+        "frontend.cpp"
+      ],
+      "files_by_module": {},
+      "files_in_both_encodings": [],
+      "module_examples": {},
+      "module_index_available": true,
+      "modules": [],
+      "modules_in_both_encodings": [],
+      "not_declared_as_ue_module": [],
+      "occurrences_by_file": {
+        "frontend.cpp": {
+          "ascii": 1,
+          "modules": [],
+          "utf16": 0
+        }
+      },
+      "occurrences_by_module": {},
+      "path_literal_count": 1,
+      "path_separators": {
+        "backslash": 1
+      },
+      "paths_with_no_extractable_module": {
+        "D:/p4/UE5/Main": 1
+      },
+      "question": "Are there UE source-path literals, and do they name a build-machine root?"
+    },
+    "origin": {
+      "category_counts": {
+        "build-source-path": 1,
+        "dll-name": 8,
+        "unclassified": 1134,
+        "unreal-type-name": 7
+      },
+      "classification_rules": [
+        {
+          "category": "unreal-script-path",
+          "claims": "the UE package path for a native module's reflection namespace",
+          "pattern": "^/Script/[A-Za-z0-9_]+"
+        },
+        {
+          "category": "unreal-script-path-absorbed-prefix",
+          "claims": "a UE package path preceded by one to three characters, the shape the UTF-16 pass produces when the byte pair before a wide string reads as a printable character followed by NUL",
+          "pattern": "^.{1,3}/Script/[A-Za-z0-9_]+"
+        },
+        {
+          "category": "unreal-content-path",
+          "claims": "a UE content mount point followed by a package path",
+          "pattern": "^/(Game|Engine|Temp|Memory|Paper2D|Niagara)/[A-Za-z0-9_./]*$"
+        },
+        {
+          "category": "build-source-path",
+          "claims": "an absolute path to a source file, i.e. a build-machine path baked into the image (__FILE__, a check() macro, or an assert)",
+          "pattern": "^[A-Za-z]:[\\\\/](?:[^\\\\/]+[\\\\/]){2,}[^\\\\/]+\\.(?:cpp|h|hpp|inl|c|cc|usf|ush|cs)$"
+        },
+        {
+          "category": "source-file-name",
+          "claims": "a bare source file name with no directory part",
+          "pattern": "^[A-Za-z0-9_.+-]+\\.(?:cpp|h|hpp|inl|c|cc|usf|ush)$"
+        },
+        {
+          "category": "unreal-log-category",
+          "claims": "the UE log-category naming convention",
+          "pattern": "^Log[A-Z][A-Za-z0-9_]{2,}$"
+        },
+        {
+          "category": "unreal-console-variable",
+          "claims": "the UE console-variable naming convention (a short lowercase group, a dot, then a CamelCase name)",
+          "pattern": "^[a-z]{1,6}\\.[A-Za-z0-9_][A-Za-z0-9_.]{2,}$"
+        },
+        {
+          "category": "unreal-type-name",
+          "claims": "the UE Hungarian type-prefix convention",
+          "pattern": "^(?:U|A|F|T|I|E)[A-Z][A-Za-z0-9_]{2,}$"
+        },
+        {
+          "category": "dll-name",
+          "claims": "a Windows module file name",
+          "pattern": "^[A-Za-z0-9_.+-]+\\.(?:dll|exe|sys)$"
+        },
+        {
+          "category": "ini-or-config-path",
+          "claims": "a configuration or descriptor file path",
+          "pattern": "^[A-Za-z0-9_./\\\\-]+\\.(?:ini|json|cfg|xml|uplugin|uproject)$"
+        }
+      ],
+      "corroborated_game_names": {},
+      "evidence_corroborated": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "0 names are reached by two independent oracles: a printable-run scan of the executable, and a name in the packaged container index or a directory in the installation's own Plugins tree. The claim graded here is narrow and deliberately so: these names belong to non-engine plugins or to the project of this build. WHAT WOULD REFUTE IT: finding any of these names declared by a <Module>.build.cs in the engine tree after all -- which is checked, and is why they are in this tier rather than the engine one. WHAT IT DOES NOT SHOW: that any game CODE is identifiable. A module name is a name; S-10 found zero game classes in RTTI and this finding does not change that.",
+        "oracle": [
+          "binary-analysis",
+          "container-metadata",
+          "filesystem"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll",
+            "method": "S-01",
+            "note": "oracle binary-analysis. the /Script/ literals found by the run scan of this image"
+          },
+          {
+            "artifact": "research/evidence/V-07/staged-plugins.json",
+            "independent_of": [
+              "S-01/script-path-scan"
+            ],
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll",
+            "method": "S-01",
+            "note": "oracle container-metadata. the plugin and project descriptor names in V-07's reading of the pak directory index, plus the plugin directory names present in the installation; neither reads the executable, so neither can inherit a mistake made by the run scan"
+          }
+        ]
+      },
+      "evidence_heuristic": {
+        "claim_class": "I",
+        "confidence": 0.65,
+        "evidence_level": "HYPOTHESIS",
+        "note": "0 further names match the shape of a UE module but are not declared by any <Module>.build.cs in the local UE 5.4.4 tree, and no second oracle names them. HYPOTHESIS, one method, 0.65: 'absent from the engine tree' has at least three explanations besides 'belongs to the game' -- a legacy module name kept alive by a core-redirect table, a module from a marketplace plugin not staged into this container, and a module whose .build.cs the index missed. The list is published name by name so each can be settled separately instead of being believed collectively. WHAT WOULD REFUTE IT: any one of these names turning out to be an engine module under a spelling the index does not cover.",
+        "oracle": [
+          "binary-analysis",
+          "filesystem"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll",
+            "method": "S-01",
+            "note": "oracle filesystem. absence from the <Module>.build.cs index built from the local engine tree -- one act of measurement, and an absence rather than an observation"
+          }
+        ]
+      },
+      "heuristic_game_candidates": [],
+      "plugin_name_agreement": {
+        "engine_plugin_names_seen_as_script_modules": [],
+        "installation_plugin_directories": [
+          "SteamCorePro"
+        ],
+        "non_engine_plugin_names_not_seen": [
+          "OptimizationTools",
+          "SIZZ_Menu_Wheel",
+          "SteamCorePro",
+          "UniversalVoiceChatPro"
+        ],
+        "non_engine_plugin_names_seen_as_script_modules": [],
+        "plugin_names_also_seen_as_script_modules": [],
+        "plugin_names_never_seen_as_a_script_module": [
+          "ACLPlugin",
+          "AISupport",
+          "ActorLayerUtilities",
+          "ActorSequence",
+          "AlembicImporter",
+          "AndroidFileServer",
+          "AndroidPermission",
+          "AnimationData",
+          "AnimationSharing",
+          "AppleImageUtils",
+          "ArchVisCharacter",
+          "AssetManagerEditor",
+          "AssetTags",
+          "AudioCapture",
+          "AudioSynesthesia",
+          "AudioWidgets",
+          "AutomationUtils",
+          "AvfMedia",
+          "BackChannel",
+          "BlueprintHeaderView",
+          "Bridge",
+          "CableComponent",
+          "CameraShakePreviewer",
+          "CascadeToNiagaraConverter",
+          "ChaosCaching",
+          "ChaosCloth",
+          "ChaosEditor",
+          "ChaosNiagara",
+          "ChaosSolverPlugin",
+          "ChaosUserDataPT",
+          "ChaosVD",
+          "CharacterAI",
+          "ChunkDownloader",
+          "ControlRig",
+          "ControlRigModules",
+          "ControlRigSpline",
+          "CustomMeshComponent",
+          "Dataflow",
+          "DatasmithContent",
+          "EOSShared",
+          "EditorScriptingUtilities",
+          "EnhancedInput",
+          "EnvironmentQueryEditor",
+          "ExampleDeviceProfileSelector",
+          "Fab",
+          "FacialAnimation",
+          "Fracture",
+          "FullBodyIK",
+          "GLTFExporter",
+          "GameplayCameras",
+          "GeometryCache",
+          "GeometryCollectionPlugin",
+          "GeometryMode",
+          "GeometryProcessing",
+          "GooglePAD",
+          "IKRig",
+          "ImgMedia",
+          "Interchange",
+          "InterchangeEditor",
+          "InterchangeTests",
+          "LauncherChunkInstaller",
+          "LevelSequenceEditor",
+          "LightMixer",
+          "LocalizableMessage",
+          "LocationServicesBPLibrary",
+          "MediaCompositing",
+          "MediaPlate",
+          "MeshModelingToolset",
+          "MeshModelingToolsetExp",
+          "MeshPainting",
+          "MetaHumanProjectUtilities",
+          "Metasound",
+          "MobilePatchingUtils",
+          "MsQuic",
+          "Niagara",
+          "NiagaraSimCaching",
+          "ObjectMixer",
+          "OnlineBase",
+          "OnlineServices",
+          "OnlineSubsystem",
+          "OnlineSubsystemNull",
+          "OnlineSubsystemUtils",
+          "OodleNetwork",
+          "OpenImageDenoise",
+          "OptimizationTools",
+          "Paper2D",
+          "PlanarCut",
+          "PlatformCrypto",
+          "PluginUtils",
+          "ProceduralMeshComponent",
+          "PropertyAccessEditor",
+          "ProxyLODPlugin",
+          "PythonScriptPlugin",
+          "ResonanceAudio",
+          "RigVM",
+          "SIZZ_Menu_Wheel",
+          "SequencerAnimTools",
+          "SequencerScripting",
+          "SignificanceManager",
+          "SkeletalMeshModelingTools",
+          "SoundFields",
+          "SpeedTreeImporter",
+          "SteamCorePro",
+          "StructUtils",
+          "Synthesis",
+          "Takes",
+          "TcpMessaging",
+          "TemplateSequence",
+          "ToolPresets",
+          "TraceUtilities",
+          "UObjectPlugin",
+          "UVEditor",
+          "UdpMessaging",
+          "UniversalVoiceChatPro",
+          "VariantManager",
+          "VariantManagerContent",
+          "WaveTable",
+          "WebMMedia",
+          "WebMMoviePlayer",
+          "WindowsDeviceProfileSelector",
+          "WindowsMoviePlayer",
+          "WmfMedia",
+          "WorldMetrics",
+          "XInputDevice"
+        ],
+        "script_modules_that_are_not_a_plugin_name": [],
+        "why_the_two_sets_differ_by_construction": "a .uplugin entry is a PLUGIN descriptor staged into the container; a /Script/<Name> literal carries a MODULE name. One plugin commonly declares several modules under names unlike its own (a runtime module, an editor module, a shared module), and an engine plugin can be staged as content while none of its modules is linked into this executable. So a plugin name absent from the /Script/ set is not evidence that the plugin is absent, and a /Script/ name absent from the plugin set is not evidence that it is not a plugin's module."
+      },
+      "publishable_categories": [
+        "build-source-path",
+        "ini-or-config-path",
+        "unreal-content-path",
+        "unreal-script-path",
+        "unreal-script-path-absorbed-prefix"
+      ],
+      "question": "Which strings look like they belong to the game rather than the engine or a third-party library?",
+      "what_this_surface_cannot_do": "a string is not a symbol. This surface can name a module, a log category, a console variable or an asset path; it cannot name a class, a function or a field, and nothing here narrows S-10's result that no game class carries RTTI in this build."
+    },
+    "script_paths": {
+      "declared_as_ue_module": {},
+      "distinct_names": 0,
+      "evidence_both_encodings": {
+        "claim_class": "I",
+        "confidence": 0.85,
+        "evidence_level": "INFERRED",
+        "note": "0 distinct names occur after the byte sequence '/Script/' in BOTH encodings, at different offsets. Interpretive because it reads the bytes as a UE package path and the trailing component as a module name. WHAT WOULD REFUTE IT: a name in this set whose two occurrences turn out to be the same bytes counted twice (they cannot be -- an 8-bit run and a 16-bit run cannot occupy the same range and both match), or the population turning out to sit entirely in one region of the file, which the per-region counts would show. WHAT IT DOES NOT SHOW: that the module is LINKED INTO this image. A '/Script/X' literal proves the name is mentioned; UE emits such literals from generated reflection registration, from core-redirect tables and from packaged config defaults, so a redirect entry for a module that no longer exists appears here too. One correction is applied and counted rather than hidden: a UTF-16 run often starts one code unit early because the byte pair before a wide string reads as (printable, NUL), so the name is searched for inside the run instead of being required at its start, and the number of occurrences reached that way is published alongside.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll",
+            "method": "S-01",
+            "note": "oracle binary-analysis. an 8-bit printable-run scan of every region of the image, reporting the file offset of each hit"
+          },
+          {
+            "artifact": null,
+            "independent_of": [
+              "S-01/ascii-run-scan"
+            ],
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll",
+            "method": "S-01",
+            "note": "oracle binary-analysis. an independent 16-bit even-aligned printable-pair scan of the same regions, which finds these names at different offsets in different byte ranges"
+          }
+        ]
+      },
+      "evidence_union": {
+        "claim_class": "I",
+        "confidence": 0.79,
+        "evidence_level": "INFERRED",
+        "note": "0 distinct names in total, of which 0 were seen in one encoding only and therefore rest on a single act of measurement. Graded below 0.80 for exactly that reason (plan.md 10.3 rule 1). WHAT WOULD REFUTE IT: a single-encoding name whose only occurrence is a noise-band hit or a clipped run -- the per-record 'noise_band' and 'clipped' flags in strings.jsonl are what a reviewer would check.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": null,
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll",
+            "method": "S-01",
+            "note": "oracle binary-analysis. one printable-run scan; the second encoding did not see these names"
+          }
+        ]
+      },
+      "first_occurrence": {},
+      "module_index_available": true,
+      "names": [],
+      "names_ascii_only": [],
+      "names_in_both_encodings": [],
+      "names_reached_only_through_an_absorbed_prefix": [],
+      "names_utf16_only": [],
+      "not_declared_as_ue_module": [],
+      "not_declared_but_corroborated_non_engine": {},
+      "occurrences_ascii": 0,
+      "occurrences_by_name": {},
+      "occurrences_reached_through_an_absorbed_prefix": 0,
+      "occurrences_utf16": 0,
+      "question": "Does the string table contain /Script/ package paths, and which ones?"
+    }
+  },
+  "generated_at": "2026-08-26T07:29:53Z",
+  "generator": "tools/static/extract_strings.py",
+  "generator_version": "1.0.0",
+  "install_plugin_directories": {
+    "available": true,
+    "directories_examined": [
+      "MISERY/Plugins"
+    ],
+    "names": [
+      "SteamCorePro"
+    ],
+    "root": "D:\\Games\\Steam\\steamapps\\common\\MISERY"
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "21546869732070726f6772616d2063616e6e6f742062652072756e20696e20444f53206d6f64652e",
+      "claim": "40 bytes at offset 77 of MISERY/Binaries/Win64/tbbmalloc.dll are 21546869732070726f6772616d2063616e6e6f742062652072756e20696e20444f53206d6f64652e",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "40 bytes at offset 77 of MISERY/Binaries/Win64/tbbmalloc.dll are 21546869732070726f6772616d2063616e6e6f742062652072756e20696e20444f53206d6f64652e. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "21546869732070726f6772616d2063616e6e6f742062652072756e20696e20444f53206d6f64652e",
+          "length": 40,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 77,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@77+40",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=77",
+      "length": 40,
+      "offset": 77,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    },
+    {
+      "bytes_hex": "5c243032",
+      "claim": "4 bytes at offset 1180 of MISERY/Binaries/Win64/tbbmalloc.dll are 5c243032",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 1180 of MISERY/Binaries/Win64/tbbmalloc.dll are 5c243032. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5c243032",
+          "length": 4,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 1180,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@1180+4",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=1180",
+      "length": 4,
+      "offset": 1180,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    },
+    {
+      "bytes_hex": "5424204c",
+      "claim": "4 bytes at offset 40400 of MISERY/Binaries/Win64/tbbmalloc.dll are 5424204c",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 40400 of MISERY/Binaries/Win64/tbbmalloc.dll are 5424204c. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5424204c",
+          "length": 4,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 40400,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@40400+4",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=40400",
+      "length": 4,
+      "offset": 40400,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    },
+    {
+      "bytes_hex": "443a5c70345c5545355c4d61696e5c456e67696e655c536f757263655c546869726450617274795c496e74656c5c5442425c496e74656c5442422d3230313975385c7372635c7462626d616c6c6f635c66726f6e74656e642e637070",
+      "claim": "92 bytes at offset 41328 of MISERY/Binaries/Win64/tbbmalloc.dll are 443a5c70345c5545355c4d61696e5c456e67696e655c536f757263655c546869726450617274795c496e74656c5c5442425c496e74656c5442422d3230313975385c7372635c7462626d616c6c6f635c66726f6e74656e642e637070",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "92 bytes at offset 41328 of MISERY/Binaries/Win64/tbbmalloc.dll are 443a5c70345c5545355c4d61696e5c456e67696e655c536f757263655c546869726450617274795c496e74656c5c5442425c496e74656c5442422d3230313975385c7372635c7462626d616c6c6f635c66726f6e74656e642e637070. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "443a5c70345c5545355c4d61696e5c456e67696e655c536f757263655c546869726450617274795c496e74656c5c5442425c496e74656c5442422d3230313975385c7372635c7462626d616c6c6f635c66726f6e74656e642e637070",
+          "length": 92,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 41328,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@41328+92",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=41328",
+      "length": 92,
+      "offset": 41328,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    },
+    {
+      "bytes_hex": "5442426d616c6c6f633a2056455253494f4e",
+      "claim": "18 bytes at offset 50705 of MISERY/Binaries/Win64/tbbmalloc.dll are 5442426d616c6c6f633a2056455253494f4e",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "18 bytes at offset 50705 of MISERY/Binaries/Win64/tbbmalloc.dll are 5442426d616c6c6f633a2056455253494f4e. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "5442426d616c6c6f633a2056455253494f4e",
+          "length": 18,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 50705,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@50705+18",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=50705",
+      "length": 18,
+      "offset": 50705,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    },
+    {
+      "bytes_hex": "3c3f786d6c2076657273696f6e3d27312e302720656e636f64696e673d275554462d3827207374616e64616c6f6e653d27796573273f3e",
+      "claim": "55 bytes at offset 54368 of MISERY/Binaries/Win64/tbbmalloc.dll are 3c3f786d6c2076657273696f6e3d27312e302720656e636f64696e673d275554462d3827207374616e64616c6f6e653d27796573273f3e",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "55 bytes at offset 54368 of MISERY/Binaries/Win64/tbbmalloc.dll are 3c3f786d6c2076657273696f6e3d27312e302720656e636f64696e673d275554462d3827207374616e64616c6f6e653d27796573273f3e. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "3c3f786d6c2076657273696f6e3d27312e302720656e636f64696e673d275554462d3827207374616e64616c6f6e653d27796573273f3e",
+          "length": 55,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 54368,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@54368+55",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=54368",
+      "length": 55,
+      "offset": 54368,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    },
+    {
+      "bytes_hex": "3c2f617373656d626c793e",
+      "claim": "11 bytes at offset 54736 of MISERY/Binaries/Win64/tbbmalloc.dll are 3c2f617373656d626c793e",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "11 bytes at offset 54736 of MISERY/Binaries/Win64/tbbmalloc.dll are 3c2f617373656d626c793e. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "3c2f617373656d626c793e",
+          "length": 11,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 54736,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@54736+11",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=54736",
+      "length": 11,
+      "offset": 54736,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    },
+    {
+      "bytes_hex": "2429646c49",
+      "claim": "5 bytes at offset 76515 of MISERY/Binaries/Win64/tbbmalloc.dll are 2429646c49",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "5 bytes at offset 76515 of MISERY/Binaries/Win64/tbbmalloc.dll are 2429646c49. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "2429646c49",
+          "length": 5,
+          "note": "a range of bytes selected by an evenly spaced sample over the regions this run covered",
+          "offset": 76515,
+          "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY/Binaries/Win64/tbbmalloc.dll@76515+5",
+            "method": "S-01",
+            "note": "oracle binary-analysis. Read by tools/static/extract_strings.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the record with the same offset in strings.jsonl, and the counts in summary{} -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "strings.jsonl@offset=76515",
+      "length": 5,
+      "offset": 76515,
+      "reproduced": true,
+      "target": "MISERY/Binaries/Win64/tbbmalloc.dll"
+    }
+  ],
+  "noise_control": {
+    "byte_source": "sha256(seed || little-endian uint64 counter), concatenated",
+    "control_bytes": 16777216,
+    "elapsed_seconds": 1.437,
+    "expected_at_target_size": {
+      "ascii": {
+        "10": 1.4,
+        "11": 0.5,
+        "12": 0.2,
+        "13": 0.1,
+        "14": 0.0,
+        "15": 0.0,
+        "4": 576.7,
+        "5": 214.7,
+        "6": 79.8,
+        "7": 28.9,
+        "8": 10.9,
+        "9": 4.2
+      },
+      "utf-16le": {}
+    },
+    "extrapolation_is_linear_and_is_a_lower_bound": true,
+    "histogram": {
+      "ascii": {
+        "10": 301,
+        "11": 114,
+        "12": 42,
+        "13": 18,
+        "14": 7,
+        "15": 3,
+        "4": 126440,
+        "5": 47072,
+        "6": 17494,
+        "7": 6342,
+        "8": 2391,
+        "9": 923
+      },
+      "utf-16le": {}
+    },
+    "min_length": 4,
+    "ran": true,
+    "scale_to_target": 0.004561,
+    "seed": "S-01/extract_strings.py/noise-control/v1",
+    "target_bytes": 76528
+  },
+  "refutation_probes": [
+    {
+      "id": "P1-low-length-noise-floor",
+      "observed": {
+        "control_ran": true,
+        "expected_by_length_from_random_control": {
+          "10": 1.4,
+          "11": 0.5,
+          "12": 0.2,
+          "13": 0.1,
+          "14": 0.0,
+          "15": 0.0,
+          "4": 576.7,
+          "5": 214.7,
+          "6": 79.8,
+          "7": 28.9,
+          "8": 10.9,
+          "9": 4.2
+        },
+        "lengths_noise_dominated": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "min_length": 4,
+        "noise_band_ceiling_ascii": 10,
+        "observed_by_length": {
+          "10": 18,
+          "11": 9,
+          "12": 9,
+          "13": 26,
+          "14": 6,
+          "15": 12,
+          "16": 15,
+          "17": 4,
+          "18": 15,
+          "19": 9,
+          "20": 4,
+          "21": 6,
+          "22": 2,
+          "23": 6,
+          "24": 103,
+          "4": 634,
+          "5": 133,
+          "6": 59,
+          "7": 30,
+          "8": 31,
+          "9": 19
+        },
+        "observed_over_expected": {
+          "10": 12.857,
+          "11": 18.0,
+          "12": 45.0,
+          "13": 260.0,
+          "14": null,
+          "15": null,
+          "4": 1.099,
+          "5": 0.619,
+          "6": 0.739,
+          "7": 1.038,
+          "8": 2.844,
+          "9": 4.524
+        },
+        "records_flagged_noise_band": 906
+      },
+      "question": "At the minimum length this scan uses, is the ASCII population distinguishable from incidental byte runs?",
+      "refuted_the_conclusion": true,
+      "refuting_result": "observed counts at the shortest lengths within a factor of two of what a same-size buffer of pseudo-random bytes produces -- those lengths would then carry no information on their own, and any conclusion drawn from a bare count of 'strings' would be a conclusion about noise",
+      "what_the_refutation_means_here": "it does NOT invalidate the index. It says that a count of records is not a count of strings at these lengths, which is why every record carries char_count and noise_band and why no consumer should filter by record count alone."
+    },
+    {
+      "id": "P2-utf16-is-not-an-integer-table",
+      "observed": {
+        "accepted": 0,
+        "low_information_accepted": 0,
+        "low_information_share": null,
+        "random_control_expectation_at_target_size": {},
+        "rejected_odd_alignment": 0,
+        "rejected_short_after_length_cap": 0,
+        "runs_abutting_a_wide_non_ascii_character": 0
+      },
+      "question": "Are the UTF-16LE runs strings, or arrays of small integers read as text?",
+      "refuted_the_conclusion": false,
+      "refuting_result": "a large share of accepted runs with no alphabetic character or fewer than three distinct characters -- the shape of an index table -- or an odd-aligned rejected population large enough that the alignment rule is deciding the answer rather than filtering an artefact"
+    },
+    {
+      "id": "P3-region-cover-is-complete",
+      "observed": {
+        "by_kind": {
+          "headers": 1,
+          "overlay": 1,
+          "section": 6
+        },
+        "bytes_covered": 76528,
+        "contiguous": true,
+        "ends_at_eof": true,
+        "file_size": 76528,
+        "regions": 8,
+        "starts_at_zero": true
+      },
+      "question": "Do the scanned regions tile the whole file, with no byte uncovered and none covered twice?",
+      "refuted_the_conclusion": false,
+      "refuting_result": "a covered total unequal to the file size, a discontinuity between consecutive regions, or a first/last region not touching the file boundaries -- any of which means some offsets could never be reported, so a null result at those offsets would be an artefact of the scanner rather than a fact about the file"
+    },
+    {
+      "id": "P4-rva-round-trips-through-the-pe-parser",
+      "observed": {
+        "absent_rva_but_mappable": [],
+        "absent_rva_but_mappable_count": 0,
+        "boundary_records_available": 12,
+        "boundary_records_checked": 12,
+        "method": "each reported rva fed to pe_info.PEHeaders.rva_to_offset and required to return the record's own file offset; each absent rva checked against the raw section table for an owner that would have made it addressable",
+        "mismatch_count": 0,
+        "mismatches": [],
+        "records_checked": 1150,
+        "records_with_absent_rva_checked": 313,
+        "sample_cap": 4096,
+        "spread_sample_records": 1150
+      },
+      "question": "Does every RVA this index reports translate back to the file offset it came from?",
+      "refuted_the_conclusion": false,
+      "refuting_result": "any sampled record whose RVA, fed through pe_info.PEHeaders.rva_to_offset -- a different implementation, written for F-01 and not by this tool -- comes back as a different offset or as None. Every xref built on this index would then point somewhere else, and the failure would be invisible in the counts; or any sampled record reported WITHOUT an rva whose offset the raw section table does in fact cover, which would mean a real address was turned into a null and a later xref hunt over those bytes would come back empty for a reason that is not about the file"
+    },
+    {
+      "id": "P5-cross-encoding-double-count",
+      "observed": {
+        "ascii_records": 1150,
+        "overlap_over_utf16": null,
+        "overlapping_pairs": 0,
+        "utf16_records": 0
+      },
+      "question": "How many byte ranges are claimed by both the ASCII and the UTF-16 pass, so that one region of the file is counted twice?",
+      "refuted_the_conclusion": false,
+      "refuting_result": "an overlap large relative to the UTF-16 population, which would mean the two layers are largely describing the same bytes and the total record count is not a count of distinct string data"
+    }
+  ],
+  "summary": {
+    "by_category": {
+      "build-source-path": 1,
+      "dll-name": 8,
+      "unclassified": 1134,
+      "unreal-type-name": 7
+    },
+    "by_region": {
+      ".data": 8,
+      ".rdata": 125,
+      ".rsrc": 10,
+      ".text": 686,
+      "headers": 8,
+      "overlay": 313
+    },
+    "by_region_kind": {
+      "headers": 8,
+      "overlay": 313,
+      "section": 829
+    },
+    "classified_retained": {
+      "build-source-path": 1
+    },
+    "classified_truncated": {},
+    "jsonl_bytes_written": 646761,
+    "length_histogram": {
+      "ascii": {
+        "10": 18,
+        "11": 9,
+        "12": 9,
+        "13": 26,
+        "14": 6,
+        "15": 12,
+        "16": 15,
+        "17": 4,
+        "18": 15,
+        "19": 9,
+        "20": 4,
+        "21": 6,
+        "22": 2,
+        "23": 6,
+        "24": 103,
+        "4": 634,
+        "5": 133,
+        "6": 59,
+        "7": 30,
+        "8": 31,
+        "9": 19
+      },
+      "utf-16le": {}
+    },
+    "length_histogram_pooled_above": 24,
+    "min_length": 4,
+    "ranges_claimed_by_both_encodings": 0,
+    "records_abutting_wide_non_ascii": 0,
+    "records_ascii": 1150,
+    "records_beyond_virtual_size": 0,
+    "records_clipped": 0,
+    "records_in_noise_band": 906,
+    "records_low_information": 32,
+    "records_nul_terminated": 129,
+    "records_total": 1150,
+    "records_utf16": 0,
+    "records_without_rva": 313,
+    "runs_clipped_by_length_cap": 0,
+    "runs_continued_from_a_previous_window": 0,
+    "runs_touching_region_end": 0,
+    "utf16_rejected_odd_alignment": 0,
+    "utf16_rejected_short_after_length_cap": 0
+  },
+  "task": "S-01",
+  "tested_surface": {
+    "ascii_pattern": "[\\x20-\\x7e]{4,}",
+    "encodings": [
+      "ascii",
+      "utf-16le"
+    ],
+    "max_recorded_run_bytes": 4096,
+    "min_length_characters": 4,
+    "not_tested": [
+      "a string built at run time, or held compressed or encrypted on disk, is not on this surface: only the bytes of the image as stored are read",
+      "the virtual tail of a section (VirtualSize beyond raw size) holds no bytes on disk and cannot be searched",
+      "any encoding other than 8-bit printable-ASCII runs and even-aligned UTF-16LE runs of printable-ASCII characters: UTF-8 multibyte sequences, UTF-16BE, and UTF-16LE runs whose characters are outside 0x20..0x7e are not matched, and a UTF-16 string containing one non-ASCII character is reported as the two runs either side of it (counted as records_abutting_wide_non_ascii)"
+    ],
+    "printable_class": "0x20..0x7e; no tab, no CR, no LF",
+    "regions": [
+      {
+        "end": 1024,
+        "index": 0,
+        "kind": "headers",
+        "length": 1024,
+        "name": "headers",
+        "rva_available": true,
+        "section_characteristics": null,
+        "section_index": null,
+        "section_rva": null,
+        "section_virtual_size": null,
+        "start": 0
+      },
+      {
+        "end": 40448,
+        "index": 1,
+        "kind": "section",
+        "length": 39424,
+        "name": ".text",
+        "rva_available": true,
+        "section_characteristics": "0x60000020",
+        "section_index": 0,
+        "section_rva": 4096,
+        "section_virtual_size": 39410,
+        "start": 1024
+      },
+      {
+        "end": 50688,
+        "index": 2,
+        "kind": "section",
+        "length": 10240,
+        "name": ".rdata",
+        "rva_available": true,
+        "section_characteristics": "0x40000040",
+        "section_index": 1,
+        "section_rva": 45056,
+        "section_virtual_size": 10036,
+        "start": 40448
+      },
+      {
+        "end": 51200,
+        "index": 3,
+        "kind": "section",
+        "length": 512,
+        "name": ".data",
+        "rva_available": true,
+        "section_characteristics": "0xc0000040",
+        "section_index": 2,
+        "section_rva": 57344,
+        "section_virtual_size": 128208,
+        "start": 50688
+      },
+      {
+        "end": 54272,
+        "index": 4,
+        "kind": "section",
+        "length": 3072,
+        "name": ".pdata",
+        "rva_available": true,
+        "section_characteristics": "0x40000040",
+        "section_index": 3,
+        "section_rva": 188416,
+        "section_virtual_size": 2952,
+        "start": 51200
+      },
+      {
+        "end": 54784,
+        "index": 5,
+        "kind": "section",
+        "length": 512,
+        "name": ".rsrc",
+        "rva_available": true,
+        "section_characteristics": "0x40000040",
+        "section_index": 4,
+        "section_rva": 192512,
+        "section_virtual_size": 480,
+        "start": 54272
+      },
+      {
+        "end": 55296,
+        "index": 6,
+        "kind": "section",
+        "length": 512,
+        "name": ".reloc",
+        "rva_available": true,
+        "section_characteristics": "0x42000040",
+        "section_index": 5,
+        "section_rva": 196608,
+        "section_virtual_size": 52,
+        "start": 54784
+      },
+      {
+        "end": 76528,
+        "index": 7,
+        "kind": "overlay",
+        "length": 21232,
+        "name": "overlay",
+        "rva_available": false,
+        "section_characteristics": null,
+        "section_index": null,
+        "section_rva": null,
+        "section_virtual_size": null,
+        "start": 55296
+      }
+    ],
+    "terminator_required": false,
+    "utf16_alignment_rule": "a candidate must start at an even image offset; odd-aligned runs are counted and rejected",
+    "utf16_pattern": "(?:[\\x20-\\x7e]\\x00){4,}"
+  },
+  "timings_seconds": {
+    "file_digest": 0.0,
+    "findings": 0.0,
+    "literal_reads": 0.0,
+    "noise_control": 1.438,
+    "string_scan": 0.035,
+    "total": 2.725,
+    "ue_module_index": 1.247
+  },
+  "ue_module_index": {
+    "available": true,
+    "elapsed_seconds": 1.247,
+    "files_scanned": 145097,
+    "marker": "a file whose name ends, case-insensitively, in '.build.cs'; the stem is the module name",
+    "modules_declared": 1876,
+    "root": "D:/Program Files/UE_5.4/Engine",
+    "truncated": false
+  },
+  "warnings": []
+}
