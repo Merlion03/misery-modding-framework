@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""ERI -- External Read-Only Inspector, capability I-01 (plan.md 8.2).
+"""ERI -- External Read-Only Inspector, capabilities I-01 and I-02 (plan.md 8.2).
 
 RESEARCH ONLY -- NOT PRODUCTION. This file lives in research/instruments/,
 never in src/, and nothing in Phase 2 may be a refactor of it (plan.md 8.1:
@@ -17,7 +17,72 @@ plan.md 8.2, capability I-01: "Найти процесс, получить ба�
 and read the base load address and image size of its own module, as the
 OS's module loader currently has it mapped. Every later ERI capability
 (I-02..I-15) needs this as its foundation, because every one of them reads
-memory relative to that base address; none of them are implemented here.
+memory relative to that base address.
+
+WHAT I-02 IS
+------------
+plan.md 8.2, capability I-02: "Перечислить объекты через кандидатный
+GUObjectArray" -- enumerate objects via the candidate GUObjectArray. This is
+the first capability in this tool's life that actually reads target-process
+MEMORY (I-01 only reads the OS's own module table via Toolhelp32), and the
+first consumer of RF-05's static candidate (research/evidence/RF-05/README.md,
+grade HYPOTHESIS, confidence 0.65). I-02 does not merely re-read the candidate
+and assume it still holds because a static signature still matches
+byte-for-byte (it does -- see research/builds/misery-24953925-ue5.4.4-bace50f7185d/
+sigscan/RF-05-sigscan.json); it VERIFIES the candidate against LIVE structural
+behaviour, because plan.md 564-566 places an absolute ceiling on any
+static-analysis offset regardless of how well the pattern matches: a
+runtime read is a categorically different, stronger kind of evidence, never
+interchangeable with "the bytes on disk still look right". The exact three
+checks implemented here are the three RF-05/README.md itself names in its own
+"What a runtime observation would need to show to move this above HYPOTHESIS"
+section -- see run_i02() below for the implementation of each, and
+research/evidence/RF-05/README.md for the struct layout and chunk-addressing
+arithmetic this is built from. A refuted candidate is a valid, REPORTABLE
+research outcome, not a tool malfunction -- see the "STRUCTURAL REFUTATION IS
+A RESULT, NOT AN ERROR" section below.
+
+WHAT I-03 IS
+------------
+plan.md 8.2, capability I-03: "Разрешить FName в строку (обход FNamePool)"
+-- resolve an FName (an FNameEntryId, a plain uint32) to its string text by
+reading FNamePool's own internal block table directly, bypassing the
+in-process C++ API entirely (this tool never calls a single game function --
+see the "no game function is ever called" guarantee below, which I-03 does
+not weaken in any way). This is the second consumer of a HYPOTHESIS-grade
+static candidate (research/evidence/RF-06/README.md, confidence 0.60) and
+the second capability that reads target-process memory, reusing I-02's own
+ReadProcessMemory call site and rva_to_live_va() helper rather than adding
+either a second one.
+
+RF-06/README.md's own "What a runtime observation would need to show to move
+this above HYPOTHESIS" section names three steps; I-03 implements the first
+two (bNamePoolInitialized is nonzero; decoding FNameEntryId 0 produces the
+literal text "None", the one case with a KNOWN expected answer, since
+EName::None is guaranteed to be the first hardcoded name ever registered --
+UnrealNames.cpp's own REGISTER_NAME loop, cited in RF-06/README.md). Failing
+that decode is a real, reportable STRUCTURAL REFUTATION of the FNamePool
+candidate, the bit-layout assumption, or both -- see "STRUCTURAL REFUTATION
+IS A RESULT, NOT AN ERROR" below, which applies to I-03 exactly as it does
+to I-02. RF-06's third step -- cross-checking against a live UObject found
+via I-02 -- is implemented here as the "/Script/MISERY live reflection"
+probe (sample_object_names()): a BOUNDED, honestly-reported (never claimed
+exhaustive) search for the literal leaf FName "MISERY" among a sample of
+live UObjects located via I-02's own chunk-walk arithmetic (factored into
+_locate_object_pointer() for exactly this reuse).
+
+The FNameEntryHeader bit layout (bIsWide:1 + LowercaseProbeHash:5 + Len:10,
+packed LSB-first into one uint16) was read from Engine/Source/Runtime/Core/
+Public/UObject/NameTypes.h for this exact build (WITH_CASE_PRESERVING_NAME=0,
+confirmed independently by RF-06's own disassembly of the 256-shard
+constructor loop), not merely assumed -- decode_fname_entry_id()'s own
+docstring has the full citation. The UObjectBase field layout
+DEFAULT_NAME_PRIVATE_OFFSET is built from was derived the same way, from
+Engine/Source/Runtime/CoreUObject/Public/UObject/UObjectBase.h's own member
+declaration order, and cross-checked against RF-05's own independently-found
+disassembly offset for InternalIndex (+0xc) -- see
+DEFAULT_NAME_PRIVATE_OFFSET's own comment for the full derivation and why
+that cross-check landing exactly on +0xc is meaningful, not coincidental.
 
 THE ARCHITECTURAL GUARANTEE THIS FILE EXISTS TO PROVE (plan.md 8.2)
 ---------------------------------------------------------------------
@@ -31,16 +96,17 @@ of a cheat-engine-shaped hack. It has to be provable by a reviewer who does
 NOT trust this file's comments, so it is provable from two small, greppable
 facts rather than from prose:
 
-  1. Every Win32 call this tool ever makes is one of exactly seven functions,
+  1. Every Win32 call this tool ever makes is one of exactly EIGHT functions,
      all read-only observation primitives: CreateToolhelp32Snapshot,
      Process32FirstW, Process32NextW, Module32FirstW, Module32NextW,
-     OpenProcess and CloseHandle. None of them writes to, allocates in,
-     protects, or executes anything in the target process. In particular:
-     no WriteProcessMemory, no VirtualAllocEx/VirtualProtectEx, no
-     CreateRemoteThread/NtCreateThreadEx, no SetWindowsHookEx, no
-     ReadProcessMemory even (I-01 needs only Toolhelp32 module enumeration,
-     not a memory read) -- grep this file for "kernel32\\." and that is the
-     complete list, forever, for this pass.
+     OpenProcess, ReadProcessMemory and CloseHandle. None of them writes to,
+     allocates in, protects, or executes anything in the target process. In
+     particular: no WriteProcessMemory, no VirtualAllocEx/VirtualProtectEx,
+     no CreateRemoteThread/NtCreateThreadEx, no SetWindowsHookEx -- grep this
+     file for "kernel32\\." and that is the complete list, forever, for this
+     pass. ReadProcessMemory (added for I-02, REUSED verbatim by I-03 -- see
+     point 2) reads only; it neither needs nor is ever given any access
+     right beyond the PROCESS_VM_READ the handle already carries.
   2. There is exactly ONE call site for OpenProcess in the whole tool (see
      ``Win32Api.open_process`` below), and the access-rights argument it
      passes is the single module-level constant ``PROCESS_ACCESS_RIGHTS``,
@@ -48,10 +114,22 @@ facts rather than from prose:
      ``PROCESS_QUERY_INFORMATION | PROCESS_VM_READ`` and nothing else -- no
      ``PROCESS_ALL_ACCESS``, no ``PROCESS_VM_WRITE``, no
      ``PROCESS_VM_OPERATION``, no ``PROCESS_CREATE_THREAD``, no
-     ``PROCESS_DUP_HANDLE``. A reviewer who does not trust this docstring
-     needs to read exactly one line to audit the claim, and
-     ``tests/test_eri_i01.py`` pins the "exactly one call site" fact so a
-     future edit cannot silently add a second one.
+     ``PROCESS_DUP_HANDLE``. This constant is UNCHANGED by I-02's or I-03's
+     addition: ReadProcessMemory only ever needs PROCESS_VM_READ, which the
+     handle already has, so neither capability opens a new kind of handle or
+     requests a new right. There is likewise exactly ONE call site for
+     ReadProcessMemory (``Win32Api.read_process_memory`` below), the single
+     place this tool ever reads target-process memory -- I-03's own
+     decode_fname_entry_id()/sample_object_names() call it through the same
+     method, never a second wrapper. A reviewer who does not trust this
+     docstring needs to read exactly two lines (one per call site) to audit
+     both claims, and ``tests/test_eri_i01.py`` pins the "exactly one
+     OpenProcess call site" fact and ``tests/test_eri_i02.py`` pins the
+     equivalent "exactly one ReadProcessMemory call site" fact (still true
+     with I-03 added -- ``tests/test_eri_i03.py`` does not re-pin it,
+     because there is still only one file-wide count to pin and I-02's test
+     already owns that assertion), so a future edit cannot silently add a
+     second one of either.
 
 CORRECTNESS/SAFETY RULE: EXACT MATCH, NEVER SUBSTRING (plan.md 8.5 "только
 полностью контролируемых сессий")
@@ -99,19 +177,74 @@ plan.md 8.1's own comparison table states the OPPOSITE error-handling rule
 for ERI/IPP than for production code: "Обработка ошибок: падать громко и
 сразу" for both instrument levels, versus "деградировать безопасно" for the
 eventual MiseryRuntime product. Every failure mode here -- process not
-found, module not found, OpenProcess refused, snapshot creation refused --
-raises a specific exception with an actionable message and propagates it;
-nothing here returns None-and-hope, nothing retries silently, nothing falls
-back to a default. Do not "fix" this into graceful degradation; that would
-be correct for product code and wrong for this file.
+found, module not found, OpenProcess refused, snapshot creation refused,
+ReadProcessMemory refused or partial -- raises a specific exception with an
+actionable message and propagates it; nothing here returns None-and-hope,
+nothing retries silently, nothing falls back to a default. Do not "fix" this
+into graceful degradation; that would be correct for product code and wrong
+for this file.
+
+STRUCTURAL REFUTATION IS A RESULT, NOT AN ERROR (I-02, I-03)
+-------------------------------------------------------------
+The rule above is about the TOOL malfunctioning -- a handle refused, a read
+that could not be completed at all. It is deliberately NOT the rule for what
+I-02 exists to determine: whether the RF-05 candidate's live structural
+behaviour actually looks like a GUObjectArray. That question has an honest
+"no" as one of its two possible answers, and "no" is exactly as valid and
+exactly as worth recording as "yes" -- refuting a HYPOTHESIS is the whole
+point of running this check, not a failure of the tool that ran it. So
+run_i02() never raises for an implausible NumElements/MaxElements pair, a low
+vtable-plausibility fraction, or a decreasing NumElements between polls; it
+returns a plain dict with a boolean "pass" per check plus reasoning text, and
+main() writes that dict to i02-guobjectarray.json exactly as it is, whichever
+way the checks came out. What DOES raise (ReadProcessMemoryFailedError) is
+the tool being unable to even attempt the read -- a hard Win32 failure or a
+partial read from ReadProcessMemory itself -- because that is a genuine
+malfunction, not a research finding, and conflating the two would make a
+tool bug indistinguishable from a real refutation of RF-05's candidate.
+
+The identical split applies to I-03: decode_fname_entry_id() decoding
+FNameEntryId 0 to something other than "None" is a real, reportable
+STRUCTURAL REFUTATION of the RF-06 candidate/bit-layout assumption -- it is
+returned as data (decoded_as_expected: False, plus the raw bytes/length/
+wide-flag actually observed, for a human to diagnose), never raised. The
+"/Script/MISERY live reflection" probe's own not-found result
+(misery_found: False) is likewise never treated as a refutation of
+anything -- see sample_object_names()'s own docstring for why a miss in a
+BOUNDED, non-exhaustive sample of the live UObject universe carries no such
+implication. What DOES raise for I-03, identically to I-02, is
+ReadProcessMemory itself failing on a foundational read this capability
+cannot proceed without (bNamePoolInitialized, or any read inside the
+decode arithmetic that is not itself the character-data decode).
 
 Usage
 -----
-    python research/instruments/eri/eri.py --build-key sha256:<64 hex> \\
+    python research/instruments/eri/eri.py \\
         --run-dir research/instrument-runs/2026-08-27T120000Z
 
 See "Как запускать" in research/instruments/eri/README.md for the full
 option reference.
+
+IDENTITY IS SELF-ESTABLISHED, NEVER MERELY ASSERTED (LOG-0048/LOG-0049)
+-------------------------------------------------------------------------
+On 2026-08-27, an operator ran this tool with a --build-key copied from
+earlier static-analysis work, without rechecking it, at the exact moment
+Steam had silently updated MISERY as a side effect of launching it
+(steam_buildid 24826585 -> 24953925). The supplied --build-key was WRONG for
+the process actually being read, and this was only discovered afterward, by
+hand, comparing a manually computed sha256 against appmanifest_2119830.acf's
+buildid -- a real research-integrity mistake, found late, that had to be
+corrected in already-written JSON artifacts.
+
+The fix is structural, not a reminder to "be more careful": every run of
+this tool computes the sha256 of MISERY-Win64-Shipping.exe ITSELF, streamed
+from module.exe_path -- the exact file the OS loader mapped for the process
+this run actually attached to -- and uses that as the authoritative
+build_key (see establish_build_identity() below). --build-key is now an
+OPTIONAL CROSS-CHECK, never the source of truth: if given, it is compared
+against the self-computed hash and a mismatch raises BuildKeyMismatchError
+loudly, before any output file is written, instead of silently producing a
+document whose build_key lies about which build was actually read.
 """
 
 from __future__ import annotations
@@ -119,10 +252,13 @@ from __future__ import annotations
 import argparse
 import collections
 import ctypes
+import hashlib
 import json
 import os
 import re
+import struct
 import sys
+import time
 from ctypes import wintypes
 from datetime import datetime, timezone
 
@@ -147,6 +283,8 @@ GENERATOR_NAME = "research/instruments/eri/eri.py"
 GENERATOR_VERSION = "0.1.0"
 
 CAPABILITY_ID = "I-01"
+CAPABILITY_ID_I02 = "I-02"
+CAPABILITY_ID_I03 = "I-03"
 
 
 # --------------------------------------------------------------------------- #
@@ -298,6 +436,53 @@ class OpenProcessFailedError(EriError):
     """OpenProcess (with PROCESS_ACCESS_RIGHTS only) was refused by the OS."""
 
 
+class ReadProcessMemoryFailedError(EriError):
+    """ReadProcessMemory (I-02 onward) could not complete the requested read.
+
+    Covers BOTH distinct failure modes ReadProcessMemory can produce, never
+    conflating them: a hard Win32 failure (the BOOL return itself is false --
+    typically the address is unmapped, or the process has since exited), and
+    a PARTIAL read (the call succeeds, but *lpNumberOfBytesRead is less than
+    the size requested -- for example because the requested range straddles
+    an unmapped page). A partial read is not "close enough" data; treating
+    fewer bytes than requested as if the full read had succeeded would silently
+    feed truncated/garbage bytes into struct unpacking downstream, which is
+    strictly worse than failing loudly here.
+
+    This is a TOOL malfunction, not a research finding -- see the module
+    docstring's "STRUCTURAL REFUTATION IS A RESULT, NOT AN ERROR" section for
+    why this must never be confused with run_i02()'s own structural-invariant
+    checks failing (an implausible NumElements, a low vtable-plausibility
+    fraction, a decreasing NumElements): those are honest "no" answers to a
+    research question and are returned as data, never raised as this
+    exception.
+    """
+
+
+class BuildKeyMismatchError(EriError):
+    """--build-key was given, but does not match the self-computed sha256 of
+    module.exe_path -- the file the OS loader actually mapped for THIS live
+    process.
+
+    This is exactly the class of mistake LOG-0048/LOG-0049 recorded on
+    2026-08-27: an operator supplied a --build-key copied from earlier
+    static-analysis work, without rechecking it, at the exact moment Steam
+    had silently updated the game as a side effect of launching it
+    (steam_buildid 24826585 -> 24953925). The recorded build_key was wrong
+    for the process actually being read, and the mistake was only caught
+    afterward, by hand, and had to be corrected in already-written JSON
+    artifacts. That is precisely the failure this exception exists to make
+    impossible to miss: a cached/supplied build_key is never the source of
+    truth (see establish_build_identity() and the module docstring's
+    "IDENTITY IS SELF-ESTABLISHED" section), so a mismatch between what was
+    supplied and what this run actually observed must fail loudly, before a
+    single output file is written, rather than silently producing a document
+    that misattributes this run's data to the wrong build. Do not "simplify"
+    this check away or make it a warning -- a warning is exactly what got
+    missed in LOG-0048.
+    """
+
+
 def _last_error_suffix(api: "Win32Api | object") -> str:
     """' (GetLastError=N)' when *api* can report one, else ''.
 
@@ -359,6 +544,19 @@ def _kernel32_dll():
     # dwDesiredAccess on a 64-bit build.
     dll.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
     dll.OpenProcess.restype = wintypes.HANDLE
+
+    # THE one function this tool uses to read target-process memory (I-02
+    # onward). BOOL ReadProcessMemory(HANDLE hProcess, LPCVOID lpBaseAddress,
+    # LPVOID lpBuffer, SIZE_T nSize, SIZE_T *lpNumberOfBytesRead). SIZE_T is
+    # POINTER-WIDTH (8 bytes on x64), never a 32-bit int -- ctypes.c_size_t is
+    # used for both the size argument and the out-parameter it points to,
+    # specifically so this never silently truncates on a 64-bit build the way
+    # a wrongly-picked c_uint32 would.
+    dll.ReadProcessMemory.argtypes = [
+        wintypes.HANDLE, wintypes.LPCVOID, wintypes.LPVOID,
+        ctypes.c_size_t, ctypes.POINTER(ctypes.c_size_t),
+    ]
+    dll.ReadProcessMemory.restype = wintypes.BOOL
 
     dll.CloseHandle.argtypes = [wintypes.HANDLE]
     dll.CloseHandle.restype = wintypes.BOOL
@@ -433,6 +631,51 @@ class Win32Api:
         needs to read this one method and nowhere else in the file.
         """
         return _kernel32_dll().OpenProcess(PROCESS_ACCESS_RIGHTS, False, pid)
+
+    def read_process_memory(self, handle: int, address: int, size: int) -> bytes:
+        """THE ONLY ReadProcessMemory call site in this entire tool (I-02
+        onward) -- the one place this tool ever reads target-process memory.
+        Uses the SAME already-open, already-audited handle
+        open_process_read_only() establishes via the one OpenProcess call
+        site above; PROCESS_ACCESS_RIGHTS is unchanged by this method's
+        existence, because ReadProcessMemory only ever needs the
+        PROCESS_VM_READ bit that handle already carries -- no
+        PROCESS_VM_WRITE, no PROCESS_VM_OPERATION, no widened mask of any
+        kind is requested anywhere for this call to work.
+
+        Raises ReadProcessMemoryFailedError, distinguishing the two failure
+        modes the real Win32 call can produce, both handled explicitly:
+
+        * a hard failure -- the BOOL return itself is false (address
+          unmapped, process exited, access denied);
+        * a PARTIAL read -- the call returns true, but
+          *lpNumberOfBytesRead is less than *size* (for example, the
+          requested range straddles the end of a mapped page). This is
+          checked explicitly and separately from the BOOL return: a partial
+          read must never be treated as if the full read had succeeded,
+          because the caller would otherwise silently struct-unpack
+          truncated or uninitialised bytes as if they were real data.
+
+        Returns exactly *size* bytes on success, never fewer, never a
+        larger buffer's unsliced backing memory.
+        """
+        buffer = ctypes.create_string_buffer(size)
+        bytes_read = ctypes.c_size_t(0)
+        ok = _kernel32_dll().ReadProcessMemory(
+            handle, ctypes.c_void_p(address), buffer, ctypes.c_size_t(size),
+            ctypes.byref(bytes_read))
+        if not ok:
+            raise ReadProcessMemoryFailedError(
+                "ReadProcessMemory(address=0x%x, size=%d) failed%s" %
+                (address, size, _last_error_suffix(self)))
+        if bytes_read.value != size:
+            raise ReadProcessMemoryFailedError(
+                "ReadProcessMemory(address=0x%x, size=%d) returned a PARTIAL "
+                "read: only %d of %d requested bytes were actually read%s -- "
+                "a distinct failure mode from a hard Win32 failure, and never "
+                "silently treated as if the full read had succeeded." %
+                (address, size, bytes_read.value, size, _last_error_suffix(self)))
+        return buffer.raw[:size]
 
     def close_handle(self, handle: int) -> bool:
         return bool(_kernel32_dll().CloseHandle(handle))
@@ -543,8 +786,17 @@ def run_i01(api, process_name: str) -> dict:
     or raises, on every path.
 
     Returns a plain dict: {"pid", "process_name", "base_address",
-    "image_size_bytes"}. Raises one of the EriError subclasses above on any
-    failure -- never returns None, never degrades.
+    "image_size_bytes", "exe_path"}. "exe_path" is MODULEENTRY32W's own
+    szExePath -- the exact file path the OS loader mapped for this live
+    process, straight from Module32FirstW/Module32NextW, never a path
+    supplied on the command line or cached from a previous run. It exists in
+    this dict specifically so a caller (main() below, and any later
+    capability that needs to establish or re-confirm build identity) can
+    feed it to establish_build_identity() without re-deriving it -- see that
+    function's docstring for why self-establishing identity from THIS field,
+    every run, is not optional (LOG-0048/LOG-0049). Raises one of the
+    EriError subclasses above on any failure -- never returns None, never
+    degrades.
     """
     process = find_process_by_name(api, process_name)
     process_handle = open_process_read_only(api, process.pid)
@@ -557,6 +809,861 @@ def run_i01(api, process_name: str) -> dict:
         "process_name": process.exe_file,
         "base_address": module.base_address,
         "image_size_bytes": module.size,
+        "exe_path": module.exe_path,
+    }
+
+
+# --------------------------------------------------------------------------- #
+# I-02: enumerate objects via the candidate GUObjectArray (plan.md 8.2), and
+# VERIFY it via live structural behaviour rather than merely re-reading it
+# and trusting the static signature match -- see the module docstring's
+# "WHAT I-02 IS" section and research/evidence/RF-05/README.md for the full
+# reasoning and the struct layout this is built from.
+# --------------------------------------------------------------------------- #
+
+def rva_to_live_va(base_address: int, rva: int) -> int:
+    """live_base_address + RVA -- THE one place this arithmetic happens.
+
+    Every static-analysis candidate (RF-05, RF-06, RF-07, PE-01, ...) is
+    recorded as an RVA (offset from the PE's declared ImageBase), NEVER as a
+    live virtual address, because ASLR is active for this image at runtime
+    even though S-06 separately found zero relocation entries inside
+    executable sections (explained by heavy RIP-relative addressing needing
+    no relocation fixups -- "no .reloc entries in .text" is NOT the same
+    fact as "no ASLR", and the two must never be conflated). Confirmed
+    directly this session: this build's live process is NOT loaded at its
+    declared PE ImageBase (0x140000000) -- see run_i01()'s own base_address
+    read, which came back a different value entirely.
+
+    The live VA of any such candidate is therefore ALWAYS
+    live_base_address (THIS session's own I-01 read, never cached from a
+    previous session or a different process launch) + RVA (a fixed,
+    build-specific constant: RVA = static_candidate_VA - declared_ImageBase).
+    Every future ERI capability (I-03 onward) that needs to turn a
+    static-analysis candidate into a live address should call this function
+    rather than reimplementing the addition slightly differently each time.
+    """
+    return base_address + rva
+
+
+# GUObjectArray candidate: research/evidence/RF-05/README.md, static VA
+# 0x147a78ed0 against declared PE ImageBase 0x140000000 -> RVA 0x07a78ed0.
+# HYPOTHESIS, class I, oracle binary-analysis, confidence 0.65 (RF-05's own
+# grade) -- this is exactly the candidate I-02 exists to check against live
+# structural behaviour, not to assume still holds because the RVA is
+# unchanged. research/builds/misery-24953925-ue5.4.4-bace50f7185d/sigscan/
+# RF-05-sigscan.json separately confirms all 5 RF-05 signatures still match
+# this new build's exe, unique, at their original RVAs -- good STATIC reason
+# to expect this candidate still holds, but plan.md 564-566's ceiling on a
+# static-analysis offset applies regardless, which is the entire reason this
+# capability exists.
+DEFAULT_GUOBJECTARRAY_RVA = 0x07A78ED0
+
+# FUObjectArray struct offsets, all relative to the GUObjectArray candidate's
+# own base address (research/evidence/RF-05/README.md's struct-layout table,
+# itself read from Engine/Source/Runtime/CoreUObject/Public/UObject/
+# UObjectArray.h, UE 5.4.4 CL 35576357). Only the fields I-02 actually reads
+# are named here; the ones RF-05 read but I-02 does not need
+# (ObjFirstGCIndex, OpenForDisregardForGC, PreAllocatedObjects, MaxChunks)
+# are intentionally omitted rather than defined-and-unused.
+GUOBJECTARRAY_OFFSET_OBJECTS = 0x10          # FUObjectItem** Objects
+GUOBJECTARRAY_OFFSET_MAX_ELEMENTS = 0x20     # int32 MaxElements
+GUOBJECTARRAY_OFFSET_NUM_ELEMENTS = 0x24     # int32 NumElements
+
+# FChunkedFixedUObjectArray::GetObjectPtr addressing (RF-05/README.md,
+# UObjectArray.h:638-654): NumElementsPerChunk is a compile-time constant
+# 64*1024 = 2^16, hence a shift-by-16/mask-0xFFFF, not a division.
+NUM_ELEMENTS_PER_CHUNK = 1 << 16
+
+# sizeof(FUObjectItem) = 20 bytes of fields, padded to 24 for pointer
+# alignment (RF-05/README.md) -- the per-element stride the chunk walk uses.
+SIZEOF_FUOBJECTITEM = 0x18
+FUOBJECTITEM_OFFSET_OBJECT = 0x00            # UObjectBase* Object, first field
+
+# Check 1 (NumElements/MaxElements plausibility) ceiling -- see
+# evaluate_struct_invariants()'s own docstring for the reasoning.
+MAX_PLAUSIBLE_MAX_ELEMENTS = 100_000_000
+
+# Check 2 (vtable-plausibility sample) pass threshold and defaults -- see
+# sample_walk_objects()'s own docstring for the reasoning behind the number.
+SAMPLE_PASS_FRACTION_THRESHOLD = 0.80
+DEFAULT_I02_SAMPLE_SIZE = 32
+DEFAULT_I02_MAX_SCAN_INDICES = 200_000
+
+# Check 3 (growth) default poll interval, seconds.
+DEFAULT_I02_POLL_INTERVAL_SECONDS = 2.0
+
+
+def _read_i32(api, handle: int, address: int) -> int:
+    """Signed little-endian int32 at *address*. ObjLastNonGCIndex/
+    MaxObjectsNotConsideredByGC/MaxElements/NumElements are all declared
+    `int32` in source (RF-05/README.md), so this reads SIGNED, not unsigned:
+    a genuinely negative NumElements/MaxElements is possible corrupted or
+    implausible data, and evaluate_struct_invariants() below must be able to
+    see that it is negative, rather than have it silently wrap to a huge
+    unsigned value first.
+    """
+    return struct.unpack("<i", api.read_process_memory(handle, address, 4))[0]
+
+
+def _read_u64(api, handle: int, address: int) -> int:
+    """Unsigned little-endian uint64 at *address*. Every pointer-sized field
+    this capability reads (Objects, a chunk pointer, FUObjectItem::Object, a
+    UObject's own vtable pointer) is a 64-bit address on this x64 target,
+    never signed.
+    """
+    return struct.unpack("<Q", api.read_process_memory(handle, address, 8))[0]
+
+
+def _read_u16(api, handle: int, address: int) -> int:
+    """Unsigned little-endian uint16 at *address* -- I-03's own
+    FNameEntryHeader read (decode_fname_entry_id()), the ONE 16-bit field
+    this tool ever reads. Unsigned because FNameEntryHeader's three bitfields
+    (bIsWide/LowercaseProbeHash/Len) are packed into a plain `uint16` in
+    source (NameTypes.h), never a signed integer.
+    """
+    return struct.unpack("<H", api.read_process_memory(handle, address, 2))[0]
+
+
+def _read_u32(api, handle: int, address: int) -> int:
+    """Unsigned little-endian uint32 at *address* -- I-03's own FNameEntryId
+    read (FName::ComparisonIndex, NamePrivate's first 4 bytes on a live
+    UObject; the sample_object_names() reflection probe reads this). Unsigned
+    because FNameEntryId::Value is declared `uint32` in source (NameTypes.h),
+    and a raw FNameEntryId is never negative/signed.
+    """
+    return struct.unpack("<I", api.read_process_memory(handle, address, 4))[0]
+
+
+def evaluate_struct_invariants(num_elements: int, max_elements: int) -> dict:
+    """Check (1) of RF-05/README.md's "What a runtime observation would need
+    to show to move this above HYPOTHESIS": NumElements/MaxElements must be
+    PLAUSIBLE, not merely readable. Never raises -- an implausible reading
+    is a STRUCTURAL REFUTATION of the candidate, a valid research outcome,
+    not a tool error (see the module docstring's "STRUCTURAL REFUTATION IS A
+    RESULT, NOT AN ERROR" section).
+
+    Three conditions, ALL required to PASS:
+      * 0 < NumElements -- a genuine, populated object registry has objects
+        in it; RF-05/README.md's own expectation is thousands to low
+        millions for a running UE process, but even the loosest reading
+        requires at least one live object.
+      * NumElements <= MaxElements -- MaxElements is the allocated capacity
+        (AllocateObjectPool computes it from MaxChunks*NumElementsPerChunk);
+        a live count exceeding its own declared capacity is structurally
+        impossible for the real struct, and is strong evidence this address
+        is not it.
+      * MaxElements < MAX_PLAUSIBLE_MAX_ELEMENTS (100,000,000) -- an
+        allocated-capacity field reading in the hundreds of millions or
+        billions is not "a UE object array that hasn't filled up yet", it is
+        noise (wrong address, or a read that landed on unrelated memory).
+        100,000,000 is chosen as a ceiling far above any plausible UE
+        MaxObjectsInGame/MaxObjectsInEditor cvar value (typically low
+        millions at the very most) while still being generous enough that no
+        legitimate build could trip it by simply having a large project.
+    """
+    reasons = []
+    if not (num_elements > 0):
+        reasons.append("NumElements (%d) is not > 0" % num_elements)
+    if not (num_elements <= max_elements):
+        reasons.append(
+            "NumElements (%d) exceeds MaxElements (%d)" % (num_elements, max_elements))
+    if not (max_elements < MAX_PLAUSIBLE_MAX_ELEMENTS):
+        reasons.append(
+            "MaxElements (%d) exceeds the plausibility ceiling (%d)" %
+            (max_elements, MAX_PLAUSIBLE_MAX_ELEMENTS))
+    passed = not reasons
+    return {
+        "num_elements": num_elements,
+        "max_elements": max_elements,
+        "pass": passed,
+        "reason": None if passed else "; ".join(reasons),
+    }
+
+
+def _locate_object_pointer(api, handle: int, objects_ptr: int, index: int) -> int | None:
+    """FChunkedFixedUObjectArray::GetObjectPtr's own shift-16/mask-0xFFFF/
+    stride-24 addressing (RF-05/README.md), factored out of I-02's own
+    sample_walk_objects so I-03's own "/Script/MISERY live reflection" probe
+    (sample_object_names() below) can reuse the IDENTICAL chunk-walk
+    arithmetic rather than re-deriving it a second time -- see the module
+    docstring's "WHAT I-03 IS" section. sample_walk_objects itself was
+    rewritten to call this too, so there is exactly one place this
+    arithmetic is expressed in the whole file, not two that could silently
+    drift apart.
+
+    Returns FUObjectItem[*index*].Object -- the object pointer -- or None if
+    either the chunk itself was never allocated (Blocks[chunk_index] == 0)
+    or the slot itself is a freed/never-allocated null. Lets
+    ReadProcessMemoryFailedError propagate from EITHER of its two reads (the
+    chunk pointer, the slot's Object field) unchanged -- callers that want
+    "unreadable is like null, not a tool error" (both sample_walk_objects and
+    sample_object_names) catch it themselves at the call site; a caller that
+    instead wants a foundational-read failure to abort outright simply does
+    not catch it.
+    """
+    chunk_index = index >> 16
+    within_chunk_index = index & 0xFFFF
+    chunk_base = _read_u64(api, handle, objects_ptr + chunk_index * 8)
+    if chunk_base == 0:
+        return None
+    item_addr = chunk_base + within_chunk_index * SIZEOF_FUOBJECTITEM
+    object_ptr = _read_u64(api, handle, item_addr + FUOBJECTITEM_OFFSET_OBJECT)
+    return object_ptr if object_ptr != 0 else None
+
+
+def sample_walk_objects(api, handle: int, objects_ptr: int, num_elements: int,
+                        base_address: int, image_size_bytes: int,
+                        sample_size: int = DEFAULT_I02_SAMPLE_SIZE,
+                        max_scan_indices: int = DEFAULT_I02_MAX_SCAN_INDICES) -> dict:
+    """Check (2) of RF-05/README.md's list: walk a BOUNDED sample of live
+    indices using FChunkedFixedUObjectArray::GetObjectPtr's own
+    shift-16/mask-0xFFFF/stride-24 arithmetic, and for each sampled non-null
+    FUObjectItem::Object pointer, read the UObject's own first 8 bytes (its
+    vtable pointer, per RF-05/PE-01's own established finding that
+    UObjectBase's destructor is virtual) and check it falls inside
+    [base_address, base_address + image_size_bytes) -- a plausible vtable
+    lives in the SAME module's .rdata/.text, never in the heap, never in a
+    different module.
+
+    Never walks the whole array: indices 0..num_elements are scanned in
+    order, stopping as soon as *sample_size* NON-NULL objects have been
+    examined, or *max_scan_indices* index slots have been looked at,
+    whichever comes first -- max_scan_indices exists purely so a corrupted
+    (implausibly huge, or all-null) NumElements cannot turn this into an
+    unbounded scan; it is not itself a plausibility signal.
+
+    A read failure (ReadProcessMemoryFailedError) while merely LOCATING a
+    candidate object (reading a chunk pointer, or a slot's Object field) is
+    treated as an unreadable slot and skipped, exactly like a null slot --
+    the target process's own memory layout can legitimately have unmapped or
+    since-freed chunks, and this is a SCANNING concern, not a sample result.
+    A read failure while reading the VTABLE POINTER of an object THIS
+    function already decided to sample counts as a FAILED sample (a "torn
+    read during concurrent GC" is exactly the scenario RF-05/README.md's own
+    method anticipates) -- it does not silently skip to the next index,
+    because that object was already committed to the sample the moment its
+    Object pointer was found non-null.
+
+    Threshold: PASS iff at least one object was examined AND the pass
+    fraction is >= SAMPLE_PASS_FRACTION_THRESHOLD (0.80). This project's own
+    judgment call, recorded here for a future reader to evaluate: a handful
+    of failures from a torn read during concurrent GC (RF-05/README.md's own
+    framing) is plausible and should NOT by itself refute the candidate, but
+    a majority-failing sample cannot plausibly be explained by transient GC
+    noise alone and IS strong evidence against the candidate. 0.80 sits well
+    above what GC-related noise alone should ever produce (a handful out of
+    dozens, not one in five) while still being well below 1.00, so an
+    occasional torn read never flips a genuine candidate to REFUTED on its
+    own.
+    """
+    examined = 0
+    passed = 0
+    failed = 0
+    scanned = 0
+    index = 0
+    image_start = base_address
+    image_end = base_address + image_size_bytes
+    scan_limit = max_scan_indices if num_elements <= 0 else min(num_elements, max_scan_indices)
+
+    while index < scan_limit and examined < sample_size:
+        scanned += 1
+        try:
+            object_ptr = _locate_object_pointer(api, handle, objects_ptr, index)
+        except ReadProcessMemoryFailedError:
+            index += 1
+            continue  # unreadable slot -- a scanning concern, not a sample.
+
+        if object_ptr is None:
+            index += 1
+            continue  # a freed/never-allocated slot, or an unallocated chunk.
+
+        examined += 1
+        try:
+            vtable_ptr = _read_u64(api, handle, object_ptr)
+            plausible = image_start <= vtable_ptr < image_end
+        except ReadProcessMemoryFailedError:
+            plausible = False  # a torn read on an already-committed sample.
+
+        if plausible:
+            passed += 1
+        else:
+            failed += 1
+        index += 1
+
+    pass_fraction = (passed / examined) if examined else 0.0
+    if examined == 0:
+        reason = (
+            "no non-null FUObjectItem.Object pointer was found in the "
+            "%d index slot(s) scanned (scan_limit=%d) -- either the array "
+            "is genuinely empty, or this is not the object array." %
+            (scanned, scan_limit))
+        check_passed = False
+    else:
+        check_passed = pass_fraction >= SAMPLE_PASS_FRACTION_THRESHOLD
+        reason = None if check_passed else (
+            "only %d of %d sampled objects (%.1f%%) had a vtable pointer "
+            "inside [0x%x, 0x%x) -- below the %.0f%% pass threshold." %
+            (passed, examined, pass_fraction * 100, image_start, image_end,
+             SAMPLE_PASS_FRACTION_THRESHOLD * 100))
+
+    return {
+        "sample_size_requested": sample_size,
+        "sample_size_examined": examined,
+        "pass_count": passed,
+        "fail_count": failed,
+        "pass_fraction": pass_fraction,
+        "pass_fraction_threshold": SAMPLE_PASS_FRACTION_THRESHOLD,
+        "indices_scanned": scanned,
+        "max_scan_indices": max_scan_indices,
+        "pass": check_passed,
+        "reason": reason,
+    }
+
+
+def run_i02(api, process_handle: int, base_address: int, image_size_bytes: int,
+           guobjectarray_rva: int = DEFAULT_GUOBJECTARRAY_RVA,
+           sample_size: int = DEFAULT_I02_SAMPLE_SIZE,
+           poll_interval_seconds: float = DEFAULT_I02_POLL_INTERVAL_SECONDS,
+           max_scan_indices: int = DEFAULT_I02_MAX_SCAN_INDICES,
+           sleep_fn=time.sleep) -> dict:
+    """The whole of capability I-02: verify the RF-05 GUObjectArray candidate
+    against LIVE structural behaviour, implementing exactly the three checks
+    research/evidence/RF-05/README.md's own "What a runtime observation would
+    need to show to move this above HYPOTHESIS" section names (its 4th item,
+    cross-checking FName via RF-06, is explicitly out of scope for I-02 --
+    that is I-03's job).
+
+    *base_address*/*image_size_bytes* MUST be from THIS SAME session's own
+    run_i01() read, never cached from a previous session -- ASLR means the
+    live base address changes on every process launch (see
+    rva_to_live_va()'s own docstring); using a stale base_address here would
+    silently compute the wrong live VA and either read garbage or read a
+    different build launched at a coincidentally similar address.
+
+    Never raises for a candidate that fails one, two, or all three checks --
+    that is a valid, reportable REFUTATION (see the module docstring's
+    "STRUCTURAL REFUTATION IS A RESULT, NOT AN ERROR" section). DOES let
+    ReadProcessMemoryFailedError propagate for the handful of foundational
+    reads this function cannot proceed without at all (the two NumElements
+    reads, MaxElements, and the Objects pointer): a hard failure or partial
+    read on one of THOSE is the tool being unable to attempt the check, not a
+    structural finding about the candidate. Per-sample reads inside the walk
+    (check 2) are a different matter and are handled inside
+    sample_walk_objects() itself, never raised out of this function.
+
+    Returns a plain dict: {"guobjectarray_rva", "guobjectarray_rva_hex",
+    "guobjectarray_live_va", "guobjectarray_live_va_hex",
+    "check_struct_invariants", "check_sample_walk",
+    "check_growth_non_decreasing", "structurally_consistent"} -- three
+    per-check sub-dicts, each carrying its own "pass" boolean and reasoning,
+    plus one collapsed "structurally_consistent" verdict that is true iff ALL
+    THREE individually pass (plan.md's own grading discipline: a record must
+    not average distinct findings into one number, so every per-check
+    boolean is kept alongside the collapsed one, never replaced by it).
+    """
+    guobjectarray_va = rva_to_live_va(base_address, guobjectarray_rva)
+
+    # Check (1): NumElements/MaxElements plausibility -- also produces the
+    # FIRST of the two NumElements reads check (3) needs.
+    num_elements_first = _read_i32(
+        api, process_handle, guobjectarray_va + GUOBJECTARRAY_OFFSET_NUM_ELEMENTS)
+    max_elements = _read_i32(
+        api, process_handle, guobjectarray_va + GUOBJECTARRAY_OFFSET_MAX_ELEMENTS)
+    check_struct_invariants = evaluate_struct_invariants(num_elements_first, max_elements)
+
+    # Check (2): sample walk, attempted regardless of whether check (1)
+    # passed -- an independent structural signal in its own right, and the
+    # walk itself is safe (bounded) even against an implausible count.
+    objects_ptr = _read_u64(
+        api, process_handle, guobjectarray_va + GUOBJECTARRAY_OFFSET_OBJECTS)
+    check_sample_walk = sample_walk_objects(
+        api, process_handle, objects_ptr, num_elements_first, base_address,
+        image_size_bytes, sample_size=sample_size, max_scan_indices=max_scan_indices)
+
+    # Check (3): two NumElements reads, separated in time, must be
+    # non-decreasing -- RF-05/README.md's own pass criterion is
+    # "non-decreasing", NOT "increased": a static menu with no gameplay
+    # activity legitimately does not grow NumElements in a short poll
+    # window, and that must not be misreported as a refutation.
+    sleep_fn(poll_interval_seconds)
+    num_elements_second = _read_i32(
+        api, process_handle, guobjectarray_va + GUOBJECTARRAY_OFFSET_NUM_ELEMENTS)
+    non_decreasing = num_elements_second >= num_elements_first
+    check_growth_non_decreasing = {
+        "num_elements_first": num_elements_first,
+        "num_elements_second": num_elements_second,
+        "poll_interval_seconds": poll_interval_seconds,
+        "non_decreasing": non_decreasing,
+        "pass": non_decreasing,
+    }
+
+    structurally_consistent = (
+        check_struct_invariants["pass"]
+        and check_sample_walk["pass"]
+        and check_growth_non_decreasing["pass"])
+
+    return {
+        "guobjectarray_rva": guobjectarray_rva,
+        "guobjectarray_rva_hex": "0x%x" % guobjectarray_rva,
+        "guobjectarray_live_va": guobjectarray_va,
+        "guobjectarray_live_va_hex": "0x%x" % guobjectarray_va,
+        "check_struct_invariants": check_struct_invariants,
+        "check_sample_walk": check_sample_walk,
+        "check_growth_non_decreasing": check_growth_non_decreasing,
+        "structurally_consistent": structurally_consistent,
+        # Exposed so a later capability in THIS SAME run (I-03's own
+        # "/Script/MISERY live reflection" probe, sample_object_names()
+        # below) can reuse the objects pointer and NumElements THIS check
+        # already fetched, rather than re-reading them a second time --
+        # "reuse I-02's sampling, do not re-walk the array from scratch" per
+        # the task that specified this reuse. Neither field is copied into
+        # build_i02_document()'s own output (that function only ever copies
+        # the specific named fields it always has -- see its own docstring),
+        # so adding these here is backward compatible with every existing
+        # caller/test that builds a run_i02()-shaped dict by hand.
+        "objects_ptr_live_va": objects_ptr,
+        "num_elements": num_elements_first,
+    }
+
+
+# --------------------------------------------------------------------------- #
+# I-03: resolve an FName (an FNameEntryId) to its string text by reading
+# FNamePool's own internal block table directly -- plan.md 8.2, RF-06's
+# candidate (research/evidence/RF-06/README.md). See the module docstring's
+# "WHAT I-03 IS" section for the full reasoning; this section implements it.
+# --------------------------------------------------------------------------- #
+
+# FNamePool/bNamePoolInitialized candidates: research/evidence/RF-06/README.md,
+# static VAs 0x1479c2180 / 0x147995e5e against declared PE ImageBase
+# 0x140000000 -> RVAs 0x079c2180 / 0x07995e5e. HYPOTHESIS, class I, oracle
+# binary-analysis, confidence 0.60 (RF-06's own grade, slightly below RF-05's
+# 0.65 -- see that README's "Grade" section for why). Both live in the
+# module's own .data section (RF-06/README.md's own "Attempt to refute"
+# section), so, like the GUObjectArray candidate, the live VA is
+# rva_to_live_va(base_address, rva) -- THIS session's own I-01 base_address,
+# never a cached one (ASLR).
+DEFAULT_NAMEPOOL_RVA = 0x079C2180
+DEFAULT_NAME_POOL_INITIALIZED_RVA = 0x07995E5E
+
+# FNameEntryAllocator::Blocks[FNameMaxBlocks] offset within NamePoolData/
+# FNamePool -- RF-06/README.md's own disassembly-confirmed `+0x10` (both
+# checked callers dereference `*(puVar15 + Block*8 + 0x10)`), matching
+# source: FNameEntryAllocator is FNamePool's own first member
+# (UnrealNames.cpp:1514+), but Blocks[FNameMaxBlocks] is FNameEntryAllocator's
+# own LAST declared member (source line 697), preceded by
+# `mutable FRWLock Lock; uint32 CurrentBlock; uint32 CurrentByteCursor;`
+# (UnrealNames.cpp:694-696) -- Lock is a single 8-byte SRWLOCK wrapper (no
+# vtable), so Lock(8B) + CurrentBlock(4B) + CurrentByteCursor(4B) = 0x10 bytes
+# precede Blocks[], exactly matching this constant. This also matches the
+# `InitializeSRWLock(param_1)` RF-06's own decompile of the constructor shows
+# as the very first instruction, before the `memset` that zeroes Blocks[].
+NAMEPOOL_OFFSET_BLOCKS = 0x10
+
+# FNameEntryHandle/FNameEntryAllocator addressing (UnrealNames.cpp:235,
+# "FNameBlockOffsetBits = 16", cited in RF-06/README.md): Block = id>>16,
+# Offset = id&0xFFFF, both confirmed a second, independent way in RF-06's own
+# two checked callers ("(Block>>16 or param>>0x10) * 8" / "(Offset&0xFFFF)*2").
+FNAME_BLOCK_OFFSET_BITS = 16
+
+# FNameEntryAllocator::Stride (UnrealNames.cpp:443, "enum { Stride =
+# alignof(FNameEntry) }") -- the per-entry stride Offset is scaled by to
+# reach an FNameEntry's own address within a block. RF-06/README.md's own
+# callers independently confirm this as the `*2` in `(Offset&0xFFFF)*2`.
+FNAME_ENTRY_STRIDE = 2
+
+# sizeof(FNameEntryHeader) (NameTypes.h) -- character data begins exactly
+# this many bytes after an FNameEntry's own address, because this build's
+# WITH_CASE_PRESERVING_NAME=0 (RF-06's own disassembly-confirmed build-config
+# fact: the 256-shard constructor loop matches the #else/non-case-preserving
+# branch) compiles OUT FNameEntry's leading ComparisonId field, leaving
+# Header as FNameEntry's own first (and only, before the character union)
+# member.
+FNAME_ENTRY_HEADER_SIZE_BYTES = 2
+
+# FNameEntryHeader's bit layout (NameTypes.h, WITH_CASE_PRESERVING_NAME==0
+# branch, read from the actual header file, not assumed from the plan/task
+# prompt -- see the module docstring's "WHAT I-03 IS" section):
+#     uint16 bIsWide : 1;
+#     uint16 LowercaseProbeHash : 5;
+#     uint16 Len : 10;
+# packed into ONE uint16. MSVC (this build's compiler -- plan.md A-06)
+# allocates successive bitfields of a shared underlying type starting from
+# the LEAST significant bit, in declaration order: bit 0 is bIsWide, bits
+# 1-5 are LowercaseProbeHash, bits 6-15 are Len. This is confirmed, not
+# merely assumed, by decode_fname_entry_id() actually decoding FNameEntryId
+# 0 to the literal text "None" against a live process (RF-06/README.md's own
+# prescribed confirmation step) -- see run_i03()'s own docstring and
+# tests/test_eri_i03.py's synthetic id=0 round-trip test, which pins this
+# exact bit order independent of any live process. If a future build instead
+# uses WITH_CASE_PRESERVING_NAME=1 (this one does not -- confirmed by RF-06),
+# the header shape changes to bIsWide:1 + Len:15 and these constants would
+# need updating; this file makes no attempt to auto-detect that.
+FNAME_HEADER_IS_WIDE_MASK = 0x1
+FNAME_HEADER_LEN_SHIFT = 6
+FNAME_HEADER_LEN_MASK = 0x3FF  # 10 bits -- naturally bounds Len to 0..1023,
+# so a garbage/corrupted header can never make decode_fname_entry_id() below
+# attempt an unbounded read: the field WIDTH itself, not a runtime check, is
+# what keeps the character-data read small even against a completely wrong
+# candidate address.
+
+# UObjectBase's own NamePrivate.ComparisonIndex (FName's first 4 bytes, the
+# FNameEntryId component -- NOT the trailing Number suffix) byte offset,
+# derived from Engine/Source/Runtime/CoreUObject/Public/UObject/UObjectBase.h
+# 's own member declaration order (read in full, not assumed):
+#     +0x00  vtable pointer (8B)      -- UObjectBase declares a virtual
+#                                         destructor; RF-05/README.md's own
+#                                         disassembly of the dtor at
+#                                         0x1412c1e40 independently confirms
+#                                         this: it begins by writing a vtable
+#                                         pointer, "standard C++ dtor-chain
+#                                         codegen".
+#     +0x08  EObjectFlags ObjectFlags (4B)
+#     +0x0C  int32 InternalIndex      (4B)  <- CROSS-CHECK: RF-05/README.md's
+#                                              OWN disassembly of the same
+#                                              destructor independently found
+#                                              "Object->InternalIndex, offset
+#                                              0xc" (quoted verbatim). This
+#                                              source-order derivation lands
+#                                              on the SAME +0xc with no
+#                                              adjustment needed -- the two
+#                                              independent methods (read the
+#                                              header; read the disassembly)
+#                                              agree, which is the whole
+#                                              point of doing both.
+#     +0x10  ClassPrivate (TNonAccessTrackedObjectPtr<UClass>, 8B -- an
+#            FObjectPtr wrapping FObjectHandle, which is EITHER a plain
+#            UObject* (UE_WITH_OBJECT_HANDLE_LATE_RESOLVE off) or a single
+#            UPTRINT-sized packed ref (...on) -- 8 bytes either way; see
+#            ObjectHandle.h)
+#     +0x18  NamePrivate (FName, 8B: ComparisonIndex (FNameEntryId, 4B) at
+#            +0x18 itself, then Number (uint32, 4B) at +0x1C -- NameTypes.h's
+#            own static_assert(STRUCT_OFFSET(FName, ComparisonIndex) == 0)
+#            confirms ComparisonIndex is FName's own first member)
+#     +0x20  OuterPrivate (8B) -- UE_STORE_OBJECT_LIST_INTERNAL_INDEX (which
+#            would insert an extra int32 ObjectListInternalIndex between
+#            NamePrivate and OuterPrivate) defaults OFF and nothing in this
+#            build's evidence suggests it is compiled on, so nothing is
+#            inserted here.
+# No padding is needed anywhere in this layout: every field up to +0x10 is
+# 4-byte, +0x10/+0x18/+0x20 are all naturally 8-/4-byte aligned already, so
+# the byte offsets above are exact, not merely "close enough".
+DEFAULT_NAME_PRIVATE_OFFSET = 0x18
+
+# sample_object_names()'s own default sample size -- deliberately larger
+# than I-02's own DEFAULT_I02_SAMPLE_SIZE (32). I-02's sample only needs
+# enough objects to judge vtable plausibility, a STATISTICAL question (32 is
+# already generous for that). This probe is instead a NEEDLE search for one
+# SPECIFIC object (the "MISERY" UPackage) among what is likely tens of
+# thousands of live UObjects in a running game, so a larger bound buys a
+# meaningfully better -- though, per the task that specified this probe,
+# still explicitly NOT exhaustive -- chance of that one object happening to
+# land in the sample. Chosen as a bound, not tuned against a real process
+# (no live process was used to pick this number); a future run against the
+# real game may want to raise --i03-reflection-sample-size further if this
+# default misses.
+DEFAULT_I03_REFLECTION_SAMPLE_SIZE = 512
+
+# The literal FName text this probe searches for by default.
+#
+# CORRECTED 2026-08-27, after the first live run (research/instrument-runs/
+# 2026-08-27T145831Z-fullscan/i03-fnamepool.json): the assumption this
+# constant originally encoded -- that a UPackage object's own NamePrivate
+# holds only its leaf name ("MISERY"), with the full "/Script/MISERY" path
+# requiring a separate walk of the Outer chain -- was WRONG. The live decode
+# showed every engine/game UPackage's own NamePrivate holds its FULL
+# "/Script/<Module>" path directly (e.g. "/Script/CoreUObject",
+# "/Script/Engine", and this build's own "/Script/MISERY" -- found verbatim
+# in the decoded_names list of that run, without any Outer-chain walk).
+# Searching for the bare leaf "MISERY" therefore returned misery_found=False
+# even though the package WAS present in the very same sample -- a real
+# false negative from an untested assumption, not a tool defect; the probe's
+# own decoded_names list (which records everything decoded, regardless of
+# what target_name was searched for) is what caught it. Kept as a plain
+# constant, not re-verified against every other object kind (a
+# non-UPackage UObject's NamePrivate may still be a bare leaf name -- this
+# correction is specific to what was actually observed, package objects).
+MISERY_PACKAGE_TARGET_NAME = "/Script/MISERY"
+
+
+def decode_fname_entry_id(api, handle: int, namepool_live_va: int,
+                          name_entry_id: int) -> dict:
+    """Decode a single FNameEntryId to its string text, per RF-06/README.md's
+    own recovered arithmetic:
+
+        Block  = name_entry_id >> FNAME_BLOCK_OFFSET_BITS
+        Offset = name_entry_id & 0xFFFF
+        block_base = read_u64(namepool_live_va + NAMEPOOL_OFFSET_BLOCKS + Block*8)
+        entry_ptr  = block_base + Offset * FNAME_ENTRY_STRIDE
+        header     = read_u16(entry_ptr)                    # FNameEntryHeader
+        (bIsWide, Len) decoded from header per the bit layout documented
+        above FNAME_HEADER_IS_WIDE_MASK
+        character data begins at entry_ptr + FNAME_ENTRY_HEADER_SIZE_BYTES,
+        Len characters, ANSI (1B/char) if not bIsWide else UTF-16LE (2B/char)
+
+    Lets ReadProcessMemoryFailedError propagate from the block-pointer read
+    and the header read -- both are FOUNDATIONAL to attempting this decode
+    at all (see the module docstring's "STRUCTURAL REFUTATION IS A RESULT,
+    NOT AN ERROR" section: a hard read failure here means the tool could not
+    even ATTEMPT the check, never a finding about the candidate). The
+    character-data read (once Len/bIsWide are known) is likewise allowed to
+    propagate for the same reason -- Len is bounded to 0..1023 by the field
+    width itself (FNAME_HEADER_LEN_MASK), so even a garbage header cannot
+    turn this into a large or unbounded read.
+
+    Does NOT raise for a successfully-read-but-undecodable byte sequence (an
+    ANSI/UTF-16LE decode error) -- that is exactly the "decoded garbage
+    instead of a real name" refutation case RF-06/README.md's own
+    confirmation step anticipates failing loudly about; it is reported
+    honestly in the returned dict ('text': None, 'decode_error': the
+    UnicodeDecodeError's own message, 'raw_bytes_hex': every byte actually
+    read) rather than raised, so a caller (run_i03(), or a human reading the
+    output JSON) can see exactly what was read even when it doesn't decode.
+
+    Returns a plain dict: {'block', 'offset', 'block_base_hex',
+    'entry_ptr_hex', 'header_u16_hex', 'is_wide', 'length', 'raw_bytes_hex',
+    'text' (str, or None if length==0 was never true but decode failed),
+    'decode_error' (None on success)}. A genuinely zero-length name decodes
+    to 'text': "" (an empty string is not itself evidence of anything wrong
+    -- FNameEntry supports it), which is why 'text' is None ONLY on an
+    actual decode error, never conflated with "empty".
+    """
+    block = name_entry_id >> FNAME_BLOCK_OFFSET_BITS
+    offset = name_entry_id & 0xFFFF
+    block_base = _read_u64(api, handle, namepool_live_va + NAMEPOOL_OFFSET_BLOCKS + block * 8)
+    entry_ptr = block_base + offset * FNAME_ENTRY_STRIDE
+    header_u16 = _read_u16(api, handle, entry_ptr)
+    is_wide = bool(header_u16 & FNAME_HEADER_IS_WIDE_MASK)
+    length = (header_u16 >> FNAME_HEADER_LEN_SHIFT) & FNAME_HEADER_LEN_MASK
+
+    text = ""
+    decode_error = None
+    raw_bytes = b""
+    if length > 0:
+        byte_len = length * (2 if is_wide else 1)
+        raw_bytes = api.read_process_memory(
+            handle, entry_ptr + FNAME_ENTRY_HEADER_SIZE_BYTES, byte_len)
+        try:
+            text = raw_bytes.decode("utf-16-le") if is_wide else raw_bytes.decode("ascii")
+        except UnicodeDecodeError as error:
+            text = None
+            decode_error = str(error)
+
+    return {
+        "block": block,
+        "offset": offset,
+        "block_base_hex": "0x%x" % block_base,
+        "entry_ptr_hex": "0x%x" % entry_ptr,
+        "header_u16_hex": "0x%04x" % header_u16,
+        "is_wide": is_wide,
+        "length": length,
+        "raw_bytes_hex": raw_bytes.hex(),
+        "text": text,
+        "decode_error": decode_error,
+    }
+
+
+def run_i03(api, process_handle: int, base_address: int, image_size_bytes: int,
+           namepool_rva: int = DEFAULT_NAMEPOOL_RVA,
+           name_pool_initialized_rva: int = DEFAULT_NAME_POOL_INITIALIZED_RVA,
+           name_entry_id: int = 0) -> dict:
+    """The whole of capability I-03's own FNameEntryId decode, implementing
+    the first two of RF-06/README.md's own "What a runtime observation would
+    need to show to move this above HYPOTHESIS" steps (the third, the
+    "/Script/MISERY" cross-check against a live UObject found via I-02, is
+    sample_object_names() below, run separately by main() since it also
+    needs I-02's own objects_ptr/num_elements):
+
+      1. Read bNamePoolInitialized; report honestly (never assume) whether
+         it is nonzero.
+      2. If it IS nonzero, decode *name_entry_id* via decode_fname_entry_id()
+         above. When *name_entry_id* == 0 (EName::None, the one case with a
+         KNOWN expected answer -- source: UnrealNames.cpp's own REGISTER_NAME
+         loop registers it first, per RF-06/README.md), also set
+         'decoded_as_expected' to whether the decoded text is exactly "None"
+         -- RF-06/README.md's own prescribed confirmation, verbatim.
+
+    *base_address*/*image_size_bytes* MUST be from THIS SAME session's own
+    run_i01() read, never cached (ASLR) -- identical requirement to
+    run_i02()'s own, for the identical reason (rva_to_live_va()'s own
+    docstring). *image_size_bytes* is accepted but not itself used by this
+    function's own reads (both RF-06 candidates are read directly by their
+    live VA, with no bounds check against the image needed for the decode
+    arithmetic itself); it is kept as a parameter for signature symmetry
+    with run_i02() and because a future strengthening of this check (an
+    "is namepool_live_va inside the module's own mapped image" plausibility
+    signal, mirroring I-02's own vtable-in-range check) would need it and
+    should not have to change every call site to add it later.
+
+    If bNamePoolInitialized reads as ZERO, this function does NOT attempt
+    the decode at all (there would be nothing valid to read yet) -- it
+    returns with 'pool_initialized': False and 'decoded'/'decoded_as_expected'
+    both None, reported honestly rather than assumed-initialized. This
+    should not happen for a running game observed well past its earliest
+    bootstrap (RF-06/README.md's own expectation: "true almost immediately
+    after process start"), but it is a real possible reading, not an error.
+
+    Never raises for a decode that does not match the expected "None" text
+    -- see the module docstring's "STRUCTURAL REFUTATION IS A RESULT, NOT AN
+    ERROR" section: that is a valid, reportable refutation of the RF-06
+    candidate or the bit-layout assumption, returned as data
+    ('decoded_as_expected': False, plus every byte decode_fname_entry_id()
+    actually read, for a human to diagnose). DOES let
+    ReadProcessMemoryFailedError propagate from the bNamePoolInitialized read
+    and from decode_fname_entry_id()'s own foundational reads -- a hard
+    Win32 failure there means this capability could not even ATTEMPT the
+    check, the same distinction run_i02() draws for its own foundational
+    reads.
+
+    Returns a plain dict: {'namepool_rva'/'namepool_rva_hex',
+    'namepool_live_va'/'namepool_live_va_hex',
+    'name_pool_initialized_rva'/'..._hex',
+    'name_pool_initialized_live_va'/'..._hex', 'pool_initialized',
+    'name_entry_id', 'decoded' (decode_fname_entry_id()'s own dict, or None
+    if the pool was not initialized), 'decoded_as_expected' (bool, or None
+    when name_entry_id != 0 -- there is no known expected answer to compare
+    against for any other id, or when the pool was not initialized)}.
+    """
+    namepool_va = rva_to_live_va(base_address, namepool_rva)
+    name_pool_initialized_va = rva_to_live_va(base_address, name_pool_initialized_rva)
+
+    initialized_byte = api.read_process_memory(process_handle, name_pool_initialized_va, 1)
+    pool_initialized = bool(initialized_byte[0])
+
+    decoded = None
+    decoded_as_expected = None
+    if pool_initialized:
+        decoded = decode_fname_entry_id(api, process_handle, namepool_va, name_entry_id)
+        if name_entry_id == 0:
+            decoded_as_expected = (decoded["text"] == "None")
+
+    return {
+        "namepool_rva": namepool_rva,
+        "namepool_rva_hex": "0x%x" % namepool_rva,
+        "namepool_live_va": namepool_va,
+        "namepool_live_va_hex": "0x%x" % namepool_va,
+        "name_pool_initialized_rva": name_pool_initialized_rva,
+        "name_pool_initialized_rva_hex": "0x%x" % name_pool_initialized_rva,
+        "name_pool_initialized_live_va": name_pool_initialized_va,
+        "name_pool_initialized_live_va_hex": "0x%x" % name_pool_initialized_va,
+        "pool_initialized": pool_initialized,
+        "name_entry_id": name_entry_id,
+        "decoded": decoded,
+        "decoded_as_expected": decoded_as_expected,
+    }
+
+
+def sample_object_names(api, handle: int, objects_ptr: int, num_elements: int,
+                        namepool_live_va: int, name_private_offset: int,
+                        sample_size: int = DEFAULT_I03_REFLECTION_SAMPLE_SIZE,
+                        max_scan_indices: int = DEFAULT_I02_MAX_SCAN_INDICES,
+                        target_name: str = MISERY_PACKAGE_TARGET_NAME) -> dict:
+    """The operator's own stated next milestone after I-02+I-03 land: a
+    "/Script/MISERY live reflection" attempt -- a BOUNDED, honestly-reported
+    search for the literal leaf FName "MISERY" (a UPackage object's own Name,
+    NOT the full "/Script/MISERY" path -- building a full path means walking
+    the Outer chain, explicitly out of scope here) among a sample of live
+    UObject pointers.
+
+    Reuses _locate_object_pointer() -- the SAME shift-16/mask-0xFFFF/
+    stride-24 chunk-addressing arithmetic I-02's own sample_walk_objects
+    uses to find populated FUObjectItem.Object slots -- rather than
+    re-deriving the walk a second time ("reuse I-02's sampling, do not
+    re-walk the array from scratch", per the task that specified this
+    probe). For each located object, reads its own
+    NamePrivate.ComparisonIndex (the FNameEntryId, 4 bytes, at
+    *name_private_offset* bytes into the object -- see
+    DEFAULT_NAME_PRIVATE_OFFSET's own comment for how that offset was
+    derived from UObjectBase.h and cross-checked against RF-05's own
+    independently-found InternalIndex==+0xc) and decodes it via
+    decode_fname_entry_id().
+
+    HONESTY, EXPLICIT (this is load-bearing, not a footnote -- per the task
+    that specified this probe): this is a PLAUSIBLE, NOT EXHAUSTIVE search.
+    The live UObject universe for a running UE game is likely tens of
+    thousands of objects; a bounded sample of at most *sample_size* objects,
+    scanned starting from index 0, may simply never reach the one UPackage
+    object named "MISERY" even if every single piece of the apparatus this
+    probe depends on (the RF-05 GUObjectArray candidate, the RF-06 FNamePool
+    candidate, the decode arithmetic, the NamePrivate offset) is completely
+    correct. A negative result ('misery_found': False) is therefore NEVER
+    itself evidence against any of those things -- it means only "not found
+    in the objects this particular bounded sample happened to examine". The
+    returned dict states this in its own 'note' field, in the output data
+    itself, so a downstream reader of the JSON never has to reconstruct this
+    caveat from this docstring alone.
+
+    A read failure LOCATING a slot (chunk pointer, Object field -- inside
+    _locate_object_pointer()) is skipped, identically to
+    sample_walk_objects()'s own "unreadable is like null" handling: it is a
+    scanning concern, not a probe result. A read failure reading an
+    ALREADY-located object's own NamePrivate field, or anywhere inside
+    decode_fname_entry_id() for an object already committed to the sample,
+    is counted as one decode failure and skipped, never allowed to abort the
+    whole probe -- a torn read during a concurrent GC pass is exactly as
+    plausible here as it is for I-02's own vtable read.
+
+    Returns a plain dict: {'sample_size_requested', 'max_scan_indices',
+    'indices_scanned', 'objects_examined', 'decode_failures',
+    'decoded_names' (every name text this run actually decoded, in the ORDER
+    found, duplicates included -- deliberately not deduplicated or filtered,
+    so a human reader can judge overall plausibility: real UE object/class
+    names, garbage, or a mix -- from the full list, not a single boolean),
+    'target_name', 'misery_found' (bool: target_name in decoded_names),
+    'note' (the bounded-sample honesty caveat above, restated in the output
+    itself)}.
+    """
+    scan_limit = max_scan_indices if num_elements <= 0 else min(num_elements, max_scan_indices)
+    index = 0
+    scanned = 0
+    examined = 0
+    decode_failures = 0
+    decoded_names: list = []
+
+    while index < scan_limit and examined < sample_size:
+        scanned += 1
+        try:
+            object_ptr = _locate_object_pointer(api, handle, objects_ptr, index)
+        except ReadProcessMemoryFailedError:
+            index += 1
+            continue  # unreadable slot -- a scanning concern, not a sample.
+
+        if object_ptr is None:
+            index += 1
+            continue  # a freed/never-allocated slot, or an unallocated chunk.
+
+        examined += 1
+        try:
+            name_entry_id = _read_u32(api, handle, object_ptr + name_private_offset)
+            decoded = decode_fname_entry_id(api, handle, namepool_live_va, name_entry_id)
+        except ReadProcessMemoryFailedError:
+            decode_failures += 1
+            index += 1
+            continue  # a torn read on an already-committed sample.
+
+        if decoded["text"] is None:
+            decode_failures += 1
+        else:
+            decoded_names.append(decoded["text"])
+        index += 1
+
+    misery_found = target_name in decoded_names
+    return {
+        "sample_size_requested": sample_size,
+        "max_scan_indices": max_scan_indices,
+        "indices_scanned": scanned,
+        "objects_examined": examined,
+        "decode_failures": decode_failures,
+        "decoded_names": decoded_names,
+        "target_name": target_name,
+        "misery_found": misery_found,
+        "note": (
+            "bounded, NOT exhaustive sample: %d live object(s) were actually "
+            "examined (sample_size_requested=%d, indices_scanned=%d of "
+            "max_scan_indices=%d) -- misery_found=False means the target "
+            "name was not among THOSE objects, never proof it is absent "
+            "from the live process as a whole; see sample_object_names()'s "
+            "own docstring." % (examined, sample_size, scanned, max_scan_indices)),
     }
 
 
@@ -588,7 +1695,165 @@ def validate_build_key(build_key: str) -> None:
             "value from an existing research/builds/<key>/ entry." % build_key)
 
 
-def build_i01_document(*, result: dict, build_key: str, recorded_at: str | None) -> dict:
+# --------------------------------------------------------------------------- #
+# identity self-establishment (LOG-0048/LOG-0049) -- see the module docstring's
+# "IDENTITY IS SELF-ESTABLISHED" section and BuildKeyMismatchError above for
+# why this exists. Every live attach session computes ITS OWN build_key from
+# the file the OS loader actually mapped; a supplied --build-key is at most a
+# cross-check against that, never the source of truth. Future capabilities
+# (I-02, I-03, ...) that need to know or re-confirm which build they are
+# reading should call establish_build_identity() with the SAME
+# result["exe_path"] run_i01() already returns, rather than re-deriving any
+# part of this by hand -- that keeps "identity is self-established" a single
+# fact computed in one place, not a convention every capability has to
+# remember to reimplement.
+# --------------------------------------------------------------------------- #
+
+HASH_BUFFER_BYTES = 1 << 20  # 1 MiB, same streaming convention as
+# tools/inventory/snapshot_install.py's hash_file / tools/fingerprint's
+# stream_digests / research/schema/kb-record.schema.json #/$defs/sha256's own
+# implied streaming contract: one bounded buffer, reused via readinto(), so
+# peak additional memory is HASH_BUFFER_BYTES regardless of file size -- a
+# Shipping.exe here is ~130 MB and must never be read into memory whole.
+
+DEFAULT_BUILDS_INDEX_PATH = os.path.join(_REPO_ROOT, "research", "builds", "index.json")
+
+
+def compute_file_sha256(path: str, buf_size: int = HASH_BUFFER_BYTES) -> str:
+    """Lowercase hex sha256 digest of *path* (research/schema/kb-record.schema.json
+    #/$defs/sha256's own shape, no 'sha256:' prefix), computed in ONE streaming
+    pass with a single bounded buffer reused via readinto() -- never a whole-file
+    read. Callers that need the canonical 'sha256:<64 hex>' build_key form
+    prefix this return value themselves (see establish_build_identity below).
+
+    This is the function that makes identity SELF-established rather than
+    merely asserted: called on module.exe_path -- the exact file the OS
+    loader mapped for the live process this run attached to, per
+    MODULEENTRY32W's szExePath -- its result is data this run measured
+    itself, not a value any caller supplied or any previous run cached. See
+    the module docstring's "IDENTITY IS SELF-ESTABLISHED" section for why
+    that distinction is the entire point (LOG-0048/LOG-0049).
+    """
+    digest = hashlib.sha256()
+    buffer = bytearray(buf_size)
+    view = memoryview(buffer)
+    with open(path, "rb", buffering=0) as handle:
+        while True:
+            read = handle.readinto(buffer)
+            if not read:
+                break
+            digest.update(view[:read])
+    return digest.hexdigest()
+
+
+def lookup_known_build(build_key: str, index_path: str = DEFAULT_BUILDS_INDEX_PATH
+                       ) -> tuple[bool, str | None]:
+    """(known_build, build_id) for *build_key* against research/builds/index.json
+    (or *index_path*, the seam tests use to avoid touching the real committed
+    index) -- a dict keyed literally by 'sha256:<hex>' (see that file itself).
+
+    READ-ONLY INFORMATIONAL BOOKKEEPING ONLY. This exists to answer one
+    question -- "has this exact build been seen and registered before, and if
+    so under which build_id" -- for the I-01 document and the manifest to
+    record. It deliberately does nothing else: it does not change what I-01
+    reads (base_address/image_size are reported identically whether the
+    build is known or not), and it must NEVER be used to pull an RVA,
+    address, or signature from a DIFFERENT build's research/evidence/
+    directory -- an unknown build gets no bindings/candidates inherited from
+    a previous one, and neither does a known one, from this function alone.
+    Candidate-lookup/signature-matching against a known build's evidence is
+    out of scope here by design; only the KNOWN/UNKNOWN fact and the
+    build_id string are surfaced.
+
+    A missing index file is treated as "unknown", not as an error -- the
+    index is a convenience registry, not something I-01's own read depends
+    on, and an early or stripped-down checkout may not have one yet. A
+    present-but-malformed index file DOES raise (json.JSONDecodeError, a
+    ValueError subclass main() already handles the same way as every other
+    fail-loud EriError), because silently swallowing a corrupt registry file
+    would hide a genuine bug rather than an absent-and-expected one.
+    """
+    try:
+        with open(index_path, "r", encoding="utf-8") as handle:
+            index = json.load(handle)
+    except FileNotFoundError:
+        return False, None
+    entry = index.get(build_key)
+    if entry is None:
+        return False, None
+    build_id = entry.get("build_id")
+    return True, (str(build_id) if build_id is not None else None)
+
+
+def establish_build_identity(*, exe_path: str, given_build_key: str | None,
+                             builds_index_path: str = DEFAULT_BUILDS_INDEX_PATH) -> dict:
+    """THE one place identity is established for this tool (LOG-0048/LOG-0049).
+    Every live attach session calls this, and self-computes its own build_key
+    from *exe_path* -- MODULEENTRY32W's szExePath for the module this run
+    actually found, i.e. run_i01()'s own result["exe_path"], never a path
+    passed on the command line or cached from a previous run. Future
+    capabilities that need build identity should call this function with
+    that same exe_path rather than reimplementing any part of it.
+
+    *given_build_key* is None when --build-key was not passed (the normal,
+    preferred way to invoke this tool from now on): the self-computed hash
+    becomes the authoritative build_key, and this function never opens
+    research/builds/index.json for anything but the informational
+    known/unknown lookup below.
+
+    *given_build_key*, if not None, is treated ONLY as a cross-check, never
+    as a source of truth: on a match, this run proceeds, and the returned
+    'build_key_cross_checked' is True so the output documents can state that
+    the supplied value was INDEPENDENTLY CONFIRMED, not merely asserted. On
+    a mismatch, raises BuildKeyMismatchError -- stating both the supplied and
+    the self-computed value plainly -- BEFORE this function returns, which is
+    before main() writes a single output file. This is the exact check that
+    would have caught LOG-0048/LOG-0049 at the moment it happened, instead of
+    requiring a human to notice it afterward by hand.
+
+    Also performs the read-only known/unknown-build lookup (see
+    lookup_known_build) against *builds_index_path* and folds its result in.
+
+    Returns {"build_key", "identity_self_established" (always True),
+    "build_key_cross_checked", "known_build", "build_id"}.
+    """
+    self_computed_hex = compute_file_sha256(exe_path)
+    self_computed_build_key = "sha256:%s" % self_computed_hex
+
+    if given_build_key is not None:
+        if given_build_key != self_computed_build_key:
+            raise BuildKeyMismatchError(
+                "--build-key %r does not match the build actually attached to: "
+                "this run independently computed %r from module.exe_path (%r), "
+                "the file the OS loader mapped for the process it just found. "
+                "This is exactly the class of mistake LOG-0048/LOG-0049 recorded "
+                "on 2026-08-27 (a --build-key copied from earlier work, not "
+                "rechecked, at the exact moment Steam had silently updated the "
+                "game) -- see BuildKeyMismatchError's own docstring. Nothing was "
+                "written; rerun with the correct --build-key, or omit --build-key "
+                "entirely and let this run's own self-computed hash be the "
+                "authoritative build_key." %
+                (given_build_key, self_computed_build_key, exe_path))
+        build_key = given_build_key
+        cross_checked = True
+    else:
+        build_key = self_computed_build_key
+        cross_checked = False
+
+    known_build, build_id = lookup_known_build(build_key, builds_index_path)
+
+    return {
+        "build_key": build_key,
+        "identity_self_established": True,
+        "build_key_cross_checked": cross_checked,
+        "known_build": known_build,
+        "build_id": build_id,
+    }
+
+
+def build_i01_document(*, result: dict, build_key: str, recorded_at: str | None,
+                       identity_self_established: bool, build_key_cross_checked: bool,
+                       known_build: bool, build_id: str | None) -> dict:
     """The I-01 output document (task item 6 / README 'Как запускать').
 
     JSON, not JSONL: this is one process's one snapshot, a single object.
@@ -612,6 +1877,16 @@ def build_i01_document(*, result: dict, build_key: str, recorded_at: str | None)
     RESEARCH_LOG.md entry that cites this file by path and sha256, per
     this project's established C-13 discipline. Re-adding these two keys
     here would make every future run fail tools/kb/validate.py.
+
+    Also carries identity_self_established/build_key_cross_checked/
+    known_build/build_id (LOG-0048/LOG-0049 -- see establish_build_identity's
+    own docstring and the module docstring's "IDENTITY IS SELF-ESTABLISHED"
+    section for why): none of these four is a marker key in
+    tools/kb/validate.py's MARKER_KEYS ("evidence_level", "claim_type",
+    "oracle", "confidence"), so adding them does not trip is_record() into
+    treating this raw document as a full knowledge-base record -- do not
+    widen this set to include any of those four marker names for the same
+    reason evidence_level/oracle are excluded above.
     """
     base_address = int(result["base_address"])
     return {
@@ -627,6 +1902,138 @@ def build_i01_document(*, result: dict, build_key: str, recorded_at: str | None)
         "base_address_decimal": base_address,
         "image_size_bytes": int(result["image_size_bytes"]),
         "build_key": build_key,
+        # identity is SELF-established every run, never merely asserted by a
+        # caller-supplied --build-key (LOG-0048/LOG-0049): see
+        # establish_build_identity(). identity_self_established is always
+        # True for a document this function produced through main()'s normal
+        # flow. build_key_cross_checked is True only when --build-key WAS
+        # given AND matched the self-computed hash -- i.e. build_key above
+        # was INDEPENDENTLY CONFIRMED, not merely asserted; False means
+        # build_key above IS the self-computed hash itself (no --build-key
+        # was given, the normal/preferred invocation from now on).
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        # known_build/build_id: read-only informational bookkeeping from
+        # research/builds/index.json (lookup_known_build) -- whether this
+        # exact build_key has a registry entry, and if so its build_id.
+        # Never changes what I-01 reads, and never a signal to reuse
+        # candidates/bindings from a different build's research/evidence/.
+        "known_build": bool(known_build),
+        "build_id": build_id,
+        "recorded_at": recorded_at,
+        "generator": GENERATOR_NAME,
+        "generator_version": GENERATOR_VERSION,
+    }
+
+
+def build_i02_document(*, result: dict, build_key: str, recorded_at: str | None,
+                       identity_self_established: bool, build_key_cross_checked: bool,
+                       known_build: bool, build_id: str | None) -> dict:
+    """The I-02 output document -- structural-invariant verification of
+    RF-05's candidate GUObjectArray against a LIVE process. *result* is
+    run_i02()'s own return dict; see that function's docstring for the exact
+    three checks and research/evidence/RF-05/README.md for the struct layout
+    and arithmetic this is built from.
+
+    Carries every field of *result* verbatim -- the RVA and live VA checked,
+    all three per-check sub-dicts (each with its own 'pass' boolean and
+    reasoning text), and the collapsed 'structurally_consistent' verdict --
+    plus never averages the three checks into that one collapsed field
+    without also keeping each individually visible (plan.md's own grading
+    discipline: a record must not average distinct findings into one
+    number).
+
+    Deliberately does NOT carry 'evidence_level'/'oracle', for the identical
+    is_record() reason build_i01_document's own docstring explains in full:
+    none of the fields here (including the four identity fields below) is in
+    tools/kb/validate.py's MARKER_KEYS, so this stays a raw, single-run data
+    document, never a full knowledge-base record on its own -- the graded
+    claim (does this run's evidence move RF-05 above HYPOTHESIS) belongs in
+    a future RESEARCH_LOG.md entry that cites this file by path and sha256,
+    per this project's established C-13 discipline, not in this document
+    itself.
+
+    Carries identity_self_established/build_key_cross_checked/known_build/
+    build_id, mirrored from the SAME establish_build_identity() call main()
+    already made for the I-01 document in this same run -- I-02 never
+    re-establishes identity independently, it is downstream of the one
+    identity fact this run already computed for itself (LOG-0048/LOG-0049).
+    """
+    return {
+        "capability": CAPABILITY_ID_I02,
+        "guobjectarray_rva_hex": result["guobjectarray_rva_hex"],
+        "guobjectarray_rva_decimal": int(result["guobjectarray_rva"]),
+        "guobjectarray_live_va_hex": result["guobjectarray_live_va_hex"],
+        "guobjectarray_live_va_decimal": int(result["guobjectarray_live_va"]),
+        "check_struct_invariants": result["check_struct_invariants"],
+        "check_sample_walk": result["check_sample_walk"],
+        "check_growth_non_decreasing": result["check_growth_non_decreasing"],
+        "structurally_consistent": bool(result["structurally_consistent"]),
+        "build_key": build_key,
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
+        "recorded_at": recorded_at,
+        "generator": GENERATOR_NAME,
+        "generator_version": GENERATOR_VERSION,
+    }
+
+
+def build_i03_document(*, result: dict, build_key: str, recorded_at: str | None,
+                       identity_self_established: bool, build_key_cross_checked: bool,
+                       known_build: bool, build_id: str | None,
+                       misery_reflection: dict | None = None) -> dict:
+    """The I-03 output document -- FNamePool decode verification (RF-06's
+    candidate) plus, optionally, the "/Script/MISERY live reflection" probe.
+    *result* is run_i03()'s own return dict; see that function's docstring
+    for the exact fields, and research/evidence/RF-06/README.md for the
+    struct layout and arithmetic this is built from.
+
+    *misery_reflection* is sample_object_names()'s own return dict when
+    main() ran that probe (--run-i03-reflection), else None -- kept as an
+    explicit optional field rather than a second output document, matching
+    this task's own "your call on shape, but keep it consistent" latitude:
+    both halves are readings from the SAME live process, in the SAME run, so
+    one document rather than two avoids forcing a reader to correlate two
+    files by build_key/recorded_at to see the whole I-03 picture.
+
+    Deliberately does NOT carry 'evidence_level'/'oracle', for the identical
+    is_record() reason build_i01_document's and build_i02_document's own
+    docstrings explain in full: none of the fields here (including the four
+    identity fields below) is in tools/kb/validate.py's MARKER_KEYS, so this
+    stays a raw, single-run data document, never a full knowledge-base
+    record on its own -- the graded claim (does this run's evidence move
+    RF-06 above HYPOTHESIS, and separately, was "/Script/MISERY" found)
+    belongs in a future RESEARCH_LOG.md entry that cites this file by path
+    and sha256, per this project's established C-13 discipline, not in this
+    document itself.
+
+    Carries identity_self_established/build_key_cross_checked/known_build/
+    build_id, mirrored from the SAME establish_build_identity() call main()
+    already made for the I-01 document in this same run -- I-03 never
+    re-establishes identity independently, exactly like I-02.
+    """
+    return {
+        "capability": CAPABILITY_ID_I03,
+        "namepool_rva_hex": result["namepool_rva_hex"],
+        "namepool_rva_decimal": int(result["namepool_rva"]),
+        "namepool_live_va_hex": result["namepool_live_va_hex"],
+        "namepool_live_va_decimal": int(result["namepool_live_va"]),
+        "name_pool_initialized_rva_hex": result["name_pool_initialized_rva_hex"],
+        "name_pool_initialized_rva_decimal": int(result["name_pool_initialized_rva"]),
+        "name_pool_initialized_live_va_hex": result["name_pool_initialized_live_va_hex"],
+        "name_pool_initialized_live_va_decimal": int(result["name_pool_initialized_live_va"]),
+        "pool_initialized": bool(result["pool_initialized"]),
+        "name_entry_id": int(result["name_entry_id"]),
+        "decoded": result["decoded"],
+        "decoded_as_expected": result["decoded_as_expected"],
+        "misery_reflection": misery_reflection,
+        "build_key": build_key,
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
         "recorded_at": recorded_at,
         "generator": GENERATOR_NAME,
         "generator_version": GENERATOR_VERSION,
@@ -635,7 +2042,10 @@ def build_i01_document(*, result: dict, build_key: str, recorded_at: str | None)
 
 def build_manifest(*, run_id: str, arguments: list, tool_version: str,
                    build_key: str, executed_at: str, recorded_at: str,
-                   artifacts: list[str] | None) -> dict:
+                   artifacts: list[str] | None,
+                   identity_self_established: bool, build_key_cross_checked: bool,
+                   known_build: bool, build_id: str | None,
+                   capabilities_enabled: list[str] | None = None) -> dict:
     """research/instrument-runs/<timestamp>/manifest.json, conforming to
     research/schema/instrument-run-manifest.schema.json.
 
@@ -673,20 +2083,40 @@ def build_manifest(*, run_id: str, arguments: list, tool_version: str,
     entirely is legal per kb-record.schema.json ("optional") but fails this
     project's stricter validator policy, so it is supplied here rather than
     left for every future caller to rediscover.
+
+    identity_self_established/build_key_cross_checked/known_build/build_id
+    (research/schema/instrument-run-manifest.schema.json's own properties for
+    each, added for LOG-0048/LOG-0049): the same identity-self-establishment
+    facts build_i01_document() records on its sibling output document, kept
+    on this manifest too so the run's own bookkeeping record states plainly
+    HOW its build_key was obtained, not only what it is -- see
+    establish_build_identity()'s docstring for the full rule this encodes.
+
+    capabilities_enabled: which I-* ids actually ran this session -- ['I-01']
+    when None/omitted (this function's original, still-default behaviour,
+    preserved so every caller written before I-02 existed keeps working
+    unchanged), or ['I-01', 'I-02'] when the caller also ran I-02 in the same
+    session (I-02 depends on I-01's own base_address/image_size read, so it
+    is never enabled alone). 'sources' below is derived from this same list,
+    one {'method': <id>} entry per capability actually enabled, rather than
+    hardcoding I-01 -- each enabled capability is a distinct method this
+    run's own claim ("this run happened, with exactly these capabilities
+    on") rests on.
     """
+    capability_ids = list(capabilities_enabled) if capabilities_enabled else [CAPABILITY_ID]
     return {
         "run_id": run_id,
         "instrument_level": "eri",
         "arguments": list(arguments),
         "tool_version": tool_version,
-        "capabilities_enabled": [CAPABILITY_ID],
+        "capabilities_enabled": capability_ids,
         "verify_install_before": None,
         "verify_install_after": None,
         "executed_at": executed_at,
         "artifacts": artifacts,
         "evidence_level": "OBSERVED",
         "confidence": 0.75,
-        "sources": [{"method": CAPABILITY_ID}],
+        "sources": [{"method": capability_id} for capability_id in capability_ids],
         "oracle": ["runtime-reflection"],
         "claim_type": "other",
         "claim_type_note": (
@@ -696,14 +2126,22 @@ def build_manifest(*, run_id: str, arguments: list, tool_version: str,
             "instrument-run-manifest.schema.json 'claim_type_note')."
         ),
         "build_key": build_key,
+        # identity self-establishment, mirrored from the I-01 document (see
+        # build_i01_document's own comment on these same four fields and
+        # establish_build_identity's docstring) -- LOG-0048/LOG-0049.
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
         "recorded_at": recorded_at,
         "notes": (
-            "Written by %s (capability %s only). recorded_at/executed_at are "
+            "Written by %s (capabilities: %s). recorded_at/executed_at are "
             "real wall-clock time unless --recorded-at pinned them; "
             "--no-timestamp affects only the sibling I-01 output document's "
             "own 'recorded_at' field, never this manifest's, because "
             "instrument-run-manifest.schema.json requires both to be "
-            "non-null timestamps at all times." % (GENERATOR_NAME, CAPABILITY_ID)
+            "non-null timestamps at all times." %
+            (GENERATOR_NAME, ", ".join(capability_ids))
         ),
     }
 
@@ -722,18 +2160,32 @@ def build_arg_parser() -> argparse.ArgumentParser:
             "ERI capability I-01: find the target process, open it "
             "PROCESS_QUERY_INFORMATION|PROCESS_VM_READ only, and read the "
             "base address and image size of its own module (plan.md 8.2). "
-            "Writes nothing, injects nothing, hooks nothing, calls no game "
-            "function."),
+            "Optionally also capability I-02 (--run-i02): verify the RF-05 "
+            "candidate GUObjectArray against live structural behaviour. "
+            "Optionally also capability I-03 (--run-i03): decode an "
+            "FNameEntryId to text via the RF-06 candidate FNamePool, and "
+            "optionally (--run-i03-reflection, needs --run-i02 too) a "
+            "bounded '/Script/MISERY live reflection' probe over live "
+            "UObject names. Writes nothing, injects nothing, hooks nothing, "
+            "calls no game function."),
     )
     parser.add_argument(
         "--process-name", default=DEFAULT_PROCESS_NAME, metavar="NAME",
         help="exact (case-insensitive) executable filename to find; NEVER a "
              "substring match (default: %s)" % DEFAULT_PROCESS_NAME)
     parser.add_argument(
-        "--build-key", required=True, metavar="sha256:HEX",
-        help="the build this run is against -- 'sha256:<64 lowercase hex>' "
-             "(research/schema/kb-record.schema.json #/$defs/build_key). "
-             "No default: the tool cannot know which build it is pointed at.")
+        "--build-key", required=False, default=None, metavar="sha256:HEX",
+        help="OPTIONAL cross-check against the build_key this run establishes "
+             "for ITSELF by hashing the live process's own module.exe_path -- "
+             "'sha256:<64 lowercase hex>' (research/schema/kb-record.schema.json "
+             "#/$defs/build_key). NEVER the source of truth (LOG-0048/LOG-0049: "
+             "a cached/supplied build_key silently outlived a Steam update once "
+             "already). Omit this flag -- the normal, preferred way to invoke "
+             "this tool -- and the self-computed hash becomes the authoritative "
+             "build_key. If given and it does NOT match what this run "
+             "independently computed, the run fails loudly with "
+             "BuildKeyMismatchError before writing anything; if it matches, the "
+             "output documents record that it was independently confirmed.")
     parser.add_argument(
         "--recorded-at", default=None, metavar="ISO8601",
         help="pin the I-01 document's and the manifest's timestamp fields to "
@@ -767,6 +2219,119 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--json", action="store_true",
         help="also print a machine-readable one-line summary to stdout")
+    parser.add_argument(
+        "--run-i02", action="store_true",
+        help="also run capability I-02: verify the RF-05 candidate "
+             "GUObjectArray against LIVE structural behaviour (plan.md 8.2, "
+             "research/evidence/RF-05/README.md's own 'What a runtime "
+             "observation would need to show to move this above HYPOTHESIS' "
+             "section). Requires I-01's own base_address/image_size from "
+             "THIS SAME run -- never enabled standalone. A refuted "
+             "candidate is a valid, reported research outcome, not a "
+             "failed run (see eri.py's module docstring 'STRUCTURAL "
+             "REFUTATION IS A RESULT, NOT AN ERROR').")
+    parser.add_argument(
+        "--guobjectarray-rva", default=None, metavar="HEX",
+        help="override the candidate GUObjectArray RVA I-02 checks "
+             "(default: the RF-05 candidate, 0x%x -- research/evidence/"
+             "RF-05/README.md). Accepts '0x...' or a plain decimal/hex "
+             "string as Python's int(x, 0) understands it." %
+             DEFAULT_GUOBJECTARRAY_RVA)
+    parser.add_argument(
+        "--i02-sample-size", type=int, default=DEFAULT_I02_SAMPLE_SIZE,
+        metavar="N",
+        help="I-02 check 2: how many non-null sampled objects' vtable "
+             "pointers to examine before stopping (default: %d)" %
+             DEFAULT_I02_SAMPLE_SIZE)
+    parser.add_argument(
+        "--i02-poll-interval-seconds", type=float,
+        default=DEFAULT_I02_POLL_INTERVAL_SECONDS, metavar="SECONDS",
+        help="I-02 check 3: how long to wait between the two NumElements "
+             "reads (default: %.1f)" % DEFAULT_I02_POLL_INTERVAL_SECONDS)
+    parser.add_argument(
+        "--i02-max-scan-indices", type=int,
+        default=DEFAULT_I02_MAX_SCAN_INDICES, metavar="N",
+        help="I-02 check 2: hard cap on how many object-array index slots "
+             "may be looked at while searching for --i02-sample-size "
+             "non-null objects, so a corrupted (implausibly huge, or "
+             "all-null) NumElements cannot turn the sample walk into an "
+             "unbounded scan (default: %d)" % DEFAULT_I02_MAX_SCAN_INDICES)
+    parser.add_argument(
+        "--i02-out", default=None, metavar="PATH",
+        help="I-02 GUObjectArray-verification JSON output path; defaults "
+             "to <run-dir>/i02-guobjectarray.json when --run-dir is given")
+    parser.add_argument(
+        "--run-i03", action="store_true",
+        help="also run capability I-03: decode an FNameEntryId to text via "
+             "the RF-06 candidate FNamePool (plan.md 8.2, research/evidence/"
+             "RF-06/README.md's own 'What a runtime observation would need "
+             "to show to move this above HYPOTHESIS' steps 1-2). By default "
+             "decodes FNameEntryId 0 (EName::None), the one case with a "
+             "known expected answer ('None') -- see --i03-name-entry-id. "
+             "Requires I-01's own base_address/image_size from THIS SAME "
+             "run -- never enabled standalone. A decode that does not match "
+             "the expected text for id=0 is a valid, reported structural "
+             "refutation, not a failed run (see eri.py's module docstring "
+             "'STRUCTURAL REFUTATION IS A RESULT, NOT AN ERROR').")
+    parser.add_argument(
+        "--namepool-rva", default=None, metavar="HEX",
+        help="override the candidate FNamePool/NamePoolData RVA I-03 reads "
+             "(default: the RF-06 candidate, 0x%x -- research/evidence/"
+             "RF-06/README.md). Accepts '0x...' or a plain decimal/hex "
+             "string as Python's int(x, 0) understands it." %
+             DEFAULT_NAMEPOOL_RVA)
+    parser.add_argument(
+        "--name-pool-initialized-rva", default=None, metavar="HEX",
+        help="override the candidate bNamePoolInitialized guard-byte RVA "
+             "I-03 reads (default: the RF-06 candidate, 0x%x -- "
+             "research/evidence/RF-06/README.md)." %
+             DEFAULT_NAME_POOL_INITIALIZED_RVA)
+    parser.add_argument(
+        "--i03-name-entry-id", type=lambda s: int(s, 0),
+        default=0, metavar="ID",
+        help="which FNameEntryId to decode (default: 0, EName::None -- the "
+             "one id with a known expected decoded text, 'None'). Accepts "
+             "'0x...' or a plain decimal/hex string.")
+    parser.add_argument(
+        "--i03-out", default=None, metavar="PATH",
+        help="I-03 FNamePool-decode JSON output path; defaults to "
+             "<run-dir>/i03-fnamepool.json when --run-dir is given")
+    parser.add_argument(
+        "--run-i03-reflection", action="store_true",
+        help="also run the '/Script/MISERY live reflection' probe: search "
+             "a bounded sample of live UObjects (found via I-02's own "
+             "chunk-walk arithmetic) for one whose decoded name equals the "
+             "literal leaf FName 'MISERY'. Requires BOTH --run-i02 (for the "
+             "GUObjectArray objects pointer/NumElements) and --run-i03 (for "
+             "the FNamePool decode) in THIS SAME run -- never enabled "
+             "standalone. This is a bounded, NOT exhaustive search: a miss "
+             "is reported honestly as 'not found in this sample', never as "
+             "a refutation of anything (see sample_object_names()'s own "
+             "docstring in eri.py).")
+    parser.add_argument(
+        "--i03-reflection-sample-size", type=int,
+        default=DEFAULT_I03_REFLECTION_SAMPLE_SIZE, metavar="N",
+        help="--run-i03-reflection: how many non-null live objects' names "
+             "to decode before stopping (default: %d -- deliberately larger "
+             "than --i02-sample-size's own default, since this is a needle "
+             "search for one specific object rather than a statistical "
+             "vtable-plausibility sample; see DEFAULT_I03_REFLECTION_SAMPLE_"
+             "SIZE's own comment in eri.py)" % DEFAULT_I03_REFLECTION_SAMPLE_SIZE)
+    parser.add_argument(
+        "--i03-reflection-max-scan-indices", type=int,
+        default=DEFAULT_I02_MAX_SCAN_INDICES, metavar="N",
+        help="--run-i03-reflection: hard cap on how many object-array index "
+             "slots may be looked at while searching for "
+             "--i03-reflection-sample-size non-null objects (default: %d, "
+             "same default as --i02-max-scan-indices)" %
+             DEFAULT_I02_MAX_SCAN_INDICES)
+    parser.add_argument(
+        "--name-private-offset", default=None, metavar="HEX",
+        help="override the byte offset of UObjectBase::NamePrivate's own "
+             "FNameEntryId component (default: 0x%x -- derived from "
+             "UObjectBase.h and cross-checked against RF-05's own "
+             "InternalIndex==+0xc finding; see DEFAULT_NAME_PRIVATE_OFFSET's "
+             "own comment in eri.py)." % DEFAULT_NAME_PRIVATE_OFFSET)
     return parser
 
 
@@ -784,6 +2349,109 @@ def _resolve_output_paths(args: argparse.Namespace) -> tuple[str, str]:
             "given (it supplies defaults for whichever of the two is not "
             "passed explicitly)")
     return out_path, manifest_path
+
+
+def _resolve_i02_output_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i02 was not given (nothing to resolve). Otherwise the
+    I-02 output path: --i02-out if given explicitly, else
+    <run-dir>/i02-guobjectarray.json via the same --run-dir convenience
+    --out/--manifest-out already use. Raises ValueError, at parse time,
+    before any handle is opened, if --run-i02 was given with neither
+    --i02-out nor --run-dir to derive it from -- the same "fail loudly
+    before doing any work" shape _resolve_output_paths above already has for
+    --out/--manifest-out.
+    """
+    if not args.run_i02:
+        return None
+    if args.i02_out:
+        return args.i02_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "i02-guobjectarray.json")
+    raise ValueError(
+        "--run-i02 requires --i02-out unless --run-dir is given (it "
+        "supplies the default <run-dir>/i02-guobjectarray.json)")
+
+
+def _resolve_i03_output_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i03 was not given (nothing to resolve). Otherwise the
+    I-03 output path: --i03-out if given explicitly, else
+    <run-dir>/i03-fnamepool.json via the same --run-dir convenience
+    --out/--manifest-out/--i02-out already use. Raises ValueError, before
+    any handle is opened, if --run-i03 was given with neither --i03-out nor
+    --run-dir to derive it from -- identical shape to
+    _resolve_i02_output_path above.
+    """
+    if not args.run_i03:
+        return None
+    if args.i03_out:
+        return args.i03_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "i03-fnamepool.json")
+    raise ValueError(
+        "--run-i03 requires --i03-out unless --run-dir is given (it "
+        "supplies the default <run-dir>/i03-fnamepool.json)")
+
+
+def _validate_i03_reflection_requirements(args: argparse.Namespace) -> None:
+    """Raises ValueError, before any handle is opened, if --run-i03-reflection
+    was given without BOTH --run-i02 (the probe needs its own objects
+    pointer/NumElements) and --run-i03 (the probe needs its own FNamePool
+    decode function) in this SAME invocation -- the same "fail loudly before
+    doing any work" discipline every other CLI-shape check in this file
+    already follows, rather than discovering the missing dependency only
+    after I-01 (and possibly I-02 or I-03 alone) has already run.
+    """
+    if not args.run_i03_reflection:
+        return
+    missing = []
+    if not args.run_i02:
+        missing.append("--run-i02")
+    if not args.run_i03:
+        missing.append("--run-i03")
+    if missing:
+        raise ValueError(
+            "--run-i03-reflection requires %s in this same invocation -- "
+            "the '/Script/MISERY' probe reuses I-02's own GUObjectArray "
+            "objects pointer/NumElements and I-03's own FNamePool decode, "
+            "and is never run standalone." % " and ".join(missing))
+
+
+def _parse_int_literal(value: str | None, default: int, flag_name: str) -> int:
+    """*default* when *value* is None (the normal case); otherwise
+    int(value, 0) so '0x7a78ed0', '0X7A78ED0' and a plain decimal string are
+    all accepted -- matching Python's own int-literal grammar rather than
+    inventing a narrower one. Raises ValueError (caught by main()'s existing
+    except clause, exactly like a malformed --build-key) on anything else,
+    BEFORE any handle is opened. Shared by every RVA/offset-override CLI
+    flag in this file (--guobjectarray-rva, --namepool-rva,
+    --name-pool-initialized-rva, --name-private-offset) so the same parsing
+    rule and error message shape is not re-derived once per flag.
+    """
+    if value is None:
+        return default
+    try:
+        return int(value, 0)
+    except ValueError:
+        raise ValueError(
+            "%s %r is not a valid integer literal -- give a hex value like "
+            "'0x7a78ed0' or a plain decimal string." % (flag_name, value))
+
+
+def _parse_guobjectarray_rva(value: str | None) -> int:
+    return _parse_int_literal(value, DEFAULT_GUOBJECTARRAY_RVA, "--guobjectarray-rva")
+
+
+def _parse_namepool_rva(value: str | None) -> int:
+    return _parse_int_literal(value, DEFAULT_NAMEPOOL_RVA, "--namepool-rva")
+
+
+def _parse_name_pool_initialized_rva(value: str | None) -> int:
+    return _parse_int_literal(
+        value, DEFAULT_NAME_POOL_INITIALIZED_RVA, "--name-pool-initialized-rva")
+
+
+def _parse_name_private_offset(value: str | None) -> int:
+    return _parse_int_literal(value, DEFAULT_NAME_PRIVATE_OFFSET, "--name-private-offset")
 
 
 def _write_guarded(document: dict, path: str, *, what: str) -> str:
@@ -804,8 +2472,28 @@ def _write_guarded(document: dict, path: str, *, what: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     args = build_arg_parser().parse_args(argv)
     try:
-        validate_build_key(args.build_key)
+        if args.build_key is not None:
+            # Format only, at parse time, cheap and before any handle is
+            # opened -- exactly like before. This is NOT a truth check: a
+            # well-formed but WRONG --build-key is caught later, only after
+            # this run has self-computed its own build_key, by
+            # establish_build_identity() raising BuildKeyMismatchError
+            # (LOG-0048/LOG-0049). See the module docstring's "IDENTITY IS
+            # SELF-ESTABLISHED" section.
+            validate_build_key(args.build_key)
         out_path, manifest_path = _resolve_output_paths(args)
+        i02_out_path = _resolve_i02_output_path(args)  # None unless --run-i02
+        i03_out_path = _resolve_i03_output_path(args)  # None unless --run-i03
+        guobjectarray_rva = _parse_guobjectarray_rva(args.guobjectarray_rva)
+        namepool_rva = _parse_namepool_rva(args.namepool_rva)
+        name_pool_initialized_rva = _parse_name_pool_initialized_rva(
+            args.name_pool_initialized_rva)
+        name_private_offset = _parse_name_private_offset(args.name_private_offset)
+        # --run-i03-reflection needs both --run-i02 and --run-i03 in this
+        # same invocation -- checked here, before any handle is opened, same
+        # "fail loudly before doing any work" discipline as every other
+        # CLI-shape check in this function.
+        _validate_i03_reflection_requirements(args)
 
         # Layer 1 first, exactly like the pyghidra_scripts family: a refused
         # output path costs nothing, so it is checked before a single Win32
@@ -815,6 +2503,14 @@ def main(argv: list[str] | None = None) -> int:
         pathguard.check_output_path(
             manifest_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
             what="--manifest-out")
+        if i02_out_path is not None:
+            pathguard.check_output_path(
+                i02_out_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--i02-out")
+        if i03_out_path is not None:
+            pathguard.check_output_path(
+                i03_out_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--i03-out")
 
         i01_recorded_at = (
             args.recorded_at if args.recorded_at
@@ -826,17 +2522,118 @@ def main(argv: list[str] | None = None) -> int:
             run_id = (os.path.basename(os.path.normpath(args.run_dir))
                       if args.run_dir else manifest_timestamp)
 
-        result = run_i01(Win32Api(), args.process_name)
+        api = Win32Api()
+        result = run_i01(api, args.process_name)
+
+        # Identity is SELF-established here, from result["exe_path"] -- the
+        # file the OS loader actually mapped for the process this run just
+        # found -- BEFORE any output document is built or written. A
+        # mismatched --build-key raises BuildKeyMismatchError right here,
+        # which means NOTHING this run produces (I-01 document, I-02
+        # document, manifest) is ever written for a run whose supplied
+        # build_key does not match what was actually observed
+        # (LOG-0048/LOG-0049).
+        identity = establish_build_identity(
+            exe_path=result["exe_path"], given_build_key=args.build_key)
+
+        # I-02, if requested, runs BEFORE anything is written -- same reason
+        # as identity above: if run_i02() raises (a genuine tool failure,
+        # never a mere structural refutation -- see run_i02()'s own
+        # docstring), this run must write NOTHING at all, not an I-01
+        # document with no manifest to explain it. I-02 opens its OWN handle
+        # via the tool's one open_process_read_only()/Win32Api.open_process
+        # call site -- the SAME PROCESS_ACCESS_RIGHTS-only access I-01
+        # itself already established and closed; PROCESS_ACCESS_RIGHTS is
+        # unchanged (still PROCESS_QUERY_INFORMATION | PROCESS_VM_READ only,
+        # nothing more), and ReadProcessMemory needs nothing beyond the
+        # PROCESS_VM_READ bit that access already carries.
+        i02_result = None
+        if args.run_i02:
+            i02_handle = open_process_read_only(api, result["pid"])
+            try:
+                i02_result = run_i02(
+                    api, i02_handle, result["base_address"], result["image_size_bytes"],
+                    guobjectarray_rva=guobjectarray_rva,
+                    sample_size=args.i02_sample_size,
+                    poll_interval_seconds=args.i02_poll_interval_seconds,
+                    max_scan_indices=args.i02_max_scan_indices)
+            finally:
+                api.close_handle(i02_handle)
+
+        # I-03, if requested, ALSO runs before anything is written -- same
+        # reason as I-02 above. I-03 opens its OWN fresh handle (I-02's own
+        # handle, if any, is already closed by this point) via the tool's
+        # one open_process_read_only()/Win32Api.open_process call site; the
+        # "/Script/MISERY" reflection probe (--run-i03-reflection), if also
+        # requested, runs inside this SAME handle's try/finally, reusing
+        # i02_result's own already-fetched objects_ptr/num_elements
+        # (_validate_i03_reflection_requirements already guaranteed i02_result
+        # is not None here whenever args.run_i03_reflection is True).
+        i03_result = None
+        misery_reflection_result = None
+        if args.run_i03:
+            i03_handle = open_process_read_only(api, result["pid"])
+            try:
+                i03_result = run_i03(
+                    api, i03_handle, result["base_address"], result["image_size_bytes"],
+                    namepool_rva=namepool_rva,
+                    name_pool_initialized_rva=name_pool_initialized_rva,
+                    name_entry_id=args.i03_name_entry_id)
+                if args.run_i03_reflection:
+                    misery_reflection_result = sample_object_names(
+                        api, i03_handle, i02_result["objects_ptr_live_va"],
+                        i02_result["num_elements"], i03_result["namepool_live_va"],
+                        name_private_offset,
+                        sample_size=args.i03_reflection_sample_size,
+                        max_scan_indices=args.i03_reflection_max_scan_indices)
+            finally:
+                api.close_handle(i03_handle)
 
         document = build_i01_document(
-            result=result, build_key=args.build_key, recorded_at=i01_recorded_at)
+            result=result, build_key=identity["build_key"], recorded_at=i01_recorded_at,
+            identity_self_established=identity["identity_self_established"],
+            build_key_cross_checked=identity["build_key_cross_checked"],
+            known_build=identity["known_build"], build_id=identity["build_id"])
         written_out = _write_guarded(document, out_path, what="--out")
+
+        capabilities_enabled = [CAPABILITY_ID]
+        artifacts = [_repo_relative(written_out)]
+        i02_document = None
+        written_i02_out = None
+        if i02_result is not None:
+            i02_document = build_i02_document(
+                result=i02_result, build_key=identity["build_key"],
+                recorded_at=i01_recorded_at,
+                identity_self_established=identity["identity_self_established"],
+                build_key_cross_checked=identity["build_key_cross_checked"],
+                known_build=identity["known_build"], build_id=identity["build_id"])
+            written_i02_out = _write_guarded(i02_document, i02_out_path, what="--i02-out")
+            capabilities_enabled.append(CAPABILITY_ID_I02)
+            artifacts.append(_repo_relative(written_i02_out))
+
+        i03_document = None
+        written_i03_out = None
+        if i03_result is not None:
+            i03_document = build_i03_document(
+                result=i03_result, build_key=identity["build_key"],
+                recorded_at=i01_recorded_at,
+                identity_self_established=identity["identity_self_established"],
+                build_key_cross_checked=identity["build_key_cross_checked"],
+                known_build=identity["known_build"], build_id=identity["build_id"],
+                misery_reflection=misery_reflection_result)
+            written_i03_out = _write_guarded(i03_document, i03_out_path, what="--i03-out")
+            capabilities_enabled.append(CAPABILITY_ID_I03)
+            artifacts.append(_repo_relative(written_i03_out))
 
         manifest = build_manifest(
             run_id=run_id, arguments=list(sys.argv[1:] if argv is None else argv),
-            tool_version=GENERATOR_VERSION, build_key=args.build_key,
+            tool_version=GENERATOR_VERSION, build_key=identity["build_key"],
             executed_at=manifest_timestamp, recorded_at=manifest_timestamp,
-            artifacts=[_repo_relative(written_out)])
+            artifacts=artifacts,
+            identity_self_established=identity["identity_self_established"],
+            build_key_cross_checked=identity["build_key_cross_checked"],
+            known_build=identity["known_build"], build_id=identity["build_id"],
+            capabilities_enabled=capabilities_enabled)
         written_manifest = _write_guarded(manifest, manifest_path, what="--manifest-out")
 
         if args.json:
@@ -845,16 +2642,68 @@ def main(argv: list[str] | None = None) -> int:
                 "process_name": result["process_name"],
                 "base_address_hex": document["base_address_hex"],
                 "image_size_bytes": result["image_size_bytes"],
+                "build_key": identity["build_key"],
+                "build_key_cross_checked": identity["build_key_cross_checked"],
+                "known_build": identity["known_build"],
+                "build_id": identity["build_id"],
                 "out": written_out,
                 "manifest_out": written_manifest,
             }
+            if i02_document is not None:
+                summary["i02_out"] = written_i02_out
+                summary["i02_structurally_consistent"] = i02_document["structurally_consistent"]
+            if i03_document is not None:
+                summary["i03_out"] = written_i03_out
+                summary["i03_decoded_as_expected"] = i03_document["decoded_as_expected"]
+                if misery_reflection_result is not None:
+                    summary["i03_misery_found"] = misery_reflection_result["misery_found"]
             print(dump_json(summary))
         else:
             print(
                 "pid=%d base_address=%s image_size_bytes=%d"
                 % (result["pid"], document["base_address_hex"], result["image_size_bytes"]),
                 file=sys.stderr)
+            print(
+                "build_key=%s (%s) known_build=%s build_id=%s" % (
+                    identity["build_key"],
+                    "self-computed, independently confirmed by --build-key"
+                    if identity["build_key_cross_checked"] else "self-computed",
+                    identity["known_build"],
+                    identity["build_id"]),
+                file=sys.stderr)
             print("written: %s" % written_out, file=sys.stderr)
+            if i02_document is not None:
+                print(
+                    "I-02: guobjectarray_live_va=%s structurally_consistent=%s "
+                    "(check_struct_invariants=%s check_sample_walk=%s "
+                    "check_growth_non_decreasing=%s)" % (
+                        i02_document["guobjectarray_live_va_hex"],
+                        i02_document["structurally_consistent"],
+                        i02_document["check_struct_invariants"]["pass"],
+                        i02_document["check_sample_walk"]["pass"],
+                        i02_document["check_growth_non_decreasing"]["pass"]),
+                    file=sys.stderr)
+                print("written: %s" % written_i02_out, file=sys.stderr)
+            if i03_document is not None:
+                print(
+                    "I-03: namepool_live_va=%s pool_initialized=%s "
+                    "name_entry_id=%d decoded_text=%r decoded_as_expected=%s" % (
+                        i03_document["namepool_live_va_hex"],
+                        i03_document["pool_initialized"],
+                        i03_document["name_entry_id"],
+                        (i03_document["decoded"]["text"]
+                         if i03_document["decoded"] is not None else None),
+                        i03_document["decoded_as_expected"]),
+                    file=sys.stderr)
+                if misery_reflection_result is not None:
+                    print(
+                        "I-03 reflection: objects_examined=%d misery_found=%s "
+                        "decoded_names_sample=%r" % (
+                            misery_reflection_result["objects_examined"],
+                            misery_reflection_result["misery_found"],
+                            misery_reflection_result["decoded_names"][:10]),
+                        file=sys.stderr)
+                print("written: %s" % written_i03_out, file=sys.stderr)
             print("written: %s" % written_manifest, file=sys.stderr)
         return 0
     except (EriError, pathguard.OutputPathRefused, ValueError) as error:

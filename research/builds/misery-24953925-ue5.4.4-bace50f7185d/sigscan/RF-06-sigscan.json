@@ -1,0 +1,303 @@
+{
+  "d04_oracle_only": false,
+  "generated_at": "2026-08-27T10:41:39Z",
+  "generator": "tools/static/sigscan.py",
+  "generator_version": "1.0.0",
+  "interpreted_annotation": {
+    "claim_class": "I",
+    "confidence": 0.79,
+    "evidence_level": "INFERRED",
+    "note": "Interpretive: this layer says that an occurrence IS the function the pattern was cut from, and that a miss means the function moved rather than that it is gone. Both lean on the pattern's provenance and on the assumption that the compiler did not emit the same bytes elsewhere. The primitive half -- the bytes found at the offsets -- is in literal_reads[].",
+    "oracle": [
+      "binary-analysis"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "MISERY-Win64-Shipping.exe",
+        "method": "S-07",
+        "note": "oracle binary-analysis. Exhaustive byte-pattern count over the published surface ranges, wildcard positions excluded from the comparison."
+      }
+    ]
+  },
+  "library": {
+    "format": "sigmake document",
+    "generator": "tools/static/sigmake.py",
+    "generator_version": "1.0.0",
+    "mask_policy": {
+      "mask_mode": "reloc"
+    },
+    "source_image": {
+      "image_base": 5368709120,
+      "install_relative": "MISERY-Win64-Shipping.exe",
+      "machine": 34404,
+      "name": "MISERY-Win64-Shipping.exe",
+      "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+      "pe_format": "PE32+",
+      "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+      "size": 134658048,
+      "size_of_image": 138403840,
+      "timestamp": 1918640348
+    }
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "48895c241048897c241855488dac24b0f0ffffb8",
+      "claim": "20 bytes at offset 17545456 of MISERY-Win64-Shipping.exe are 48895c241048897c241855488dac24b0f0ffffb8",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "20 bytes at offset 17545456 of MISERY-Win64-Shipping.exe are 48895c241048897c241855488dac24b0f0ffffb8. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "48895c241048897c241855488dac24b0f0ffffb8",
+          "length": 20,
+          "note": null,
+          "offset": 17545456,
+          "target": "MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY-Win64-Shipping.exe@17545456+20",
+            "method": "S-07",
+            "note": "oracle binary-analysis. Read by tools/static/sigscan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching entry of signatures[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "GetNamePool_inlined_caller_candidate",
+      "length": 20,
+      "offset": 17545456,
+      "reproduced": true,
+      "target": "MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+      "claim": "32 bytes at offset 17553600 of MISERY-Win64-Shipping.exe are 48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 17553600 of MISERY-Win64-Shipping.exe are 48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+          "length": 32,
+          "note": null,
+          "offset": 17553600,
+          "target": "MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY-Win64-Shipping.exe@17553600+32",
+            "method": "S-07",
+            "note": "oracle binary-analysis. Read by tools/static/sigscan.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching entry of signatures[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "FNamePool_ctor_candidate",
+      "length": 32,
+      "offset": 17553600,
+      "reproduced": true,
+      "target": "MISERY-Win64-Shipping.exe"
+    }
+  ],
+  "refutation_probes": [
+    {
+      "id": "all-wildcard-control",
+      "note": "1048561 occurrences of a 16-byte all-wildcard pattern in a 1048576-byte window; 1048561 expected (one per position that can hold the pattern)",
+      "occurrences": 1048561,
+      "occurrences_expected": 1048561,
+      "pattern_length": 16,
+      "question": "does the matcher find a pattern that constrains nothing, at every position of a bounded window?",
+      "refuted": false,
+      "window": {
+        "bytes_searched": 1048576,
+        "kind": "window",
+        "note": "the first 1048576 bytes of the first surface range",
+        "ranges": [
+          {
+            "file_offset": 1536,
+            "length": 1048576,
+            "name": ".text",
+            "rva": 4096
+          }
+        ]
+      },
+      "would_refute": "an all-wildcard pattern matching once, or not at all, would mean the matcher is selective for reasons other than the pattern, and every verdict in this document would be void"
+    },
+    {
+      "id": "one-byte-flip-control",
+      "note": "0 of 2 flipped patterns still matched somewhere on the surface",
+      "patterns_flipped": 2,
+      "question": "with a single literal byte inverted, does each pattern become absent?",
+      "refuted": false,
+      "survivors": [],
+      "would_refute": "a flipped pattern that still matches somewhere would mean the surviving literal bytes, not the pattern as written, are doing the work"
+    },
+    {
+      "id": "short-prefix-control",
+      "not_ambiguous": [],
+      "note": "0 of 2 four-byte prefixes came out with fewer than two occurrences",
+      "patterns_tested": 2,
+      "question": "is a four-byte prefix of each signature ambiguous, as a byte sequence that short must be on a large code surface?",
+      "refuted": false,
+      "would_refute": "a four-byte prefix coming out unique would mean the surface being searched is far smaller than surface.bytes_searched claims"
+    },
+    {
+      "buffer_bytes": 33,
+      "disagreements": [],
+      "id": "buffer-size-invariance",
+      "note": "0 of 2 counts changed when the buffer was reduced to 33 bytes",
+      "question": "does every verdict survive re-scanning with a buffer barely larger than the longest pattern?",
+      "refuted": false,
+      "would_refute": "any count that changes with the buffer size would mean the overlap or the de-duplication rule is wrong, and no verdict in this document could be trusted"
+    },
+    {
+      "id": "unique-verdict-population",
+      "note": "2 of 2 signatures are unique on this surface",
+      "question": "how many signatures actually came out unique?",
+      "refuted": false,
+      "total": 2,
+      "unique": 2,
+      "would_refute": "nothing on its own; this probe exists so the headline count cannot be quoted without its denominator"
+    }
+  ],
+  "signatures": [
+    {
+      "accepted_in_library": true,
+      "anchor_hex": "48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+      "anchor_length": 32,
+      "anchor_offset": 0,
+      "count_cap": 4096,
+      "distinct_literal_values": 21,
+      "found_at_source_rva": null,
+      "hit_limit": 64,
+      "hits": [
+        {
+          "file_offset": 17553600,
+          "range": ".text",
+          "rva": 17556160
+        }
+      ],
+      "hits_recorded": 1,
+      "label": "FNamePool_ctor_candidate",
+      "length": 32,
+      "library_rejections": [],
+      "literal_bytes": 32,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "meaning": "one occurrence in an image other than the one the signature was cut from. That the occurrence is the same function is an inference from the pattern alone -- no second method corroborates it here",
+      "occurrences": 1,
+      "occurrences_truncated": false,
+      "pattern": "48 89 5C 24 18 55 56 57 41 54 41 55 41 56 41 57 48 8B EC 48 83 EC 30 48 8B F1 FF 15 D8 D7 D0 04",
+      "sha256_of_pattern_text": "ec51782f861ce768f5e62dc239609d2e3c4dba940233e42e95958c9ca7c6c8a9",
+      "source_file_offset": 17553600,
+      "source_rva": 17556160,
+      "verdict": "unique"
+    },
+    {
+      "accepted_in_library": true,
+      "anchor_hex": "48895c241048897c241855488dac24b0f0ffffb8",
+      "anchor_length": 20,
+      "anchor_offset": 0,
+      "count_cap": 4096,
+      "distinct_literal_values": 14,
+      "found_at_source_rva": null,
+      "hit_limit": 64,
+      "hits": [
+        {
+          "file_offset": 17545456,
+          "range": ".text",
+          "rva": 17548016
+        }
+      ],
+      "hits_recorded": 1,
+      "label": "GetNamePool_inlined_caller_candidate",
+      "length": 20,
+      "library_rejections": [],
+      "literal_bytes": 20,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "meaning": "one occurrence in an image other than the one the signature was cut from. That the occurrence is the same function is an inference from the pattern alone -- no second method corroborates it here",
+      "occurrences": 1,
+      "occurrences_truncated": false,
+      "pattern": "48 89 5C 24 10 48 89 7C 24 18 55 48 8D AC 24 B0 F0 FF FF B8",
+      "sha256_of_pattern_text": "c726a48e233d59e7a2935f0693e51fe62f518c7a4c06027a4afb920fe8c217dd",
+      "source_file_offset": 17545456,
+      "source_rva": 17548016,
+      "verdict": "unique"
+    }
+  ],
+  "summary": {
+    "absent": 0,
+    "ambiguous": 0,
+    "bytes_searched": 98343936,
+    "found_at_source_rva": 0,
+    "masked_fraction_max": 0.0,
+    "masked_fraction_mean": 0.0,
+    "masked_fraction_min": 0.0,
+    "not_found_at_source_rva": 0,
+    "same_image_as_signature_source": false,
+    "signatures_scanned": 2,
+    "signatures_unparseable": 0,
+    "truncated_counts": 0,
+    "unique": 2
+  },
+  "surface": {
+    "bytes_searched": 98343936,
+    "definition": "every section with raw data whose characteristics carry IMAGE_SCN_MEM_EXECUTE or IMAGE_SCN_CNT_CODE",
+    "kind": "exec",
+    "kind_requested": "exec",
+    "not_searched": "read-only and writable data, resources, the headers and any overlay -- a byte sequence present there is NOT counted by this run",
+    "range_count": 1,
+    "ranges": [
+      {
+        "file_offset": 1536,
+        "length": 98343936,
+        "name": ".text",
+        "rva": 4096
+      }
+    ],
+    "sections_restricted_to": null
+  },
+  "target": {
+    "image_base": 5368709120,
+    "install_relative": "MISERY-Win64-Shipping.exe",
+    "machine": 34404,
+    "name": "MISERY-Win64-Shipping.exe",
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\builds\\misery-24953925\\MISERY-Win64-Shipping.exe",
+    "pe_format": "PE32+",
+    "pe_note": null,
+    "sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "size": 134658048,
+    "size_of_image": 138403840,
+    "timestamp": 3610616037
+  },
+  "task": "S-07",
+  "timings_seconds": {
+    "refutation_probes": 138.496,
+    "scan": 0.081,
+    "total": 138.725
+  },
+  "unparseable": [],
+  "verdict_definitions": {
+    "absent": "zero occurrences on the searched surface",
+    "ambiguous": "two or more occurrences, or the occurrence counter reached its cap",
+    "unique": "exactly one occurrence on the searched surface"
+  },
+  "warnings": [
+    "this target is NOT the image the signatures were cut from (sha256 bace50f7185d095d vs 0eef3715244b467c); every 'absent' below is therefore consistent with the function existing at a different address"
+  ]
+}

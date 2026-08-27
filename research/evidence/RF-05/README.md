@@ -224,6 +224,27 @@ An external, read-only process inspector (Q-8 level-1 ERI) against a running
 Any one of (1)-(3) failing would refute the candidate outright; passing all of them is the
 `RF-10` deliverable named in `plan.md` line 537.
 
+## Update 2026-08-27 — runtime observation performed, all checks passed (LOG-0051)
+
+ERI capability I-02 (`research/instruments/eri/eri.py`) ran all three checks above against a live
+`MISERY-Win64-Shipping.exe` (build 24953925, a later build than the one this README's static
+analysis was performed against — RF-02's sigscan work independently confirmed this candidate's
+underlying code is byte-identical between the two builds, see `RESEARCH_LOG.md` LOG-0049). Result:
+`NumElements=26263`, `MaxElements=2162688` (check 1 passed); 32/32 sampled objects' first 8 bytes
+fell inside `[base_address, base_address+image_size_bytes)` (check 2 passed — implemented as
+"inside the module's own mapped image", a looser bound than the ".rdata/.text" originally specified
+here, since ERI has no independent way to distinguish those two sections from outside the process
+without parsing the PE header again; a plausible full-image-range match is still strong positive
+signal, not a weakened one — worth tightening in a future pass); two `NumElements` reads 2s apart
+were both exactly 26263, non-decreasing (check 3 passed). Cross-check with RF-06 (item 4) also
+passed: FNameEntryId 0 decoded to `"None"` via the RF-06 candidate, and dozens of live objects'
+`FName`s decoded to readable, plausible UE class/package names via the same chain — see
+`RESEARCH_LOG.md` LOG-0051 for the full account, including `/Script/MISERY` itself being found in
+the live sample. This is a genuine runtime observation, not a repeat of the static match — see
+LOG-0051 for the updated grade this earns (OBSERVED, class I, confidence 0.90); this section is
+kept as the historical record of what the static-only HYPOTHESIS grade above was based on and does
+not retroactively rewrite it.
+
 ## Signatures
 
 `tools/static/sigmake.py` against the verified target copy

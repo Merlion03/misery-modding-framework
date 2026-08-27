@@ -670,7 +670,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 
 > **Этот блок сгенерирован.** Руками его не правят: правка будет затёрта следующим запуском генератора, и — что хуже — станет неотличима от измерения.
 >
-> **Снято:** 2026-08-27 10:23 UTC | HEAD `a0afbe8` | интерпретатор `C:\Python314\python.exe`
+> **Снято:** 2026-08-27 12:12 UTC | HEAD `f5ff31c` | интерпретатор `C:\Python314\python.exe`
 >
 > Обновить (один шаг): `python .github\scripts\kb_status.py --write`
 >
@@ -683,12 +683,12 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 | показатель | значение |
 |---|---|
 | schema backend | `jsonschema` |
-| файлов просмотрено | 214 |
-| размеченных записей | 974 |
-| записей по нотациям | inline-annotation=185, log-entry=81, table-row=171 |
+| файлов просмотрено | 238 |
+| размеченных записей | 1076 |
+| записей по нотациям | inline-annotation=199, log-entry=84, table-row=173 |
 | нечитаемых кандидатов в записи | **0** |
 | нарушений (ERROR) | **0** |
-| предупреждений (WARN) | 159 |
+| предупреждений (WARN) | 192 |
 | exit code | 0 |
 
 Нарушения и предупреждения по правилам:
@@ -697,13 +697,13 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 |---|---|---|
 | `CLASS-I` | 0 | 16 |
 | `CLASS-P` | 0 | 25 |
-| `EV-03` | 0 | 13 |
-| `EV-04` | 0 | 33 |
-| `EV-05` | 0 | 11 |
+| `EV-03` | 0 | 15 |
+| `EV-04` | 0 | 37 |
+| `EV-05` | 0 | 15 |
 | `EV-CONF` | 0 | 3 |
-| `MAP` | 0 | 2 |
-| `MD-BARE` | 0 | 47 |
-| `ORA-PROSE` | 0 | 1 |
+| `MAP` | 0 | 19 |
+| `MD-BARE` | 0 | 52 |
+| `ORA-PROSE` | 0 | 2 |
 | `VCS-REACH` | 0 | 8 |
 
 Ни один файл не несёт нарушений и нечитаемых кандидатов.
@@ -711,7 +711,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 **Набор тестов — `python -m pytest -q` (exit 1).**
 
 ```
-1 failed, 1675 passed, 1 skipped, 529 subtests passed in 63.72s (0:01:03)
+1 failed, 1784 passed, 1 skipped, 533 subtests passed in 64.47s (0:01:04)
 ```
 
 Провалившиеся тесты, по идентификаторам узлов:

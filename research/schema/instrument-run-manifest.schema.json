@@ -90,6 +90,25 @@
         "string",
         "null"
       ]
+    },
+    "identity_self_established": {
+      "description": "Always true for a manifest written by research/instruments/eri/eri.py from the version that introduced this field onward. Records that the run's own build_key (above, inherited from the envelope) was independently computed by the instrument itself - streamed sha256 of the live process's own module.exe_path, i.e. the exact file the OS loader mapped for the process this run actually attached to - and was never merely a value the caller supplied or a value cached from a previous run's artifacts. This field exists because of a real incident (2026-08-27, LOG-0048/LOG-0049): an operator supplied a --build-key copied from earlier static-analysis work, without rechecking it, at the exact moment Steam had silently updated the game as a side effect of launching it; the recorded build_key was wrong for the process actually read, and the mistake was only caught afterward, by hand. A cached or supplied build_key is forbidden as the source of truth for exactly this reason - see build_key_cross_checked, known_build and build_id below, which together make HOW this run's build_key was obtained a structurally visible fact of the record, not merely a code-level guarantee a reader has to trust.",
+      "type": "boolean"
+    },
+    "build_key_cross_checked": {
+      "description": "Whether the run's own build_key (above) was independently confirmed against a value the caller supplied via --build-key, as opposed to being purely self-computed with nothing to check it against. true means --build-key WAS given and matched the self-computed hash exactly, so build_key above is a fact this run both measured itself AND had corroborated by the caller's own record of what build they expected. false means either --build-key was not given at all (the normal, preferred invocation - build_key above is the self-computed hash and nothing more), or - this case never reaches a written manifest at all, by design - a given --build-key did NOT match, which fails the run loudly (BuildKeyMismatchError, research/instruments/eri/eri.py) before any output file, including this manifest, is written. A mismatch is therefore never observable as false in a real artifact; false in practice means 'self-computed only'.",
+      "type": "boolean"
+    },
+    "known_build": {
+      "description": "Whether this run's build_key (above) has a registry entry in research/builds/index.json at the time this run executed - i.e. whether the build being read has been seen and catalogued before, under some build_id. This is READ-ONLY informational bookkeeping: it never changes what the instrument itself read (I-01's base_address/image_size are reported identically whether the build is known or not), and true here is never license to reuse an RVA, address, signature, or any other candidate/binding from a DIFFERENT build's research/evidence/ directory - an unknown build inherits nothing from a previous one, and a known build's registry entry is looked up here only to surface the fact and the id, not to pull in that build's evidence.",
+      "type": "boolean"
+    },
+    "build_id": {
+      "description": "The build_id string from research/builds/index.json's entry for this run's build_key when known_build is true (for example 'misery-24953925-ue5.4.4-bace50f7185d'); null when known_build is false, i.e. this exact build_key has no registry entry yet. Purely a cross-reference for a reader who wants to find this build's own research/builds/<build_id>/ directory - carries no claim of its own beyond 'the registry currently maps this build_key to this id'.",
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "required": [

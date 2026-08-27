@@ -216,6 +216,23 @@ absolute ceiling applies regardless: no runtime observation exists for this buil
 Failing (2) — decoding garbage instead of `"None"` — would refute the candidate outright. This is
 the `RF-11` deliverable named in `plan.md` line 538.
 
+## Update 2026-08-27 — runtime observation performed, all checks passed (LOG-0051)
+
+ERI capability I-03 (`research/instruments/eri/eri.py`) performed all three checks above against a
+live `MISERY-Win64-Shipping.exe` (build 24953925, a later build than the one this README's static
+analysis was performed against — sigscan work independently confirmed this candidate's underlying
+code is byte-identical between the two builds, see `RESEARCH_LOG.md` LOG-0049). Result:
+`bNamePoolInitialized` read `1` (check 1 passed). `FNameEntryId=0` decoded to exactly `"None"`
+(`header_u16=0x011e`, `length=4`, `is_wide=false`, raw bytes literally `4e6f6e65` = `"None"` in
+ASCII) — check 2 passed, the mandatory confirmation. Cross-check with RF-05 (item 3) also passed and
+then some: a bounded sample of live objects found via the RF-05 `GUObjectArray` candidate had their
+own `FName`s decoded through this exact chain, yielding dozens of readable, plausible UE class and
+package names (`/Script/CoreUObject`, `Object`, `Actor`, `SceneComponent`, ...) and, specifically,
+`/Script/MISERY` itself (the game's own native module package) plus several `Misery`-prefixed game
+classes — see `RESEARCH_LOG.md` LOG-0051 for the full account and the updated grade this earns
+(OBSERVED, class I, confidence 0.90). This section is kept as the historical record of what the
+static-only HYPOTHESIS grade above was based on and does not retroactively rewrite it.
+
 ## Signatures
 
 `tools/static/sigmake.py`, same image/build as RF-05, default `grow` mode, `reloc` mask policy. 2 of
