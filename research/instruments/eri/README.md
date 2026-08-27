@@ -43,10 +43,23 @@
 > `ReturnValueOffset`+0xb8, `PropertyFlags`+0x38 и др.), плюс бонусную проверку соседних слотов 78/79
 > (`GetFunctionCallspace`/`CallRemoteFunction`, идут в `Object.h` сразу за `ProcessEvent`). PE-01's
 > `UNKNOWN`-адрес закрыт: **`UObject::ProcessEvent` = live RVA `0x12ac1f0`**, OBSERVED, class I, 0.90
-> (два независимых метода: runtime-reflection + binary-analysis). I-07..I-15 **не реализованы** —
-> `ProcessEvent`-**вызов** (Phase 3, отдельная IPP-категория `P-02`), hooks, IPP вне объёма ERI по
-> прямому указанию пользователя; ERI остаётся строго read-only (единственная точка
-> `ReadProcessMemory`, единственная точка `OpenProcess`, ни разу не изменена с I-02).
+> (два независимых метода: runtime-reflection + binary-analysis). **Phase 2 (ABI-контракт вызова,
+> по-прежнему read-only, `tools/reflection/processevent_abi.py`, вне `eri.py` — это офлайн-анализ уже
+> собранных JSONL, не живой инструмент)** — LOG-0057: контракт `ProcessEvent(UObject*, UFunction*,
+> void* Parms)` восстановлен из декомпиляции LOG-0056 (`Parms` = ровно `ParmsSize` байт, не
+> `PropertiesSize`; `FMemory::Memcpy` на входе; return/out через `Parms + ReturnValueOffset`).
+> Безопасность маршалинга каждого параметра сведена к трём готовым битам движка
+> (`CPF_IsPlainOldData`/`CPF_ZeroConstructor`/`CPF_NoDestructor`, `ObjectMacros.h:395-480`,
+> `CPF_ComputedFlags` — вычисляются самим движком, не предполагаются) — эмпирически сверена против
+> ВСЕХ 234 уже собранных живых свойств и 247 живых функций: 139 из 247 (56%) функций —
+> `strict_eligible` (все параметры — trivial), 58 — `eligible_with_object_refs` (допускает UObject
+> references с явной оговоркой), 50 — честно `unsupported` (FString/FText/containers/нетривиальные
+> structs). Конкретный кандидат для будущего Phase 3 positive control найден в уже собранных данных:
+> **`MiseryBlueprintFunctionLibrary::IsSteamDeck`** (static/native/0 network/1 trivial return-only
+> параметр/предсказуемый результат `false`). I-07..I-15 **не реализованы** — `ProcessEvent`-**вызов**
+> (Phase 3, отдельная IPP-категория `P-02`), hooks, IPP вне объёма ERI по прямому указанию
+> пользователя; ERI остаётся строго read-only (единственная точка `ReadProcessMemory`, единственная
+> точка `OpenProcess`, ни разу не изменена с I-02).
 
 ## RESEARCH ONLY — NOT PRODUCTION
 

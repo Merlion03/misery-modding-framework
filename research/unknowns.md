@@ -542,14 +542,16 @@ exe, кэшированный `build_key` запрещён как источни
 | ERI I-05 | не реализована | **реализована, переиспользуя I-06's property-декодер БЕЗ единого изменения кода**; встроенный live self-check (`NumParms` vs число независимо принятых записей `ChildProperties`-цепочки) сразу поймал 15 из 247 расхождений — оказалось не ошибкой нового офсета (`UStruct` total size, `+0xB0`, который self-check затем подтвердил 247/247), а реальным семантическим багом: Blueprint-локальные переменные без `CPF_Parm` по ошибке считались параметрами. Исправлено мной лично; 247 из 247 функций у 20 proof-set классов декодированы без расхождений после исправления. LOG-0055 |
 | `UFunction`-декодер (`FunctionFlags`, `NumParms`, `ParmsSize`, `ReturnValueOffset`, параметры через ChildProperties, is_return/is_out/is_reference, is_native/is_static/is_event/is_net) | не собирался | **декодирован для 247 живых функций** у 20 proof-set классов; семантически проверен (`MiseryBlueprintFunctionLibrary` — все функции `is_static=True`; `KeepSlateKeyboardFocus`'s `ReturnValue` — `is_return=is_out=True`) | LOG-0055 |
 | `ProcessEvent` конкретный адрес | UNKNOWN (PE-01, честный отрицательный результат статического поиска) | **НАЙДЕН живым runtime-чтением**: новая read-only ERI-возможность PE-02 (`--run-pe02-vtable-scan`) прочитала vtable-слот 77 у ВСЕХ 130 000 валидных живых объектов одной сессии (4748 различных классов) — сошлось РОВНО на двух RVA, 0 отклонений: `0x12ac1f0` (базовый `UObject::ProcessEvent`, 125 194 инстанса/4120 классов) и `0x321a430` (override `AActor::ProcessEvent`, `Actor.h:2192` подтверждает `override`, 4 806 инстансов/628 классов, точно иерархия `AActor`). Статическая декомпиляция обоих (`pyghidra_scripts/dump_function.py`) дала побайтовое структурное совпадение с `ScriptCore.cpp:1971`/`Actor.cpp:1064`, независимо подтвердив каждый офсет I-05/I-06. **`UObject::ProcessEvent` = live RVA `0x12ac1f0`, OBSERVED, class I, 0.90** (два независимых метода). `UE_WITH_IRIS`-неоднозначность PE-01 закрыта (слот 77 подтверждён напрямую). LOG-0056 |
+| `ProcessEvent` ABI-контракт + безопасность маршалинга параметров | не восстановлен | **восстановлен из декомпиляции + сведён к трём готовым битам движка**: `Parms`=ровно `Function->ParmsSize` байт (не `PropertiesSize`), `FMemory::Memcpy` на входе, return/out-параметры через `Parms+ReturnValueOffset`/`FOutParmRec`. Безопасность каждого параметра = `CPF_IsPlainOldData`&`CPF_ZeroConstructor`&`CPF_NoDestructor` (`ObjectMacros.h:395-480`, вычисляются движком, не предполагаются) — сверено против ВСЕХ 234 живых свойств и 247 живых функций (`tools/reflection/processevent_abi.py`, целиком офлайн, без нового live-чтения): 139/247 (56%) функций — `strict_eligible`, 58 — `eligible_with_object_refs` (UObject references с оговоркой), 50 честно `unsupported`. LOG-0057 |
+| Кандидат для будущего Phase 3 positive control | не выбран | **найден в уже собранных данных**: `MiseryBlueprintFunctionLibrary::IsSteamDeck` — static (CDO-вызываемая, не нужен live-инстанс)/native/1 trivial return-only параметр (`ParmsSize=1`)/0 network mutation/предсказуемый результат (`false`, если тестовое окружение — не Steam Deck). LOG-0057 |
 
 **Целевой exit criterion M3 (`plan.md` §8.6) формально выполнен раньше, I-06/I-05/PE-02 добавлены
 поверх него отдельными волнами той же сессии.** По прямому указанию пользователя, Phase 1
-(read-only-подтверждение `ProcessEvent`) завершена с сильным evidence — следующий шаг Phase 2 (ABI
-вызова, всё ещё read-only/design, без исполнения); Phase 3 (реальный вызов) — отдельная IPP-категория
-(`P-02`, `plan.md` §8.3), НЕ ERI, требует отдельного явного решения владельца (условие 3 §8.4 —
-Q-8.3 сейчас «ограниченный» ответ, не «отсутствует» — уже отмечено пользователю отдельно). ERI
-остаётся строго read-only.
+(read-only-подтверждение `ProcessEvent`) и Phase 2 (ABI-контракт, всё ещё read-only/design, без
+исполнения) завершены — Phase 3 (реальный вызов `IsSteamDeck`) — отдельная IPP-категория (`P-02`,
+`plan.md` §8.3), НЕ ERI, требует отдельного явного решения владельца (условие 3 §8.4 — Q-8.3 сейчас
+«ограниченный» ответ, не «отсутствует» — уже отмечено пользователю отдельно). ERI остаётся строго
+read-only.
 
 ---
 

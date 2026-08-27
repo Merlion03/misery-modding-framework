@@ -5698,3 +5698,105 @@ question → method → evidence → finding → confidence → persistent artif
   3 (Q-8.3 сейчас — «ограниченный» ответ, не «отсутствует»), что уже отмечено отдельно пользователю.
 
 ---
+
+## 2026-08-27 — Phase 2: ABI вызова `ProcessEvent` восстановлен из декомпиляции, безопасность маршалинга параметров сведена к трём готовым битам движка, первый кандидат для будущего positive control найден в уже собранных данных
+
+- **ID:** LOG-0057
+- **Question:** По прямому указанию пользователя, Phase 2 (по-прежнему read-only, без исполнения):
+  можно ли зафиксировать точный контракт вызова `ProcessEvent` (`UObject*`/`UFunction*`/`void* Parms`
+  плюс всё, что реально требует эта сборка) и построить безопасную классификацию маршалинга параметров
+  — какие типы (`FString`, `FText`, UObject references, structs, arrays/maps/sets, out params, return
+  values) можно просто разместить в буфере, а какие требуют настоящего C++-конструирования — не
+  предполагая, что значения можно просто положить подряд, и честно отвергая небезопасное вместо
+  угадывания?
+- **Method:** Два независимых источника. **(1) Прямое чтение исходника:** декомпилированный код
+  `ProcessEvent` из LOG-0056 (адрес живо подтверждён, PE-02) сопоставлен построчно с
+  `ScriptCore.cpp:1971-2165` — контракт вызова (`Parms` размером ровно `Function->ParmsSize`, не
+  `PropertiesSize`; `FMemory::Memcpy(Frame, Parms, ParmsSize)` строка 2083; return value по
+  `Parms + ReturnValueOffset`, строки 2140-2141; out-параметры возвращаются в тот же буфер через
+  `FOutParmRec`, строки 2094-2129) взят из уже декомпилированного и подтверждённого кода, не заново
+  прочитан впервые; чтение `UnrealType.h:895-974` (виртуальный интерфейс `InitializeValueInternal`/
+  `DestroyValueInternal`/`ClearValueInternal`, `FORCEINLINE InitializeValue`/`DestroyValue` — показывает,
+  что construction/destruction РЕАЛЬНО virtual и типоспецифичен, подтверждая прямое предупреждение
+  пользователя) и `ObjectMacros.h:395-480` (`CPF_ZeroConstructor`=0x200 "memset is fine for
+  construction", `CPF_IsPlainOldData`=0x40000000 "the property can be memcopied instead of
+  CopyCompleteValue/CopySingleValue", `CPF_NoDestructor`=0x1000000000 "No destructor", все три —
+  члены `CPF_ComputedFlags`, вычисляются самим движком по реальному C++-типу, никогда не
+  выставляются модификатором вручную) — три готовых, авторитетных бита вместо ручной классификации
+  по 12 property_class; **(2) эмпирическая сверка**: все три бита прогнаны против ВСЕХ 234 уже
+  собранных живых свойств (`research/reflection/misery-24953925-.../properties.jsonl`, I-06) и всех
+  247 уже собранных живых функций (`.../functions.jsonl`, I-05) — обе сверки читают уже закоммиченные
+  файлы, не ходят в живой процесс заново. Реализован `tools/reflection/processevent_abi.py`
+  (классификация параметра → `trivial`/`object_reference`/`unsupported`, классификация функции,
+  ранжирование кандидатов) и `tests/test_processevent_abi.py` (19 тестов, включая сквозной тест на
+  РЕАЛЬНЫХ 247 функциях, закрепляющий точные числа как регрессию).
+- **Evidence:** `tools/reflection/processevent_abi.py`; `tests/test_processevent_abi.py`;
+  `research/evidence/PE-ABI-01/candidate-ranking.json` (полное ранжирование всех 247 живых функций).
+- **Finding:**
+  1. **Три бита `PropertyFlags` (`CPF_IsPlainOldData`/`CPF_ZeroConstructor`/`CPF_NoDestructor`)
+     ПОЛНОСТЬЮ решают вопрос безопасности маршалинга, без единого специального случая по
+     `property_class`.** Эмпирическая сверка против 234 живых свойств показала ТОЧНО ожидаемую картину:
+     все числовые типы (`FByteProperty`/`FDoubleProperty`/`FEnumProperty`/`FFloatProperty`/
+     `FIntProperty`/`FNameProperty`/`FWeakObjectProperty`) — все три бита стабильно True;
+     `FBoolProperty` — ГЕНУИННО смешанный результат: нативный полнобайтовый `bool` — все три бита True,
+     упакованный в битовое поле `bool` — нет (совпадает с уже декодированным I-06 полем `is_bitfield`
+     без единого нового чтения); `FObjectProperty`/`FClassProperty`/`FWeakObjectProperty` —
+     `ZeroConstructor`+`NoDestructor` есть, `IsPlainOldData` стабильно ОТСУТСТВУЕT (объяснено находкой
+     2); `FStrProperty`, оба delegate-класса — стабильно без `NoDestructor` (реальная очистка нужна);
+     `FArrayProperty` — без `IsPlainOldData`, без `NoDestructor` стабильно (подтверждено также прямым
+     чтением `FArrayProperty::InitializeValueInternal`, `UnrealType.h:3652-3670` — placement-`new`
+     реального `FScriptArray`, не memzero); `FStructProperty` — ГЕНУИННО смешанный по ВСЕМ трём битам
+     в зависимости от конкретного `UScriptStruct` — именно поэтому классификация читает биты у КАЖДОГО
+     свойства, а не у класса типа, и не нуждается в отдельной логике для структур вообще.
+  2. **`FObjectProperty`/`FClassProperty`/`FWeakObjectProperty` — отдельный, явно помеченный
+     ("с оговоркой") уровень безопасности, не "trivial" и не "unsupported".** Отсутствие
+     `CPF_IsPlainOldData` у указателей на `UObject` означает, что ОБЩИЕ операции копирования движка
+     (`CopySingleValue`/оператор присваивания `TObjectPtr`) имеют побочные эффекты, связанные с GC
+     (аналогично уже виденному `ConditionallyMarkAsReachable` у `FFieldVariant`, LOG-0054) — но
+     ИМЕННО ДЛЯ буфера параметров `ProcessEvent` это неважно: сама функция копирует буфер целиком одним
+     `FMemory::Memcpy` (Finding 1 источника (1)), НИКОГДА не вызывая `CopySingleValue` на входе.
+     Поэтому сырая запись указателя в СОБСТВЕННЫЙ буфер `Parms` перед вызовом `ProcessEvent` безопасна
+     для ЭТОЙ конкретной цели — но помечена отдельным уровнем (`object_reference`), никогда не
+     смешивается молча с `trivial`, и предпочитается МЕНЬШЕ при выборе кандидата для Phase 3.
+  3. **Полное ранжирование 247 уже собранных живых функций**: **139 из 247 (56%) — `strict_eligible`**
+     (ВСЕ параметры функции — `trivial`; включая функции с 0 параметров, для которых пустой список
+     параметров тривиально безопасен), **58 из 247 (23%) — `eligible_with_object_refs`** (допускает
+     `object_reference`-параметры), **50 из 247 (20%) — `unsupported`** (хотя бы один параметр требует
+     реального конструирования/уничтожения — честно отвергнуты, не угаданы).
+  4. **Конкретный кандидат для будущего Phase 3 positive control найден в уже собранных данных, без
+     новых live-чтений**: `MiseryBlueprintFunctionLibrary::IsSteamDeck` — ранжирован #1 среди
+     `strict_eligible`. Обоснование, по каждому критерию пользователя: известный `UObject`
+     (`static`+`native` — вызывается через CDO класса, не требует поиска живого gameplay-инстанса в
+     конкретном состоянии); известный `UFunction` (полностью декодирован I-05: `FunctionFlags 0x4042401`,
+     `is_native=True`, `is_static=True`, `is_net=False`, `is_event=False`); простые параметры (РОВНО
+     один параметр — сам `ReturnValue`, `FBoolProperty`, `ParmsSize=1`, `trivial`-уровень); отсутствует
+     network/gameplay mutation (чистый environment-query, имя не совпадает ни с одним словом из
+     mutation-эвристики); предсказуемый return value (независимо: тестовое окружение этой сессии — НЕ
+     Steam Deck, ожидаемый результат — `false`, что можно сверить после вызова). Второй кандидат той же
+     природы — `IsUsingSlateFocus` (тот же владелец, та же форма сигнатуры).
+  5. **`tools/kb/validate.py`: 0 нарушений. Полный набор тестов: system Python 2030 passed / 0 failed
+     / 2 skipped; venv-research 2031 passed / 0 failed / 1 skipped.**
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.85
+- **Почему не выше:** утверждение о самом ABI-контракте (`Parms`=`ParmsSize` байт,
+  `FMemory::Memcpy`-семантика, `ReturnValueOffset`/`FOutParmRec`) наследует полную силу LOG-0056 (два
+  метода, 0.90) — оно построено на уже подтверждённой декомпиляции, не на новом чтении. Но
+  классификация безопасности по `CPF_*`-битам, при всей строгости источника (значения битов —
+  вычисляются самим движком, не предположение), НЕ проверена третьим методом — реальным вызовом
+  `ProcessEvent` с последующим наблюдением, что этот метод (Phase 3) намеренно откладывает. 0.85 —
+  между «два метода, полностью независимых, 0.90» LOG-0056 и разовым единственным методом, отражая,
+  что источник (1) переиспользует, а не заново устанавливает, основной ABI-факт.
+- **Claim class:** I
+- **Почему class I:** утверждение о ТОМ, что означают биты `PropertyFlags` для безопасности операции,
+  которую этот проект ещё не выполнял — интерпретация, не позиционное чтение.
+- **Oracle:** `binary-analysis`, `runtime-reflection`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** — (дополняет LOG-0056, не отменяет; LOG-0056's вывод о самом адресе `ProcessEvent`
+  не затронут)
+- **Next question:** Phase 2 закрыта — ABI зафиксирован, безопасный минимальный subset типов
+  определён и провалидирован против реальных данных, конкретный кандидат для positive control найден.
+  Phase 3 (реальный вызов `IsSteamDeck`, наблюдение return value, сравнение с ожидаемым `false`) —
+  ПО-ПРЕЖНЕМУ отдельная IPP-категория (`P-02`, `plan.md` §8.3), НЕ ERI, требует отдельного явного
+  решения владельца и закрытия §8.4 условия 3 (Q-8.3 сейчас — «ограниченный» ответ, не «отсутствует»).
+
+---

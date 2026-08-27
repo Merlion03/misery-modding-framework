@@ -670,7 +670,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 
 > **Этот блок сгенерирован.** Руками его не правят: правка будет затёрта следующим запуском генератора, и — что хуже — станет неотличима от измерения.
 >
-> **Снято:** 2026-08-27 18:22 UTC | HEAD `67481f5` | интерпретатор `C:\Python314\python.exe`
+> **Снято:** 2026-08-27 18:47 UTC | HEAD `ec9b60e` | интерпретатор `C:\Python314\python.exe`
 >
 > Обновить (один шаг): `python .github\scripts\kb_status.py --write`
 >
@@ -683,9 +683,9 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 | показатель | значение |
 |---|---|
 | schema backend | `jsonschema` |
-| файлов просмотрено | 316 |
-| размеченных записей | 2818 |
-| записей по нотациям | inline-annotation=204, log-entry=89, table-row=173 |
+| файлов просмотрено | 317 |
+| размеченных записей | 2819 |
+| записей по нотациям | inline-annotation=204, log-entry=90, table-row=173 |
 | нечитаемых кандидатов в записи | **0** |
 | нарушений (ERROR) | **0** |
 | предупреждений (WARN) | 258 |
@@ -711,7 +711,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 **Набор тестов — `python -m pytest -q` (exit 0).**
 
 ```
-2011 passed, 2 skipped, 533 subtests passed in 121.34s (0:02:01)
+2030 passed, 2 skipped, 533 subtests passed in 119.47s (0:01:59)
 ```
 
 Провалившихся тестов нет.

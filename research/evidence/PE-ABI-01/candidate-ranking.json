@@ -1,0 +1,3555 @@
+{
+  "eligible_with_object_refs_count": 58,
+  "eligible_with_object_refs_ranked": [
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetMiseryViewportClient",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "TryShowOnScreenKeyboard",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "object_reference",
+        "object_reference"
+      ],
+      "parms_size": 16,
+      "raw_name": "GetFirstFocusableChild",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "object_reference",
+        "object_reference"
+      ],
+      "parms_size": 16,
+      "raw_name": "GetSlateFocusChild",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetInstigator",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetInstigatorController",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetLevel",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetOwner",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetParentActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetParentComponent",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "MiseryEditableText",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetEditableTextBox",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetController",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetLocalViewingPlayerController",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetOverrideInputComponentClass",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "K2_GetRootComponent",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "object_reference"
+      ],
+      "parms_size": 16,
+      "raw_name": "GetComponentByClass",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetDistanceTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetDotProductTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetHorizontalDistanceTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetHorizontalDotProductTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetSquaredDistanceTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetSquaredHorizontalDistanceTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetVerticalDistanceTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 9,
+      "raw_name": "IsOverlappingActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 3,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial",
+        "object_reference"
+      ],
+      "parms_size": 24,
+      "raw_name": "FindComponentByTag",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 4,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial",
+        "trivial",
+        "trivial",
+        "object_reference"
+      ],
+      "parms_size": 48,
+      "raw_name": "PawnMakeNoise",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 5,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "object_reference",
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 52,
+      "raw_name": "MakeNoise",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "K2_OnBecomeViewTarget",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "K2_OnEndViewTarget",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "ReceiveActorBeginOverlap",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "ReceiveActorEndOverlap",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference",
+        "object_reference"
+      ],
+      "parms_size": 16,
+      "raw_name": "ReceiveControllerChanged",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "SetSlateFocus",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "SetSlateFocusDeferred",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 2,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference",
+        "object_reference"
+      ],
+      "parms_size": 16,
+      "raw_name": "GetMovementBaseActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 2,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial"
+      ],
+      "parms_size": 9,
+      "raw_name": "Misery_SetInputMode_GameOnly",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetAttachParentActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetMovementComponent",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "AddTickPrerequisiteActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "AddTickPrerequisiteComponent",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "CreateInputComponent",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "DisableInput",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "EnableInput",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "RemoveTickPrerequisiteActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "RemoveTickPrerequisiteComponent",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "SetOwner",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "MiseryGameViewportClient",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "SetInjectedScrollBox",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 4,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 18,
+      "raw_name": "K2_AttachRootComponentTo",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 4,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 18,
+      "raw_name": "K2_AttachRootComponentToActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 7,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial",
+        "trivial",
+        "trivial",
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 21,
+      "raw_name": "K2_AttachToActor",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 7,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "object_reference",
+        "trivial",
+        "trivial",
+        "trivial",
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 21,
+      "raw_name": "K2_AttachToComponent",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "SGK Options Save",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "GameSettingsUpdated__DelegateSignature",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "SGK Options Save",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKSettingsSaveData_C",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "SettingsChanged__DelegateSignature",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "ReceivePossessed",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "object_reference"
+      ],
+      "parms_size": 8,
+      "raw_name": "ReceiveUnpossessed",
+      "strict_eligible": false
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 4,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "object_reference",
+        "object_reference",
+        "object_reference"
+      ],
+      "parms_size": 32,
+      "raw_name": "ReceiveAnyDamage",
+      "strict_eligible": false
+    }
+  ],
+  "strict_eligible_count": 139,
+  "strict_eligible_ranked": [
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsSteamDeck",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsUsingSlateFocus",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "FlushNetDormancy",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ForceNetUpdate",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnRep_Instigator",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnRep_Owner",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "TearOff",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Pawn",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnRep_Controller",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Pawn",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnRep_PlayerState",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "CanTriggerResimulation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetActorForwardVector",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetActorRelativeScale3D",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetActorRightVector",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetActorScale3D",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "GetActorTickInterval",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "GetActorTimeDilation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetActorUpVector",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "GetGameTimeSinceCreation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "GetLifeSpan",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "GetLocalRole",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "GetPhysicsReplicationMode",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "GetRayTracingGroupId",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "GetRemoteRole",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "GetResimulationThreshold",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "GetTickableWhenPaused",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetVelocity",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "HasAuthority",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsChildActor",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "MiseryEditableText",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsEditing",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetBaseAimRotation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetControlRotation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetNavAgentLocation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "GetPlatformUserId",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsBotControlled",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsControlled",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsLocallyControlled",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsLocallyViewed",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsPlayerControlled",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "K2_GetActorLocation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "K2_GetActorRotation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 48,
+      "raw_name": "GetActorEyesViewPoint",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "GetInputAxisValue",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 5,
+      "raw_name": "WasRecentlyRendered",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 9,
+      "raw_name": "ActorHasTag",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 3,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 12,
+      "raw_name": "PrestreamTextures",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": false,
+      "num_true_parameters": 4,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 57,
+      "raw_name": "GetActorBounds",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ReceiveActorBeginCursorOver",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ReceiveActorEndCursorOver",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ReceiveBeginPlay",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "UserConstructionScript",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "BP_PlaytestBeginPlyer_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ReceiveBeginPlay",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "BP_RadiationLoadCircle_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "Construct",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnFailure_1E1C8B9C44D1848457BBF891D20750F9",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnSuccess_1E1C8B9C44D1848457BBF891D20750F9",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "ReceiveActorOnInputTouchBegin",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "ReceiveActorOnInputTouchEnd",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "ReceiveActorOnInputTouchLeave",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "ReceiveEndPlay",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "ReceiveTick",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 8,
+      "raw_name": "ReceiveAsyncPhysicsTick",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 16,
+      "raw_name": "SGK MouseSense",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 2,
+      "raw_name": "HandleNetworkError",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": false,
+      "num_true_parameters": 2,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 16,
+      "raw_name": "SGK MouseSense",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": true,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "MiseryBlueprintFunctionLibrary",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "InitFocusRule",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "K2_DestroyActor",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnRep_AttachmentReplication",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnRep_ReplicateMovement",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "OnRep_ReplicatedMovement",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "MiseryEditableText",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "CommitEditing",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "MiseryEditableText",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "EnterEditMode",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Pawn",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "DetachFromControllerPendingDestroy",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Pawn",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "SpawnDefaultController",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "GetActorEnableCollision",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 8,
+      "raw_name": "GetAttachParentSocketName",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsActorBeingDestroyed",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsActorTickEnabled",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetLastMovementInputVector",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "GetPendingMovementInputVector",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsMoveInputIgnored",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": true,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "IsPawnControlled",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "DetachRootComponentFromParent",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetActorEnableCollision",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetActorHiddenInGame",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "SetActorRelativeScale3D",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "SetActorScale3D",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetActorTickEnabled",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "SetActorTickInterval",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetAutoDestroyWhenFinished",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "SetLifeSpan",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetNetDormancy",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetPhysicsReplicationMode",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "SetRayTracingGroupId",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetReplicateMovement",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetReplicates",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetTickGroup",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SetTickableWhenPaused",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "MiseryEditableText",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "ExitEditMode",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "AddControllerPitchInput",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "AddControllerRollInput",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "AddControllerYawInput",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 24,
+      "raw_name": "ConsumeMovementInputVector",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 2,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 2,
+      "raw_name": "SetCanAffectNavigationGeneration",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 3,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 3,
+      "raw_name": "K2_DetachFromActor",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 3,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 26,
+      "raw_name": "K2_SetActorRotation",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 3,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 49,
+      "raw_name": "K2_TeleportTo",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": true,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 3,
+      "owner": "Pawn",
+      "parameter_tiers": [
+        "trivial",
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 29,
+      "raw_name": "AddMovementInput",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "K2_OnReset",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Actor",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ReceiveDestroyed",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "SGK SaveSettings",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "LoadControls",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "LoadSettingsSave",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "LoadSoundVolumes",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ReceiveInit",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "SGK SaveSettings",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "Save Settings",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "BP_SGKSettingsSaveData_C",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "SaveSettings",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 0,
+      "owner": "Pawn",
+      "parameter_tiers": [],
+      "parms_size": 0,
+      "raw_name": "ReceiveRestarted",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Actor",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "ReceiveActorOnInputTouchEnter",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_PlaytestBeginPlyer_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "ExecuteUbergraph_BP_PlaytestBeginPlyer",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_RadiationLoadCircle_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "ExecuteUbergraph_BP_RadiationLoadCircle",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK GetLoadSaveGame",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK GetMenuOpenedLevel",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 8,
+      "raw_name": "SGK SetAimSense",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK SetLoadSaveGame",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK SetMenuOpenedLevel",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 8,
+      "raw_name": "SGK SetMouseSense",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "ExecuteUbergraph_BP_SGKGameInstance",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK GetLoadSaveGame",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK GetMenuOpenedLevel",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 8,
+      "raw_name": "SGK SetAimSense",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK SetLoadSaveGame",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 1,
+      "raw_name": "SGK SetMenuOpenedLevel",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 8,
+      "raw_name": "SGK SetMouseSense",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "BP_SGKSettingsSaveData_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "ExecuteUbergraph_BP_SGKSettingsSaveData",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": true,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "Object",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "ExecuteUbergraph",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 1,
+      "owner": "WD_PlaytestNote01_C",
+      "parameter_tiers": [
+        "trivial"
+      ],
+      "parms_size": 4,
+      "raw_name": "ExecuteUbergraph_WD_PlaytestNote01",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 2,
+      "owner": "BP_SGKGameInstanceInterface_C",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 16,
+      "raw_name": "SGK SetVolume",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 2,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 16,
+      "raw_name": "SGK SetVolume",
+      "strict_eligible": true
+    },
+    {
+      "eligible_with_object_refs": true,
+      "is_event": false,
+      "is_native": false,
+      "is_net": false,
+      "is_static": false,
+      "local_variable_count": null,
+      "looks_like_getter": false,
+      "looks_like_mutation": true,
+      "num_true_parameters": 2,
+      "owner": "BP_SGKGameInstance_C",
+      "parameter_tiers": [
+        "trivial",
+        "trivial"
+      ],
+      "parms_size": 16,
+      "raw_name": "SetVolume",
+      "strict_eligible": true
+    }
+  ],
+  "total_functions": 247,
+  "unsupported_count": 50
+}
