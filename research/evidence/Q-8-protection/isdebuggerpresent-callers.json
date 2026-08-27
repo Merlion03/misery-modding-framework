@@ -1,0 +1,76 @@
+{
+  "depth": 1,
+  "direction": "callers",
+  "edges": [
+    {
+      "call_site": "1428ffeaa",
+      "callee": "EXTERNAL:000000cb",
+      "caller": "1428ffc30",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": true,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "COMPUTED_CALL"
+      }
+    },
+    {
+      "call_site": "145cadc5c",
+      "callee": "EXTERNAL:000000cb",
+      "caller": "145cadb64",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": true,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "COMPUTED_CALL"
+      }
+    }
+  ],
+  "generated_at": "2026-08-27T19:00:29Z",
+  "nodes": {
+    "1428ffc30": {
+      "depth": 1,
+      "entry": "1428ffc30",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_1428ffc30"
+    },
+    "145cadb64": {
+      "depth": 1,
+      "entry": "145cadb64",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_145cadb64"
+    },
+    "EXTERNAL:000000cb": {
+      "depth": 0,
+      "entry": "EXTERNAL:000000cb",
+      "is_external": true,
+      "is_leaf": true,
+      "is_thunk": false,
+      "name": "IsDebuggerPresent"
+    }
+  },
+  "program": "MISERY-Win64-Shipping.exe",
+  "seed": {
+    "entry": "EXTERNAL:000000cb",
+    "is_external": true,
+    "is_thunk": false,
+    "name": "IsDebuggerPresent"
+  }
+}
