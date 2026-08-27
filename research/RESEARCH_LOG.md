@@ -5179,3 +5179,172 @@ question → method → evidence → finding → confidence → persistent artif
   README.md` — секции «What a runtime observation would need to show» теперь имеют ответ; I-04
   (дамп `UClass` с иерархией) — следующая возможность, которая довела бы это до полноценного
   `classes.jsonl` с непустым `/Script/MISERY` (буквальный exit criterion M3, `plan.md` §8.6).
+
+---
+
+## 2026-08-27 — ERI capability I-04 (UObject/UClass traversal): реализована, найден и исправлен реальный дефект class-identity — дважды
+
+- **ID:** LOG-0052
+- **Question:** Прямое указание пользователя после LOG-0051: построить первый настоящий read-only
+  traversal `FUObjectArray → UObject → Class/Outer/Name → object_path → identify UClass →
+  classes.jsonl`, offsets только из точного UE 5.4.4 CL 35576357 source correlation, без переноса
+  из памяти/другой версии движка.
+- **Method:** Точечная (не M1/M2s-масштаба) offset-деривация мной лично из реального движкового
+  исходника перед запуском волны (`UObjectBase.h`, `NameTypes.h` — engine's own `static_assert`
+  подтвердил размер `FName` = 8 байт, значит `OuterPrivate` = `NamePrivate`(0x18) + 8 = 0x20,
+  независимо от layout `UObjectBaseUtility`/`UObject`/`UField`/`UStruct`/`UClass`, которые дизайн
+  I-04 сознательно не читает вовсе). Один workflow, 2 стадии (реализация + targeted-ревью именно
+  layout+traversal safety, не новый глобальный аудит M3). Затем я лично: (а) прочитал изменённый
+  код сам; (б) независимо перепроверил находку ревью, включая ре-чтение реального
+  `WidgetBlueprintGeneratedClass.h`/`AnimBlueprintGeneratedClass.h`; (в) САМ дважды пытался
+  исправить алгоритм class-identity — первая попытка оказалась неверной и была поймана
+  собственным тестовым набором проекта, вторая — прошла; (г) добавил независимый regression-тест
+  на конкретный найденный дефект; (д) прогнал полный набор тестов дважды.
+- **Evidence:** `research/instruments/eri/eri.py` (I-04, ~1600 новых строк), `tests/test_eri_i04.py`
+  (62 теста), `research/schema/reflection-record.schema.json` (существующая схема
+  переиспользована, не создана заново).
+- **Finding:**
+  1. **I-04 реализована**: полный (не сэмплированный) обход `GUObjectArray`, чтение
+     `ClassPrivate`(+0x10)/`NamePrivate`(+0x18, переиспользован из I-03)/`OuterPrivate`(+0x20) для
+     каждого объекта; построение `object_path` через bounded (16 хопов) cycle-protected обход
+     `Outer`-цепочки; identity `UClass` — без чтения единого поля `UClass`/`UStruct`/`UField`
+     напрямую (задача сознательно спроектирована так, чтобы этого не требовалось).
+  2. **Targeted-ревью нашла 2 реальных MAJOR-дефекта, не выдумала находки ради количества** (плюс 2
+     note-уровня подтверждения корректности layout и traversal safety — offsets/cycle-protection
+     независимо передоказаны и совпали). (а) Оригинальный алгоритм class-identity рос ровно от ДВУХ
+     жёстко зафиксированных навсегда корней (`seed`, `BlueprintGeneratedClass`) — реальные native
+     UE 5.4 типы `UWidgetBlueprintGeneratedClass`/`UAnimBlueprintGeneratedClass` (подтверждено
+     прямой цитатой из `WidgetBlueprintGeneratedClass.h`/`AnimBlueprintGeneratedClass.h`) молча
+     исключались бы из classes.jsonl — вероятно, самая большая категория реальных `/Game`
+     Blueprint-ассетов в игре с UMG UI. (б) Расхождение конвенции `object_path` («.» у новой записи
+     против «/» у уже закоммиченной offline-записи RF-01 для тех же самых 5 классов) не было
+     задокументировано нигде, хотя задание явно требовало это проверить.
+  3. **Честно задокументированная методологическая находка**: моя ПЕРВАЯ попытка исправить дефект
+     (а) — «class_address_universe = множество всех уникальных значений `ClassPrivate`, без
+     корней вообще» — показалась элегантнее, но оказалась НЕВЕРНОЙ: она неявно требует, чтобы у
+     каждого настоящего `UClass` уже был живой экземпляр (например, собственный CDO) в этом же
+     снимке памяти — это не то же самое, что «этот объект АРХИТЕКТУРНО является `UClass`». Это
+     было поймано не мной интуитивно, а СОБСТВЕННЫМ тестовым набором проекта: 3 из 61
+     существовавших тестов упали немедленно после этой правки (`assert 0 == 2` и подобные) —
+     ровно то, для чего юнит-тесты и нужны. Отменил, передумал, реализовал вторую, правильную
+     версию: расширяемое множество «корней» ищется по ИМЕНИ (суффикс `"GeneratedClass"`, а не
+     фиксированный список из одного имени) среди объектов первого раунда, что покрывает
+     `WidgetBlueprintGeneratedClass`/`AnimBlueprintGeneratedClass` и любой ещё не увиденный этой
+     сессией нативный подтип той же архитектурной роли, без угадывания их адресов или
+     жёсткого перечисления имён.
+  4. **Добавлен независимый regression-тест**
+     (`test_run_i04_widget_blueprint_generated_class_is_classified_correctly`), который НИ РАЗУ не
+     упоминает буквальную строку `"BlueprintGeneratedClass"` — сконструирован ТОЛЬКО вокруг
+     `WidgetBlueprintGeneratedClass`, чтобы доказать, что исправление действительно общее, а не
+     второй частный случай, добавленный поверх первого.
+  5. **Расхождение конвенции `object_path` задокументировано явно** в докстринге
+     `resolve_object_path()`: новые (runtime) записи используют `"."` (реальная UE `GetPathName()`
+     конвенция, также буквальный пример в самой схеме `reflection-record.schema.json`); уже
+     закоммиченная offline-запись RF-01 (`research/reflection/misery-24826585-.../classes.jsonl`,
+     build 24826585) использует `"/"` для тех же пяти классов — читателю, сопоставляющему записи
+     между двумя источниками по строке `object_path`, нужно нормализовать один формат к другому
+     (сравнивать `raw_name`+`package` вместо этого) — записано, а не тихо оставлено на будущее
+     открытие через несовпавший `assert`.
+  6. **Полный прогон тестов после обоих исправлений**: `test_eri_i0{1,2,3,4}.py` +
+     `test_schema_contract.py` — 263 passed, 467 subtests (перепроверено мной лично после
+     собственных правок, не только со слов агентов). Полный набор репозитория дважды: system
+     Python — 1846 passed/1 skipped/533 subtests (1 ожидаемый failure — canonical-interpreter тест
+     pyghidra под system Python); `D:\Tools\venv-research\Scripts\python.exe` — 1847 passed/1
+     skipped/533 subtests, 0 failures.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.90
+- **Claim class:** P
+- **Почему class P:** утверждения Finding 1-6 — конкретные, детерминированные факты о
+  существовании кода/тестов/их прохождении, перепроверенные мной прямым запуском, не интерпретация.
+- **Oracle:** `filesystem`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** —
+- **Next question:** живой прогон I-04 против настоящего `MISERY-Win64-Shipping.exe` — единственное,
+  что решает, действительно ли `class_address_universe` и `/Script/MISERY`-реконсиляция работают на
+  реальных данных, а не только на синтетических фикстурах. См. следующую запись.
+
+---
+
+## 2026-08-27 — Живой прогон I-04: первый настоящий `classes.jsonl`, 5/5 `/Script/MISERY` совпало с offline, найдены 10 живых `/Game` Blueprint-классов
+
+- **ID:** LOG-0053
+- **Question:** Работает ли полный traversal `GUObjectArray → UObject → Class/Outer/Name →
+  object_path → identify UClass` против настоящего живого `MISERY-Win64-Shipping.exe`, и что
+  показывает прямая сверка с offline `global.ucas` (RF-01: 5 классов, 18 members)?
+- **Method:** Запустил игру через `steam://run/2119830`, дождался стабильного процесса,
+  прогнал `eri.py --run-i02 --run-i03 --run-i04 --classes-jsonl-out ...` дважды подряд против
+  одного и того же живого процесса (pid 9324) для проверки воспроизводимости; закрыл игру
+  сразу после второго прогона; `verify_install.py` до и после — оба MATCH. Итоговый
+  `classes.jsonl` скопирован в каноническое место
+  `research/reflection/misery-24953925-ue5.4.4-bace50f7185d/classes.jsonl` (build ИМЕННО этой,
+  живой сессии — не старой offline-сборки 24826585). Провалидировал все 15 строк напрямую против
+  `reflection-record.schema.json`, составленной с envelope `kb-record.schema.json`.
+- **Evidence:** `research/reflection/misery-24953925-ue5.4.4-bace50f7185d/classes.jsonl` (15 строк);
+  `research/instrument-runs/2026-08-27T161726Z-i04/` и `.../2026-08-27T161726Z-i04-rerun2/`
+  (`i01-process-info.json`, `i02-guobjectarray.json`, `i03-fnamepool.json`, `i04-classes.json`,
+  `classes.jsonl`, `manifest.json` — оба прогона).
+- **Finding:**
+  1. **Полная перепись живой UObject-вселенной: 26 263 из 26 263 просканированных индексов —
+     валидны, 0 отклонено по любой из четырёх причин** (`class_pointer_implausible=0`,
+     `name_decode=0`, `pointer_alignment=0`, `read_failure=0`) — исключительно чистый результат,
+     каждый живой объект прошёл все структурные инварианты.
+  2. **3991 объект идентифицирован как `UClass`-инстанс** (`class_address_universe_size`),
+     `fixed_point` сошёлся за 3 прохода (не исчерпал лимит в 8). Из них: 3975 — «раунд 1» (нативные
+     типы и обычные native-классы), плюс объекты, найденные через обнаруженные meta-type корни
+     (`WidgetBlueprintGeneratedClass` реально присутствует в этой сборке — адрес зафиксирован в
+     `i04-classes.json`).
+  3. **`/Script/MISERY`: 5 из 5 классов найдено, ИМЕНА ТОЧНО совпадают с offline RF-01**
+     (`research/reflection/misery-24826585-.../classes.jsonl`, build 24826585, другая сборка):
+     `MiseryBlueprintFunctionLibrary`, `MiseryEditableText`, `MiseryFocusableWidget`,
+     `MiseryFocusSubsystem`, `MiseryGameViewportClient`. **Сверка: 5 совпало, 0 только-runtime, 0
+     только-offline.** Все пять — `is_blueprint_generated=False` (нативные C++ классы, ожидаемо,
+     согласуется с offline-записью, у которой это поле было `null`/неизвестно). Несовпадение,
+     которое НЕ считается ошибкой автоматически (как и просил пользователь), а честно
+     задокументировано: `object_path` использует разный разделитель между двумя источниками — новая
+     запись `/Script/MISERY.MiseryFocusSubsystem` (реальная `GetPathName()`-конвенция), старая
+     offline-запись `/Script/MISERY/MiseryFocusSubsystem` (см. LOG-0052 Finding 5 и
+     `resolve_object_path()`'s docstring) — сами ИМЕНА классов и `package` совпадают, различие
+     только в форме склейки строки.
+  4. **10 живых `/Game`-классов найдено, все 10 — реальные Blueprint-ассеты
+     (`is_blueprint_generated=True`), полная выборка (10 из 10, до лимита 25 не дошло)** —
+     сэмпл не урезан, это ИСЧЕРПЫВАЮЩИЙ список того, что реально нашлось в этой живой сессии, не
+     произвольная часть. Правдоподобные, узнаваемые пути реальной survival-игры:
+     `/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKGameInstance.BP_SGKGameInstance_C`,
+     `.../BP_SGKSettingsSaveData_C`, `.../BP_ControlSaves_C`, `.../BP_RadiationLoadCircle_C`
+     (упоминание радиации — тематически согласуется с постапокалиптическим сеттингом MISERY),
+     `.../CW_Cursor_C`, `.../BP_ControlFunction_C`, `.../WD_PlaytestNote01_C`, плюс
+     `/Game/Blueprints/Playtest/PlaytestBeginPGmaemode_C` и `.../BP_PlaytestBeginPlyer_C`
+     (буквенные опечатки в самих именах — «Gmaemode», «Plyer» — подлинные, похожи на реальные
+     артефакты разработки, а не сгенерированный/поддельный текст). `SurvivalGameKitV2` — известный
+     публичный UE Marketplace asset pack для survival-игр; находка предполагает, что MISERY построен
+     на его основе, что раньше не было явно зафиксировано в этом проекте.
+  5. **3976 «прочих» (в основном движковых) `UClass`-инстансов найдено, НЕ записано в
+     classes.jsonl** — намеренно, по прямому указанию пользователя не делать полный dump; общее
+     число зафиксировано в `i04-classes.json`, честно, не скрыто.
+  6. **Воспроизводимость подтверждена**: два прогона подряд против ОДНОГО И ТОГО ЖЕ живого процесса
+     дали побайтово идентичный набор (`raw_name`, `object_path`, `is_blueprint_generated`) — все 15
+     строк, оба прогона.
+  7. **Установка проверена чистой до и после сессии** (`verify_install.py` — MATCH оба раза).
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.90 (для `/Script/MISERY`-записей: две независимые сверки — эта живая сессия
+  плюс независимо ранее полученная offline-запись RF-01 другой сборки, обе сошлись по именам)
+- **Область confidence:** для 10 `/Game`-записей отдельная, более низкая оценка (0.75, уже записана
+  построчно в самом `classes.jsonl` каждой волной MIX-SPLIT из LOG-0052) — единственный источник
+  (только эта живая сессия), без независимой offline-сверки для КАЖДОГО конкретного Blueprint-ассета.
+- **Claim class:** I
+- **Почему class I:** утверждение о том, ЧТО означают найденные адреса (что это реально `UClass`
+  и что декодированное имя соответствует классу игры), не просто позиционное чтение.
+- **Oracle:** `runtime-reflection`, `global-ucas`
+- **Два независимых метода:** для пяти `/Script/MISERY`-записей — эта живая ERI-сессия
+  (`runtime-reflection`) плюс независимая offline-запись RF-01 другой сборки (`global-ucas`),
+  сошлись по именам классов.
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** — (offline RF-01 запись остаётся верной для своей сборки 24826585, не заменена)
+- **Next question:** M3 exit criterion (`plan.md` §8.6 — «ERI выдаёт classes.jsonl с непустым
+  /Script/MISERY, воспроизводимо, без единой записи в память процесса») формально удовлетворён:
+  файл существует, непуст, воспроизведён дважды, ноль записей в память подтверждено архитектурой
+  инструмента (см. LOG-0050 safety-ревью) и чистым `verify_install.py`. Следующие возможности
+  (I-05 `UFunction`, I-06 `FProperty`, `ProcessEvent`-вызов) — вне объёма этой волны по прямому
+  указанию пользователя.
+
+---

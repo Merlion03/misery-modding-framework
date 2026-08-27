@@ -84,6 +84,102 @@ disassembly offset for InternalIndex (+0xc) -- see
 DEFAULT_NAME_PRIVATE_OFFSET's own comment for the full derivation and why
 that cross-check landing exactly on +0xc is meaningful, not coincidental.
 
+WHAT I-04 IS
+------------
+plan.md 8.2, capability I-04: "Дамп UClass с иерархией наследования" -- the
+first real UObject/UClass TRAVERSAL, not merely a bounded sample. Where I-03's
+own "/Script/MISERY live reflection" probe (sample_object_names()) only ever
+read one field (NamePrivate) of a bounded sample of objects, I-04 walks EVERY
+object I-02's own GUObjectArray chunk-walk locates (bounded only by
+--i04-max-scan-indices, a safety cap, never a statistical sample size) and
+reads three UObjectBase fields per object -- ClassPrivate (+0x10),
+NamePrivate (+0x18, I-03's own DEFAULT_NAME_PRIVATE_OFFSET, reused verbatim)
+and OuterPrivate (+0x20, the ONE genuinely new offset this capability
+introduces) -- to answer two questions per object: what is its canonical
+object_path (built by walking the Outer chain, bounded and cycle-protected),
+and IS this object itself a UClass instance.
+
+The second question is answered without ever reading a single UClass/UStruct/
+UField-specific field (ClassFlags, SuperStruct, ChildProperties, ...) --
+deliberately out of scope for this pass, see this section's own "scope"
+paragraph below. Instead it uses a genuine architectural fixed point of real
+UE reflection: UClass::StaticClass()->ClassPrivate == itself (every UClass
+"type descriptor" object's own Class is the native UClass type, literally
+named "Class" in the FNamePool), so the ONE self-referential object in the
+whole live UObject universe (ClassPrivate address == its own address) is
+"Class", found and cross-checked against its own decoded name/object_path
+(never merely trusted because it happens to be self-referential -- see
+find_uclass_self_reference()'s own docstring) before anything is built on
+top of it. From that single seed, class_address_universe grows from a SET
+of principled ROOTS -- NEVER a general "anything whose ClassPrivate is
+already a member of the growing universe joins" closure, which is a subtly
+different and WRONG rule this capability deliberately does not implement
+(see compute_class_identity()'s own docstring for exactly why: real UE
+semantics mean an ORDINARY GAMEPLAY INSTANCE of any native class also has
+its own ClassPrivate equal to that class's address, so a truly general
+transitive closure would, after enough passes, also sweep in thousands of
+plain object instances as "is a UClass" -- not a hypothetical, but what the
+literal general rule would produce against a real ~26 000-object live
+GUObjectArray). Round 1: every object whose ClassPrivate == the seed
+("Class") -- this catches every native type descriptor, "ScriptStruct",
+"Function", "Enum", "BlueprintGeneratedClass" itself, and every ordinary
+native UClass (MiseryFocusSubsystem, MiseryBlueprintFunctionLibrary, ...),
+because UClass, UScriptStruct, UFunction, UEnum and UBlueprintGeneratedClass
+are ALL native C++ types whose own metaclass is UClass. Every round-1 member
+whose OWN name ends with "GeneratedClass" (find_meta_type_roots(), a GENERAL
+name-suffix test -- CORRECTED 2026-08-27 after a targeted review found the
+original design's single hardcoded "BlueprintGeneratedClass"-only check
+missed real native siblings like UWidgetBlueprintGeneratedClass and
+UAnimBlueprintGeneratedClass) is promoted to an additional root; the plain
+"BlueprintGeneratedClass" name is ALSO still separately found and
+path-cross-checked (find_blueprint_generated_class_address()) as one
+specific, reported data point. Round 2+ (bounded by
+--i04-max-fixed-point-passes, converged/logged either way): every object
+whose ClassPrivate is EXACTLY one of this FIXED root set -- never the whole
+growing universe -- joins. This catches real Blueprint class ASSETS of
+EVERY discovered meta-type (their own metaclass is one of the roots), while
+correctly excluding an ordinary instance of, say, MiseryFocusSubsystem (its
+own ClassPrivate is MiseryFocusSubsystem's address, which is never promoted
+to a root, since "MiseryFocusSubsystem" does not end in "GeneratedClass")
+and an ordinary UScriptStruct/UFunction/UEnum instance (e.g. the
+struct-descriptor object for FVector; its own ClassPrivate is "ScriptStruct",
+likewise never promoted). See compute_class_identity()'s own docstring for
+the full worked trace this reasoning is pinned against, including the
+FIRST, ALSO-WRONG attempted fix (a rootless "every distinct ClassPrivate
+value" rule) that this project's own test suite caught before it was
+trusted.
+
+object_path is built for every classified UClass instance by walking the
+Outer chain (bounded depth, cycle-protected -- see resolve_object_path()'s
+own docstring), using this session's own confirmed fact (LOG-0051,
+i03-fnamepool.json's misery_reflection.decoded_names) that a UPackage's own
+NamePrivate already holds its FULL "/Script/<Module>" or "/Game/<...>" path,
+never a bare leaf name.
+
+SCOPE, DELIBERATELY (per the task this capability was specified from --
+"не угадывай UObject layout" applies with full force to anything past
+OuterPrivate): I-04 reads ONLY the three UObjectBase fields named above. It
+never reads a byte of UObjectBaseUtility, UObject, UField, UStruct or UClass
+storage -- no ClassFlags, no SuperStruct, no ChildProperties, no size, no
+alignment. Every such field in the committed classes.jsonl rows this
+capability writes is explicitly null, not guessed and not half-implemented
+(build_i04_class_record()'s own docstring lists every one). I-04 also never
+invokes ProcessEvent or any UFunction, sets no hook, and writes nothing to
+the target process -- identical read-only guarantee to I-01/I-02/I-03, using
+the SAME single ReadProcessMemory call site and the SAME single OpenProcess
+call site; no new Win32 API, no new access right.
+
+classes.jsonl (research/schema/reflection-record.schema.json's class_record
+branch) is the committed artifact this capability produces: every classified
+UClass instance under /Script/MISERY (the literal exit-criterion target),
+plus a small BOUNDED sample of /Game/* Blueprint-generated classes (never an
+exhaustive dump -- see build_i04_document()'s own docstring for the sample
+cap and the honest full-count reporting alongside it), and explicitly NOT
+the hundreds of native /Script/Engine, /Script/CoreUObject etc. classes this
+same walk inevitably also finds (their total count is reported, never
+persisted -- the "огромный полный semantic dump" the task this capability
+was specified from explicitly says not to produce yet).
+
 THE ARCHITECTURAL GUARANTEE THIS FILE EXISTS TO PROVE (plan.md 8.2)
 ---------------------------------------------------------------------
     "Ничего не пишет, ничего не инжектит, не ставит хуков, не вызывает
@@ -285,6 +381,7 @@ GENERATOR_VERSION = "0.1.0"
 CAPABILITY_ID = "I-01"
 CAPABILITY_ID_I02 = "I-02"
 CAPABILITY_ID_I03 = "I-03"
+CAPABILITY_ID_I04 = "I-04"
 
 
 # --------------------------------------------------------------------------- #
@@ -981,6 +1078,22 @@ def evaluate_struct_invariants(num_elements: int, max_elements: int) -> dict:
     }
 
 
+def _vtable_pointer_in_module_range(pointer: int, base_address: int, image_size_bytes: int) -> bool:
+    """True iff *pointer* falls inside [base_address, base_address+image_size_bytes)
+    -- a plausible vtable pointer lives in the SAME module's .rdata/.text,
+    never in the heap or a different module. This is the SAME check
+    sample_walk_objects() below already used inline for a sampled UObject's
+    own vtable pointer; factored out here (I-04) so that capability's own
+    structural-validation check (3) -- "the first 8 bytes at ClassPrivate's
+    own address look like a vtable pointer" -- reuses the IDENTICAL formula
+    rather than re-deriving it a second time, per the "reuse I-02's own
+    vtable-pointer check" instruction this capability was specified from.
+    sample_walk_objects() itself was updated to call this too, so there is
+    exactly one place this comparison is expressed in the whole file.
+    """
+    return base_address <= pointer < base_address + image_size_bytes
+
+
 def _locate_object_pointer(api, handle: int, objects_ptr: int, index: int) -> int | None:
     """FChunkedFixedUObjectArray::GetObjectPtr's own shift-16/mask-0xFFFF/
     stride-24 addressing (RF-05/README.md), factored out of I-02's own
@@ -1081,7 +1194,8 @@ def sample_walk_objects(api, handle: int, objects_ptr: int, num_elements: int,
         examined += 1
         try:
             vtable_ptr = _read_u64(api, handle, object_ptr)
-            plausible = image_start <= vtable_ptr < image_end
+            plausible = _vtable_pointer_in_module_range(
+                vtable_ptr, base_address, image_size_bytes)
         except ReadProcessMemoryFailedError:
             plausible = False  # a torn read on an already-committed sample.
 
@@ -1665,6 +1779,1088 @@ def sample_object_names(api, handle: int, objects_ptr: int, num_elements: int,
             "from the live process as a whole; see sample_object_names()'s "
             "own docstring." % (examined, sample_size, scanned, max_scan_indices)),
     }
+
+
+# --------------------------------------------------------------------------- #
+# I-04: dump UClass instances with their inheritance-adjacent identity
+# (plan.md 8.2 item 8.2, "Дамп UClass с иерархией наследования") -- the
+# first real UObject/UClass TRAVERSAL, not a bounded sample. See the module
+# docstring's "WHAT I-04 IS" section for the full algorithm and its
+# deliberate scope boundary.
+# --------------------------------------------------------------------------- #
+
+# UObjectBase field offsets I-04 additionally needs. DEFAULT_NAME_PRIVATE_OFFSET
+# (+0x18, I-03's own constant) is REUSED verbatim above -- never redeclared.
+#
+# +0x10 ClassPrivate: falls straight out of UObjectBase.h's own member
+# declaration order (see DEFAULT_NAME_PRIVATE_OFFSET's own comment above for
+# the full field-by-field derivation, cross-checked against RF-05's own
+# independent disassembly finding InternalIndex==+0xc) -- immediately
+# follows InternalIndex (+0x0c, 4 bytes), naturally 8-byte aligned already.
+DEFAULT_CLASS_PRIVATE_OFFSET = 0x10
+
+# +0x20 OuterPrivate: the ONE genuinely new offset I-04 introduces, and it
+# required zero new guessing -- it falls straight out of two ALREADY-verified
+# facts: NamePrivate's own offset (+0x18) and NameTypes.h's own
+# static_assert that FName is exactly 8 bytes (STRUCT_OFFSET(FName, Number)
+# == 4, sizeof(Number) == 4, i.e. ComparisonIndex(4B)+Number(4B) == 8B) --
+# confirmed live this session by I-03's own decode of exactly the +0x18
+# ComparisonIndex field. +0x18 + 8 == +0x20.
+DEFAULT_OUTER_PRIVATE_OFFSET = 0x20
+
+# The class-identity fixed point's own seed and its cross-check literals --
+# see find_uclass_self_reference()/find_blueprint_generated_class_address()
+# below and the module docstring's "WHAT I-04 IS" section. Both literal
+# object_path strings were directly, live-decoded this session (LOG-0051,
+# research/instrument-runs/2026-08-27T145831Z-confirmed/i03-fnamepool.json's
+# misery_reflection.decoded_names carries both bare names "Class" and
+# "BlueprintGeneratedClass" among its 26 258 decoded entries), so these are
+# not invented literals -- they are what this exact live process already
+# proved it can decode.
+UCLASS_SELF_REFERENCE_NAME = "Class"
+UCLASS_SELF_REFERENCE_OBJECT_PATH = "/Script/CoreUObject.Class"
+BLUEPRINT_GENERATED_CLASS_NAME = "BlueprintGeneratedClass"
+BLUEPRINT_GENERATED_CLASS_OBJECT_PATH = "/Script/Engine.BlueprintGeneratedClass"
+
+# The GENERAL name-suffix test find_meta_type_roots() and run_i04()'s own
+# per-object is_blueprint_generated classification both use, chosen instead
+# of hardcoding "BlueprintGeneratedClass" as the only recognized meta-type
+# name -- see find_meta_type_roots()'s own docstring for why: real UE 5.4
+# ships more than one native subclass playing this exact role
+# (UWidgetBlueprintGeneratedClass, UAnimBlueprintGeneratedClass), all named
+# by this same UE convention, and a fixed enumeration would silently miss
+# any of them (a real defect a targeted layout+safety review found and this
+# constant/the functions using it fix).
+META_TYPE_NAME_SUFFIX = "GeneratedClass"
+
+# Bounds I-04 introduces, all overridable via their own CLI flag (see
+# build_arg_parser() below) -- never a second hardcoded copy of any of them.
+DEFAULT_I04_MAX_OUTER_DEPTH = 16
+DEFAULT_I04_MAX_FIXED_POINT_PASSES = 8
+DEFAULT_I04_GAME_SAMPLE_CAP = 25
+
+
+def _pointer_is_plausible(address: int) -> bool:
+    """Cheap, universal plausibility check for any CANDIDATE POINTER I-04
+    considers reading (an object's own address, its ClassPrivate, its
+    OuterPrivate): non-null and 8-byte aligned, since every UObject
+    allocation is pointer-aligned. Deliberately does NOT check the value
+    against the module's own image range -- that check is for a
+    VTABLE-POINTER-shaped value only (_vtable_pointer_in_module_range
+    above), because an object/Class/Outer address is heap-allocated and
+    legitimately falls OUTSIDE the module image; conflating the two checks
+    would reject every real object address I-04 is meant to examine.
+    """
+    return address != 0 and address % 8 == 0
+
+
+def _classify_object(api, handle: int, object_ptr: int, *, base_address: int,
+                     image_size_bytes: int, namepool_live_va: int,
+                     class_private_offset: int, name_private_offset: int,
+                     outer_private_offset: int) -> dict:
+    """Read and validate ONE already-located candidate UObject's identity
+    fields -- the module docstring's I-04 "structural validation" checks
+    1-3, exactly. NEVER raises ReadProcessMemoryFailedError: every read here
+    is on an object *_locate_object_pointer* already found non-null, so any
+    read failure encountered while examining ITS OWN fields is a TORN read
+    on an already-committed candidate -- the SAME "torn read during
+    concurrent GC" treatment sample_walk_objects()'s own vtable read and
+    sample_object_names()'s own NamePrivate read already establish (their
+    own docstrings), never a propagated tool error. A hard/partial
+    ReadProcessMemory failure while merely LOCATING a candidate (the chunk
+    pointer, the FUObjectItem.Object field) is a walk_object_universe()
+    concern, not this function's -- this function is only ever called with
+    a non-null object_ptr walk_object_universe() already located.
+
+    Returns a dict, ALWAYS shaped the same way regardless of which check
+    failed (so callers -- objects_by_address, resolve_object_path -- never
+    need to special-case a missing key): {'valid' (bool, True iff checks 1-3
+    ALL passed), 'rejection_kind' (one of 'pointer_alignment',
+    'read_failure', 'name_decode', 'class_pointer_implausible', or None when
+    valid), 'rejection_reason' (human text, or None), 'name_text' (str or
+    None), 'name_ok' (bool -- True iff the object's OWN address was
+    plausible AND its FName decoded without error, REGARDLESS of whether
+    ClassPrivate itself later failed check 3 -- this is deliberately weaker
+    than 'valid', because object_path construction (check 4/5) only ever
+    needs an ancestor's name, never its own class-pointer plausibility; see
+    resolve_object_path()'s own docstring), 'class_ptr' (int or None -- only
+    ever set when 'valid' is True), 'outer_ptr' (int, 0 for 'no Outer', or
+    None only when name_ok is False and no read was ever attempted),
+    'outer_ok' (bool -- True iff outer_ptr is 0/null OR passed the same
+    plausibility check as any other candidate pointer; a False outer_ok
+    does NOT itself invalidate the object's own basic identity, only its
+    own usability as an ANCESTOR in someone else's object_path walk)}.
+    """
+    record = {
+        "valid": False, "rejection_kind": None, "rejection_reason": None,
+        "name_text": None, "name_ok": False,
+        "class_ptr": None, "outer_ptr": None, "outer_ok": False,
+    }
+
+    # Check 1: the object pointer itself must be a plausible candidate
+    # BEFORE any read is attempted at all -- a corrupted/misaligned address
+    # must never be dereferenced, per the module docstring's structural-
+    # validation section.
+    if not _pointer_is_plausible(object_ptr):
+        record["rejection_kind"] = "pointer_alignment"
+        record["rejection_reason"] = (
+            "object pointer 0x%x is not a plausible (non-null, 8-byte-"
+            "aligned) address" % object_ptr)
+        return record
+
+    try:
+        name_entry_id = _read_u32(api, handle, object_ptr + name_private_offset)
+        decoded = decode_fname_entry_id(api, handle, namepool_live_va, name_entry_id)
+        class_ptr = _read_u64(api, handle, object_ptr + class_private_offset)
+        outer_ptr = _read_u64(api, handle, object_ptr + outer_private_offset)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "read_failure"
+        record["rejection_reason"] = (
+            "read failure on an already-located object at 0x%x: %s" %
+            (object_ptr, error))
+        return record
+
+    record["outer_ptr"] = outer_ptr
+    record["outer_ok"] = (outer_ptr == 0) or _pointer_is_plausible(outer_ptr)
+
+    # Check 2: a valid FName entry -- decode_fname_entry_id()'s own
+    # decode_error must be None. (Len is naturally capped 0..1023 by its own
+    # bit width already, per I-03's own FNAME_HEADER_LEN_MASK -- no
+    # additional bound needed here.)
+    if decoded["decode_error"] is not None:
+        record["rejection_kind"] = "name_decode"
+        record["rejection_reason"] = (
+            "FName decode error at 0x%x: %s" % (object_ptr, decoded["decode_error"]))
+        return record
+
+    record["name_text"] = decoded["text"]
+    record["name_ok"] = True
+
+    # Check 3: ClassPrivate points to something plausible -- non-null,
+    # 8-byte aligned, AND the first 8 bytes at that address look like a
+    # vtable pointer inside the module's own image range.
+    if not _pointer_is_plausible(class_ptr):
+        record["rejection_kind"] = "class_pointer_implausible"
+        record["rejection_reason"] = (
+            "ClassPrivate 0x%x is not a plausible (non-null, 8-byte-aligned) "
+            "address" % class_ptr)
+        return record
+
+    try:
+        class_vtable = _read_u64(api, handle, class_ptr)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "read_failure"
+        record["rejection_reason"] = (
+            "read failure on ClassPrivate 0x%x's own vtable pointer: %s" %
+            (class_ptr, error))
+        return record
+
+    if not _vtable_pointer_in_module_range(class_vtable, base_address, image_size_bytes):
+        record["rejection_kind"] = "class_pointer_implausible"
+        record["rejection_reason"] = (
+            "ClassPrivate 0x%x's own vtable pointer 0x%x is outside the "
+            "module image range [0x%x, 0x%x)" %
+            (class_ptr, class_vtable, base_address, base_address + image_size_bytes))
+        return record
+
+    record["valid"] = True
+    record["class_ptr"] = class_ptr
+    return record
+
+
+def walk_object_universe(api, handle: int, objects_ptr: int, num_elements: int,
+                         base_address: int, image_size_bytes: int,
+                         namepool_live_va: int,
+                         class_private_offset: int = DEFAULT_CLASS_PRIVATE_OFFSET,
+                         name_private_offset: int = DEFAULT_NAME_PRIVATE_OFFSET,
+                         outer_private_offset: int = DEFAULT_OUTER_PRIVATE_OFFSET,
+                         max_scan_indices: int = DEFAULT_I02_MAX_SCAN_INDICES) -> dict:
+    """Walks EVERY located index (bounded only by *max_scan_indices*, a
+    safety cap against a corrupted/implausibly huge NumElements -- NOT a
+    statistical sample size like I-02/I-03's own bounded probes; I-04 IS the
+    first real traversal, see the module docstring's "WHAT I-04 IS"
+    section), locating each non-null object via _locate_object_pointer()
+    (I-02's own chunk-walk arithmetic, reused verbatim -- never re-derived)
+    and validating/decoding it via _classify_object() above.
+
+    A read failure while merely LOCATING a slot (chunk pointer, the
+    FUObjectItem.Object field) is skipped, identically to I-02's own
+    sample_walk_objects()/I-03's own sample_object_names() -- a scanning
+    concern, not a census entry; never raised, never counted against
+    'objects_located'.
+
+    Returns {'objects_by_address': dict[int, dict] (every LOCATED object's
+    own _classify_object() record, keyed by its own address -- this is what
+    resolve_object_path() below walks the Outer chain through, purely via
+    dict lookups, without any further memory read: the SAME reads
+    _classify_object() already made for every object cover every possible
+    Outer target too, since every live object's own index was visited),
+    'indices_scanned', 'objects_located' (non-null slots), 'valid_count'
+    (checks 1-3 all passed), 'rejected_counts' (dict, one entry per
+    _classify_object() 'rejection_kind' value)}.
+    """
+    scan_limit = max_scan_indices if num_elements <= 0 else min(num_elements, max_scan_indices)
+    objects_by_address: dict = {}
+    indices_scanned = 0
+    objects_located = 0
+    valid_count = 0
+    rejected_counts = {
+        "pointer_alignment": 0, "read_failure": 0,
+        "name_decode": 0, "class_pointer_implausible": 0,
+    }
+
+    index = 0
+    while index < scan_limit:
+        indices_scanned += 1
+        try:
+            object_ptr = _locate_object_pointer(api, handle, objects_ptr, index)
+        except ReadProcessMemoryFailedError:
+            index += 1
+            continue  # unreadable slot -- a scanning concern, not a census entry.
+        if object_ptr is None:
+            index += 1
+            continue  # a freed/never-allocated slot, or an unallocated chunk.
+
+        objects_located += 1
+        record = _classify_object(
+            api, handle, object_ptr, base_address=base_address,
+            image_size_bytes=image_size_bytes, namepool_live_va=namepool_live_va,
+            class_private_offset=class_private_offset,
+            name_private_offset=name_private_offset,
+            outer_private_offset=outer_private_offset)
+        objects_by_address[object_ptr] = record
+        if record["valid"]:
+            valid_count += 1
+        else:
+            rejected_counts[record["rejection_kind"]] += 1
+        index += 1
+
+    return {
+        "objects_by_address": objects_by_address,
+        "indices_scanned": indices_scanned,
+        "objects_located": objects_located,
+        "valid_count": valid_count,
+        "rejected_counts": rejected_counts,
+    }
+
+
+def resolve_object_path(start_address: int, objects_by_address: dict, *,
+                        max_depth: int = DEFAULT_I04_MAX_OUTER_DEPTH) -> dict:
+    """Builds *start_address*'s own canonical object_path by walking its
+    Outer chain -- start_address -> its Outer -> its Outer's Outer -> ...
+    -- purely via dict lookups into *objects_by_address*
+    (walk_object_universe()'s own output: every live object this run
+    located, keyed by its own address), never a further memory read: the
+    object every real Outer pointer can possibly reference was already
+    visited by the SAME full-array walk that built this dict, because I-04
+    walks every live index, not a bounded sample.
+
+    BOUNDED (max_depth hops, default 16) and CYCLE-PROTECTED (an address
+    that repeats within THIS ONE walk is a traversal failure, not an
+    infinite loop) -- a corrupted or maliciously-looping Outer chain must
+    never be able to hang this function. Exceeding max_depth without
+    terminating is likewise reported as a traversal failure, never raised
+    and never silently truncated into a plausible-looking wrong answer.
+
+    Algorithm (this session's own confirmed fact, LOG-0051: a UPackage's own
+    NamePrivate already holds its FULL "/Script/<Module>" or "/Game/<...>"
+    path, never a bare leaf name):
+      * Outer == null immediately (a top-level object, typically a
+        UPackage): object_path = its own decoded name; package = that same
+        name IF it looks like a package (starts with "/"), else None (and
+        a note is set -- an unusual, best-effort case, never silently
+        assumed fine).
+      * Outer non-null, Outer's own Outer null (the common, single-level
+        case -- an object owned directly by its package): object_path =
+        Outer's decoded name + "." + O's own decoded name, matching real
+        UE GetPathName() convention. package = the Outer's own name.
+
+        KNOWN, DELIBERATE CONVENTION MISMATCH against the sibling offline
+        record: the already-committed research/reflection/
+        misery-24826585-ue5.4.4-0eef3715244b/classes.jsonl (RF-01, a
+        DIFFERENT build, 24826585) stores the identical kind of class's
+        object_path with a "/" join instead, e.g.
+        "/Script/MISERY/MiseryBlueprintFunctionLibrary" (not
+        "/Script/MISERY.MiseryBlueprintFunctionLibrary"). This function
+        intentionally does NOT match that convention: "." is what real UE
+        GetPathName() actually produces (also the exact form
+        research/schema/reflection-record.schema.json's own object_path
+        field documents as its example, "/Script/MISERY.MiseryCharacter"),
+        so runtime-sourced records use "." on purpose. A reader joining or
+        matching class records BETWEEN RF-01's classes.jsonl and this
+        capability's own classes.jsonl by object_path string will need to
+        normalize one convention to the other first (e.g. compare raw_name
+        + package instead, both of which agree across the two sources) --
+        this is flagged here explicitly rather than silently left for a
+        future reader to discover by a failed string match.
+      * Deeper nesting (3+ levels): every ancestor from the outermost
+        NON-package down to O itself is joined with ":" (the real UE
+        subobject delimiter), prefixed by "<package>." -- e.g.
+        "/Game/Foo.Bar:Baz". A reasonable, standard approximation; this
+        function does not attempt component-path/array-index subtleties
+        beyond it.
+      * The outermost ancestor is recognized as a package heuristically:
+        its decoded name starts with "/" (every package name observed live
+        this session started with "/", e.g. "/Script/...", "/Game/...").
+        When the walk terminates on an ancestor whose name does NOT start
+        with "/", that is unusual: object_path is still built, best-effort,
+        but 'ok' is still True and 'note' records the anomaly rather than
+        silently assuming it is fine.
+
+    Returns {'object_path' (str or None), 'package' (str or None), 'ok'
+    (bool -- False only for an actual traversal FAILURE: cycle, unresolved
+    ancestor, or exceeded max_depth -- never False merely for the "unusual
+    top-level name" case above, which still produces a best-effort path),
+    'note' (str or None -- set for both the failure case and the "unusual"
+    best-effort case, so a caller never has to reconstruct the caveat from
+    this docstring alone)}.
+    """
+    chain: list = []
+    visited: set = set()
+    address = start_address
+
+    for _ in range(max_depth):
+        if address in visited:
+            return {
+                "object_path": None, "package": None, "ok": False,
+                "note": "cycle detected in the Outer chain at 0x%x" % address,
+            }
+        visited.add(address)
+
+        record = objects_by_address.get(address)
+        if record is None or not record.get("name_ok"):
+            return {
+                "object_path": None, "package": None, "ok": False,
+                "note": (
+                    "Outer chain unresolved: the object at 0x%x was not "
+                    "located by this run's own walk, or its own FName "
+                    "failed to decode" % address),
+            }
+        chain.append(record["name_text"])
+
+        outer_ptr = record.get("outer_ptr")
+        if outer_ptr in (0, None):
+            break  # terminated: this ancestor has no Outer -- top level.
+        if not record.get("outer_ok", True):
+            return {
+                "object_path": None, "package": None, "ok": False,
+                "note": (
+                    "OuterPrivate of the object at 0x%x is not a plausible "
+                    "pointer" % address),
+            }
+        address = outer_ptr
+    else:
+        return {
+            "object_path": None, "package": None, "ok": False,
+            "note": (
+                "Outer chain exceeded max depth (%d) without terminating" %
+                max_depth),
+        }
+
+    top_level = chain[-1]
+    looks_like_package = top_level.startswith("/")
+    if len(chain) == 1:
+        object_path = chain[0]
+        package = chain[0] if looks_like_package else None
+    else:
+        rest = list(reversed(chain[:-1]))  # outermost-non-package ... self
+        object_path = top_level + "." + rest[0] + "".join(":" + name for name in rest[1:])
+        package = top_level if looks_like_package else None
+
+    note = None if looks_like_package else (
+        "outermost ancestor %r does not start with '/' -- unusual; "
+        "object_path is best-effort" % top_level)
+    return {"object_path": object_path, "package": package, "ok": True, "note": note}
+
+
+def find_uclass_self_reference(objects_by_address: dict, *,
+                               path_resolver) -> dict | None:
+    """The class-identity fixed point's own SEED: the object whose own
+    ClassPrivate address equals its OWN address (UClass::StaticClass()->
+    ClassPrivate == itself, a genuine architectural fixed point in real UE
+    reflection, not a hack). Cross-checked, never merely trusted because it
+    happens to be self-referential: its own decoded name must be
+    UCLASS_SELF_REFERENCE_NAME ("Class") AND its own object_path (via
+    *path_resolver*, normally resolve_object_path() bound to the SAME
+    objects_by_address this candidate came from) must be exactly
+    UCLASS_SELF_REFERENCE_OBJECT_PATH ("/Script/CoreUObject.Class") --
+    both literal values this session already live-decoded once (LOG-0051),
+    not invented here.
+
+    Every self-referential candidate found is examined (not just the
+    first) in case a corrupted/implausible object happens to also satisfy
+    the bare self-reference test; only one that ALSO cross-checks is ever
+    returned. Returns None -- never a guessed/fabricated seed -- when no
+    candidate exists at all, or none of the candidates found cross-check.
+    That is a hard structural failure for the whole capability: run_i04()
+    reports zero UClass instances found rather than build on an unverified
+    seed.
+    """
+    for address, record in objects_by_address.items():
+        if not record["valid"] or record["class_ptr"] != address:
+            continue
+        if record["name_text"] != UCLASS_SELF_REFERENCE_NAME:
+            continue
+        resolved = path_resolver(address)
+        if resolved["ok"] and resolved["object_path"] == UCLASS_SELF_REFERENCE_OBJECT_PATH:
+            return {"address": address, "object_path_result": resolved}
+    return None
+
+
+def find_blueprint_generated_class_address(round1_members: set, objects_by_address: dict,
+                                           *, path_resolver) -> int | None:
+    """Among *round1_members* (every object whose ClassPrivate == the
+    seed's own address), find the ONE whose own decoded name is EXACTLY
+    BLUEPRINT_GENERATED_CLASS_NAME ("BlueprintGeneratedClass") AND whose own
+    object_path (via *path_resolver*) is exactly
+    BLUEPRINT_GENERATED_CLASS_OBJECT_PATH ("/Script/Engine.BlueprintGeneratedClass")
+    -- the SAME "find it, then verify it, never just trust the name"
+    discipline find_uclass_self_reference() applies to the seed itself.
+    Returns None, honestly, when no round-1 member cross-checks.
+
+    This is now ONE cross-checked, specifically-verified data point
+    (run_i04()'s own blueprint_generated_class_address_hex field) among
+    POSSIBLY SEVERAL meta-type roots find_meta_type_roots() discovers more
+    generally by name pattern -- see compute_class_identity()'s own
+    docstring for why a single hardcoded address is not enough on its own
+    to decide is_blueprint_generated for every object.
+    """
+    for address in round1_members:
+        record = objects_by_address[address]
+        if record["name_text"] != BLUEPRINT_GENERATED_CLASS_NAME:
+            continue
+        resolved = path_resolver(address)
+        if resolved["ok"] and resolved["object_path"] == BLUEPRINT_GENERATED_CLASS_OBJECT_PATH:
+            return address
+    return None
+
+
+def find_meta_type_roots(round1_members: set, objects_by_address: dict) -> dict:
+    """Among *round1_members* (every object whose ClassPrivate == the
+    seed's own address -- i.e. every native "type descriptor" object:
+    "Class" itself, "ScriptStruct", "Function", "Enum",
+    "BlueprintGeneratedClass", and every ordinary native UClass like
+    MiseryFocusSubsystem), find every one that is ITSELF a "meta-type" --
+    a type whose OWN instances are themselves classes, not ordinary
+    objects -- by NAME PATTERN: its own decoded name ends with
+    "GeneratedClass" (META_TYPE_NAME_SUFFIX).
+
+    WHY A NAME-SUFFIX PATTERN, not a fixed enumeration of specific names:
+    real UE 5.4 has more than one native subclass of UBlueprintGeneratedClass
+    that plays this exact "class of a Blueprint asset" role --
+    UWidgetBlueprintGeneratedClass (Engine/Source/Runtime/UMG/Public/
+    Blueprint/WidgetBlueprintGeneratedClass.h) and
+    UAnimBlueprintGeneratedClass (Engine/Source/Runtime/Engine/Classes/
+    Animation/AnimBlueprintGeneratedClass.h) are both real, distinct
+    engine types, both named with the "GeneratedClass" suffix by UE's own
+    convention, and this project has no exhaustive, verified list of every
+    such type this specific build ships (there could be others this
+    session never observed). A name-suffix test generalizes to catch any
+    of them -- present, or not yet seen -- WITHOUT hardcoding each one
+    individually the way the plain "BlueprintGeneratedClass"-only check
+    (find_blueprint_generated_class_address(), still called separately for
+    its own specific cross-checked report) originally did.
+
+    WHY THIS STAYS SOUND (does not sweep in ordinary leaf classes like
+    MiseryFocusSubsystem or ordinary struct/function descriptors):
+    "GeneratedClass" is not a generic word -- it is UE's own, specific
+    naming convention for exactly this one architectural role (a class
+    whose OWN instances are Blueprint-asset classes), and no ordinary
+    native gameplay class this project has observed is named that way.
+    This is a real but bounded risk (a native class COULD theoretically be
+    named ending in "GeneratedClass" without playing this role) --
+    documented, not hidden: every promoted root is still cross-checked by
+    compute_class_identity() against round1_members (i.e. its own
+    ClassPrivate really is "Class" -- it cannot be an arbitrary /Game
+    object, since round1_members is already restricted to that).
+
+    Returns {name_text: address} for every round1_member whose name ends
+    with META_TYPE_NAME_SUFFIX -- always includes "BlueprintGeneratedClass"
+    itself when present (its own name ends with "GeneratedClass" too), so
+    find_blueprint_generated_class_address()'s separate, path-verified
+    result is redundant with (and cross-checks) one entry of this dict,
+    not a disjoint computation.
+    """
+    return {
+        record["name_text"]: address
+        for address, record in ((a, objects_by_address[a]) for a in round1_members)
+        if record["name_text"].endswith(META_TYPE_NAME_SUFFIX)
+    }
+
+
+def compute_class_identity(objects_by_address: dict, seed_address: int, *,
+                           path_resolver,
+                           max_passes: int = DEFAULT_I04_MAX_FIXED_POINT_PASSES) -> dict:
+    """The class-identity fixed point. Grows class_address_universe from
+    the seed PLUS every discovered "meta-type" root (find_meta_type_roots()
+    above), never from "any address already a member of the growing
+    universe" in general (see below for why that general rule is wrong).
+
+    CORRECTED 2026-08-27 (twice in the same session -- see git history /
+    RESEARCH_LOG.md for both corrections): a targeted layout+safety review
+    of the ORIGINAL I-04 pass found that growing from exactly two FIXED
+    roots {seed_address, blueprint_generated_class_address} misses
+    UWidgetBlueprintGeneratedClass / UAnimBlueprintGeneratedClass instances
+    (real, distinct native UE 5.4 types -- see find_meta_type_roots()'s own
+    docstring for the source citations) -- on a real UE5 game using UMG
+    (almost certainly true of MISERY), that would have silently excluded
+    what is likely the LARGEST category of real /Game Blueprint assets. A
+    FIRST attempted fix (collapsing to "class_address_universe is simply
+    every distinct ClassPrivate value seen, no roots at all") was ALSO
+    wrong, caught by this project's own test suite before being trusted:
+    it implicitly assumed every genuinely-loaded UClass has at least one
+    live INSTANCE pointing at it (e.g. its own CDO) in THIS snapshot,
+    which is not the actual definition of "is a UClass" -- a Blueprint
+    class ASSET is a UClass because of WHAT IT IS (an instance of
+    BlueprintGeneratedClass or a sibling meta-type), not because of
+    whether anything else happens to already be an instance OF IT. THIS
+    version restores the "grow from known meta-type roots" shape, fixing
+    only the actual defect (roots were too narrowly and permanently fixed
+    at exactly two), while keeping the meta-type root discovery itself
+    GENERAL (name-suffix, not individually hardcoded).
+
+    Round 1: round1_members = {O : O.ClassPrivate == seed_address}.
+    class_address_universe = {seed_address} | round1_members. Every native
+    "type descriptor" object -- "Class" itself, "ScriptStruct", "Function",
+    "Enum", "BlueprintGeneratedClass", "WidgetBlueprintGeneratedClass",
+    "AnimBlueprintGeneratedClass" (if this build has it), and every
+    ordinary native UClass (MiseryFocusSubsystem, ...) -- is caught here in
+    one pass, because ALL of them are native C++ types whose own metaclass
+    is literally "Class".
+
+    Root promotion: find_meta_type_roots(round1_members, ...) finds every
+    round1_member whose OWN name ends with "GeneratedClass" -- this is a
+    SET, not one fixed address, and can be 1, 2, 3+ elements depending on
+    what this specific live build actually has loaded. roots =
+    {seed_address} | {every discovered meta-type root's address}.
+
+    Round 2+ (bounded, until convergence or *max_passes*, default 8): any
+    object whose ClassPrivate is IN roots (a FIXED set, never grown further
+    after round 1 -- see "WHY NOT..." below) and not yet in the universe
+    joins. This catches real Blueprint class ASSETS under /Game for EVERY
+    discovered meta-type (their own metaclass is one of the roots) in one
+    or two more passes; normal UE reflection has no deeper nesting than
+    this (a Blueprint asset's class is a meta-type; a meta-type's class is
+    "Class"; there is no third tier), so convergence at pass 2 or 3 is the
+    expected, not merely hoped-for, outcome.
+
+    WHY roots STAYS FIXED after round 1 (never "any address already in the
+    universe joins" in general): real UE semantics mean an ORDINARY
+    GAMEPLAY INSTANCE of any class already in the universe has its own
+    ClassPrivate equal to THAT class's address too -- e.g. a live, ordinary
+    UMiseryFocusSubsystem instance's own ClassPrivate IS MiseryFocusSubsystem's
+    address, and MiseryFocusSubsystem joins the universe in round 1 (it is
+    a native class, found via round1_members). Under a truly general
+    closure rule, once MiseryFocusSubsystem is "in the universe", that
+    instance's ClassPrivate would ALSO be "a member of the universe",
+    wrongly admitting the instance itself as "a UClass" too. Restricting
+    growth to the FIXED, verified roots set (never re-derived from the
+    growing universe itself) is what keeps this precise -- every
+    class_address_universe member beyond round 1 is provably an instance
+    of a KNOWN meta-type, never an instance of an ordinary leaf class.
+
+    is_blueprint_generated for a classified object O is decided by
+    run_i04() (not here): it resolves what O's OWN ClassPrivate's decoded
+    name IS and checks whether that name ends with "GeneratedClass" --
+    the SAME name-suffix test find_meta_type_roots() uses to discover
+    roots in the first place, applied per-object at classification time.
+
+    find_uclass_self_reference()'s seed remains required and cross-checked
+    exactly as always -- the one non-negotiable anchor this whole
+    computation is built from.
+
+    Returns {'class_address_universe' (set[int]), 'round1_size' (int),
+    'meta_type_roots' (dict[name, address hex] -- every discovered root
+    beyond the seed, for the report), 'blueprint_generated_class_address'
+    (int or None, from find_blueprint_generated_class_address(), kept for
+    report continuity and as a cross-check against meta_type_roots),
+    'passes_run' (int), 'converged' (bool)}.
+    """
+    round1_members = {
+        address for address, record in objects_by_address.items()
+        if record["valid"] and record["class_ptr"] == seed_address}
+    universe = {seed_address} | round1_members
+
+    bgc_address = find_blueprint_generated_class_address(
+        round1_members, objects_by_address, path_resolver=path_resolver)
+    meta_type_roots = find_meta_type_roots(round1_members, objects_by_address)
+
+    roots = {seed_address} | set(meta_type_roots.values())
+
+    passes_run = 1
+    converged = False
+    for _ in range(max(max_passes - 1, 0)):
+        passes_run += 1
+        new_members = {
+            address for address, record in objects_by_address.items()
+            if record["valid"] and record["class_ptr"] in roots
+            and address not in universe}
+        if not new_members:
+            converged = True
+            break
+        universe |= new_members
+    else:
+        converged = False  # exhausted max_passes still growing -- logged by run_i04()'s own note.
+
+    return {
+        "class_address_universe": universe,
+        "round1_size": len(round1_members),
+        "meta_type_roots": {name: "0x%x" % addr for name, addr in meta_type_roots.items()},
+        "blueprint_generated_class_address": bgc_address,
+        "passes_run": passes_run,
+        "converged": converged,
+    }
+
+
+def _summarize_walk(walk: dict) -> dict:
+    return {
+        "indices_scanned": walk["indices_scanned"],
+        "objects_located": walk["objects_located"],
+        "valid_count": walk["valid_count"],
+        "rejected_counts": walk["rejected_counts"],
+    }
+
+
+def run_i04(api, process_handle: int, base_address: int, image_size_bytes: int,
+           objects_ptr: int, num_elements: int, namepool_live_va: int,
+           class_private_offset: int = DEFAULT_CLASS_PRIVATE_OFFSET,
+           name_private_offset: int = DEFAULT_NAME_PRIVATE_OFFSET,
+           outer_private_offset: int = DEFAULT_OUTER_PRIVATE_OFFSET,
+           max_scan_indices: int = DEFAULT_I02_MAX_SCAN_INDICES,
+           max_outer_depth: int = DEFAULT_I04_MAX_OUTER_DEPTH,
+           max_fixed_point_passes: int = DEFAULT_I04_MAX_FIXED_POINT_PASSES) -> dict:
+    """The whole of capability I-04: walk_object_universe() (every located
+    object's ClassPrivate/NamePrivate/OuterPrivate, validated) ->
+    find_uclass_self_reference() (the seed, cross-checked) ->
+    compute_class_identity() (the meta-type-rooted fixed point) -> object_path +
+    is_blueprint_generated for every classified UClass instance.
+
+    *objects_ptr*/*num_elements* MUST be from THIS SAME run's own I-02
+    result (never re-walked from scratch -- see the module docstring's
+    "WHAT I-04 IS" section); *namepool_live_va* MUST be from THIS SAME run's
+    own I-03 result, for the identical reason.
+
+    Never raises for "seed not found" -- that is a hard structural failure
+    for the whole capability, reported honestly as zero UClass instances
+    found (see find_uclass_self_reference()'s own docstring), not a tool
+    malfunction. DOES let ReadProcessMemoryFailedError propagate from
+    nothing new here -- every per-object read this function's own callees
+    make is already caught and converted into a rejection/failure count
+    by _classify_object()/walk_object_universe(), mirroring I-02/I-03's own
+    established split (a hard failure LOCATING a slot, or examining an
+    ALREADY-located object's own fields, is a scanning/torn-read concern,
+    never a propagated tool error for THIS capability, since it introduces
+    no new foundational array-level read of its own -- objects_ptr/
+    num_elements/namepool_live_va were already foundationally read by I-02/
+    I-03 before this function was ever called).
+
+    Returns a plain dict -- see the module docstring's "WHAT I-04 IS"
+    section and this function's own field names below for the shape; the
+    'classes' list carries one entry per classified UClass instance, with
+    'module'/'module_origin'/'package' NOT yet filled in (that is
+    classify_classes_by_module()'s own job, run separately by main() so
+    this function stays a pure "what did the walk find" result).
+    """
+    walk = walk_object_universe(
+        api, process_handle, objects_ptr, num_elements, base_address, image_size_bytes,
+        namepool_live_va, class_private_offset=class_private_offset,
+        name_private_offset=name_private_offset, outer_private_offset=outer_private_offset,
+        max_scan_indices=max_scan_indices)
+    objects_by_address = walk["objects_by_address"]
+
+    def path_of(address: int) -> dict:
+        return resolve_object_path(address, objects_by_address, max_depth=max_outer_depth)
+
+    seed = find_uclass_self_reference(objects_by_address, path_resolver=path_of)
+    if seed is None:
+        return {
+            "seed_found": False,
+            "seed_address_hex": None,
+            "class_address_universe_size": 0,
+            "round1_size": 0,
+            "blueprint_generated_class_address_hex": None,
+            "meta_type_roots": {},
+            "fixed_point_passes_run": 0,
+            "fixed_point_converged": None,
+            "walk": _summarize_walk(walk),
+            "classes": [],
+            "note": (
+                "seed search failed: no valid object was found whose "
+                "ClassPrivate equals its own address AND whose decoded "
+                "name/object_path cross-check to %r/%r -- I-04 reports "
+                "ZERO UClass instances found rather than build on an "
+                "unverified seed (see find_uclass_self_reference()'s own "
+                "docstring)." %
+                (UCLASS_SELF_REFERENCE_NAME, UCLASS_SELF_REFERENCE_OBJECT_PATH)),
+        }
+
+    fixed_point = compute_class_identity(
+        objects_by_address, seed["address"], path_resolver=path_of,
+        max_passes=max_fixed_point_passes)
+    bgc_address = fixed_point["blueprint_generated_class_address"]
+
+    # Integrity check on the corrected (2026-08-27) class_address_universe
+    # definition: the seed ("Class", self-referential) must be its own
+    # witness -- seed.ClassPrivate == seed_address, so seed_address is
+    # trivially a member of {record.class_ptr for valid records}. Asserted,
+    # not merely assumed: if this ever fails, the walk itself is broken in
+    # a way compute_class_identity()'s own docstring does not anticipate,
+    # and that is exactly the kind of silent failure this project's own
+    # discipline says must surface, not be papered over.
+    assert seed["address"] in fixed_point["class_address_universe"], (
+        "seed %r not in its own class_address_universe -- the corrected "
+        "class-identity computation (compute_class_identity()'s own "
+        "docstring) is unsound for this walk; do not trust classes below." %
+        seed["address"])
+
+    # Iterate objects_by_address (a dict, insertion-ordered == this run's own
+    # scan order) rather than class_address_universe (a plain set, whose
+    # iteration order is NOT deterministic/reproducible across runs) --
+    # membership-tested against the set, order taken from the dict. This is
+    # what makes select_game_sample()'s own "preserves scan order" claim
+    # actually true, and this document's own row order reproducible.
+    classes = []
+    for address in objects_by_address:
+        if address not in fixed_point["class_address_universe"]:
+            continue
+        record = objects_by_address[address]
+        resolved = path_of(address)
+        # is_blueprint_generated (CORRECTED 2026-08-27, see
+        # compute_class_identity()'s own docstring for the full reasoning):
+        # resolve what O's OWN ClassPrivate's decoded name IS -- the
+        # type-descriptor object O is an instance of -- and check whether
+        # THAT name ends with META_TYPE_NAME_SUFFIX ("GeneratedClass"), the
+        # SAME general name-suffix test find_meta_type_roots() used to
+        # discover roots in the first place (deliberately the SAME
+        # constant/test, not a second, possibly-drifting copy) -- so this
+        # also catches UWidgetBlueprintGeneratedClass/
+        # UAnimBlueprintGeneratedClass instances (real UE 5.4 native
+        # subclasses of UBlueprintGeneratedClass), not only the literal
+        # "BlueprintGeneratedClass" type itself. None (genuinely
+        # undetermined), never guessed, when O's own class_ptr was not
+        # itself a validly-classified object in this same walk.
+        class_descriptor = objects_by_address.get(record["class_ptr"])
+        if class_descriptor is None or not class_descriptor["valid"]:
+            is_blueprint_generated = None
+        else:
+            is_blueprint_generated = class_descriptor["name_text"].endswith(
+                META_TYPE_NAME_SUFFIX)
+        classes.append({
+            "address": address,
+            "address_hex": "0x%x" % address,
+            "raw_name": record["name_text"],
+            "object_path": resolved["object_path"],
+            "package": resolved["package"],
+            "object_path_ok": resolved["ok"],
+            "object_path_note": resolved["note"],
+            "is_blueprint_generated": is_blueprint_generated,
+        })
+
+    return {
+        "seed_found": True,
+        "seed_address_hex": "0x%x" % seed["address"],
+        "class_address_universe_size": len(fixed_point["class_address_universe"]),
+        "round1_size": fixed_point["round1_size"],
+        "blueprint_generated_class_address_hex": (
+            "0x%x" % bgc_address if bgc_address is not None else None),
+        "meta_type_roots": fixed_point["meta_type_roots"],
+        "fixed_point_passes_run": fixed_point["passes_run"],
+        "fixed_point_converged": fixed_point["converged"],
+        "walk": _summarize_walk(walk),
+        "classes": classes,
+        "note": None if fixed_point["converged"] else (
+            "the class-identity fixed point did NOT converge within "
+            "max_fixed_point_passes=%d -- class_address_universe was still "
+            "growing when the pass bound was hit; the reported set is a "
+            "LOWER BOUND, not necessarily complete. See "
+            "compute_class_identity()'s own docstring for why this should "
+            "not normally happen against real UE 5.4 reflection data." %
+            max_fixed_point_passes),
+    }
+
+
+def classify_classes_by_module(classes: list) -> dict:
+    """Buckets run_i04()'s own 'classes' list by module/package, per I-04's
+    own committed-artifact scope (module docstring's "WHAT I-04 IS"
+    section): every /Script/MISERY class is written to classes.jsonl in
+    full; /Game classes get a small BOUNDED sample (select_game_sample()
+    below), never an exhaustive dump; everything else (native engine
+    modules -- /Script/Engine, /Script/CoreUObject, etc. -- and anything
+    unclassified) is counted only, never persisted.
+
+    module_origin classification is DELIBERATELY MINIMAL here: only
+    "game-misery" (module == "/Script/MISERY" exactly, matching RF-02's own
+    established classification string verbatim) is ever asserted; every
+    other module -- including genuine engine modules -- is left
+    "unclassified", NOT guessed as "engine", because RF-02's own engine/
+    game-plugin classification method (checking a module name against UE
+    5.4.4's actual module list at the correct changelist) is out of scope
+    for this pass and this function does not attempt to reproduce it from
+    a name pattern alone (research/schema/reflection-record.schema.json's
+    own module_origin description: "reported, never guessed").
+
+    Returns {'misery': list[dict], 'game': list[dict], 'other': list[dict]}
+    -- each entry is one of *classes*'s own dicts, enriched with 'module'
+    and 'module_origin'.
+    """
+    misery: list = []
+    game: list = []
+    other: list = []
+    for record in classes:
+        package = record["package"]
+        module = package if (package and package.startswith("/Script/")) else None
+        module_origin = "game-misery" if module == "/Script/MISERY" else "unclassified"
+        enriched = dict(record, module=module, module_origin=module_origin)
+        if module == "/Script/MISERY":
+            misery.append(enriched)
+        elif package and package.startswith("/Game/"):
+            game.append(enriched)
+        else:
+            other.append(enriched)
+    return {"misery": misery, "game": game, "other": other}
+
+
+def select_game_sample(game_classes: list, cap: int = DEFAULT_I04_GAME_SAMPLE_CAP) -> list:
+    """A small, BOUNDED sample of *game_classes* (classify_classes_by_module()'s
+    own 'game' bucket) to actually WRITE to classes.jsonl -- never the full
+    set found, per I-04's own committed-artifact scope. Prioritizes
+    is_blueprint_generated=True entries first (the task this capability was
+    specified from: "especially ones classified is_blueprint_generated=
+    true"), then fills any remaining capacity with the rest, each group
+    preserving its own original (scan) order for reproducibility. The FULL
+    count of *game_classes* (before this cap) is reported separately by
+    run_i04()/build_i04_document() regardless of how many are actually
+    written here -- this function only ever decides what gets PERSISTED.
+    """
+    blueprint_generated = [c for c in game_classes if c["is_blueprint_generated"] is True]
+    rest = [c for c in game_classes if c["is_blueprint_generated"] is not True]
+    return (blueprint_generated + rest)[:cap]
+
+
+def build_i04_document(*, result: dict, build_key: str, recorded_at: str | None,
+                       identity_self_established: bool, build_key_cross_checked: bool,
+                       known_build: bool, build_id: str | None,
+                       misery_classes_count: int, game_classes_total_count: int,
+                       game_classes_sample_count: int, other_classes_count: int) -> dict:
+    """The I-04 raw output document -- research/instrument-runs/<run>/
+    i04-classes.json, the SAME "raw single-run data document, no evidence
+    envelope" shape as build_i01_document()/build_i02_document()/
+    build_i03_document() (see build_i01_document()'s own docstring for the
+    is_record()/MARKER_KEYS reasoning this mirrors verbatim -- none of the
+    fields here is a marker key either). classes.jsonl (a SEPARATE artifact,
+    built by build_i04_class_record() below and written by main()) is where
+    the actual GRADED knowledge-base claims live; this document is this
+    run's own bookkeeping/summary, including the honest full counts for
+    everything this pass deliberately does NOT persist (engine-module
+    classes, and every /Game class beyond the bounded sample cap) -- see
+    the module docstring's "WHAT I-04 IS" section for why those counts
+    matter even though the rows themselves are not committed.
+    """
+    return {
+        "capability": CAPABILITY_ID_I04,
+        "seed_found": result["seed_found"],
+        "seed_address_hex": result["seed_address_hex"],
+        "class_address_universe_size": result["class_address_universe_size"],
+        "round1_size": result["round1_size"],
+        "blueprint_generated_class_address_hex": result["blueprint_generated_class_address_hex"],
+        "fixed_point_passes_run": result["fixed_point_passes_run"],
+        "fixed_point_converged": result["fixed_point_converged"],
+        "walk": result["walk"],
+        "misery_classes_count": misery_classes_count,
+        "game_classes_total_count": game_classes_total_count,
+        "game_classes_sample_count": game_classes_sample_count,
+        "other_classes_count": other_classes_count,
+        "note": result["note"],
+        "build_key": build_key,
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
+        "recorded_at": recorded_at,
+        "generator": GENERATOR_NAME,
+        "generator_version": GENERATOR_VERSION,
+    }
+
+
+# The MISERY-cross-check source cited on every /Script/MISERY class_record
+# row (build_i04_class_record() below, cross_checked=True) -- see that
+# function's own docstring, and the module docstring's confidence/MIX-SPLIT
+# reasoning, for why this is a DIFFERENT build than the one this run
+# observed, and why that is stated plainly rather than glossed over.
+_I04_MISERY_CROSS_CHECK_SOURCE = {
+    "method": (
+        "RF-01: structured decode of the ScriptObjects chunk of "
+        "global.ucas, a DIFFERENT build (misery-24826585-ue5.4.4-"
+        "0eef3715244b) than this record's own build_key"),
+    "artifact": "research/reflection/misery-24826585-ue5.4.4-0eef3715244b/classes.jsonl",
+    "locator": None,
+    "note": (
+        "CROSS-BUILD corroboration, not a same-build second reading: RF-01's "
+        "own record is for build 24826585; this record is for a different "
+        "build. The evidentiary value is that the SAME five native "
+        "/Script/MISERY class names recur, independently, across a static "
+        "offline decode of an earlier build and a live runtime read of the "
+        "current build -- strong evidence these are genuine, stable native "
+        "classes of the game's own root module, not a coincidental or "
+        "misread name. It does NOT independently confirm anything about "
+        "THIS record's own build_key, since RF-01 never read this build "
+        "at all -- that is why this cross-check alone earns 0.90, not "
+        "higher, and why it is stated explicitly here rather than folded "
+        "silently into a same-build-looking 'second source'."),
+}
+
+
+def build_i04_class_record(entry: dict, *, build_key: str, recorded_at: str,
+                           cross_checked: bool) -> dict:
+    """One classes.jsonl row (research/schema/reflection-record.schema.json's
+    class_record branch, composed with kb-record.schema.json's envelope) for
+    ONE entry of classify_classes_by_module()'s own enriched 'classes' list.
+
+    *cross_checked* selects the MIX-SPLIT evidence grading the task this
+    capability was specified from explicitly asked for, justified here
+    rather than applied as one blanket number to every record kind:
+
+      * True (every /Script/MISERY class, always -- exactly the ~5 rows
+        matching research/reflection/misery-24826585-ue5.4.4-
+        0eef3715244b/classes.jsonl's own 5 names): confidence 0.90,
+        evidence_level OBSERVED, oracle ["runtime-reflection",
+        "global-ucas"], TWO sources -- this run's own I-04 traversal, plus
+        _I04_MISERY_CROSS_CHECK_SOURCE above. 0.90 matches LOG-0051's own
+        confidence for the SAME live GUObjectArray/FNamePool apparatus this
+        record is built from, and is defensible by the SAME "two
+        independent methods" criterion kb-record.schema.json's own envelope
+        already requires for confidence >= 0.80 (plan.md 10.3): a runtime
+        read of build 24953925, cross-checked by an INDEPENDENT static
+        decode of build 24826585's global.ucas finding the identical five
+        names. It is explicitly NOT claimed as strong as an offline decode
+        of THIS SAME build would be (RF-01 never read this build), which is
+        exactly why it stays at 0.90 rather than reaching for 0.95+ (that
+        band additionally needs, per plan.md 10.3, every one of six
+        criteria stated line-by-line -- not attempted here, matching
+        LOG-0051's own stated reason for staying at 0.90 rather than
+        higher).
+      * False (every /Game class in the bounded sample -- there is no
+        offline cross-check for a SPECIFIC compiled Blueprint asset, only
+        this ONE live read): confidence 0.75, evidence_level OBSERVED,
+        oracle ["runtime-reflection"], ONE source. Deliberately kept BELOW
+        the kb-record.schema.json envelope's own 0.80 threshold: at 0.75 the
+        single-source exemption never needs to be argued for at all (the
+        schema's own "confidence >= 0.80 needs >= 2 sources" rule, plan.md
+        task EV-03, simply does not apply below it) -- 0.75 is chosen as
+        the class-I band plan.md 10.2 itself describes as "one strong ...
+        confirmation" (0.60-0.79), near its own top, reflecting that this
+        IS a strong single method (a live runtime read via a
+        cross-validated GUObjectArray/FNamePool apparatus, not a guess),
+        just one without ANY independent corroboration for this specific
+        object -- unlike the MISERY classes, nothing else in this
+        repository has ever independently observed this particular
+        Blueprint asset existing.
+
+    Fields the task this capability was specified from explicitly scoped
+    OUT (never guessed, never half-implemented, all explicitly null):
+    cdo_name, is_native, is_abstract, within_class, config_name, interfaces,
+    property_count, function_count, super, super_object_path, size,
+    alignment, class_flags_raw, class_cast_flags_raw, flags_raw -- every one
+    of these needs a UObject-, UField-, UStruct- or UClass-specific field
+    I-04 deliberately never reads (see the module docstring's "WHAT I-04
+    IS" section, "SCOPE" paragraph).
+    """
+    confidence = 0.90 if cross_checked else 0.75
+    oracle = (["runtime-reflection", "global-ucas"] if cross_checked
+             else ["runtime-reflection"])
+    sources = [{
+        "method": (
+            "I-04: FUObjectArray walk (I-02's own chunk-walk arithmetic, "
+            "reused) + ClassPrivate/NamePrivate/OuterPrivate reads "
+            "(UObjectBase.h offsets +0x%x/+0x%x/+0x%x) + FNamePool decode "
+            "(I-03's own decode_fname_entry_id, reused) + the ClassPrivate "
+            "self-reference fixed point" %
+            (DEFAULT_CLASS_PRIVATE_OFFSET, DEFAULT_NAME_PRIVATE_OFFSET,
+             DEFAULT_OUTER_PRIVATE_OFFSET)),
+        "artifact": None,
+        "locator": entry["address_hex"],
+        "note": (
+            "oracle runtime-reflection. The address is this live UObject's "
+            "own address in THIS run's process -- not stable across a "
+            "relaunch (ASLR/heap allocation), recorded only for this run's "
+            "own audit trail."),
+    }]
+    if cross_checked:
+        sources.append(dict(_I04_MISERY_CROSS_CHECK_SOURCE))
+
+    claim_type = "native-class-exists" if cross_checked else "asset-exists"
+    claim = (
+        "the live MISERY-Win64-Shipping.exe process (build_key %s) has a "
+        "UObject at %s that IS a UClass instance named %r, object_path %r" %
+        (build_key, entry["address_hex"], entry["raw_name"], entry["object_path"]))
+    notes = None if entry["object_path_ok"] else (
+        "object_path is best-effort: %s" % entry["object_path_note"])
+
+    return {
+        "kind": "class",
+        "raw_name": entry["raw_name"],
+        "object_path": entry["object_path"],
+        "package": entry["package"],
+        "module": entry["module"],
+        "module_origin": entry["module_origin"],
+        "flags_raw": None,
+        "super": None,
+        "super_object_path": None,
+        "size": None,
+        "alignment": None,
+        "class_flags_raw": None,
+        "class_cast_flags_raw": None,
+        "cdo_name": None,
+        "is_native": None,
+        "is_blueprint_generated": entry["is_blueprint_generated"],
+        "is_abstract": None,
+        "within_class": None,
+        "config_name": None,
+        "interfaces": None,
+        "property_count": None,
+        "function_count": None,
+        "claim": claim,
+        "claim_type": claim_type,
+        "claim_class": "I",
+        "evidence_level": "OBSERVED",
+        "confidence": confidence,
+        "oracle": oracle,
+        "sources": sources,
+        "build_key": build_key,
+        "recorded_at": recorded_at,
+        "method": "I-04",
+        "refutation_attempt": (
+            "if the ClassPrivate self-reference fixed point were wrong, an "
+            "object with a non-UClass ClassPrivate could still be admitted "
+            "into class_address_universe -- refuted by requiring the SEED "
+            "itself to cross-check its own decoded name/object_path against "
+            "the known literals 'Class'/'/Script/CoreUObject.Class' before "
+            "the fixed point runs at all; by requiring "
+            "'BlueprintGeneratedClass' to pass the identical by-name/"
+            "by-object_path cross-check before it is ever promoted to a "
+            "growth root; and by growing the universe from EXACTLY those "
+            "two verified roots, never from 'anything already in the "
+            "universe', which would (and, unverified, could) also sweep in "
+            "ordinary gameplay object instances of any native class already "
+            "found -- see compute_class_identity()'s own docstring for the "
+            "full worked reason this specific, narrower rule was chosen."),
+        "notes": notes,
+        "semantic_alias": None,
+    }
+
+
+def dump_jsonl(records: list) -> str:
+    """Deterministic JSONL serialization: one compact (sorted-key) JSON
+    object per line, LF-terminated -- the SAME shape
+    tools/reflection/global_ucas.py's own dump_jsonl() produces (no indent,
+    unlike this file's own dump_json()'s pretty-printed single-document
+    form), matching the already-committed research/reflection/*/classes.jsonl
+    convention (research/reflection/misery-24826585-ue5.4.4-0eef3715244b/
+    classes.jsonl's own 5 lines are exactly this shape).
+    """
+    return "".join(
+        json.dumps(record, sort_keys=True, ensure_ascii=False) + "\n"
+        for record in records)
 
 
 # --------------------------------------------------------------------------- #
@@ -2332,6 +3528,78 @@ def build_arg_parser() -> argparse.ArgumentParser:
              "UObjectBase.h and cross-checked against RF-05's own "
              "InternalIndex==+0xc finding; see DEFAULT_NAME_PRIVATE_OFFSET's "
              "own comment in eri.py)." % DEFAULT_NAME_PRIVATE_OFFSET)
+    parser.add_argument(
+        "--run-i04", action="store_true",
+        help="also run capability I-04: dump UClass instances with their "
+             "inheritance-adjacent identity (plan.md 8.2, 'Дамп UClass с "
+             "иерархией наследования') by walking EVERY located UObject in "
+             "I-02's own GUObjectArray (not a bounded sample), decoding "
+             "each one's own NamePrivate via I-03's own FNamePool decode, "
+             "and classifying which ones ARE UClass instances via a "
+             "ClassPrivate self-reference fixed point -- never by reading "
+             "any UClass/UStruct/UField-specific field (see eri.py's own "
+             "module docstring, 'WHAT I-04 IS', for the exact algorithm and "
+             "its scope boundary). Requires BOTH --run-i02 and --run-i03 in "
+             "THIS SAME run -- never enabled standalone. Writes a raw JSON "
+             "summary (--i04-out) and a SEPARATE classes.jsonl artifact "
+             "(--classes-jsonl-out): every /Script/MISERY class found, plus "
+             "a small bounded /Game sample -- never the hundreds of native "
+             "engine classes this walk also finds (their total count is "
+             "reported, never persisted).")
+    parser.add_argument(
+        "--class-private-offset", default=None, metavar="HEX",
+        help="override the byte offset of UObjectBase::ClassPrivate "
+             "(default: 0x%x -- derived from UObjectBase.h's own member "
+             "declaration order; see DEFAULT_CLASS_PRIVATE_OFFSET's own "
+             "comment in eri.py)." % DEFAULT_CLASS_PRIVATE_OFFSET)
+    parser.add_argument(
+        "--outer-private-offset", default=None, metavar="HEX",
+        help="override the byte offset of UObjectBase::OuterPrivate "
+             "(default: 0x%x -- the ONE genuinely new offset I-04 "
+             "introduces; see DEFAULT_OUTER_PRIVATE_OFFSET's own comment "
+             "in eri.py)." % DEFAULT_OUTER_PRIVATE_OFFSET)
+    parser.add_argument(
+        "--i04-max-scan-indices", type=int, default=DEFAULT_I02_MAX_SCAN_INDICES,
+        metavar="N",
+        help="I-04: hard cap on how many GUObjectArray index slots are "
+             "examined -- I-04 is NOT a bounded sample like I-02/I-03's own "
+             "probes, it walks every located object up to this cap "
+             "(default: %d, same default as --i02-max-scan-indices)" %
+             DEFAULT_I02_MAX_SCAN_INDICES)
+    parser.add_argument(
+        "--i04-max-outer-depth", type=int, default=DEFAULT_I04_MAX_OUTER_DEPTH,
+        metavar="N",
+        help="I-04: bound on how many Outer hops object_path construction "
+             "follows before treating the walk as a traversal failure "
+             "(default: %d)" % DEFAULT_I04_MAX_OUTER_DEPTH)
+    parser.add_argument(
+        "--i04-max-fixed-point-passes", type=int,
+        default=DEFAULT_I04_MAX_FIXED_POINT_PASSES, metavar="N",
+        help="I-04: bound on how many passes the ClassPrivate self-"
+             "reference fixed point iterates before giving up on "
+             "convergence (default: %d)" % DEFAULT_I04_MAX_FIXED_POINT_PASSES)
+    parser.add_argument(
+        "--i04-game-sample-cap", type=int, default=DEFAULT_I04_GAME_SAMPLE_CAP,
+        metavar="N",
+        help="I-04: cap on how many /Game/* UClass instances (Blueprint-"
+             "generated ones prioritized) are WRITTEN to classes.jsonl -- "
+             "the full count found is still reported in the raw i04 "
+             "document and CLI summary regardless of this cap (default: "
+             "%d)" % DEFAULT_I04_GAME_SAMPLE_CAP)
+    parser.add_argument(
+        "--i04-out", default=None, metavar="PATH",
+        help="I-04 raw JSON output path; defaults to <run-dir>/"
+             "i04-classes.json when --run-dir is given")
+    parser.add_argument(
+        "--classes-jsonl-out", default=None, metavar="PATH",
+        help="I-04's classes.jsonl output path (research/schema/"
+             "reflection-record.schema.json's class_record branch); "
+             "defaults to <run-dir>/classes.jsonl when --run-dir is given. "
+             "The operator must pass this explicitly to write to the final "
+             "committed location, research/reflection/<build_id>/"
+             "classes.jsonl -- this tool does not auto-derive that path "
+             "from build identity, matching every other per-capability "
+             "output path in this file")
     return parser
 
 
@@ -2416,6 +3684,69 @@ def _validate_i03_reflection_requirements(args: argparse.Namespace) -> None:
             "and is never run standalone." % " and ".join(missing))
 
 
+def _resolve_i04_output_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i04 was not given. Otherwise the I-04 raw-JSON output
+    path: --i04-out if given explicitly, else <run-dir>/i04-classes.json via
+    the same --run-dir convenience --out/--i02-out/--i03-out already use.
+    Raises ValueError, before any handle is opened, if --run-i04 was given
+    with neither --i04-out nor --run-dir -- identical shape to
+    _resolve_i02_output_path/_resolve_i03_output_path above.
+    """
+    if not args.run_i04:
+        return None
+    if args.i04_out:
+        return args.i04_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "i04-classes.json")
+    raise ValueError(
+        "--run-i04 requires --i04-out unless --run-dir is given (it "
+        "supplies the default <run-dir>/i04-classes.json)")
+
+
+def _resolve_classes_jsonl_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i04 was not given. Otherwise I-04's classes.jsonl
+    output path: --classes-jsonl-out if given explicitly, else
+    <run-dir>/classes.jsonl -- the SAME --run-dir convenience every other
+    per-capability output path in this file uses, deliberately NOT an
+    auto-derived research/reflection/<build_id>/ path (see
+    --classes-jsonl-out's own help text: the operator passes that
+    explicitly when writing to the final committed location).
+    """
+    if not args.run_i04:
+        return None
+    if args.classes_jsonl_out:
+        return args.classes_jsonl_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "classes.jsonl")
+    raise ValueError(
+        "--run-i04 requires --classes-jsonl-out unless --run-dir is given "
+        "(it supplies the default <run-dir>/classes.jsonl)")
+
+
+def _validate_i04_requirements(args: argparse.Namespace) -> None:
+    """Raises ValueError, before any handle is opened, if --run-i04 was
+    given without BOTH --run-i02 (I-04 reuses its own GUObjectArray objects
+    pointer/NumElements, never re-walking the array from scratch) and
+    --run-i03 (I-04 reuses its own FNamePool decode, never adding a second
+    FNamePool-reading code path) in this SAME invocation -- the identical
+    "fail loudly before doing any work" shape
+    _validate_i03_reflection_requirements above already established.
+    """
+    if not args.run_i04:
+        return
+    missing = []
+    if not args.run_i02:
+        missing.append("--run-i02")
+    if not args.run_i03:
+        missing.append("--run-i03")
+    if missing:
+        raise ValueError(
+            "--run-i04 requires %s in this same invocation -- I-04 reuses "
+            "I-02's own GUObjectArray objects pointer/NumElements and "
+            "I-03's own FNamePool decode, and is never run standalone." %
+            " and ".join(missing))
+
+
 def _parse_int_literal(value: str | None, default: int, flag_name: str) -> int:
     """*default* when *value* is None (the normal case); otherwise
     int(value, 0) so '0x7a78ed0', '0X7A78ED0' and a plain decimal string are
@@ -2454,6 +3785,14 @@ def _parse_name_private_offset(value: str | None) -> int:
     return _parse_int_literal(value, DEFAULT_NAME_PRIVATE_OFFSET, "--name-private-offset")
 
 
+def _parse_class_private_offset(value: str | None) -> int:
+    return _parse_int_literal(value, DEFAULT_CLASS_PRIVATE_OFFSET, "--class-private-offset")
+
+
+def _parse_outer_private_offset(value: str | None) -> int:
+    return _parse_int_literal(value, DEFAULT_OUTER_PRIVATE_OFFSET, "--outer-private-offset")
+
+
 def _write_guarded(document: dict, path: str, *, what: str) -> str:
     """dump_json(document) to *path*, refusing any path inside the game
     installation (plan.md decision D-01) and creating the parent directory
@@ -2466,6 +3805,26 @@ def _write_guarded(document: dict, path: str, *, what: str) -> str:
         os.makedirs(parent, exist_ok=True)
     with open(resolved, "w", encoding="utf-8", newline="\n") as handle:
         handle.write(dump_json(document))
+    return resolved
+
+
+def _write_guarded_jsonl(records: list, path: str, *, what: str) -> str:
+    """dump_jsonl(records) to *path* -- the SAME pathguard-checked,
+    parent-directory-creating write _write_guarded() above performs for a
+    single JSON document, but for I-04's own classes.jsonl (a LIST of
+    records, one JSON object per line, never a single pretty-printed
+    document). An empty *records* list writes a legitimately empty file --
+    "zero records", not an error; see research/reflection/README.md's own
+    "Пустой JSONL самодостаточен и честен" section for why an empty JSONL
+    is never treated as a stub/placeholder needing special-casing here.
+    """
+    resolved = pathguard.check_output_path(
+        path, pathguard.CONFIGURED_INSTALL_ROOTS[0], what=what)
+    parent = os.path.dirname(resolved)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    with open(resolved, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(dump_jsonl(records))
     return resolved
 
 
@@ -2484,16 +3843,23 @@ def main(argv: list[str] | None = None) -> int:
         out_path, manifest_path = _resolve_output_paths(args)
         i02_out_path = _resolve_i02_output_path(args)  # None unless --run-i02
         i03_out_path = _resolve_i03_output_path(args)  # None unless --run-i03
+        i04_out_path = _resolve_i04_output_path(args)  # None unless --run-i04
+        classes_jsonl_path = _resolve_classes_jsonl_path(args)  # None unless --run-i04
         guobjectarray_rva = _parse_guobjectarray_rva(args.guobjectarray_rva)
         namepool_rva = _parse_namepool_rva(args.namepool_rva)
         name_pool_initialized_rva = _parse_name_pool_initialized_rva(
             args.name_pool_initialized_rva)
         name_private_offset = _parse_name_private_offset(args.name_private_offset)
+        class_private_offset = _parse_class_private_offset(args.class_private_offset)
+        outer_private_offset = _parse_outer_private_offset(args.outer_private_offset)
         # --run-i03-reflection needs both --run-i02 and --run-i03 in this
         # same invocation -- checked here, before any handle is opened, same
         # "fail loudly before doing any work" discipline as every other
         # CLI-shape check in this function.
         _validate_i03_reflection_requirements(args)
+        # --run-i04 needs both --run-i02 and --run-i03 too -- identical
+        # discipline, checked before any handle is opened.
+        _validate_i04_requirements(args)
 
         # Layer 1 first, exactly like the pyghidra_scripts family: a refused
         # output path costs nothing, so it is checked before a single Win32
@@ -2511,6 +3877,14 @@ def main(argv: list[str] | None = None) -> int:
             pathguard.check_output_path(
                 i03_out_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
                 what="--i03-out")
+        if i04_out_path is not None:
+            pathguard.check_output_path(
+                i04_out_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--i04-out")
+        if classes_jsonl_path is not None:
+            pathguard.check_output_path(
+                classes_jsonl_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--classes-jsonl-out")
 
         i01_recorded_at = (
             args.recorded_at if args.recorded_at
@@ -2571,6 +3945,15 @@ def main(argv: list[str] | None = None) -> int:
         # is not None here whenever args.run_i03_reflection is True).
         i03_result = None
         misery_reflection_result = None
+        # I-04, if requested, runs in this SAME i03_handle's try/finally --
+        # it reuses i02_result's own objects_ptr/num_elements AND i03_result's
+        # own namepool_live_va (_validate_i04_requirements already guaranteed
+        # both are not None here whenever args.run_i04 is True), the
+        # identical "reuse, never re-walk/re-establish" reasoning
+        # --run-i03-reflection's own block above already follows.
+        i04_result = None
+        i04_class_buckets = None
+        i04_game_sample = None
         if args.run_i03:
             i03_handle = open_process_read_only(api, result["pid"])
             try:
@@ -2586,6 +3969,24 @@ def main(argv: list[str] | None = None) -> int:
                         name_private_offset,
                         sample_size=args.i03_reflection_sample_size,
                         max_scan_indices=args.i03_reflection_max_scan_indices)
+                if args.run_i04:
+                    i04_result = run_i04(
+                        api, i03_handle, result["base_address"], result["image_size_bytes"],
+                        i02_result["objects_ptr_live_va"], i02_result["num_elements"],
+                        i03_result["namepool_live_va"],
+                        class_private_offset=class_private_offset,
+                        name_private_offset=name_private_offset,
+                        outer_private_offset=outer_private_offset,
+                        max_scan_indices=args.i04_max_scan_indices,
+                        max_outer_depth=args.i04_max_outer_depth,
+                        max_fixed_point_passes=args.i04_max_fixed_point_passes)
+                    if i04_result["seed_found"]:
+                        i04_class_buckets = classify_classes_by_module(i04_result["classes"])
+                        i04_game_sample = select_game_sample(
+                            i04_class_buckets["game"], cap=args.i04_game_sample_cap)
+                    else:
+                        i04_class_buckets = {"misery": [], "game": [], "other": []}
+                        i04_game_sample = []
             finally:
                 api.close_handle(i03_handle)
 
@@ -2625,6 +4026,48 @@ def main(argv: list[str] | None = None) -> int:
             capabilities_enabled.append(CAPABILITY_ID_I03)
             artifacts.append(_repo_relative(written_i03_out))
 
+        i04_document = None
+        written_i04_out = None
+        written_classes_jsonl = None
+        if i04_result is not None:
+            i04_document = build_i04_document(
+                result=i04_result, build_key=identity["build_key"],
+                recorded_at=i01_recorded_at,
+                identity_self_established=identity["identity_self_established"],
+                build_key_cross_checked=identity["build_key_cross_checked"],
+                known_build=identity["known_build"], build_id=identity["build_id"],
+                misery_classes_count=len(i04_class_buckets["misery"]),
+                game_classes_total_count=len(i04_class_buckets["game"]),
+                game_classes_sample_count=len(i04_game_sample),
+                other_classes_count=len(i04_class_buckets["other"]))
+            written_i04_out = _write_guarded(i04_document, i04_out_path, what="--i04-out")
+            capabilities_enabled.append(CAPABILITY_ID_I04)
+            artifacts.append(_repo_relative(written_i04_out))
+
+            # classes.jsonl is a SEPARATE artifact, in the format research/
+            # schema/reflection-record.schema.json's class_record branch
+            # defines -- every /Script/MISERY class (cross_checked=True,
+            # confidence 0.90) plus the bounded /Game sample
+            # (cross_checked=False, confidence 0.75); see
+            # build_i04_class_record()'s own docstring for the full MIX-SPLIT
+            # grading reasoning. recorded_at here is manifest_timestamp, NOT
+            # i01_recorded_at -- kb-record.schema.json's own envelope
+            # requires a non-null recorded_at on every row always, unlike the
+            # raw i0N-*.json documents, which may carry a null one under
+            # --no-timestamp.
+            classes_jsonl_rows = (
+                [build_i04_class_record(
+                    entry, build_key=identity["build_key"],
+                    recorded_at=manifest_timestamp, cross_checked=True)
+                 for entry in i04_class_buckets["misery"]] +
+                [build_i04_class_record(
+                    entry, build_key=identity["build_key"],
+                    recorded_at=manifest_timestamp, cross_checked=False)
+                 for entry in i04_game_sample])
+            written_classes_jsonl = _write_guarded_jsonl(
+                classes_jsonl_rows, classes_jsonl_path, what="--classes-jsonl-out")
+            artifacts.append(_repo_relative(written_classes_jsonl))
+
         manifest = build_manifest(
             run_id=run_id, arguments=list(sys.argv[1:] if argv is None else argv),
             tool_version=GENERATOR_VERSION, build_key=identity["build_key"],
@@ -2657,6 +4100,16 @@ def main(argv: list[str] | None = None) -> int:
                 summary["i03_decoded_as_expected"] = i03_document["decoded_as_expected"]
                 if misery_reflection_result is not None:
                     summary["i03_misery_found"] = misery_reflection_result["misery_found"]
+            if i04_document is not None:
+                summary["i04_out"] = written_i04_out
+                summary["classes_jsonl_out"] = written_classes_jsonl
+                summary["i04_seed_found"] = i04_document["seed_found"]
+                summary["i04_misery_classes_count"] = i04_document["misery_classes_count"]
+                summary["i04_game_classes_total_count"] = (
+                    i04_document["game_classes_total_count"])
+                summary["i04_game_classes_sample_count"] = (
+                    i04_document["game_classes_sample_count"])
+                summary["i04_other_classes_count"] = i04_document["other_classes_count"]
             print(dump_json(summary))
         else:
             print(
@@ -2704,6 +4157,20 @@ def main(argv: list[str] | None = None) -> int:
                             misery_reflection_result["decoded_names"][:10]),
                         file=sys.stderr)
                 print("written: %s" % written_i03_out, file=sys.stderr)
+            if i04_document is not None:
+                print(
+                    "I-04: seed_found=%s class_address_universe_size=%d "
+                    "misery_classes_count=%d game_classes_total_count=%d "
+                    "game_classes_sample_count=%d other_classes_count=%d" % (
+                        i04_document["seed_found"],
+                        i04_document["class_address_universe_size"],
+                        i04_document["misery_classes_count"],
+                        i04_document["game_classes_total_count"],
+                        i04_document["game_classes_sample_count"],
+                        i04_document["other_classes_count"]),
+                    file=sys.stderr)
+                print("written: %s" % written_i04_out, file=sys.stderr)
+                print("written: %s" % written_classes_jsonl, file=sys.stderr)
             print("written: %s" % written_manifest, file=sys.stderr)
         return 0
     except (EriError, pathguard.OutputPathRefused, ValueError) as error:
