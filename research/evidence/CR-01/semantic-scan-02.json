@@ -1,0 +1,1113 @@
+{
+  "class_universe_size": 26258,
+  "generated_at": "2026-08-27T21:17:54Z",
+  "keywords": [
+    "Item",
+    "Inventory",
+    "Weapon",
+    "Equipment",
+    "Loot",
+    "Pickup",
+    "Player",
+    "Character",
+    "Interact",
+    "Craft",
+    "Container",
+    "Save",
+    "GameInstance",
+    "World",
+    "Actor",
+    "DataAsset",
+    "DataTable"
+  ],
+  "match_count": 33,
+  "matches": [
+    {
+      "address_hex": "0x2d460a1ea00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [],
+      "live_instance_count": 1,
+      "module": "/Script/MISERY",
+      "object_path": "/Script/MISERY.MiseryBlueprintFunctionLibrary",
+      "package": "/Script/MISERY",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d46016f400",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintFunctionLibrary"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "misery",
+      "raw_name": "MiseryBlueprintFunctionLibrary"
+    },
+    {
+      "address_hex": "0x2d460a1e800",
+      "is_blueprint_generated": false,
+      "keyword_hits": [],
+      "live_instance_count": 1,
+      "module": "/Script/MISERY",
+      "object_path": "/Script/MISERY.MiseryEditableText",
+      "package": "/Script/MISERY",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d4601bae00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "ContentWidget"
+        },
+        {
+          "address_hex": "0x2d4601bac00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "PanelWidget"
+        },
+        {
+          "address_hex": "0x2d4601b0a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Widget"
+        },
+        {
+          "address_hex": "0x2d4601b0800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Visual"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "misery",
+      "raw_name": "MiseryEditableText"
+    },
+    {
+      "address_hex": "0x2d460a1e600",
+      "is_blueprint_generated": false,
+      "keyword_hits": [],
+      "live_instance_count": 1,
+      "module": "/Script/MISERY",
+      "object_path": "/Script/MISERY.MiseryFocusableWidget",
+      "package": "/Script/MISERY",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d4601b8000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "UserWidget"
+        },
+        {
+          "address_hex": "0x2d4601b0a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Widget"
+        },
+        {
+          "address_hex": "0x2d4601b0800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Visual"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "misery",
+      "raw_name": "MiseryFocusableWidget"
+    },
+    {
+      "address_hex": "0x2d460a1e400",
+      "is_blueprint_generated": false,
+      "keyword_hits": [],
+      "live_instance_count": 2,
+      "module": "/Script/MISERY",
+      "object_path": "/Script/MISERY.MiseryFocusSubsystem",
+      "package": "/Script/MISERY",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d4609f5400",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "GameInstanceSubsystem"
+        },
+        {
+          "address_hex": "0x2d460185800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Subsystem"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "misery",
+      "raw_name": "MiseryFocusSubsystem"
+    },
+    {
+      "address_hex": "0x2d460a1e200",
+      "is_blueprint_generated": false,
+      "keyword_hits": [],
+      "live_instance_count": 2,
+      "module": "/Script/MISERY",
+      "object_path": "/Script/MISERY.MiseryGameViewportClient",
+      "package": "/Script/MISERY",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460296e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "GameViewportClient"
+        },
+        {
+          "address_hex": "0x2d460296c00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "ScriptViewportClient"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "misery",
+      "raw_name": "MiseryGameViewportClient"
+    },
+    {
+      "address_hex": "0x2d470002770",
+      "is_blueprint_generated": true,
+      "keyword_hits": [],
+      "live_instance_count": 2,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/CW_Cursor.CW_Cursor_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Widgets/CW_Cursor",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d4601b8000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "UserWidget"
+        },
+        {
+          "address_hex": "0x2d4601b0a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Widget"
+        },
+        {
+          "address_hex": "0x2d4601b0800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Visual"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "CW_Cursor_C"
+    },
+    {
+      "address_hex": "0x2d476f70400",
+      "is_blueprint_generated": true,
+      "keyword_hits": [],
+      "live_instance_count": 1,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_ControlFunction.BP_ControlFunction_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_ControlFunction",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d4601b8000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "UserWidget"
+        },
+        {
+          "address_hex": "0x2d4601b0a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Widget"
+        },
+        {
+          "address_hex": "0x2d4601b0800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Visual"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "BP_ControlFunction_C"
+    },
+    {
+      "address_hex": "0x2d470563f80",
+      "is_blueprint_generated": true,
+      "keyword_hits": [
+        "Save"
+      ],
+      "live_instance_count": 1,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_ControlSaves.BP_ControlSaves_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_ControlSaves",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460290200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SaveGame"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "BP_ControlSaves_C"
+    },
+    {
+      "address_hex": "0x2d476fb6d00",
+      "is_blueprint_generated": true,
+      "keyword_hits": [
+        "Save"
+      ],
+      "live_instance_count": 2,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKSettingsSaveData.BP_SGKSettingsSaveData_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKSettingsSaveData",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460290200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SaveGame"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "BP_SGKSettingsSaveData_C"
+    },
+    {
+      "address_hex": "0x2d476fb6600",
+      "is_blueprint_generated": true,
+      "keyword_hits": [
+        "GameInstance"
+      ],
+      "live_instance_count": 1,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKGameInstanceInterface.BP_SGKGameInstanceInterface_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKGameInstanceInterface",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d45e846000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Interface"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "BP_SGKGameInstanceInterface_C"
+    },
+    {
+      "address_hex": "0x2d476fb5f00",
+      "is_blueprint_generated": true,
+      "keyword_hits": [
+        "GameInstance"
+      ],
+      "live_instance_count": 2,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKGameInstance.BP_SGKGameInstance_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKGameInstance",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460297e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "GameInstance"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "BP_SGKGameInstance_C"
+    },
+    {
+      "address_hex": "0x2d475afc8e0",
+      "is_blueprint_generated": true,
+      "keyword_hits": [],
+      "live_instance_count": 3,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_RadiationLoadCircle.BP_RadiationLoadCircle_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_RadiationLoadCircle",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d4601b8000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "UserWidget"
+        },
+        {
+          "address_hex": "0x2d4601b0a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Widget"
+        },
+        {
+          "address_hex": "0x2d4601b0800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Visual"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "BP_RadiationLoadCircle_C"
+    },
+    {
+      "address_hex": "0x2d475afccd0",
+      "is_blueprint_generated": true,
+      "keyword_hits": [],
+      "live_instance_count": 2,
+      "module": null,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/WD_PlaytestNote01.WD_PlaytestNote01_C",
+      "package": "/Game/SurvivalGameKitV2/Blueprints/Widgets/WD_PlaytestNote01",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d4601b8000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "UserWidget"
+        },
+        {
+          "address_hex": "0x2d4601b0a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Widget"
+        },
+        {
+          "address_hex": "0x2d4601b0800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Visual"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "WD_PlaytestNote01_C"
+    },
+    {
+      "address_hex": "0x2d476fb2e00",
+      "is_blueprint_generated": true,
+      "keyword_hits": [],
+      "live_instance_count": 2,
+      "module": null,
+      "object_path": "/Game/Blueprints/Playtest/BP_PlaytestBeginPlyer.BP_PlaytestBeginPlyer_C",
+      "package": "/Game/Blueprints/Playtest/BP_PlaytestBeginPlyer",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460283600",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Pawn"
+        },
+        {
+          "address_hex": "0x2d46016e000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Actor"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "BP_PlaytestBeginPlyer_C"
+    },
+    {
+      "address_hex": "0x2d476fb2700",
+      "is_blueprint_generated": true,
+      "keyword_hits": [],
+      "live_instance_count": 2,
+      "module": null,
+      "object_path": "/Game/Blueprints/Playtest/PlaytestBeginPGmaemode.PlaytestBeginPGmaemode_C",
+      "package": "/Game/Blueprints/Playtest/PlaytestBeginPGmaemode",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460297a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "GameModeBase"
+        },
+        {
+          "address_hex": "0x2d46016e200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Info"
+        },
+        {
+          "address_hex": "0x2d46016e000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Actor"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "game",
+      "raw_name": "PlaytestBeginPGmaemode_C"
+    },
+    {
+      "address_hex": "0x2d460a18000",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Inventory"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamProInventory",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11400",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreInterface"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamProInventory"
+    },
+    {
+      "address_hex": "0x2d460a17e00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item",
+        "Inventory"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProInventoryAsyncActionRequestEligiblePromoItemDefinitionsIDs",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProInventoryAsyncActionRequestEligiblePromoItemDefinitionsIDs"
+    },
+    {
+      "address_hex": "0x2d460a17c00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Inventory"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProInventoryAsyncActionRequestPricesResult",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProInventoryAsyncActionRequestPricesResult"
+    },
+    {
+      "address_hex": "0x2d460a17a00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Inventory"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProInventoryAsyncActionStartPurchaseResult",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProInventoryAsyncActionStartPurchaseResult"
+    },
+    {
+      "address_hex": "0x2d460a1be00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionStopPlaytimeTrackingForAllItems",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionStopPlaytimeTrackingForAllItems"
+    },
+    {
+      "address_hex": "0x2d460a1b800",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionUnsubscribeItem",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionUnsubscribeItem"
+    },
+    {
+      "address_hex": "0x2d460a1b600",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionSubscribeItem",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionSubscribeItem"
+    },
+    {
+      "address_hex": "0x2d460a1b400",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionRemoveItemFromFavorites",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionRemoveItemFromFavorites"
+    },
+    {
+      "address_hex": "0x2d460a1b200",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionAddItemToFavorites",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionAddItemToFavorites"
+    },
+    {
+      "address_hex": "0x2d460a1b000",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionGetUserItemVote",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionGetUserItemVote"
+    },
+    {
+      "address_hex": "0x2d460a1ae00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionSetUserItemVote",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionSetUserItemVote"
+    },
+    {
+      "address_hex": "0x2d460a1ac00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionSubmitItemUpdate",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionSubmitItemUpdate"
+    },
+    {
+      "address_hex": "0x2d460a1aa00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionCreateItem",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionCreateItem"
+    },
+    {
+      "address_hex": "0x2d460a19e00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionDeleteItem",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionDeleteItem"
+    },
+    {
+      "address_hex": "0x2d460a19a00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Item"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUGCAsyncActionDownloadItem",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUGCAsyncActionDownloadItem"
+    },
+    {
+      "address_hex": "0x2d460a18800",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Player"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/SteamCorePro",
+      "object_path": "/Script/SteamCorePro.SteamCoreProUserStatsAsyncActionGetNumberOfCurrentPlayers",
+      "package": "/Script/SteamCorePro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460a11a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "SteamCoreProAsyncAction"
+        },
+        {
+          "address_hex": "0x2d4601a9200",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "BlueprintAsyncActionBase"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "SteamCoreProUserStatsAsyncActionGetNumberOfCurrentPlayers"
+    },
+    {
+      "address_hex": "0x2d460dcfe00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "Player",
+        "Actor"
+      ],
+      "live_instance_count": 1,
+      "module": "/Script/UniversalVoiceChatPro",
+      "object_path": "/Script/UniversalVoiceChatPro.PlayerVoiceChatActor",
+      "package": "/Script/UniversalVoiceChatPro",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d46016e000",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Actor"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "PlayerVoiceChatActor"
+    },
+    {
+      "address_hex": "0x2d460dcea00",
+      "is_blueprint_generated": false,
+      "keyword_hits": [
+        "World"
+      ],
+      "live_instance_count": 2,
+      "module": "/Script/OptimizationTools",
+      "object_path": "/Script/OptimizationTools.OptimizationToolsWorldSubsystem",
+      "package": "/Script/OptimizationTools",
+      "parent_chain": [
+        {
+          "address_hex": "0x2d460185c00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "TickableWorldSubsystem"
+        },
+        {
+          "address_hex": "0x2d460185a00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "WorldSubsystem"
+        },
+        {
+          "address_hex": "0x2d460185800",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Subsystem"
+        },
+        {
+          "address_hex": "0x2d45e090e00",
+          "in_class_universe": true,
+          "object_path": null,
+          "raw_name": "Object"
+        }
+      ],
+      "pool": "other_non_engine",
+      "raw_name": "OptimizationToolsWorldSubsystem"
+    }
+  ],
+  "pid": 19048,
+  "pool_sizes": {
+    "game": 10,
+    "misery": 5,
+    "other_non_engine": 122
+  }
+}
