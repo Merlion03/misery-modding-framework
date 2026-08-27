@@ -1,0 +1,123 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "distinct_containing_functions": 5,
+  "generated_at": "2026-08-27T08:22:55Z",
+  "generator": "pyghidra_scripts/dump_xrefs_for_string.py",
+  "generator_version": "1.0.0",
+  "ignore_case": false,
+  "jsonl_bytes": 8510,
+  "jsonl_path": "D:\\Dev\\MiseryFramework\\workspace\\xrefs\\gengine.jsonl",
+  "jsonl_records": 16,
+  "jsonl_sha256": "8a08bfe22a11a931f2a069b8b9048964ccd18f99a76a6d811a2ddab2f6c3d921",
+  "max_string_length": 2000,
+  "needles": [
+    "GEngine",
+    "GEngine->Init",
+    "GEngine->ParseCommandline",
+    "Create GEngine",
+    "FEngineLoop::Init",
+    "LaunchEngineLoop.cpp"
+  ],
+  "occurrence_count": 10,
+  "occurrences": [
+    {
+      "address": "1468c3f70",
+      "length": 78,
+      "needle": "LaunchEngineLoop.cpp",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\Launch\\Private\\LaunchEngineLoop.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c5690",
+      "length": 18,
+      "needle": "FEngineLoop::Init",
+      "value": "FEngineLoop::Init",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c56a8",
+      "length": 15,
+      "needle": "GEngine",
+      "value": "Create GEngine",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c56a8",
+      "length": 15,
+      "needle": "Create GEngine",
+      "value": "Create GEngine",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c5718",
+      "length": 28,
+      "needle": "GEngine",
+      "value": "GEngine->ParseCommandline()",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c5718",
+      "length": 28,
+      "needle": "GEngine->ParseCommandline",
+      "value": "GEngine->ParseCommandline()",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c5748",
+      "length": 14,
+      "needle": "GEngine",
+      "value": "GEngine->Init",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c5748",
+      "length": 14,
+      "needle": "GEngine->Init",
+      "value": "GEngine->Init",
+      "value_truncated": false
+    },
+    {
+      "address": "1468c5848",
+      "length": 17,
+      "needle": "GEngine",
+      "value": "GEngine->Start()",
+      "value_truncated": false
+    },
+    {
+      "address": "146cd8140",
+      "length": 166,
+      "needle": "GEngine",
+      "value": "Cannot create GameplayScreenshotInstance - either GEngine or GameViewport is null!",
+      "value_truncated": false
+    }
+  ],
+  "occurrences_with_no_xrefs": 0,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\tools\\ghidra-projects"
+  },
+  "question": "plan.md RF-04: which defined strings/data in this build contain a given anchor literal, and what cross-references does each occurrence have (referencing address, containing function, reference type)?",
+  "reference_type_histogram": {
+    "DATA": 16
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-03 / §6.2 RF-04",
+  "whole_string": false,
+  "xref_count": 16,
+  "xrefs_per_needle": {
+    "Create GEngine": 1,
+    "FEngineLoop::Init": 1,
+    "GEngine": 5,
+    "GEngine->Init": 1,
+    "GEngine->ParseCommandline": 1,
+    "LaunchEngineLoop.cpp": 7
+  }
+}

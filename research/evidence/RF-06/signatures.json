@@ -1,0 +1,563 @@
+{
+  "boundary_oracle": {
+    "caveat": "a RUNTIME_FUNCTION range is NOT a compiler function; see census.discrepancies_named, every clause of which is counted on this image",
+    "census": {
+      "adjacent_ranges": 179628,
+      "bytes_covered_by_ranges": 81685629,
+      "chain_scan_ran": true,
+      "chained_records_with_unresolved_primary": 0,
+      "coverage_fraction_of_executable_bytes": 0.830612,
+      "directory_rva": 130871296,
+      "directory_size": 4936620,
+      "discrepancies_named": {
+        "adjacent_ranges": "adjacent_ranges pairs have End[i] == Begin[i+1]; from .pdata alone that is indistinguishable from one function described in two rows, so End is an upper bound and not a proven end",
+        "chunked_functions": "records_with_chaininfo of the 411385 records are continuation chunks, not function entry points",
+        "missing_records": "a leaf function needing no unwind data has no record at all, so this table is a LOWER BOUND on the function inventory; coverage_fraction_of_executable_bytes sizes the gap",
+        "shared_unwind_info": "an UnwindInfoAddress is not an identity for a function: max_records_per_unwind_info records share one"
+      },
+      "distinct_begin_addresses": 411385,
+      "distinct_unwind_info_addresses": 197872,
+      "duplicate_begin_addresses": 0,
+      "entry_size": 12,
+      "executable_bytes_on_disk": 98343936,
+      "max_records_per_unwind_info": 46543,
+      "primaries_with_at_least_one_chunk": 77846,
+      "primary_ranges": 242353,
+      "records_sharing_unwind_info": 222934,
+      "records_with_chaininfo": 169032,
+      "records_with_exception_handler": 23053,
+      "runtime_function_count": 411385,
+      "table_truncated": false,
+      "unwind_info_addresses_shared": 9421
+    },
+    "source": "IMAGE_DIRECTORY_ENTRY_EXCEPTION (.pdata), decoded against the published Microsoft x64 unwind ABI"
+  },
+  "d04_oracle_only": false,
+  "generated_at": "2026-08-27T08:32:32Z",
+  "generator": "tools/static/sigmake.py",
+  "generator_version": "1.0.0",
+  "initialized_surface": {
+    "bytes_searched": 134656512,
+    "kind": "initialized",
+    "range_count": 9,
+    "why": "accepted signatures are counted here as well, so that 'unique in code' can never be quoted as 'unique in the file'"
+  },
+  "interpreted_annotation": {
+    "claim_class": "I",
+    "confidence": 0.79,
+    "evidence_level": "INFERRED",
+    "note": "Interpretive: this layer says a byte range IS a function, that a masked position is one a rebuild would move, and that the emitted pattern will re-find the same function in a future build. The first rests on a published ABI (external-doc -- it proves how the Microsoft toolchain describes functions, not what this build contains); the second is exact for relocations and explicitly UNSOLVED for non-relocated displacements; the third is untested here, because this repository has only one build of this game. The primitive half -- the bytes at the offsets -- is in literal_reads[].",
+    "oracle": [
+      "binary-analysis",
+      "external-doc"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "MISERY-Win64-Shipping.exe",
+        "method": "S-06",
+        "note": "oracle binary-analysis + external-doc. Function extent from the PE exception directory decoded against the published Microsoft x64 unwind ABI (RUNTIME_FUNCTION, UNWIND_INFO, UNW_FLAG_CHAININFO), mask positions from the published PE base relocation format."
+      }
+    ]
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "48895c241048897c241855488dac24b0f0ffffb8",
+      "claim": "20 bytes at offset 17545456 of MISERY-Win64-Shipping.exe are 48895c241048897c241855488dac24b0f0ffffb8",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "20 bytes at offset 17545456 of MISERY-Win64-Shipping.exe are 48895c241048897c241855488dac24b0f0ffffb8. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "48895c241048897c241855488dac24b0f0ffffb8",
+          "length": 20,
+          "note": null,
+          "offset": 17545456,
+          "target": "MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY-Win64-Shipping.exe@17545456+20",
+            "method": "S-06",
+            "note": "oracle binary-analysis. Read by tools/static/sigmake.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching entry of signatures[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "GetNamePool_inlined_caller_candidate",
+      "length": 20,
+      "offset": 17545456,
+      "reproduced": true,
+      "target": "MISERY-Win64-Shipping.exe"
+    },
+    {
+      "bytes_hex": "48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+      "claim": "32 bytes at offset 17553600 of MISERY-Win64-Shipping.exe are 48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 17553600 of MISERY-Win64-Shipping.exe are 48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004. This record gives the position and the extent, and nothing else. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file.",
+        "oracle": [
+          "binary-analysis"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+          "length": 32,
+          "note": null,
+          "offset": 17553600,
+          "target": "MISERY-Win64-Shipping.exe"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "MISERY-Win64-Shipping.exe@17553600+32",
+            "method": "S-06",
+            "note": "oracle binary-analysis. Read by tools/static/sigmake.py, read-only. Method re-run and reproduced within this run: every range in this group was read a second time through a second, independently opened file handle and the two reads agree byte for byte. The limit of that attestation, stated plainly: it is a re-read of the same file on the same machine, so it catches a transient read, a seek error and a bookkeeping mistake -- it does not catch reading the wrong file."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching entry of signatures[] in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "join_key": "FNamePool_ctor_candidate",
+      "length": 32,
+      "offset": 17553600,
+      "reproduced": true,
+      "target": "MISERY-Win64-Shipping.exe"
+    }
+  ],
+  "mask_policy": {
+    "exact_component": {
+      "consequence_for_code": "the relocation oracle is exact but EMPTY over code: no byte of any function is provably relocated, so a relocation-derived mask masks nothing there and cannot be cited as making a code signature build-stable. This is the normal case for x86-64, where code addresses data RIP-relatively and the loader patches nothing in .text",
+      "entries_in_executable_sections": 0,
+      "entries_total": 941132,
+      "source": "the PE base relocation table (.reloc)",
+      "what_it_proves": "every position the loader patches when the image is not at its preferred base; an enumeration, so no false positives and no guessing"
+    },
+    "mask_mode": "reloc",
+    "unsolved_component": {
+      "chosen_side": "conservative: mask nothing that cannot be proven. The cost is a signature that comes back ABSENT on a rebuilt image, which sends the operator back to re-locate the function. The alternative -- masking on a guess -- buys a match that may be the wrong function, which is the failure this tool pair exists to prevent",
+      "opt_in_heuristic": "--mask-mode reloc+rel32 masks the four bytes after an E8/E9 byte whose target resolves into the image. A GUESS, stamped on every record it touches so the two populations cannot be silently mixed",
+      "sized_by": "fragility.rel32_candidates and fragility.disp32_windows_resolving_into_image on every signature; both are upper bounds obtained without decoding",
+      "what": "RIP-relative displacements and rel32 call/jump targets -- the bytes a rebuild actually moves in x86-64 code",
+      "why_not_masked": "they are position-independent within the image, so the loader never patches them and the relocation table never lists them; locating them requires knowing where each instruction begins, which requires an instruction decoder, which Phase 1 does not have"
+    }
+  },
+  "mode": {
+    "definition": "the shortest length on the ladder that is unique on the searched surface; shorter is preferred because every extra byte is another chance to include a build-varying immediate",
+    "length_ladder": [
+      12,
+      16,
+      20,
+      24,
+      32,
+      40,
+      48,
+      64,
+      80,
+      96,
+      128,
+      160,
+      192,
+      224,
+      256
+    ],
+    "length_mode": "grow"
+  },
+  "refutation_probes": [
+    {
+      "entries_in_executable_sections": 0,
+      "entries_per_section": {
+        ".data": 65614,
+        ".rdata": 875518
+      },
+      "entries_total": 941132,
+      "finding": "the relocation oracle is exact and EMPTY over code (0 of 941132 entries fall in an executable section), so no code signature in this document is made build-stable by relocation masking; the build-varying bytes in code are the non-relocated displacements, which Phase 1 cannot locate",
+      "id": "reloc-oracle-covers-code",
+      "note": "0 of 941132 relocation entries are in an executable section",
+      "question": "does the exact masking oracle -- the base relocation table -- cover any byte of any executable section in this image?",
+      "refuted": false,
+      "would_refute": "a NON-zero count refutes the finding below and would mean relocation masking really does protect code signatures in this image"
+    },
+    {
+      "adjacent_ranges": 179628,
+      "coverage_fraction_of_executable_bytes": 0.830612,
+      "id": "boundary-oracle-is-not-a-function-inventory",
+      "max_records_per_unwind_info": 46543,
+      "note": "169 032 of 411 385 records are continuation chunks; 0 requested addresses were refused because the table could not place them",
+      "question": "how far is a RUNTIME_FUNCTION range from a compiler function in this image, measured rather than asserted?",
+      "records_with_chaininfo": 169032,
+      "refuted": false,
+      "requested_addresses_refused_on_boundary_grounds": 0,
+      "runtime_function_count": 411385,
+      "would_refute": "zero chained records, full coverage of the executable bytes and no requested address missing from the table would mean the two notions coincide here and the caveat is unnecessary"
+    },
+    {
+      "controls": [
+        {
+          "codes": [
+            "too_few_literal_bytes",
+            "too_masked",
+            "anchor_too_short",
+            "low_variety"
+          ],
+          "expected_code": "too_few_literal_bytes",
+          "expected_code_present": true,
+          "length": 32,
+          "rejected": true
+        },
+        {
+          "codes": [
+            "low_variety"
+          ],
+          "expected_code": "low_variety",
+          "expected_code_present": true,
+          "length": 32,
+          "rejected": true
+        },
+        {
+          "codes": [
+            "too_short",
+            "too_few_literal_bytes",
+            "anchor_too_short"
+          ],
+          "expected_code": "too_short",
+          "expected_code_present": true,
+          "length": 4,
+          "rejected": true
+        }
+      ],
+      "id": "gate-refuses-a-non-signature",
+      "note": "3 of 3 control patterns were rejected for the expected reason",
+      "question": "does the justification gate reject an all-wildcard pattern, a run of padding bytes and a four-byte fragment?",
+      "refuted": false,
+      "would_refute": "any of the three being accepted would mean the gate does not bind and every 'accepted' in this document is meaningless"
+    },
+    {
+      "id": "one-byte-flip-control",
+      "note": "0 of 2 flipped patterns still matched the source image",
+      "patterns_flipped": 2,
+      "question": "with one literal byte inverted, does every accepted signature disappear from the source image?",
+      "refuted": false,
+      "survivors": [],
+      "would_refute": "a flipped pattern that still matches would mean the pattern is not identifying the bytes it claims to"
+    },
+    {
+      "accepted": 2,
+      "id": "acceptance-population",
+      "note": "2 of 2 requested addresses produced an accepted signature",
+      "question": "how many requested addresses produced a usable signature?",
+      "refuted": false,
+      "rejected": 0,
+      "rejection_codes": {},
+      "requested": 2,
+      "would_refute": "nothing on its own; this probe exists so the headline count cannot be quoted without its denominator"
+    }
+  ],
+  "rejection_vocabulary": {
+    "absent_in_source": "the pattern was not found in the image it was cut from. That is a defect in this tool, not a fact about the image, and it must be explained",
+    "anchor_too_short": "the longest run of consecutive literal bytes is too short. Scattered single literal bytes do not discriminate, and there is nothing long enough for the matcher to search on",
+    "boundary_unknown": "no RUNTIME_FUNCTION record begins at this address, so the end of the function is unknown. The exception directory is a lower bound on the function inventory -- a leaf function that needs no unwind data has no record -- and an end address invented here would let the pattern run into whatever follows",
+    "chunk_not_function_start": "the RUNTIME_FUNCTION at this address carries UNW_FLAG_CHAININFO: it is a continuation chunk of another function, not an entry point. A signature cut here would be attributed to the wrong function",
+    "low_variety": "the literal positions take too few distinct byte values -- a run of padding or of one repeated opcode is not a fingerprint",
+    "not_unique": "the pattern occurs more than once on the searched surface of the very image it was cut from, so it does not identify a location",
+    "range_not_executable": "the byte range does not lie in a section whose characteristics carry IMAGE_SCN_MEM_EXECUTE or IMAGE_SCN_CNT_CODE, so it is not code and a code signature must not be cut from it",
+    "range_not_on_disk": "the byte range does not map to on-disk data (it is in a section's zero-filled virtual tail, or past the end of the file)",
+    "too_few_literal_bytes": "too few positions are actually compared once the mask is applied",
+    "too_masked": "the masked fraction is above the limit: most of this pattern is holes, and a pattern that is mostly holes matches by accident",
+    "too_short": "the usable range is shorter than the minimum signature length. A pattern that short is not evidence of identity even when it happens to be unique today"
+  },
+  "relocation_oracle": {
+    "block_count": 4121,
+    "by_type": {
+      "0 (ABSOLUTE)": 1980,
+      "10 (DIR64)": 941132
+    },
+    "directory_rva": 136482816,
+    "directory_size": 1919192,
+    "entries_in_executable_sections": 0,
+    "entries_per_section": {
+      ".data": 65614,
+      ".rdata": 875518
+    },
+    "entry_count": 941132,
+    "executable_sections": [
+      ".text"
+    ],
+    "table_truncated": false,
+    "what_zero_in_executable_sections_means": "the relocation oracle is exact but EMPTY over code: no byte of any function is provably relocated, so a relocation-derived mask masks nothing there and cannot be cited as making a code signature build-stable. This is the normal case for x86-64, where code addresses data RIP-relatively and the loader patches nothing in .text"
+  },
+  "signatures": [
+    {
+      "accepted": true,
+      "anchor_hex": "48895c241048897c241855488dac24b0f0ffffb8",
+      "anchor_length": 20,
+      "anchor_offset": 0,
+      "boundary": {
+        "begin_address": 17548016,
+        "chain_primary_begin_address": null,
+        "end_address": 17548309,
+        "index": 29504,
+        "is_chunk": false,
+        "range_length": 293,
+        "unwind_flags": 3,
+        "unwind_flags_decoded": [
+          "UNW_FLAG_EHANDLER",
+          "UNW_FLAG_UHANDLER"
+        ],
+        "unwind_info_address": 121302432
+      },
+      "chunks": null,
+      "distinct_literal_values": 14,
+      "emitted_ladder_index": 2,
+      "fragility": {
+        "disp32_windows_examined": 17,
+        "disp32_windows_resolving_into_image": 2,
+        "method": "byte-window arithmetic only -- no instruction was decoded, so rel32_candidates is an over-count and disp32_windows_resolving_into_image is a strict upper bound",
+        "not_detected": "a RIP-relative displacement cannot be distinguished from an unrelated 4-byte window without knowing where the instruction starts; Phase 1 has no decoder and this tool does not guess",
+        "rel32_candidate_offsets": [],
+        "rel32_candidates": 0
+      },
+      "identified_by": null,
+      "label": "GetNamePool_inlined_caller_candidate",
+      "length": 20,
+      "lengths_refused_by_the_geometry_gate": [],
+      "lengths_tried": [
+        12,
+        16,
+        20,
+        24,
+        32,
+        40,
+        48,
+        64,
+        80,
+        96
+      ],
+      "literal_bytes": 20,
+      "mask_breakdown": {
+        "base_relocation_is_exact": true,
+        "heuristic_note": "no heuristic masking was applied; every hole is a proven relocation",
+        "mask_mode": "reloc",
+        "masked_by_base_relocation": 0,
+        "masked_by_rel32_heuristic": 0,
+        "masked_total": 0,
+        "rel32_is_a_heuristic": false
+      },
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "occurrences_initialized_surface": 1,
+      "occurrences_initialized_truncated": false,
+      "origin": "--rva",
+      "pattern": "48 89 5C 24 10 48 89 7C 24 18 55 48 8D AC 24 B0 F0 FF FF B8",
+      "range_fragility": {
+        "disp32_windows_examined": 93,
+        "disp32_windows_resolving_into_image": 20,
+        "method": "byte-window arithmetic only -- no instruction was decoded, so rel32_candidates is an over-count and disp32_windows_resolving_into_image is a strict upper bound",
+        "not_detected": "a RIP-relative displacement cannot be distinguished from an unrelated 4-byte window without knowing where the instruction starts; Phase 1 has no decoder and this tool does not guess",
+        "rel32_candidate_offsets": [
+          24,
+          78
+        ],
+        "rel32_candidates": 2
+      },
+      "range_length": 293,
+      "rejections": [],
+      "section": ".text",
+      "self_scan": {
+        "hit_file_offsets": [
+          17545456
+        ],
+        "hit_rvas": [
+          17548016
+        ],
+        "ladder_rung": 2,
+        "length": 20,
+        "occurrences": 1,
+        "occurrences_truncated": false,
+        "passes_used": 3,
+        "surface_bytes": 98343936,
+        "verdict": "unique"
+      },
+      "sha256_of_pattern_text": "c726a48e233d59e7a2935f0693e51fe62f518c7a4c06027a4afb920fe8c217dd",
+      "source_file_offset": 17545456,
+      "source_rva": 17548016,
+      "trailing_padding_trimmed": 0
+    },
+    {
+      "accepted": true,
+      "anchor_hex": "48895c24185556574154415541564157488bec4883ec30488bf1ff15d8d7d004",
+      "anchor_length": 32,
+      "anchor_offset": 0,
+      "boundary": {
+        "begin_address": 17556160,
+        "chain_primary_begin_address": null,
+        "end_address": 17569167,
+        "index": 29538,
+        "is_chunk": false,
+        "range_length": 13007,
+        "unwind_flags": 0,
+        "unwind_flags_decoded": [],
+        "unwind_info_address": 121302068
+      },
+      "chunks": null,
+      "distinct_literal_values": 21,
+      "emitted_ladder_index": 4,
+      "fragility": {
+        "disp32_windows_examined": 29,
+        "disp32_windows_resolving_into_image": 2,
+        "method": "byte-window arithmetic only -- no instruction was decoded, so rel32_candidates is an over-count and disp32_windows_resolving_into_image is a strict upper bound",
+        "not_detected": "a RIP-relative displacement cannot be distinguished from an unrelated 4-byte window without knowing where the instruction starts; Phase 1 has no decoder and this tool does not guess",
+        "rel32_candidate_offsets": [],
+        "rel32_candidates": 0
+      },
+      "identified_by": null,
+      "label": "FNamePool_ctor_candidate",
+      "length": 32,
+      "lengths_refused_by_the_geometry_gate": [],
+      "lengths_tried": [
+        12,
+        16,
+        20,
+        24,
+        32,
+        40,
+        48,
+        64,
+        80,
+        91
+      ],
+      "literal_bytes": 32,
+      "mask_breakdown": {
+        "base_relocation_is_exact": true,
+        "heuristic_note": "no heuristic masking was applied; every hole is a proven relocation",
+        "mask_mode": "reloc",
+        "masked_by_base_relocation": 0,
+        "masked_by_rel32_heuristic": 0,
+        "masked_total": 0,
+        "rel32_is_a_heuristic": false
+      },
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "occurrences_initialized_surface": 1,
+      "occurrences_initialized_truncated": false,
+      "origin": "--rva",
+      "pattern": "48 89 5C 24 18 55 56 57 41 54 41 55 41 56 41 57 48 8B EC 48 83 EC 30 48 8B F1 FF 15 D8 D7 D0 04",
+      "range_fragility": {
+        "disp32_windows_examined": 88,
+        "disp32_windows_resolving_into_image": 20,
+        "method": "byte-window arithmetic only -- no instruction was decoded, so rel32_candidates is an over-count and disp32_windows_resolving_into_image is a strict upper bound",
+        "not_detected": "a RIP-relative displacement cannot be distinguished from an unrelated 4-byte window without knowing where the instruction starts; Phase 1 has no decoder and this tool does not guess",
+        "rel32_candidate_offsets": [
+          50,
+          63
+        ],
+        "rel32_candidates": 2
+      },
+      "range_length": 13007,
+      "rejections": [],
+      "section": ".text",
+      "self_scan": {
+        "hit_file_offsets": [
+          17553600
+        ],
+        "hit_rvas": [
+          17556160
+        ],
+        "ladder_rung": 4,
+        "length": 32,
+        "occurrences": 1,
+        "occurrences_truncated": false,
+        "passes_used": 5,
+        "surface_bytes": 98343936,
+        "verdict": "unique"
+      },
+      "sha256_of_pattern_text": "ec51782f861ce768f5e62dc239609d2e3c4dba940233e42e95958c9ca7c6c8a9",
+      "source_file_offset": 17553600,
+      "source_rva": 17556160,
+      "trailing_padding_trimmed": 5
+    }
+  ],
+  "source_image": {
+    "image_base": 5368709120,
+    "install_relative": "MISERY-Win64-Shipping.exe",
+    "machine": 34404,
+    "name": "MISERY-Win64-Shipping.exe",
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "pe_format": "PE32+",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "size": 134658048,
+    "size_of_image": 138403840,
+    "timestamp": 1918640348
+  },
+  "summary": {
+    "accepted_also_unique_over_initialized_sections": 2,
+    "accepted_appearing_more_than_once_over_initialized_sections": 0,
+    "accepted_unique_in_code": 2,
+    "accepted_with_rel32_candidates": 0,
+    "accepted_with_zero_masked_bytes": 2,
+    "boundary_targets_that_are_chunks": 0,
+    "boundary_targets_without_a_record": 0,
+    "length_max": 32,
+    "length_min": 20,
+    "masked_fraction_histogram": {
+      "0.00": 2,
+      "0.00-0.05": 0,
+      "0.05-0.10": 0,
+      "0.10-0.20": 0,
+      "0.20-0.30": 0,
+      "0.30+": 0
+    },
+    "masked_fraction_max": 0.0,
+    "masked_fraction_mean": 0.0,
+    "masked_fraction_min": 0.0,
+    "rejection_codes": {},
+    "signatures_accepted": 2,
+    "signatures_rejected": 0,
+    "targets_requested": 2
+  },
+  "surface": {
+    "bytes_searched": 98343936,
+    "definition": "every section with raw data whose characteristics carry IMAGE_SCN_MEM_EXECUTE or IMAGE_SCN_CNT_CODE",
+    "kind": "exec",
+    "kind_requested": "exec",
+    "not_searched": "read-only and writable data, resources, the headers and any overlay -- a byte sequence present there is NOT counted by this run",
+    "range_count": 1,
+    "ranges": [
+      {
+        "file_offset": 1536,
+        "length": 98343936,
+        "name": ".text",
+        "rva": 4096
+      }
+    ],
+    "sections_restricted_to": null
+  },
+  "task": "S-06",
+  "thresholds": {
+    "hard_max_length": 256,
+    "max_length": 96,
+    "max_masked_fraction": 0.3,
+    "min_anchor_bytes": 6,
+    "min_distinct_literal_values": 4,
+    "min_length": 12,
+    "min_literal_bytes": 10,
+    "note": "published with the results so a reviewer can disagree with a threshold instead of with a verdict"
+  },
+  "timings_seconds": {
+    "boundary_table": 2.441,
+    "initialized_surface_pass": 0.118,
+    "refutation_probes": 0.084,
+    "relocation_table": 0.865,
+    "total": 4.08,
+    "uniqueness_passes": 0.422
+  },
+  "warnings": []
+}

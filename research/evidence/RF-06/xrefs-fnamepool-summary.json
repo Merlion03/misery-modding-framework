@@ -1,0 +1,69 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "distinct_containing_functions": 3,
+  "generated_at": "2026-08-27T08:26:48Z",
+  "generator": "pyghidra_scripts/dump_xrefs_for_string.py",
+  "generator_version": "1.0.0",
+  "ignore_case": false,
+  "jsonl_bytes": 1763,
+  "jsonl_path": "D:\\Dev\\MiseryFramework\\workspace\\xrefs\\fnamepool.jsonl",
+  "jsonl_records": 3,
+  "jsonl_sha256": "e4806206a1cf1ce6a503fa6b3345b25048ad880b0223c046c64f8e0be593b4fa",
+  "max_string_length": 2000,
+  "needles": [
+    "FNamePool.DuplicateHardcodedName",
+    "Duplicate hardcoded name",
+    "FName overflow, allocated",
+    "FName length is too long; HashLowerCase value is undefined",
+    "Failed to align numbered FName data",
+    "Cannot make a string view for a name-with-number entry",
+    "FName's %d max length exceeded. Got %d characters excluding null-terminator:"
+  ],
+  "occurrence_count": 2,
+  "occurrences": [
+    {
+      "address": "145e36150",
+      "length": 50,
+      "needle": "Duplicate hardcoded name",
+      "value": "Duplicate hardcoded name",
+      "value_truncated": false
+    },
+    {
+      "address": "145e39950",
+      "length": 204,
+      "needle": "FName length is too long; HashLowerCase value is undefined",
+      "value": "FName length is too long; HashLowerCase value is undefined. Length = %d, MaxLength = %d, Name=%.*s...",
+      "value_truncated": false
+    }
+  ],
+  "occurrences_with_no_xrefs": 0,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md RF-04: which defined strings/data in this build contain a given anchor literal, and what cross-references does each occurrence have (referencing address, containing function, reference type)?",
+  "reference_type_histogram": {
+    "DATA": 3
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-03 / §6.2 RF-04",
+  "whole_string": false,
+  "xref_count": 3,
+  "xrefs_per_needle": {
+    "Cannot make a string view for a name-with-number entry": 0,
+    "Duplicate hardcoded name": 1,
+    "FName length is too long; HashLowerCase value is undefined": 2,
+    "FName overflow, allocated": 0,
+    "FName's %d max length exceeded. Got %d characters excluding null-terminator:": 0,
+    "FNamePool.DuplicateHardcodedName": 0,
+    "Failed to align numbered FName data": 0
+  }
+}

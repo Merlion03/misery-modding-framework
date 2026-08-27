@@ -1,0 +1,142 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "distinct_containing_functions": 6,
+  "generated_at": "2026-08-27T08:29:46Z",
+  "generator": "pyghidra_scripts/dump_xrefs_for_string.py",
+  "generator_version": "1.0.0",
+  "ignore_case": false,
+  "jsonl_bytes": 6063,
+  "jsonl_path": "D:\\Dev\\MiseryFramework\\workspace\\xrefs\\processevent-round2.jsonl",
+  "jsonl_records": 12,
+  "jsonl_sha256": "d5d8b4fb135578640cbb32df788a24734f859b24c76b2b63adb13ee09e24aee6",
+  "max_string_length": 2000,
+  "needles": [
+    "IsUnreachable",
+    "Cannot call UnrealScript",
+    "PostLoad",
+    "!IsRoutingPostLoad",
+    "IsRoutingPostLoad"
+  ],
+  "occurrence_count": 13,
+  "occurrences": [
+    {
+      "address": "145e2a700",
+      "length": 70,
+      "needle": "PostLoad",
+      "value": "LandscapeComponentPostLoad_Warning",
+      "value_truncated": false
+    },
+    {
+      "address": "145e537a0",
+      "length": 116,
+      "needle": "PostLoad",
+      "value": "%s Doesn't have all objects processed by DeferredPostLoad",
+      "value_truncated": false
+    },
+    {
+      "address": "145e53830",
+      "length": 22,
+      "needle": "PostLoad",
+      "value": "PostLoaded",
+      "value_truncated": false
+    },
+    {
+      "address": "145e55f68",
+      "length": 46,
+      "needle": "PostLoad",
+      "value": "s.AsyncPostLoadEnabled",
+      "value_truncated": false
+    },
+    {
+      "address": "145e55f98",
+      "length": 32,
+      "needle": "PostLoad",
+      "value": "NoAsyncPostLoad",
+      "value_truncated": false
+    },
+    {
+      "address": "145e55fb8",
+      "length": 28,
+      "needle": "PostLoad",
+      "value": "AsyncPostLoad",
+      "value_truncated": false
+    },
+    {
+      "address": "146455bd0",
+      "length": 80,
+      "needle": "PostLoad",
+      "value": "FMovieSceneCaptureModule::OnPostLoadMap",
+      "value_truncated": false
+    },
+    {
+      "address": "146493620",
+      "length": 32,
+      "needle": "PostLoad",
+      "value": "FULLYLOAD_Game_PostLoadClass",
+      "value_truncated": false
+    },
+    {
+      "address": "1466c3d50",
+      "length": 22,
+      "needle": "PostLoad",
+      "value": "OnPostLoad",
+      "value_truncated": false
+    },
+    {
+      "address": "1466c3fa0",
+      "length": 12,
+      "needle": "PostLoad",
+      "value": "OnPostLoad",
+      "value_truncated": false
+    },
+    {
+      "address": "14681d900",
+      "length": 292,
+      "needle": "PostLoad",
+      "value": "Skips compilation of all shaders on Material and Material Instance PostLoad and relies on on-demand shader compilation to compile what is needed.",
+      "value_truncated": false
+    },
+    {
+      "address": "1469e1350",
+      "length": 120,
+      "needle": "PostLoad",
+      "value": "Enable to verify LUTs match in PostLoad vs the Loaded Data\n",
+      "value_truncated": false
+    },
+    {
+      "address": "1469e13c8",
+      "length": 60,
+      "needle": "PostLoad",
+      "value": "fx.Niagara.LUT.VerifyPostLoad",
+      "value_truncated": false
+    }
+  ],
+  "occurrences_with_no_xrefs": 2,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\tools\\ghidra-projects"
+  },
+  "question": "plan.md RF-04: which defined strings/data in this build contain a given anchor literal, and what cross-references does each occurrence have (referencing address, containing function, reference type)?",
+  "reference_type_histogram": {
+    "DATA": 12
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-03 / §6.2 RF-04",
+  "whole_string": false,
+  "xref_count": 12,
+  "xrefs_per_needle": {
+    "!IsRoutingPostLoad": 0,
+    "Cannot call UnrealScript": 0,
+    "IsRoutingPostLoad": 0,
+    "IsUnreachable": 0,
+    "PostLoad": 12
+  }
+}

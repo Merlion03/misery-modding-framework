@@ -1,0 +1,112 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "distinct_containing_functions": 6,
+  "generated_at": "2026-08-27T08:20:35Z",
+  "generator": "pyghidra_scripts/dump_xrefs_for_string.py",
+  "generator_version": "1.0.0",
+  "ignore_case": false,
+  "jsonl_bytes": 5198,
+  "jsonl_path": "D:\\Dev\\MiseryFramework\\workspace\\xrefs\\uobjectarray.jsonl",
+  "jsonl_records": 8,
+  "jsonl_sha256": "0b6f168be80eca833c44c82b88844f8714d517c47a7483231ff658b21081b53c",
+  "max_string_length": 2000,
+  "needles": [
+    "Unable to add more objects to disregard for GC pool (Max: %d)",
+    "OpenDisregardForGC: %d/%d objects in disregard for GC pool",
+    "CloseDisregardForGC: %d/%d objects in disregard for GC pool",
+    "Attempting to add %s at index %d but another object (0x%016llx) exists at that index!",
+    "Removing object (0x%016llx) at index %d but the index points to a different object (0x%016llx)!",
+    "Maximum number of UObjects (%d) exceeded when trying to add %d object(s), make sure you update MaxObjectsInGame/MaxObjectsInEditor/MaxObjectsInProgram in project settings.",
+    "Max UObject count is invalid. It must be a number that is greater than 0.",
+    "All UObject delete listeners should be unregistered when shutting down the UObject array",
+    "UObject %s consistency failure (%s). Checking for memory corruption",
+    "Unidentified failure for object %s, hash itself may be corrupted or buggy.",
+    "Trying to modify UObject map (Compact) that is currently being iterated. Please make sure you're not creating new UObjects or Garbage Collecting while iterating UObject hash tables."
+  ],
+  "occurrence_count": 7,
+  "occurrences": [
+    {
+      "address": "145e89230",
+      "length": 148,
+      "needle": "Max UObject count is invalid. It must be a number that is greater than 0.",
+      "value": "Max UObject count is invalid. It must be a number that is greater than 0.",
+      "value_truncated": false
+    },
+    {
+      "address": "145e89330",
+      "length": 124,
+      "needle": "Unable to add more objects to disregard for GC pool (Max: %d)",
+      "value": "Unable to add more objects to disregard for GC pool (Max: %d)",
+      "value_truncated": false
+    },
+    {
+      "address": "145e893b0",
+      "length": 172,
+      "needle": "Attempting to add %s at index %d but another object (0x%016llx) exists at that index!",
+      "value": "Attempting to add %s at index %d but another object (0x%016llx) exists at that index!",
+      "value_truncated": false
+    },
+    {
+      "address": "145e89460",
+      "length": 192,
+      "needle": "Removing object (0x%016llx) at index %d but the index points to a different object (0x%016llx)!",
+      "value": "Removing object (0x%016llx) at index %d but the index points to a different object (0x%016llx)!",
+      "value_truncated": false
+    },
+    {
+      "address": "145e895c0",
+      "length": 178,
+      "needle": "All UObject delete listeners should be unregistered when shutting down the UObject array",
+      "value": "All UObject delete listeners should be unregistered when shutting down the UObject array",
+      "value_truncated": false
+    },
+    {
+      "address": "145e89680",
+      "length": 344,
+      "needle": "Maximum number of UObjects (%d) exceeded when trying to add %d object(s), make sure you update MaxObjectsInGame/MaxObjectsInEditor/MaxObjectsInProgram in project settings.",
+      "value": "Maximum number of UObjects (%d) exceeded when trying to add %d object(s), make sure you update MaxObjectsInGame/MaxObjectsInEditor/MaxObjectsInProgram in project settings.",
+      "value_truncated": false
+    },
+    {
+      "address": "145e8f0c0",
+      "length": 150,
+      "needle": "Unidentified failure for object %s, hash itself may be corrupted or buggy.",
+      "value": "Unidentified failure for object %s, hash itself may be corrupted or buggy.",
+      "value_truncated": false
+    }
+  ],
+  "occurrences_with_no_xrefs": 0,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md RF-04: which defined strings/data in this build contain a given anchor literal, and what cross-references does each occurrence have (referencing address, containing function, reference type)?",
+  "reference_type_histogram": {
+    "DATA": 8
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-03 / §6.2 RF-04",
+  "whole_string": false,
+  "xref_count": 8,
+  "xrefs_per_needle": {
+    "All UObject delete listeners should be unregistered when shutting down the UObject array": 2,
+    "Attempting to add %s at index %d but another object (0x%016llx) exists at that index!": 1,
+    "CloseDisregardForGC: %d/%d objects in disregard for GC pool": 0,
+    "Max UObject count is invalid. It must be a number that is greater than 0.": 1,
+    "Maximum number of UObjects (%d) exceeded when trying to add %d object(s), make sure you update MaxObjectsInGame/MaxObjectsInEditor/MaxObjectsInProgram in project settings.": 1,
+    "OpenDisregardForGC: %d/%d objects in disregard for GC pool": 0,
+    "Removing object (0x%016llx) at index %d but the index points to a different object (0x%016llx)!": 1,
+    "Trying to modify UObject map (Compact) that is currently being iterated. Please make sure you're not creating new UObjects or Garbage Collecting while iterating UObject hash tables.": 0,
+    "UObject %s consistency failure (%s). Checking for memory corruption": 0,
+    "Unable to add more objects to disregard for GC pool (Max: %d)": 1,
+    "Unidentified failure for object %s, hash itself may be corrupted or buggy.": 1
+  }
+}

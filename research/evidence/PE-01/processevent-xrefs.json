@@ -1,0 +1,67 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "distinct_containing_functions": 5,
+  "generated_at": "2026-08-27T08:27:21Z",
+  "generator": "pyghidra_scripts/dump_xrefs_for_string.py",
+  "generator_version": "1.0.0",
+  "ignore_case": false,
+  "jsonl_bytes": 2937,
+  "jsonl_path": "D:\\Dev\\MiseryFramework\\workspace\\xrefs\\processevent.jsonl",
+  "jsonl_records": 5,
+  "jsonl_sha256": "778d589d04e99595452d2f49156cf0b50b641ba8d222d04bda122a1f0f375423",
+  "max_string_length": 2000,
+  "needles": [
+    "ProcessEvent",
+    "was marked unreachable",
+    "PostLoading objects",
+    "Encountered an undefined opcode",
+    "LogScriptCore",
+    "ScriptCore.cpp"
+  ],
+  "occurrence_count": 2,
+  "occurrences": [
+    {
+      "address": "145e86840",
+      "length": 85,
+      "needle": "ScriptCore.cpp",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\ScriptCore.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e86b20",
+      "length": 298,
+      "needle": "Encountered an undefined opcode",
+      "value": "Encountered an undefined opcode ({0}) at byte offset {1}. The compiler may have generated an instruction sequence that was unexpected or incomplete.",
+      "value_truncated": false
+    }
+  ],
+  "occurrences_with_no_xrefs": 0,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\tools\\ghidra-projects"
+  },
+  "question": "plan.md RF-04: which defined strings/data in this build contain a given anchor literal, and what cross-references does each occurrence have (referencing address, containing function, reference type)?",
+  "reference_type_histogram": {
+    "DATA": 5
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-03 / §6.2 RF-04",
+  "whole_string": false,
+  "xref_count": 5,
+  "xrefs_per_needle": {
+    "Encountered an undefined opcode": 1,
+    "LogScriptCore": 0,
+    "PostLoading objects": 0,
+    "ProcessEvent": 0,
+    "ScriptCore.cpp": 4,
+    "was marked unreachable": 0
+  }
+}

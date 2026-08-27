@@ -1,0 +1,24 @@
+{
+  "_comment": "NOT a tool run. Independent cross-check of the manual UObject vtable-slot count in research/evidence/PE-01/uobject-vtable-slots.json, using an OBSERVED disassembly fact (the vtable call offsets for UEngine::Init and UEngine::Start, read directly from FUN_143d96240's disassembly -- see research/evidence/RF-07/README.md) as the independent oracle. The two virtual calls through the GEngine candidate object (0x147bf5c18) at LaunchEngineLoop.cpp-equivalent addresses 143d96549-143d9654f and later in the same function use vtable offsets 0x2d8 and 0x2e0 -- these were read from the compiled CALL instructions, not assumed.",
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "observed_from_disassembly": {
+    "call_site_1": {"instruction_address": "143d9654f", "instruction": "CALL qword ptr [RAX + 0x2d8]", "RAX_source": "MOV RAX, qword ptr [RCX] where RCX = qword ptr [0x147bf5c18] (the GEngine candidate)", "preceding_scope_string": "GEngine->Init (str@1468c5748, LEA'd at 143d96532 just before)", "vtable_slot": "0x2d8 / 8 = 91"},
+    "call_site_2": {"instruction_address": "approx 143d966d5-143d966f0 range (FUN_143d96240 disasm around the 'GEngine->Start()' scope, decompiled C line 205 in workspace/functions/fun-143d96240.c)", "decompiled_form": "(**(code **)(*DAT_147bf5c18 + 0x2e0))();", "preceding_scope_string": "GEngine->Start() (str@1468c5848)", "vtable_slot": "0x2e0 / 8 = 92", "note": "read from decompiled C rather than the raw disasm.jsonl excerpt, since Init/Start sit right next to each other and the 8-byte adjacency (0x2d8 -> 0x2e0) is itself already the load-bearing fact"}
+  },
+  "predicted_from_source_reading": {
+    "method": "Engine/Source/Runtime/Engine/Classes/Engine/Engine.h:715 declares 'class UEngine : public UObject, public FExec' (UObject FIRST base -> UObject's vtable is the PRIMARY one at object offset 0, which is what a bare UEngine* dereferences; FExec is a secondary base with its own separate vtable elsewhere in the object, irrelevant here). A full line-by-line scan of Engine.h from 715 to Init's declaration at 2215, applying the same WITH_EDITOR=0 Shipping-config filter as the UObject count, found exactly 4 NEW (non-override) virtuals introduced by UEngine itself before Init: WorldAdded (2031), WorldDestroyed (2034), IsInitialized (2036), GetDefaultWorldFeatureLevel (2039). GetPreviewPlatformName (2043) is excluded (#if WITH_EDITOR, no #else). FinishDestroy/Serialize/PostEditChangeProperty (2206-2210) are explicitly marked 'override' in the header and therefore reuse UObject's existing slots rather than appending new ones (PostEditChangeProperty is additionally WITH_EDITOR-gated and would be excluded either way in Shipping).",
+    "uobject_total_slots_if_iris_1": 87,
+    "uengine_own_new_slots_before_init": 4,
+    "predicted_init_slot_if_iris_1": 91,
+    "predicted_init_slot_if_iris_0": 90,
+    "predicted_start_slot": "predicted_init_slot + 1 (Start is declared immediately after Init in Engine.h, 2215 vs 2218, and introduces no other virtual in between)"
+  },
+  "result": {
+    "observed_init_slot": 91,
+    "predicted_init_slot_under_iris_1": 91,
+    "match": true,
+    "predicted_init_slot_under_iris_0": 90,
+    "mismatch_under_iris_0": 1,
+    "conclusion": "The UE_WITH_IRIS=1 branch of the UObject slot count reproduces the OBSERVED UEngine::Init vtable offset (0x2d8 = slot 91) exactly, and the observed Init/Start slot ADJACENCY (0x2d8, 0x2e0 -- exactly one slot apart) matches the source's declaration adjacency (Init then Start, nothing declared between them). The UE_WITH_IRIS=0 branch is off by exactly one slot in the same direction RegisterReplicationFragments's inclusion/exclusion would predict. This is treated as evidence that (a) the manual UObject slot-counting method in uobject-vtable-slots.json is correctly applied to this specific build, and (b) UE_WITH_IRIS=1 for this build specifically -- not as proof, since a single matching data point cannot rule out a compensating pair of errors elsewhere in the count, but a random uncorrelated counting mistake would have had no particular reason to land on the exact value that also happens to make this independent prediction match."
+  }
+}

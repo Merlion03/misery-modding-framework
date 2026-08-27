@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-08-27T08:27:13Z",
+  "generator": "tools/static/sigmake.py",
+  "generator_version": "1.0.0",
+  "mask_policy": {
+    "mask_mode": "reloc"
+  },
+  "signatures": [
+    {
+      "accepted": true,
+      "label": "RF07_GEngine_AssignmentSite_FEngineLoopInit",
+      "length": 24,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "4C 8B DC 55 57 49 8D AB 78 FE FF FF 48 81 EC 78 02 00 00 48 8B 05 56 5A",
+      "source_file_offset": 64575552,
+      "source_rva": 64578112
+    },
+    {
+      "accepted": true,
+      "label": "RF07_GEngine_Consumer_GameplayScreenshot",
+      "length": 20,
+      "masked_bytes": 0,
+      "masked_fraction": 0.0,
+      "pattern": "48 89 5C 24 18 56 57 41 56 48 81 EC 90 00 00 00 8B 41 08 48",
+      "source_file_offset": 79432592,
+      "source_rva": 79435152
+    }
+  ],
+  "source_image": {
+    "image_base": 5368709120,
+    "install_relative": "MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+    "machine": 34404,
+    "name": "MISERY-Win64-Shipping.exe",
+    "path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+    "pe_format": "PE32+",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "size": 134658048,
+    "size_of_image": 138403840,
+    "timestamp": 1918640348
+  },
+  "task": "S-06"
+}

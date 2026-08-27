@@ -4356,3 +4356,341 @@ question → method → evidence → finding → confidence → persistent artif
   research-допустимый маршрут к содержимому `MISERY/Plugins/*.uplugin` без нарушения D-02/D-11
 
 ---
+
+## 2026-08-27 — RF-05: кандидат `GUObjectArray` найден и подписан, четыре независимых пути кода сходятся на одном адресе
+
+- **ID:** LOG-0042
+- **Question:** Существует ли хотя бы один кандидат-адрес с сигнатурой для `GUObjectArray` (RF-05,
+  `plan.md` строка 527) — часть четвёртого из семи exit criteria M2s, ещё не начатая по состоянию на
+  LOG-0040i?
+- **Method:** RF-04-цепочка (`dump_xrefs_for_string.py` по строкам-якорям, прочитанным из
+  `UObjectArray.cpp`/`UObjectHash.cpp`, 11 игл, ДО поиска, а не по памяти) → кандидатные функции →
+  `dump_function.py` (декомпиляция и разбор входящих вызовов) → попытка опровержения →
+  `tools/static/sigmake.py` на подтверждённых адресах. Независимо перепроверено мной: прямым чтением
+  текущего дерева `D:\Program Files\UE_5.4\Engine\Source` подтверждены дословно и построчно —
+  `UObjectArray.h:1388` (`extern COREUOBJECT_API FUObjectArray GUObjectArray;`), `UObjectArray.h:506`
+  (`NumElementsPerChunk = 64 * 1024`); также подтверждено число принятых сигнатур напрямую из
+  `signatures.json` (5/5, все `accepted: true`, `masked_fraction: 0.0`), не только со слов агента.
+- **Evidence:** `research/evidence/RF-05/` (README.md, 5 `fun-*.json`, `xrefs-uobjectarray-summary.json`,
+  `signatures.json/.jsonl`, `library.json`); полные JSONL/C/disasm дампы в `workspace/xrefs/`
+  (gitignored, sha256 в сводках, C-13).
+- **Finding:**
+  1. **`GUObjectArray`-кандидат: `0x147a78ed0`** (RVA `0x7a78ed0`, секция `.data`). Четыре
+     независимых пути в коде сходятся на одном адресе и согласуются по **шести полям структуры в
+     порядке объявления исходника** (`UObjectArray.h:1226-1235`): `FUObjectArray::
+     AllocateUObjectIndex` (`0x1412c47a0`, `UObjectArray.cpp:204`) читает через `this`
+     `ObjFirstGCIndex/ObjLastNonGCIndex/MaxObjectsNotConsideredByGC/OpenForDisregardForGC` по
+     смещениям `0x0/0x4/0x8/0xc` и воспроизводит арифметику `FChunkedFixedUObjectArray::
+     GetObjectPtr` (`UObjectArray.h:638-654`) буквально — сдвиг на 16 бит и маска 0xFFFF (ровно
+     `NumElementsPerChunk=65536=2^16`), шаг ×24 байта (ровно `sizeof(FUObjectItem)=24`). Оба
+     вызывающих (`UObjectBase::AddObject` `0x1412c3370` и вызов через switch-таблицу `0x1412c78d0`)
+     передают буквально `&DAT_147a78ed0` как `this`. Конструктор `FUObjectArray::AllocateObjectPool`
+     (`0x1412db8c0`, `UObjectArray.cpp:94`, 1 вызывающий) пишет шесть полей по смещениям
+     `0x0/0x8/0x10/0x18/0x20/0x28` со значениями, совпадающими с исходником, после чтения CVar-ов
+     (`"gc.MaxObjectsNotConsideredByGC"`, `"gc.MaxObjectsInGame"` и др.), уникальных во всём движке
+     именно для этого объекта. `UObjectBase::~UObjectBase()` (`0x1412c1e40`, **894 входящих вызова** —
+     совпадает с предсказанием «должен вызываться из множества функций») содержит инлайненный
+     `FreeUObjectIndex`, снова обращающийся к `+0x10`/`+0x24` через прямые глобальные адреса.
+  2. **Сигнатуры: 5 из 5 запрошенных приняты, 0 отклонено** (перепроверено мной напрямую из
+     `signatures.json`, не только по отчёту агента), все уникальны по каждой инициализированной
+     секции, `masked_fraction=0.000` у всех (в образе нет релокаций в исполняемых секциях — повторно
+     подтверждённый, не заново выведенный факт S-06).
+  3. **Операционное наблюдение, не игровая находка**: `dump_function.py` трижды падал с
+     `LockException: Unable to lock project!` сразу после чистого (`exit 0`) прогона того же
+     инструмента, при отсутствии живого `java`/`javaw`-процесса. Обходилось удалением
+     `T05-primary-default-analysis.lock`/`.lock~`. Записано в README RF-05.
+  4. **Что проверялось на опровержение**: единственность типа/переменной во всём дереве исходников
+     (единственный экземпляр `FUObjectArray`, нет фабрики, нет per-thread копии), отсутствие
+     TLS-паттернов в дизассемблере, принадлежность секции `.data` (не `.rdata`) — ни разу не найдено
+     правдоподобной альтернативы. Подробности по шагам — в README директории.
+- **Evidence level:** HYPOTHESIS
+- **Confidence:** 0.65
+- **Claim class:** I
+- **Oracle:** `binary-analysis`
+- **Почему class I:** утверждение о значении адреса (что там хранится, а не просто литеральное
+  прочтение байтов), не позиционное чтение.
+- **Почему не выше HYPOTHESIS:** абсолютный потолок этой волны (`plan.md` 564-566) — офсет из
+  статического анализа никогда не градуируется выше HYPOTHESIS, пока у проекта нет раннтайм-доступа
+  (Q-8, уровень 2 недопустим).
+- **Почему не выше 0.80:** правило проекта требует для class I на уровне 0.80+ два независимых
+  метода; здесь один метод (статический анализ Ghidra), пусть и с четырьмя сходящимися путями кода
+  внутри него — что не то же самое, что второй методологически иной подход.
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** RF-10 (`plan.md` строка 537) — раннтайм-подтверждение через ERI, когда станет
+  доступен; см. также LOG-0046 для параллельного результата RF-06 (`FNamePool`), найденного той же
+  волной.
+
+---
+
+## 2026-08-27 — RF-06: кандидат `FNamePool` найден и подписан, якорь плана уточнён (`UnrealNames.cpp`, не `NameTypes.cpp`)
+
+- **ID:** LOG-0046
+- **Question:** Существует ли хотя бы один кандидат-адрес с сигнатурой для `FNamePool`/`FName`
+  runtime (RF-06, `plan.md` строка 528) — часть четвёртого из семи exit criteria M2s, ещё не начатая
+  по состоянию на LOG-0040i?
+- **Method:** RF-04-цепочка (`dump_xrefs_for_string.py`, 7 игл из `UnrealNames.cpp`, ДО поиска, а не
+  по памяти) → кандидатные функции → `dump_function.py` → попытка опровержения →
+  `tools/static/sigmake.py`. Игла взята из `UnrealNames.cpp`, а **не** `NameTypes.cpp`, названного в
+  `plan.md` как якорь (см. Finding 2). Независимо перепроверено мной: прямым чтением
+  `D:\Program Files\UE_5.4\Engine\Source\Runtime\Core\Private\UObject\UnrealNames.cpp` подтверждены
+  дословно и построчно `UnrealNames.cpp:234/236` (`FNameMaxBlockBits`/`FNameMaxBlocks`) и
+  `UnrealNames.cpp:1627` (буквальный текст `"Duplicate hardcoded name"`); подтверждено число принятых
+  сигнатур напрямую из `signatures.json` (2/2, `accepted: true`, `masked_fraction: 0.0`).
+- **Evidence:** `research/evidence/RF-06/` (README.md, 3 `fun-*.json`, `xrefs-fnamepool-summary.json`,
+  `signatures.json/.jsonl`, `library.json`); полные JSONL/C/disasm дампы в `workspace/xrefs/`
+  (gitignored, sha256 в сводках, C-13).
+- **Finding:**
+  1. **`FNamePool`-кандидат: `0x1479c2180`** (`NamePoolData`, RVA `0x39c2180`, `.data`), флаг
+     `bNamePoolInitialized` — `0x147995e5e`. Строка `"Duplicate hardcoded name"` (`UnrealNames.cpp:1627`,
+     подтверждено мной напрямую) компилируется безусловно (не за `DO_CHECK`/логированием) и лежит в
+     хвосте конструктора `FNamePool::FNamePool()` (`0x1410be2c0`, 13007 Б, 26 входящих вызовов) — его
+     первые инструкции обнуляют ровно `8192*8=0x10000` байт (`FNameMaxBlocks(UnrealNames.cpp:236) *
+     sizeof(pointer)`), что соответствует `Blocks[FNameMaxBlocks]` (`UnrealNames.cpp:697`). Два из 26
+     вызывающих (`0x1410bc2f0`, `0x1410d2920` — структурно несвязанные функции, компаратор имён и
+     построитель строки-суффикса) декомпилированы и воспроизводят буквально одинаковую идиому
+     ленивой инициализации из исходника (`UnrealNames.cpp:2002-2019`) на одной и той же паре
+     адресов, и сразу после — одинаковую индексацию `Block=id>>16 / Offset=id&0xFFFF`
+     (`UnrealNames.cpp:256,443-444`) в массив указателей по `+0x10` — том же смещении, куда пишет
+     конструктор.
+  2. **Уточнение якоря `plan.md` RF-06**: `NameTypes.cpp` на CL 35576357 реализации `FNamePool` не
+     содержит — только forward-declaration через `friend class` (`NameTypes.h:306-308`) и отдельный,
+     Natvis-only набор констант (`FNameDebugVisualizer`, `NameTypes.h:1565-1575`), который сам движок
+     сверяет `static_assert`-ами со «настоящими» константами (`UnrealNames.cpp:5341-5343`). Реальная
+     реализация — `Engine/Source/Runtime/Core/Private/UObject/UnrealNames.cpp` (5600 строк). Читалась
+     она, а не бралась по названию файла из плана — ровно то, о чём предупреждает задание волны.
+  3. **Сигнатуры: 2 из 2 запрошенных приняты, 0 отклонено** (перепроверено мной напрямую из
+     `signatures.json`), уникальны по каждой инициализированной секции, `masked_fraction=0.000`.
+  4. **Честно слабее, чем параллельная находка RF-05 (LOG-0042)**: проверено 2 из 26 найденных
+     вызывающих конструктора `FNamePool` (не все 26 — time-box), и напрямую подтверждено только одно
+     поле структуры (`Blocks[]` по `+0x10`) против шести у RF-05. Отражено более низкой уверенностью
+     ниже, а не уравнено с RF-05.
+- **Evidence level:** HYPOTHESIS
+- **Confidence:** 0.60
+- **Claim class:** I
+- **Oracle:** `binary-analysis`
+- **Почему class I:** утверждение о значении адреса (что там хранится, а не просто литеральное
+  прочтение байтов), не позиционное чтение.
+- **Почему не выше HYPOTHESIS:** абсолютный потолок этой волны (`plan.md` 564-566) — офсет из
+  статического анализа никогда не градуируется выше HYPOTHESIS, пока у проекта нет раннтайм-доступа
+  (Q-8, уровень 2 недопустим).
+- **Почему не выше 0.80:** правило проекта требует для class I на уровне 0.80+ два независимых
+  метода; здесь один метод (статический анализ Ghidra), пусть и с несколькими согласующимися
+  деталями внутри него — что не то же самое, что второй методологически иной подход.
+- **Что проверялось на опровержение:** единственность переменной во всём дереве исходников (`static`
+  внутренняя линковка, нет `extern`-варианта, нет фабрики), отсутствие TLS-паттернов в
+  дизассемблере, принадлежность секции `.data` (не `.rdata`) — ни разу не найдено правдоподобной
+  альтернативы. Подробности — в README директории.
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** RF-11 (`plan.md` строка 538) — раннтайм-подтверждение через ERI, когда станет
+  доступен; дешёвый следующий шаг без раннтайма — проверить оставшиеся 24 из 26 вызывающих
+  конструктора `FNamePool` на тот же паттерн, либо декомпилировать `FNameEntryAllocator::Create`
+  напрямую.
+
+---
+
+## 2026-08-27 — RF-07: кандидат на `GEngine` найден и перекрёстно подтверждён вторым независимым потребителем
+
+- **ID:** LOG-0043
+- **Question:** Какой кандидат HYPOTHESIS с адресом и сигнатурой существует для глобала `GEngine`, по
+  методу RF-04→корреляция-с-исходником→сигнатура (`plan.md` строка 529, часть exit criterion (4)
+  M2s)?
+- **Method:** Чтение `Engine/Source/Runtime/Engine/Private/UnrealEngine.cpp` (объявление/обнуление) и
+  `.../Launch/Private/LaunchEngineLoop.cpp` (реальное место присваивания, `FEngineLoop::Init()`) на
+  CL 35576357; RF-04 строковый поиск (`dump_xrefs_for_string.py`, шесть игл, выбранных из прочитанного
+  `SCOPED_BOOT_TIMING`-кода) поверх уже проанализированного проекта Ghidra; декомпиляция найденной
+  функции (`dump_function.py`) и построчная сверка с исходником; попытка опровержения через
+  независимый второй xref; сигнатуры (`sigmake.py`). Независимо перепроверено мной: прямым чтением
+  `LaunchEngineLoop.cpp` подтверждена строка **4830** (`GEngine = NewObject<UEngine>(GetTransientPackage(),
+  EngineClass);`) — при этом в том же файле есть и вторая, editor-ветка присваивания на строке 4147
+  (внутри `#if WITH_EDITOR`), что независимо объясняет, почему `FUN_143d96240` не содержит вообще
+  никакой `GIsEditor==true`-ветки: это Shipping-компиляция, где строка 4147 попросту не входит в
+  сборку. Число принятых сигнатур (2/2, `masked_fraction: 0.0`) подтверждено напрямую из
+  `signatures.json`.
+- **Evidence:** `research/evidence/RF-07/` (README.md, gengine-xrefs.json, fun-143d96240.json,
+  fun-144bc1590.json, uengine-vtable-crosscheck.json, signatures.json/.jsonl, library.json)
+- **Finding:**
+  1. **Постановка задачи неточна для CL 35576357**: `UnrealEngine.cpp` не место присваивания
+     `GEngine`, а только объявление хранилища (`:371`) и обнуление при `FinishDestroy` (`:3487`);
+     реальное `GEngine = NewObject<UEngine>(...)` — `LaunchEngineLoop.cpp:4830` (подтверждено мной
+     напрямую).
+  2. **Кандидатный адрес глобала: `0x147bf5c18`** (VA), RVA `0x7bf5c18`. Пишется функцией
+     `FUN_143d96240` (RVA `0x3d96240`, 2137 байт, `incoming_call_count=1` — согласуется с тем, что
+     `FEngineLoop::Init()` вызывается ровно один раз).
+  3. **Пять строковых якорей** (`"FEngineLoop::Init"`, `"Create GEngine"`,
+     `"GEngine->ParseCommandline()"`, `"GEngine->Init"`, `"GEngine->Start()"`) находятся как xref из
+     одной этой функции, в адресном порядке, совпадающем с порядком соответствующих операторов в
+     `LaunchEngineLoop.cpp:4810-4877` построчно.
+  4. **Дизассемблер показывает**: `MOV qword ptr [0x147bf5c18], RAX` сразу после вызова с сигнатурой
+     `NewObject<T>(Outer,Class,Name=0,Flags=0)`; последующие чтения того же адреса как `RCX`/`this`
+     немедленно перед вызовами, помеченными строками `"GEngine->ParseCommandline()"` (прямой вызов) и
+     `"GEngine->Init"` (виртуальный вызов через `[RAX+0x2d8]`); соседний `UE_LOG(Fatal,...)` несёт
+     номер строки `0x12dc`=4828 dec, точно совпадающий с номером строки того же `UE_LOG` в
+     прочитанном исходнике.
+  5. **Второе, структурно независимое подтверждение**: строка `"Cannot create GameplayScreenshotInstance
+     - either GEngine or GameViewport is null!"` найдена в полностью другой функции (`FUN_144bc1590`,
+     подсистема скриншотов геймплея, не связанная с загрузкой движка); её декомпиляция читает тот же
+     `0x147bf5c18` с идиомой `!= 0`, сразу разыменовывая по фиксированному смещению `0xa80` — что
+     предсказывает её же соседнее сообщение об ошибке.
+  6. Сигнатуры для обеих функций (`RF07_GEngine_AssignmentSite_FEngineLoopInit`, RVA `0x3d96240`;
+     `RF07_GEngine_Consumer_GameplayScreenshot`, RVA `0x4bc1590`) приняты `sigmake.py`, 2 из 2, нулевая
+     маскированная доля, уникальны во всём образе (перепроверено мной напрямую из `signatures.json`).
+- **Evidence level:** HYPOTHESIS
+- **Confidence:** 0.7
+- **Claim class:** I
+- **Oracle:** `binary-analysis`
+- **Почему не выше 0.7:** правило проекта требует для class I на уровне 0.80+ два независимых метода;
+  здесь один метод (статический анализ Ghidra) с несколькими согласующимися деталями внутри него, а
+  не два методологически разных подхода — поэтому confidence сознательно держится ниже границы, а не
+  поднимается до неё за счёт числа деталей.
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** что должно показать runtime-наблюдение (внешний инспектор уровня 1), чтобы
+  поднять этот кандидат выше HYPOTHESIS — сформулировано явно в `research/evidence/RF-07/README.md`;
+  отдельно, `research/evidence/RF-07/uengine-vtable-crosscheck.json` даёт готовый, перепроверенный
+  вход для будущего RF-08 (layout `UEngine`).
+
+---
+
+## 2026-08-27 — PE-01: vtable-слот `ProcessEvent` вычислен и перекрёстно проверен (77, HYPOTHESIS); адрес самой функции — UNKNOWN
+
+- **ID:** LOG-0044
+- **Question:** Какой vtable-слот занимает `UObject::ProcessEvent` — основная зацепка, названная
+  заданием волны для этой цели (`plan.md` строки 509/526/564-566, часть exit criterion (4) M2s), и
+  удалось ли по строковым якорям (RF-04) найти конкретный адрес самой функции?
+- **Method:** Чтение `Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h` (объявление, строка
+  1417) и `.../Private/UObject/ScriptCore.cpp` (реализация, строка 1971) на CL 35576357; RF-04
+  строковый поиск двумя раундами (11 игл, `dump_xrefs_for_string.py`) на диагностические литералы
+  `ProcessEvent` и её `checkf`; ручной построчный подсчёт vtable-слота по `UObjectBase.h`/
+  `UObjectBaseUtility.h`/`Object.h` с явным учётом каждой директивы `#if WITH_EDITOR`/
+  `WITH_EDITORONLY_DATA`/`WITH_ENGINE`/`UE_WITH_IRIS`; независимая перекрёстная проверка метода
+  подсчёта через эмпирически измеренные vtable-офсеты `UEngine::Init`/`Start` (из находки RF-07,
+  LOG-0043); декомпиляция и опровержение пяти кандидатов-соседей по той же translation unit.
+  Независимо перепроверено мной: прямым чтением исходника подтверждены `Object.h:1417`
+  (`COREUOBJECT_API virtual void ProcessEvent( UFunction* Function, void* Parms );`) и
+  `ScriptCore.cpp:1971` (`void UObject::ProcessEvent( UFunction* Function, void* Parms )`), оба
+  дословно и на точно тех же номерах строк, что указаны в README; подтверждено число принятых
+  сигнатур (3/3, `masked_fraction: 0.0`) напрямую из `signatures.json`.
+- **Evidence:** `research/evidence/PE-01/` (README.md, processevent-xrefs.json,
+  processevent-xrefs-round2.json, fun-1412b3c20.json, uobject-vtable-slots.json, signatures.json/.jsonl,
+  library.json)
+- **Finding:**
+  1. **Постановка задачи неточна для CL 35576357**: файл `ScriptCore.h` не существует в этой версии
+     движка (`ProcessEvent` объявлен прямо в `Object.h`) — зафиксировано, а не пропущено.
+  2. **Оба `checkf` внутри самого `ProcessEvent` не оставили литерала** — ни текста сообщения, ни
+     текста условия — ни по одной из 11 проверенных игл в двух раундах, хотя та же TU
+     (`ScriptCore.cpp`) точно скомпилирована в образ (4 xref на её `__FILE__`-путь из 4 других
+     функций, плюс пятая функция найдена по `LOCTEXT`-строке) и хотя `checkf`/`check` в этой сборке в
+     целом не вырезаны (589 путей `__FILE__` по S-01; `check(GEngine)` пережил компиляцию — см.
+     LOG-0043). Честный отрицательный результат, причина статически неразличима между
+     LTCG-специфичным устранением и изменённым текстом проверки в этой конкретной сборке. Это и есть
+     причина, по которой RF-04 не дал адреса самой `ProcessEvent` — не недоработка поиска (11 игл,
+     два осмысленных раунда, все с citable источником в исходнике).
+  3. **Vtable-слот `ProcessEvent` = 77 (offset `0x268`)**, при допущении `UE_WITH_IRIS=1` (единственная
+     неоднозначность подсчёта — эта настройка не читается статически из данного бинарника). Полный
+     построчный вывод с цитатой номера строки на каждую запись — `uobject-vtable-slots.json`.
+  4. **Независимая перекрёстная проверка метода подсчёта прошла точно**: та же методика, применённая
+     к `Engine.h` (`UEngine : public UObject, public FExec`, `UObject` первым базовым классом),
+     предсказывает слот `UEngine::Init` = 91 при `UE_WITH_IRIS=1` — и это точно совпадает с офсетом
+     `0x2d8` (=91-й слот), эмпирически измеренным в дизассемблере в находке RF-07 (LOG-0043) для
+     вызова, помеченного строкой `"GEngine->Init"`; при `UE_WITH_IRIS=0` предсказание (90) не
+     совпало бы. Совпадение слотов `Init`/`Start` (`0x2d8`/`0x2e0`, ровно один слот друг от друга)
+     также совпадает с их declaration-adjacency в `Engine.h:2215/2218`.
+  5. **Конкретный адрес `ProcessEvent` не найден этой волной (grade: UNKNOWN, не HYPOTHESIS).** У
+     образа нет RTTI ни у одного движкового/игрового класса (S-10: 0 из 580), поэтому слот 77 нельзя
+     сопоставить ни с одним из 12 840 анонимных кандидатов vtable у S-09 без runtime-чтения либо без
+     прослеживания UClass reflection-регистрации (`Z_Construct_UClass_*`-подобных функций) до
+     конкретного литерала vtable в `.rdata` — путь на один шаг прослежен (`NewObject`-обёртка →
+     generic `StaticConstructObject`-путь → косвенный вызов через указатель в самом `UClass`), дальше
+     не пройден в рамках этой волны (относится к RF-08, layout `UClass`). Законный результат по
+     правилу 8 задания волны (исчерпывающая честная попытка), а не отказ от поиска.
+  6. Один из пяти кандидатов-соседей по той же translation unit опознан как `UObject::execUndefined`
+     и подписан отдельно — см. LOG-0045 (разделено по MIX-SPLIT, отдельный грейд и отдельная цепочка
+     подтверждения от вычисления слота).
+- **Evidence level:** UNKNOWN (адрес `ProcessEvent`; см. Finding 5 для слота — вычисление слота
+  градуировано отдельно, ниже).
+- **Confidence:** 0.00 (UNKNOWN — по `plan.md` 10.2 нижняя полоса 0.00-0.29; ничего не найдено, а не
+  найдено-и-опровергнуто)
+- **Claim class:** — (UNKNOWN не классифицируется по P/I)
+- **Oracle:** `binary-analysis` (для вычисления слота, Finding 3-4; см. отдельную запись ниже для
+  этой части)
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** проследить reflection-регистрацию класса, реально загружаемого как `GameEngine`
+  (`LaunchEngineLoop.cpp:4824`, ключ `/Script/Engine.Engine:GameEngine`; конкретное имя класса может
+  быть уже в RF-01/`global.ucas`), до её `Z_Construct_UClass_*`-подобной функции и оттуда — до
+  литерала vtable в конструкторе, что даст статический кандидат на конкретный адрес `ProcessEvent`
+  без RTTI и без runtime; что должно показать runtime-наблюдение — сформулировано явно в
+  `research/evidence/PE-01/README.md`.
+
+---
+
+## 2026-08-27 — PE-01: vtable-слот `ProcessEvent` = 77, HYPOTHESIS, перекрёстно проверен
+
+- **ID:** LOG-0044s
+- **Question:** Разделение LOG-0044 по MIX-SPLIT: чему равен вычисленный vtable-слот
+  `UObject::ProcessEvent` как отдельная градуируемая claim (не смешивая с честным UNKNOWN по адресу
+  самой функции)?
+- **Method:** Ручной построчный подсчёт vtable-слота по `UObjectBase.h`/`UObjectBaseUtility.h`/
+  `Object.h` с явным учётом каждой директивы `#if WITH_EDITOR`/`WITH_EDITORONLY_DATA`/`WITH_ENGINE`/
+  `UE_WITH_IRIS`, включая случай, где `#else`-ветка превращает `Modify`/
+  `IsCapturingAsRootObjectForTransaction` в невиртуальные `FORCEINLINE` в Shipping; независимая
+  перекрёстная проверка метода подсчёта тем же способом, применённым к `Engine.h`, против
+  эмпирически измеренного в RF-07 (LOG-0043) реального офсета `UEngine::Init` (`0x2d8`) в
+  дизассемблере.
+- **Evidence:** `research/evidence/PE-01/uobject-vtable-slots.json`,
+  `research/evidence/RF-07/uengine-vtable-crosscheck.json` (см. LOG-0044 Finding 3-4 для полного
+  изложения)
+- **Finding:** См. LOG-0044, Finding 3-4 — вынесено сюда только для машиночитаемой градации.
+- **Evidence level:** HYPOTHESIS
+- **Confidence:** 0.6
+- **Claim class:** I
+- **Oracle:** `binary-analysis`
+- **Почему не выше 0.80:** правило проекта требует для class I на уровне 0.80+ два независимых
+  метода; здесь один метод (ручной подсчёт по исходнику) с одной успешной перекрёстной проверкой
+  того же метода на другом классе — не второй методологически иной подход.
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** второй независимый способ проверки подсчёта (например, тот же приём на третьем
+  классе цепочки, если найдётся статически), либо прослеживание reflection-регистрации до адреса
+  самой функции (см. LOG-0044 Next question).
+
+---
+
+## 2026-08-27 — PE-01: сосед `ProcessEvent` по `ScriptCore.cpp` опознан как `UObject::execUndefined`
+
+- **ID:** LOG-0045
+- **Question:** Один из декомпилированных кандидатов-соседей `ProcessEvent` по той же translation
+  unit (`ScriptCore.cpp`) — опознаётся ли он поимённо?
+- **Method:** Декомпиляция (`dump_function.py`) кандидата `0x1412b3c20`, найденного через xref на
+  строку `"Encountered an undefined opcode"`; построчная сверка с `ScriptCore.cpp` (реализация
+  `UObject::execUndefined`, ~строки 2171-2180).
+- **Evidence:** `research/evidence/PE-01/fun-1412b3c20.json`,
+  `research/evidence/PE-01/signatures.json` (метка `PE01_Adjacent_execUndefined_candidate`)
+- **Finding:**
+  1. `FUN_1412b3c20` (192 инструкции, 681 байт, 0 прямых входящих вызовов — согласуется с тем, что
+     `exec*`-обработчики байткода VM вызываются через таблицу указателей `IMPLEMENT_VM_FUNCTION`, а
+     не прямым `CALL`) совпадает с исходником в пяти независимых точках: (1) тройное
+     `LOCTEXT`-обращение (`source, namespace, key`) буквально совпадает с
+     `LOCTEXT("UndefinedOpcode", "Encountered an undefined opcode …")` в пространстве имён
+     `ScriptCore`; (2) printf-формат `"0x%02X"` совпадает дословно; (3) тернарное вычисление
+     смещения (`Stack.Node ? … : 0`) воспроизведено как ветвление по `*(long*)(Stack+0x10)==0`; (4)
+     финальный вызов передаёт константу `2`, совпадающую с числовым значением `ELogVerbosity::Error`
+     в UE; (5) сигнатура (2 видимых параметра) согласуется с формой обработчика `DEFINE_FUNCTION`.
+  2. Сигнатура (`PE01_Adjacent_execUndefined_candidate`, RVA `0x12b3c20`) принята `sigmake.py`
+     (перепроверено мной напрямую из `signatures.json`: `accepted: true`, `masked_fraction: 0.0`).
+- **Evidence level:** HYPOTHESIS
+- **Confidence:** 0.75
+- **Claim class:** I
+- **Oracle:** `binary-analysis`
+- **Почему не выше 0.80:** правило проекта требует для class I на уровне 0.80+ два независимых
+  метода; здесь пять совпадающих деталей, но все получены одним и тем же методом (чтение
+  декомпилированного вывода и сверка с исходником), а не двумя методологически разными подходами.
+- **Build:** build_key=sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383
+- **Supersedes:** —
+- **Next question:** не являлось приоритетом этой волны (`execUndefined` — побочная находка при
+  поиске `ProcessEvent`, не самостоятельная цель RF-04..RF-09); следующий шаг, если понадобится —
+  runtime-подтверждение через ERI при срабатывании реально undefined-опкода.
+
+---
