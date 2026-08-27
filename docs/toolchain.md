@@ -670,7 +670,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 
 > **Этот блок сгенерирован.** Руками его не правят: правка будет затёрта следующим запуском генератора, и — что хуже — станет неотличима от измерения.
 >
-> **Снято:** 2026-08-27 16:08 UTC | HEAD `368d418` | интерпретатор `C:\Python314\python.exe`
+> **Снято:** 2026-08-27 17:21 UTC | HEAD `d5f74db` | интерпретатор `C:\Python314\python.exe`
 >
 > Обновить (один шаг): `python .github\scripts\kb_status.py --write`
 >
@@ -683,12 +683,12 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 | показатель | значение |
 |---|---|
 | schema backend | `jsonschema` |
-| файлов просмотрено | 276 |
-| размеченных записей | 1679 |
-| записей по нотациям | inline-annotation=201, log-entry=87, table-row=173 |
+| файлов просмотрено | 297 |
+| размеченных записей | 2753 |
+| записей по нотациям | inline-annotation=205, log-entry=88, table-row=173 |
 | нечитаемых кандидатов в записи | **0** |
 | нарушений (ERROR) | **0** |
-| предупреждений (WARN) | 225 |
+| предупреждений (WARN) | 247 |
 | exit code | 0 |
 
 Нарушения и предупреждения по правилам:
@@ -698,25 +698,23 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 | `CLASS-I` | 0 | 16 |
 | `CLASS-P` | 0 | 25 |
 | `EV-03` | 0 | 15 |
-| `EV-04` | 0 | 37 |
+| `EV-04` | 0 | 40 |
 | `EV-05` | 0 | 15 |
 | `EV-CONF` | 0 | 3 |
-| `MAP` | 0 | 50 |
-| `MD-BARE` | 0 | 54 |
+| `MAP` | 0 | 68 |
+| `MD-BARE` | 0 | 55 |
 | `ORA-PROSE` | 0 | 2 |
 | `VCS-REACH` | 0 | 8 |
 
 Ни один файл не несёт нарушений и нечитаемых кандидатов.
 
-**Набор тестов — `python -m pytest -q` (exit 1).**
+**Набор тестов — `python -m pytest -q` (exit 0).**
 
 ```
-1 failed, 1927 passed, 1 skipped, 533 subtests passed in 95.31s (0:01:35)
+1972 passed, 2 skipped, 533 subtests passed in 120.64s (0:02:00)
 ```
 
-Провалившиеся тесты, по идентификаторам узлов:
-
-* `tests/test_pyghidra_runner.py::test_require_pyghidra_succeeds_under_the_canonical_interpreter`
+Провалившихся тестов нет.
 
 <!-- END GENERATED kb-status -->
 

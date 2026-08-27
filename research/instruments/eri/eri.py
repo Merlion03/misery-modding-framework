@@ -324,6 +324,126 @@ everything computed) is what makes an actually-unexpected exception
 (a real bug, not a modeled failure mode) still result in nothing written,
 exactly as for I-01 through I-04.
 
+WHAT I-05 IS
+------------
+plan.md 8.2, capability I-05: "Декодер UFunction" -- decode a UFunction's
+own EFunctionFlags, its own parameter list (including which parameter, if
+any, is the return value), and their declaration order, into a full semantic
+signature. UFunction : public UStruct (Class.h:1789, a single, unconditional
+inheritance -- unlike UStruct's own conditional FStructBaseChain base), so a
+UFunction's own parameters -- including its own return value -- are ITS OWN
+"child properties" in UE's reflection system: literally the SAME
+UStruct::ChildProperties/FField::Next linked list I-06 already walks for a
+class's own member variables, at the SAME USTRUCT_CHILD_PROPERTIES_OFFSET
+(+0x50). I-05 therefore REUSES decode_property_type()/walk_property_chain()
+(I-06, immediately above) COMPLETELY UNCHANGED for the parameter list --
+exactly the reuse I-06's own module docstring already predicted for it ("a
+FUTURE capability, I-05 ... can reuse it for a UFunction's own parameter
+list without this function ever needing to know that caller exists").
+
+DISCOVERING WHICH OF A CLASS'S CHILDREN ARE UFUNCTION INSTANCES: a UClass's
+own Children field (TObjectPtr<UField>, +0x48, "Pointer to start of linked
+list of child fields") is a DIFFERENT linked list from ChildProperties --
+it holds UField-DERIVED UObject children (in UE5, primarily UFunction,
+since properties moved to the separate FField tree), walked via UField::Next
+(this capability's own new DEFAULT_UFIELD_NEXT_OFFSET, +0x28 -- I-04's own
+already-live-validated UObjectBase.h field layout continued one member
+further, not re-derived) -- NEVER FField::Next, which is a different offset
+on a different, non-UObject type entirely. walk_children_chain() below
+mirrors walk_property_chain()'s own bounded/cycle-protected/all-rejections-
+counted shape, but classifies each node via I-04's OWN
+ClassPrivate/NamePrivate/OuterPrivate offsets (reused unchanged, never
+re-derived) rather than decode_property_type()'s FField-specific ones. A
+node "is a UFunction" iff its own ClassPrivate EXACTLY EQUALS the live
+address of the UClass literally named "Function" (/Script/CoreUObject.Function),
+found ONCE per run by an exact raw_name lookup over I-04's OWN already-
+computed full class list (find_function_class_address()) -- a single
+exact-address equality check, deliberately simpler than I-04's own
+class-identity fixed point, because I-05 already knows exactly what it is
+looking for by name. A node whose ClassPrivate does not match is simply not
+a function -- skipped, counted, never treated as an error (the SAME
+"structurally implausible but successfully read = data, never raised"
+philosophy the module docstring's "STRUCTURAL REFUTATION IS A RESULT, NOT
+AN ERROR" section already establishes, applied here to "this UField is not
+what I was looking for" rather than to a corrupted structure).
+
+TWO REAL OFFSET BUGS WERE ALREADY FOUND IN I-06 BY LIVE TESTING, NOT BY
+SOURCE READING -- AND I-05 INHERITS THAT LESSON DIRECTLY, NOT MERELY IN
+SPIRIT: USTRUCT_CHILD_PROPERTIES_OFFSET's own comment above documents how a
+careful, twice-reviewed +0x40 derivation for ChildProperties was still
+wrong (the real offset is +0x50) until a live read caught it, because a
+private, conditionally-compiled FStructBaseChain base subobject is invisible
+to anyone who does not independently re-read Class.h:382-385's own
+`#if USTRUCT_FAST_ISCHILDOF_IMPL == USTRUCT_ISCHILDOF_STRUCTARRAY` line.
+I-05 introduced exactly one offset with the SAME kind of derivation risk:
+USTRUCT_TOTAL_SIZE_SHIPPING (+0xB0, the total size of UStruct's own layout
+in this Shipping build, i.e. where UFunction's own FunctionFlags/NumParms/
+ParmsSize/ReturnValueOffset begin) was derived the same careful way
+ChildProperties was the first time -- by reading UStruct's own remaining
+member declarations one at a time. See that constant's own comment for the
+full field-by-field derivation AND its own live-confirmation result: unlike
+the +0x40 ChildProperties figure, USTRUCT_TOTAL_SIZE_SHIPPING's own
+MANDATORY EMPIRICAL SELF-CHECK (below) came back 247/247 matched, zero
+mismatches, against the real live process -- it survived exactly the test
+that caught ChildProperties' own error.
+
+MANDATORY EMPIRICAL SELF-CHECK, BUILT INTO run_i05() ITSELF: because
+USTRUCT_TOTAL_SIZE_SHIPPING has no independent structural proof from source
+alone (unlike a class's own PropertiesSize/MinAlignment, whose plausibility
+decode_property_type() indirectly exercises via every property it
+successfully decodes), run_i05() cross-checks every decoded UFunction's own
+NumParms (read directly from that offset) against the number of entries
+walk_property_chain() actually ACCEPTS, and CPF_Parm-flags, on that SAME
+function's own ChildProperties chain (read via I-06's OWN already-live-
+verified USTRUCT_CHILD_PROPERTIES_OFFSET; the CPF_Parm filter is itself
+a live finding, see run_i05()'s own docstring) -- two INDEPENDENT readings
+of "how many TRUE parameters does this function have" that agree if, and
+only if, the UStruct-total-size assumption is correct. A mismatch is counted
+(run_i05()'s own 'num_parms_cross_check' aggregate) and documented on the
+affected function_record's own 'notes' field, NEVER silently accepted --
+this is a genuine, own-data cross-check requiring no assumption beyond "the
+two supposedly-related numbers should actually agree." Against the real
+live process this pass, they did: 247/247, exactly the kind of self-check
+that would have caught the ChildProperties bug faster than source re-reading
+alone did, this time confirming rather than refuting the offset it checks.
+This check is reported PROMINENTLY in run_i05()'s own returned summary and
+in build_i05_document().
+
+SCOPE, DELIBERATELY (mirrors I-04's/I-06's own "SCOPE, DELIBERATELY"
+sections): no ProcessEvent, no function invocation, no hooks, no writes, no
+CDO/default-value reading, no bytecode disassembly. RPCId/RPCResponseId
+(+0xBA/+0xBC) and everything after -- every `#if UE_BLUEPRINT_EVENTGRAPH_
+FASTCALLS`/`#if WITH_LIVE_CODING` conditionally-compiled field, and the
+native Func pointer -- are DELIBERATELY never read: real, unresolved
+conditional-compilation uncertainty this pass does not attempt to resolve,
+exactly like I-06's own scope boundary excludes individual EPropertyFlags
+bit decoding. native_func_address/bytecode_size are therefore explicitly
+null on every function_record this capability writes, never guessed "for
+completeness" -- that is exactly the kind of unverified confidence that
+caused the two I-06 bugs. Only four EFunctionFlags-derived booleans/one hex
+word are decoded (is_native/is_static/is_event/is_net/net_flags_raw) and
+three EPropertyFlags-derived booleans per parameter
+(is_return/is_out/is_reference) -- parsed from property_flags_raw, a value
+decode_property_type() ALREADY read for I-06, at no new memory cost. No
+offline RF-01 cross-check is attempted this pass (research/reflection/
+misery-24826585-ue5.4.4-0eef3715244b/functions.jsonl's own 18
+HYPOTHESIS-graded named functions are a DIFFERENT build's DIFFERENT method,
+name-only, no structural detail) -- a legitimate future enhancement,
+explicitly out of scope here.
+
+PROOF SET, REUSED VERBATIM, NOT A SECOND SELECTOR: I-05 reuses
+select_i06_proof_set()'s own output EXACTLY (every /Script/MISERY class,
+I-04's own bounded /Game sample, up to --i06-engine-class-cap well-known
+engine classes) -- it never re-walks GUObjectArray and never builds a
+second, different proof-set selection function. --run-i05 requires
+--run-i04 in the SAME invocation (mirrors _validate_i06_requirements()'s own
+shape), but DELIBERATELY does NOT require --run-i06: walk_children_chain()
+only ever needs I-04's own class list (both as the proof set and to find
+the "Function" meta-class address by name) -- nothing run_i06() itself
+computes is a genuine data dependency of I-05, exactly like I-06 itself
+requires --run-i04 but not --run-i02/--run-i03 directly (those are I-04's
+OWN already-separately-guaranteed transitive requirements).
+
 THE ARCHITECTURAL GUARANTEE THIS FILE EXISTS TO PROVE (plan.md 8.2)
 ---------------------------------------------------------------------
     "Ничего не пишет, ничего не инжектит, не ставит хуков, не вызывает
@@ -526,6 +646,7 @@ CAPABILITY_ID = "I-01"
 CAPABILITY_ID_I02 = "I-02"
 CAPABILITY_ID_I03 = "I-03"
 CAPABILITY_ID_I04 = "I-04"
+CAPABILITY_ID_I05 = "I-05"
 CAPABILITY_ID_I06 = "I-06"
 
 
@@ -4440,6 +4561,908 @@ def build_i06_property_record(decoded: dict, *, owner: str, owner_kind: str,
 
 
 # --------------------------------------------------------------------------- #
+# I-05 -- UFunction decoder. REUSES decode_property_type()/walk_property_
+# chain() (I-06, immediately above) COMPLETELY UNCHANGED for a UFunction's
+# own parameter list: a UFunction's parameters, including its own return
+# value, are its own "child properties" in UE's reflection system --
+# literally the SAME UStruct::ChildProperties/FField::Next linked list I-06
+# already walks for a class's own member variables, at the SAME
+# USTRUCT_CHILD_PROPERTIES_OFFSET (+0x50), because UFunction : public
+# UStruct (Class.h:1789, single, unconditional inheritance -- unlike
+# UStruct's own conditional FStructBaseChain base, confirmed by grep). See
+# the module docstring's "WHAT I-05 IS" section for the full algorithm, the
+# two already-corrected I-06 offset bugs this capability was designed to
+# stay skeptical of on its OWN new offsets, and the MANDATORY EMPIRICAL
+# SELF-CHECK this capability builds in specifically because one of its own
+# new offsets (USTRUCT_TOTAL_SIZE_SHIPPING below) has not yet been
+# empirically read-and-eyeballed against a live process the way
+# USTRUCT_CHILD_PROPERTIES_OFFSET/FPROPERTY_PROPERTY_FLAGS_OFFSET/etc. were
+# before I-06 was trusted.
+# --------------------------------------------------------------------------- #
+
+# UField::Next (Class.h -- UField's own single new member: the next field in
+# the linked list). UObjectBase's own total size is already established at
+# 0x28 by I-03's own DEFAULT_NAME_PRIVATE_OFFSET(+0x18) + I-04's own
+# DEFAULT_OUTER_PRIVATE_OFFSET(+0x20) + OuterPrivate's own proven 8-byte
+# pointer width = +0x28 -- the SAME arithmetic the I-06 module docstring's
+# own "WHAT I-06 IS" section already states in full ("UObjectBase's own 0x28
+# total size + UField's own Next at +0x28 (UField total 0x30)"), reused here
+# verbatim, not re-derived. UObjectBaseUtility and UObject each contribute
+# zero additional fields between UObjectBase and UField in this build --
+# this is the SAME already-stated arithmetic USTRUCT_CHILD_PROPERTIES_
+# OFFSET's own already-live-corrected derivation is built from, not a new
+# guess.
+DEFAULT_UFIELD_NEXT_OFFSET = 0x28
+
+# UStruct::Children (Class.h -- "Pointer to start of linked list of child
+# fields"), +0x08 before USTRUCT_CHILD_PROPERTIES_OFFSET (+0x50) -- the SAME
+# UStruct layout USTRUCT_CHILD_PROPERTIES_OFFSET's own comment above already
+# spells out in full (SuperStruct+0x40, Children+0x48, ChildProperties+0x50,
+# PropertiesSize+0x58, MinAlignment+0x5c), reused verbatim. This is the
+# FIRST time this file actually READS Children -- I-04 never did (it only
+# ever read UObjectBase's own three fields); I-06 never did either (it only
+# ever read ChildProperties). A UClass's own Children holds UField-DERIVED
+# UObject children (in UE5, primarily UFunction, since properties moved to
+# the separate FField tree) -- a DIFFERENT linked list from ChildProperties,
+# walked via UField::Next (DEFAULT_UFIELD_NEXT_OFFSET), never FField::Next
+# (FFIELD_NEXT_OFFSET) -- see walk_children_chain()'s own docstring.
+USTRUCT_CHILDREN_OFFSET = 0x48
+
+# UStruct's own TOTAL size in this Shipping build (WITH_EDITORONLY_DATA=0,
+# CoreMiscDefines.h, standard for any non-Editor packaged target) -- i.e.
+# where UFunction's OWN fields (FunctionFlags/NumParms/ParmsSize/
+# ReturnValueOffset below) begin, relative to a UFunction object's own
+# address. Built on I-06's own already-live-validated ChildProperties(+0x50)/
+# PropertiesSize(+0x58)/MinAlignment(+0x5c), continuing through UStruct's
+# remaining own members (Class.h): Script (TArray<uint8>, +0x60, 0x10 bytes
+# -- AllocatorInstance(8B)+ArrayNum(4B)+ArrayMax(4B), TArray's own
+# declaration, Array.h:3231-3233) -> +0x70; PropertyLink(FProperty*,+0x70)
+# -> +0x78; RefLink(FProperty*,+0x78) -> +0x80; DestructorLink(FProperty*,
+# +0x80) -> +0x88; PostConstructLink(FProperty*,+0x88) -> +0x90;
+# ScriptAndPropertyObjectReferences(TArray<TObjectPtr<UObject>>, +0x90, also
+# 0x10 bytes) -> +0xA0; UnresolvedScriptProperties
+# (FUnresolvedScriptPropertiesArray*,+0xA0) -> +0xA8 (PropertyWrappers/
+# FieldPathSerialNumber, Class.h, are #if WITH_EDITORONLY_DATA -- compiled
+# OUT in Shipping, contribute 0 bytes); UnversionedGameSchema
+# (const FUnversionedStructSchema*, NOT under WITH_EDITORONLY_DATA,+0xA8)
+# -> +0xB0 (UnversionedEditorSchema/GetSchemaHash/
+# bHasAssetRegistrySearchableProperties are #if WITH_EDITORONLY_DATA --
+# compiled OUT).
+#
+# LIVE-CONFIRMED (research/instrument-runs/2026-08-27T170335Z-i05-v2/):
+# run_i05()'s own MANDATORY EMPIRICAL SELF-CHECK (NumParms vs the accepted,
+# CPF_Parm-filtered ChildProperties-chain count -- see run_i05()'s own
+# docstring) reported num_parms_cross_check = {'match': 247, 'mismatch': 0}
+# against the real live process -- every one of 247 real UFunctions in the
+# proof set, zero exceptions. This figure was treated with EXACTLY the same
+# suspicion USTRUCT_CHILD_PROPERTIES_OFFSET deserved before IT was corrected
+# live (see that constant's own comment above: a prior +0x40 figure, careful
+# source reading, reviewed twice, still turned out wrong until a live read
+# caught it) -- the self-check below existed specifically so this offset
+# would not be trusted on citation alone. It has now been. An EARLIER live
+# run (research/instrument-runs/2026-08-27T165856Z-i05/, before the CPF_Parm
+# filter existed) DID initially show 15/247 mismatches -- investigated and
+# found to be a real UE semantic distinction (Blueprint local variables vs.
+# true parameters, both living on the same ChildProperties chain), not an
+# offset error -- see run_i05()'s own docstring for the full story.
+USTRUCT_TOTAL_SIZE_SHIPPING = 0xB0
+
+# UFunction's own fields (Class.h:1789 onward), absolute offsets from a
+# UFunction object's own address -- i.e. USTRUCT_TOTAL_SIZE_SHIPPING plus
+# UFunction's own declaration order. Only these four are ever read; RPCId/
+# RPCResponseId (+0xBA/+0xBC) and everything after -- including every
+# #if UE_BLUEPRINT_EVENTGRAPH_FASTCALLS/#if WITH_LIVE_CODING conditionally-
+# compiled field and the native Func pointer -- are DELIBERATELY never read
+# (real, unresolved conditional-compilation uncertainty this pass does not
+# attempt to resolve; native_func_address/bytecode_size stay explicitly null
+# on every function_record this capability writes -- see the module
+# docstring's "WHAT I-05 IS" section).
+UFUNCTION_FUNCTION_FLAGS_OFFSET = 0xB0        # EFunctionFlags, uint32 (Script.h:130, Class.h:1797)
+UFUNCTION_NUM_PARMS_OFFSET = 0xB4             # uint8 NumParms (Class.h:1802)
+UFUNCTION_PARMS_SIZE_OFFSET = 0xB6            # uint16 ParmsSize (Class.h:1804; +0xB5 is 1 byte of padding)
+UFUNCTION_RETURN_VALUE_OFFSET_OFFSET = 0xB8   # uint16 ReturnValueOffset (Class.h:1806)
+
+# EFunctionFlags bits I-05 decodes (Script.h:130-169) -- EXACT values, not
+# re-derived; is_native/is_static/is_event/is_net/net_flags_raw are the only
+# EFunctionFlags-derived fields reflection-record.schema.json's
+# function_record has room for, so no other bit is decoded.
+FUNC_NET = 0x00000040
+FUNC_NET_RELIABLE = 0x00000080
+FUNC_NATIVE = 0x00000400
+FUNC_EVENT = 0x00000800
+FUNC_STATIC = 0x00002000
+FUNC_NET_MULTICAST = 0x00004000
+FUNC_NET_SERVER = 0x00200000
+FUNC_NET_CLIENT = 0x01000000
+# net_flags_raw's own mask -- every replication-related bit reflection-
+# record.schema.json's own net_flags_raw field names in its description
+# ("NetMulticast, NetServer, NetClient, NetReliable"), PLUS FUNC_NET itself
+# (is_net already reports the base bit as a boolean, but net_flags_raw's own
+# schema description, "Replication-related flag bits", reads most naturally
+# as including the base Net bit too, not only its four sub-qualifiers).
+I05_NET_FLAGS_MASK = (
+    FUNC_NET | FUNC_NET_RELIABLE | FUNC_NET_MULTICAST | FUNC_NET_SERVER | FUNC_NET_CLIENT)
+
+# EPropertyFlags bits I-05 decodes per parameter (ObjectMacros.h:395-464) --
+# EXACT values, not re-derived. CPF_CONST_PARM/CPF_PARM are defined for
+# completeness/future use but are not currently surfaced as their own schema
+# field (reflection-record.schema.json's parameter items object has no
+# is_const/is_parm field).
+CPF_CONST_PARM = 0x0000000000000002
+CPF_PARM = 0x0000000000000080
+CPF_OUT_PARM = 0x0000000000000100
+CPF_RETURN_PARM = 0x0000000000000400
+CPF_REFERENCE_PARM = 0x0000000008000000
+
+# The UClass literally named "Function" (/Script/CoreUObject.Function) --
+# EVERY live UFunction instance's own ClassPrivate equals THIS class's own
+# address, found ONCE per run by exact raw_name match over I-04's OWN
+# already-computed full class list (find_function_class_address() below),
+# never re-walked, never guessed. This is a single exact-address equality
+# check, deliberately simpler than I-04's own class-identity fixed point
+# (compute_class_identity()), precisely because I-05 already knows exactly
+# what it is looking for by name -- see the module docstring's "WHAT I-05
+# IS" section.
+UFUNCTION_METACLASS_RAW_NAME = "Function"
+
+# Bounds I-05 introduces, all overridable via their own CLI flag (see
+# build_arg_parser() below) -- matching the DEFAULT_I06_MAX_PROPERTY_CHAIN_
+# LENGTH naming convention. I-05 reuses I-06's own --i06-max-chain-length/
+# --i06-max-superclass-depth/--i06-max-container-depth DIRECTLY for a
+# function's own parameter (ChildProperties) chain walk -- see run_i05()'s
+# own docstring for why introducing a second, parallel set of flags for the
+# SAME underlying decode_property_type()/walk_property_chain() bound would
+# only invite the two silently drifting apart. DEFAULT_I05_MAX_CHILDREN_
+# CHAIN_LENGTH is the ONE genuinely new bound this capability introduces,
+# for the NEW UClass::Children/UField::Next chain walk_children_chain()
+# below performs.
+DEFAULT_I05_MAX_CHILDREN_CHAIN_LENGTH = 1024
+
+
+def find_function_class_address(all_classes: list) -> int | None:
+    """The live address of the UClass literally named "Function"
+    (UFUNCTION_METACLASS_RAW_NAME), found by exact raw_name match over
+    *all_classes* -- I-04's OWN full walked class universe (run_i04()'s own
+    'classes' list, THIS SAME run, never re-walked -- the SAME data
+    select_i06_engine_proof_classes() already draws from). A PURE, in-memory
+    filter: never reads process memory, never triggers a new GUObjectArray
+    walk.
+
+    First occurrence wins (mirrors select_i06_engine_proof_classes()'s own
+    "first occurrence in scan order wins" convention) -- in a real live
+    class universe there is exactly one class named "Function", so this is
+    a determinism safety net, not a meaningful disambiguation rule.
+
+    Returns None, honestly, when no class named "Function" was found in
+    *all_classes* this run -- a genuine, reportable, non-fatal condition
+    (run_i05() reports zero UFunctions found rather than guess an address);
+    never raises, never fabricates a value.
+    """
+    for entry in all_classes:
+        if entry["raw_name"] == UFUNCTION_METACLASS_RAW_NAME:
+            return entry["address"]
+    return None
+
+
+def _classify_child_field(api, handle: int, field_ptr: int, *, namepool_live_va: int,
+                          owner_address: int, function_class_address: int,
+                          class_private_offset: int = DEFAULT_CLASS_PRIVATE_OFFSET,
+                          name_private_offset: int = DEFAULT_NAME_PRIVATE_OFFSET,
+                          outer_private_offset: int = DEFAULT_OUTER_PRIVATE_OFFSET,
+                          ufield_next_offset: int = DEFAULT_UFIELD_NEXT_OFFSET) -> dict:
+    """Reads and validates ONE already-located UClass::Children-chain node's
+    identity fields -- the module docstring's I-05 "Discovering which of a
+    class's Children are UFunction instances" algorithm, steps 1-5, exactly.
+    Mirrors _classify_object()'s own shape (I-04) applied to a DIFFERENT
+    linked list (UClass::Children/UField::Next, never ChildProperties/
+    FField::Next) and a DIFFERENT identity question ("is this node's own
+    ClassPrivate exactly the live 'Function' class address", never I-04's
+    own vtable-in-module-range check or class-identity fixed point).
+
+    NEVER raises ReadProcessMemoryFailedError: every read here is on an
+    ALREADY-LOCATED node (walk_children_chain() only ever calls this on an
+    address it already validated as plausible, or received as a prior
+    node's own Next pointer) -- a read failure is a torn-read scanning
+    concern, mirrored from I-04's/I-06's own established precedent (see the
+    module docstring's "THE 'ALL OR NOTHING' WRITE GUARANTEE" section),
+    never propagated.
+
+    Returns a dict, ALWAYS shaped the same way: {'valid' (bool, True iff
+    this node is a real, readable UField whose own OuterPrivate round-trips
+    to *owner_address* AND whose own ClassPrivate exactly equals
+    *function_class_address* -- i.e. "this really is one of this class's own
+    UFunction children"), 'rejection_kind' (one of 'pointer_alignment'/
+    'read_failure'/'name_decode'/'outer_mismatch'/'not_a_function', or None
+    when valid -- 'not_a_function' is a STRUCTURAL FINDING, not an error,
+    exactly like decode_property_type()'s own 'not_a_property': this node IS
+    a real UField, it is simply not a UFunction), 'rejection_reason'
+    (str | None), 'name_text' (str | None), 'class_ptr' (int | None),
+    'outer_ptr' (int | None), 'next_ptr' (int | None -- set as soon as the
+    base field batch read succeeds, REGARDLESS of whether a later check then
+    rejects this node -- mirrors decode_property_type()'s own 'next_ptr'
+    field, for the identical reason: walk_children_chain() below needs it to
+    continue past a rejected/non-function node without aborting the whole
+    chain)}.
+    """
+    record = {
+        "valid": False, "rejection_kind": None, "rejection_reason": None,
+        "name_text": None, "class_ptr": None, "outer_ptr": None, "next_ptr": None,
+    }
+
+    # Step 1.
+    if not _pointer_is_plausible(field_ptr):
+        record["rejection_kind"] = "pointer_alignment"
+        record["rejection_reason"] = (
+            "UField pointer 0x%x is not a plausible (non-null, 8-byte-"
+            "aligned) address" % field_ptr)
+        return record
+
+    # Step 2.
+    try:
+        class_ptr = _read_u64(api, handle, field_ptr + class_private_offset)
+        outer_ptr = _read_u64(api, handle, field_ptr + outer_private_offset)
+        name_entry_id = _read_u32(api, handle, field_ptr + name_private_offset)
+        next_ptr = _read_u64(api, handle, field_ptr + ufield_next_offset)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "read_failure"
+        record["rejection_reason"] = (
+            "read failure on UField base fields at 0x%x: %s" % (field_ptr, error))
+        return record
+
+    record["class_ptr"] = class_ptr
+    record["outer_ptr"] = outer_ptr
+    record["next_ptr"] = next_ptr
+
+    decoded = decode_fname_entry_id(api, handle, namepool_live_va, name_entry_id)
+    if decoded["decode_error"] is not None:
+        record["rejection_kind"] = "name_decode"
+        record["rejection_reason"] = (
+            "UField::NamePrivate decode error at 0x%x: %s" %
+            (field_ptr, decoded["decode_error"]))
+        return record
+    record["name_text"] = decoded["text"]
+
+    # Step 3: Outer round-trip -- the SAME "Owner round-trip is a strong
+    # self-consistency invariant" philosophy walk_property_chain() already
+    # applies to FField::Owner, here applied to a plain UObject::OuterPrivate
+    # pointer instead (compared directly, no tag-bit decoding needed --
+    # OuterPrivate is never tagged, unlike FFieldVariant).
+    if outer_ptr != owner_address:
+        record["rejection_kind"] = "outer_mismatch"
+        record["rejection_reason"] = (
+            "OuterPrivate 0x%x of the UField at 0x%x does not round-trip to "
+            "the owning class's own address 0x%x" %
+            (outer_ptr, field_ptr, owner_address))
+        return record
+
+    # Steps 4-5: "is a UFunction" iff ClassPrivate EXACTLY equals the live
+    # "Function" class address -- anything else is simply not what this
+    # capability is looking for, never an error.
+    if class_ptr != function_class_address:
+        record["rejection_kind"] = "not_a_function"
+        record["rejection_reason"] = (
+            "ClassPrivate 0x%x of the UField at 0x%x (named %r) is not the "
+            "'Function' meta-class address 0x%x" %
+            (class_ptr, field_ptr, decoded["text"], function_class_address))
+        return record
+
+    record["valid"] = True
+    return record
+
+
+def walk_children_chain(api, handle: int, children_ptr: int, *, namepool_live_va: int,
+                        owner_address: int, function_class_address: int,
+                        class_private_offset: int = DEFAULT_CLASS_PRIVATE_OFFSET,
+                        name_private_offset: int = DEFAULT_NAME_PRIVATE_OFFSET,
+                        outer_private_offset: int = DEFAULT_OUTER_PRIVATE_OFFSET,
+                        ufield_next_offset: int = DEFAULT_UFIELD_NEXT_OFFSET,
+                        max_chain_length: int = DEFAULT_I05_MAX_CHILDREN_CHAIN_LENGTH
+                        ) -> dict:
+    """Walks ONE UClass's own Children/UField::Next sibling chain (Class.h's
+    own "Pointer to start of linked list of child fields", UStruct::Children
+    -- a DIFFERENT linked list from ChildProperties/FField::Next, holding
+    UField-DERIVED UObject children, primarily UFunction in UE5 since
+    properties moved to the separate FField tree), classifying each node via
+    _classify_child_field() above -- mirrors walk_property_chain()'s own
+    bounded/cycle-protected/all-rejections-counted shape exactly, applied to
+    a DIFFERENT chain and a DIFFERENT pair of offsets (I-04's own
+    ClassPrivate/NamePrivate/OuterPrivate UObjectBase offsets, reused
+    unchanged, plus this capability's own new UField::Next -- never
+    FField-specific offsets, since a Children-chain entry is a plain UObject,
+    not an FField).
+
+    *children_ptr* == 0 is a VALID, legitimate "this class declares zero of
+    its own child fields" result -- returns immediately, 'ok': True, never
+    treated as an error (mirrors walk_property_chain()'s own null-
+    ChildProperties precedent).
+
+    BOUNDED (*max_chain_length* siblings) and CYCLE-PROTECTED (an address
+    repeating within THIS ONE class's own chain walk is a traversal
+    failure) -- mirrors walk_property_chain()/resolve_object_path()'s own
+    walks exactly. A REJECTED node (not a plausible pointer at all, a read
+    failure, a name-decode failure, an Outer mismatch, or simply "not a
+    UFunction") does NOT by itself abort the walk, PROVIDED this node's own
+    Next pointer was successfully read (_classify_child_field()'s own
+    'next_ptr' is set as soon as its own step 2 succeeds, regardless of what
+    a later step then decides) -- the walk continues past it, counting the
+    rejection and moving on, exactly like walk_property_chain()'s own
+    "rejected node does not abort the walk" rule. The walk can ONLY be
+    aborted by a node whose own Next was never even read (rejected at
+    _classify_child_field()'s own step 1 or step 2) -- there is no address
+    left to continue from.
+
+    Returns {'accepted': list[dict] (one {'address': int, 'raw_name': str}
+    per node whose OWN ClassPrivate is exactly *function_class_address* AND
+    whose own OuterPrivate round-tripped to *owner_address* -- in chain
+    order; this list's own 0-based enumeration is NOT itself a meaningful
+    ordinal the way walk_property_chain()'s own 'accepted' list is, since
+    UClass::Children order carries no declared-parameter-order semantics --
+    run_i05() below re-derives each accepted function's own parameter order
+    from ITS OWN ChildProperties chain, never from this list's position),
+    'nodes_visited' (int, every node the walk actually reached, accepted or
+    not), 'rejected_counts' (dict[str, int], one entry per
+    _classify_child_field() 'rejection_kind' value, including the benign
+    'not_a_function' finding), 'ok' (bool -- False only for an actual
+    traversal FAILURE: cycle, an unreadable first node, or exceeded
+    max_chain_length -- never False merely because some nodes were
+    rejected/were not functions), 'note' (str | None)}.
+    """
+    rejected_counts: dict = {}
+    accepted: list = []
+
+    if children_ptr == 0:
+        return {"accepted": accepted, "nodes_visited": 0,
+                "rejected_counts": rejected_counts, "ok": True, "note": None}
+
+    visited: set = set()
+    address = children_ptr
+    nodes_visited = 0
+
+    for _ in range(max_chain_length):
+        if address in visited:
+            return {"accepted": accepted, "nodes_visited": nodes_visited,
+                    "rejected_counts": rejected_counts, "ok": False,
+                    "note": "cycle detected in UField::Next chain at 0x%x" % address}
+        visited.add(address)
+        nodes_visited += 1
+
+        classified = _classify_child_field(
+            api, handle, address, namepool_live_va=namepool_live_va,
+            owner_address=owner_address, function_class_address=function_class_address,
+            class_private_offset=class_private_offset,
+            name_private_offset=name_private_offset,
+            outer_private_offset=outer_private_offset,
+            ufield_next_offset=ufield_next_offset)
+
+        if classified["valid"]:
+            accepted.append({"address": address, "raw_name": classified["name_text"]})
+        else:
+            kind = classified["rejection_kind"]
+            rejected_counts[kind] = rejected_counts.get(kind, 0) + 1
+
+        next_ptr = classified["next_ptr"]
+        if next_ptr is None:
+            return {"accepted": accepted, "nodes_visited": nodes_visited,
+                    "rejected_counts": rejected_counts, "ok": False,
+                    "note": (
+                        "chain walk aborted at 0x%x: this node's own Next "
+                        "pointer was never read (rejected before the base "
+                        "UField field batch could be read) -- %s" %
+                        (address, classified["rejection_reason"]))}
+        if next_ptr == 0:
+            return {"accepted": accepted, "nodes_visited": nodes_visited,
+                    "rejected_counts": rejected_counts, "ok": True, "note": None}
+        address = next_ptr
+    else:
+        return {"accepted": accepted, "nodes_visited": nodes_visited,
+                "rejected_counts": rejected_counts, "ok": False,
+                "note": "UField::Next chain exceeded max_chain_length (%d) "
+                        "without terminating" % max_chain_length}
+
+
+def _decode_ufunction_base_fields(api, handle: int, function_address: int) -> dict:
+    """Reads a UFunction's OWN FunctionFlags/NumParms/ParmsSize/
+    ReturnValueOffset (+0xB0/+0xB4/+0xB6/+0xB8 -- see USTRUCT_TOTAL_SIZE_
+    SHIPPING's own comment for the derivation and its own unverified-status
+    warning). Nothing past ReturnValueOffset is ever read -- see the module
+    docstring's "WHAT I-05 IS" section for why.
+
+    NEVER raises: a read failure on an already-located, already-classified
+    UFunction node (walk_children_chain() already validated its identity via
+    the Children/UField::Next chain before this is ever called) is a torn
+    read on an already-committed candidate, mirrored from I-04's/I-06's own
+    established precedent -- converted to 'valid': False, never propagated.
+
+    Returns {'valid' (bool), 'rejection_reason' (str | None),
+    'function_flags' (int | None), 'num_parms' (int | None), 'parms_size'
+    (int | None), 'return_value_offset' (int | None)}.
+    """
+    record = {
+        "valid": False, "rejection_reason": None, "function_flags": None,
+        "num_parms": None, "parms_size": None, "return_value_offset": None,
+    }
+    try:
+        function_flags = _read_u32(api, handle, function_address + UFUNCTION_FUNCTION_FLAGS_OFFSET)
+        num_parms = _read_u8(api, handle, function_address + UFUNCTION_NUM_PARMS_OFFSET)
+        parms_size = _read_u16(api, handle, function_address + UFUNCTION_PARMS_SIZE_OFFSET)
+        return_value_offset = _read_u16(
+            api, handle, function_address + UFUNCTION_RETURN_VALUE_OFFSET_OFFSET)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_reason"] = (
+            "read failure on UFunction base fields at 0x%x: %s" %
+            (function_address, error))
+        return record
+    record.update({
+        "valid": True, "function_flags": function_flags, "num_parms": num_parms,
+        "parms_size": parms_size, "return_value_offset": return_value_offset,
+    })
+    return record
+
+
+def run_i05(api, process_handle: int, namepool_live_va: int, all_classes: list,
+           proof_set_classes: list, *,
+           children_max_chain_length: int = DEFAULT_I05_MAX_CHILDREN_CHAIN_LENGTH,
+           property_max_chain_length: int = DEFAULT_I06_MAX_PROPERTY_CHAIN_LENGTH,
+           max_superclass_depth: int = DEFAULT_I06_MAX_SUPERCLASS_DEPTH,
+           max_container_depth: int = DEFAULT_I06_MAX_CONTAINER_NESTING_DEPTH,
+           children_offset: int = USTRUCT_CHILDREN_OFFSET,
+           child_properties_offset: int = USTRUCT_CHILD_PROPERTIES_OFFSET,
+           ufield_next_offset: int = DEFAULT_UFIELD_NEXT_OFFSET) -> dict:
+    """The whole of capability I-05: find the live 'Function' meta-class
+    address (find_function_class_address(), over *all_classes* -- I-04's OWN
+    full walked class universe, THIS SAME run); for every class in
+    *proof_set_classes* (select_i06_proof_set()'s own output, REUSED
+    verbatim -- see the module docstring's "PROOF SET" section for why this
+    is a real data dependency on I-04 alone, never on I-06), read its own
+    UClass::Children (+0x48) and walk_children_chain() from there to find
+    which children are UFunction instances; for each one, read its own base
+    fields (_decode_ufunction_base_fields()) and walk its OWN
+    UStruct::ChildProperties (+0x50, the SAME field/offset I-06 already
+    reads for a CLASS's own properties -- UFunction : public UStruct) via
+    I-06's OWN walk_property_chain()/decode_property_type(), COMPLETELY
+    UNCHANGED, with owner_address set to the FUNCTION's own address (never
+    the owning class's) -- a UFunction's own parameters are ITS OWN child
+    properties, not the owning class's.
+
+    *namepool_live_va* MUST be from THIS SAME run's own I-03 result, for the
+    identical "reuse, never re-establish" reason run_i04()/run_i06() already
+    document for their own namepool_live_va parameter.
+
+    MANDATORY EMPIRICAL SELF-CHECK (see USTRUCT_TOTAL_SIZE_SHIPPING's own
+    comment for why this specific check exists): for every UFunction this
+    walk decodes, NumParms (read directly from the UFunction's own field, at
+    the USTRUCT_TOTAL_SIZE_SHIPPING-derived offset -- LIVE-CONFIRMED, see
+    below) is compared against the number of entries walk_property_chain()
+    actually ACCEPTED on that SAME function's own ChildProperties chain AND
+    carry CPF_Parm (0x80, ObjectMacros.h:406, "Function/When call
+    parameter") -- read via I-06's OWN already-live-verified
+    USTRUCT_CHILD_PROPERTIES_OFFSET.
+
+    THE CPF_Parm FILTER ITSELF WAS A LIVE FINDING, not a source-derived
+    assumption: the FIRST live run of I-05 against the real process
+    (research/instrument-runs/2026-08-27T165856Z-i05/, before this filter
+    existed) reported 15 "mismatches" out of 247 functions, EVERY ONE on a
+    Blueprint-generated ('_C') class, and EVERY ONE with accepted_count >
+    NumParms (never the reverse) -- e.g. BP_SGKGameInstance_C::LoadControls:
+    NumParms=0, but 39 accepted ChildProperties-chain entries. Inspecting
+    those 39 entries directly showed every single one lacking CPF_Parm
+    (names like 'Temp_int_Loop_Counter_Variable',
+    'CallFunc_Add_IntInt_ReturnValue', 'K2Node_DynamicCast_bSuccess' --
+    unmistakably Blueprint-compiler-generated LOCAL variables of the
+    function body, not parameters), while EVERY native /Script/MISERY
+    function's own accepted entries already carried CPF_Parm on 100% of
+    them (e.g. MiseryBlueprintFunctionLibrary::KeepSlateKeyboardFocus's own
+    single accepted entry is named literally 'ReturnValue',
+    CPF_Parm=CPF_OutParm=CPF_ReturnParm=True -- the exact real UE convention
+    for a function's return value). This is real, well-known UE behavior (a
+    Blueprint function's ChildProperties chain holds ALL of its properties,
+    parameters AND local variables alike; NumParms counts only the former)
+    -- NOT evidence against USTRUCT_TOTAL_SIZE_SHIPPING. After adding this
+    filter, a SECOND live run against the SAME process
+    (research/instrument-runs/2026-08-27T170335Z-i05-v2/) reported
+    num_parms_cross_check = {'match': 247, 'mismatch': 0} -- EVERY function
+    in the proof set, zero exceptions, confirming USTRUCT_TOTAL_SIZE_SHIPPING
+    directly: had it been wrong the way ChildProperties' own +0x40 was, this
+    aggregate count would show it exactly as starkly as the ChildProperties
+    bug showed itself in I-06 (0 properties accepted). Local (non-CPF_Parm)
+    entries are still real, successfully-decoded data -- never silently
+    discarded -- they are excluded from 'parameters' (the schema's own
+    parameter list) and from the NumParms comparison, but counted separately
+    (this function's own return value's 'local_variable_count', and each
+    class's own 'functions'[*] entry) so nothing found is ever unaccounted
+    for.
+
+    These are two INDEPENDENT readings of "how many parameters does this
+    function have" that agree if, and only if, USTRUCT_TOTAL_SIZE_SHIPPING is
+    correct for this build -- persistent disagreement across the whole proof
+    set, AFTER the CPF_Parm filter above, would have been strong, actionable
+    evidence it is not (none was found -- see the 247/247 result above),
+    exactly the kind of self-check that would have caught the ChildProperties
+    (+0x40 -> +0x50) bug faster than source re-reading alone did. A mismatch
+    is NEVER silently accepted: it is counted (this function's own return
+    value's 'num_parms_cross_check' dict) and the affected function_record's
+    own 'notes' field states it plainly (build_i05_function_record()). The
+    record is still WRITTEN, not discarded, even on a mismatch --
+    "structurally implausible but successfully read = data, never raised"
+    applies here exactly as everywhere else in this file.
+
+    Never raises. A Children read failure for ONE class, or a UFunction
+    base-field/ChildProperties read failure for ONE function, is recorded on
+    that class's/function's own entry and this function continues with the
+    REMAINDER of the proof set -- mirrors run_i06()'s own per-class
+    ChildProperties-read-failure precedent (see the module docstring's
+    "THE 'ALL OR NOTHING' WRITE GUARANTEE" section).
+
+    Returns a plain dict: {'function_class_found' (bool),
+    'function_class_address_hex' (str | None), 'classes' (list[dict], one
+    entry per *proof_set_classes* member -- {'class_address' (int),
+    'class_raw_name' (str), 'object_path' (str | None), 'children_ptr_hex'
+    (str | None), 'children_read_ok' (bool), 'children_read_error'
+    (str | None), 'functions' (list[dict], one per accepted UFunction --
+    'address', 'address_hex', 'raw_name', 'function_flags', 'num_parms',
+    'parms_size', 'return_value_offset', 'parameters' (walk_property_chain()'s
+    own 'accepted' list, CPF_Parm-FILTERED, full decode_property_type() dicts,
+    NOT yet reduced to function_record shape -- see this function's own
+    "MANDATORY EMPIRICAL SELF-CHECK" paragraph above for why the filter
+    exists), 'local_variable_count' (int, the accepted ChildProperties-chain
+    entries that were NOT CPF_Parm-flagged, i.e. Blueprint-compiler-generated
+    local variables -- real data, simply not part of 'parameters'),
+    'num_parms_matches_accepted_count' (bool),
+    'param_chain_ok' (bool), 'param_chain_note' (str | None),
+    'param_chain_nodes_visited' (int)), 'nodes_visited' (int, the Children
+    chain's own), 'rejected_counts' (dict, the Children chain's own),
+    'chain_ok' (bool), 'chain_note' (str | None)}), 'classes_examined' (int),
+    'functions_accepted_total' (int), 'rejected_counts_total' (dict, summed
+    across every Children-chain walk, every ChildProperties/parameter chain
+    walk, and every UFunction base-field/ChildProperties read failure),
+    'num_parms_cross_check' ({'match': int, 'mismatch': int, 'mismatches':
+    list[dict]}), 'note' (str | None)}.
+    """
+    function_class_address = find_function_class_address(all_classes)
+    if function_class_address is None:
+        return {
+            "function_class_found": False, "function_class_address_hex": None,
+            "classes": [], "classes_examined": len(proof_set_classes),
+            "functions_accepted_total": 0, "rejected_counts_total": {},
+            "num_parms_cross_check": {"match": 0, "mismatch": 0, "mismatches": []},
+            "note": (
+                "%r was not found in this run's own I-04 class universe -- "
+                "I-05 cannot identify any UFunction this run; reported "
+                "honestly rather than guessed (see "
+                "find_function_class_address()'s own docstring)." %
+                UFUNCTION_METACLASS_RAW_NAME),
+        }
+
+    classes_out = []
+    total_accepted = 0
+    total_rejected_counts: dict = {}
+    cross_check_match = 0
+    cross_check_mismatch = 0
+    cross_check_mismatches: list = []
+
+    def _bump(counts: dict, kind: str) -> None:
+        counts[kind] = counts.get(kind, 0) + 1
+
+    for class_entry in proof_set_classes:
+        class_address = class_entry["address"]
+        try:
+            children_ptr = _read_u64(api, process_handle, class_address + children_offset)
+        except ReadProcessMemoryFailedError as error:
+            classes_out.append({
+                "class_address": class_address, "class_raw_name": class_entry["raw_name"],
+                "object_path": class_entry.get("object_path"),
+                "children_ptr_hex": None, "children_read_ok": False,
+                "children_read_error": str(error), "functions": [],
+                "nodes_visited": 0, "rejected_counts": {}, "chain_ok": False,
+                "chain_note": None,
+            })
+            continue
+
+        chain = walk_children_chain(
+            api, process_handle, children_ptr, namepool_live_va=namepool_live_va,
+            owner_address=class_address, function_class_address=function_class_address,
+            ufield_next_offset=ufield_next_offset, max_chain_length=children_max_chain_length)
+        for kind, count in chain["rejected_counts"].items():
+            total_rejected_counts[kind] = total_rejected_counts.get(kind, 0) + count
+
+        functions_out = []
+        for child in chain["accepted"]:
+            function_address = child["address"]
+            base_fields = _decode_ufunction_base_fields(api, process_handle, function_address)
+            if not base_fields["valid"]:
+                _bump(total_rejected_counts, "function_base_read_failure")
+                continue
+
+            try:
+                parameters_ptr = _read_u64(
+                    api, process_handle, function_address + child_properties_offset)
+            except ReadProcessMemoryFailedError:
+                _bump(total_rejected_counts, "function_base_read_failure")
+                continue
+
+            param_chain = walk_property_chain(
+                api, process_handle, parameters_ptr, namepool_live_va=namepool_live_va,
+                owner_address=function_address, max_chain_length=property_max_chain_length,
+                max_superclass_depth=max_superclass_depth,
+                max_container_depth=max_container_depth)
+            for kind, count in param_chain["rejected_counts"].items():
+                total_rejected_counts[kind] = total_rejected_counts.get(kind, 0) + count
+
+            # CPF_Parm (0x80) is what actually distinguishes a true PARAMETER
+            # from a Blueprint-compiler-generated LOCAL variable of the
+            # function body -- both live on the SAME ChildProperties chain,
+            # but only the former belongs in 'parameters' or in the
+            # NumParms comparison below (see this function's own docstring's
+            # "THE CPF_Parm FILTER ITSELF WAS A LIVE FINDING" paragraph for
+            # the live evidence this filter is based on). Local entries are
+            # real, successfully-decoded data -- counted, never discarded.
+            true_parameters = [
+                entry for entry in param_chain["accepted"]
+                if int(entry["property_flags_raw"], 16) & CPF_PARM]
+            local_variable_count = len(param_chain["accepted"]) - len(true_parameters)
+
+            accepted_count = len(true_parameters)
+            num_parms_matches = (base_fields["num_parms"] == accepted_count)
+            if num_parms_matches:
+                cross_check_match += 1
+            else:
+                cross_check_mismatch += 1
+                cross_check_mismatches.append({
+                    "function_raw_name": child["raw_name"],
+                    "owner_class_raw_name": class_entry["raw_name"],
+                    "num_parms": base_fields["num_parms"],
+                    "accepted_parameter_count": accepted_count,
+                    "local_variable_count": local_variable_count,
+                })
+
+            functions_out.append({
+                "address": function_address, "address_hex": "0x%x" % function_address,
+                "raw_name": child["raw_name"],
+                "function_flags": base_fields["function_flags"],
+                "num_parms": base_fields["num_parms"],
+                "parms_size": base_fields["parms_size"],
+                "return_value_offset": base_fields["return_value_offset"],
+                "parameters": true_parameters,
+                "local_variable_count": local_variable_count,
+                "num_parms_matches_accepted_count": num_parms_matches,
+                "param_chain_ok": param_chain["ok"],
+                "param_chain_note": param_chain["note"],
+                "param_chain_nodes_visited": param_chain["nodes_visited"],
+            })
+            total_accepted += 1
+
+        classes_out.append({
+            "class_address": class_address, "class_raw_name": class_entry["raw_name"],
+            "object_path": class_entry.get("object_path"),
+            "children_ptr_hex": "0x%x" % children_ptr, "children_read_ok": True,
+            "children_read_error": None, "functions": functions_out,
+            "nodes_visited": chain["nodes_visited"],
+            "rejected_counts": chain["rejected_counts"],
+            "chain_ok": chain["ok"], "chain_note": chain["note"],
+        })
+
+    return {
+        "function_class_found": True,
+        "function_class_address_hex": "0x%x" % function_class_address,
+        "classes": classes_out, "classes_examined": len(proof_set_classes),
+        "functions_accepted_total": total_accepted,
+        "rejected_counts_total": total_rejected_counts,
+        "num_parms_cross_check": {
+            "match": cross_check_match, "mismatch": cross_check_mismatch,
+            "mismatches": cross_check_mismatches,
+        },
+        "note": None,
+    }
+
+
+def build_i05_document(*, result: dict, build_key: str, recorded_at: str | None,
+                       identity_self_established: bool, build_key_cross_checked: bool,
+                       known_build: bool, build_id: str | None) -> dict:
+    """The I-05 raw output document -- research/instrument-runs/<run>/
+    i05-functions.json, the SAME "raw single-run data document, no evidence
+    envelope" shape as build_i04_document()/build_i06_document(). functions.jsonl
+    (a SEPARATE artifact, built from run_i05()'s own 'classes'[*]['functions']
+    entries via build_i05_function_record() and written by main()) is where
+    the actual GRADED knowledge-base claims live; this document is this
+    run's own bookkeeping/summary -- including the MANDATORY EMPIRICAL
+    SELF-CHECK's own aggregate match/mismatch counts, reported prominently
+    here specifically so a human deciding whether to trust
+    USTRUCT_TOTAL_SIZE_SHIPPING (see that constant's own comment) never has
+    to dig through functions.jsonl row-by-row to find it.
+    """
+    return {
+        "capability": CAPABILITY_ID_I05,
+        "function_class_found": result["function_class_found"],
+        "function_class_address_hex": result["function_class_address_hex"],
+        "classes_examined": result["classes_examined"],
+        "functions_accepted_total": result["functions_accepted_total"],
+        "rejected_counts_total": result["rejected_counts_total"],
+        "num_parms_cross_check": result["num_parms_cross_check"],
+        "classes": [
+            {
+                "class_address_hex": "0x%x" % c["class_address"],
+                "class_raw_name": c["class_raw_name"],
+                "object_path": c["object_path"],
+                "children_ptr_hex": c["children_ptr_hex"],
+                "children_read_ok": c["children_read_ok"],
+                "children_read_error": c["children_read_error"],
+                "function_count": len(c["functions"]),
+                "nodes_visited": c["nodes_visited"],
+                "rejected_counts": c["rejected_counts"],
+                "chain_ok": c["chain_ok"],
+                "chain_note": c["chain_note"],
+            }
+            for c in result["classes"]
+        ],
+        "note": result["note"],
+        "build_key": build_key,
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
+        "recorded_at": recorded_at,
+        "generator": GENERATOR_NAME,
+        "generator_version": GENERATOR_VERSION,
+    }
+
+
+def build_i05_function_record(function_entry: dict, *, owner: str, build_key: str,
+                              recorded_at: str) -> dict:
+    """One functions.jsonl row (research/schema/reflection-record.schema.json's
+    function_record branch) for ONE ACCEPTED UFunction *function_entry*
+    (run_i05()'s own per-function dict -- see run_i05()'s own docstring for
+    its exact shape).
+
+    CONFIDENCE IS ALWAYS 0.75, EVERY RECORD, NO EXCEPTION -- mirrors
+    build_i06_property_record()'s own reasoning: every function_record this
+    pass writes is single-source, oracle=["runtime-reflection"] only,
+    always -- no offline cross-check is attempted this pass (research/
+    reflection/misery-24826585-ue5.4.4-0eef3715244b/functions.jsonl's own 18
+    HYPOTHESIS-graded named functions are a DIFFERENT build's DIFFERENT
+    method -- RF-01's own name-only decode, no structural detail;
+    reconciling the two is a legitimate FUTURE enhancement, explicitly out
+    of scope for this pass).
+
+    Fields this pass deliberately leaves null (module docstring's "WHAT I-05
+    IS" section, out-of-scope offsets): native_func_address, bytecode_size --
+    neither RPCId/RPCResponseId nor the native Func pointer nor Blueprint
+    bytecode is ever read this pass.
+    """
+    function_flags = function_entry["function_flags"]
+    net_flags_raw = "0x%x" % (function_flags & I05_NET_FLAGS_MASK)
+
+    parameters = []
+    return_parm_count = 0
+    for ordinal, decoded in enumerate(function_entry["parameters"]):
+        flags_int = int(decoded["property_flags_raw"], 16)
+        is_return = bool(flags_int & CPF_RETURN_PARM)
+        if is_return:
+            return_parm_count += 1
+        parameters.append({
+            "ordinal": ordinal,
+            "name": decoded["raw_name"],
+            "type_name": decoded["type_name"],
+            "property_class": decoded["property_class"],
+            "offset": decoded["offset"],
+            "size": decoded["size"],
+            "flags_raw": decoded["property_flags_raw"],
+            "is_return": is_return,
+            "is_out": bool(flags_int & CPF_OUT_PARM),
+            "is_reference": bool(flags_int & CPF_REFERENCE_PARM),
+        })
+
+    notes = []
+    if not function_entry["num_parms_matches_accepted_count"]:
+        notes.append(
+            "MANDATORY EMPIRICAL SELF-CHECK MISMATCH: NumParms (%s) "
+            "disagrees with the number of accepted ChildProperties-chain "
+            "entries (%d) -- see USTRUCT_TOTAL_SIZE_SHIPPING's own comment "
+            "in eri.py; this function's own FunctionFlags/ParmsSize/"
+            "ReturnValueOffset/parameters should not yet be trusted until a "
+            "human resolves this." %
+            (function_entry["num_parms"], len(parameters)))
+    if return_parm_count > 1:
+        notes.append(
+            "structural anomaly: %d parameters carry CPF_ReturnParm "
+            "(expected at most 1) -- the return-value identification is "
+            "ambiguous for this function; left visible rather than guessed."
+            % return_parm_count)
+    if not function_entry["param_chain_ok"]:
+        notes.append(
+            "parameter ChildProperties chain walk did not complete "
+            "cleanly: %s" % function_entry["param_chain_note"])
+    if function_entry["local_variable_count"] > 0:
+        notes.append(
+            "%d ChildProperties-chain entries were accepted but excluded "
+            "from 'parameters': they do not carry CPF_Parm (0x%x), i.e. "
+            "they are local variables of this function's own body (common "
+            "for Blueprint-generated functions), not true parameters -- see "
+            "run_i05()'s own docstring for the live evidence this "
+            "distinction is based on." %
+            (function_entry["local_variable_count"], CPF_PARM))
+
+    claim = (
+        "the live MISERY-Win64-Shipping.exe process (build_key %s) has a "
+        "UFunction named %r owned by class %r, FunctionFlags 0x%x, %d "
+        "parameter(s) (NumParms=%s)" %
+        (build_key, function_entry["raw_name"], owner, function_flags,
+         len(parameters), function_entry["num_parms"]))
+
+    return {
+        "kind": "function",
+        "raw_name": function_entry["raw_name"],
+        "owner": owner,
+        "function_flags_raw": "0x%x" % function_flags,
+        "num_parms": function_entry["num_parms"],
+        "parms_size": function_entry["parms_size"],
+        "return_value_offset": function_entry["return_value_offset"],
+        "is_native": bool(function_flags & FUNC_NATIVE),
+        "is_static": bool(function_flags & FUNC_STATIC),
+        "is_event": bool(function_flags & FUNC_EVENT),
+        "is_net": bool(function_flags & FUNC_NET),
+        "net_flags_raw": net_flags_raw,
+        "native_func_address": None,
+        "bytecode_size": None,
+        "parameters": parameters,
+        "claim": claim,
+        "claim_type": "native-class-exists",
+        "claim_class": "I",
+        "evidence_level": "OBSERVED",
+        "confidence": 0.75,
+        "oracle": ["runtime-reflection"],
+        "sources": [{
+            "method": (
+                "I-05: UClass::Children chain walk (+0x%x) + UField::Next "
+                "(+0x%x) + ClassPrivate/NamePrivate/OuterPrivate reads "
+                "(I-04's own UObjectBase.h offsets, reused) to identify the "
+                "UFunction, + UFunction base field reads (Class.h offsets "
+                "+0x%x/+0x%x/+0x%x/+0x%x, relative to USTRUCT_TOTAL_SIZE_"
+                "SHIPPING=+0x%x) + UStruct::ChildProperties chain walk "
+                "(+0x%x, I-06's own walk_property_chain()/"
+                "decode_property_type(), reused unchanged) for the "
+                "parameter list" %
+                (USTRUCT_CHILDREN_OFFSET, DEFAULT_UFIELD_NEXT_OFFSET,
+                 UFUNCTION_FUNCTION_FLAGS_OFFSET, UFUNCTION_NUM_PARMS_OFFSET,
+                 UFUNCTION_PARMS_SIZE_OFFSET, UFUNCTION_RETURN_VALUE_OFFSET_OFFSET,
+                 USTRUCT_TOTAL_SIZE_SHIPPING, USTRUCT_CHILD_PROPERTIES_OFFSET)),
+            "artifact": None,
+            "locator": function_entry["address_hex"],
+            "note": (
+                "oracle runtime-reflection. The address is this live "
+                "UFunction object's own address in THIS run's process -- "
+                "not stable across a relaunch (ASLR/heap allocation), "
+                "recorded only for this run's own audit trail."),
+        }],
+        "build_key": build_key,
+        "recorded_at": recorded_at,
+        "method": "I-05",
+        "refutation_attempt": (
+            "if a UClass::Children-chain node were not really a UFunction, "
+            "this would have been refuted by its own ClassPrivate not "
+            "exactly equalling the live 'Function' meta-class address "
+            "(rejection_kind='not_a_function' in walk_children_chain()); if "
+            "its own OuterPrivate did not round-trip to the owning class's "
+            "own address, it would have been rejected as 'outer_mismatch' "
+            "and never reached this record; if the USTRUCT_TOTAL_SIZE_"
+            "SHIPPING(+0x%x) offset assumption this record's own "
+            "FunctionFlags/NumParms/ParmsSize/ReturnValueOffset rest on "
+            "were wrong for this build, this function's own NumParms would "
+            "systematically disagree with the number of parameters "
+            "walk_property_chain() actually accepts on its own "
+            "independently-offset ChildProperties chain -- see this "
+            "record's own 'notes' field, and run_i05()'s own "
+            "'num_parms_cross_check' aggregate, for whether that happened "
+            "this run. This record has NO POSSIBLE OFFLINE CROSS-CHECK for "
+            "any build, ever, for the SAME reason build_i06_property_"
+            "record() already documents for FProperty -- confidence is "
+            "capped at 0.75, never higher, for any function record this "
+            "capability will ever produce." % USTRUCT_TOTAL_SIZE_SHIPPING),
+        "notes": "; ".join(notes) if notes else None,
+        "semantic_alias": None,
+    }
+
+
+# --------------------------------------------------------------------------- #
 # document building -- the I-01 JSON output, and the manifest.json required
 # by research/schema/instrument-run-manifest.schema.json.
 # --------------------------------------------------------------------------- #
@@ -5249,6 +6272,62 @@ def build_arg_parser() -> argparse.ArgumentParser:
              "<build_id>/properties.jsonl -- this tool does not "
              "auto-derive that path from build identity, matching every "
              "other per-capability output path in this file")
+    parser.add_argument(
+        "--run-i05", action="store_true",
+        help="also run capability I-05: decode UFunction (plan.md 8.2, "
+             "'Декодер UFunction') -- FunctionFlags, its own parameter list "
+             "(walked via the SAME UStruct::ChildProperties/FField::Next "
+             "mechanism I-06 already uses, reused completely unchanged, "
+             "since UFunction : public UStruct), which parameter (if any) "
+             "is the return value, and parameter order (see eri.py's own "
+             "module docstring, 'WHAT I-05 IS', for the exact algorithm, "
+             "its scope boundary, and the MANDATORY EMPIRICAL SELF-CHECK "
+             "this capability builds in for its own newly-introduced, "
+             "not-yet-live-verified UStruct-total-size offset). Requires "
+             "--run-i04 in THIS SAME run -- never enabled standalone, and "
+             "never re-walks GUObjectArray itself: the proof set is the "
+             "SAME deterministic, bounded selection over I-04's own "
+             "already-classified class list that I-06 already uses "
+             "(select_i06_proof_set(), reused verbatim). Deliberately does "
+             "NOT require --run-i06: I-05 uses nothing run_i06() itself "
+             "computes. Writes a raw JSON summary (--i05-out) and a "
+             "SEPARATE functions.jsonl artifact (--functions-jsonl-out).")
+    parser.add_argument(
+        "--children-offset", default=None, metavar="HEX",
+        help="override the byte offset of UStruct::Children (default: "
+             "0x%x -- see USTRUCT_CHILDREN_OFFSET's own comment in eri.py)."
+             % USTRUCT_CHILDREN_OFFSET)
+    parser.add_argument(
+        "--ufield-next-offset", default=None, metavar="HEX",
+        help="override the byte offset of UField::Next (default: 0x%x -- "
+             "see DEFAULT_UFIELD_NEXT_OFFSET's own comment in eri.py)." %
+             DEFAULT_UFIELD_NEXT_OFFSET)
+    parser.add_argument(
+        "--i05-children-max-chain-length", type=int,
+        default=DEFAULT_I05_MAX_CHILDREN_CHAIN_LENGTH, metavar="N",
+        help="I-05: bound on how many siblings UClass::Children's own "
+             "UField::Next-linked chain is walked before treating the walk "
+             "as a traversal failure (default: %d). I-05 reuses I-06's own "
+             "--i06-max-chain-length/--i06-max-superclass-depth/"
+             "--i06-max-container-depth DIRECTLY for a function's own "
+             "parameter (ChildProperties) chain walk -- there is no "
+             "separate --i05-* flag for those, deliberately, since it is "
+             "the identical underlying bound." %
+             DEFAULT_I05_MAX_CHILDREN_CHAIN_LENGTH)
+    parser.add_argument(
+        "--i05-out", default=None, metavar="PATH",
+        help="I-05 raw JSON output path; defaults to <run-dir>/"
+             "i05-functions.json when --run-dir is given")
+    parser.add_argument(
+        "--functions-jsonl-out", default=None, metavar="PATH",
+        help="I-05's functions.jsonl output path (research/schema/"
+             "reflection-record.schema.json's function_record branch); "
+             "defaults to <run-dir>/functions.jsonl when --run-dir is "
+             "given. The operator must pass this explicitly to write to "
+             "the final committed location, research/reflection/"
+             "<build_id>/functions.jsonl -- this tool does not "
+             "auto-derive that path from build identity, matching every "
+             "other per-capability output path in this file")
     return parser
 
 
@@ -5454,6 +6533,70 @@ def _validate_i06_requirements(args: argparse.Namespace) -> None:
             "set, and never re-walks GUObjectArray itself.")
 
 
+def _resolve_i05_output_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i05 was not given. Otherwise the I-05 raw-JSON output
+    path: --i05-out if given explicitly, else <run-dir>/i05-functions.json
+    via the same --run-dir convenience every other per-capability output
+    path in this file uses. Raises ValueError, before any handle is opened,
+    if --run-i05 was given with neither --i05-out nor --run-dir -- identical
+    shape to _resolve_i06_output_path above.
+    """
+    if not args.run_i05:
+        return None
+    if args.i05_out:
+        return args.i05_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "i05-functions.json")
+    raise ValueError(
+        "--run-i05 requires --i05-out unless --run-dir is given (it "
+        "supplies the default <run-dir>/i05-functions.json)")
+
+
+def _resolve_functions_jsonl_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i05 was not given. Otherwise I-05's functions.jsonl
+    output path: --functions-jsonl-out if given explicitly, else
+    <run-dir>/functions.jsonl -- the SAME --run-dir convenience every other
+    per-capability output path in this file uses, deliberately NOT an
+    auto-derived research/reflection/<build_id>/ path (see
+    --functions-jsonl-out's own help text: the operator passes that
+    explicitly when writing to the final committed location).
+    """
+    if not args.run_i05:
+        return None
+    if args.functions_jsonl_out:
+        return args.functions_jsonl_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "functions.jsonl")
+    raise ValueError(
+        "--run-i05 requires --functions-jsonl-out unless --run-dir is "
+        "given (it supplies the default <run-dir>/functions.jsonl)")
+
+
+def _validate_i05_requirements(args: argparse.Namespace) -> None:
+    """Raises ValueError, before any handle is opened, if --run-i05 was
+    given without --run-i04 in this SAME invocation -- I-05 reuses I-04's
+    own already-classified class list (both as its proof set, via
+    select_i06_proof_set(), and to find the 'Function' meta-class address by
+    name) and never re-walks GUObjectArray itself. DELIBERATELY does not
+    require --run-i06, unlike this file's own _validate_i06_requirements()
+    shape might suggest by analogy -- I-05 uses NOTHING run_i06() itself
+    computes (only I-04's own data), so requiring --run-i06 anyway would be
+    requiring a capability this one has no actual data dependency on, the
+    exact mistake the module docstring's "PROOF SET" section warns against
+    (mirrors I-06's OWN choice not to require --run-i02/--run-i03 directly,
+    since those are I-04's own already-separately-guaranteed transitive
+    requirements, not I-06's own).
+    """
+    if not args.run_i05:
+        return
+    if not args.run_i04:
+        raise ValueError(
+            "--run-i05 requires --run-i04 in this same invocation -- I-05 "
+            "reuses I-04's own already-classified class list as its proof "
+            "set and to find the 'Function' meta-class address by name, "
+            "and never re-walks GUObjectArray itself.")
+
+
 def _parse_int_literal(value: str | None, default: int, flag_name: str) -> int:
     """*default* when *value* is None (the normal case); otherwise
     int(value, 0) so '0x7a78ed0', '0X7A78ED0' and a plain decimal string are
@@ -5503,6 +6646,14 @@ def _parse_outer_private_offset(value: str | None) -> int:
 def _parse_child_properties_offset(value: str | None) -> int:
     return _parse_int_literal(
         value, USTRUCT_CHILD_PROPERTIES_OFFSET, "--child-properties-offset")
+
+
+def _parse_children_offset(value: str | None) -> int:
+    return _parse_int_literal(value, USTRUCT_CHILDREN_OFFSET, "--children-offset")
+
+
+def _parse_ufield_next_offset(value: str | None) -> int:
+    return _parse_int_literal(value, DEFAULT_UFIELD_NEXT_OFFSET, "--ufield-next-offset")
 
 
 def _write_guarded(document: dict, path: str, *, what: str) -> str:
@@ -5559,6 +6710,8 @@ def main(argv: list[str] | None = None) -> int:
         classes_jsonl_path = _resolve_classes_jsonl_path(args)  # None unless --run-i04
         i06_out_path = _resolve_i06_output_path(args)  # None unless --run-i06
         properties_jsonl_path = _resolve_properties_jsonl_path(args)  # None unless --run-i06
+        i05_out_path = _resolve_i05_output_path(args)  # None unless --run-i05
+        functions_jsonl_path = _resolve_functions_jsonl_path(args)  # None unless --run-i05
         guobjectarray_rva = _parse_guobjectarray_rva(args.guobjectarray_rva)
         namepool_rva = _parse_namepool_rva(args.namepool_rva)
         name_pool_initialized_rva = _parse_name_pool_initialized_rva(
@@ -5567,6 +6720,8 @@ def main(argv: list[str] | None = None) -> int:
         class_private_offset = _parse_class_private_offset(args.class_private_offset)
         outer_private_offset = _parse_outer_private_offset(args.outer_private_offset)
         child_properties_offset = _parse_child_properties_offset(args.child_properties_offset)
+        children_offset = _parse_children_offset(args.children_offset)
+        ufield_next_offset = _parse_ufield_next_offset(args.ufield_next_offset)
         # --run-i03-reflection needs both --run-i02 and --run-i03 in this
         # same invocation -- checked here, before any handle is opened, same
         # "fail loudly before doing any work" discipline as every other
@@ -5578,6 +6733,10 @@ def main(argv: list[str] | None = None) -> int:
         # --run-i06 needs --run-i04 too -- identical discipline, checked
         # before any handle is opened.
         _validate_i06_requirements(args)
+        # --run-i05 needs --run-i04 too (but deliberately NOT --run-i06 --
+        # see _validate_i05_requirements()'s own docstring) -- identical
+        # discipline, checked before any handle is opened.
+        _validate_i05_requirements(args)
 
         # Layer 1 first, exactly like the pyghidra_scripts family: a refused
         # output path costs nothing, so it is checked before a single Win32
@@ -5611,6 +6770,14 @@ def main(argv: list[str] | None = None) -> int:
             pathguard.check_output_path(
                 properties_jsonl_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
                 what="--properties-jsonl-out")
+        if i05_out_path is not None:
+            pathguard.check_output_path(
+                i05_out_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--i05-out")
+        if functions_jsonl_path is not None:
+            pathguard.check_output_path(
+                functions_jsonl_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--functions-jsonl-out")
 
         i01_recorded_at = (
             args.recorded_at if args.recorded_at
@@ -5681,6 +6848,7 @@ def main(argv: list[str] | None = None) -> int:
         i04_class_buckets = None
         i04_game_sample = None
         i06_result = None
+        i05_result = None
         if args.run_i03:
             i03_handle = open_process_read_only(api, result["pid"])
             try:
@@ -5735,6 +6903,34 @@ def main(argv: list[str] | None = None) -> int:
                             max_superclass_depth=args.i06_max_superclass_depth,
                             max_container_depth=args.i06_max_container_depth,
                             child_properties_offset=child_properties_offset)
+                    # I-05, if requested, ALSO runs in this SAME i03_handle's
+                    # try/finally -- it reuses I-04's own already-classified
+                    # class list from THIS SAME run EXACTLY the way I-06
+                    # does above (i04_result["classes"], i04_class_buckets
+                    # ["misery"], i04_game_sample -> select_i06_proof_set(),
+                    # reused verbatim, never a second proof-set selector) and
+                    # I-03's own namepool_live_va -- never re-walking
+                    # GUObjectArray. DELIBERATELY independent of
+                    # args.run_i06 -- I-05 uses nothing run_i06() itself
+                    # computes (see _validate_i05_requirements()'s own
+                    # docstring), so it runs whenever args.run_i05 is set,
+                    # whether or not --run-i06 was ALSO given this same run.
+                    if args.run_i05:
+                        i05_proof_set = select_i06_proof_set(
+                            misery_classes=i04_class_buckets["misery"],
+                            game_sample=i04_game_sample,
+                            all_classes=i04_result["classes"],
+                            engine_class_cap=args.i06_engine_class_cap)
+                        i05_result = run_i05(
+                            api, i03_handle, i03_result["namepool_live_va"],
+                            i04_result["classes"], i05_proof_set,
+                            children_max_chain_length=args.i05_children_max_chain_length,
+                            property_max_chain_length=args.i06_max_chain_length,
+                            max_superclass_depth=args.i06_max_superclass_depth,
+                            max_container_depth=args.i06_max_container_depth,
+                            children_offset=children_offset,
+                            child_properties_offset=child_properties_offset,
+                            ufield_next_offset=ufield_next_offset)
             finally:
                 api.close_handle(i03_handle)
 
@@ -5855,6 +7051,46 @@ def main(argv: list[str] | None = None) -> int:
                 properties_jsonl_rows, properties_jsonl_path, what="--properties-jsonl-out")
             artifacts.append(_repo_relative(written_properties_jsonl))
 
+        i05_document = None
+        written_i05_out = None
+        written_functions_jsonl = None
+        if i05_result is not None:
+            i05_document = build_i05_document(
+                result=i05_result, build_key=identity["build_key"],
+                recorded_at=i01_recorded_at,
+                identity_self_established=identity["identity_self_established"],
+                build_key_cross_checked=identity["build_key_cross_checked"],
+                known_build=identity["known_build"], build_id=identity["build_id"])
+            written_i05_out = _write_guarded(i05_document, i05_out_path, what="--i05-out")
+            capabilities_enabled.append(CAPABILITY_ID_I05)
+            artifacts.append(_repo_relative(written_i05_out))
+
+            # functions.jsonl is a SEPARATE artifact, in the format
+            # research/schema/reflection-record.schema.json's function_record
+            # branch defines -- EVERY accepted UFunction from EVERY proof-set
+            # class, confidence 0.75 always (build_i05_function_record()'s own
+            # docstring: this capability has NO possible cross-checked
+            # branch, ever, exactly like I-06's own property_record). Written
+            # even when i05_result["function_class_found"] is False -- an
+            # empty functions.jsonl is then a legitimately empty, honest
+            # result, never a stub (see _write_guarded_jsonl()'s own
+            # docstring/research/reflection/README.md's own "Пустой JSONL
+            # самодостаточен и честен" section). recorded_at is
+            # manifest_timestamp, NOT i01_recorded_at, for the SAME reason
+            # build_i06_property_record()'s own rows already use it
+            # (kb-record.schema.json's own envelope requires a non-null
+            # recorded_at on every row always).
+            functions_jsonl_rows = [
+                build_i05_function_record(
+                    function_entry, owner=class_entry["class_raw_name"],
+                    build_key=identity["build_key"], recorded_at=manifest_timestamp)
+                for class_entry in i05_result["classes"]
+                for function_entry in class_entry["functions"]
+            ]
+            written_functions_jsonl = _write_guarded_jsonl(
+                functions_jsonl_rows, functions_jsonl_path, what="--functions-jsonl-out")
+            artifacts.append(_repo_relative(written_functions_jsonl))
+
         manifest = build_manifest(
             run_id=run_id, arguments=list(sys.argv[1:] if argv is None else argv),
             tool_version=GENERATOR_VERSION, build_key=identity["build_key"],
@@ -5903,6 +7139,14 @@ def main(argv: list[str] | None = None) -> int:
                 summary["i06_classes_examined"] = i06_document["classes_examined"]
                 summary["i06_properties_accepted_total"] = (
                     i06_document["properties_accepted_total"])
+            if i05_document is not None:
+                summary["i05_out"] = written_i05_out
+                summary["functions_jsonl_out"] = written_functions_jsonl
+                summary["i05_function_class_found"] = i05_document["function_class_found"]
+                summary["i05_classes_examined"] = i05_document["classes_examined"]
+                summary["i05_functions_accepted_total"] = (
+                    i05_document["functions_accepted_total"])
+                summary["i05_num_parms_cross_check"] = i05_document["num_parms_cross_check"]
             print(dump_json(summary))
         else:
             print(
@@ -5974,6 +7218,19 @@ def main(argv: list[str] | None = None) -> int:
                     file=sys.stderr)
                 print("written: %s" % written_i06_out, file=sys.stderr)
                 print("written: %s" % written_properties_jsonl, file=sys.stderr)
+            if i05_document is not None:
+                print(
+                    "I-05: function_class_found=%s classes_examined=%d "
+                    "functions_accepted_total=%d num_parms_cross_check=%r "
+                    "rejected_counts_total=%r" % (
+                        i05_document["function_class_found"],
+                        i05_document["classes_examined"],
+                        i05_document["functions_accepted_total"],
+                        i05_document["num_parms_cross_check"],
+                        i05_document["rejected_counts_total"]),
+                    file=sys.stderr)
+                print("written: %s" % written_i05_out, file=sys.stderr)
+                print("written: %s" % written_functions_jsonl, file=sys.stderr)
             print("written: %s" % written_manifest, file=sys.stderr)
         return 0
     except (EriError, pathguard.OutputPathRefused, ValueError) as error:
