@@ -541,11 +541,15 @@ exe, кэшированный `build_key` запрещён как источни
 | `FProperty`-декодер для 12 именованных подтипов (`FBoolProperty`, `FNumericProperty`-generic, `FObjectProperty`, `FClassProperty`, `FStructProperty`, `FEnumProperty`, `FArrayProperty`, `FSetProperty`, `FMapProperty`, `FNameProperty`, `FStrProperty`, `FTextProperty`) | не собирался | **все 12 задействованы в дизайне; 9 из 12 реально встретились в этом proof-set** (`FSetProperty`/`FMapProperty`/`FTextProperty` — честно ноль в этой выборке, покрыты собственными синтетическими тестами `tests/test_eri_i06.py`) | LOG-0054 |
 | ERI I-05 | не реализована | **реализована, переиспользуя I-06's property-декодер БЕЗ единого изменения кода**; встроенный live self-check (`NumParms` vs число независимо принятых записей `ChildProperties`-цепочки) сразу поймал 15 из 247 расхождений — оказалось не ошибкой нового офсета (`UStruct` total size, `+0xB0`, который self-check затем подтвердил 247/247), а реальным семантическим багом: Blueprint-локальные переменные без `CPF_Parm` по ошибке считались параметрами. Исправлено мной лично; 247 из 247 функций у 20 proof-set классов декодированы без расхождений после исправления. LOG-0055 |
 | `UFunction`-декодер (`FunctionFlags`, `NumParms`, `ParmsSize`, `ReturnValueOffset`, параметры через ChildProperties, is_return/is_out/is_reference, is_native/is_static/is_event/is_net) | не собирался | **декодирован для 247 живых функций** у 20 proof-set классов; семантически проверен (`MiseryBlueprintFunctionLibrary` — все функции `is_static=True`; `KeepSlateKeyboardFocus`'s `ReturnValue` — `is_return=is_out=True`) | LOG-0055 |
+| `ProcessEvent` конкретный адрес | UNKNOWN (PE-01, честный отрицательный результат статического поиска) | **НАЙДЕН живым runtime-чтением**: новая read-only ERI-возможность PE-02 (`--run-pe02-vtable-scan`) прочитала vtable-слот 77 у ВСЕХ 130 000 валидных живых объектов одной сессии (4748 различных классов) — сошлось РОВНО на двух RVA, 0 отклонений: `0x12ac1f0` (базовый `UObject::ProcessEvent`, 125 194 инстанса/4120 классов) и `0x321a430` (override `AActor::ProcessEvent`, `Actor.h:2192` подтверждает `override`, 4 806 инстансов/628 классов, точно иерархия `AActor`). Статическая декомпиляция обоих (`pyghidra_scripts/dump_function.py`) дала побайтовое структурное совпадение с `ScriptCore.cpp:1971`/`Actor.cpp:1064`, независимо подтвердив каждый офсет I-05/I-06. **`UObject::ProcessEvent` = live RVA `0x12ac1f0`, OBSERVED, class I, 0.90** (два независимых метода). `UE_WITH_IRIS`-неоднозначность PE-01 закрыта (слот 77 подтверждён напрямую). LOG-0056 |
 
-**Целевой exit criterion M3 (`plan.md` §8.6) формально выполнен раньше, I-06 и I-05 добавлены поверх
-него отдельными волнами той же сессии.** По прямому указанию пользователя — только теперь, после
-завершения ОБОИХ, I-06 и I-05, следующий шаг — `ProcessEvent` (слот 77 уже вычислен статически в
-PE-01, HYPOTHESIS 0.60). ERI остаётся строго read-only.
+**Целевой exit criterion M3 (`plan.md` §8.6) формально выполнен раньше, I-06/I-05/PE-02 добавлены
+поверх него отдельными волнами той же сессии.** По прямому указанию пользователя, Phase 1
+(read-only-подтверждение `ProcessEvent`) завершена с сильным evidence — следующий шаг Phase 2 (ABI
+вызова, всё ещё read-only/design, без исполнения); Phase 3 (реальный вызов) — отдельная IPP-категория
+(`P-02`, `plan.md` §8.3), НЕ ERI, требует отдельного явного решения владельца (условие 3 §8.4 —
+Q-8.3 сейчас «ограниченный» ответ, не «отсутствует» — уже отмечено пользователю отдельно). ERI
+остаётся строго read-only.
 
 ---
 

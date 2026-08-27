@@ -31,9 +31,22 @@
 > bace50f7185d/functions.jsonl` — 247 из 247 функций декодированы без расхождений, семантически
 > проверены (`MiseryBlueprintFunctionLibrary` — все функции `is_static=True`;
 > `KeepSlateKeyboardFocus`'s `ReturnValue` — `is_return=is_out=True`, точная реальная UE-конвенция).
-> I-07..I-15 **не реализованы** — `ProcessEvent`-вызов, hooks, IPP вне объёма по прямому указанию
-> пользователя; ERI остаётся строго read-only (единственная точка `ReadProcessMemory`, единственная
-> точка `OpenProcess`, ни разу не изменена с I-02).
+> **PE-02 (живое подтверждение `ProcessEvent`, НЕ plan.md §8.2 "I-0N" возможность — продолжение
+> статического evidence-трека PE-01)** — LOG-0056: живое чтение vtable-слота 77 у ВСЕХ 130 000
+> валидных живых объектов этой сессии (4748 различных классов) сошлось РОВНО на двух RVA, 0
+> отклонений, 0 посторонних кандидатов — `0x12ac1f0` (125 194 инстанса, 4120 классов) и `0x321a430`
+> (4 806 инстансов, 628 классов, точно иерархия `AActor`). Оба объяснены реальным исходником:
+> `Actor.h:2192` подтверждает `AActor::ProcessEvent` — `override`; статическая декомпиляция
+> (`pyghidra_scripts/dump_function.py`, тот же Ghidra-проект, что и PE-01) ОБОИХ адресов дала
+> побайтовое структурное совпадение с `ScriptCore.cpp:1971`/`Actor.cpp:1064`, независимо подтвердив
+> КАЖДЫЙ офсет I-05/I-06 (`ChildProperties`+0x50, `FunctionFlags`+0xb0, `ParmsSize`+0xb6,
+> `ReturnValueOffset`+0xb8, `PropertyFlags`+0x38 и др.), плюс бонусную проверку соседних слотов 78/79
+> (`GetFunctionCallspace`/`CallRemoteFunction`, идут в `Object.h` сразу за `ProcessEvent`). PE-01's
+> `UNKNOWN`-адрес закрыт: **`UObject::ProcessEvent` = live RVA `0x12ac1f0`**, OBSERVED, class I, 0.90
+> (два независимых метода: runtime-reflection + binary-analysis). I-07..I-15 **не реализованы** —
+> `ProcessEvent`-**вызов** (Phase 3, отдельная IPP-категория `P-02`), hooks, IPP вне объёма ERI по
+> прямому указанию пользователя; ERI остаётся строго read-only (единственная точка
+> `ReadProcessMemory`, единственная точка `OpenProcess`, ни разу не изменена с I-02).
 
 ## RESEARCH ONLY — NOT PRODUCTION
 

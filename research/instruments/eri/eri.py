@@ -444,6 +444,127 @@ computes is a genuine data dependency of I-05, exactly like I-06 itself
 requires --run-i04 but not --run-i02/--run-i03 directly (those are I-04's
 OWN already-separately-guaranteed transitive requirements).
 
+WHAT PE-02 IS
+-------------
+NOT a plan.md 8.2 capability -- deliberately spelled "PE-02", never
+"I-07".."I-15" (plan.md 8.2's own table, section 8.2, already reserves
+those ten ids for UWorld/UGameInstance/ULocalPlayer/property-value/Role-
+NetMode/snapshot-diff/container/AssetRegistry/export capabilities, none of
+them related to this). PE-02 is the second entry in the PE-01 EVIDENCE
+TRACK (research/evidence/PE-01/README.md), a continuation of that static
+analysis, not a new numbered ERI capability -- see CAPABILITY_ID_PE02's own
+comment for why it therefore NEVER appears in manifest.json's own
+capabilities_enabled array: instrument-run-manifest.schema.json's own
+eri_capability_id enum is CLOSED to "I-01".."I-16", so writing "PE-02"
+there would be a schema violation, not a style choice. main() records this
+capability's own output path in the manifest's 'artifacts' list (a
+free-text array, unconstrained) and nowhere else.
+
+PE-01's own static, line-by-line vtable-slot count concluded
+UObject::ProcessEvent (Object.h:1417, ScriptCore.cpp:1971, UE 5.4.4 CL
+35576357) sits at C++ vtable slot 77 (byte offset 77*8 = 0x268), HYPOTHESIS,
+confidence 0.60, class I -- ONE method (manual counting through
+UObjectBase.h/UObjectBaseUtility.h/Object.h) with ONE successful cross-check
+on a DIFFERENT class (UEngine::Init, independently measured by disassembly
+at the SAME predicted slot). PE-01/README.md's own "What's needed to move
+past HYPOTHESIS" section names the next step: runtime confirmation that a
+real live UObject-derived instance's own vtable actually holds a plausible
+function pointer at this exact slot. PE-02 gathers exactly that LIVE
+evidence -- and only that; see "NON-GOALS" below for what it deliberately
+does not do.
+
+REUSES I-04's OWN objects_by_address, NEVER RE-WALKS GUObjectArray:
+run_pe02_vtable_scan() (and every function below it) takes I-04's OWN
+already-walked, already-validated objects_by_address dict (walk_object_
+universe()'s own return value, now ALSO threaded out through run_i04()'s
+own return dict as an ADDITIVE key -- see run_i04()'s own docstring update
+-- never a second walk of the array, never a change to what run_i04()
+already computed for I-04 itself). --run-pe02-vtable-scan therefore requires
+--run-i04 in THIS SAME invocation (_validate_pe02_requirements(), the
+identical shape _validate_i06_requirements()/_validate_i05_requirements()
+already establish), and reuses every valid ('valid': True, i.e. structurally
+validated by I-04's OWN _classify_object() checks 1-3) object I-04's walk
+located as its sampling population -- a bounded sample of it
+(DEFAULT_PE02_VTABLE_SAMPLE_SIZE=500, --pe02-vtable-sample-size), never all
+~26 000 objects a real walk finds, since the evidentiary value here comes
+from CLASS DIVERSITY across a few hundred samples, not exhaustive coverage.
+
+TWO DIFFERENT VTABLE READS IN THIS FILE, READ CAREFULLY, DO NOT CONFUSE
+THEM: I-04's own _classify_object() check 3 reads the vtable pointer at
+CLASS_PTR's own address -- the vtable of the UClass "type descriptor"
+object *object_ptr* is an instance of, used ONLY to sanity-check that
+ClassPrivate looks like a real UObject-derived pointer. PE-02 needs a
+DIFFERENT read entirely: *object_ptr*'s OWN personal instance vtable, at
+object_ptr + 0x00, because ProcessEvent dispatches virtually through the
+CALLING instance's own vtable, never through its class descriptor's vtable
+(the class descriptor is itself a separate UObject, with its own vtable,
+appropriate to UClass -- not to whatever concrete class object_ptr is an
+instance of). Nothing in I-04's own walk ever reads THIS address for THIS
+purpose -- _classify_processevent_vtable_candidate() below performs a
+FRESH read of object_ptr + 0x00 for exactly this reason, and says so again
+in its own docstring, so a future reader who has not read this section
+first still cannot make this mistake silently.
+
+ALGORITHM, per sampled valid object O (_classify_processevent_vtable_
+candidate()): (1) read O's own vtable pointer at O+0x00; validate it is
+plausible (_pointer_is_plausible(), reused) AND resolves into the module's
+own image range (_vtable_pointer_in_module_range(), reused -- the IDENTICAL
+function I-04's own check 3 already uses, never a second copy). (2) read
+the pointer stored at vtable_ptr + vtable_slot_offset (default slot 77,
+byte offset 0x268 -- DEFAULT_PROCESSEVENT_VTABLE_SLOT, overridable via
+--processevent-vtable-slot, because the WHOLE POINT of this capability is
+to gather evidence FOR OR AGAINST slot 77, so it must never be hardcoded
+un-overridably). This is the CANDIDATE function pointer. (3) validate it is
+plausible AND convert it to an RVA (candidate_va - base_address) AND check
+that RVA falls in [0, image_size_bytes) -- I-01's own image_size_bytes, the
+SAME bound every other module-range check in this file already uses, never
+a second image-size source. A read failure or a failed check at any step is
+a per-object REJECTION (counted, torn-read precedent, never raised -- see
+_classify_processevent_vtable_candidate()'s own docstring); it never aborts
+the sample.
+
+THE MODULE-RANGE CHECK ON THE CANDIDATE IS WEAK EVIDENCE, STATED EXPLICITLY,
+NEVER OVERSOLD: practically every function pointer belonging to a 138MB
+Shipping image passes it -- it is a NECESSARY, NOT SUFFICIENT structural
+check, kept as a gate only because an address outside the image cannot be
+expressed as an RVA any static tool (pyghidra_scripts/dump_function.py)
+could look up at all. The REAL evidence this capability produces is the
+DISTRIBUTION of accepted candidate RVAs across the whole sample
+(aggregate_processevent_vtable_candidates()): the same RVA recurring under
+MANY DIFFERENT object classes is strong, class-independent evidence
+(ProcessEvent is inherited from UObject, so a class-independent slot value
+is exactly what the HYPOTHESIS predicts), while the same RVA recurring only
+under ONE class, or several DIFFERENT RVAs each tied to one class, is
+either evidence of genuine per-class ProcessEvent overrides or evidence the
+slot/method is wrong -- this capability reports BOTH possibilities as raw
+data (top_candidate, minority_candidates, each with its own distinct-class
+count) and draws NO conclusion between them; a human (this session's own
+operator) runs static disassembly correlation on the surfaced RVA(s)
+separately, by hand, using the EXISTING pyghidra_scripts/dump_function.py
+tool, and writes the graded verdict to RESEARCH_LOG.md.
+
+OUTPUT, RAW, NOT A SCHEMA-GRADED RECORD: pe02-vtable-scan.json (build_pe02_
+document()) is "raw single-run data, no evidence envelope" in the IDENTICAL
+sense build_i04_document()'s own docstring already establishes -- no
+evidence_level/claim_type/oracle/confidence field anywhere in it (none of
+tools/kb/validate.py's MARKER_KEYS), so it is never mistaken for a graded
+knowledge-base record by the validator. Unlike i04-classes.json, it carries
+the FULL per-object sample list (bounded to a few hundred rows, small
+enough to persist completely, unlike I-04's own ~26 000-object census).
+
+NON-GOALS, DELIBERATELY OUT OF SCOPE: no disassembly, no decompilation, no
+pyghidra_scripts invocation from this Python capability -- that correlation
+step belongs to the human operator, separately, by hand, never wrapped or
+called from eri.py. No ProcessEvent invocation, no function call of any
+kind, no hooks, no writes -- strictly read-only ERI level 1, identical
+guarantee to every other capability in this file (see "THE ARCHITECTURAL
+GUARANTEE" section immediately below, unaffected: PE-02 adds new CALLERS of
+the SAME single Win32Api.read_process_memory call site, via the SAME
+_read_u64() helper I-02/I-03/I-04/I-06/I-05 already use, never a second
+read primitive). No confidence grading, no schema envelope, no RESEARCH_LOG
+entry -- the operator writes that, once, after personally reviewing this
+capability's own raw output and running disassembly correlation.
+
 THE ARCHITECTURAL GUARANTEE THIS FILE EXISTS TO PROVE (plan.md 8.2)
 ---------------------------------------------------------------------
     "Ничего не пишет, ничего не инжектит, не ставит хуков, не вызывает
@@ -648,6 +769,17 @@ CAPABILITY_ID_I03 = "I-03"
 CAPABILITY_ID_I04 = "I-04"
 CAPABILITY_ID_I05 = "I-05"
 CAPABILITY_ID_I06 = "I-06"
+
+# PE-02 (research/evidence/PE-01/README.md's own evidence track, continued)
+# -- deliberately NOT an "I-0N" id: it is not one of plan.md 8.2's sixteen
+# numbered capabilities (I-07..I-15 are reserved for UWorld/UGameInstance/
+# etc., unrelated to this), so it must NEVER be appended to manifest.json's
+# own capabilities_enabled array -- instrument-run-manifest.schema.json's
+# eri_capability_id enum is closed to "I-01".."I-16" and would reject it.
+# Used only as this capability's own raw document's 'capability' field
+# (informational text, not schema-checked) -- see the module docstring's
+# "WHAT PE-02 IS" section.
+CAPABILITY_ID_PE02 = "PE-02"
 
 
 # --------------------------------------------------------------------------- #
@@ -2798,6 +2930,21 @@ def run_i04(api, process_handle: int, base_address: int, image_size_bytes: int,
     'module'/'module_origin'/'package' NOT yet filled in (that is
     classify_classes_by_module()'s own job, run separately by main() so
     this function stays a pure "what did the walk find" result).
+
+    ADDITIVE FIELD, PE-02 (research/evidence/PE-01/README.md's own evidence
+    track, see the module docstring's "WHAT PE-02 IS" section): the returned
+    dict also carries 'objects_by_address' -- walk_object_universe()'s own
+    already-computed dict, unchanged, threaded straight through -- so a
+    caller (main(), when --run-pe02-vtable-scan is given) can sample I-04's
+    OWN already-walked, already-validated object universe without this
+    function re-walking GUObjectArray a second time or main() needing to
+    call walk_object_universe() itself. Present on BOTH return paths below
+    (seed found or not), because the walk itself always completes before
+    the seed search even begins. This is a PURE ADDITION to I-04's own
+    return shape -- build_i04_document() does not read this key (it only
+    ever extracts the specific fields it already extracted before this was
+    added), so nothing about I-04's own committed i04-classes.json/
+    classes.jsonl output changes.
     """
     walk = walk_object_universe(
         api, process_handle, objects_ptr, num_elements, base_address, image_size_bytes,
@@ -2822,6 +2969,7 @@ def run_i04(api, process_handle: int, base_address: int, image_size_bytes: int,
             "fixed_point_converged": None,
             "walk": _summarize_walk(walk),
             "classes": [],
+            "objects_by_address": objects_by_address,
             "note": (
                 "seed search failed: no valid object was found whose "
                 "ClassPrivate equals its own address AND whose decoded "
@@ -2906,6 +3054,7 @@ def run_i04(api, process_handle: int, base_address: int, image_size_bytes: int,
         "fixed_point_converged": fixed_point["converged"],
         "walk": _summarize_walk(walk),
         "classes": classes,
+        "objects_by_address": objects_by_address,
         "note": None if fixed_point["converged"] else (
             "the class-identity fixed point did NOT converge within "
             "max_fixed_point_passes=%d -- class_address_universe was still "
@@ -5463,6 +5612,433 @@ def build_i05_function_record(function_entry: dict, *, owner: str, build_key: st
 
 
 # --------------------------------------------------------------------------- #
+# PE-02: live vtable-slot evidence for the PE-01 UObject::ProcessEvent
+# HYPOTHESIS (research/evidence/PE-01/README.md) -- see the module
+# docstring's "WHAT PE-02 IS" section for the full algorithm, why this is
+# NOT a plan.md 8.2 "I-0N" capability id, and why it therefore never appears
+# in manifest.json's own capabilities_enabled array. Reuses I-04's OWN
+# already-walked, already-validated objects_by_address dict from THIS SAME
+# run (run_i04()'s own additive 'objects_by_address' return key) -- never
+# re-walks GUObjectArray.
+# --------------------------------------------------------------------------- #
+
+# PE-01/README.md's own HYPOTHESIS: slot 77 (0-indexed), byte offset
+# 77*8 == 616 == 0x268, under the UE_WITH_IRIS=1 assumption -- the SOLE
+# ambiguity in that whole static count (see PE-01/README.md's "Часть 3" for
+# the full derivation). Overridable via --processevent-vtable-slot,
+# DELIBERATELY: the whole point of this capability is to gather live
+# evidence FOR OR AGAINST 77 itself, so it must never be hardcoded
+# un-overridably.
+DEFAULT_PROCESSEVENT_VTABLE_SLOT = 77
+
+# Large enough to see a real cross-class distribution, small enough to stay
+# fast against a ~26 000-object live GUObjectArray -- unlike I-04's own full
+# walk, PE-02 is a bounded SAMPLE by design (module docstring's "WHAT PE-02
+# IS" section): the evidentiary value here is CLASS DIVERSITY across a few
+# hundred objects, not exhaustive coverage.
+DEFAULT_PE02_VTABLE_SAMPLE_SIZE = 500
+
+
+def _vtable_slot_byte_offset(slot: int) -> int:
+    """*slot* (a 0-indexed C++ vtable slot number, PE-01/README.md's own
+    counting convention) to a byte offset -- every vtable entry on this x64
+    target is one 8-byte pointer, so byte_offset = slot * 8. Kept as a tiny
+    named function, not an inline '* 8', so DEFAULT_PROCESSEVENT_VTABLE_SLOT
+    and --processevent-vtable-slot stay expressed as the SLOT NUMBER
+    PE-01/README.md itself reasons about, with the byte-offset arithmetic
+    (and its own citation) in exactly one place.
+    """
+    return slot * 8
+
+
+def _classify_processevent_vtable_candidate(api, handle: int, object_ptr: int,
+                                            class_ptr: int, objects_by_address: dict, *,
+                                            base_address: int, image_size_bytes: int,
+                                            vtable_slot_offset: int) -> dict:
+    """Reads and validates ONE already-classified (I-04 'valid': True)
+    UObject's OWN vtable pointer, then the candidate function pointer stored
+    at its vtable_slot_offset'th slot -- the two-step read PE-02 exists to
+    perform for a single sampled object.
+
+    READ THIS BEFORE TOUCHING THIS FUNCTION -- it is easy to confuse two
+    DIFFERENT vtable reads already present elsewhere in this file.
+    _classify_object()'s own check 3 (I-04, above) reads the vtable pointer
+    at CLASS_PTR's own address -- the vtable of the UClass "type
+    descriptor" object *object_ptr* is an INSTANCE of, used there only to
+    sanity-check that ClassPrivate looks like a real UObject-derived
+    pointer. That is NOT what this function reads. PE-02 needs
+    *object_ptr*'s OWN personal instance vtable, at object_ptr + 0x00,
+    because ProcessEvent dispatches virtually through the CALLING
+    instance's own vtable, never through its class descriptor's vtable (the
+    class descriptor is itself a separate UObject, with its own vtable,
+    appropriate to UClass -- not to whatever concrete class object_ptr is
+    an instance of). This function therefore performs a FRESH read of
+    object_ptr + 0x00; nothing computed by walk_object_universe()/
+    _classify_object() for THIS SAME address is reused for this read,
+    because nothing there ever read this address for this purpose.
+
+    NEVER raises: every read here is on an object I-04's OWN walk already
+    LOCATED and structurally validated ('valid': True) in THIS SAME run --
+    a read failure on it is a torn read on an already-committed candidate,
+    the IDENTICAL _classify_object()/walk_property_chain() precedent this
+    whole file already establishes (module docstring's "STRUCTURAL
+    REFUTATION IS A RESULT, NOT AN ERROR" / I-06's own "ALL OR NOTHING"
+    sections), never propagated -- converted to a counted per-object
+    rejection instead.
+
+    Returns a dict, ALWAYS the same shape regardless of which check failed:
+    {'object_address_hex', 'object_class_raw_name' (str or None -- the
+    OWNER class's own decoded name, resolved via a PURE in-memory lookup of
+    *class_ptr* into *objects_by_address* using 'name_ok' (never 'valid' --
+    the SAME deliberately-weaker-than-'valid' field resolve_object_path()
+    already uses for an ancestor's name, per _classify_object()'s own
+    docstring: only the class's own NAME is needed here, never its own
+    class-pointer plausibility), NEVER a new memory read; honestly None,
+    never guessed, when unresolvable), 'vtable_ptr_hex'/'vtable_ptr_decimal'
+    (str/int or None), 'candidate_va_hex'/'candidate_va_decimal' (str/int or
+    None), 'candidate_rva_hex'/'candidate_rva_decimal' (str/int or None --
+    decimal MAY be negative, hex formatted "-0x..." in that case, when
+    candidate_va falls below base_address; a negative RVA is real data, not
+    an error), 'candidate_in_module_range' (bool or None),
+    'accepted' (bool -- True iff EVERY check below passed), 'rejection_kind'
+    (None, or one of 'vtable_pointer_implausible',
+    'vtable_out_of_module_range', 'vtable_read_failure', 'slot_read_failure',
+    'candidate_pointer_implausible', 'candidate_out_of_module_range'),
+    'rejection_reason' (human text or None)}.
+
+    THE MODULE-RANGE CHECK ON THE CANDIDATE (the last gate below) IS
+    DELIBERATELY WEAK, STATED HERE AND AGAIN IN THE MODULE DOCSTRING:
+    practically every function pointer belonging to this 138MB Shipping
+    image passes it. It stays a real GATE ('accepted' False otherwise,
+    excluded from aggregate_processevent_vtable_candidates()'s own tally)
+    only because an address outside the image cannot be meaningfully
+    expressed as an RVA any static tool could look up at all -- passing it
+    is not itself evidence of anything; the real evidence this capability
+    produces is the cross-object, cross-class DISTRIBUTION computed
+    downstream, never a single object's own pass/fail here.
+    """
+    record = {
+        "object_address_hex": "0x%x" % object_ptr,
+        "object_class_raw_name": None,
+        "vtable_ptr_hex": None, "vtable_ptr_decimal": None,
+        "candidate_va_hex": None, "candidate_va_decimal": None,
+        "candidate_rva_hex": None, "candidate_rva_decimal": None,
+        "candidate_in_module_range": None,
+        "accepted": False,
+        "rejection_kind": None,
+        "rejection_reason": None,
+    }
+
+    class_descriptor = objects_by_address.get(class_ptr)
+    if class_descriptor is not None and class_descriptor["name_ok"]:
+        record["object_class_raw_name"] = class_descriptor["name_text"]
+
+    try:
+        vtable_ptr = _read_u64(api, handle, object_ptr)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "vtable_read_failure"
+        record["rejection_reason"] = (
+            "read failure on an already-located object's own vtable "
+            "pointer at 0x%x: %s" % (object_ptr, error))
+        return record
+    record["vtable_ptr_hex"] = "0x%x" % vtable_ptr
+    record["vtable_ptr_decimal"] = vtable_ptr
+
+    if not _pointer_is_plausible(vtable_ptr):
+        record["rejection_kind"] = "vtable_pointer_implausible"
+        record["rejection_reason"] = (
+            "object 0x%x's own vtable pointer 0x%x is not a plausible "
+            "(non-null, 8-byte-aligned) address" % (object_ptr, vtable_ptr))
+        return record
+
+    if not _vtable_pointer_in_module_range(vtable_ptr, base_address, image_size_bytes):
+        record["rejection_kind"] = "vtable_out_of_module_range"
+        record["rejection_reason"] = (
+            "object 0x%x's own vtable pointer 0x%x is outside the module "
+            "image range [0x%x, 0x%x)" %
+            (object_ptr, vtable_ptr, base_address, base_address + image_size_bytes))
+        return record
+
+    try:
+        candidate_va = _read_u64(api, handle, vtable_ptr + vtable_slot_offset)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "slot_read_failure"
+        record["rejection_reason"] = (
+            "read failure on vtable 0x%x's own slot at +0x%x: %s" %
+            (vtable_ptr, vtable_slot_offset, error))
+        return record
+    record["candidate_va_hex"] = "0x%x" % candidate_va
+    record["candidate_va_decimal"] = candidate_va
+
+    # Deliberately NOT _pointer_is_plausible() here: that check requires
+    # 8-byte alignment, a real contract for HEAP-allocated data (every
+    # UObject/vtable pointer this file elsewhere validates) but NOT for a
+    # CODE address -- x86-64 has no alignment requirement for a CALL/JMP
+    # target, and MSVC does not guarantee every function entry point lands
+    # on an 8-byte boundary (only common/likely for a large, hot function,
+    # never certain). Applying the heap-pointer rule to a candidate function
+    # pointer risks REJECTING the correct ProcessEvent address outright and
+    # manufacturing a false "slot 77 refuted" result from a mismatched
+    # check, not from real evidence -- exactly the class of error this
+    # capability exists to avoid. Only non-null is required here; the module
+    # -range check below is the real (and, as documented above, still weak)
+    # gate.
+    if candidate_va == 0:
+        record["rejection_kind"] = "candidate_pointer_implausible"
+        record["rejection_reason"] = (
+            "candidate function pointer at vtable 0x%x slot +0x%x is null" %
+            (vtable_ptr, vtable_slot_offset))
+        return record
+
+    candidate_rva = candidate_va - base_address
+    record["candidate_rva_decimal"] = candidate_rva
+    record["candidate_rva_hex"] = (
+        "0x%x" % candidate_rva if candidate_rva >= 0 else "-0x%x" % -candidate_rva)
+    in_range = 0 <= candidate_rva < image_size_bytes
+    record["candidate_in_module_range"] = in_range
+    if not in_range:
+        record["rejection_kind"] = "candidate_out_of_module_range"
+        record["rejection_reason"] = (
+            "candidate function pointer 0x%x (rva %s) falls outside the "
+            "module image range [0, 0x%x)" %
+            (candidate_va, record["candidate_rva_hex"], image_size_bytes))
+        return record
+
+    record["accepted"] = True
+    return record
+
+
+def scan_processevent_vtable_candidates(
+        api, handle: int, objects_by_address: dict, *, base_address: int,
+        image_size_bytes: int, vtable_slot: int = DEFAULT_PROCESSEVENT_VTABLE_SLOT,
+        sample_size: int = DEFAULT_PE02_VTABLE_SAMPLE_SIZE) -> dict:
+    """Samples up to *sample_size* VALID ('valid': True) objects from I-04's
+    OWN *objects_by_address* (walk_object_universe()'s own dict, insertion-
+    ordered == I-04's own scan order, matching select_game_sample()'s own
+    "preserves scan order" precedent for reproducible row order), and runs
+    _classify_processevent_vtable_candidate() on each. Never re-walks
+    GUObjectArray -- every address sampled here was already located AND
+    structurally validated by I-04's OWN walk in THIS SAME run.
+
+    If fewer than *sample_size* valid objects exist, uses all of them --
+    NEVER an error (module docstring's "WHAT PE-02 IS" section). If
+    *objects_by_address* holds no valid object at all (should not normally
+    happen given --run-pe02-vtable-scan requires --run-i04, which already
+    requires a successful walk, but handled honestly regardless), returns
+    zero samples, never raises.
+
+    Never raises: every per-object read this makes is routed through
+    _classify_processevent_vtable_candidate(), which never raises (its own
+    docstring) -- a read failure on one sampled object is a counted
+    rejection, and scanning continues to the next sampled object.
+
+    Returns {'vtable_slot', 'vtable_slot_offset_hex', 'sample_size_requested',
+    'valid_objects_available' (total valid objects I-04's walk found, for
+    honesty about how representative this sample is), 'sample_size_used'
+    (how many were actually examined), 'accepted_count', 'rejected_counts'
+    (dict, one entry per _classify_processevent_vtable_candidate()
+    'rejection_kind' value actually observed), 'objects' (the full
+    per-object list, in sampled order)}.
+    """
+    vtable_slot_offset = _vtable_slot_byte_offset(vtable_slot)
+    valid_addresses = [
+        address for address, entry in objects_by_address.items() if entry["valid"]]
+    valid_objects_available = len(valid_addresses)
+    sampled_addresses = (
+        valid_addresses[:sample_size] if sample_size > 0 else [])
+
+    objects: list = []
+    accepted_count = 0
+    rejected_counts: dict = {}
+    for address in sampled_addresses:
+        class_ptr = objects_by_address[address]["class_ptr"]
+        entry = _classify_processevent_vtable_candidate(
+            api, handle, address, class_ptr, objects_by_address,
+            base_address=base_address, image_size_bytes=image_size_bytes,
+            vtable_slot_offset=vtable_slot_offset)
+        objects.append(entry)
+        if entry["accepted"]:
+            accepted_count += 1
+        else:
+            rejected_counts[entry["rejection_kind"]] = (
+                rejected_counts.get(entry["rejection_kind"], 0) + 1)
+
+    return {
+        "vtable_slot": vtable_slot,
+        "vtable_slot_offset_hex": "0x%x" % vtable_slot_offset,
+        "sample_size_requested": sample_size,
+        "valid_objects_available": valid_objects_available,
+        "sample_size_used": len(sampled_addresses),
+        "accepted_count": accepted_count,
+        "rejected_counts": rejected_counts,
+        "objects": objects,
+    }
+
+
+def aggregate_processevent_vtable_candidates(objects: list) -> dict:
+    """Pure aggregation over scan_processevent_vtable_candidates()'s own
+    'objects' list -- no memory read, no API argument, so this is
+    independently unit-testable against a synthetic list. Tallies every
+    ACCEPTED (module docstring's "WHAT PE-02 IS": a rejected candidate
+    contributes no RVA to tally) candidate by its own candidate_rva, and for
+    each DISTINCT rva counts not only how many object INSTANCES observed it
+    but how many DISTINCT object CLASSES observed it -- the stronger of the
+    two signals per the module docstring's own reasoning: ProcessEvent is
+    inherited from UObject, so a class-independent slot value recurring
+    across MANY different classes is exactly what the PE-01 HYPOTHESIS
+    predicts, whereas the same instance count concentrated in ONE class is
+    far weaker evidence. An object whose own owning class could not be
+    resolved (object_class_raw_name is None) still counts toward
+    instance_count, but is tracked separately as
+    unresolved_class_instance_count, never silently folded into
+    distinct_class_count as if it were one more named class.
+
+    Returns {'candidate_tally' (list, MOST-COMMON FIRST -- sorted by
+    instance_count descending, candidate_rva_decimal ascending as a
+    deterministic tiebreak; each entry: 'candidate_rva_hex',
+    'candidate_rva_decimal', 'instance_count', 'distinct_class_count',
+    'class_names' (sorted list of distinct non-None owner names),
+    'unresolved_class_instance_count'), 'top_candidate' (candidate_tally[0],
+    or None when the tally is empty), 'minority_candidates'
+    (candidate_tally[1:] -- every OTHER distinct accepted candidate, each
+    either a genuine per-class ProcessEvent override or evidence the whole
+    slot/method is wrong; this function draws NO conclusion between those
+    two readings, per the module docstring's own explicit instruction)}.
+    """
+    buckets: dict = {}
+    for entry in objects:
+        if not entry["accepted"]:
+            continue
+        rva = entry["candidate_rva_decimal"]
+        bucket = buckets.setdefault(rva, {
+            "candidate_rva_hex": entry["candidate_rva_hex"],
+            "candidate_rva_decimal": rva,
+            "instance_count": 0,
+            "class_names": set(),
+            "unresolved_class_instance_count": 0,
+        })
+        bucket["instance_count"] += 1
+        name = entry["object_class_raw_name"]
+        if name is None:
+            bucket["unresolved_class_instance_count"] += 1
+        else:
+            bucket["class_names"].add(name)
+
+    candidate_tally = []
+    for bucket in buckets.values():
+        class_names_sorted = sorted(bucket["class_names"])
+        candidate_tally.append({
+            "candidate_rva_hex": bucket["candidate_rva_hex"],
+            "candidate_rva_decimal": bucket["candidate_rva_decimal"],
+            "instance_count": bucket["instance_count"],
+            "distinct_class_count": len(class_names_sorted),
+            "class_names": class_names_sorted,
+            "unresolved_class_instance_count": bucket["unresolved_class_instance_count"],
+        })
+    candidate_tally.sort(
+        key=lambda c: (-c["instance_count"], c["candidate_rva_decimal"]))
+
+    return {
+        "candidate_tally": candidate_tally,
+        "top_candidate": candidate_tally[0] if candidate_tally else None,
+        "minority_candidates": candidate_tally[1:],
+    }
+
+
+def run_pe02_vtable_scan(
+        api, handle: int, objects_by_address: dict, *, base_address: int,
+        image_size_bytes: int, vtable_slot: int = DEFAULT_PROCESSEVENT_VTABLE_SLOT,
+        sample_size: int = DEFAULT_PE02_VTABLE_SAMPLE_SIZE) -> dict:
+    """The whole of PE-02: scan_processevent_vtable_candidates() (per-object
+    read + validate, on a bounded sample of I-04's OWN already-walked
+    objects_by_address) -> aggregate_processevent_vtable_candidates() (a
+    pure tally of the accepted candidates). See the module docstring's
+    "WHAT PE-02 IS" section for the full algorithm and its deliberate
+    non-goals (no disassembly, no conclusion, no confidence grading).
+
+    Never raises -- see scan_processevent_vtable_candidates()'s own
+    docstring; this function adds no read of its own.
+    """
+    scan = scan_processevent_vtable_candidates(
+        api, handle, objects_by_address, base_address=base_address,
+        image_size_bytes=image_size_bytes, vtable_slot=vtable_slot,
+        sample_size=sample_size)
+    aggregate = aggregate_processevent_vtable_candidates(scan["objects"])
+    return {
+        "vtable_slot": scan["vtable_slot"],
+        "vtable_slot_offset_hex": scan["vtable_slot_offset_hex"],
+        "sample_size_requested": scan["sample_size_requested"],
+        "valid_objects_available": scan["valid_objects_available"],
+        "sample_size_used": scan["sample_size_used"],
+        "accepted_count": scan["accepted_count"],
+        "rejected_counts": scan["rejected_counts"],
+        "objects": scan["objects"],
+        "candidate_tally": aggregate["candidate_tally"],
+        "top_candidate": aggregate["top_candidate"],
+        "minority_candidates": aggregate["minority_candidates"],
+        "note": (
+            "RAW DATA ONLY, NO CONCLUSION: 'resolves into the module's own "
+            "address range' is a necessary-but-not-sufficient structural "
+            "check that practically every function pointer in this image "
+            "passes; the actual evidence is the cross-class DISTRIBUTION in "
+            "candidate_tally above. This capability does not decide whether "
+            "top_candidate is really UObject::ProcessEvent -- that requires "
+            "separate, human-run static disassembly correlation (pyghidra_"
+            "scripts/dump_function.py) against ScriptCore.cpp:1971's own "
+            "source structure, out of scope for this instrument."),
+    }
+
+
+def build_pe02_document(*, result: dict, build_key: str, recorded_at: str | None,
+                        identity_self_established: bool, build_key_cross_checked: bool,
+                        known_build: bool, build_id: str | None) -> dict:
+    """The PE-02 raw output document -- research/instrument-runs/<run>/
+    pe02-vtable-scan.json, the SAME "raw single-run data document, no
+    evidence envelope" shape build_i01_document()/build_i02_document()/.../
+    build_i04_document() already establish (see build_i01_document()'s own
+    docstring for the is_record()/MARKER_KEYS reasoning this mirrors
+    verbatim -- none of the fields here, including 'capability' below, is a
+    MARKER_KEYS name). Unlike i04-classes.json, this document carries the
+    FULL per-object sample list -- bounded to a few hundred rows by
+    --pe02-vtable-sample-size, small enough to persist completely, unlike
+    I-04's own ~26 000-object census.
+
+    This is explicitly NOT a schema-graded knowledge-base record: no
+    claim/confidence/oracle envelope, and this capability's own 'capability'
+    field is informational text only ("PE-02" is not in
+    instrument-run-manifest.schema.json's closed eri_capability_id enum,
+    and this document is never validated against that schema at all -- see
+    CAPABILITY_ID_PE02's own comment). A human writes the graded verdict to
+    RESEARCH_LOG.md separately, after reviewing this file and running
+    static disassembly correlation on whatever RVA(s) it surfaces.
+    """
+    return {
+        "capability": CAPABILITY_ID_PE02,
+        "evidence_track": "PE-01 (research/evidence/PE-01/README.md)",
+        "vtable_slot": result["vtable_slot"],
+        "vtable_slot_offset_hex": result["vtable_slot_offset_hex"],
+        "sample_size_requested": result["sample_size_requested"],
+        "valid_objects_available": result["valid_objects_available"],
+        "sample_size_used": result["sample_size_used"],
+        "accepted_count": result["accepted_count"],
+        "rejected_counts": result["rejected_counts"],
+        "objects": result["objects"],
+        "candidate_tally": result["candidate_tally"],
+        "top_candidate": result["top_candidate"],
+        "minority_candidates": result["minority_candidates"],
+        "note": result["note"],
+        "build_key": build_key,
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
+        "recorded_at": recorded_at,
+        "generator": GENERATOR_NAME,
+        "generator_version": GENERATOR_VERSION,
+    }
+
+
+# --------------------------------------------------------------------------- #
 # document building -- the I-01 JSON output, and the manifest.json required
 # by research/schema/instrument-run-manifest.schema.json.
 # --------------------------------------------------------------------------- #
@@ -6328,6 +6904,50 @@ def build_arg_parser() -> argparse.ArgumentParser:
              "<build_id>/functions.jsonl -- this tool does not "
              "auto-derive that path from build identity, matching every "
              "other per-capability output path in this file")
+    parser.add_argument(
+        "--run-pe02-vtable-scan", action="store_true",
+        help="also run PE-02: gather LIVE evidence for the PE-01 "
+             "UObject::ProcessEvent vtable-slot HYPOTHESIS (research/"
+             "evidence/PE-01/README.md, slot 77 / byte offset 0x268) by "
+             "reading, for a bounded sample of I-04's OWN already-"
+             "classified valid objects, each object's OWN instance vtable "
+             "pointer and the candidate function pointer stored at "
+             "--processevent-vtable-slot's own slot, then tallying the "
+             "resulting candidate addresses by frequency AND by how many "
+             "DISTINCT object classes observed each one (see eri.py's own "
+             "module docstring, 'WHAT PE-02 IS', for the full algorithm and "
+             "why this is NOT a plan.md 8.2 'I-0N' capability id). Requires "
+             "--run-i04 in THIS SAME run -- never enabled standalone, and "
+             "never re-walks GUObjectArray itself: the sample is drawn from "
+             "I-04's own already-walked, already-validated objects_by_"
+             "address. Writes a raw JSON summary (--pe02-out) only, no "
+             "JSONL, no confidence grading, no conclusion -- this "
+             "capability surfaces data for a human to separately correlate "
+             "against static disassembly (pyghidra_scripts/dump_"
+             "function.py), by hand, outside this tool.")
+    parser.add_argument(
+        "--processevent-vtable-slot", default=None, metavar="N",
+        help="override the 0-indexed C++ vtable slot PE-02 reads as the "
+             "ProcessEvent candidate (default: %d, byte offset 0x%x -- "
+             "PE-01/README.md's own HYPOTHESIS under the UE_WITH_IRIS=1 "
+             "assumption; would be slot 76/0x260 under UE_WITH_IRIS=0, the "
+             "one ambiguity that static count could not resolve). This is "
+             "the SLOT NUMBER, not a byte offset -- see "
+             "DEFAULT_PROCESSEVENT_VTABLE_SLOT's own comment in eri.py. "
+             "Accepts '0x...' or a plain decimal/hex string as Python's "
+             "int(x, 0) understands it." %
+             (DEFAULT_PROCESSEVENT_VTABLE_SLOT,
+              _vtable_slot_byte_offset(DEFAULT_PROCESSEVENT_VTABLE_SLOT)))
+    parser.add_argument(
+        "--pe02-vtable-sample-size", type=int,
+        default=DEFAULT_PE02_VTABLE_SAMPLE_SIZE, metavar="N",
+        help="PE-02: how many of I-04's own valid objects to sample "
+             "(default: %d; if fewer valid objects exist, all of them are "
+             "used, never treated as an error)" % DEFAULT_PE02_VTABLE_SAMPLE_SIZE)
+    parser.add_argument(
+        "--pe02-out", default=None, metavar="PATH",
+        help="PE-02 raw JSON output path; defaults to <run-dir>/"
+             "pe02-vtable-scan.json when --run-dir is given")
     return parser
 
 
@@ -6597,6 +7217,47 @@ def _validate_i05_requirements(args: argparse.Namespace) -> None:
             "and never re-walks GUObjectArray itself.")
 
 
+def _resolve_pe02_output_path(args: argparse.Namespace) -> str | None:
+    """None when --run-pe02-vtable-scan was not given. Otherwise the PE-02
+    raw-JSON output path: --pe02-out if given explicitly, else <run-dir>/
+    pe02-vtable-scan.json via the same --run-dir convenience every other
+    per-capability output path in this file uses. Raises ValueError, before
+    any handle is opened, if --run-pe02-vtable-scan was given with neither
+    --pe02-out nor --run-dir -- identical shape to _resolve_i04_output_path/
+    _resolve_i05_output_path above.
+    """
+    if not args.run_pe02_vtable_scan:
+        return None
+    if args.pe02_out:
+        return args.pe02_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "pe02-vtable-scan.json")
+    raise ValueError(
+        "--run-pe02-vtable-scan requires --pe02-out unless --run-dir is "
+        "given (it supplies the default <run-dir>/pe02-vtable-scan.json)")
+
+
+def _validate_pe02_requirements(args: argparse.Namespace) -> None:
+    """Raises ValueError, before any handle is opened, if
+    --run-pe02-vtable-scan was given without --run-i04 in this SAME
+    invocation -- PE-02 (research/evidence/PE-01/README.md's own evidence
+    track, NOT a plan.md 8.2 'I-0N' capability, see the module docstring's
+    "WHAT PE-02 IS" section) reuses I-04's own already-walked, already-
+    validated objects_by_address dict as its sampling population, and never
+    re-walks GUObjectArray itself -- the identical "fail loudly before doing
+    any work" shape _validate_i06_requirements()/_validate_i05_requirements()
+    above already establish.
+    """
+    if not args.run_pe02_vtable_scan:
+        return
+    if not args.run_i04:
+        raise ValueError(
+            "--run-pe02-vtable-scan requires --run-i04 in this same "
+            "invocation -- PE-02 reuses I-04's own already-walked, "
+            "already-validated objects_by_address dict as its sampling "
+            "population, and never re-walks GUObjectArray itself.")
+
+
 def _parse_int_literal(value: str | None, default: int, flag_name: str) -> int:
     """*default* when *value* is None (the normal case); otherwise
     int(value, 0) so '0x7a78ed0', '0X7A78ED0' and a plain decimal string are
@@ -6656,6 +7317,11 @@ def _parse_ufield_next_offset(value: str | None) -> int:
     return _parse_int_literal(value, DEFAULT_UFIELD_NEXT_OFFSET, "--ufield-next-offset")
 
 
+def _parse_processevent_vtable_slot(value: str | None) -> int:
+    return _parse_int_literal(
+        value, DEFAULT_PROCESSEVENT_VTABLE_SLOT, "--processevent-vtable-slot")
+
+
 def _write_guarded(document: dict, path: str, *, what: str) -> str:
     """dump_json(document) to *path*, refusing any path inside the game
     installation (plan.md decision D-01) and creating the parent directory
@@ -6712,6 +7378,7 @@ def main(argv: list[str] | None = None) -> int:
         properties_jsonl_path = _resolve_properties_jsonl_path(args)  # None unless --run-i06
         i05_out_path = _resolve_i05_output_path(args)  # None unless --run-i05
         functions_jsonl_path = _resolve_functions_jsonl_path(args)  # None unless --run-i05
+        pe02_out_path = _resolve_pe02_output_path(args)  # None unless --run-pe02-vtable-scan
         guobjectarray_rva = _parse_guobjectarray_rva(args.guobjectarray_rva)
         namepool_rva = _parse_namepool_rva(args.namepool_rva)
         name_pool_initialized_rva = _parse_name_pool_initialized_rva(
@@ -6722,6 +7389,8 @@ def main(argv: list[str] | None = None) -> int:
         child_properties_offset = _parse_child_properties_offset(args.child_properties_offset)
         children_offset = _parse_children_offset(args.children_offset)
         ufield_next_offset = _parse_ufield_next_offset(args.ufield_next_offset)
+        processevent_vtable_slot = _parse_processevent_vtable_slot(
+            args.processevent_vtable_slot)
         # --run-i03-reflection needs both --run-i02 and --run-i03 in this
         # same invocation -- checked here, before any handle is opened, same
         # "fail loudly before doing any work" discipline as every other
@@ -6737,6 +7406,11 @@ def main(argv: list[str] | None = None) -> int:
         # see _validate_i05_requirements()'s own docstring) -- identical
         # discipline, checked before any handle is opened.
         _validate_i05_requirements(args)
+        # --run-pe02-vtable-scan needs --run-i04 too (PE-02 is not a
+        # plan.md 8.2 'I-0N' capability -- see the module docstring's "WHAT
+        # PE-02 IS" section) -- identical discipline, checked before any
+        # handle is opened.
+        _validate_pe02_requirements(args)
 
         # Layer 1 first, exactly like the pyghidra_scripts family: a refused
         # output path costs nothing, so it is checked before a single Win32
@@ -6778,6 +7452,10 @@ def main(argv: list[str] | None = None) -> int:
             pathguard.check_output_path(
                 functions_jsonl_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
                 what="--functions-jsonl-out")
+        if pe02_out_path is not None:
+            pathguard.check_output_path(
+                pe02_out_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--pe02-out")
 
         i01_recorded_at = (
             args.recorded_at if args.recorded_at
@@ -6849,6 +7527,7 @@ def main(argv: list[str] | None = None) -> int:
         i04_game_sample = None
         i06_result = None
         i05_result = None
+        pe02_result = None
         if args.run_i03:
             i03_handle = open_process_read_only(api, result["pid"])
             try:
@@ -6931,6 +7610,29 @@ def main(argv: list[str] | None = None) -> int:
                             children_offset=children_offset,
                             child_properties_offset=child_properties_offset,
                             ufield_next_offset=ufield_next_offset)
+                    # PE-02, if requested, ALSO runs in this SAME
+                    # i03_handle's try/finally -- it reuses I-04's OWN
+                    # already-walked, already-validated objects_by_address
+                    # dict from THIS SAME run (i04_result["objects_by_
+                    # address"], run_i04()'s own additive return key) as its
+                    # sampling population, and never re-walks GUObjectArray
+                    # itself. PE-02 is NOT a plan.md 8.2 'I-0N' capability
+                    # (module docstring's "WHAT PE-02 IS" section) -- it is
+                    # the second entry in the PE-01 evidence track
+                    # (research/evidence/PE-01/README.md), gathering LIVE
+                    # evidence for that static HYPOTHESIS. DELIBERATELY
+                    # independent of args.run_i06/args.run_i05 -- PE-02 uses
+                    # nothing either of them computes, only I-04's own
+                    # objects_by_address, so it runs whenever
+                    # args.run_pe02_vtable_scan is set regardless of which
+                    # other --run-i0N flags were ALSO given this same run.
+                    if args.run_pe02_vtable_scan:
+                        pe02_result = run_pe02_vtable_scan(
+                            api, i03_handle, i04_result["objects_by_address"],
+                            base_address=result["base_address"],
+                            image_size_bytes=result["image_size_bytes"],
+                            vtable_slot=processevent_vtable_slot,
+                            sample_size=args.pe02_vtable_sample_size)
             finally:
                 api.close_handle(i03_handle)
 
@@ -7091,6 +7793,26 @@ def main(argv: list[str] | None = None) -> int:
                 functions_jsonl_rows, functions_jsonl_path, what="--functions-jsonl-out")
             artifacts.append(_repo_relative(written_functions_jsonl))
 
+        pe02_document = None
+        written_pe02_out = None
+        if pe02_result is not None:
+            pe02_document = build_pe02_document(
+                result=pe02_result, build_key=identity["build_key"],
+                recorded_at=i01_recorded_at,
+                identity_self_established=identity["identity_self_established"],
+                build_key_cross_checked=identity["build_key_cross_checked"],
+                known_build=identity["known_build"], build_id=identity["build_id"])
+            written_pe02_out = _write_guarded(pe02_document, pe02_out_path, what="--pe02-out")
+            # PE-02 is DELIBERATELY never appended to capabilities_enabled --
+            # it is not a plan.md 8.2 'I-0N' capability id, and
+            # instrument-run-manifest.schema.json's own eri_capability_id
+            # enum is closed to "I-01".."I-16"; appending "PE-02" there
+            # would be a schema violation, not a style nit (see
+            # CAPABILITY_ID_PE02's own comment and the module docstring's
+            # "WHAT PE-02 IS" section). Its own output path is still
+            # recorded, in 'artifacts' below, which is unconstrained.
+            artifacts.append(_repo_relative(written_pe02_out))
+
         manifest = build_manifest(
             run_id=run_id, arguments=list(sys.argv[1:] if argv is None else argv),
             tool_version=GENERATOR_VERSION, build_key=identity["build_key"],
@@ -7147,6 +7869,13 @@ def main(argv: list[str] | None = None) -> int:
                 summary["i05_functions_accepted_total"] = (
                     i05_document["functions_accepted_total"])
                 summary["i05_num_parms_cross_check"] = i05_document["num_parms_cross_check"]
+            if pe02_document is not None:
+                summary["pe02_out"] = written_pe02_out
+                summary["pe02_vtable_slot"] = pe02_document["vtable_slot"]
+                summary["pe02_sample_size_used"] = pe02_document["sample_size_used"]
+                summary["pe02_top_candidate"] = pe02_document["top_candidate"]
+                summary["pe02_minority_candidate_count"] = len(
+                    pe02_document["minority_candidates"])
             print(dump_json(summary))
         else:
             print(
@@ -7231,6 +7960,20 @@ def main(argv: list[str] | None = None) -> int:
                     file=sys.stderr)
                 print("written: %s" % written_i05_out, file=sys.stderr)
                 print("written: %s" % written_functions_jsonl, file=sys.stderr)
+            if pe02_document is not None:
+                top = pe02_document["top_candidate"]
+                print(
+                    "PE-02: vtable_slot=%d sample_size=%d "
+                    "top_candidate_rva=%s "
+                    "distinct_classes_observing_top_candidate=%s "
+                    "minority_candidates=%d" % (
+                        pe02_document["vtable_slot"],
+                        pe02_document["sample_size_used"],
+                        top["candidate_rva_hex"] if top is not None else None,
+                        top["distinct_class_count"] if top is not None else None,
+                        len(pe02_document["minority_candidates"])),
+                    file=sys.stderr)
+                print("written: %s" % written_pe02_out, file=sys.stderr)
             print("written: %s" % written_manifest, file=sys.stderr)
         return 0
     except (EriError, pathguard.OutputPathRefused, ValueError) as error:
