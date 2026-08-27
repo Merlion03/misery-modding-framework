@@ -1,0 +1,4657 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "checks": {
+    "build_cs_file_count_equals_module_count": true,
+    "build_cs_vs_uplugin_name_overlap": 0,
+    "classification_row_count_equals_input_count": true,
+    "collision_count": 0,
+    "collisions": [],
+    "count_sum_equals_total": true,
+    "no_engine_or_plugin_name_is_literally_MISERY": true
+  },
+  "classification": {
+    "case_insensitive_near_misses": [],
+    "counts": {
+      "collision": 0,
+      "engine": 385,
+      "game-misery": 1,
+      "game-plugin": 4,
+      "unclassified": 4
+    },
+    "full_table_out": "research/evidence/RF-02/module-classification.tsv",
+    "rows": [
+      {
+        "bare_name": "ACLPlugin",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/ACLPlugin/ACLPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 18,
+        "matched_name": "ACLPlugin",
+        "package": "/Script/ACLPlugin",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ACLPluginEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/ACLPlugin/ACLPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "ACLPluginEditor",
+        "package": "/Script/ACLPluginEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AIGraph",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AIGraph/AIGraph.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AIGraph",
+        "package": "/Script/AIGraph",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AIModule",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AIModule/AIModule.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 7,
+        "matched_name": "AIModule",
+        "package": "/Script/AIModule",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AITestSuite",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/AITestSuite/AITestSuite.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AITestSuite",
+        "package": "/Script/AITestSuite",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ActionableMessage",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ActionableMessage/ActionableMessage.build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ActionableMessage",
+        "package": "/Script/ActionableMessage",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ActorLayerUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/ActorLayerUtilities/ActorLayerUtilities.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "ActorLayerUtilities",
+        "package": "/Script/ActorLayerUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ActorSequence",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MovieScene/ActorSequence/ActorSequence.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ActorSequence",
+        "package": "/Script/ActorSequence",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AddContentDialog",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AddContentDialog/AddContentDialog.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AddContentDialog",
+        "package": "/Script/AddContentDialog",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AdvancedPreviewScene",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AdvancedPreviewScene/AdvancedPreviewScene.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AdvancedPreviewScene",
+        "package": "/Script/AdvancedPreviewScene",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AdvancedWidgets",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AdvancedWidgets/AdvancedWidgets.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AdvancedWidgets",
+        "package": "/Script/AdvancedWidgets",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AlembicImporter",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Importers/AlembicImporter/AlembicImporter.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "AlembicImporter",
+        "package": "/Script/AlembicImporter",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AlembicLibrary",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Importers/AlembicImporter/AlembicImporter.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 29,
+        "matched_name": "AlembicLibrary",
+        "package": "/Script/AlembicLibrary",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AndroidFileServer",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AndroidFileServer/AndroidFileServer.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "AndroidFileServer",
+        "package": "/Script/AndroidFileServer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AndroidFileServerEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AndroidFileServer/AndroidFileServer.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "AndroidFileServerEditor",
+        "package": "/Script/AndroidFileServerEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AndroidMediaEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/AndroidMedia/AndroidMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "AndroidMediaEditor",
+        "package": "/Script/AndroidMediaEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AndroidMediaFactory",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/AndroidMedia/AndroidMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 31,
+        "matched_name": "AndroidMediaFactory",
+        "package": "/Script/AndroidMediaFactory",
+        "provenance_count": 2
+      },
+      {
+        "bare_name": "AndroidPermission",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AndroidPermission/AndroidPermission.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "AndroidPermission",
+        "package": "/Script/AndroidPermission",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimGraph",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AnimGraph/AnimGraph.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "AnimGraph",
+        "package": "/Script/AnimGraph",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimGraphRuntime",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AnimGraphRuntime/AnimGraphRuntime.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "AnimGraphRuntime",
+        "package": "/Script/AnimGraphRuntime",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationBlueprintLibrary",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AnimationBlueprintLibrary/AnimationBlueprintLibrary.build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AnimationBlueprintLibrary",
+        "package": "/Script/AnimationBlueprintLibrary",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AnimationCore/AnimationCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AnimationCore",
+        "package": "/Script/AnimationCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationData",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/AnimationData/AnimationData.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "AnimationData",
+        "package": "/Script/AnimationData",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationDataController",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/AnimationDataController/AnimationDataController.build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AnimationDataController",
+        "package": "/Script/AnimationDataController",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationEditMode",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AnimationEditMode/AnimationEditMode.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AnimationEditMode",
+        "package": "/Script/AnimationEditMode",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AnimationEditor/AnimationEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AnimationEditor",
+        "package": "/Script/AnimationEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationModifierLibrary",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/AnimationModifierLibrary/AnimationModifierLibrary.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "AnimationModifierLibrary",
+        "package": "/Script/AnimationModifierLibrary",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationModifiers",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AnimationModifiers/AnimationModifiers.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AnimationModifiers",
+        "package": "/Script/AnimationModifiers",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationSharing",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Developer/AnimationSharing/AnimationSharing.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "AnimationSharing",
+        "package": "/Script/AnimationSharing",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AnimationSharingEd",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Developer/AnimationSharing/AnimationSharing.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "AnimationSharingEd",
+        "package": "/Script/AnimationSharingEd",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AppleImageUtils",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AppleImageUtils/AppleImageUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "AppleImageUtils",
+        "package": "/Script/AppleImageUtils",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AppleImageUtilsBlueprintSupport",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AppleImageUtils/AppleImageUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 27,
+        "matched_name": "AppleImageUtilsBlueprintSupport",
+        "package": "/Script/AppleImageUtilsBlueprintSupport",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ArchVisCharacter",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/ArchVisCharacter/ArchVisCharacter.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ArchVisCharacter",
+        "package": "/Script/ArchVisCharacter",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AssetDefinition",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AssetDefinition/AssetDefinition.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "AssetDefinition",
+        "package": "/Script/AssetDefinition",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AssetManagerEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/AssetManagerEditor/AssetManagerEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "AssetManagerEditor",
+        "package": "/Script/AssetManagerEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AssetRegistry",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AssetRegistry/AssetRegistry.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AssetRegistry",
+        "package": "/Script/AssetRegistry",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AssetTags",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AssetTags/AssetTags.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "AssetTags",
+        "package": "/Script/AssetTags",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AssetTools",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/AssetTools/AssetTools.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AssetTools",
+        "package": "/Script/AssetTools",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioAnalyzer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AudioAnalyzer/AudioAnalyzer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AudioAnalyzer",
+        "package": "/Script/AudioAnalyzer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioCapture",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AudioCapture/AudioCapture.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "AudioCapture",
+        "package": "/Script/AudioCapture",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/AudioEditor/AudioEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "AudioEditor",
+        "package": "/Script/AudioEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioExtensions",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AudioExtensions/AudioExtensions.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AudioExtensions",
+        "package": "/Script/AudioExtensions",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioLinkCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AudioLink/AudioLinkCore/AudioLinkCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AudioLinkCore",
+        "package": "/Script/AudioLinkCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioLinkEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AudioLink/AudioLinkEngine/AudioLinkEngine.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AudioLinkEngine",
+        "package": "/Script/AudioLinkEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioMixer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AudioMixer/AudioMixer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AudioMixer",
+        "package": "/Script/AudioMixer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioPlatformConfiguration",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AudioPlatformConfiguration/AudioPlatformConfiguration.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AudioPlatformConfiguration",
+        "package": "/Script/AudioPlatformConfiguration",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioSynesthesia",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AudioSynesthesia/AudioSynesthesia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "AudioSynesthesia",
+        "package": "/Script/AudioSynesthesia",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioSynesthesiaEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AudioSynesthesia/AudioSynesthesia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "AudioSynesthesiaEditor",
+        "package": "/Script/AudioSynesthesiaEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AudioWidgets",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/AudioWidgets/AudioWidgets.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "AudioWidgets",
+        "package": "/Script/AudioWidgets",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AutomationController",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/AutomationController/AutomationController.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AutomationController",
+        "package": "/Script/AutomationController",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AutomationMessages",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AutomationMessages/AutomationMessages.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AutomationMessages",
+        "package": "/Script/AutomationMessages",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AutomationTest",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/AutomationTest/AutomationTest.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "AutomationTest",
+        "package": "/Script/AutomationTest",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AutomationUtils",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/AutomationUtils/AutomationUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 18,
+        "matched_name": "AutomationUtils",
+        "package": "/Script/AutomationUtils",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AutomationUtilsEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/AutomationUtils/AutomationUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 23,
+        "matched_name": "AutomationUtilsEditor",
+        "package": "/Script/AutomationUtilsEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AvfMediaEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/AvfMedia/AvfMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "AvfMediaEditor",
+        "package": "/Script/AvfMediaEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "AvfMediaFactory",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/AvfMedia/AvfMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 31,
+        "matched_name": "AvfMediaFactory",
+        "package": "/Script/AvfMediaFactory",
+        "provenance_count": 2
+      },
+      {
+        "bare_name": "BaseCharacterFXEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/CharacterFXEditor/BaseCharacterFXEditor/BaseCharacterFXEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 18,
+        "matched_name": "BaseCharacterFXEditor",
+        "package": "/Script/BaseCharacterFXEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "BehaviorTreeEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/BehaviorTreeEditor/BehaviorTreeEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "BehaviorTreeEditor",
+        "package": "/Script/BehaviorTreeEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "BlendSpaceMotionAnalysis",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/BlendSpaceMotionAnalysis/BlendSpaceMotionAnalysis.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "BlendSpaceMotionAnalysis",
+        "package": "/Script/BlendSpaceMotionAnalysis",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "BlueprintEditorLibrary",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/BlueprintEditorLibrary/BlueprintEditorLibrary.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "BlueprintEditorLibrary",
+        "package": "/Script/BlueprintEditorLibrary",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "BlueprintGraph",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/BlueprintGraph/BlueprintGraph.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "BlueprintGraph",
+        "package": "/Script/BlueprintGraph",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "BlueprintHeaderView",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/BlueprintHeaderView/BlueprintHeaderView.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "BlueprintHeaderView",
+        "package": "/Script/BlueprintHeaderView",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Blutility",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/Blutility/Blutility.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Blutility",
+        "package": "/Script/Blutility",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Bridge",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Bridge/Bridge.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 23,
+        "matched_name": "Bridge",
+        "package": "/Script/Bridge",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "BuildPatchServices",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Online/BuildPatchServices/BuildPatchServices.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "BuildPatchServices",
+        "package": "/Script/BuildPatchServices",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CableComponent",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/CableComponent/CableComponent.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "CableComponent",
+        "package": "/Script/CableComponent",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CacheTrackRecorder",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 67,
+        "matched_name": "CacheTrackRecorder",
+        "package": "/Script/CacheTrackRecorder",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CascadeToNiagaraConverter",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/CascadeToNiagaraConverter/CascadeToNiagaraConverter.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "CascadeToNiagaraConverter",
+        "package": "/Script/CascadeToNiagaraConverter",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Chaos",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/Chaos/Chaos.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 8,
+        "matched_name": "Chaos",
+        "package": "/Script/Chaos",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosCaching",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/ChaosCaching/ChaosCaching.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ChaosCaching",
+        "package": "/Script/ChaosCaching",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosCachingEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/ChaosCaching/ChaosCaching.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "ChaosCachingEditor",
+        "package": "/Script/ChaosCachingEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosCloth",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/ChaosCloth/ChaosCloth.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 18,
+        "matched_name": "ChaosCloth",
+        "package": "/Script/ChaosCloth",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosNiagara",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/ChaosNiagara/ChaosNiagara.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "ChaosNiagara",
+        "package": "/Script/ChaosNiagara",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosSolverEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/ChaosSolverPlugin/ChaosSolverPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "ChaosSolverEditor",
+        "package": "/Script/ChaosSolverEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosSolverEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/ChaosSolverEngine/ChaosSolverEngine.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ChaosSolverEngine",
+        "package": "/Script/ChaosSolverEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosVD",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/ChaosVD/ChaosVD.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ChaosVD",
+        "package": "/Script/ChaosVD",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ChaosVDRuntime",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/ChaosVisualDebugger/ChaosVDRuntime.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 8,
+        "matched_name": "ChaosVDRuntime",
+        "package": "/Script/ChaosVDRuntime",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CinematicCamera",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/CinematicCamera/CinematicCamera.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "CinematicCamera",
+        "package": "/Script/CinematicCamera",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ClassViewer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ClassViewer/ClassViewer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ClassViewer",
+        "package": "/Script/ClassViewer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ClothingSystemEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ClothingSystemEditor/ClothingSystemEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "ClothingSystemEditor",
+        "package": "/Script/ClothingSystemEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ClothingSystemEditorInterface",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ClothingSystemEditorInterface/ClothingSystemEditorInterface.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "ClothingSystemEditorInterface",
+        "package": "/Script/ClothingSystemEditorInterface",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ClothingSystemRuntimeCommon",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/ClothingSystemRuntimeCommon/ClothingSystemRuntimeCommon.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ClothingSystemRuntimeCommon",
+        "package": "/Script/ClothingSystemRuntimeCommon",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ClothingSystemRuntimeInterface",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/ClothingSystemRuntimeInterface/ClothingSystemRuntimeInterface.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ClothingSystemRuntimeInterface",
+        "package": "/Script/ClothingSystemRuntimeInterface",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ClothingSystemRuntimeNv",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/ClothingSystemRuntimeNv/ClothingSystemRuntimeNv.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ClothingSystemRuntimeNv",
+        "package": "/Script/ClothingSystemRuntimeNv",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CollectionManager",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/CollectionManager/CollectionManager.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "CollectionManager",
+        "package": "/Script/CollectionManager",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ComponentVisualizers",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ComponentVisualizers/ComponentVisualizers.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ComponentVisualizers",
+        "package": "/Script/ComponentVisualizers",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ConfigEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ConfigEditor/ConfigEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ConfigEditor",
+        "package": "/Script/ConfigEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Constraints",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/Animation/Constraints/Constraints.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Constraints",
+        "package": "/Script/Constraints",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ContentBrowser",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ContentBrowser/ContentBrowser.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ContentBrowser",
+        "package": "/Script/ContentBrowser",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ContentBrowserAssetDataSource",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/ContentBrowser/ContentBrowserAssetDataSource/ContentBrowserAssetDataSource.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "ContentBrowserAssetDataSource",
+        "package": "/Script/ContentBrowserAssetDataSource",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ContentBrowserClassDataSource",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/ContentBrowser/ContentBrowserClassDataSource/ContentBrowserClassDataSource.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ContentBrowserClassDataSource",
+        "package": "/Script/ContentBrowserClassDataSource",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ContentBrowserData",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ContentBrowserData/ContentBrowserData.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ContentBrowserData",
+        "package": "/Script/ContentBrowserData",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ContentBrowserFileDataSource",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/ContentBrowser/ContentBrowserFileDataSource/ContentBrowserFileDataSource.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "ContentBrowserFileDataSource",
+        "package": "/Script/ContentBrowserFileDataSource",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ControlRig",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/ControlRig/ControlRig.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 45,
+        "matched_name": "ControlRig",
+        "package": "/Script/ControlRig",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ControlRigDeveloper",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/ControlRig/ControlRig.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 50,
+        "matched_name": "ControlRigDeveloper",
+        "package": "/Script/ControlRigDeveloper",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ControlRigEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/ControlRig/ControlRig.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 55,
+        "matched_name": "ControlRigEditor",
+        "package": "/Script/ControlRigEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ControlRigSpline",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/ControlRigSpline/ControlRigSpline.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "ControlRigSpline",
+        "package": "/Script/ControlRigSpline",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CoreOnline",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/CoreOnline/CoreOnline.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "CoreOnline",
+        "package": "/Script/CoreOnline",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CoreUObject",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/CoreUObject/CoreUObject.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "CoreUObject",
+        "package": "/Script/CoreUObject",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CryptoKeys",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/CryptoKeys/CryptoKeys.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "CryptoKeys",
+        "package": "/Script/CryptoKeys",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CsvMetrics",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/WorldMetrics/WorldMetrics.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 32,
+        "matched_name": "CsvMetrics",
+        "package": "/Script/CsvMetrics",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CurveEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/CurveEditor/CurveEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "CurveEditor",
+        "package": "/Script/CurveEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CurveEditorTools",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/CurveEditorTools/CurveEditorTools.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "CurveEditorTools",
+        "package": "/Script/CurveEditorTools",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "CustomMeshComponent",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/CustomMeshComponent/CustomMeshComponent.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "CustomMeshComponent",
+        "package": "/Script/CustomMeshComponent",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DataLayerEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/DataLayerEditor/DataLayerEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "DataLayerEditor",
+        "package": "/Script/DataLayerEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DataValidation",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/DataValidation/DataValidation.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "DataValidation",
+        "package": "/Script/DataValidation",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DataflowCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/Dataflow/Core/DataflowCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "DataflowCore",
+        "package": "/Script/DataflowCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DataflowEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/Dataflow/Dataflow.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "DataflowEditor",
+        "package": "/Script/DataflowEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DataflowEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/Dataflow/Engine/DataflowEngine.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "DataflowEngine",
+        "package": "/Script/DataflowEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DataflowEnginePlugin",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/Dataflow/Dataflow.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "DataflowEnginePlugin",
+        "package": "/Script/DataflowEnginePlugin",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DataflowNodes",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/Dataflow/Dataflow.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 35,
+        "matched_name": "DataflowNodes",
+        "package": "/Script/DataflowNodes",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DatasmithContent",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Enterprise/DatasmithContent/DatasmithContent.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "DatasmithContent",
+        "package": "/Script/DatasmithContent",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DatasmithContentEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Enterprise/DatasmithContent/DatasmithContent.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "DatasmithContentEditor",
+        "package": "/Script/DatasmithContentEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DetailCustomizations",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/DetailCustomizations/DetailCustomizations.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "DetailCustomizations",
+        "package": "/Script/DetailCustomizations",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DeveloperSettings",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/DeveloperSettings/DeveloperSettings.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "DeveloperSettings",
+        "package": "/Script/DeveloperSettings",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "DeveloperToolSettings",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/DeveloperToolSettings/DeveloperToolSettings.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "DeveloperToolSettings",
+        "package": "/Script/DeveloperToolSettings",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EditorConfig",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/EditorConfig/EditorConfig.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "EditorConfig",
+        "package": "/Script/EditorConfig",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EditorFramework",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/EditorFramework/EditorFramework.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "EditorFramework",
+        "package": "/Script/EditorFramework",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EditorInteractiveToolsFramework",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/Experimental/EditorInteractiveToolsFramework/EditorInteractiveToolsFramework.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "EditorInteractiveToolsFramework",
+        "package": "/Script/EditorInteractiveToolsFramework",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EditorScriptingUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/EditorScriptingUtilities/EditorScriptingUtilities.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "EditorScriptingUtilities",
+        "package": "/Script/EditorScriptingUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EditorSubsystem",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/EditorSubsystem/EditorSubsystem.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "EditorSubsystem",
+        "package": "/Script/EditorSubsystem",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EditorWidgets",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/EditorWidgets/EditorWidgets.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "EditorWidgets",
+        "package": "/Script/EditorWidgets",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Engine",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Engine/Engine.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "Engine",
+        "package": "/Script/Engine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EngineAssetDefinitions",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/EngineAssetDefinitions/EngineAssetDefinitions.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "EngineAssetDefinitions",
+        "package": "/Script/EngineAssetDefinitions",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EngineMessages",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/EngineMessages/EngineMessages.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "EngineMessages",
+        "package": "/Script/EngineMessages",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EngineSettings",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/EngineSettings/EngineSettings.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "EngineSettings",
+        "package": "/Script/EngineSettings",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EnhancedInput",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/EnhancedInput/EnhancedInput.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "EnhancedInput",
+        "package": "/Script/EnhancedInput",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "EnvironmentQueryEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/AI/EnvironmentQueryEditor/EnvironmentQueryEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "EnvironmentQueryEditor",
+        "package": "/Script/EnvironmentQueryEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Fab",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Fab/Fab.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 18,
+        "matched_name": "Fab",
+        "package": "/Script/Fab",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FacialAnimation",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/FacialAnimation/FacialAnimation.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "FacialAnimation",
+        "package": "/Script/FacialAnimation",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FacialAnimationEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/FacialAnimation/FacialAnimation.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "FacialAnimationEditor",
+        "package": "/Script/FacialAnimationEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FieldNotification",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/FieldNotification/FieldNotification.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "FieldNotification",
+        "package": "/Script/FieldNotification",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FieldSystemEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/FieldSystem/Source/FieldSystemEngine/FieldSystemEngine.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "FieldSystemEngine",
+        "package": "/Script/FieldSystemEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Foliage",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Foliage/Foliage.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Foliage",
+        "package": "/Script/Foliage",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FoliageEdit",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/FoliageEdit/FoliageEdit.build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "FoliageEdit",
+        "package": "/Script/FoliageEdit",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FractureEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/ChaosEditor/ChaosEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "FractureEditor",
+        "package": "/Script/FractureEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FractureEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/Fracture/Fracture.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "FractureEngine",
+        "package": "/Script/FractureEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FullBodyIK",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/FullBodyIK/FullBodyIK.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "FullBodyIK",
+        "package": "/Script/FullBodyIK",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "FunctionalTesting",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/FunctionalTesting/FunctionalTesting.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "FunctionalTesting",
+        "package": "/Script/FunctionalTesting",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GLTFExporter",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Enterprise/GLTFExporter/GLTFExporter.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 16,
+        "matched_name": "GLTFExporter",
+        "package": "/Script/GLTFExporter",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameProjectGeneration",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/GameProjectGeneration/GameProjectGeneration.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GameProjectGeneration",
+        "package": "/Script/GameProjectGeneration",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameplayCameras",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Cameras/GameplayCameras/GameplayCameras.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 27,
+        "matched_name": "GameplayCameras",
+        "package": "/Script/GameplayCameras",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameplayCamerasEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Cameras/GameplayCameras/GameplayCameras.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 32,
+        "matched_name": "GameplayCamerasEditor",
+        "package": "/Script/GameplayCamerasEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameplayDebugger",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/GameplayDebugger/GameplayDebugger.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GameplayDebugger",
+        "package": "/Script/GameplayDebugger",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameplayTags",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/GameplayTags/GameplayTags.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GameplayTags",
+        "package": "/Script/GameplayTags",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameplayTagsEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/GameplayTagsEditor/GameplayTagsEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "GameplayTagsEditor",
+        "package": "/Script/GameplayTagsEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameplayTasks",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/GameplayTasks/GameplayTasks.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GameplayTasks",
+        "package": "/Script/GameplayTasks",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GameplayTasksEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/GameplayTasksEditor/GameplayTasksEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GameplayTasksEditor",
+        "package": "/Script/GameplayTasksEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCache",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/GeometryCache/GeometryCache.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 53,
+        "matched_name": "GeometryCache",
+        "package": "/Script/GeometryCache",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCacheEd",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/GeometryCache/GeometryCache.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "GeometryCacheEd",
+        "package": "/Script/GeometryCacheEd",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCacheStreamer",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/GeometryCache/GeometryCache.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 43,
+        "matched_name": "GeometryCacheStreamer",
+        "package": "/Script/GeometryCacheStreamer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCacheTracks",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/GeometryCache/GeometryCache.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 58,
+        "matched_name": "GeometryCacheTracks",
+        "package": "/Script/GeometryCacheTracks",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCollectionEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/GeometryCollectionPlugin/GeometryCollectionPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "GeometryCollectionEditor",
+        "package": "/Script/GeometryCollectionEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCollectionEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/GeometryCollectionEngine/GeometryCollectionEngine.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GeometryCollectionEngine",
+        "package": "/Script/GeometryCollectionEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCollectionNodes",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/GeometryCollectionPlugin/GeometryCollectionPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 34,
+        "matched_name": "GeometryCollectionNodes",
+        "package": "/Script/GeometryCollectionNodes",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryCollectionTracks",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/GeometryCollectionPlugin/GeometryCollectionPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "GeometryCollectionTracks",
+        "package": "/Script/GeometryCollectionTracks",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryFramework",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/GeometryFramework/GeometryFramework.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GeometryFramework",
+        "package": "/Script/GeometryFramework",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GeometryMode",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/GeometryMode/GeometryMode.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "GeometryMode",
+        "package": "/Script/GeometryMode",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GooglePAD",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/GooglePAD/GooglePAD.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "GooglePAD",
+        "package": "/Script/GooglePAD",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GooglePADEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/GooglePAD/GooglePAD.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "GooglePADEditor",
+        "package": "/Script/GooglePADEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "GraphEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/GraphEditor/GraphEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "GraphEditor",
+        "package": "/Script/GraphEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "HardwareTargeting",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/HardwareTargeting/HardwareTargeting.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "HardwareTargeting",
+        "package": "/Script/HardwareTargeting",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "HeadMountedDisplay",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/HeadMountedDisplay/HeadMountedDisplay.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "HeadMountedDisplay",
+        "package": "/Script/HeadMountedDisplay",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "IKRig",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/IKRig/IKRig.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "IKRig",
+        "package": "/Script/IKRig",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "IKRigDeveloper",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/IKRig/IKRig.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 35,
+        "matched_name": "IKRigDeveloper",
+        "package": "/Script/IKRigDeveloper",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "IKRigEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Animation/IKRig/IKRig.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 40,
+        "matched_name": "IKRigEditor",
+        "package": "/Script/IKRigEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ImageCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/ImageCore/ImageCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ImageCore",
+        "package": "/Script/ImageCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ImageWriteQueue",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/ImageWriteQueue/ImageWriteQueue.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ImageWriteQueue",
+        "package": "/Script/ImageWriteQueue",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ImgMedia",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/ImgMedia/ImgMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ImgMedia",
+        "package": "/Script/ImgMedia",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ImgMediaEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/ImgMedia/ImgMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "ImgMediaEditor",
+        "package": "/Script/ImgMediaEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ImgMediaFactory",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/ImgMedia/ImgMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 35,
+        "matched_name": "ImgMediaFactory",
+        "package": "/Script/ImgMediaFactory",
+        "provenance_count": 2
+      },
+      {
+        "bare_name": "InputBlueprintNodes",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/EnhancedInput/EnhancedInput.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "InputBlueprintNodes",
+        "package": "/Script/InputBlueprintNodes",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InputCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/InputCore/InputCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "InputCore",
+        "package": "/Script/InputCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InputEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/EnhancedInput/EnhancedInput.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 29,
+        "matched_name": "InputEditor",
+        "package": "/Script/InputEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InteractiveToolsFramework",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/InteractiveToolsFramework/InteractiveToolsFramework.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "InteractiveToolsFramework",
+        "package": "/Script/InteractiveToolsFramework",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeCommon",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 65,
+        "matched_name": "InterchangeCommon",
+        "package": "/Script/InterchangeCommon",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeCommonParser",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 70,
+        "matched_name": "InterchangeCommonParser",
+        "package": "/Script/InterchangeCommonParser",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Interchange/Core/InterchangeCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "InterchangeCore",
+        "package": "/Script/InterchangeCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Editor/InterchangeEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "InterchangeEditor",
+        "package": "/Script/InterchangeEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeEditorPipelines",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Editor/InterchangeEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 33,
+        "matched_name": "InterchangeEditorPipelines",
+        "package": "/Script/InterchangeEditorPipelines",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeEditorUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Editor/InterchangeEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 42,
+        "matched_name": "InterchangeEditorUtilities",
+        "package": "/Script/InterchangeEditorUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Interchange/Engine/InterchangeEngine.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "InterchangeEngine",
+        "package": "/Script/InterchangeEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeExport",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 50,
+        "matched_name": "InterchangeExport",
+        "package": "/Script/InterchangeExport",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeFactoryNodes",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 35,
+        "matched_name": "InterchangeFactoryNodes",
+        "package": "/Script/InterchangeFactoryNodes",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeImport",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 40,
+        "matched_name": "InterchangeImport",
+        "package": "/Script/InterchangeImport",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeMessages",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 45,
+        "matched_name": "InterchangeMessages",
+        "package": "/Script/InterchangeMessages",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeNodes",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "InterchangeNodes",
+        "package": "/Script/InterchangeNodes",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangePipelines",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 55,
+        "matched_name": "InterchangePipelines",
+        "package": "/Script/InterchangePipelines",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeTestEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Tests/InterchangeTests/InterchangeTests.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "InterchangeTestEditor",
+        "package": "/Script/InterchangeTestEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InterchangeTests",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Tests/InterchangeTests/InterchangeTests.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "InterchangeTests",
+        "package": "/Script/InterchangeTests",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "InternationalizationSettings",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/InternationalizationSettings/InternationalizationSettings.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "InternationalizationSettings",
+        "package": "/Script/InternationalizationSettings",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "IrisCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Experimental/Iris/Core/IrisCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "IrisCore",
+        "package": "/Script/IrisCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "JsonUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/JsonUtilities/JsonUtilities.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "JsonUtilities",
+        "package": "/Script/JsonUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Kismet",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/Kismet/Kismet.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Kismet",
+        "package": "/Script/Kismet",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "KismetWidgets",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/KismetWidgets/KismetWidgets.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "KismetWidgets",
+        "package": "/Script/KismetWidgets",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Landscape",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Landscape/Landscape.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "Landscape",
+        "package": "/Script/Landscape",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LandscapeEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/LandscapeEditor/LandscapeEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "LandscapeEditor",
+        "package": "/Script/LandscapeEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LandscapeEditorUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/LandscapeEditorUtilities/LandscapeEditorUtilities.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "LandscapeEditorUtilities",
+        "package": "/Script/LandscapeEditorUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LevelEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/LevelEditor/LevelEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "LevelEditor",
+        "package": "/Script/LevelEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LevelInstanceEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/LevelInstanceEditor/LevelInstanceEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "LevelInstanceEditor",
+        "package": "/Script/LevelInstanceEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LevelSequence",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/LevelSequence/LevelSequence.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "LevelSequence",
+        "package": "/Script/LevelSequence",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LevelSequenceEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MovieScene/LevelSequenceEditor/LevelSequenceEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "LevelSequenceEditor",
+        "package": "/Script/LevelSequenceEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LightMixer",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/ObjectMixer/LightMixer/LightMixer.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "LightMixer",
+        "package": "/Script/LightMixer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LinuxTargetPlatform",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/Linux/LinuxTargetPlatform/LinuxTargetPlatform.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "LinuxTargetPlatform",
+        "package": "/Script/LinuxTargetPlatform",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LiveCoding",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/Windows/LiveCoding/LiveCoding.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "LiveCoding",
+        "package": "/Script/LiveCoding",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LiveLinkInterface",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/LiveLinkInterface/LiveLinkInterface.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "LiveLinkInterface",
+        "package": "/Script/LiveLinkInterface",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LocalizableMessage",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/LocalizableMessage/LocalizableMessage.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "LocalizableMessage",
+        "package": "/Script/LocalizableMessage",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LocalizableMessageBlueprint",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/LocalizableMessage/LocalizableMessage.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "LocalizableMessageBlueprint",
+        "package": "/Script/LocalizableMessageBlueprint",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Localization",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/Localization/Localization.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Localization",
+        "package": "/Script/Localization",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "LocationServicesBPLibrary",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/LocationServicesBPLibrary/LocationServicesBPLibrary.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 16,
+        "matched_name": "LocationServicesBPLibrary",
+        "package": "/Script/LocationServicesBPLibrary",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MISERY",
+        "category": "game-misery",
+        "evidence_file": "research/evidence/RF-01/global-ucas.json",
+        "evidence_kind": "RF-01 game_module (already established)",
+        "evidence_line": null,
+        "matched_name": "MISERY",
+        "package": "/Script/MISERY"
+      },
+      {
+        "bare_name": "MRMesh",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MRMesh/MRMesh.build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 7,
+        "matched_name": "MRMesh",
+        "package": "/Script/MRMesh",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MacTargetPlatform",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/Mac/MacTargetPlatform/MacTargetPlatform.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MacTargetPlatform",
+        "package": "/Script/MacTargetPlatform",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MaterialBaking",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/MaterialBaking/MaterialBaking.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MaterialBaking",
+        "package": "/Script/MaterialBaking",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MaterialEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/MaterialEditor/MaterialEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MaterialEditor",
+        "package": "/Script/MaterialEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MaterialShaderQualitySettings",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MaterialShaderQualitySettings/MaterialShaderQualitySettings.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MaterialShaderQualitySettings",
+        "package": "/Script/MaterialShaderQualitySettings",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MaterialUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/MaterialUtilities/MaterialUtilities.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "MaterialUtilities",
+        "package": "/Script/MaterialUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MediaAssets",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MediaAssets/MediaAssets.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MediaAssets",
+        "package": "/Script/MediaAssets",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MediaCompositing",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/MediaCompositing/MediaCompositing.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "MediaCompositing",
+        "package": "/Script/MediaCompositing",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MediaCompositingEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/MediaCompositing/MediaCompositing.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "MediaCompositingEditor",
+        "package": "/Script/MediaCompositingEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MediaPlate",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/MediaPlate/MediaPlate.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "MediaPlate",
+        "package": "/Script/MediaPlate",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MediaPlateEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/MediaPlate/MediaPlate.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "MediaPlateEditor",
+        "package": "/Script/MediaPlateEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MediaPlayerEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/MediaPlayerEditor/MediaPlayerEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "MediaPlayerEditor",
+        "package": "/Script/MediaPlayerEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MediaUtils",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MediaUtils/MediaUtils.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MediaUtils",
+        "package": "/Script/MediaUtils",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MegascansPlugin",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Bridge/Bridge.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 33,
+        "matched_name": "MegascansPlugin",
+        "package": "/Script/MegascansPlugin",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshDescription",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MeshDescription/MeshDescription.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MeshDescription",
+        "package": "/Script/MeshDescription",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshLODToolset",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/MeshLODToolset/MeshLODToolset.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "MeshLODToolset",
+        "package": "/Script/MeshLODToolset",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshModelingTools",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "MeshModelingTools",
+        "package": "/Script/MeshModelingTools",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshModelingToolsEditorOnly",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "MeshModelingToolsEditorOnly",
+        "package": "/Script/MeshModelingToolsEditorOnly",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshModelingToolsEditorOnlyExp",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/MeshModelingToolsetExp/MeshModelingToolsetExp.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "MeshModelingToolsEditorOnlyExp",
+        "package": "/Script/MeshModelingToolsEditorOnlyExp",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshModelingToolsExp",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/MeshModelingToolsetExp/MeshModelingToolsetExp.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "MeshModelingToolsExp",
+        "package": "/Script/MeshModelingToolsExp",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshPaint",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/MeshPaint/MeshPaint.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MeshPaint",
+        "package": "/Script/MeshPaint",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshPaintEditorMode",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MeshPainting/MeshPainting.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "MeshPaintEditorMode",
+        "package": "/Script/MeshPaintEditorMode",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MeshPaintingToolset",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MeshPainting/MeshPainting.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "MeshPaintingToolset",
+        "package": "/Script/MeshPaintingToolset",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MetaHumanProjectUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/MetaHuman/MetaHumanProjectUtilities/MetaHumanProjectUtilities.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 17,
+        "matched_name": "MetaHumanProjectUtilities",
+        "package": "/Script/MetaHumanProjectUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MetasoundEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/Metasound/Metasound.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 49,
+        "matched_name": "MetasoundEditor",
+        "package": "/Script/MetasoundEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MetasoundEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/Metasound/Metasound.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 39,
+        "matched_name": "MetasoundEngine",
+        "package": "/Script/MetasoundEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MetasoundFrontend",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/Metasound/Metasound.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 29,
+        "matched_name": "MetasoundFrontend",
+        "package": "/Script/MetasoundFrontend",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MobilePatchingUtils",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/MobilePatchingUtils/MobilePatchingUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "MobilePatchingUtils",
+        "package": "/Script/MobilePatchingUtils",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ModelingComponents",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 29,
+        "matched_name": "ModelingComponents",
+        "package": "/Script/ModelingComponents",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ModelingComponentsEditorOnly",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 34,
+        "matched_name": "ModelingComponentsEditorOnly",
+        "package": "/Script/ModelingComponentsEditorOnly",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ModelingOperators",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 39,
+        "matched_name": "ModelingOperators",
+        "package": "/Script/ModelingOperators",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ModelingOperatorsEditorOnly",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 44,
+        "matched_name": "ModelingOperatorsEditorOnly",
+        "package": "/Script/ModelingOperatorsEditorOnly",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ModelingToolsEditorMode",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/ModelingToolsEditorMode/ModelingToolsEditorMode.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 18,
+        "matched_name": "ModelingToolsEditorMode",
+        "package": "/Script/ModelingToolsEditorMode",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MoviePlayer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MoviePlayer/MoviePlayer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MoviePlayer",
+        "package": "/Script/MoviePlayer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MovieScene",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MovieScene/MovieScene.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MovieScene",
+        "package": "/Script/MovieScene",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MovieSceneCapture",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MovieSceneCapture/MovieSceneCapture.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MovieSceneCapture",
+        "package": "/Script/MovieSceneCapture",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MovieSceneTools",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/MovieSceneTools/MovieSceneTools.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MovieSceneTools",
+        "package": "/Script/MovieSceneTools",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "MovieSceneTracks",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/MovieSceneTracks/MovieSceneTracks.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "MovieSceneTracks",
+        "package": "/Script/MovieSceneTracks",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NavigationSystem",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/NavigationSystem/NavigationSystem.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 7,
+        "matched_name": "NavigationSystem",
+        "package": "/Script/NavigationSystem",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NetCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Net/Core/NetCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "NetCore",
+        "package": "/Script/NetCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Niagara",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/Niagara/Niagara.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 31,
+        "matched_name": "Niagara",
+        "package": "/Script/Niagara",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NiagaraAnimNotifies",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/Niagara/Niagara.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 36,
+        "matched_name": "NiagaraAnimNotifies",
+        "package": "/Script/NiagaraAnimNotifies",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NiagaraBlueprintNodes",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/Niagara/Niagara.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 51,
+        "matched_name": "NiagaraBlueprintNodes",
+        "package": "/Script/NiagaraBlueprintNodes",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NiagaraCore",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/Niagara/Niagara.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "NiagaraCore",
+        "package": "/Script/NiagaraCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NiagaraEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/Niagara/Niagara.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 56,
+        "matched_name": "NiagaraEditor",
+        "package": "/Script/NiagaraEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NiagaraShader",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/Niagara/Niagara.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 41,
+        "matched_name": "NiagaraShader",
+        "package": "/Script/NiagaraShader",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NiagaraSimCaching",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/NiagaraSimCaching/NiagaraSimCaching.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "NiagaraSimCaching",
+        "package": "/Script/NiagaraSimCaching",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "NiagaraSimCachingEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/FX/NiagaraSimCaching/NiagaraSimCaching.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "NiagaraSimCachingEditor",
+        "package": "/Script/NiagaraSimCachingEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ObjectMixerEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/ObjectMixer/ObjectMixer/ObjectMixer.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ObjectMixerEditor",
+        "package": "/Script/ObjectMixerEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "OnlineBlueprintSupport",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Online/OnlineSubsystemUtils/OnlineSubsystemUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "OnlineBlueprintSupport",
+        "package": "/Script/OnlineBlueprintSupport",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "OnlineSubsystem",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Online/OnlineSubsystem/OnlineSubsystem.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 15,
+        "matched_name": "OnlineSubsystem",
+        "package": "/Script/OnlineSubsystem",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "OnlineSubsystemSteamCore",
+        "category": "unclassified",
+        "evidence_file": null,
+        "evidence_kind": null,
+        "evidence_line": null,
+        "matched_name": null,
+        "package": "/Script/OnlineSubsystemSteamCore"
+      },
+      {
+        "bare_name": "OnlineSubsystemUtils",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Online/OnlineSubsystemUtils/OnlineSubsystemUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 15,
+        "matched_name": "OnlineSubsystemUtils",
+        "package": "/Script/OnlineSubsystemUtils",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "OodleNetworkHandlerComponent",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Compression/OodleNetwork/OodleNetwork.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 18,
+        "matched_name": "OodleNetworkHandlerComponent",
+        "package": "/Script/OodleNetworkHandlerComponent",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "OptimizationTools",
+        "category": "game-plugin",
+        "evidence_file": "MISERY/Plugins/Optimiza421ff074d458V5/OptimizationTools.uplugin",
+        "evidence_kind": "staged-uplugin-filename",
+        "evidence_line": 124,
+        "matched_name": "OptimizationTools",
+        "package": "/Script/OptimizationTools"
+      },
+      {
+        "bare_name": "OptimizationToolsEditor",
+        "category": "unclassified",
+        "evidence_file": null,
+        "evidence_kind": null,
+        "evidence_line": null,
+        "matched_name": null,
+        "package": "/Script/OptimizationToolsEditor"
+      },
+      {
+        "bare_name": "OutputLog",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/OutputLog/OutputLog.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "OutputLog",
+        "package": "/Script/OutputLog",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Overlay",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Overlay/Overlay.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Overlay",
+        "package": "/Script/Overlay",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "OverlayEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/OverlayEditor/OverlayEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "OverlayEditor",
+        "package": "/Script/OverlayEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PBIK",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/FullBodyIK/FullBodyIK.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "PBIK",
+        "package": "/Script/PBIK",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PIEPreviewDeviceProfileSelector",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/PIEPreviewDeviceProfileSelector/PIEPreviewDeviceProfileSelector.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "PIEPreviewDeviceProfileSelector",
+        "package": "/Script/PIEPreviewDeviceProfileSelector",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PIEPreviewDeviceSpecification",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/PIEPreviewDeviceSpecification/PIEPreviewDeviceSpecification.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "PIEPreviewDeviceSpecification",
+        "package": "/Script/PIEPreviewDeviceSpecification",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PacketHandler",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/PacketHandlers/PacketHandler/PacketHandler.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "PacketHandler",
+        "package": "/Script/PacketHandler",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Paper2D",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/2D/Paper2D/Paper2D.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "Paper2D",
+        "package": "/Script/Paper2D",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Paper2DEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/2D/Paper2D/Paper2D.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "Paper2DEditor",
+        "package": "/Script/Paper2DEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PaperSpriteSheetImporter",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/2D/Paper2D/Paper2D.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "PaperSpriteSheetImporter",
+        "package": "/Script/PaperSpriteSheetImporter",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PaperTiledImporter",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/2D/Paper2D/Paper2D.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 35,
+        "matched_name": "PaperTiledImporter",
+        "package": "/Script/PaperTiledImporter",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Persona",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/Persona/Persona.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Persona",
+        "package": "/Script/Persona",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PhysicsCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/PhysicsCore/PhysicsCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "PhysicsCore",
+        "package": "/Script/PhysicsCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PhysicsUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/PhysicsUtilities/PhysicsUtilities.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "PhysicsUtilities",
+        "package": "/Script/PhysicsUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PinnedCommandList",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/PinnedCommandList/PinnedCommandList.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "PinnedCommandList",
+        "package": "/Script/PinnedCommandList",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PixelInspectorModule",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/PixelInspector/PixelInspectorModule.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "PixelInspectorModule",
+        "package": "/Script/PixelInspectorModule",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PlasticSourceControl",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Developer/PlasticSourceControl/PlasticSourceControl.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "PlasticSourceControl",
+        "package": "/Script/PlasticSourceControl",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PluginBrowser",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/PluginBrowser/PluginBrowser.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "PluginBrowser",
+        "package": "/Script/PluginBrowser",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ProceduralMeshComponent",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/ProceduralMeshComponent/ProceduralMeshComponent.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "ProceduralMeshComponent",
+        "package": "/Script/ProceduralMeshComponent",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PropertyAccessNode",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Developer/PropertyAccessNode/PropertyAccessNode.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "PropertyAccessNode",
+        "package": "/Script/PropertyAccessNode",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PropertyEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/PropertyEditor/PropertyEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "PropertyEditor",
+        "package": "/Script/PropertyEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PropertyPath",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/PropertyPath/PropertyPath.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "PropertyPath",
+        "package": "/Script/PropertyPath",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "PythonScriptPlugin",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/PythonScriptPlugin/PythonScriptPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "PythonScriptPlugin",
+        "package": "/Script/PythonScriptPlugin",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "RenderDocPlugin",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Developer/RenderDocPlugin/RenderDocPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 15,
+        "matched_name": "RenderDocPlugin",
+        "package": "/Script/RenderDocPlugin",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Renderer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Renderer/Renderer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Renderer",
+        "package": "/Script/Renderer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ResonanceAudio",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/ResonanceAudio/ResonanceAudio.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "ResonanceAudio",
+        "package": "/Script/ResonanceAudio",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ResonanceAudioEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/ResonanceAudio/ResonanceAudio.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 31,
+        "matched_name": "ResonanceAudioEditor",
+        "package": "/Script/ResonanceAudioEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "RigVM",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/RigVM/RigVM.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "RigVM",
+        "package": "/Script/RigVM",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "RigVMDeveloper",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/RigVM/RigVM.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "RigVMDeveloper",
+        "package": "/Script/RigVMDeveloper",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "RigVMEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/RigVM/RigVM.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "RigVMEditor",
+        "package": "/Script/RigVMEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SIZZ_Menu_Wheel",
+        "category": "game-plugin",
+        "evidence_file": "MISERY/Plugins/MenuWheel_5.4/SIZZ_Menu_Wheel.uplugin",
+        "evidence_kind": "staged-uplugin-filename",
+        "evidence_line": 123,
+        "matched_name": "SIZZ_Menu_Wheel",
+        "package": "/Script/SIZZ_Menu_Wheel"
+      },
+      {
+        "bare_name": "SceneOutliner",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SceneOutliner/SceneOutliner.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SceneOutliner",
+        "package": "/Script/SceneOutliner",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ScriptableEditorWidgets",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ScriptableEditorWidgets/ScriptableEditorWidgets.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ScriptableEditorWidgets",
+        "package": "/Script/ScriptableEditorWidgets",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SequenceRecorder",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SequenceRecorder/SequenceRecorder.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SequenceRecorder",
+        "package": "/Script/SequenceRecorder",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Sequencer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/Sequencer/Sequencer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Sequencer",
+        "package": "/Script/Sequencer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SequencerAnimTools",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/SequencerAnimTools/SequencerAnimTools.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 34,
+        "matched_name": "SequencerAnimTools",
+        "package": "/Script/SequencerAnimTools",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SequencerCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SequencerCore/SequencerCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SequencerCore",
+        "package": "/Script/SequencerCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SequencerScripting",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MovieScene/SequencerScripting/SequencerScripting.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "SequencerScripting",
+        "package": "/Script/SequencerScripting",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SequencerScriptingEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MovieScene/SequencerScripting/SequencerScripting.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 31,
+        "matched_name": "SequencerScriptingEditor",
+        "package": "/Script/SequencerScriptingEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Serialization",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Serialization/Serialization.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Serialization",
+        "package": "/Script/Serialization",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SessionMessages",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/SessionMessages/SessionMessages.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SessionMessages",
+        "package": "/Script/SessionMessages",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SignificanceManager",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/SignificanceManager/SignificanceManager.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "SignificanceManager",
+        "package": "/Script/SignificanceManager",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SkeletalMeshDescription",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/SkeletalMeshDescription/SkeletalMeshDescription.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SkeletalMeshDescription",
+        "package": "/Script/SkeletalMeshDescription",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SkeletalMeshEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SkeletalMeshEditor/SkeletalMeshEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SkeletalMeshEditor",
+        "package": "/Script/SkeletalMeshEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SkeletalMeshModelingTools",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/Animation/SkeletalMeshModelingTools/SkeletalMeshModelingTools.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "SkeletalMeshModelingTools",
+        "package": "/Script/SkeletalMeshModelingTools",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SkeletalMeshModifiers",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/MeshModelingToolsetExp/MeshModelingToolsetExp.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 40,
+        "matched_name": "SkeletalMeshModifiers",
+        "package": "/Script/SkeletalMeshModifiers",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Slate",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/Slate/Slate.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "Slate",
+        "package": "/Script/Slate",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SlateCore",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/SlateCore/SlateCore.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SlateCore",
+        "package": "/Script/SlateCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SlateRHIRenderer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/SlateRHIRenderer/SlateRHIRenderer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SlateRHIRenderer",
+        "package": "/Script/SlateRHIRenderer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SlateReflector",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/SlateReflector/SlateReflector.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SlateReflector",
+        "package": "/Script/SlateReflector",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SoundFields",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/SoundFields/SoundFields.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "SoundFields",
+        "package": "/Script/SoundFields",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SourceCodeAccess",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/SourceCodeAccess/SourceCodeAccess.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SourceCodeAccess",
+        "package": "/Script/SourceCodeAccess",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SourceControl",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/SourceControl/SourceControl.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SourceControl",
+        "package": "/Script/SourceControl",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SourceControlWindows",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SourceControlWindows/SourceControlWindows.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SourceControlWindows",
+        "package": "/Script/SourceControlWindows",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SparseVolumeTexture",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SparseVolumeTexture/SparseVolumeTexture.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "SparseVolumeTexture",
+        "package": "/Script/SparseVolumeTexture",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SpeedTreeImporter",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/SpeedTreeImporter/SpeedTreeImporter.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "SpeedTreeImporter",
+        "package": "/Script/SpeedTreeImporter",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StaticMeshDescription",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/StaticMeshDescription/StaticMeshDescription.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "StaticMeshDescription",
+        "package": "/Script/StaticMeshDescription",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StaticMeshEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/StaticMeshEditor/StaticMeshEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "StaticMeshEditor",
+        "package": "/Script/StaticMeshEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StatsViewer",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/StatsViewer/StatsViewer.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "StatsViewer",
+        "package": "/Script/StatsViewer",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StatusBar",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/StatusBar/StatusBar.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "StatusBar",
+        "package": "/Script/StatusBar",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SteamCorePro",
+        "category": "game-plugin",
+        "evidence_file": "MISERY/Plugins/SteamCorePro/SteamCorePro.uplugin",
+        "evidence_kind": "staged-uplugin-filename",
+        "evidence_line": 125,
+        "matched_name": "SteamCorePro",
+        "package": "/Script/SteamCorePro"
+      },
+      {
+        "bare_name": "SteamCoreShared",
+        "category": "unclassified",
+        "evidence_file": null,
+        "evidence_kind": null,
+        "evidence_line": null,
+        "matched_name": null,
+        "package": "/Script/SteamCoreShared"
+      },
+      {
+        "bare_name": "SteamCoreSockets",
+        "category": "unclassified",
+        "evidence_file": null,
+        "evidence_kind": null,
+        "evidence_line": null,
+        "matched_name": null,
+        "package": "/Script/SteamCoreSockets"
+      },
+      {
+        "bare_name": "StringTableEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/StringTableEditor/StringTableEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "StringTableEditor",
+        "package": "/Script/StringTableEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StructUtils",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/StructUtils/StructUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "StructUtils",
+        "package": "/Script/StructUtils",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StructUtilsEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/StructUtils/StructUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 31,
+        "matched_name": "StructUtilsEditor",
+        "package": "/Script/StructUtilsEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StructUtilsEngine",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/StructUtils/StructUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 27,
+        "matched_name": "StructUtilsEngine",
+        "package": "/Script/StructUtilsEngine",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StructUtilsNodes",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/StructUtils/StructUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 35,
+        "matched_name": "StructUtilsNodes",
+        "package": "/Script/StructUtilsNodes",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "StructUtilsTestSuite",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/StructUtils/StructUtils.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 39,
+        "matched_name": "StructUtilsTestSuite",
+        "package": "/Script/StructUtilsTestSuite",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SubobjectDataInterface",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SubobjectDataInterface/SubobjectDataInterface.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "SubobjectDataInterface",
+        "package": "/Script/SubobjectDataInterface",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SubobjectEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SubobjectEditor/SubobjectEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "SubobjectEditor",
+        "package": "/Script/SubobjectEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SwarmInterface",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/SwarmInterface/SwarmInterface.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "SwarmInterface",
+        "package": "/Script/SwarmInterface",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Synthesis",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/Synthesis/Synthesis.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "Synthesis",
+        "package": "/Script/Synthesis",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "SynthesisEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/Synthesis/Synthesis.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "SynthesisEditor",
+        "package": "/Script/SynthesisEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TakeMovieScene",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 55,
+        "matched_name": "TakeMovieScene",
+        "package": "/Script/TakeMovieScene",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TakeRecorder",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 49,
+        "matched_name": "TakeRecorder",
+        "package": "/Script/TakeRecorder",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TakeRecorderSources",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 43,
+        "matched_name": "TakeRecorderSources",
+        "package": "/Script/TakeRecorderSources",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TakeTrackRecorders",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 37,
+        "matched_name": "TakeTrackRecorders",
+        "package": "/Script/TakeTrackRecorders",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TakesCore",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 31,
+        "matched_name": "TakesCore",
+        "package": "/Script/TakesCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TcpMessaging",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Messaging/TcpMessaging/TcpMessaging.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "TcpMessaging",
+        "package": "/Script/TcpMessaging",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TemplateSequence",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MovieScene/TemplateSequence/TemplateSequence.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 27,
+        "matched_name": "TemplateSequence",
+        "package": "/Script/TemplateSequence",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TemplateSequenceEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/MovieScene/TemplateSequence/TemplateSequence.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 32,
+        "matched_name": "TemplateSequenceEditor",
+        "package": "/Script/TemplateSequenceEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TextureUtilitiesCommon",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/TextureUtilitiesCommon/TextureUtilitiesCommon.build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "TextureUtilitiesCommon",
+        "package": "/Script/TextureUtilitiesCommon",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TimeManagement",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/TimeManagement/TimeManagement.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "TimeManagement",
+        "package": "/Script/TimeManagement",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ToolMenus",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/ToolMenus/ToolMenus.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ToolMenus",
+        "package": "/Script/ToolMenus",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ToolPresetAsset",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/ToolPresets/ToolPresets.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "ToolPresetAsset",
+        "package": "/Script/ToolPresetAsset",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ToolPresetEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Experimental/ToolPresets/ToolPresets.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "ToolPresetEditor",
+        "package": "/Script/ToolPresetEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ToolWidgets",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/ToolWidgets/ToolWidgets.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "ToolWidgets",
+        "package": "/Script/ToolWidgets",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TraceDataFiltering",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Developer/TraceDataFiltering/TraceDataFilters.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "TraceDataFiltering",
+        "package": "/Script/TraceDataFiltering",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TraceUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/TraceUtilities/TraceUtilities.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "TraceUtilities",
+        "package": "/Script/TraceUtilities",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TranslationEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/TranslationEditor/TranslationEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "TranslationEditor",
+        "package": "/Script/TranslationEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TypedElementFramework",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/TypedElementFramework/TypedElementFramework.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "TypedElementFramework",
+        "package": "/Script/TypedElementFramework",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "TypedElementRuntime",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/TypedElementRuntime/TypedElementRuntime.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "TypedElementRuntime",
+        "package": "/Script/TypedElementRuntime",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UMG",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/UMG/UMG.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "UMG",
+        "package": "/Script/UMG",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UMGEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/UMGEditor/UMGEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "UMGEditor",
+        "package": "/Script/UMGEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UObjectPlugin",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Developer/UObjectPlugin/UObjectPlugin.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "UObjectPlugin",
+        "package": "/Script/UObjectPlugin",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UVEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/UVEditor/UVEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 19,
+        "matched_name": "UVEditor",
+        "package": "/Script/UVEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UVEditorTools",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/UVEditor/UVEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 24,
+        "matched_name": "UVEditorTools",
+        "package": "/Script/UVEditorTools",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UVEditorToolsEditorOnly",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/UVEditor/UVEditor.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 29,
+        "matched_name": "UVEditorToolsEditorOnly",
+        "package": "/Script/UVEditorToolsEditorOnly",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UdpMessaging",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Messaging/UdpMessaging/UdpMessaging.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "UdpMessaging",
+        "package": "/Script/UdpMessaging",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UndoHistoryEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/UndoHistoryEditor/UndoHistoryEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "UndoHistoryEditor",
+        "package": "/Script/UndoHistoryEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UniversalObjectLocator",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/UniversalObjectLocator/UniversalObjectLocator.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "UniversalObjectLocator",
+        "package": "/Script/UniversalObjectLocator",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UniversalVoiceChatPro",
+        "category": "game-plugin",
+        "evidence_file": "MISERY/Plugins/UniversalVoiceChatPro/UniversalVoiceChatPro.uplugin",
+        "evidence_kind": "staged-uplugin-filename",
+        "evidence_line": 126,
+        "matched_name": "UniversalVoiceChatPro",
+        "package": "/Script/UniversalVoiceChatPro"
+      },
+      {
+        "bare_name": "UnrealEd",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/UnrealEd/UnrealEd.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "UnrealEd",
+        "package": "/Script/UnrealEd",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "UnrealEdMessages",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/UnrealEdMessages/UnrealEdMessages.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "UnrealEdMessages",
+        "package": "/Script/UnrealEdMessages",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "VREditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/VREditor/VREditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "VREditor",
+        "package": "/Script/VREditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "VariantManager",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Enterprise/VariantManager/VariantManager.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "VariantManager",
+        "package": "/Script/VariantManager",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "VariantManagerContent",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Enterprise/VariantManagerContent/VariantManagerContent.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "VariantManagerContent",
+        "package": "/Script/VariantManagerContent",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "VariantManagerContentEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Enterprise/VariantManagerContent/VariantManagerContent.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "VariantManagerContentEditor",
+        "package": "/Script/VariantManagerContentEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "VectorVM",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/VectorVM/VectorVM.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "VectorVM",
+        "package": "/Script/VectorVM",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "ViewportInteraction",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/ViewportInteraction/ViewportInteraction.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 7,
+        "matched_name": "ViewportInteraction",
+        "package": "/Script/ViewportInteraction",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "VirtualTexturingEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/VirtualTexturingEditor/VirtualTexturingEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "VirtualTexturingEditor",
+        "package": "/Script/VirtualTexturingEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "Virtualization",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/Virtualization/Virtualization.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "Virtualization",
+        "package": "/Script/Virtualization",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "VisualGraphUtils",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/VisualGraphUtils/VisualGraphUtils.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "VisualGraphUtils",
+        "package": "/Script/VisualGraphUtils",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WaveTable",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/WaveTable/WaveTable.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 20,
+        "matched_name": "WaveTable",
+        "package": "/Script/WaveTable",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WaveTableEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Runtime/WaveTable/WaveTable.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 25,
+        "matched_name": "WaveTableEditor",
+        "package": "/Script/WaveTableEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WebBrowser",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/WebBrowser/WebBrowser.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 6,
+        "matched_name": "WebBrowser",
+        "package": "/Script/WebBrowser",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WebMMediaEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/WebMMedia/WebMMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 30,
+        "matched_name": "WebMMediaEditor",
+        "package": "/Script/WebMMediaEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WidgetCarousel",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Runtime/WidgetCarousel/WidgetCarousel.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "WidgetCarousel",
+        "package": "/Script/WidgetCarousel",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WidgetRegistration",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/WidgetRegistration/WidgetRegistration.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "WidgetRegistration",
+        "package": "/Script/WidgetRegistration",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WindowsTargetPlatform",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Developer/Windows/WindowsTargetPlatform/WindowsTargetPlatform.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "WindowsTargetPlatform",
+        "package": "/Script/WindowsTargetPlatform",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WmfMediaEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/WmfMedia/WmfMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 27,
+        "matched_name": "WmfMediaEditor",
+        "package": "/Script/WmfMediaEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WmfMediaFactory",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Media/WmfMedia/WmfMedia.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 33,
+        "matched_name": "WmfMediaFactory",
+        "package": "/Script/WmfMediaFactory",
+        "provenance_count": 2
+      },
+      {
+        "bare_name": "WorldMetricsCore",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/WorldMetrics/WorldMetrics.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 21,
+        "matched_name": "WorldMetricsCore",
+        "package": "/Script/WorldMetricsCore",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WorldMetricsTest",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/WorldMetrics/WorldMetrics.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 26,
+        "matched_name": "WorldMetricsTest",
+        "package": "/Script/WorldMetricsTest",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WorldPartitionEditor",
+        "category": "engine",
+        "evidence_file": "Engine/Source/Editor/WorldPartitionEditor/WorldPartitionEditor.Build.cs",
+        "evidence_kind": "build.cs",
+        "evidence_line": 5,
+        "matched_name": "WorldPartitionEditor",
+        "package": "/Script/WorldPartitionEditor",
+        "provenance_count": 1
+      },
+      {
+        "bare_name": "WorldPartitionHLODUtilities",
+        "category": "engine",
+        "evidence_file": "Engine/Plugins/Editor/WorldPartitionHLODUtilities/WorldPartitionHLODUtilities.uplugin",
+        "evidence_kind": "uplugin",
+        "evidence_line": 17,
+        "matched_name": "WorldPartitionHLODUtilities",
+        "package": "/Script/WorldPartitionHLODUtilities",
+        "provenance_count": 1
+      }
+    ],
+    "total_modules": 394,
+    "unclassified": [
+      "OnlineSubsystemSteamCore",
+      "OptimizationToolsEditor",
+      "SteamCoreShared",
+      "SteamCoreSockets"
+    ]
+  },
+  "closing_rf01_43_unmatched": {
+    "not_found": 0,
+    "not_found_detail": [],
+    "note": "'resolved' means at least one module this plugin actually declares is one of the 394 real /Script/ packages -- the plugin IS present, RF-01's filename-only check just missed it under a different module name. 'still_open' means every declared module was checked individually and NONE is among the 394; the most coherent reading is that the plugin was staged (V-07 is a lower bound on the engine's plugin inventory) but not enabled for this cook, which is an INFERENCE, not a second observation -- plan.md 10.5: absence from a name list is not proof of absence from what actually loads.",
+    "resolved_detail": [
+      {
+        "declared_modules": [
+          "AvfMedia",
+          "AvfMediaEditor",
+          "AvfMediaFactory",
+          "AvfMediaFactory",
+          "AvfMediaCapture"
+        ],
+        "plugin": "AvfMedia",
+        "present_via": [
+          "AvfMediaEditor",
+          "AvfMediaFactory"
+        ],
+        "staged_path": "Engine/Plugins/Media/AvfMedia/AvfMedia.uplugin"
+      },
+      {
+        "declared_modules": [
+          "FractureEditor"
+        ],
+        "plugin": "ChaosEditor",
+        "present_via": [
+          "FractureEditor"
+        ],
+        "staged_path": "Engine/Plugins/Experimental/ChaosEditor/ChaosEditor.uplugin"
+      },
+      {
+        "declared_modules": [
+          "ChaosSolverEditor"
+        ],
+        "plugin": "ChaosSolverPlugin",
+        "present_via": [
+          "ChaosSolverEditor"
+        ],
+        "staged_path": "Engine/Plugins/Experimental/ChaosSolverPlugin/ChaosSolverPlugin.uplugin"
+      },
+      {
+        "declared_modules": [
+          "DataflowEditor",
+          "DataflowAssetTools",
+          "DataflowEnginePlugin",
+          "DataflowNodes"
+        ],
+        "plugin": "Dataflow",
+        "present_via": [
+          "DataflowEditor",
+          "DataflowEnginePlugin",
+          "DataflowNodes"
+        ],
+        "staged_path": "Engine/Plugins/Experimental/Dataflow/Dataflow.uplugin"
+      },
+      {
+        "declared_modules": [
+          "FractureEngine"
+        ],
+        "plugin": "Fracture",
+        "present_via": [
+          "FractureEngine"
+        ],
+        "staged_path": "Engine/Plugins/Experimental/Fracture/Fracture.uplugin"
+      },
+      {
+        "declared_modules": [
+          "GeometryCollectionEditor",
+          "GeometryCollectionTracks",
+          "GeometryCollectionSequencer",
+          "GeometryCollectionNodes"
+        ],
+        "plugin": "GeometryCollectionPlugin",
+        "present_via": [
+          "GeometryCollectionEditor",
+          "GeometryCollectionNodes",
+          "GeometryCollectionTracks"
+        ],
+        "staged_path": "Engine/Plugins/Experimental/GeometryCollectionPlugin/GeometryCollectionPlugin.uplugin"
+      },
+      {
+        "declared_modules": [
+          "GLTFCore",
+          "InterchangeNodes",
+          "InterchangeFactoryNodes",
+          "InterchangeImport",
+          "InterchangeMessages",
+          "InterchangeExport",
+          "InterchangePipelines",
+          "InterchangeDispatcher",
+          "InterchangeCommon",
+          "InterchangeCommonParser",
+          "InterchangeFbxParser"
+        ],
+        "plugin": "Interchange",
+        "present_via": [
+          "InterchangeCommon",
+          "InterchangeCommonParser",
+          "InterchangeExport",
+          "InterchangeFactoryNodes",
+          "InterchangeImport",
+          "InterchangeMessages",
+          "InterchangeNodes",
+          "InterchangePipelines"
+        ],
+        "staged_path": "Engine/Plugins/Interchange/Runtime/Interchange.uplugin"
+      },
+      {
+        "declared_modules": [
+          "MeshModelingTools",
+          "MeshModelingToolsEditorOnly",
+          "ModelingComponents",
+          "ModelingComponentsEditorOnly",
+          "ModelingOperators",
+          "ModelingOperatorsEditorOnly"
+        ],
+        "plugin": "MeshModelingToolset",
+        "present_via": [
+          "MeshModelingTools",
+          "MeshModelingToolsEditorOnly",
+          "ModelingComponents",
+          "ModelingComponentsEditorOnly",
+          "ModelingOperators",
+          "ModelingOperatorsEditorOnly"
+        ],
+        "staged_path": "Engine/Plugins/Runtime/MeshModelingToolset/MeshModelingToolset.uplugin"
+      },
+      {
+        "declared_modules": [
+          "MeshModelingToolsExp",
+          "MeshModelingToolsEditorOnlyExp",
+          "GeometryProcessingAdapters",
+          "ModelingEditorUI",
+          "SkeletalMeshModifiers"
+        ],
+        "plugin": "MeshModelingToolsetExp",
+        "present_via": [
+          "MeshModelingToolsEditorOnlyExp",
+          "MeshModelingToolsExp",
+          "SkeletalMeshModifiers"
+        ],
+        "staged_path": "Engine/Plugins/Experimental/MeshModelingToolsetExp/MeshModelingToolsetExp.uplugin"
+      },
+      {
+        "declared_modules": [
+          "MeshPaintEditorMode",
+          "MeshPaintingToolset"
+        ],
+        "plugin": "MeshPainting",
+        "present_via": [
+          "MeshPaintEditorMode",
+          "MeshPaintingToolset"
+        ],
+        "staged_path": "Engine/Plugins/MeshPainting/MeshPainting.uplugin"
+      },
+      {
+        "declared_modules": [
+          "MetasoundGraphCore",
+          "MetasoundGenerator",
+          "MetasoundFrontend",
+          "MetasoundStandardNodes",
+          "MetasoundEngine",
+          "MetasoundEngineTest",
+          "MetasoundEditor"
+        ],
+        "plugin": "Metasound",
+        "present_via": [
+          "MetasoundEditor",
+          "MetasoundEngine",
+          "MetasoundFrontend"
+        ],
+        "staged_path": "Engine/Plugins/Runtime/Metasound/Metasound.uplugin"
+      },
+      {
+        "declared_modules": [
+          "ObjectMixerEditor"
+        ],
+        "plugin": "ObjectMixer",
+        "present_via": [
+          "ObjectMixerEditor"
+        ],
+        "staged_path": "Engine/Plugins/Editor/ObjectMixer/ObjectMixer/ObjectMixer.uplugin"
+      },
+      {
+        "declared_modules": [
+          "OodleNetworkHandlerComponent"
+        ],
+        "plugin": "OodleNetwork",
+        "present_via": [
+          "OodleNetworkHandlerComponent"
+        ],
+        "staged_path": "Engine/Plugins/Compression/OodleNetwork/OodleNetwork.uplugin"
+      },
+      {
+        "declared_modules": [
+          "TakesCore",
+          "TakeTrackRecorders",
+          "TakeRecorderSources",
+          "TakeRecorder",
+          "TakeMovieScene",
+          "TakeSequencer",
+          "CacheTrackRecorder"
+        ],
+        "plugin": "Takes",
+        "present_via": [
+          "CacheTrackRecorder",
+          "TakeMovieScene",
+          "TakeRecorder",
+          "TakeRecorderSources",
+          "TakeTrackRecorders",
+          "TakesCore"
+        ],
+        "staged_path": "Engine/Plugins/VirtualProduction/Takes/Takes.uplugin"
+      },
+      {
+        "declared_modules": [
+          "ToolPresetAsset",
+          "ToolPresetEditor"
+        ],
+        "plugin": "ToolPresets",
+        "present_via": [
+          "ToolPresetAsset",
+          "ToolPresetEditor"
+        ],
+        "staged_path": "Engine/Plugins/Experimental/ToolPresets/ToolPresets.uplugin"
+      },
+      {
+        "declared_modules": [
+          "WebMMedia",
+          "WebMMediaEditor",
+          "WebMMediaFactory",
+          "WebMMediaFactory"
+        ],
+        "plugin": "WebMMedia",
+        "present_via": [
+          "WebMMediaEditor"
+        ],
+        "staged_path": "Engine/Plugins/Media/WebMMedia/WebMMedia.uplugin"
+      },
+      {
+        "declared_modules": [
+          "WmfMedia",
+          "WmfMediaEditor",
+          "WmfMediaFactory",
+          "WmfMediaFactory"
+        ],
+        "plugin": "WmfMedia",
+        "present_via": [
+          "WmfMediaEditor",
+          "WmfMediaFactory"
+        ],
+        "staged_path": "Engine/Plugins/Media/WmfMedia/WmfMedia.uplugin"
+      },
+      {
+        "declared_modules": [
+          "WorldMetricsCore",
+          "WorldMetricsTest",
+          "CsvMetrics"
+        ],
+        "plugin": "WorldMetrics",
+        "present_via": [
+          "CsvMetrics",
+          "WorldMetricsCore",
+          "WorldMetricsTest"
+        ],
+        "staged_path": "Engine/Plugins/WorldMetrics/WorldMetrics.uplugin"
+      }
+    ],
+    "resolved_present_via_module_array_read": 18,
+    "source": "research/evidence/RF-01/global-ucas.json#/staged_plugin_comparison/staged_plugin_name_with_no_module_of_that_name",
+    "still_open": 25,
+    "still_open_detail": [
+      {
+        "declared_modules": [
+          "AISupportModule"
+        ],
+        "plugin": "AISupport",
+        "staged_path": "Engine/Plugins/AI/AISupport/AISupport.uplugin"
+      },
+      {
+        "declared_modules": [
+          "BackChannel"
+        ],
+        "plugin": "BackChannel",
+        "staged_path": "Engine/Plugins/Experimental/BackChannel/BackChannel.uplugin"
+      },
+      {
+        "declared_modules": [
+          "CameraShakePreviewer"
+        ],
+        "plugin": "CameraShakePreviewer",
+        "staged_path": "Engine/Plugins/Cameras/CameraShakePreviewer/CameraShakePreviewer.uplugin"
+      },
+      {
+        "declared_modules": [
+          "ChaosUserDataPT"
+        ],
+        "plugin": "ChaosUserDataPT",
+        "staged_path": "Engine/Plugins/Experimental/ChaosUserDataPT/ChaosUserDataPT.uplugin"
+      },
+      {
+        "declared_modules": [
+          "CharacterAI"
+        ],
+        "plugin": "CharacterAI",
+        "staged_path": "Engine/Plugins/Experimental/CharacterAI/CharacterAI.uplugin"
+      },
+      {
+        "declared_modules": [
+          "ChunkDownloader"
+        ],
+        "plugin": "ChunkDownloader",
+        "staged_path": "Engine/Plugins/Runtime/ChunkDownloader/ChunkDownloader.uplugin"
+      },
+      {
+        "declared_modules": [],
+        "plugin": "ControlRigModules",
+        "staged_path": "Engine/Plugins/Animation/ControlRigModules/ControlRigModules.uplugin"
+      },
+      {
+        "declared_modules": [
+          "EOSShared"
+        ],
+        "plugin": "EOSShared",
+        "staged_path": "Engine/Plugins/Online/EOSShared/EOSShared.uplugin"
+      },
+      {
+        "declared_modules": [
+          "ExampleDeviceProfileSelector"
+        ],
+        "plugin": "ExampleDeviceProfileSelector",
+        "staged_path": "Engine/Plugins/Runtime/ExampleDeviceProfileSelector/ExampleDeviceProfileSelector.uplugin"
+      },
+      {
+        "declared_modules": [
+          "GeometryAlgorithms",
+          "DynamicMesh"
+        ],
+        "plugin": "GeometryProcessing",
+        "staged_path": "Engine/Plugins/Runtime/GeometryProcessing/GeometryProcessing.uplugin"
+      },
+      {
+        "declared_modules": [
+          "LauncherChunkInstaller"
+        ],
+        "plugin": "LauncherChunkInstaller",
+        "staged_path": "Engine/Plugins/Portal/LauncherChunkInstaller/LauncherChunkInstaller.uplugin"
+      },
+      {
+        "declared_modules": [
+          "MsQuicRuntime"
+        ],
+        "plugin": "MsQuic",
+        "staged_path": "Engine/Plugins/Runtime/MsQuic/MsQuic.uplugin"
+      },
+      {
+        "declared_modules": [
+          "OnlineBase"
+        ],
+        "plugin": "OnlineBase",
+        "staged_path": "Engine/Plugins/Online/OnlineBase/OnlineBase.uplugin"
+      },
+      {
+        "declared_modules": [
+          "OnlineServicesInterface",
+          "OnlineServicesCommon",
+          "OnlineServicesCommonEngineUtils"
+        ],
+        "plugin": "OnlineServices",
+        "staged_path": "Engine/Plugins/Online/OnlineServices/OnlineServices.uplugin"
+      },
+      {
+        "declared_modules": [
+          "OnlineSubsystemNull"
+        ],
+        "plugin": "OnlineSubsystemNull",
+        "staged_path": "Engine/Plugins/Online/OnlineSubsystemNull/OnlineSubsystemNull.uplugin"
+      },
+      {
+        "declared_modules": [
+          "OpenImageDenoise"
+        ],
+        "plugin": "OpenImageDenoise",
+        "staged_path": "Engine/Plugins/Experimental/OpenImageDenoise/OpenImageDenoise.uplugin"
+      },
+      {
+        "declared_modules": [
+          "PlanarCut"
+        ],
+        "plugin": "PlanarCut",
+        "staged_path": "Engine/Plugins/Experimental/PlanarCutPlugin/PlanarCut.uplugin"
+      },
+      {
+        "declared_modules": [
+          "PlatformCrypto",
+          "PlatformCryptoTypes",
+          "PlatformCryptoOpenSSL"
+        ],
+        "plugin": "PlatformCrypto",
+        "staged_path": "Engine/Plugins/Experimental/PlatformCrypto/PlatformCrypto.uplugin"
+      },
+      {
+        "declared_modules": [
+          "PluginUtils"
+        ],
+        "plugin": "PluginUtils",
+        "staged_path": "Engine/Plugins/Developer/PluginUtils/PluginUtils.uplugin"
+      },
+      {
+        "declared_modules": [
+          "PropertyAccessEditor"
+        ],
+        "plugin": "PropertyAccessEditor",
+        "staged_path": "Engine/Plugins/Runtime/PropertyAccess/PropertyAccessEditor.uplugin"
+      },
+      {
+        "declared_modules": [
+          "ProxyLODMeshReduction"
+        ],
+        "plugin": "ProxyLODPlugin",
+        "staged_path": "Engine/Plugins/Editor/ProxyLODPlugin/ProxyLODPlugin.uplugin"
+      },
+      {
+        "declared_modules": [
+          "WebMMoviePlayer"
+        ],
+        "plugin": "WebMMoviePlayer",
+        "staged_path": "Engine/Plugins/Runtime/WebMMoviePlayer/WebMMoviePlayer.uplugin"
+      },
+      {
+        "declared_modules": [
+          "WindowsDeviceProfileSelector"
+        ],
+        "plugin": "WindowsDeviceProfileSelector",
+        "staged_path": "Engine/Plugins/Runtime/WindowsDeviceProfileSelector/WindowsDeviceProfileSelector.uplugin"
+      },
+      {
+        "declared_modules": [
+          "WindowsMoviePlayer"
+        ],
+        "plugin": "WindowsMoviePlayer",
+        "staged_path": "Engine/Plugins/Runtime/WindowsMoviePlayer/WindowsMoviePlayer.uplugin"
+      },
+      {
+        "declared_modules": [
+          "XInputDevice"
+        ],
+        "plugin": "XInputDevice",
+        "staged_path": "Engine/Plugins/Runtime/Windows/XInputDevice/XInputDevice.uplugin"
+      }
+    ],
+    "total": 43
+  },
+  "engine_module_index": {
+    "build_cs_file_count": 653,
+    "build_cs_files_with_multiple_matches": [],
+    "build_cs_files_with_zero_matches": [],
+    "build_cs_module_count": 653,
+    "full_index_out": "research/evidence/RF-02/engine-module-index.tsv",
+    "union_count": 1841,
+    "uplugin_file_count": 619,
+    "uplugin_files_needing_trailing_comma_fix": [
+      "Engine/Plugins/Developer/VisualStudioSourceCodeAccess/VisualStudioSourceCodeAccess.uplugin",
+      "Engine/Plugins/Editor/MeshLODToolset/MeshLODToolset.uplugin",
+      "Engine/Plugins/Editor/StaticMeshEditorModeling/StaticMeshEditorModeling.uplugin",
+      "Engine/Plugins/Enterprise/VariantManager/VariantManager.uplugin",
+      "Engine/Plugins/Experimental/AVCodecs/AMFCodecs/AMFCodecs.uplugin",
+      "Engine/Plugins/Experimental/AVCodecs/VTCodecs/VTCodecs.uplugin",
+      "Engine/Plugins/Experimental/ChaosSolverPlugin/ChaosSolverPlugin.uplugin",
+      "Engine/Plugins/Experimental/DatasmithCloTranslator/DatasmithCloTranslator.uplugin",
+      "Engine/Plugins/Experimental/DefaultInstallBundleManager/DefaultInstallBundleManager.uplugin",
+      "Engine/Plugins/Experimental/FieldSystemPlugin/FieldSystemPlugin.uplugin",
+      "Engine/Plugins/Experimental/HairModelingToolset/HairModelingToolset.uplugin",
+      "Engine/Plugins/Experimental/LocalizableMessage/LocalizableMessage.uplugin",
+      "Engine/Plugins/Experimental/Mover/Mover.uplugin",
+      "Engine/Plugins/Experimental/PluginTemplateTool/PluginTemplateTool.uplugin",
+      "Engine/Plugins/Experimental/TextureMediaPlayer/TextureMediaPlayer.uplugin",
+      "Engine/Plugins/Experimental/VirtualProduction/VPRoles/VPRoles.uplugin",
+      "Engine/Plugins/Experimental/VirtualProduction/VPSettings/VPSettings.uplugin",
+      "Engine/Plugins/FX/NiagaraMRQ/NiagaraMRQ.uplugin",
+      "Engine/Plugins/Media/ElectraCDM/ElectraCDM.uplugin",
+      "Engine/Plugins/Media/HardwareEncoders/HardwareEncoders.uplugin",
+      "Engine/Plugins/Media/ImgMedia/ImgMedia.uplugin",
+      "Engine/Plugins/Media/MediaPlate/MediaPlate.uplugin",
+      "Engine/Plugins/MovieScene/SequencerScripting/SequencerScripting.uplugin",
+      "Engine/Plugins/Online/IOS/OnlineSubsystemIOS/OnlineSubsystemIOS.uplugin",
+      "Engine/Plugins/Online/OnlineSubsystemApple/OnlineSubsystemApple.uplugin",
+      "Engine/Plugins/PCGExternalDataInterop/PCGExternalDataInterop.uplugin",
+      "Engine/Plugins/Runtime/AR/Google/GoogleARCore/GoogleARCore.uplugin",
+      "Engine/Plugins/Runtime/AR/Google/GoogleARCoreServices/GoogleARCoreServices.uplugin",
+      "Engine/Plugins/Runtime/PacketHandlers/AESGCMHandlerComponent/AESGCMHandlerComponent.uplugin",
+      "Engine/Plugins/Runtime/PacketHandlers/AESHandlerComponent/AESHandlerComponent.uplugin",
+      "Engine/Plugins/Runtime/ZoneGraphAnnotations/ZoneGraphAnnotations.uplugin",
+      "Engine/Plugins/Tests/PythonAutomationTest/PythonAutomationTest.uplugin",
+      "Engine/Plugins/VirtualProduction/DMX/DMXControlConsole/DMXControlConsole.uplugin",
+      "Engine/Plugins/VirtualProduction/DMX/DatasmithMVR/DatasmithMVR.uplugin"
+    ],
+    "uplugin_module_count": 1188,
+    "uplugin_parse_failures": []
+  },
+  "evidence": {
+    "engine_classification": {
+      "claim_class": "I",
+      "confidence": 0.85,
+      "evidence_level": "INFERRED",
+      "note": "Two independent format-level reads: the name is one of RF-01's 394 /Script/ packages (global-ucas), AND the same exact string is a module UE 5.4.4 itself declares (external-doc, Engine/Source or Engine/Plugins at this build's own changelist). Refutation attempt: if the same exact name could exist as two unrelated modules within ONE build target, this match would prove nothing; it cannot, because UnrealBuildTool resolves a module name through a single name-keyed dictionary per target (UEBuildTarget.cs:1731, RulesAssembly.cs:171-178) -- checked, not assumed, and this is reasoning, not a third oracle. Not graded higher: no runtime observation, and plan.md 10.2's 0.95+ band asks for more than two confirmations plus an absence of counterexamples; two independent format reads land this in 0.80-0.94.",
+      "oracle": [
+        "global-ucas",
+        "external-doc"
+      ],
+      "sources": [
+        {
+          "artifact": "research/evidence/RF-02/engine-module-index.tsv",
+          "locator": "$.rows[*] where category == 'engine'",
+          "method": "RF-02: walked Engine/Source/**/*.Build.cs and Engine/Plugins/**/*.uplugin on this machine, read-only, by tools/reflection/engine_split.py",
+          "note": "oracle external-doc, at changelist 35576357 (research/unreal/engine-version.json)"
+        },
+        {
+          "artifact": "research/evidence/RF-01/script-modules.tsv",
+          "locator": "$.package",
+          "method": "RF-01: structured decode of global.ucas's ScriptObjects chunk",
+          "note": "oracle global-ucas; this tool reads RF-01's already-committed output, it does not reopen global.ucas"
+        }
+      ]
+    },
+    "game_misery_classification": {
+      "claim_class": "I",
+      "confidence": 0.85,
+      "evidence_level": "INFERRED",
+      "note": "Not a positive name match at all: /Script/MISERY is singled out by rule 1 before rules 2/3 run. The grade rests on RF-01's own already-established finding (this container's richest single piece of corroboration: 5 classes, 5 CDOs, cross-verified) PLUS two independent negative-membership checks performed this run (not in the engine set, not in the game-plugin candidate set).",
+      "oracle": [
+        "global-ucas",
+        "external-doc",
+        "container-metadata"
+      ],
+      "sources": [
+        {
+          "artifact": "research/evidence/RF-01/README.md",
+          "locator": "Главный результат",
+          "method": "RF-01: /Script/MISERY already established to exist and to contain the developer's own classes",
+          "note": "oracle global-ucas"
+        },
+        {
+          "artifact": "research/evidence/RF-02/engine-split.json",
+          "locator": "$.checks.no_engine_or_plugin_name_is_literally_MISERY",
+          "method": "RF-02: absence check against both the engine set and the game-plugin candidate set",
+          "note": "oracle external-doc + container-metadata (negative membership in both)"
+        }
+      ]
+    },
+    "game_plugin_classification": {
+      "claim_class": "I",
+      "confidence": 0.8,
+      "evidence_level": "INFERRED",
+      "note": "Two independent format-level reads, like the engine case, but ONE LEVEL WEAKER: the second read matches a module name against a PLUGIN FILE's name, not against a MODULE name the plugin actually declares, because that Modules[] array sits inside an encrypted pak entry (see game_plugin_candidates.modules_array_reachability) and cannot be read under D-02. RF-01's README already found this exact family of gap (SteamCorePro's own Modules[] gives SteamCoreShared/SteamCoreSockets/OnlineSubsystemSteamCore too, none of which match the file name) -- those 3 names, plus OptimizationToolsEditor, are exactly why this bucket is graded below the engine bucket rather than at the same level.",
+      "oracle": [
+        "global-ucas",
+        "container-metadata"
+      ],
+      "sources": [
+        {
+          "artifact": "research/evidence/V-07/staged-plugins.txt",
+          "locator": "lines not matching ^Engine/Plugins/",
+          "method": "V-07/CK-01: plaintext index read of MISERY-Windows.pak, filtered to .uplugin lines staged under MISERY/Plugins/",
+          "note": "oracle container-metadata (V-07/CK-01's own read, cited not repeated)"
+        },
+        {
+          "artifact": "research/evidence/RF-01/script-modules.tsv",
+          "locator": "$.package",
+          "method": "RF-01: structured decode of global.ucas's ScriptObjects chunk",
+          "note": "oracle global-ucas"
+        }
+      ]
+    }
+  },
+  "game_plugin_candidates": {
+    "candidates": [
+      {
+        "line": 124,
+        "name": "OptimizationTools",
+        "staged_path": "MISERY/Plugins/Optimiza421ff074d458V5/OptimizationTools.uplugin"
+      },
+      {
+        "line": 123,
+        "name": "SIZZ_Menu_Wheel",
+        "staged_path": "MISERY/Plugins/MenuWheel_5.4/SIZZ_Menu_Wheel.uplugin"
+      },
+      {
+        "line": 125,
+        "name": "SteamCorePro",
+        "staged_path": "MISERY/Plugins/SteamCorePro/SteamCorePro.uplugin"
+      },
+      {
+        "line": 126,
+        "name": "UniversalVoiceChatPro",
+        "staged_path": "MISERY/Plugins/UniversalVoiceChatPro/UniversalVoiceChatPro.uplugin"
+      }
+    ],
+    "modules_array_reachability": {
+      "per_candidate": [
+        {
+          "encrypted": true,
+          "found_in_pak_paths": true,
+          "name": "OptimizationTools",
+          "pak_paths_line": 4426,
+          "size": 1157,
+          "staged_path": "MISERY/Plugins/Optimiza421ff074d458V5/OptimizationTools.uplugin",
+          "uncompressed": 1157
+        },
+        {
+          "encrypted": true,
+          "found_in_pak_paths": true,
+          "name": "SIZZ_Menu_Wheel",
+          "pak_paths_line": 4425,
+          "size": 775,
+          "staged_path": "MISERY/Plugins/MenuWheel_5.4/SIZZ_Menu_Wheel.uplugin",
+          "uncompressed": 775
+        },
+        {
+          "encrypted": true,
+          "found_in_pak_paths": true,
+          "name": "SteamCorePro",
+          "pak_paths_line": 4427,
+          "size": 1419,
+          "staged_path": "MISERY/Plugins/SteamCorePro/SteamCorePro.uplugin",
+          "uncompressed": 1419
+        },
+        {
+          "encrypted": true,
+          "found_in_pak_paths": true,
+          "name": "UniversalVoiceChatPro",
+          "pak_paths_line": 4428,
+          "size": 813,
+          "staged_path": "MISERY/Plugins/UniversalVoiceChatPro/UniversalVoiceChatPro.uplugin",
+          "uncompressed": 813
+        }
+      ],
+      "reachable": false,
+      "reason": "every one of the 4 candidate .uplugin files is individually flagged Flag_Encrypted (IPlatformFilePak.h:382) in research/evidence/CK-01/pak-paths.txt, matching CK-01's own aggregate verdict (readable_payload_entries: 0 of 4424). D-02 forbids reading an encrypted payload, so the Modules[] array of any of these 4 files is not available to this or any other read-only tool.",
+      "source": "research/evidence/CK-01/pak-paths.txt"
+    },
+    "outside_engine_plugins_count": 4,
+    "staged_uplugin_lines_total": 124
+  },
+  "generated_at": "2026-08-27T07:54:46Z",
+  "generator": {
+    "name": "tools/reflection/engine_split.py",
+    "version": "1.0.0"
+  },
+  "inputs": {
+    "pak_paths": {
+      "path": "research/evidence/CK-01/pak-paths.txt",
+      "sha256": "80d78f15c6155e4f6b16bf8a506284417b58cac64a1b6dba0454ebeee468dd17"
+    },
+    "rf01_json": {
+      "path": "research/evidence/RF-01/global-ucas.json",
+      "sha256": "feb07917b0f58d8001afa611eac430fd28ab1b12e3d3807dbc3422d7e0c8ec28"
+    },
+    "script_modules": {
+      "path": "research/evidence/RF-01/script-modules.tsv",
+      "row_count": 394,
+      "sha256": "2f7656dbb6b2985a25d81d38e82fd7b1a7a0ef84da16e48ef7876eca11d50de7"
+    },
+    "staged_plugins": {
+      "path": "research/evidence/V-07/staged-plugins.txt",
+      "sha256": "d90e6665274cfa4f1bb5b3a2f06233fc3b700d33499a6304a743db51b743de1b"
+    }
+  },
+  "limitations": "'engine' does not mean unmodified -- it means this exact module name is one UE 5.4.4 itself declares; a modified engine build could keep the same names while changing what is inside them. 'game-plugin' does not mean 'MISERY's own gameplay code' -- a licensed third-party asset is neither the engine nor the developer's own code, which is exactly why 'game-misery' is kept as a separate third category instead of folding /Script/MISERY into 'game-plugin'. 'unclassified' is not a claim about what those names ARE; it is the explicit absence of one.",
+  "method": "RF-02",
+  "premise": {
+    "branch": "++UE5+Release-5.4",
+    "changelist": 35576357,
+    "engine_cl_confidence": 0.9,
+    "engine_cl_evidence_level": "INFERRED",
+    "engine_version_confidence": 0.93,
+    "engine_version_evidence_level": "INFERRED",
+    "note": "RF-02 consumes this identification of the local UE 5.4.4 tree as the SAME changelist the game was built from; it does not re-derive or re-grade it, the same way RF-01 and CK-01 both state the changelist as a premise.",
+    "source": "research/unreal/engine-version.json"
+  },
+  "recorded_at": "2026-08-23T00:00:00Z",
+  "rule": "For each /Script/<Module> name RF-01 found: (1) bare name == 'MISERY' -> game-misery. (2) else exact-string match (case-sensitive) against a module UE 5.4.4 itself declares (Engine/Source/**/*.Build.cs class names, Engine/Plugins/**/*.uplugin Modules[].Name) -> engine. (3) else exact-string match against the filename (no extension) of a .uplugin staged under MISERY/Plugins/ -> game-plugin. (4) else -> unclassified, reported by name and count, never guessed. See this tool's module docstring for the full rule, its evidence grade, what it does not prove, and what it tried and could not close.",
+  "summary": {
+    "counts": {
+      "collision": 0,
+      "engine": 385,
+      "game-misery": 1,
+      "game-plugin": 4,
+      "unclassified": 4
+    },
+    "total_modules": 394,
+    "verdict": "CLASSIFIED"
+  },
+  "warnings": []
+}

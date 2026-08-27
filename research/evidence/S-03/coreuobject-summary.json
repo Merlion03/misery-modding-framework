@@ -1,0 +1,316 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "distinct_containing_functions": 364,
+  "generated_at": "2026-08-26T00:00:00Z",
+  "generator": "pyghidra_scripts/dump_xrefs_for_string.py",
+  "generator_version": "1.0.0",
+  "ignore_case": false,
+  "jsonl_bytes": 223302,
+  "jsonl_path": "D:\\Dev\\MiseryFramework\\workspace\\xrefs\\coreuobject.jsonl",
+  "jsonl_records": 423,
+  "jsonl_sha256": "10cbb96aea488bdc77567377d21d7e8ec333d57da97f5b6153575ac4f0167f34",
+  "max_string_length": 2000,
+  "needles": [
+    "CoreUObject"
+  ],
+  "occurrence_count": 39,
+  "occurrences": [
+    {
+      "address": "145e24d58",
+      "length": 40,
+      "needle": "CoreUObject",
+      "value": "/Script/CoreUObject",
+      "value_truncated": false
+    },
+    {
+      "address": "145e34338",
+      "length": 24,
+      "needle": "CoreUObject",
+      "value": "CoreUObject",
+      "value_truncated": false
+    },
+    {
+      "address": "145e356c0",
+      "length": 12,
+      "needle": "CoreUObject",
+      "value": "CoreUObject",
+      "value_truncated": false
+    },
+    {
+      "address": "145e4bb20",
+      "length": 20,
+      "needle": "CoreUObject",
+      "value": "/Script/CoreUObject",
+      "value_truncated": false
+    },
+    {
+      "address": "145e502f0",
+      "length": 83,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\Misc\\PackageName.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e52330",
+      "length": 93,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\Serialization\\AsyncLoading.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e54d80",
+      "length": 94,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\Serialization\\AsyncLoading2.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e560c0",
+      "length": 99,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\Serialization\\AsyncPackageLoader.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e56260",
+      "length": 89,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\Serialization\\BulkData.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e58520",
+      "length": 100,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\Serialization\\DuplicateDataReader.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e58b00",
+      "length": 97,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\Serialization\\ZenPackageHeader.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e59150",
+      "length": 80,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\Class.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e5b940",
+      "length": 82,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Public\\UObject\\UnrealType.h",
+      "value_truncated": false
+    },
+    {
+      "address": "145e65e70",
+      "length": 52,
+      "needle": "CoreUObject",
+      "value": "/Script/CoreUObject.EAxis",
+      "value_truncated": false
+    },
+    {
+      "address": "145e71b30",
+      "length": 80,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\Field.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e71d00",
+      "length": 94,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Public\\UObject\\FastReferenceCollector.h",
+      "value_truncated": false
+    },
+    {
+      "address": "145e71e40",
+      "length": 92,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\GarbageCollection.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e74240",
+      "length": 85,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\LinkerLoad.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e75bc0",
+      "length": 94,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\LinkerPlaceholderBase.h",
+      "value_truncated": false
+    },
+    {
+      "address": "145e769d0",
+      "length": 42,
+      "needle": "CoreUObject",
+      "value": "CoreUObject.Metadata",
+      "value_truncated": false
+    },
+    {
+      "address": "145e76d80",
+      "length": 78,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\Obj.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e7ba90",
+      "length": 83,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\Property.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e7c000",
+      "length": 88,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\PropertyArray.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e7c750",
+      "length": 93,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\PropertyBaseObject.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e837d0",
+      "length": 87,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\PropertyBool.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e848d0",
+      "length": 89,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\PropertyStruct.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e84a40",
+      "length": 91,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\PropertyTypeName.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e84cc0",
+      "length": 95,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\ReferenceChainSearch.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e86840",
+      "length": 85,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\ScriptCore.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e890c0",
+      "length": 91,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\UObjectArchetype.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e892d0",
+      "length": 87,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\UObjectArray.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e898b0",
+      "length": 20,
+      "needle": "CoreUObject",
+      "value": "CoreUObject Classes",
+      "value_truncated": false
+    },
+    {
+      "address": "145e89d60",
+      "length": 89,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\UObjectGlobals.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e8efa0",
+      "length": 86,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\UObjectHash.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e8f330",
+      "length": 88,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\UObjectLinker.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145e8f4c0",
+      "length": 95,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Private\\UObject\\UObjectThreadContext.cpp",
+      "value_truncated": false
+    },
+    {
+      "address": "145f39960",
+      "length": 85,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Public\\UObject\\StructOnScope.h",
+      "value_truncated": false
+    },
+    {
+      "address": "1460dee08",
+      "length": 40,
+      "needle": "CoreUObject",
+      "value": "/Script.CoreUObject",
+      "value_truncated": false
+    },
+    {
+      "address": "1466bb0c0",
+      "length": 77,
+      "needle": "CoreUObject",
+      "value": "D:\\build\\++UE5\\Sync\\Engine\\Source\\Runtime\\CoreUObject\\Public\\UObject\\Class.h",
+      "value_truncated": false
+    }
+  ],
+  "occurrences_with_no_xrefs": 0,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md RF-04: which defined strings/data in this build contain a given anchor literal, and what cross-references does each occurrence have (referencing address, containing function, reference type)?",
+  "reference_type_histogram": {
+    "DATA": 423
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-03 / §6.2 RF-04",
+  "whole_string": false,
+  "xref_count": 423,
+  "xrefs_per_needle": {
+    "CoreUObject": 423
+  }
+}

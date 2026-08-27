@@ -1,0 +1,71 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "depth": 2,
+  "direction": "both",
+  "edge_count": 1,
+  "edges": [
+    {
+      "call_site": "140f4d8fd",
+      "callee": "143f013e0",
+      "callee_target_address": "143f013e0",
+      "caller": "140f4d8e0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    }
+  ],
+  "generated_at": "2026-08-26T00:00:00Z",
+  "generator": "pyghidra_scripts/dump_callgraph.py",
+  "generator_version": "1.0.0",
+  "indirect_edge_count": 0,
+  "leaf_node_count": 1,
+  "node_count": 2,
+  "nodes": [
+    {
+      "depth": 0,
+      "entry": "140f4d8e0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140f4d8e0"
+    },
+    {
+      "depth": 1,
+      "entry": "143f013e0",
+      "is_external": false,
+      "is_leaf": true,
+      "is_thunk": true,
+      "name": "thunk_FUN_140fa0090"
+    }
+  ],
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md §7.3 S-05: walking N levels of callers and callees from a seed address, what is the graph (nodes with leaf/thunk status, edges with call-site addresses, indirect calls flagged rather than dropped)?",
+  "seed": {
+    "entry": "140f4d8e0",
+    "spec": "140f4d8e0"
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-05",
+  "unresolved_caller_edge_count": 0
+}

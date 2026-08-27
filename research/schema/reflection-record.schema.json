@@ -80,6 +80,20 @@
             "null"
           ]
         },
+        "module_origin": {
+          "description": "RF-02 classification (plan.md line 519; 9.5 row 'native / script / blueprint origin', source RF-01+RF-02) of the `module` this record belongs to: 'engine' when the module name exact-string-matches a module UE 5.4.4 itself ships (Engine/Source or Engine/Plugins, at the changelist research/unreal/engine-version.json records); 'game-plugin' when it matches a third-party .uplugin staged under MISERY/Plugins (name-only match unless the .uplugin payload is readable, see the classification method for which); 'game-misery' for the developer's own root module, `/Script/MISERY`, kept apart from 'game-plugin' because it is not a licensed third-party asset; 'unclassified' when neither rule fires - reported, never guessed. Null when RF-02 has not classified this record's module (records outside its scope, or written before RF-02 ran). This value is a plain denormalized copy, same as `module` itself: its evidence (oracle, confidence, sources, refutation attempt) is graded ONCE per module, not once per record, and lives in research/evidence/RF-02/engine-split.json and research/reflection/<build_key>/README.md - two records sharing one `module` necessarily share one `module_origin` and one grade, so copying the value here does not re-derive or re-grade it (plan.md 9.5 'one field, one source, one grade' read at the module granularity this method actually produces, not the per-JSONL-row granularity requested by the model's opening sentence).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "engine",
+            "game-plugin",
+            "game-misery",
+            "unclassified",
+            null
+          ]
+        },
         "flags_raw": {
           "$ref": "kb-record.schema.json#/$defs/hex_word",
           "description": "Generic object flags as raw hex text (plan.md 6.3 'flags_raw'). Kind-specific flag words (class_flags_raw, property_flags_raw, ...) live in the per-kind block; this field is for EObjectFlags or for a flag word whose meaning has not been resolved yet."

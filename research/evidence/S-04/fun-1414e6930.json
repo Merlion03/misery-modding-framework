@@ -1,0 +1,110 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "decompile": {
+    "c_code_excerpt": "\r\nchar * FUN_1414e6930(longlong param_1)\r\n\r\n{\r\n  char *pcVar1;\r\n  \r\n  pcVar1 = \"Unknown exception\";\r\n  if (*(char **)(param_1 + 8) != (char *)0x0) {\r\n    pcVar1 = *(char **)(param_1 + 8);\r\n  }\r\n  return pcVar1;\r\n}\r\n\r\n",
+    "c_code_excerpt_truncated": false,
+    "c_code_full_path": "D:\\Dev\\MiseryFramework\\workspace\\functions\\fun-1414e6930.c",
+    "c_code_lines": 13,
+    "c_code_sha256": "d631e9a5217473eece8b35422ea538529955bbd6ea505bf1e418b1838770722f",
+    "error_message": null,
+    "sanity_check": {
+      "braces_balanced": true,
+      "contains_error_marker": false,
+      "non_empty": true,
+      "parens_balanced": true,
+      "plausible": true,
+      "semicolon_count": 4
+    },
+    "succeeded": true,
+    "timeout_seconds": 60
+  },
+  "disassembly": {
+    "full_jsonl_path": null,
+    "full_jsonl_sha256": null,
+    "instruction_count": 5,
+    "max_instructions": 20000,
+    "rows": [
+      {
+        "address": "1414e6930",
+        "length": 4,
+        "mnemonic": "MOV",
+        "operands": [
+          "RDX",
+          "qword ptr [RCX + 0x8]"
+        ]
+      },
+      {
+        "address": "1414e6934",
+        "length": 7,
+        "mnemonic": "LEA",
+        "operands": [
+          "RAX",
+          "[0x145ec7428]"
+        ]
+      },
+      {
+        "address": "1414e693b",
+        "length": 3,
+        "mnemonic": "TEST",
+        "operands": [
+          "RDX",
+          "RDX"
+        ]
+      },
+      {
+        "address": "1414e693e",
+        "length": 4,
+        "mnemonic": "CMOVNZ",
+        "operands": [
+          "RAX",
+          "RDX"
+        ]
+      },
+      {
+        "address": "1414e6942",
+        "length": 1,
+        "mnemonic": "RET",
+        "operands": []
+      }
+    ],
+    "rows_are_excerpt": false,
+    "truncated_at_max_instructions": false
+  },
+  "function": {
+    "calling_convention": "unknown",
+    "entry": "1414e6930",
+    "is_external": false,
+    "is_thunk": false,
+    "name": "FUN_1414e6930",
+    "parameter_count": 0,
+    "parameters": [],
+    "return_type": "undefined",
+    "signature": "undefined FUN_1414e6930(void)",
+    "size_bytes": 19
+  },
+  "function_spec": "1414e6930",
+  "generated_at": "2026-08-26T00:00:00Z",
+  "generator": "pyghidra_scripts/dump_function.py",
+  "generator_version": "1.0.0",
+  "incoming_call_count": 0,
+  "incoming_calls": [],
+  "incoming_calls_truncated": false,
+  "outgoing_call_count": 0,
+  "outgoing_calls": [],
+  "outgoing_calls_truncated": false,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md §7.3 S-04: for one function (by address or name), what is its entry/size/calling convention, its decompiled pseudocode, its disassembly, and its one-level outgoing/incoming calls?",
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-04"
+}

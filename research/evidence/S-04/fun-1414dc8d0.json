@@ -1,0 +1,244 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "decompile": {
+    "c_code_excerpt": "\r\nundefined8 * FUN_1414dc8d0(undefined8 *param_1,ulonglong param_2)\r\n\r\n{\r\n  *param_1 = std::exception::vftable;\r\n  __std_exception_destroy(param_1 + 1);\r\n  if ((param_2 & 1) != 0) {\r\n    thunk_FUN_140fa0090(param_1,0x18);\r\n  }\r\n  return param_1;\r\n}\r\n\r\n",
+    "c_code_excerpt_truncated": false,
+    "c_code_full_path": "D:\\Dev\\MiseryFramework\\workspace\\functions\\fun-1414dc8d0.c",
+    "c_code_lines": 12,
+    "c_code_sha256": "353d83dd716ef3062252d56ae2130b22f0fe15d7b495eabf7fa30645f8d0b009",
+    "error_message": null,
+    "sanity_check": {
+      "braces_balanced": true,
+      "contains_error_marker": false,
+      "non_empty": true,
+      "parens_balanced": true,
+      "plausible": true,
+      "semicolon_count": 4
+    },
+    "succeeded": true,
+    "timeout_seconds": 60
+  },
+  "disassembly": {
+    "full_jsonl_path": null,
+    "full_jsonl_sha256": null,
+    "instruction_count": 19,
+    "max_instructions": 20000,
+    "rows": [
+      {
+        "address": "1414dc8d0",
+        "length": 5,
+        "mnemonic": "MOV",
+        "operands": [
+          "qword ptr [RSP + 0x8]",
+          "RBX"
+        ]
+      },
+      {
+        "address": "1414dc8d5",
+        "length": 1,
+        "mnemonic": "PUSH",
+        "operands": [
+          "RDI"
+        ]
+      },
+      {
+        "address": "1414dc8d6",
+        "length": 4,
+        "mnemonic": "SUB",
+        "operands": [
+          "RSP",
+          "0x20"
+        ]
+      },
+      {
+        "address": "1414dc8da",
+        "length": 7,
+        "mnemonic": "LEA",
+        "operands": [
+          "RAX",
+          "[0x146e111e0]"
+        ]
+      },
+      {
+        "address": "1414dc8e1",
+        "length": 3,
+        "mnemonic": "MOV",
+        "operands": [
+          "RDI",
+          "RCX"
+        ]
+      },
+      {
+        "address": "1414dc8e4",
+        "length": 3,
+        "mnemonic": "MOV",
+        "operands": [
+          "qword ptr [RCX]",
+          "RAX"
+        ]
+      },
+      {
+        "address": "1414dc8e7",
+        "length": 2,
+        "mnemonic": "MOV",
+        "operands": [
+          "EBX",
+          "EDX"
+        ]
+      },
+      {
+        "address": "1414dc8e9",
+        "length": 4,
+        "mnemonic": "ADD",
+        "operands": [
+          "RCX",
+          "0x8"
+        ]
+      },
+      {
+        "address": "1414dc8ed",
+        "length": 5,
+        "mnemonic": "CALL",
+        "operands": [
+          "0x145cb9263"
+        ]
+      },
+      {
+        "address": "1414dc8f2",
+        "length": 3,
+        "mnemonic": "TEST",
+        "operands": [
+          "BL",
+          "0x1"
+        ]
+      },
+      {
+        "address": "1414dc8f5",
+        "length": 2,
+        "mnemonic": "JZ",
+        "operands": [
+          "0x1414dc904"
+        ]
+      },
+      {
+        "address": "1414dc8f7",
+        "length": 5,
+        "mnemonic": "MOV",
+        "operands": [
+          "EDX",
+          "0x18"
+        ]
+      },
+      {
+        "address": "1414dc8fc",
+        "length": 3,
+        "mnemonic": "MOV",
+        "operands": [
+          "RCX",
+          "RDI"
+        ]
+      },
+      {
+        "address": "1414dc8ff",
+        "length": 5,
+        "mnemonic": "CALL",
+        "operands": [
+          "0x143f013e0"
+        ]
+      },
+      {
+        "address": "1414dc904",
+        "length": 5,
+        "mnemonic": "MOV",
+        "operands": [
+          "RBX",
+          "qword ptr [RSP + 0x30]"
+        ]
+      },
+      {
+        "address": "1414dc909",
+        "length": 3,
+        "mnemonic": "MOV",
+        "operands": [
+          "RAX",
+          "RDI"
+        ]
+      },
+      {
+        "address": "1414dc90c",
+        "length": 4,
+        "mnemonic": "ADD",
+        "operands": [
+          "RSP",
+          "0x20"
+        ]
+      },
+      {
+        "address": "1414dc910",
+        "length": 1,
+        "mnemonic": "POP",
+        "operands": [
+          "RDI"
+        ]
+      },
+      {
+        "address": "1414dc911",
+        "length": 1,
+        "mnemonic": "RET",
+        "operands": []
+      }
+    ],
+    "rows_are_excerpt": false,
+    "truncated_at_max_instructions": false
+  },
+  "function": {
+    "calling_convention": "unknown",
+    "entry": "1414dc8d0",
+    "is_external": false,
+    "is_thunk": false,
+    "name": "FUN_1414dc8d0",
+    "parameter_count": 0,
+    "parameters": [],
+    "return_type": "undefined",
+    "signature": "undefined FUN_1414dc8d0(void)",
+    "size_bytes": 66
+  },
+  "function_spec": "1414dc8d0",
+  "generated_at": "2026-08-26T00:00:00Z",
+  "generator": "pyghidra_scripts/dump_function.py",
+  "generator_version": "1.0.0",
+  "incoming_call_count": 0,
+  "incoming_calls": [],
+  "incoming_calls_truncated": false,
+  "outgoing_call_count": 2,
+  "outgoing_calls": [
+    {
+      "entry": "143f013e0",
+      "is_external": false,
+      "is_thunk": true,
+      "name": "thunk_FUN_140fa0090"
+    },
+    {
+      "entry": "145cb9263",
+      "is_external": false,
+      "is_thunk": true,
+      "name": "__std_exception_destroy"
+    }
+  ],
+  "outgoing_calls_truncated": false,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md §7.3 S-04: for one function (by address or name), what is its entry/size/calling convention, its decompiled pseudocode, its disassembly, and its one-level outgoing/incoming calls?",
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-04"
+}

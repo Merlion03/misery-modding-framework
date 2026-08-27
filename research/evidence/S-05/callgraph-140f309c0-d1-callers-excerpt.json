@@ -1,0 +1,694 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "depth": 1,
+  "direction": "callers",
+  "edge_count": 6329,
+  "edges": [
+    {
+      "call_site": "140cd71ce",
+      "callee": "140f309c0",
+      "caller": "140cd71b0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140ce719e",
+      "callee": "140f309c0",
+      "caller": "140ce7180",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140ceccfe",
+      "callee": "140f309c0",
+      "caller": "140cecce0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140ced86e",
+      "callee": "140f309c0",
+      "caller": "140ced850",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140cedcde",
+      "callee": "140f309c0",
+      "caller": "140cedcc0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140cf0c1e",
+      "callee": "140f309c0",
+      "caller": "140cf0c00",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140cf15de",
+      "callee": "140f309c0",
+      "caller": "140cf15c0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140cf338e",
+      "callee": "140f309c0",
+      "caller": "140cf3370",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140cf41de",
+      "callee": "140f309c0",
+      "caller": "140cf41c0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140cf4ade",
+      "callee": "140f309c0",
+      "caller": "140cf4ac0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d03a8e",
+      "callee": "140f309c0",
+      "caller": "140d03a70",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d03b9e",
+      "callee": "140f309c0",
+      "caller": "140d03b80",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d0433e",
+      "callee": "140f309c0",
+      "caller": "140d04320",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d04b9e",
+      "callee": "140f309c0",
+      "caller": "140d04b80",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d088ae",
+      "callee": "140f309c0",
+      "caller": "140d08890",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d08e7e",
+      "callee": "140f309c0",
+      "caller": "140d08e60",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d092ae",
+      "callee": "140f309c0",
+      "caller": "140d09290",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d0954e",
+      "callee": "140f309c0",
+      "caller": "140d09530",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d099ee",
+      "callee": "140f309c0",
+      "caller": "140d099d0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d09b0e",
+      "callee": "140f309c0",
+      "caller": "140d09af0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d0d5ce",
+      "callee": "140f309c0",
+      "caller": "140d0d5b0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d0dbbe",
+      "callee": "140f309c0",
+      "caller": "140d0dba0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d0e00e",
+      "callee": "140f309c0",
+      "caller": "140d0dff0",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d0e13e",
+      "callee": "140f309c0",
+      "caller": "140d0e120",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    },
+    {
+      "call_site": "140d0e1ae",
+      "callee": "140f309c0",
+      "caller": "140d0e190",
+      "indirect": false,
+      "reference_type": {
+        "bucket": "CALL",
+        "is_call": true,
+        "is_computed": false,
+        "is_conditional": false,
+        "is_data": false,
+        "is_flow": true,
+        "is_jump": false,
+        "is_read": false,
+        "is_write": false,
+        "name": "UNCONDITIONAL_CALL"
+      }
+    }
+  ],
+  "edges_are_excerpt": true,
+  "edges_full_count": 6329,
+  "excerpt_note": "This document is a bounded excerpt (first 25 of 5613 nodes, first 25 of 6329 edges, both sorted the same way the full document is) of a real run kept in full at workspace/callgraph/callgraph-140f309c0-d1-callers-full.json (sha256 97faf2d7a7e329a4153ac7c92543116255995baa5548a87901496c7c3bc5f26f, 3730520 bytes) -- not committed to research/evidence/ because of its size, per the C-13 volume policy this tool family documents (see dump_function.py module docstring and research/evidence/S-04/README.md). Every count field in this document (node_count, edge_count, indirect_edge_count, unresolved_caller_edge_count, leaf_node_count) is computed over the FULL graph, not the excerpt.",
+  "full_bytes": 3730520,
+  "full_jsonl_path": "workspace/callgraph/callgraph-140f309c0-d1-callers-full.json",
+  "full_sha256": "97faf2d7a7e329a4153ac7c92543116255995baa5548a87901496c7c3bc5f26f",
+  "generated_at": "2026-08-26T00:00:00Z",
+  "generator": "pyghidra_scripts/dump_callgraph.py",
+  "generator_version": "1.0.0",
+  "indirect_edge_count": 0,
+  "leaf_node_count": 1,
+  "node_count": 5613,
+  "nodes": [
+    {
+      "depth": 1,
+      "entry": "140cd71b0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cd71b0"
+    },
+    {
+      "depth": 1,
+      "entry": "140ce7180",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140ce7180"
+    },
+    {
+      "depth": 1,
+      "entry": "140cecce0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cecce0"
+    },
+    {
+      "depth": 1,
+      "entry": "140ced850",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140ced850"
+    },
+    {
+      "depth": 1,
+      "entry": "140cedcc0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cedcc0"
+    },
+    {
+      "depth": 1,
+      "entry": "140cf0c00",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cf0c00"
+    },
+    {
+      "depth": 1,
+      "entry": "140cf15c0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cf15c0"
+    },
+    {
+      "depth": 1,
+      "entry": "140cf3370",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cf3370"
+    },
+    {
+      "depth": 1,
+      "entry": "140cf41c0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cf41c0"
+    },
+    {
+      "depth": 1,
+      "entry": "140cf4ac0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140cf4ac0"
+    },
+    {
+      "depth": 1,
+      "entry": "140d03a70",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d03a70"
+    },
+    {
+      "depth": 1,
+      "entry": "140d03b80",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d03b80"
+    },
+    {
+      "depth": 1,
+      "entry": "140d04320",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d04320"
+    },
+    {
+      "depth": 1,
+      "entry": "140d04b80",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d04b80"
+    },
+    {
+      "depth": 1,
+      "entry": "140d08890",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d08890"
+    },
+    {
+      "depth": 1,
+      "entry": "140d08e60",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d08e60"
+    },
+    {
+      "depth": 1,
+      "entry": "140d09290",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d09290"
+    },
+    {
+      "depth": 1,
+      "entry": "140d09530",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d09530"
+    },
+    {
+      "depth": 1,
+      "entry": "140d099d0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d099d0"
+    },
+    {
+      "depth": 1,
+      "entry": "140d09af0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d09af0"
+    },
+    {
+      "depth": 1,
+      "entry": "140d0d5b0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d0d5b0"
+    },
+    {
+      "depth": 1,
+      "entry": "140d0dba0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d0dba0"
+    },
+    {
+      "depth": 1,
+      "entry": "140d0dff0",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d0dff0"
+    },
+    {
+      "depth": 1,
+      "entry": "140d0e120",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d0e120"
+    },
+    {
+      "depth": 1,
+      "entry": "140d0e190",
+      "is_external": false,
+      "is_leaf": false,
+      "is_thunk": false,
+      "name": "FUN_140d0e190"
+    }
+  ],
+  "nodes_are_excerpt": true,
+  "nodes_full_count": 5613,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md §7.3 S-05: walking N levels of callers and callees from a seed address, what is the graph (nodes with leaf/thunk status, edges with call-site addresses, indirect calls flagged rather than dropped)?",
+  "seed": {
+    "entry": "140f309c0",
+    "spec": "140f309c0"
+  },
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-05",
+  "unresolved_caller_edge_count": 6
+}

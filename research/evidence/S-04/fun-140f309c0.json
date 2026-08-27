@@ -1,0 +1,677 @@
+{
+  "build_key": "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+  "decompile": {
+    "c_code_excerpt": "\r\nvoid switchD_143dce8f1::caseD_1(void)\r\n\r\n{\r\n  return;\r\n}\r\n\r\n",
+    "c_code_excerpt_truncated": false,
+    "c_code_full_path": "D:\\Dev\\MiseryFramework\\workspace\\functions\\fun-140f309c0.c",
+    "c_code_lines": 7,
+    "c_code_sha256": "9baa024112878e353b0de70121835a927b973981bbbaa664e7defdf74a53f76a",
+    "error_message": null,
+    "sanity_check": {
+      "braces_balanced": true,
+      "contains_error_marker": false,
+      "non_empty": true,
+      "parens_balanced": true,
+      "plausible": true,
+      "semicolon_count": 1
+    },
+    "succeeded": true,
+    "timeout_seconds": 60
+  },
+  "disassembly": {
+    "full_jsonl_path": null,
+    "full_jsonl_sha256": null,
+    "instruction_count": 1,
+    "max_instructions": 20000,
+    "rows": [
+      {
+        "address": "140f309c0",
+        "length": 3,
+        "mnemonic": "RET",
+        "operands": [
+          "0x0"
+        ]
+      }
+    ],
+    "rows_are_excerpt": false,
+    "truncated_at_max_instructions": false
+  },
+  "function": {
+    "calling_convention": "unknown",
+    "entry": "140f309c0",
+    "is_external": false,
+    "is_thunk": false,
+    "name": "caseD_1",
+    "parameter_count": 0,
+    "parameters": [],
+    "return_type": "undefined",
+    "signature": "undefined caseD_1(void)",
+    "size_bytes": 3
+  },
+  "function_spec": "140f309c0",
+  "generated_at": "2026-08-26T00:00:00Z",
+  "generator": "pyghidra_scripts/dump_function.py",
+  "generator_version": "1.0.0",
+  "incoming_call_count": 5612,
+  "incoming_calls": [
+    {
+      "entry": "140cd71b0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cd71b0"
+    },
+    {
+      "entry": "140ce7180",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ce7180"
+    },
+    {
+      "entry": "140cecce0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cecce0"
+    },
+    {
+      "entry": "140ced850",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ced850"
+    },
+    {
+      "entry": "140cedcc0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cedcc0"
+    },
+    {
+      "entry": "140cf0c00",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cf0c00"
+    },
+    {
+      "entry": "140cf15c0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cf15c0"
+    },
+    {
+      "entry": "140cf3370",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cf3370"
+    },
+    {
+      "entry": "140cf41c0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cf41c0"
+    },
+    {
+      "entry": "140cf4ac0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140cf4ac0"
+    },
+    {
+      "entry": "140d03a70",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d03a70"
+    },
+    {
+      "entry": "140d03b80",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d03b80"
+    },
+    {
+      "entry": "140d04320",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d04320"
+    },
+    {
+      "entry": "140d04b80",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d04b80"
+    },
+    {
+      "entry": "140d08890",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d08890"
+    },
+    {
+      "entry": "140d08e60",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d08e60"
+    },
+    {
+      "entry": "140d09290",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d09290"
+    },
+    {
+      "entry": "140d09530",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d09530"
+    },
+    {
+      "entry": "140d099d0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d099d0"
+    },
+    {
+      "entry": "140d09af0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d09af0"
+    },
+    {
+      "entry": "140d0d5b0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0d5b0"
+    },
+    {
+      "entry": "140d0dba0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0dba0"
+    },
+    {
+      "entry": "140d0dff0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0dff0"
+    },
+    {
+      "entry": "140d0e120",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0e120"
+    },
+    {
+      "entry": "140d0e190",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0e190"
+    },
+    {
+      "entry": "140d0e300",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0e300"
+    },
+    {
+      "entry": "140d0e480",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0e480"
+    },
+    {
+      "entry": "140d0eee0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0eee0"
+    },
+    {
+      "entry": "140d0f0b0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0f0b0"
+    },
+    {
+      "entry": "140d0f220",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d0f220"
+    },
+    {
+      "entry": "140d13080",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d13080"
+    },
+    {
+      "entry": "140d13c40",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d13c40"
+    },
+    {
+      "entry": "140d13d60",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d13d60"
+    },
+    {
+      "entry": "140d13e70",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d13e70"
+    },
+    {
+      "entry": "140d1d540",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140d1d540"
+    },
+    {
+      "entry": "140db8e50",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140db8e50"
+    },
+    {
+      "entry": "140ddca20",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ddca20"
+    },
+    {
+      "entry": "140ddcf10",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ddcf10"
+    },
+    {
+      "entry": "140de6300",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140de6300"
+    },
+    {
+      "entry": "140de6b70",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140de6b70"
+    },
+    {
+      "entry": "140de7af0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140de7af0"
+    },
+    {
+      "entry": "140dea1c0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dea1c0"
+    },
+    {
+      "entry": "140dea350",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dea350"
+    },
+    {
+      "entry": "140dea540",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dea540"
+    },
+    {
+      "entry": "140deb410",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140deb410"
+    },
+    {
+      "entry": "140decfc0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140decfc0"
+    },
+    {
+      "entry": "140def390",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140def390"
+    },
+    {
+      "entry": "140df0090",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df0090"
+    },
+    {
+      "entry": "140df3de0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df3de0"
+    },
+    {
+      "entry": "140df6840",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df6840"
+    },
+    {
+      "entry": "140df6c70",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df6c70"
+    },
+    {
+      "entry": "140df8090",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df8090"
+    },
+    {
+      "entry": "140df9060",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df9060"
+    },
+    {
+      "entry": "140df9bc0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df9bc0"
+    },
+    {
+      "entry": "140df9d30",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140df9d30"
+    },
+    {
+      "entry": "140dfa3c0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dfa3c0"
+    },
+    {
+      "entry": "140dfaf30",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dfaf30"
+    },
+    {
+      "entry": "140dfb1a0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dfb1a0"
+    },
+    {
+      "entry": "140dfb2d0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dfb2d0"
+    },
+    {
+      "entry": "140dfba10",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dfba10"
+    },
+    {
+      "entry": "140dfbe30",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dfbe30"
+    },
+    {
+      "entry": "140dfd660",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140dfd660"
+    },
+    {
+      "entry": "140e73c30",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e73c30"
+    },
+    {
+      "entry": "140e73d80",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e73d80"
+    },
+    {
+      "entry": "140e74390",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e74390"
+    },
+    {
+      "entry": "140e74570",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e74570"
+    },
+    {
+      "entry": "140e74640",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e74640"
+    },
+    {
+      "entry": "140e75fc0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e75fc0"
+    },
+    {
+      "entry": "140e76a60",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e76a60"
+    },
+    {
+      "entry": "140e78b60",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e78b60"
+    },
+    {
+      "entry": "140e79a70",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e79a70"
+    },
+    {
+      "entry": "140e79fa0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e79fa0"
+    },
+    {
+      "entry": "140e7a300",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e7a300"
+    },
+    {
+      "entry": "140e7b1c0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e7b1c0"
+    },
+    {
+      "entry": "140e7cc30",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e7cc30"
+    },
+    {
+      "entry": "140e7ce40",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e7ce40"
+    },
+    {
+      "entry": "140e7f2a0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e7f2a0"
+    },
+    {
+      "entry": "140e7f520",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e7f520"
+    },
+    {
+      "entry": "140e9a650",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9a650"
+    },
+    {
+      "entry": "140e9aa90",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9aa90"
+    },
+    {
+      "entry": "140e9ad70",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9ad70"
+    },
+    {
+      "entry": "140e9b250",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9b250"
+    },
+    {
+      "entry": "140e9b5f0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9b5f0"
+    },
+    {
+      "entry": "140e9bd60",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9bd60"
+    },
+    {
+      "entry": "140e9d0d0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9d0d0"
+    },
+    {
+      "entry": "140e9dfe0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9dfe0"
+    },
+    {
+      "entry": "140e9f5b0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9f5b0"
+    },
+    {
+      "entry": "140e9f860",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140e9f860"
+    },
+    {
+      "entry": "140ea00d0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ea00d0"
+    },
+    {
+      "entry": "140ea3a60",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ea3a60"
+    },
+    {
+      "entry": "140ea3d90",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ea3d90"
+    },
+    {
+      "entry": "140ea4a70",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ea4a70"
+    },
+    {
+      "entry": "140ea6d30",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ea6d30"
+    },
+    {
+      "entry": "140ea7a80",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ea7a80"
+    },
+    {
+      "entry": "140ea8230",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140ea8230"
+    },
+    {
+      "entry": "140eab950",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140eab950"
+    },
+    {
+      "entry": "140eabcc0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140eabcc0"
+    },
+    {
+      "entry": "140eac510",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140eac510"
+    },
+    {
+      "entry": "140eacac0",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140eacac0"
+    },
+    {
+      "entry": "140eacb10",
+      "is_external": false,
+      "is_thunk": false,
+      "name": "FUN_140eacb10"
+    }
+  ],
+  "incoming_calls_truncated": true,
+  "outgoing_call_count": 0,
+  "outgoing_calls": [],
+  "outgoing_calls_truncated": false,
+  "project": {
+    "name": "T05-primary-default-analysis",
+    "program": "/MISERY-Win64-Shipping.exe",
+    "program_name": "MISERY-Win64-Shipping.exe",
+    "root": "D:\\Tools\\ghidra-projects"
+  },
+  "question": "plan.md §7.3 S-04: for one function (by address or name), what is its entry/size/calling convention, its decompiled pseudocode, its disassembly, and its one-level outgoing/incoming calls?",
+  "target_copy": {
+    "bytes": 134658048,
+    "path": "D:\\Tools\\ghidra-workspace\\bin\\MISERY-Win64-Shipping.exe",
+    "sha256": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_expected": "0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "sha256_matches": true
+  },
+  "task": "plan.md §7.3 S-04"
+}
