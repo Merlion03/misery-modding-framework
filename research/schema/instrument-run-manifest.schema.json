@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "instrument-run-manifest.schema.json",
+  "title": "Instrument Run Manifest",
+  "description": "The manifest every run of the External Read-Only Inspector (ERI, level 1) or the In-Process Research Probe (IPP, level 2) must write to research/instrument-runs/<timestamp>/manifest.json (plan.md 8.5, 9.2, 19). research/instrument-runs/README.md states the six mandatory contents: (1) which instrument level ran, (2) the build_key the run was against, (3) the launch arguments, (4) the tool version, (5) which capabilities were enabled - I-* ids for ERI, P-* ids for IPP, and for IPP this is load-bearing rather than bookkeeping, because IPP capabilities are off by default and switched on one at a time with explicit flags (--allow-call, --allow-mount, --allow-spawn); the manifest is the only place a later reader can see that exactly the necessary capability was enabled and nothing more, which is what plan.md 8.4 condition 5 demands, (6) the state of tools/inventory/verify_install.py before and after the run, mandatory for every IPP session (plan.md 8.5, 1.5 layer 3) and recorded as null on an ERI session where it was not run. A manifest is itself a knowledge-base claim - 'this exact run happened, against this build, with these arguments, with exactly these capabilities on' - so it composes the kb-record envelope of kb-record.schema.json the same way experiment-result.schema.json does: evidence_level, confidence, sources, oracle, build_key and recorded_at are inherited from '#/$defs/envelope' via allOf and are NOT redeclared as properties of this schema. The three functions this record serves, per research/instrument-runs/README.md, are reproducibility (a dump without its arguments, tool version and build_key cannot be repeated, and plan.md 10.3 does not accept an unreproducible dump as confirmation), auditability of the read-only boundary (exit criterion M3, plan.md 8.6, requires the reflection map to have been obtained 'without a single write into the process memory' - a claim about METHOD, checkable after the fact only from a record of exactly what was switched on), and installation-drift detection (the verify_install.py before/after pair answers whether the game tree changed during the session, ours or not).",
+  "$comment": "REFERENCE RESOLUTION. The $id is the relative URI-reference 'instrument-run-manifest.schema.json', i.e. this file's own name, so the '$ref': 'kb-record.schema.json#/$defs/envelope' and 'kb-record.schema.json#/$defs/timestamp' below resolve against the base the consumer loaded THIS file from - on disk, the sibling file in research/schema/. An absolute base under a host in the reserved .invalid TLD (RFC 2606) was tried elsewhere in this project's history and rejected: nothing except tools/kb/validate.py's own offline registry can resolve it, every other consumer (an editor, check-jsonschema, a plain jsonschema.Draft202012Validator) turns the $ref into a network fetch of a host RFC 2606 reserves as non-existent, and the fetch ends in DNS/SSL failure and then Unretrievable. A schema only one tool in the world can resolve is not a published schema. tools/kb/validate.py wires this exact filename to the artifact rule 'instrument-runs/*/manifest.json' (plan.md 8 / 19) - see research/instrument-runs/README.md's own 'open point' section, which names this file by path before it existed and calls out that the first manifest to appear before this schema was written would get a missing-schema-layer warning from the validator. That gap is what task K-02 (plan.md 9.4) closes.",
+  "type": "object",
+  "unevaluatedProperties": false,
+  "properties": {
+    "run_id": {
+      "description": "Identifier of this run, normally exactly the research/instrument-runs/<timestamp> directory name this manifest.json lives in (plan.md 9.2, 19). Kept as a plain string rather than a strict timestamp pattern - like the equivalent 'runs[].run_id' field of experiment-result.schema.json - because the directory-naming convention for a timestamp is a tooling detail, not a claim this schema should freeze; what matters for reproducibility is that the id here and the folder it is found in agree, which tools/kb/validate.py can check structurally since it already maps the artifact by its glob path.",
+      "type": "string",
+      "minLength": 1
+    },
+    "instrument_level": {
+      "description": "Which of the two instrumentation levels of plan.md 8 produced this run. 'eri' = External Read-Only Inspector, level 1, a separate process holding only PROCESS_QUERY_INFORMATION | PROCESS_VM_READ on the game, architecturally unable to write, inject, hook or call (plan.md 8.2). 'ipp' = In-Process Research Probe, level 2, code executing inside the game process, permitted only after the five-condition escalation record of plan.md 8.4 is written to research/decisions.md. This manifest schema deliberately spells the two values as the short acronyms used by research/instruments/eri/README.md and research/instruments/ipp/README.md and by this very directory's own README, rather than reusing the 'level-1-eri' / 'level-2-ipp' spelling of experiment-result.schema.json's own 'instrument_level' enum: that field also carries a third value, 'level-0-offline', because an experiment verdict can rest on no live instrument at all, a case this schema does not need to express - every file under research/instrument-runs/ is by definition the record of an ERI or IPP session, never of an offline one.",
+      "type": "string",
+      "enum": [
+        "eri",
+        "ipp"
+      ]
+    },
+    "arguments": {
+      "description": "The exact command-line argv the instrument was launched with, in the order given, one array element per token - for example ['--pid','12345','--dump','classes','--allow-call','GetName','--allow-call','IsA']. An ordered array of strings, not an object keyed by flag name, is the shape that actually matches how both tools are invoked (argparse CLIs, per research/instruments/eri/README.md and .../ipp/README.md): plan.md 8.5 has IPP capabilities switched on by REPEATED explicit flags, one per capability (--allow-call may legitimately appear more than once, once per UFunction the run is permitted to call), and a key-value object would either collapse repeated flags into one key and silently lose how many times and with what distinct values the flag was actually passed, or force every value into an array-of-arrays just to avoid that loss - at which point it has stopped being simpler than the argv it was trying to summarize. An array of strings is also what makes the run trivially replayable: it is the literal argv, not a paraphrase of it, and it is what a reader checks against capabilities_enabled below to see whether the launch line and the declared capabilities agree.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tool_version": {
+      "description": "Version of the instrument that produced this run, exactly as the tool reports itself. plan.md 8.1 gives ERI and IPP explicitly 'no API stability' and a one-off, throwaway lifetime, so this is deliberately not required to be semver: a git commit hash, a build date, or an ad hoc string such as 'eri-dev' are all legitimate values, as long as the same run re-executed against the same commit reports the same string. What must never happen is the field being absent, because research/instrument-runs/README.md lists the tool version alongside the arguments and the build_key as the three facts without which a dump 'cannot be repeated' at all.",
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilities_enabled": {
+      "description": "Exactly which capability ids were switched on for this run - I-01..I-16 (plan.md 8.2) for an ERI run, P-01..P-06 (plan.md 8.3) for an IPP run. For ERI this is a descriptive inventory of which read-only capabilities the tool exercised. For IPP it is the load-bearing half of the manifest: IPP has none of these on by default, each is switched on individually by an explicit flag (--allow-call, --allow-mount, --allow-spawn), and plan.md 8.4 condition 5 requires that an escalation enable 'the minimally necessary capability, not the whole set' - a requirement that is unauditable after the fact unless the exact set actually enabled is written down somewhere, which is here. The two id vocabularies are disjoint and closed (research/instruments/eri/README.md, research/instruments/ipp/README.md); which subset is legal for THIS record is enforced below by the instrument_level conditional, so a mismatched id (a P-* value on an eri record, or vice-versa) is a schema violation and not merely a style nit.",
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/eri_capability_id"
+          },
+          {
+            "$ref": "#/$defs/ipp_capability_id"
+          }
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "verify_install_before": {
+      "description": "Result of running tools/inventory/verify_install.py against the installation immediately BEFORE this instrument session started, or null. Null is legal only for an ERI record and means 'not run for this session' - plan.md 8.5 makes the before/after pair mandatory for IPP only, and research/instrument-runs/README.md extends the recommendation, not the requirement, to ERI ('record it if it was run, null if not'); the instrument_level conditional below turns the IPP half of that sentence into an enforced rule, rejecting null for any instrument_level 'ipp' record. When non-null, this is a reduced summary of verify_install.py's own --json report (tools/inventory/verify_install.py's payload shape: checked_at, mode, findings, serious_count, benign_count, baseline_build_key), not a duplicate of the full findings array - the full report, if one was saved, belongs in 'artifacts' below and is pointed at here by report_artifact, mirroring how kb-record.schema.json's own 'source' definition lets a record cite an artifact by path plus a locator instead of inlining it.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/verify_install_state"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verify_install_after": {
+      "description": "Same shape and same rules as verify_install_before, but for the check run immediately AFTER the session ended. The two together are what answers research/instrument-runs/README.md's third stated function of the manifest: 'did the game tree change during the session, including not by our own doing' (a Steam patch landing mid-session, third-party software touching the install) - a question that only a before/after PAIR can answer, since either check alone only shows a state, not a change.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/verify_install_state"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "executed_at": {
+      "$ref": "kb-record.schema.json#/$defs/timestamp",
+      "description": "When this run was actually launched, ISO-8601 UTC. Kept distinct from the envelope's inherited 'recorded_at' (when this manifest record was written) for the same reason experiment-result.schema.json keeps 'runs[].executed_at' distinct from 'recorded_at': the manifest is normally written by the instrument itself at the moment the run happens, so the two will usually coincide, but they are not the same fact, and a manifest hand-completed or amended after the fact must not be allowed to silently overwrite when the run itself occurred."
+    },
+    "artifacts": {
+      "description": "Repository-relative paths of every dump this run produced under its own research/instrument-runs/<timestamp>/ directory (classes.jsonl, a verify_install --json report, or any other output named in research/instrument-runs/README.md's directory layout). Mirrors experiment-result.schema.json's own 'artifacts' field in shape and in being nullable rather than mandatory: a run that crashed, was blocked, or was refused before writing any dump still needs its manifest recorded as the honest account of what was attempted (plan.md 14A.7's 'a blocked result must not be hidden' applies here too), and such a manifest legitimately has nothing to list yet.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "claim_type_note": {
+      "description": "The one-sentence justification tools/kb/validate.py's JUSTIFICATION_KEYS requires whenever claim_type is 'other' (validator 3.2.0+, plan.md 10.5's OracleRequirement for 'other'). A manifest's own claim - 'this exact run happened, against this build, with these arguments, with exactly these capabilities on' - is a bookkeeping/provenance fact about the RESEARCH PROCESS, not a claim about the game, and none of the plan.md 10.5 v2.1 matrix's fourteen numbered rows describes it; the three other bookkeeping ids ('engine-identity', 'build-identity', 'layout-observation') each name a specific kind of fact this is not. 'other' is therefore the honest choice, and this field is the one sentence naming why - not required when claim_type is absent or is one of the non-'other' bookkeeping ids, which need no justification.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "run_id",
+    "instrument_level",
+    "arguments",
+    "tool_version",
+    "capabilities_enabled",
+    "verify_install_before",
+    "verify_install_after",
+    "executed_at"
+  ],
+  "allOf": [
+    {
+      "$comment": "Every instrument run manifest is a knowledge-base record and must carry the common envelope of plan.md 10 - evidence_level, confidence, sources, oracle, build_key (item 2 of the README's six-item list) and recorded_at. None of those five fields is redeclared in 'properties' above; they arrive here.",
+      "$ref": "kb-record.schema.json#/$defs/envelope"
+    },
+    {
+      "$comment": "plan.md 8.2 / research/instruments/eri/README.md: an ERI run may only enable I-* capabilities. Composed with the base 'capabilities_enabled.items' schema (an anyOf of the two id vocabularies), this branch's narrower enum leaves only the I-* half admissible for an eri record, so a P-* id on an eri manifest fails validation instead of merely looking wrong on review.",
+      "if": {
+        "required": [
+          "instrument_level"
+        ],
+        "properties": {
+          "instrument_level": {
+            "const": "eri"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "capabilities_enabled": {
+            "items": {
+              "$ref": "#/$defs/eri_capability_id"
+            }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "plan.md 8.3 / 8.5 and research/instruments/ipp/README.md: an IPP run may only enable P-* capabilities, and - the enforcement of README item 6 and plan.md 8.5's explicit 'before and after any IPP session verify_install.py is mandatory' - verify_install_before and verify_install_after must both be present AND non-null. Presence alone is already required at the top level for every record; what this branch adds is the exclusion of null specifically for instrument_level 'ipp', which is the one case research/instrument-runs/README.md does NOT allow to fall back to 'null if not run'.",
+      "if": {
+        "required": [
+          "instrument_level"
+        ],
+        "properties": {
+          "instrument_level": {
+            "const": "ipp"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "verify_install_before",
+          "verify_install_after"
+        ],
+        "properties": {
+          "capabilities_enabled": {
+            "items": {
+              "$ref": "#/$defs/ipp_capability_id"
+            }
+          },
+          "verify_install_before": {
+            "type": "object"
+          },
+          "verify_install_after": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "eri_capability_id": {
+      "title": "ERI capability id",
+      "description": "One of the sixteen level-1 capabilities of plan.md 8.2 / research/instruments/eri/README.md: I-01 find the process and the Shipping module's base address and size; I-02 enumerate UObjects via the candidate GUObjectArray; I-03 resolve an FName to a string past FNamePool; I-04 dump a UClass with its inheritance chain; I-05 dump a UFunction (name, flags, parameters); I-06 dump an FProperty (name, type, offset, size, flags, in-class order); I-07 find the UWorld; I-08 find the UGameInstance and its subsystems; I-09 find the ULocalPlayer / local APlayerController; I-10 find the local player's Pawn; I-11 read property values of a given object; I-12 read Role / RemoteRole / NetMode / ownership; I-13 periodic snapshots and diffs between them; I-14 read the list of mounted containers / pak-platform state; I-15 read the in-memory AssetRegistry; I-16 export everything gathered to research/ as JSONL. This enum is the closed vocabulary; a value outside it is not a level-1 capability.",
+      "type": "string",
+      "enum": [
+        "I-01",
+        "I-02",
+        "I-03",
+        "I-04",
+        "I-05",
+        "I-06",
+        "I-07",
+        "I-08",
+        "I-09",
+        "I-10",
+        "I-11",
+        "I-12",
+        "I-13",
+        "I-14",
+        "I-15",
+        "I-16"
+      ]
+    },
+    "ipp_capability_id": {
+      "title": "IPP capability id",
+      "description": "One of the six level-2 capabilities of plan.md 8.3 / research/instruments/ipp/README.md, every one of them impossible from outside the process and therefore requiring the plan.md 8.4 escalation record before it may ever appear here: P-01 observe ProcessEvent calls (log of which UFunctions were invoked); P-02 call a safe read-only UFunction to test a hypothesis; P-03 initiate the mount of a test container (only relevant if I-14 showed the build does not auto-discover containers); P-04 load an asset (a LoadObject equivalent); P-05 spawn a test Actor; P-06 verify inheritance and native-member access work correctly on a cooked Blueprint from an external container (M5c / E-3b). This enum is the closed vocabulary; a value outside it is not a level-2 capability, and plan.md 8.4 condition 5 requires that only the minimum necessary subset of it ever be enabled at once.",
+      "type": "string",
+      "enum": [
+        "P-01",
+        "P-02",
+        "P-03",
+        "P-04",
+        "P-05",
+        "P-06"
+      ]
+    },
+    "verify_install_state": {
+      "title": "verify_install.py result summary",
+      "description": "A reduced summary of one tools/inventory/verify_install.py run, shaped after that tool's own --json report payload (checked_at, mode, findings, serious_count, benign_count, baseline_build_key - see the module docstring and 'main()' in tools/inventory/verify_install.py). Used for both verify_install_before and verify_install_after; the object never carries the full per-finding 'findings' array, because verify_install.py already writes that array to its own --json report file when asked to, and duplicating it here would create two on-disk copies that could silently drift apart - the manifest instead points at that file with report_artifact, the same artifact-plus-summary shape kb-record.schema.json's own 'source' definition uses for evidence in general.",
+      "type": "object",
+      "properties": {
+        "checked_at": {
+          "$ref": "kb-record.schema.json#/$defs/timestamp",
+          "description": "When this verify_install.py invocation ran, ISO-8601 UTC. Corresponds to the 'checked_at' field of verify_install.py's own --json payload."
+        },
+        "mode": {
+          "description": "'full' = every file was re-hashed (sha256, the authoritative answer, the tool's default); 'fast' = only size and mtime were compared (the --fast flag), which is fast but cannot prove content is intact and reports every mtime change as the serious 'mtime_changed_unverified' finding, per the tool's own module docstring. plan.md 8.5's before/after mandate does not itself pick a mode; recording which one ran here is what lets a later reader judge how authoritative the before/after comparison actually is.",
+          "type": "string",
+          "enum": [
+            "fast",
+            "full"
+          ]
+        },
+        "strict": {
+          "description": "Whether verify_install.py's --strict flag was passed, i.e. whether benign findings (mtime_changed_hash_same, baseline_hash_missing) were promoted to serious for this check's own pass/fail exit code. Null when not recorded.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "result": {
+          "description": "The tri-state outcome verify_install.py itself prints as its RESULT line and encodes in its exit code. 'match' = no findings at all, exit code 0. 'match-with-benign' = exit code 0 but one or more benign findings were printed (content intact, only timestamps moved); this state cannot occur when strict is true, because --strict promotes those findings to serious and the exit code becomes 1. 'mismatch' = at least one serious finding, exit code 1 (or any finding at all under --strict).",
+          "type": "string",
+          "enum": [
+            "match",
+            "match-with-benign",
+            "mismatch"
+          ]
+        },
+        "serious_count": {
+          "description": "Count of serious findings (missing, added, size_changed, hash_changed, unreadable, mtime_changed_unverified) from this check, per verify_install.py's own SERIOUS_KINDS classification. Zero means the installation matched on every point this mode is able to check.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "benign_count": {
+          "description": "Count of benign findings (mtime_changed_hash_same, baseline_hash_missing) from this check, per verify_install.py's own BENIGN_KINDS classification. A nonzero value with serious_count at zero means content is intact and only bookkeeping (a timestamp, a baseline missing its hash) differs.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "baseline_build_key": {
+          "$ref": "kb-record.schema.json#/$defs/build_key",
+          "description": "The build_key recorded in the install-inventory JSON this check compared the live tree against (verify_install.py's own 'baseline_build_key' field). Lets a reader confirm this before/after pair was actually checked against the same build the run's own top-level build_key names, rather than a stale inventory."
+        },
+        "report_artifact": {
+          "description": "Repository-relative path to the full --json report verify_install.py wrote for this check, if one was saved (normally alongside this manifest, under the same research/instrument-runs/<timestamp>/ directory, and also listed in this record's own 'artifacts'). Null when the check ran but only its console output was kept - which loses the per-finding detail and is discouraged, but is not itself a schema violation.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "checked_at",
+        "mode",
+        "result",
+        "serious_count",
+        "benign_count"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

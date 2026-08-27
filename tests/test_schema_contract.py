@@ -270,7 +270,7 @@ class TestSchemasArePublishable(SchemaContractTestCase):
                 Draft202012Validator(_kb_record_of(name)).is_valid({})
 
     def test_cross_file_schemas_are_declared_not_forgotten(self):
-        """The three remaining schemas $ref across files, so they need a registry.
+        """The four remaining schemas $ref across files, so they need a registry.
 
         Pinned as a fact rather than left implicit: a future edit that makes
         one of them self-contained, or that gives a bundle a cross-file $ref,
@@ -287,7 +287,7 @@ class TestSchemasArePublishable(SchemaContractTestCase):
                 cross_file.append(path.name)
         self.assertEqual(
             ["experiment-result.schema.json", "fingerprint.schema.json",
-             "reflection-record.schema.json"],
+             "instrument-run-manifest.schema.json", "reflection-record.schema.json"],
             sorted(cross_file))
 
 

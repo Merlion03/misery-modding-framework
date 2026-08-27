@@ -1,0 +1,12 @@
+{
+  "base_address_decimal": 140698162692096,
+  "base_address_hex": "0x7ff6d8020000",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "capability": "I-01",
+  "generator": "research/instruments/eri/eri.py",
+  "generator_version": "0.1.0",
+  "image_size_bytes": 138403840,
+  "pid": 17488,
+  "process_name": "MISERY-Win64-Shipping.exe",
+  "recorded_at": "2026-08-27T10:05:02Z"
+}

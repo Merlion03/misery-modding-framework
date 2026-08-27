@@ -1,0 +1,36 @@
+{
+  "arguments": [
+    "--build-key",
+    "sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383",
+    "--run-dir",
+    "research/instrument-runs/2026-08-27T130426Z-rerun2",
+    "--json"
+  ],
+  "artifacts": [
+    "research/instrument-runs/2026-08-27T130426Z-rerun2/i01-process-info.json"
+  ],
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "capabilities_enabled": [
+    "I-01"
+  ],
+  "claim_type": "other",
+  "claim_type_note": "a manifest records that a research instrument ran, not a fact about the game; no plan.md 10.5 matrix row describes an instrument-run bookkeeping record (research/schema/instrument-run-manifest.schema.json 'claim_type_note').",
+  "confidence": 0.75,
+  "evidence_level": "OBSERVED",
+  "executed_at": "2026-08-27T10:05:59Z",
+  "instrument_level": "eri",
+  "notes": "Written by research/instruments/eri/eri.py (capability I-01 only). recorded_at/executed_at are real wall-clock time unless --recorded-at pinned them; --no-timestamp affects only the sibling I-01 output document's own 'recorded_at' field, never this manifest's, because instrument-run-manifest.schema.json requires both to be non-null timestamps at all times. CORRECTED 2026-08-27: the build_key originally recorded here (sha256:0eef3715244b467c830022c4260a0e2c29c7def1429cb34aa37fdf9b7e14a383) was WRONG for this run -- Steam auto-updated MISERY (buildid 24826585 -> 24953925) as a side effect of launching it for this test, completing moments before this run executed (appmanifest LastUpdated=2026-08-27T10:04:24Z vs this runs recorded_at=2026-08-27T10:05:02Z). The address/size VALUES read here are unaffected (they describe whatever process was actually running, correctly); only the build_key LABEL was corrected in place, per RESEARCH_LOG.md rule 8 (editorial correction, no finding changed). See LOG-0048 for the full account.",
+  "oracle": [
+    "runtime-reflection"
+  ],
+  "recorded_at": "2026-08-27T10:05:59Z",
+  "run_id": "2026-08-27T130426Z-rerun2",
+  "sources": [
+    {
+      "method": "I-01"
+    }
+  ],
+  "tool_version": "0.1.0",
+  "verify_install_after": null,
+  "verify_install_before": null
+}
