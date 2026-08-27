@@ -5348,3 +5348,127 @@ question → method → evidence → finding → confidence → persistent artif
   указанию пользователя.
 
 ---
+
+## 2026-08-27 — I-06 `FProperty`-декодер: два реальных офсет-бага пойманы ЖИВЫМ прогоном, 234 свойства декодированы у 35 классов
+
+- **ID:** LOG-0054
+- **Question:** Можно ли, имея exact-source-derived (UE 5.4.4 CL 35576357) офсеты для
+  `FField`/`FFieldClass`/`FProperty` и его 12 именованных подтипов, восстановить у живого процесса
+  property name, owner, property class/type, offset, array dimension, element size, property flags
+  и типоспецифичные данные — на небольшом proof-set (`/Script/MISERY` + известные engine-классы +
+  найденные `/Game` Blueprint-классы), без единой записи в память и без предположений вместо чтения
+  источника?
+- **Method:** Source-derivation (без единой догадки, всё — прямое чтение
+  `D:\Program Files\UE_5.4\Engine\Source\...`, с перепроверкой собственным скриптом
+  `parse_class.py` на brace-depth, а не regex): `FField`/`FFieldClass` (`Field.h`), `FProperty` и
+  все 12 подтипов (`UnrealType.h`, `EnumProperty.h`, `TextProperty.h`), `UStruct::ChildProperties`
+  (`Class.h`). Implementation wave: 1 high-effort агент с полным precomputed offset-набором →
+  2 целевых adversarial-ревью параллельно (независимая re-derivation офсетов; traversal-safety +
+  test-coverage), оба запущены одновременно, не последовательно, чтобы не тратить время держателя
+  сессии — **оба вернулись "чисто"**, но НИ ОДИН не поймал два реальных бага ниже: оба ревью
+  остановились на чтении заголовков и повторили ту же (неверную) цепочку рассуждений, что и
+  первоначальная реализация. Поймал оба бага только ЖИВОЙ прогон против настоящего
+  `MISERY-Win64-Shipping.exe` (`steam://run/2119830`, pid 14752) — первый `--run-i02 --run-i03
+  --run-i04 --run-i06` дал `properties_accepted_total=0`; вместо того чтобы принять это как «у
+  proof-set классов просто нет свойств», прочитал сырые байты через отдельный read-only
+  диагностический скрипт (`scratchpad/diag_childprops*.py`, те же `Win32Api.open_process`/
+  `read_process_memory` методы, что и `eri.py`, ни одного нового call site) вокруг `UStruct+0x40` и
+  `FFieldClass::Name`, нашёл несоответствие, вернулся к первоисточнику `Class.h`/`Field.cpp` за
+  объяснением, исправил, перезапустил живой прогон ПРОТИВ ТОГО ЖЕ процесса (не перезапуская игру) —
+  дважды, до чистого результата. `verify_install.py` MATCH до и после всей сессии (оба процесса,
+  MISERY.exe + MISERY-Win64-Shipping.exe, остановлены после). 234 строки `properties.jsonl`
+  провалидированы напрямую против `reflection-record.schema.json` (0 ошибок).
+- **Evidence:** `research/reflection/misery-24953925-ue5.4.4-bace50f7185d/properties.jsonl` (234
+  строки, канонический путь); `research/instrument-runs/2026-08-27T153951Z-i06/` (первый прогон,
+  офсет-баг #1 ещё не исправлен, `properties_accepted_total=0`), `.../2026-08-27T154643Z-i06-fixed/`
+  (баг #1 исправлен, баг #2 ещё нет, `not_a_property: 234`), `.../2026-08-27T155449Z-i06-v2/`
+  (оба бага исправлены, `properties_accepted_total=234, rejected_counts_total={}`) — каждый со
+  своим `i01-process-info.json`/`i02-guobjectarray.json`/`i03-fnamepool.json`/`i04-classes.json`/
+  `i06-properties.json`/`properties.jsonl`/`manifest.json`. Код: `research/instruments/eri/eri.py`
+  (I-06 добавлен и оба бага исправлены прямо в нём — исправление не оставлено «на потом»);
+  `tests/test_eri_i06.py` (81 тест, все пройдены после исправления фикстур под реальное поведение).
+- **Finding:**
+  1. **Баг №1 — `UStruct::ChildProperties` не на `+0x40`, а на `+0x50`.** Прежний вывод (прошлая
+     фаза сессии, переиспользованный без переперепроверки ни одним из двух ревью этой волны)
+     пропустил, что `UStruct` в non-editor/Shipping сборке (`UE_EDITOR=0`) условно наследует ЕЩЁ и
+     `FStructBaseChain` (`Class.h:382-385`: `#if USTRUCT_FAST_ISCHILDOF_IMPL ==
+     USTRUCT_ISCHILDOF_STRUCTARRAY`, и `ObjectMacros.h:40-46` резолвит это условие в true для ЛЮБОЙ
+     non-editor сборки) — приватный базовый класс размером 0x10 байт
+     (`StructBaseChainArray`+`NumStructBasesInChainMinusOne`+паддинг, `Class.h:349-372`), вставленный
+     МЕЖДУ `UField`-ной частью и собственными полями `UStruct`. Живой симптом до исправления: чтение
+     `+0x40` возвращало НЕ `FField*`, а хвост `NumStructBasesInChainMinusOne` (маленькое целое,
+     например `2` для класса с цепочкой наследования из 3 уровней) — структурно неправдоподобный
+     указатель, корректно отклонённый инвариантами `pointer_alignment`/`class_pointer_implausible`
+     (ни один тест framework не «сломался тихо» — отказ был громким и honest, просто по неверной
+     причине). Исправлено на `+0x50`, подтверждено вживую: разыменование даёт настоящий `FField` со
+     своим (ОТЛИЧНЫМ от владеющего `UClass`) vtable, `ClassPrivate` в статической памяти модуля
+     (там, где живёт `static FFieldClass StaticFieldClass(...)` из макроса `IMPLEMENT_FIELD`), и
+     `Owner` (`FFieldVariant`), ТОЧНО round-trip'ящийся на адрес владеющего класса.
+  2. **Баг №2 — `FFieldClass::Name` хранится БЕЗ префикса "F".** Оба adversarial-ревью (и
+     первоначальная реализация) процитировали `IMPLEMENT_FIELD`-макрос (`Field.h:243-252`,
+     `TEXT(#TClass)`) и остановились на этом — стрингификация макро-параметра действительно даёт
+     `"FBoolProperty"`. Но эта строка передаётся в КОНСТРУКТОР `FFieldClass::FFieldClass`
+     (`Field.cpp:46-61`), который явно отрезает первую букву: `check(InCPPName[0] == 'F'); Name =
+     ++InCPPName;` — комментарий у самого движка: `// Skip the 'F' prefix for the name`. Живой
+     symптом: `FFieldClass::Name` для булева свойства `bStartEditing` декодировался в буквальное
+     `"BoolProperty"`, не `"FBoolProperty"` — и поскольку весь dispatch/структурная валидация I-06
+     сравнивались с F-префиксными константами, КАЖДЫЙ узел цепочки `ChildProperties` отклонялся как
+     `not_a_property` (SuperClass-цепочка реально доходила до `"Property"`, но проверка искала
+     `"FProperty"`, которого в памяти никогда не бывает) — 234 из 234 отклонений после исправления
+     бага №1. Исправлено: 13 констант-диспетчеров переведены на «голые» (без `F`) строки для
+     ВНУТРЕННЕГО сравнения; канонический C++-типа-имя (`"FBoolProperty"`, соответствующее примерам
+     самой `reflection-record.schema.json`) восстанавливается ТОЛЬКО при заполнении выходной записи
+     — простым `"F" + <decoded>`, что тот же самый инвариант конструктора (`InCPPName[0] == 'F'`)
+     гарантирует как всегда обратимую операцию, никогда не догадку.
+  3. **После обоих исправлений: 234 из 234 узлов приняты, 0 отклонений, для 35 proof-set классов**
+     (5 `/Script/MISERY` + 25 `/Game` Blueprint-сэмпл + 5 engine-классов по имени-предпочтению —
+     `Object`/`Actor`/`Struct`/`Class`/`Pawn` все пять реально нашлись в этой сборке). Распределение
+     по `property_class`: `FObjectProperty`=78, `FBoolProperty`=57, `FStructProperty`=25,
+     `FMulticastSparseDelegateProperty`=18, `FFloatProperty`=16, `FByteProperty`=11,
+     `FArrayProperty`=6, `FDoubleProperty`=6, `FEnumProperty`=5, `FIntProperty`=3,
+     `FNameProperty`=3, `FMulticastInlineDelegateProperty`=2, `FClassProperty`=2,
+     `FStrProperty`=1, `FWeakObjectProperty`=1 — 12 явно требуемых типов представлены (кроме
+     `FSetProperty`/`FMapProperty`/`FTextProperty`, которых в этом конкретном proof-set просто не
+     оказалось — честно ноль, не ошибка; типоспецифичные декодеры для них покрыты
+     `tests/test_eri_i06.py`'s собственными синтетическими фикстурами).
+  4. **Семантическая проверка сверх структурных инвариантов — узнаваемые реальные поля движка.**
+     `Pawn::AIControllerClass` (`FClassProperty`) decoded с `class_name="Class"`,
+     `MetaClass="Controller"` — ТОЧНО совпадает с настоящим `APawn::AIControllerClass`
+     (`TSubclassOf<AController>` в движке). `Actor::UpdateOverlapsMethodDuringLevelStreaming`
+     (`FEnumProperty`) decoded с `enum_name="EActorUpdateOverlapsMethod"`,
+     `UnderlyingProp=FByteProperty` — тоже точное совпадение с реальным `AActor`. Это независимая,
+     содержательная (не только структурная: alignment/vtable/round-trip) проверка правильности —
+     декодированные имена типов и связей семантически согласуются с известной реальной сигнатурой
+     движковых классов, не просто «выглядят как валидный указатель».
+  5. **`FBoolProperty.is_bitfield` подтверждён на реальных данных**: все 57 живых `FBoolProperty`
+     декодировались с `bool_field_mask` либо `0xff` (нативный C++ `bool`, `is_bitfield=false`), либо
+     частичной маской (упакованный битовый флаг, `is_bitfield=true`) — оба случая встретились у
+     реального `MiseryEditableText` (например `bStartEditing`: `FieldMask=0xff`).
+  6. **Процесс не менялся, только адреса читались**: оба перезапуска I-06 после каждого
+     исправления шли ПРОТИВ ТОГО ЖЕ живого экземпляра процесса (pid 14752, `base_address` идентичен
+     во всех трёх прогонах, `0x7ff798910000`) — без перезапуска игры, доказывая, что это была ошибка
+     инструмента, а не флуктуация состояния игры между запусками.
+  7. **`tools/kb/validate.py`: 0 нарушений. Полный набор тестов: system Python 1927 passed / 1
+     failed (тот же известный pre-existing `pyghidra`-gate под system Python, не регрессия) / 1
+     skipped; `venv-research` 1928 passed / 1 skipped / 0 failed.**
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.75
+- **Почему не выше:** каждая `property`-запись — единственный сильный метод (`runtime-reflection`)
+  БЕЗ ВОЗМОЖНОСТИ офлайн-сверки в принципе, для любой сборки, когда-либо: `FProperty` не `UObject` и
+  не может встретиться в `ScriptObjects`-чанке, из которого строится `global.ucas`
+  (`research/reflection/misery-24826585-ue5.4.4-0eef3715244b/README.md`'s собственный раздел
+  «Почему `properties.jsonl` пуст»). 0.75 — тот же потолок «один сильный метод, ни одной независимой
+  сверки», что `build_i04_class_record()` уже применяет к single-source `/Game`-записям.
+- **Claim class:** I
+- **Почему class I:** утверждение о ТОМ, ЧТО означают прочитанные байты (что это реально
+  `FProperty`-инстанс с таким-то именем/типом/офсетом), а не позиционное чтение самого по себе.
+- **Oracle:** `runtime-reflection`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** — (LOG-0053's `classes.jsonl` не затронут и не переписан; I-06 добавляет НОВЫЙ
+  файл `properties.jsonl` в тот же канонический каталог, не изменяет существующий)
+- **Next question:** I-05 (`UFunction`-декодер), по прямому указанию пользователя, переиспользуя
+  ЭТОТ ЖЕ property-декодер (`decode_property_type()`, уже спроектирован для этого — адресный, не
+  привязан к тому, что вызывающая сторона это ChildProperties-цепочка) для параметров/return value
+  функций. `ProcessEvent` — по-прежнему вне объёма, до завершения I-05.
+
+---

@@ -1,0 +1,41 @@
+{
+  "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "build_key_cross_checked": false,
+  "capability": "I-02",
+  "check_growth_non_decreasing": {
+    "non_decreasing": true,
+    "num_elements_first": 168575,
+    "num_elements_second": 168575,
+    "pass": true,
+    "poll_interval_seconds": 1.0
+  },
+  "check_sample_walk": {
+    "fail_count": 0,
+    "indices_scanned": 32,
+    "max_scan_indices": 200000,
+    "pass": true,
+    "pass_count": 32,
+    "pass_fraction": 1.0,
+    "pass_fraction_threshold": 0.8,
+    "reason": null,
+    "sample_size_examined": 32,
+    "sample_size_requested": 32
+  },
+  "check_struct_invariants": {
+    "max_elements": 2162688,
+    "num_elements": 168575,
+    "pass": true,
+    "reason": null
+  },
+  "generator": "research/instruments/eri/eri.py",
+  "generator_version": "0.1.0",
+  "guobjectarray_live_va_decimal": 140701521710800,
+  "guobjectarray_live_va_hex": "0x7ff7a0388ed0",
+  "guobjectarray_rva_decimal": 128421584,
+  "guobjectarray_rva_hex": "0x7a78ed0",
+  "identity_self_established": true,
+  "known_build": true,
+  "recorded_at": "2026-08-27T15:46:43Z",
+  "structurally_consistent": true
+}

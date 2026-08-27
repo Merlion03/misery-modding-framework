@@ -180,6 +180,150 @@ same walk inevitably also finds (their total count is reported, never
 persisted -- the "огромный полный semantic dump" the task this capability
 was specified from explicitly says not to produce yet).
 
+WHAT I-06 IS
+------------
+plan.md 8.2, capability I-06: "Декодер FProperty" -- the first FIELD-level
+(as opposed to OBJECT-level) reflection reader. Where I-04 reads exactly
+three fields of every live UObject and never touches a single
+UObjectBaseUtility/UObject/UField/UStruct/UClass-specific byte, I-06 walks
+ONE new UStruct field I-04 deliberately never reads -- ChildProperties
+(UStruct's own +0x50 -- UObjectBase's own 0x28 total size + UField's own
+Next at +0x28 (UField total 0x30) + a PRIVATE, conditionally-compiled
+FStructBaseChain base subobject (+0x30..+0x3F, 0x10 bytes, present in every
+non-editor/Shipping build -- see USTRUCT_CHILD_PROPERTIES_OFFSET's own
+docstring below for the full derivation, including how a prior session
+phase's own +0x40 figure missed this base class and was corrected LIVE this
+pass) + UStruct's own SuperStruct(+0x40)/Children(+0x48)/
+ChildProperties(+0x50)) -- and, from there, an entirely
+different C++ type hierarchy: FField/FFieldClass/FProperty (Engine/Source/
+Runtime/CoreUObject/Public/UObject/Field.h and UnrealType.h, UE 5.4.4
+CL 35576357), which is NOT UObject-derived, NOT a member of GUObjectArray,
+and whose own "type object" (FFieldClass) has no vtable at all (a
+non-virtual destructor -- Field.h:62-92) -- see decode_property_type()'s own
+docstring for why this makes an FFieldClass pointer validated differently
+from a UObject's own ClassPrivate (I-04's vtable-in-module-range check
+simply does not apply; there is no vtable to check).
+
+THE DISPATCH RULE, DELIBERATELY NOT EClassCastFlags: every FField's own
+concrete leaf type is identified by decoding its FFieldClass::Name (Field.h:
+67, an FName, via I-03's own decode_fname_entry_id() -- reused, never a
+second FName decoder) and, for structural validation, walking
+FFieldClass::SuperClass (Field.h:75, a SIMPLE single-parent pointer, unlike
+UClass's own fixed-point-identity problem I-04 had to solve) up to and
+including "FProperty" itself, bounded and cycle-protected exactly like
+resolve_object_path()'s own Outer-chain walk (see _walk_fieldclass_super_
+chain()'s own docstring). This is the ONLY dispatch mechanism this
+capability uses -- no EClassCastFlags/CASTCLASS_* bit is ever read, per this
+session's own confirmed rule (name-string + SuperClass-chain-walk is the
+proven, non-guessing approach; a second, CastFlags-based dispatch mechanism
+would only invite the two silently drifting apart).
+
+REUSE, EXPLICITLY: decode_property_type() below is written to decode ONE
+FField-derived object given only its own address -- nothing about "is this
+on a UStruct's ChildProperties chain" is baked into it -- specifically so
+walk_property_chain() (this capability's own ChildProperties/Next-chain
+walker) and every container-nesting case (FArrayProperty's own Inner,
+FSetProperty's own ElementProp, FMapProperty's own KeyProp/ValueProp,
+FEnumProperty's own UnderlyingProp -- all four are themselves nested FField/
+FProperty objects elsewhere in memory, decoded via the SAME function,
+recursively, bounded by --i06-max-container-depth) both call it identically,
+and so a FUTURE capability (I-05, UFunction/parameter-list decoding -- out
+of scope for this pass, see below) can reuse it for a UFunction's own
+parameter list without this function ever needing to know that caller
+exists.
+
+SCOPE, DELIBERATELY (mirrors I-04's own "SCOPE, DELIBERATELY" section
+above): no ProcessEvent, no UFunction, no EFunctionFlags, no parameter-list
+traversal (that is I-05, a separate future capability). No individual
+EPropertyFlags bit decoding (CPF_BlueprintVisible/CPF_Edit/CPF_Transient/
+CPF_Config/CPF_Net/...) -- only the raw uint64 PropertyFlags word, as
+property_flags_raw hex text; is_blueprint_visible/is_editable/is_transient/
+is_config are explicitly null on every record this pass writes, never
+guessed from the raw bits. No UScriptStruct-owned property traversal -- only
+class-owned (owner_kind="class") TOP-LEVEL properties from the proof set
+below; an FStructProperty's own struct_name is recorded, but this pass never
+recurses into decoding THAT struct's own ChildProperties. No CDO
+instantiation, no default-value reading, no interface/replication semantics
+beyond the two direct, cheap FProperty fields RepIndex/RepNotifyFunc.
+
+PROOF-SET-FIRST, NOT A FULL DUMP (matches I-04's own bounded-sample
+precedent, and this session's own explicit instruction): I-06 never re-walks
+GUObjectArray -- it reuses I-04's OWN already-classified, already-validated
+class list from THIS SAME run (--run-i04 is a hard requirement, checked by
+_validate_i06_requirements() before any handle is opened) as a deterministic,
+documented, in-memory filter (select_i06_proof_set() below): every
+/Script/MISERY class, I-04's own already-bounded /Game sample, and up to
+--i06-engine-class-cap well-known engine classes found by name preference
+(I06_ENGINE_CLASS_NAME_PREFERENCE) over I-04's own FULL walked class
+universe (not merely the subset build_i04_document() ever writes to
+classes.jsonl). A small (roughly 20-class) proof set is the deliberate exit
+criterion for this pass; scaling to every class this walk finds is a future
+pass's job, not this one's.
+
+CONFIDENCE HAS NO POSSIBLE CEILING ABOVE 0.79 FOR THIS CAPABILITY, EVER, AND
+THAT IS A FACT ABOUT THE FORMAT, NOT A GRADING CHOICE: research/reflection/
+misery-24826585-ue5.4.4-0eef3715244b/README.md's own "Почему properties.jsonl
+пуст -- и всегда будет пуст" section proves properties.jsonl is empty by
+design and stays empty FOREVER for RF-01's own offline global.ucas method,
+because FProperty is not a UObject and cannot appear in the ScriptObjects
+chunk that container is built from (PackageStoreOptimizer.cpp:952-957 walks
+GetObjectsWithOuter, which only ever visits UObject-derived entries). This
+means every property_record this capability writes has NO possible offline
+cross-check, ever, for any build -- single-source, oracle=["runtime-
+reflection"] only, always. Every record therefore carries confidence 0.75
+(the same "one strong method, runtime-validated, no independent
+corroboration" reasoning build_i04_class_record() already applies to a
+single-source /Game class record, class I per kb-record.schema.json's own
+claim_type matrix row 9 "class-property" -> runtime-reflection), never
+higher -- this is not a conservative choice that could be revisited with
+more effort; it is the CEILING the format itself imposes.
+
+CANONICAL object_path NORMALIZATION (this session's own explicit request,
+ahead of a future semantic diff -- see canonicalize_object_path() below,
+placed near resolve_object_path()): resolve_object_path() already documents
+a KNOWN, DELIBERATE convention mismatch between this tool's own "."-joined
+runtime object_path and RF-01's already-committed "/"-joined offline
+classes.jsonl. canonicalize_object_path() is the pure function that makes
+the two comparable at diff time WITHOUT ever rewriting the committed offline
+artifact -- see its own docstring for the exact algorithm and the two
+worked example strings this session specified.
+
+THE "ALL OR NOTHING" WRITE GUARANTEE, AND WHY I-06 HAS NO FOUNDATIONAL
+SINGLE-POINT READ OF ITS OWN: I-02's/I-03's own single foundational reads
+(GUObjectArray's own Objects/NumElements/MaxElements; FNamePool's own
+bNamePoolInitialized) are each read exactly ONCE per run, are NEVER wrapped
+in a try/except that would convert a hard failure into a rejection, and so a
+ReadProcessMemoryFailedError there propagates all the way to main()'s own
+outer exception handler -- which writes NOTHING, because every output-file
+write in main() happens strictly AFTER every run_iNN() call completes (see
+main()'s own structure). I-04's OWN per-object reads (ClassPrivate/
+NamePrivate/OuterPrivate of an object walk_object_universe() already
+LOCATED) are the opposite case -- _classify_object() catches
+ReadProcessMemoryFailedError there and converts it to a counted
+'read_failure' rejection, never propagated, because that object was already
+found to exist; a torn read on it is a scanning concern, not evidence the
+whole capability cannot proceed (see the module docstring's "STRUCTURAL
+REFUTATION IS A RESULT, NOT AN ERROR" section, and _classify_object()'s own
+docstring, for the full reasoning this mirrors). I-06 has NO read that
+matches the FIRST case at all: every single read this capability makes is
+either (a) a field of a class object I-04's OWN walk, in THIS SAME run,
+already found and validated to exist (walk_object_universe()'s own
+'valid'==True), or (b) a field of an FField/FFieldClass object reached FROM
+there via a pointer this SAME capability already read. There is no
+GUObjectArray-shaped "read this exactly once, with no fallback, or the
+whole capability cannot proceed" operation anywhere in I-06's own logic --
+so EVERY read failure in decode_property_type()/walk_property_chain()/
+run_i06() mirrors I-04's OWN per-object precedent (case b: an
+already-located candidate's own field failed to read -- a torn read,
+counted and documented, never propagated), and none of them mirrors I-02's/
+I-03's foundational-single-read case. The "nothing is written on a genuine
+tool malfunction" guarantee therefore still holds, but it holds via the SAME
+mechanism as every other capability in this file: run_i06() itself never
+raises, so main()'s own ordering (compute everything, write only after
+everything computed) is what makes an actually-unexpected exception
+(a real bug, not a modeled failure mode) still result in nothing written,
+exactly as for I-01 through I-04.
+
 THE ARCHITECTURAL GUARANTEE THIS FILE EXISTS TO PROVE (plan.md 8.2)
 ---------------------------------------------------------------------
     "Ничего не пишет, ничего не инжектит, не ставит хуков, не вызывает
@@ -382,6 +526,7 @@ CAPABILITY_ID = "I-01"
 CAPABILITY_ID_I02 = "I-02"
 CAPABILITY_ID_I03 = "I-03"
 CAPABILITY_ID_I04 = "I-04"
+CAPABILITY_ID_I06 = "I-06"
 
 
 # --------------------------------------------------------------------------- #
@@ -1030,6 +1175,18 @@ def _read_u32(api, handle: int, address: int) -> int:
     and a raw FNameEntryId is never negative/signed.
     """
     return struct.unpack("<I", api.read_process_memory(handle, address, 4))[0]
+
+
+def _read_u8(api, handle: int, address: int) -> int:
+    """Unsigned 8-bit byte at *address* -- I-06's own FBoolProperty field
+    reads (FieldSize/ByteOffset/ByteMask/FieldMask, UnrealType.h:2383-2389),
+    the first single-byte field this tool ever reads. Routed through the
+    SAME single Win32Api.read_process_memory call site every other _read_*
+    helper in this file already uses -- see the module docstring's "exactly
+    one ReadProcessMemory call site" guarantee, unaffected by adding this
+    function (it is a new CALLER of that one method, never a second one).
+    """
+    return struct.unpack("<B", api.read_process_memory(handle, address, 1))[0]
 
 
 def evaluate_struct_invariants(num_elements: int, max_elements: int) -> dict:
@@ -2173,6 +2330,66 @@ def resolve_object_path(start_address: int, objects_by_address: dict, *,
     return {"object_path": object_path, "package": package, "ok": True, "note": note}
 
 
+def canonicalize_object_path(path: str | None) -> str | None:
+    """Normalizes an object_path's package/name JOIN CHARACTER to the real
+    UE GetPathName() convention ("."), so a runtime-sourced record and an
+    offline-sourced record naming the SAME object compare equal even when
+    they were written with the two different join conventions this project
+    has ALREADY produced (see resolve_object_path()'s own "KNOWN, DELIBERATE
+    CONVENTION MISMATCH" paragraph above, and this session's own explicit
+    request to have this normalizer ready before the next semantic diff --
+    NOT to run that diff now).
+
+    The two motivating, this-session-specific example strings, which MUST
+    canonicalize to the identical result (pinned by
+    tests/test_eri_i06.py):
+      * "/Script/MISERY.MiseryFocusSubsystem" -- resolve_object_path()'s own
+        runtime output, real GetPathName() convention, ALREADY canonical.
+      * "/Script/MISERY/MiseryFocusSubsystem" -- the OLD offline RF-01
+        convention already committed verbatim in research/reflection/
+        misery-24826585-ue5.4.4-0eef3715244b/classes.jsonl.
+
+    ALGORITHM: find the LAST "/" in *path*. If nothing after it contains a
+    ".", this is the OLD slash-joined convention -- replace that last "/"
+    with "." (this is the ONE join the old convention gets wrong; every
+    "/" before it is a genuine package-path separator, e.g. the "/Script/"
+    prefix itself, and is left untouched). Otherwise (a "." already appears
+    after the last "/", OR *path* has no "/" at all -- a bare leaf name with
+    no package prefix) *path* is returned UNCHANGED: it is either already
+    canonical, or has no package/name join to normalize in the first place.
+
+    IDEMPOTENT BY CONSTRUCTION, not merely by coincidence: after the single
+    replacement, the character at the position of the former last "/" is
+    now ".", so a SECOND call's own rfind("/") -- if any "/" remains at all,
+    e.g. the "/Script/" prefix -- lands on an EARLIER "/", after which a "."
+    now unavoidably appears (the one this call just inserted, or one already
+    there); the "already canonical" branch then returns the string
+    unchanged. tests/test_eri_i06.py pins this directly: calling this
+    function twice on either example string is a no-op the second time.
+
+    Does NOT mutate, rewrite, or re-normalize any already-committed file --
+    this is a plain, pure string function. research/reflection/
+    misery-24826585-ue5.4.4-0eef3715244b/classes.jsonl (build-specific,
+    already-committed research artifact for build 24826585) is NEVER
+    silently rewritten by this or any other function in this file;
+    normalization happens only at COMPARISON/diff time, by calling this
+    function on a copy of the string being compared, exactly as this
+    docstring's own two example strings are compared in the test suite.
+
+    *path* of None returns None unchanged (mirrors every other nullable
+    object_path field in this file -- "no path" is not "no join to fix").
+    """
+    if path is None:
+        return None
+    last_slash = path.rfind("/")
+    if last_slash == -1:
+        return path  # no package separator at all -- nothing to normalize.
+    after_last_slash = path[last_slash + 1:]
+    if "." in after_last_slash:
+        return path  # already dot-joined after the last "/" -- canonical already.
+    return path[:last_slash] + "." + after_last_slash
+
+
 def find_uclass_self_reference(objects_by_address: dict, *,
                                path_resolver) -> dict | None:
     """The class-identity fixed point's own SEED: the object whose own
@@ -2861,6 +3078,1365 @@ def dump_jsonl(records: list) -> str:
     return "".join(
         json.dumps(record, sort_keys=True, ensure_ascii=False) + "\n"
         for record in records)
+
+
+# --------------------------------------------------------------------------- #
+# I-06 -- FProperty decoder. Every offset below is an ABSOLUTE byte offset
+# from the FField/FProperty-derived OBJECT's own address (the same address a
+# UStruct::ChildProperties entry, or any FField's own Next pointer, already
+# gives you) -- never relative to some other field's own end. Source:
+# Engine/Source/Runtime/CoreUObject/Public/UObject/Field.h, UnrealType.h,
+# EnumProperty.h, TextProperty.h, ObjectMacros.h, Set.h, Map.h; UE 5.4.4
+# CL 35576357. See the module docstring's "WHAT I-06 IS" section for the
+# capability-level rationale this block implements.
+# --------------------------------------------------------------------------- #
+
+# FField (Field.h:447), total size 0x30. Field.h:489 gives FField a VIRTUAL
+# destructor, so FField objects DO have a vtable at +0x00 -- unlike
+# FFieldClass below, which does not.
+FFIELD_CLASS_PRIVATE_OFFSET = 0x08   # FFieldClass* ClassPrivate (Field.h:452)
+FFIELD_OWNER_OFFSET = 0x10           # FFieldVariant Owner (Field.h:472)
+FFIELD_NEXT_OFFSET = 0x18            # FField* Next (Field.h:475)
+FFIELD_NAME_PRIVATE_OFFSET = 0x20    # FName NamePrivate (Field.h:478)
+FFIELD_SIZE_BYTES = 0x30
+
+# FFieldVariant (Field.h:264-339): an 8-byte TAGGED POINTER union. The low
+# bit of the raw stored 8-byte value is the UObjectMask tag (Field.h:272,
+# "static constexpr uintptr_t UObjectMask = 0x1"): 1 means Owner is a
+# UObject* with the tag bit OR'd into the stored pointer by the
+# FFieldVariant(const UObject*) constructor (Field.h:299-304); 0 means Owner
+# is a plain FField* (Field.h:289-293's FFieldVariant(const FField*)
+# constructor asserts !IsUObject(), i.e. a real FField* is guaranteed
+# naturally 8-byte-aligned already and needs no masking at all). See
+# _decode_ffield_owner() below.
+FFIELD_OWNER_UOBJECT_TAG_MASK = 0x1
+
+# FFieldClass (Field.h:62-94) -- the "type object" for an FField, analogous
+# to UClass but NOT a UObject, NOT a member of GUObjectArray, and with NO
+# vtable (a non-virtual destructor, Field.h:94) -- an FFieldClass pointer is
+# therefore validated by _pointer_is_plausible() ALONE (see
+# decode_property_type() below); I-04's own vtable-in-module-range check
+# (_vtable_pointer_in_module_range()) does not apply here, because there is
+# no vtable to check.
+FFIELDCLASS_NAME_OFFSET = 0x00        # FName Name (Field.h:67)
+FFIELDCLASS_SUPERCLASS_OFFSET = 0x20  # FFieldClass* SuperClass (Field.h:75) --
+# Name(8B)+Id(8B)+CastFlags(8B)+ClassFlags(EClassFlags, 4B)+4B padding for
+# SuperClass's own 8-byte pointer alignment = 0x20 (Field.h:66-76, spot-
+# checked directly this session).
+
+# FProperty : public FField (UnrealType.h:162), base offsets +0x30 onward,
+# total size 0x70 -- every type-specific field below is an ABSOLUTE offset
+# from the SAME property-object base address, not "relative to +0x70".
+FPROPERTY_ARRAY_DIM_OFFSET = 0x30        # int32 ArrayDim
+FPROPERTY_ELEMENT_SIZE_OFFSET = 0x34     # int32 ElementSize
+FPROPERTY_PROPERTY_FLAGS_OFFSET = 0x38   # EPropertyFlags -- uint64 (ObjectMacros.h:395)
+FPROPERTY_REP_INDEX_OFFSET = 0x40        # uint16 RepIndex
+FPROPERTY_OFFSET_INTERNAL_OFFSET = 0x44  # int32 Offset_Internal (1B padding at +0x43
+# for BlueprintReplicationCondition, a private uint8 at +0x42)
+# +0x48/+0x50/+0x58/+0x60: four FProperty* linked-list pointers this
+# capability never reads -- PropertyLinkNext/NextRef/DestructorLinkNext/
+# PostConstructLinkNext (UnrealType.h:180-186) -- accounted for here only so
+# the jump from Offset_Internal to RepNotifyFunc's own offset below is not
+# mistaken for adjacent fields; they occupy exactly the 0x20 bytes between.
+FPROPERTY_REP_NOTIFY_FUNC_OFFSET = 0x68  # FName RepNotifyFunc
+FPROPERTY_SIZE_BYTES = 0x70
+
+# Type-specific fields, every offset ABSOLUTE from the property object's own
+# base address (all >= FPROPERTY_SIZE_BYTES).
+FBOOLPROPERTY_FIELD_SIZE_OFFSET = 0x70    # uint8 (UnrealType.h:2375-2389)
+FBOOLPROPERTY_BYTE_OFFSET_OFFSET = 0x71   # uint8 -- schema field bool_byte_offset
+FBOOLPROPERTY_BYTE_MASK_OFFSET = 0x72     # uint8
+FBOOLPROPERTY_FIELD_MASK_OFFSET = 0x73    # uint8 -- schema field bool_field_mask
+# UnrealType.h:2388's own doc comment on FieldMask is explicit and
+# authoritative: "Mask of the field with the property value. Either equal
+# to ByteMask or 255 in case of 'bool' type." -- confirmed a second,
+# independent way this session by IsNativeBool() (UnrealType.h:2503-2505),
+# which is defined as exactly `return FieldMask == 0xff;`. Therefore
+# is_bitfield := (FieldMask != 0xFF) is read directly off the engine's own
+# source, not inferred or guessed.
+FBOOLPROPERTY_FULL_BYTE_FIELD_MASK = 0xFF
+
+FOBJECTPROPERTY_PROPERTY_CLASS_OFFSET = 0x70  # TObjectPtr<UClass> PropertyClass
+# (FObjectPropertyBase, UnrealType.h:2536) -- inherited unchanged by
+# FObjectProperty (UnrealType.h:2875) and FClassProperty (UnrealType.h:3184)
+# below, both confirmed by direct Read this session to add no field before
+# their own type-specific additions.
+FCLASSPROPERTY_META_CLASS_OFFSET = 0x78       # TObjectPtr<UClass> MetaClass (UnrealType.h:3189)
+FSTRUCTPROPERTY_STRUCT_OFFSET = 0x70          # TObjectPtr<UScriptStruct> Struct (UnrealType.h:6019)
+FENUMPROPERTY_UNDERLYING_PROP_OFFSET = 0x70   # FNumericProperty* UnderlyingProp (EnumProperty.h:118)
+FENUMPROPERTY_ENUM_OFFSET = 0x78              # TObjectPtr<UEnum> Enum (EnumProperty.h:119)
+FARRAYPROPERTY_ARRAY_FLAGS_OFFSET = 0x70      # EArrayPropertyFlags -- uint8
+# (ObjectMacros.h:491) -- not persisted to any schema field, read only if
+# ever needed for a future capability; I-06 does not read it at all.
+FARRAYPROPERTY_INNER_OFFSET = 0x78            # FProperty* Inner (UnrealType.h:3571) --
+# 7 bytes of padding after ArrayFlags(1B) for Inner's own 8-byte pointer alignment.
+FSETPROPERTY_ELEMENT_PROP_OFFSET = 0x70       # FProperty* ElementProp (UnrealType.h:3885)
+FMAPPROPERTY_KEY_PROP_OFFSET = 0x70           # FProperty* KeyProp (UnrealType.h:3721)
+FMAPPROPERTY_VALUE_PROP_OFFSET = 0x78         # FProperty* ValueProp
+
+# FFieldClass::Name string values -- CORRECTED LIVE, this pass, against the
+# real process (build misery-24953925-ue5.4.4-bace50f7185d): Field.h's own
+# IMPLEMENT_FIELD macro (Field.h:243-252) does pass the F-prefixed literal
+# ("static FFieldClass StaticFieldClass(TEXT(#TClass), ...)", TClass e.g.
+# FBoolProperty) -- but FFieldClass's own CONSTRUCTOR (Field.cpp:46-61)
+# explicitly STRIPS that leading "F" before storing it:
+#   check(InCPPName[0] == 'F');
+#   Name = ++InCPPName;   // "Skip the 'F' prefix for the name"
+# so the stored FFieldClass::Name is "BoolProperty", never "FBoolProperty".
+# A prior pass this session (AND both this pass's own adversarial source
+# reviews) stopped at the macro's own stringification and never followed
+# the token into the constructor body it feeds -- caught only once a LIVE
+# read decoded a real FFieldClass::Name as literally "BoolProperty" for a
+# genuine bStartEditing bool property (research/instrument-runs/
+# 2026-08-27T154643Z-i06-fixed), which is what these constants below now
+# hold and what decode_property_type() dispatches on. The F-prefixed,
+# canonical C++ type name (matching reflection-record.schema.json's own
+# property_class field examples, "FBoolProperty" etc.) is reconstructed by
+# decode_property_type() ONLY when populating the OUTPUT record -- by
+# prepending "F" back, an operation this SAME constructor invariant
+# (InCPPName[0] must be 'F') guarantees is always exactly reversible for
+# every FField-derived type this codebase's IMPLEMENT_FIELD macro ever
+# registers, never a guess.
+FFIELDCLASS_NAME_PROPERTY = "Property"
+FFIELDCLASS_NAME_NUMERICPROPERTY = "NumericProperty"
+FFIELDCLASS_NAME_BOOLPROPERTY = "BoolProperty"
+FFIELDCLASS_NAME_OBJECTPROPERTY = "ObjectProperty"
+FFIELDCLASS_NAME_CLASSPROPERTY = "ClassProperty"
+FFIELDCLASS_NAME_STRUCTPROPERTY = "StructProperty"
+FFIELDCLASS_NAME_ENUMPROPERTY = "EnumProperty"
+FFIELDCLASS_NAME_ARRAYPROPERTY = "ArrayProperty"
+FFIELDCLASS_NAME_SETPROPERTY = "SetProperty"
+FFIELDCLASS_NAME_MAPPROPERTY = "MapProperty"
+FFIELDCLASS_NAME_NAMEPROPERTY = "NameProperty"
+FFIELDCLASS_NAME_STRPROPERTY = "StrProperty"
+FFIELDCLASS_NAME_TEXTPROPERTY = "TextProperty"
+
+# UStruct::ChildProperties -- THE entry point for I-06's own traversal -- an
+# FField* (may legitimately be null: a class with zero own properties is
+# valid, not an error).
+#
+# CORRECTED LIVE, this pass, against the real MISERY-Win64-Shipping.exe
+# process (build misery-24953925-ue5.4.4-bace50f7185d) -- a prior session
+# phase's own derivation (UObjectBase(0x28) -> UField adds Next(+0x28, UField
+# total 0x30) -> UStruct adds SuperStruct(+0x30)/Children(+0x38)/
+# ChildProperties(+0x40)) missed a SECOND, conditionally-compiled base class
+# of UStruct: Class.h:382-385 declares
+#   class UStruct : public UField
+#   #if USTRUCT_FAST_ISCHILDOF_IMPL == USTRUCT_ISCHILDOF_STRUCTARRAY
+#       , private FStructBaseChain
+#   #endif
+# and ObjectMacros.h:40-46 resolves USTRUCT_FAST_ISCHILDOF_IMPL to
+# USTRUCT_ISCHILDOF_STRUCTARRAY (2) whenever UE_EDITOR is 0 -- i.e. in EVERY
+# non-editor build, including this project's own Shipping target. The
+# private base is laid out (declaration-order, standard MSVC multiple-
+# inheritance rule) BETWEEN UField's own subobject and UStruct's own
+# "Variables" section: FStructBaseChain (Class.h:349-372) itself holds
+# StructBaseChainArray (FStructBaseChain**, 8B) + NumStructBasesInChainMinusOne
+# (int32, 4B) + 4B trailing pad for the next subobject's 8-byte alignment =
+# 16 bytes -- pushing UField's own Next(+0x28) forward by 0x10 before
+# UStruct's own SuperStruct/Children/ChildProperties begin.
+#
+# CORRECTED layout: UField total 0x30 (unchanged) -> FStructBaseChain
+# subobject +0x30..+0x3F (StructBaseChainArray+0x30, NumStructBasesInChain
+# MinusOne+0x38) -> UStruct's OWN members start at +0x40: SuperStruct+0x40,
+# Children+0x48, ChildProperties+0x50, PropertiesSize+0x58, MinAlignment
+# +0x5c.
+#
+# CAUGHT BY A LIVE READ, not source re-reading alone: the FIRST I-06 run
+# against the real process (2026-08-27T153951Z-i06) rejected every single
+# ChildProperties-chain node (48 rejections across 25 proof-set classes,
+# 0 properties accepted) because +0x40 was, in this build, actually reading
+# NumStructBasesInChainMinusOne's own trailing bytes as a pointer -- a
+# SMALL, structurally-implausible integer (e.g. NumStructBasesInChainMinusOne
+# == 2 for a 3-deep inheritance chain, read as the low 32 bits of a
+# supposed 8-byte FField pointer). Diagnosed by a raw, read-only memory dump
+# (scratchpad diag_childprops.py/diag_childprops2.py) against the SAME live
+# process instance, confirming +0x50 instead: a plausible pointer that,
+# dereferenced, yields a real FField object (its own vtable DIFFERENT from
+# the owning UClass's own vtable, its ClassPrivate pointing into the
+# module's own static-data range -- exactly where the IMPLEMENT_FIELD macro's
+# `static FFieldClass StaticFieldClass(...)` lives -- and its own Owner
+# FFieldVariant round-tripping EXACTLY to the owning class's own address).
+# Both independent adversarial source reviews this pass (offset re-
+# derivation AND traversal-safety) reproduced the WRONG +0x40 value from the
+# same prior-phase docstring without independently re-reading Class.h:382-385
+# themselves -- this is the exact "two reviews trusting the same stale
+# citation instead of the primary source" failure mode LOG-0052 already
+# warns about for a different offset; recorded here so it is not repeated a
+# third time.
+USTRUCT_CHILD_PROPERTIES_OFFSET = 0x50
+
+# select_i06_proof_set()'s own engine-class name-preference order (searched
+# in THIS order over I-04's own full walked class universe, stopping once
+# --i06-engine-class-cap classes are found or the list is exhausted -- never
+# an error when a name is not found in this specific build, see
+# select_i06_engine_proof_classes()'s own docstring).
+I06_ENGINE_CLASS_NAME_PREFERENCE = (
+    "Object", "Actor", "Struct", "Class", "Pawn", "ActorComponent", "SceneComponent",
+)
+
+# Bounds I-06 introduces, all overridable via their own CLI flag (see
+# build_arg_parser() below) -- never a second hardcoded copy of any of them,
+# matching the DEFAULT_I04_MAX_OUTER_DEPTH/DEFAULT_I04_MAX_FIXED_POINT_
+# PASSES/DEFAULT_I04_GAME_SAMPLE_CAP naming convention.
+DEFAULT_I06_MAX_PROPERTY_CHAIN_LENGTH = 1024      # UStruct::ChildProperties' own
+# Next-linked sibling chain -- generous, no realistic UStruct has anywhere
+# near this many DIRECT (non-inherited) properties.
+DEFAULT_I06_MAX_SUPERCLASS_DEPTH = 16              # FFieldClass::SuperClass chain walk.
+DEFAULT_I06_MAX_CONTAINER_NESTING_DEPTH = 4        # Inner/KeyProp/ValueProp/
+# UnderlyingProp recursion -- generous for a realistic TArray<TArray<X>>.
+DEFAULT_I06_PROOF_SET_ENGINE_CLASS_CAP = 5
+
+
+def _decode_ffield_owner(raw_value: int) -> dict:
+    """Decodes FField::Owner (Field.h:472), an 8-byte FFieldVariant TAGGED
+    POINTER union -- see FFIELD_OWNER_UOBJECT_TAG_MASK's own comment above
+    for the full Field.h citation this implements. Never raises: *raw_value*
+    is already-read data, and every 8-byte value (including 0, a legitimately
+    null/never-set Owner) has a well-defined decode under this scheme.
+
+    Returns {'is_uobject': bool, 'address': int} -- 'address' is the REAL
+    pointer value: *raw_value* with the tag bit masked off when
+    'is_uobject' is True, or *raw_value* unchanged (already untagged, by the
+    FField* constructor's own assertion) when False.
+    """
+    is_uobject = bool(raw_value & FFIELD_OWNER_UOBJECT_TAG_MASK)
+    address = (raw_value & ~FFIELD_OWNER_UOBJECT_TAG_MASK) if is_uobject else raw_value
+    return {"is_uobject": is_uobject, "address": address}
+
+
+def _walk_fieldclass_super_chain(api, handle: int, fieldclass_ptr: int, *,
+                                 namepool_live_va: int,
+                                 max_depth: int = DEFAULT_I06_MAX_SUPERCLASS_DEPTH) -> dict:
+    """Walks FFieldClass::SuperClass (Field.h:75) from *fieldclass_ptr*
+    up to the root, decoding each ancestor's own FFieldClass::Name
+    (Field.h:67) via I-03's own decode_fname_entry_id() -- reused, never a
+    second FName decoder. BOUNDED (*max_depth* hops) and CYCLE-PROTECTED (an
+    address that repeats within THIS ONE walk is a traversal failure) --
+    mirrors resolve_object_path()'s own Outer-chain walk exactly, applied to
+    a DIFFERENT, simpler chain (FFieldClass::SuperClass is a plain single-
+    parent pointer, never the fixed-point-identity problem I-04's own
+    ClassPrivate walk had to solve).
+
+    This is the SOLE dispatch mechanism decode_property_type() below uses to
+    determine (a) whether a ChildProperties-chain entry really IS an
+    FProperty-derived object before applying any FProperty-specific offset,
+    and (b) whether a leaf numeric type (FIntProperty, FFloatProperty,
+    FByteProperty, ...) is a descendant of FNumericProperty (the generic
+    fallback for every numeric leaf, all confirmed architecturally to add
+    zero extra fields beyond FProperty itself -- see the module docstring's
+    "WHAT I-06 IS" section). No EClassCastFlags/CASTCLASS_* bit is ever read
+    for this purpose -- name-string + SuperClass-chain-walk is the proven,
+    non-guessing approach this session's own findings established; a second,
+    CastFlags-based dispatch mechanism is deliberately not introduced.
+
+    Never raises ReadProcessMemoryFailedError -- a read failure walking an
+    ALREADY-LOCATED FFieldClass pointer (found via an already-validated
+    FField's own ClassPrivate, or a prior ancestor's own SuperClass) is a
+    torn-read scanning concern here too, exactly like I-04's own
+    _classify_object()/walk_object_universe() precedent for a UObject's own
+    fields -- converted into 'ok': False with an explanatory 'note', never
+    propagated (see the module docstring's own "THE 'ALL OR NOTHING' WRITE
+    GUARANTEE" section for why this is the correct mirror of I-04's own
+    established split, not a departure from it).
+
+    Returns {'names': list[str] (every successfully-decoded ancestor's own
+    FFieldClass::Name, in walk order, fieldclass_ptr's own name first --
+    empty only when the FIRST hop itself failed), 'ok': bool (True iff the
+    chain terminated normally, at SuperClass==0, without a cycle, a read
+    failure, a name-decode failure, or exceeding *max_depth*), 'note':
+    str | None (explains why 'ok' is False; None when True)}.
+    """
+    names: list = []
+    visited: set = set()
+    address = fieldclass_ptr
+
+    for _ in range(max_depth):
+        if not _pointer_is_plausible(address):
+            return {"names": names, "ok": False,
+                    "note": "FFieldClass pointer 0x%x is not a plausible "
+                            "(non-null, 8-byte-aligned) address" % address}
+        if address in visited:
+            return {"names": names, "ok": False,
+                    "note": "cycle detected in FFieldClass::SuperClass "
+                            "chain at 0x%x" % address}
+        visited.add(address)
+
+        try:
+            name_entry_id = _read_u32(api, handle, address + FFIELDCLASS_NAME_OFFSET)
+            super_ptr = _read_u64(api, handle, address + FFIELDCLASS_SUPERCLASS_OFFSET)
+        except ReadProcessMemoryFailedError as error:
+            return {"names": names, "ok": False,
+                    "note": "read failure walking FFieldClass::SuperClass "
+                            "at 0x%x: %s" % (address, error)}
+
+        decoded = decode_fname_entry_id(api, handle, namepool_live_va, name_entry_id)
+        if decoded["decode_error"] is not None:
+            return {"names": names, "ok": False,
+                    "note": "FFieldClass::Name decode error at 0x%x: %s" %
+                            (address, decoded["decode_error"])}
+        names.append(decoded["text"])
+
+        if super_ptr == 0:
+            return {"names": names, "ok": True, "note": None}
+        address = super_ptr
+    else:
+        return {"names": names, "ok": False,
+                "note": "FFieldClass::SuperClass chain exceeded max_depth "
+                        "(%d) without terminating" % max_depth}
+
+
+def _resolve_uobject_handle_name(api, handle: int, uobject_ptr: int, *,
+                                 namepool_live_va: int,
+                                 objects_by_address: dict | None,
+                                 name_private_offset: int = DEFAULT_NAME_PRIVATE_OFFSET
+                                 ) -> dict:
+    """Best-effort raw-name resolution for a UObject-typed property field --
+    FObjectPropertyBase::PropertyClass, FClassProperty::MetaClass,
+    FStructProperty::Struct, FEnumProperty::Enum. Every one of these is
+    declared TObjectPtr<T> in source; read here as a RAW 8-byte value and
+    treated as a plain UObject* address, which is correct for this build
+    (UE_WITH_OBJECT_HANDLE_LATE_RESOLVE off -- the SAME assumption
+    DEFAULT_NAME_PRIVATE_OFFSET's own comment already makes for
+    UObjectBase::ClassPrivate, not re-derived here).
+
+    TWO-TIER resolution, cheapest/most-validated first:
+      1. *objects_by_address* (I-04's own already-validated walk result,
+         when the caller has one in hand): a dict hit whose own 'name_ok'
+         is True means this exact address was ALREADY read and structurally
+         validated by THIS SAME run's own I-02-array walk -- reusing it
+         costs no new memory read at all. This tier is OPTIONAL and, in
+         this pass's own main() wiring, is never actually populated (doing
+         so would require widening run_i04()'s own already-established
+         return contract, which this pass deliberately does not touch --
+         see the module docstring's "WHAT I-06 IS" section); it exists so a
+         FUTURE in-process caller that already holds I-04's own
+         objects_by_address can skip the redundant read described in tier 2.
+      2. A direct, best-effort NamePrivate read+decode (I-03's own
+         decode_fname_entry_id(), reused) -- bypassing I-04's own
+         ClassPrivate-vtable check entirely, since this function only ever
+         needs a NAME, never full UClass identity/validity. Every UClass/
+         UScriptStruct/UEnum a live FProperty can reference is itself a
+         live UObject with a NamePrivate at the SAME standard offset, so
+         this fallback always applies.
+
+    Never raises: a read/decode failure at either tier is reported as data
+    ('name': None, 'note': the reason), never guessed and never propagated
+    -- the referenced type simply could not be named this run, which is
+    itself a reportable, honest outcome (folded into the owning property's
+    own 'notes' field by the caller, never silently dropped).
+
+    Returns {'name': str | None, 'source': 'i04-walk' | 'direct-read' | None,
+    'note': str | None}.
+    """
+    if not _pointer_is_plausible(uobject_ptr):
+        return {"name": None, "source": None,
+                "note": "handle 0x%x is not a plausible (non-null, "
+                        "8-byte-aligned) UObject address" % uobject_ptr}
+
+    if objects_by_address is not None:
+        cached = objects_by_address.get(uobject_ptr)
+        if cached is not None and cached.get("name_ok"):
+            return {"name": cached["name_text"], "source": "i04-walk", "note": None}
+
+    try:
+        name_entry_id = _read_u32(api, handle, uobject_ptr + name_private_offset)
+        decoded = decode_fname_entry_id(api, handle, namepool_live_va, name_entry_id)
+    except ReadProcessMemoryFailedError as error:
+        return {"name": None, "source": None,
+                "note": "direct NamePrivate read failed at 0x%x: %s" %
+                        (uobject_ptr, error)}
+    if decoded["decode_error"] is not None:
+        return {"name": None, "source": None,
+                "note": "direct NamePrivate decode failed at 0x%x: %s" %
+                        (uobject_ptr, decoded["decode_error"])}
+    return {"name": decoded["text"], "source": "direct-read", "note": None}
+
+
+def _decode_bool_property(api, handle: int, field_ptr: int) -> tuple:
+    """FBoolProperty (UnrealType.h:2375), +0x70..+0x73. See
+    FBOOLPROPERTY_FULL_BYTE_FIELD_MASK's own comment for the is_bitfield
+    derivation's exact source citation. Returns (fields: dict, note: str|None)
+    -- 'note' is set only when the read FieldMask violates the engine's own
+    documented invariant (neither ByteMask nor 0xFF), a genuine, reportable
+    anomaly, never silently hidden.
+    """
+    field_size = _read_u8(api, handle, field_ptr + FBOOLPROPERTY_FIELD_SIZE_OFFSET)
+    byte_offset = _read_u8(api, handle, field_ptr + FBOOLPROPERTY_BYTE_OFFSET_OFFSET)
+    byte_mask = _read_u8(api, handle, field_ptr + FBOOLPROPERTY_BYTE_MASK_OFFSET)
+    field_mask = _read_u8(api, handle, field_ptr + FBOOLPROPERTY_FIELD_MASK_OFFSET)
+    fields = {
+        "type_name": "bool",
+        "bool_byte_offset": byte_offset,
+        "bool_field_mask": "0x%02x" % field_mask,
+        "is_bitfield": field_mask != FBOOLPROPERTY_FULL_BYTE_FIELD_MASK,
+    }
+    note = None
+    if field_mask not in (byte_mask, FBOOLPROPERTY_FULL_BYTE_FIELD_MASK):
+        note = (
+            "FBoolProperty invariant violated at 0x%x: FieldMask (0x%02x, "
+            "FieldSize=%d) is neither ByteMask (0x%02x) nor 0xff -- "
+            "UnrealType.h:2388's own documented invariant does not hold "
+            "here; the raw reading above is still reported as-is." %
+            (field_ptr, field_mask, field_size, byte_mask))
+    return fields, note
+
+
+def _decode_object_property(api, handle: int, field_ptr: int, *,
+                            namepool_live_va: int, objects_by_address: dict | None) -> tuple:
+    """FObjectPropertyBase::PropertyClass (UnrealType.h:2536), +0x70."""
+    property_class_ptr = _read_u64(api, handle, field_ptr + FOBJECTPROPERTY_PROPERTY_CLASS_OFFSET)
+    resolved = _resolve_uobject_handle_name(
+        api, handle, property_class_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address)
+    fields = {"class_name": resolved["name"]}
+    note = None if resolved["name"] is not None else (
+        "FObjectProperty::PropertyClass at 0x%x could not be resolved to a "
+        "name: %s" % (property_class_ptr, resolved["note"]))
+    return fields, note
+
+
+def _decode_class_property(api, handle: int, field_ptr: int, *,
+                           namepool_live_va: int, objects_by_address: dict | None) -> tuple:
+    """FClassProperty (UnrealType.h:3184) : public FObjectProperty --
+    PropertyClass at +0x70 (inherited, resolved identically to
+    _decode_object_property()) plus MetaClass at +0x78 (UnrealType.h:3189),
+    decoded as a bonus and folded into 'notes' only (reflection-record.
+    schema.json's property_record has no dedicated meta_class field -- see
+    the module docstring's "WHAT I-06 IS" section)."""
+    property_class_ptr = _read_u64(api, handle, field_ptr + FOBJECTPROPERTY_PROPERTY_CLASS_OFFSET)
+    meta_class_ptr = _read_u64(api, handle, field_ptr + FCLASSPROPERTY_META_CLASS_OFFSET)
+    resolved = _resolve_uobject_handle_name(
+        api, handle, property_class_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address)
+    meta_resolved = _resolve_uobject_handle_name(
+        api, handle, meta_class_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address)
+    fields = {"class_name": resolved["name"]}
+    notes = []
+    if resolved["name"] is None:
+        notes.append("FClassProperty::PropertyClass at 0x%x could not be "
+                     "resolved: %s" % (property_class_ptr, resolved["note"]))
+    if meta_resolved["name"] is not None:
+        notes.append("MetaClass=%r (0x%x)" % (meta_resolved["name"], meta_class_ptr))
+    else:
+        notes.append("MetaClass at 0x%x could not be resolved: %s" %
+                     (meta_class_ptr, meta_resolved["note"]))
+    return fields, "; ".join(notes)
+
+
+def _decode_struct_property(api, handle: int, field_ptr: int, *,
+                            namepool_live_va: int, objects_by_address: dict | None) -> tuple:
+    """FStructProperty (UnrealType.h:6019) -- Struct at +0x70. Does NOT
+    recurse into the referenced UScriptStruct's own ChildProperties (out of
+    scope for this pass, see the module docstring's "WHAT I-06 IS" section)
+    -- only its own raw_name is recorded."""
+    struct_ptr = _read_u64(api, handle, field_ptr + FSTRUCTPROPERTY_STRUCT_OFFSET)
+    resolved = _resolve_uobject_handle_name(
+        api, handle, struct_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address)
+    fields = {"struct_name": resolved["name"]}
+    note = None if resolved["name"] is not None else (
+        "FStructProperty::Struct at 0x%x could not be resolved: %s" %
+        (struct_ptr, resolved["note"]))
+    return fields, note
+
+
+def _decode_enum_property(api, handle: int, field_ptr: int, *,
+                          namepool_live_va: int, objects_by_address: dict | None,
+                          max_superclass_depth: int, max_container_depth: int,
+                          container_depth: int) -> tuple:
+    """FEnumProperty (EnumProperty.h:28 -- NOT UnrealType.h, a genuine
+    location surprise found this session) -- UnderlyingProp at +0x70
+    (EnumProperty.h:118, a NESTED FField, decoded recursively via THIS SAME
+    decode_property_type() -- architecturally a numeric leaf with 0 extra
+    fields itself, per the module docstring) and Enum at +0x78
+    (EnumProperty.h:119, resolved the same way as struct_name/class_name).
+    UnderlyingProp is decoded for STRUCTURAL VALIDATION/completeness only --
+    reflection-record.schema.json's property_record has no dedicated field
+    for it (an FEnumProperty's own ElementSize, already captured as this
+    property's own 'size', already carries the underlying width); a failed
+    UnderlyingProp decode is folded into 'notes', never treated as
+    invalidating the Enum property's OWN enum_name/base fields."""
+    underlying_ptr = _read_u64(api, handle, field_ptr + FENUMPROPERTY_UNDERLYING_PROP_OFFSET)
+    enum_ptr = _read_u64(api, handle, field_ptr + FENUMPROPERTY_ENUM_OFFSET)
+    resolved = _resolve_uobject_handle_name(
+        api, handle, enum_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address)
+    fields = {"enum_name": resolved["name"]}
+    notes = []
+    if resolved["name"] is None:
+        notes.append("FEnumProperty::Enum at 0x%x could not be resolved: %s" %
+                     (enum_ptr, resolved["note"]))
+    underlying_decoded = decode_property_type(
+        api, handle, underlying_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address,
+        max_superclass_depth=max_superclass_depth,
+        max_container_depth=max_container_depth, container_depth=container_depth + 1)
+    if underlying_decoded["valid"]:
+        notes.append("UnderlyingProp=%s at 0x%x" %
+                     (underlying_decoded["property_class"], underlying_ptr))
+    else:
+        notes.append("UnderlyingProp at 0x%x did not decode as a valid "
+                     "FProperty: %s" % (underlying_ptr, underlying_decoded["rejection_reason"]))
+    return fields, "; ".join(notes)
+
+
+def _decode_array_property(api, handle: int, field_ptr: int, *,
+                           namepool_live_va: int, objects_by_address: dict | None,
+                           max_superclass_depth: int, max_container_depth: int,
+                           container_depth: int) -> tuple:
+    """FArrayProperty (UnrealType.h:3571) -- Inner at +0x78 (7 bytes padding
+    after ArrayFlags at +0x70, which I-06 does not read). Inner is a full
+    nested FField/FProperty object elsewhere in memory, decoded recursively
+    via THIS SAME decode_property_type() and reduced to the schema's own
+    property_type_ref shape (_to_property_type_ref()) for the 'inner' field."""
+    inner_ptr = _read_u64(api, handle, field_ptr + FARRAYPROPERTY_INNER_OFFSET)
+    inner_decoded = decode_property_type(
+        api, handle, inner_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address,
+        max_superclass_depth=max_superclass_depth,
+        max_container_depth=max_container_depth, container_depth=container_depth + 1)
+    fields = {"inner": _to_property_type_ref(inner_decoded), "type_name": "TArray"}
+    note = None if inner_decoded["valid"] else (
+        "FArrayProperty::Inner at 0x%x did not decode as a valid FProperty: "
+        "%s" % (inner_ptr, inner_decoded["rejection_reason"]))
+    return fields, note
+
+
+def _decode_set_property(api, handle: int, field_ptr: int, *,
+                         namepool_live_va: int, objects_by_address: dict | None,
+                         max_superclass_depth: int, max_container_depth: int,
+                         container_depth: int) -> tuple:
+    """FSetProperty (UnrealType.h:3885) -- ElementProp at +0x70 (SetLayout at
+    +0x78, FScriptSetLayout, is not read -- not required by the schema).
+    Emitted as the schema's own 'inner' field (per reflection-record.
+    schema.json's own description: "the Inner of an FArrayProperty or
+    FSetProperty"), identically to FArrayProperty's own Inner above."""
+    element_ptr = _read_u64(api, handle, field_ptr + FSETPROPERTY_ELEMENT_PROP_OFFSET)
+    element_decoded = decode_property_type(
+        api, handle, element_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address,
+        max_superclass_depth=max_superclass_depth,
+        max_container_depth=max_container_depth, container_depth=container_depth + 1)
+    fields = {"inner": _to_property_type_ref(element_decoded), "type_name": "TSet"}
+    note = None if element_decoded["valid"] else (
+        "FSetProperty::ElementProp at 0x%x did not decode as a valid "
+        "FProperty: %s" % (element_ptr, element_decoded["rejection_reason"]))
+    return fields, note
+
+
+def _decode_map_property(api, handle: int, field_ptr: int, *,
+                         namepool_live_va: int, objects_by_address: dict | None,
+                         max_superclass_depth: int, max_container_depth: int,
+                         container_depth: int) -> tuple:
+    """FMapProperty (UnrealType.h:3721) -- KeyProp at +0x70, ValueProp at
+    +0x78 (MapLayout at +0x80/MapFlags at +0x98 are not read -- not required
+    by the schema). Emitted as the schema's own 'key_type'/'value_type'
+    fields."""
+    key_ptr = _read_u64(api, handle, field_ptr + FMAPPROPERTY_KEY_PROP_OFFSET)
+    value_ptr = _read_u64(api, handle, field_ptr + FMAPPROPERTY_VALUE_PROP_OFFSET)
+    key_decoded = decode_property_type(
+        api, handle, key_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address,
+        max_superclass_depth=max_superclass_depth,
+        max_container_depth=max_container_depth, container_depth=container_depth + 1)
+    value_decoded = decode_property_type(
+        api, handle, value_ptr, namepool_live_va=namepool_live_va,
+        objects_by_address=objects_by_address,
+        max_superclass_depth=max_superclass_depth,
+        max_container_depth=max_container_depth, container_depth=container_depth + 1)
+    fields = {
+        "key_type": _to_property_type_ref(key_decoded),
+        "value_type": _to_property_type_ref(value_decoded),
+        "type_name": "TMap",
+    }
+    notes = []
+    if not key_decoded["valid"]:
+        notes.append("FMapProperty::KeyProp at 0x%x did not decode as a "
+                     "valid FProperty: %s" % (key_ptr, key_decoded["rejection_reason"]))
+    if not value_decoded["valid"]:
+        notes.append("FMapProperty::ValueProp at 0x%x did not decode as a "
+                     "valid FProperty: %s" % (value_ptr, value_decoded["rejection_reason"]))
+    return fields, "; ".join(notes)
+
+
+def _to_property_type_ref(decoded: dict | None) -> dict | None:
+    """Reduces a decode_property_type() result to reflection-record.
+    schema.json's own property_type_ref shape (property_class, type_name,
+    size, struct_name, enum_name, class_name, inner) -- used to embed a
+    container's element type (FArrayProperty/FSetProperty's own Inner,
+    FMapProperty's own KeyProp/ValueProp) inside its OWNING property_record.
+    property_type_ref's own schema closes with additionalProperties: false,
+    so every OTHER decode_property_type() field ('valid', 'rejection_kind',
+    'owner_raw', 'notes', 'next_ptr', ...) is deliberately dropped here --
+    those are this capability's own internal bookkeeping, never part of the
+    committed schema shape.
+
+    Returns None when *decoded* is None or was not a valid FProperty-derived
+    decode -- an invalid/unreadable Inner/KeyProp/ValueProp is reported via
+    the OWNING property's own 'notes' field (see each _decode_*_property()
+    helper above), never invented as a fabricated property_type_ref.
+    """
+    if decoded is None or not decoded["valid"]:
+        return None
+    return {
+        "property_class": decoded["property_class"],
+        "type_name": decoded["type_name"],
+        "size": decoded["size"],
+        "struct_name": decoded["struct_name"],
+        "enum_name": decoded["enum_name"],
+        "class_name": decoded["class_name"],
+        "inner": decoded["inner"],
+    }
+
+
+def decode_property_type(api, handle: int, field_ptr: int, *, namepool_live_va: int,
+                         objects_by_address: dict | None = None,
+                         max_superclass_depth: int = DEFAULT_I06_MAX_SUPERCLASS_DEPTH,
+                         max_container_depth: int = DEFAULT_I06_MAX_CONTAINER_NESTING_DEPTH,
+                         container_depth: int = 0) -> dict:
+    """Decodes ONE FField-derived object given ONLY its own address --
+    nothing about "is this on a UStruct's ChildProperties chain" is baked
+    in anywhere below, DELIBERATELY (see the module docstring's "REUSE,
+    EXPLICITLY" paragraph): this is what lets walk_property_chain() below
+    and every one of the six container-nesting helpers above
+    (_decode_array_property/_decode_set_property/_decode_map_property/
+    _decode_enum_property, all four of which call THIS function recursively
+    for their own Inner/ElementProp/KeyProp+ValueProp/UnderlyingProp) share
+    ONE decoder, and lets a FUTURE capability (I-05, a UFunction's own
+    parameter list -- explicitly out of scope for this pass) reuse it too,
+    without this function ever needing to know either caller exists.
+
+    ALGORITHM (the module's own "Traversal algorithm" steps 1-3 and 5-7;
+    step 4, the Owner ROUND-TRIP validation against a specific expected
+    owner address, is deliberately NOT done here -- this function has no
+    way to know what that expected address should be for a nested Inner/
+    KeyProp/ValueProp/UnderlyingProp call, only walk_property_chain() below,
+    which DOES know the owning class's own address, performs it):
+      1. *field_ptr* itself must be a plausible (non-null, 8-byte-aligned)
+         address (_pointer_is_plausible(), reused from I-04) -- rejected
+         BEFORE any read is attempted, exactly like I-04's own check 1.
+      2. Read ClassPrivate/Owner/Next/NamePrivate's own FNameEntryId in ONE
+         batch (cheap, and Next/Owner are needed regardless of what happens
+         next -- see walk_property_chain()'s own docstring for why having
+         Next available even when a LATER check rejects this node matters).
+         A read failure on this batch is this node's own foundational read
+         failure (see the module docstring's "THE 'ALL OR NOTHING' WRITE
+         GUARANTEE" section for why this mirrors I-04's per-object
+         precedent, not I-02's/I-03's foundational-single-read one) --
+         converted to rejection_kind='read_failure', never propagated.
+      3. ClassPrivate must be a plausible pointer (step 2's own rule, mirrored
+         for FFieldClass -- no vtable check, see FFIELDCLASS_NAME_OFFSET's
+         own comment above for why).
+      4. Resolve FFieldClass::Name and walk its own SuperClass chain
+         (_walk_fieldclass_super_chain()) -- a chain-walk FAILURE (cycle,
+         exceeded depth, a read/decode failure mid-chain -- "we could not
+         determine") is rejection_kind='superclass_chain_failure'; a chain
+         that resolves COMPLETELY but never includes "FProperty"
+         ("we determined it is NOT one") is rejection_kind='not_a_property'
+         -- two DIFFERENT findings, never conflated (mirrors I-02's/I-03's
+         own "tool malfunction vs structural refutation" split, applied at
+         field-decode granularity).
+      5. Decode FField::NamePrivate (I-03's own decode_fname_entry_id(),
+         reused) -> raw_name. A decode error here is rejection_kind=
+         'name_decode'.
+      6. Read FProperty's own base fields (+0x30..+0x6F): ArrayDim,
+         ElementSize, PropertyFlags, RepIndex, Offset_Internal,
+         RepNotifyFunc. RepNotifyFunc is decoded via decode_fname_entry_id()
+         too; when its own FNameEntryId decodes to the literal text "None"
+         (the CONFIRMED id==0 mapping I-03/RF-06 already established, see
+         decode_fname_entry_id()'s own module docstring citation -- NOT a
+         newly-invented sentinel), or when it fails to decode at all (a
+         property with CPF_RepNotify unset ordinarily has RepNotifyFunc
+         zero-initialized, i.e. NAME_None, so a decode error here is
+         peripheral, non-fatal metadata, not core identity), rep_notify_func
+         is left null and, on an actual decode ERROR only, a note is
+         recorded -- "no RepNotify function" is never itself worth a note,
+         matching decode_fname_entry_id()'s own "empty is not evidence of
+         anything wrong" convention.
+      7. Dispatch on the FFieldClass name string (exact match against the
+         12 named types, OR "is a descendant of FNumericProperty" for the
+         generic numeric leaf case) to read type-specific fields -- see each
+         _decode_*_property() helper above.
+
+    NEVER raises ReadProcessMemoryFailedError itself -- every read failure
+    anywhere in this function (the base FField batch, the FProperty base
+    fields, a type-specific dispatch read) is caught and converted into
+    rejection_kind='read_failure', for the SAME reason
+    _walk_fieldclass_super_chain() above never propagates one: every read
+    this function makes is on an ALREADY-LOCATED candidate (mirrors I-04's
+    established precedent; see the module docstring's own "THE 'ALL OR
+    NOTHING' WRITE GUARANTEE" section for the full reasoning).
+
+    A STRUCTURALLY-IMPLAUSIBLE-BUT-SUCCESSFULLY-READ value is DATA, never
+    raised: every rejection path below returns a plain dict with
+    'valid': False and an explanatory 'rejection_kind'/'rejection_reason',
+    exactly like I-04's own _classify_object().
+
+    Returns a dict, ALWAYS shaped the same way regardless of which check
+    failed or succeeded (callers never need to special-case a missing key):
+    {'valid' (bool), 'rejection_kind' (str | None, one of
+    'container_depth_exceeded'/'pointer_alignment'/'read_failure'/
+    'class_pointer_implausible'/'superclass_chain_failure'/'not_a_property'/
+    'name_decode', or None when valid), 'rejection_reason' (str | None),
+    'address_hex' (str), 'raw_name' (str | None), 'property_class'
+    (str | None -- the FFieldClass::Name, only set once step 4 succeeds),
+    'array_dim'/'size'/'total_size'/'offset' (int | None),
+    'property_flags_raw' (str | None, '0x...' hex text), 'rep_index'
+    (int | None), 'rep_notify_func' (str | None), 'type_name' (str | None),
+    'bool_byte_offset'/'bool_field_mask'/'is_bitfield' (FBoolProperty only,
+    else None), 'struct_name'/'enum_name'/'class_name' (str | None),
+    'inner'/'key_type'/'value_type' (dict | None, ALREADY property_type_ref-
+    shaped via _to_property_type_ref() when set -- never the full internal
+    decode dict), 'owner_raw' (int | None, the RAW un-decoded 8-byte
+    FFieldVariant value), 'owner_is_uobject' (bool | None),
+    'owner_address' (int | None, the DECODED/untagged address --
+    walk_property_chain() below is what actually validates this against an
+    expected owner, this function only ever reads and decodes it),
+    'next_ptr' (int | None -- set as soon as step 2's own batch read
+    succeeds, REGARDLESS of whether a LATER step then rejects this node;
+    see walk_property_chain()'s own docstring for why this matters),
+    'notes' (list[str], internal bookkeeping -- joined into one string by
+    the caller that builds a property_record; NOT itself a schema field)}.
+    """
+    record = {
+        "valid": False, "rejection_kind": None, "rejection_reason": None,
+        "address_hex": "0x%x" % field_ptr,
+        "raw_name": None, "property_class": None,
+        "array_dim": None, "size": None, "total_size": None, "offset": None,
+        "property_flags_raw": None, "rep_index": None, "rep_notify_func": None,
+        "type_name": None, "bool_byte_offset": None, "bool_field_mask": None,
+        "is_bitfield": None, "struct_name": None, "enum_name": None,
+        "class_name": None, "inner": None, "key_type": None, "value_type": None,
+        "owner_raw": None, "owner_is_uobject": None, "owner_address": None,
+        "next_ptr": None, "notes": [],
+    }
+
+    if container_depth > max_container_depth:
+        record["rejection_kind"] = "container_depth_exceeded"
+        record["rejection_reason"] = (
+            "container nesting exceeded max_container_depth=%d at 0x%x" %
+            (max_container_depth, field_ptr))
+        return record
+
+    # Step 1.
+    if not _pointer_is_plausible(field_ptr):
+        record["rejection_kind"] = "pointer_alignment"
+        record["rejection_reason"] = (
+            "FField pointer 0x%x is not a plausible (non-null, 8-byte-"
+            "aligned) address" % field_ptr)
+        return record
+
+    # Step 2.
+    try:
+        class_ptr = _read_u64(api, handle, field_ptr + FFIELD_CLASS_PRIVATE_OFFSET)
+        owner_raw = _read_u64(api, handle, field_ptr + FFIELD_OWNER_OFFSET)
+        next_ptr = _read_u64(api, handle, field_ptr + FFIELD_NEXT_OFFSET)
+        name_entry_id = _read_u32(api, handle, field_ptr + FFIELD_NAME_PRIVATE_OFFSET)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "read_failure"
+        record["rejection_reason"] = (
+            "read failure on FField base fields at 0x%x: %s" % (field_ptr, error))
+        return record
+
+    owner_decoded = _decode_ffield_owner(owner_raw)
+    record["owner_raw"] = owner_raw
+    record["owner_is_uobject"] = owner_decoded["is_uobject"]
+    record["owner_address"] = owner_decoded["address"]
+    record["next_ptr"] = next_ptr
+
+    # Step 3.
+    if not _pointer_is_plausible(class_ptr):
+        record["rejection_kind"] = "class_pointer_implausible"
+        record["rejection_reason"] = (
+            "FField::ClassPrivate 0x%x is not a plausible (non-null, "
+            "8-byte-aligned) address" % class_ptr)
+        return record
+
+    # Step 4.
+    chain = _walk_fieldclass_super_chain(
+        api, handle, class_ptr, namepool_live_va=namepool_live_va,
+        max_depth=max_superclass_depth)
+    if not chain["ok"]:
+        record["rejection_kind"] = "superclass_chain_failure"
+        record["rejection_reason"] = chain["note"]
+        return record
+
+    # chain["names"] holds the RAW, F-STRIPPED strings FFieldClass::Name
+    # actually stores at runtime (Field.cpp:46-61's own "Skip the 'F' prefix
+    # for the name" -- see FFIELDCLASS_NAME_PROPERTY's own comment above);
+    # *property_class* (bare) is what every dispatch comparison below uses.
+    # The OUTPUT record's own 'property_class' field, and every human-
+    # readable message built from it, reconstructs the canonical F-prefixed
+    # C++ type name ("FBoolProperty", matching reflection-record.schema.
+    # json's own property_class field examples) by prepending "F" back --
+    # an operation the SAME constructor invariant (InCPPName[0] must be 'F')
+    # guarantees is always exactly reversible, never a guess.
+    property_class = chain["names"][0]
+    canonical_property_class = "F" + property_class
+    record["property_class"] = canonical_property_class
+    if FFIELDCLASS_NAME_PROPERTY not in chain["names"]:
+        canonical_chain = " -> ".join("F" + n for n in chain["names"])
+        record["rejection_kind"] = "not_a_property"
+        record["rejection_reason"] = (
+            "FFieldClass %r's own SuperClass chain (%s) never reaches %r "
+            "-- this FField is not an FProperty-derived object" %
+            (canonical_property_class, canonical_chain, "F" + FFIELDCLASS_NAME_PROPERTY))
+        return record
+
+    # Step 5.
+    decoded_name = decode_fname_entry_id(api, handle, namepool_live_va, name_entry_id)
+    if decoded_name["decode_error"] is not None:
+        record["rejection_kind"] = "name_decode"
+        record["rejection_reason"] = (
+            "FField::NamePrivate decode error at 0x%x: %s" %
+            (field_ptr, decoded_name["decode_error"]))
+        return record
+    record["raw_name"] = decoded_name["text"]
+
+    # Step 6.
+    try:
+        array_dim = _read_i32(api, handle, field_ptr + FPROPERTY_ARRAY_DIM_OFFSET)
+        element_size = _read_i32(api, handle, field_ptr + FPROPERTY_ELEMENT_SIZE_OFFSET)
+        property_flags = _read_u64(api, handle, field_ptr + FPROPERTY_PROPERTY_FLAGS_OFFSET)
+        rep_index = _read_u16(api, handle, field_ptr + FPROPERTY_REP_INDEX_OFFSET)
+        offset_internal = _read_i32(api, handle, field_ptr + FPROPERTY_OFFSET_INTERNAL_OFFSET)
+        rep_notify_func_id = _read_u32(api, handle, field_ptr + FPROPERTY_REP_NOTIFY_FUNC_OFFSET)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "read_failure"
+        record["rejection_reason"] = (
+            "read failure on FProperty base fields at 0x%x: %s" % (field_ptr, error))
+        return record
+
+    record["array_dim"] = array_dim
+    record["size"] = element_size
+    record["total_size"] = element_size * array_dim
+    record["offset"] = offset_internal
+    record["property_flags_raw"] = "0x%x" % property_flags
+    record["rep_index"] = rep_index
+
+    rep_notify_decoded = decode_fname_entry_id(api, handle, namepool_live_va, rep_notify_func_id)
+    if rep_notify_decoded["decode_error"] is not None:
+        record["notes"].append(
+            "RepNotifyFunc FNameEntryId 0x%x failed to decode: %s" %
+            (rep_notify_func_id, rep_notify_decoded["decode_error"]))
+    elif rep_notify_decoded["text"] != "None":
+        record["rep_notify_func"] = rep_notify_decoded["text"]
+    # else: NAME_None (the confirmed id==0 -> "None" mapping, I-03/RF-06) --
+    # "no RepNotify function", left null, no note (matches decode_fname_
+    # entry_id()'s own "empty/none is not evidence of anything wrong"
+    # convention -- this is not a newly-invented sentinel).
+
+    # Step 7: dispatch.
+    try:
+        if property_class == FFIELDCLASS_NAME_BOOLPROPERTY:
+            fields, note = _decode_bool_property(api, handle, field_ptr)
+        elif property_class == FFIELDCLASS_NAME_CLASSPROPERTY:
+            fields, note = _decode_class_property(
+                api, handle, field_ptr, namepool_live_va=namepool_live_va,
+                objects_by_address=objects_by_address)
+        elif property_class == FFIELDCLASS_NAME_OBJECTPROPERTY:
+            fields, note = _decode_object_property(
+                api, handle, field_ptr, namepool_live_va=namepool_live_va,
+                objects_by_address=objects_by_address)
+        elif property_class == FFIELDCLASS_NAME_STRUCTPROPERTY:
+            fields, note = _decode_struct_property(
+                api, handle, field_ptr, namepool_live_va=namepool_live_va,
+                objects_by_address=objects_by_address)
+        elif property_class == FFIELDCLASS_NAME_ENUMPROPERTY:
+            fields, note = _decode_enum_property(
+                api, handle, field_ptr, namepool_live_va=namepool_live_va,
+                objects_by_address=objects_by_address,
+                max_superclass_depth=max_superclass_depth,
+                max_container_depth=max_container_depth, container_depth=container_depth)
+        elif property_class == FFIELDCLASS_NAME_ARRAYPROPERTY:
+            fields, note = _decode_array_property(
+                api, handle, field_ptr, namepool_live_va=namepool_live_va,
+                objects_by_address=objects_by_address,
+                max_superclass_depth=max_superclass_depth,
+                max_container_depth=max_container_depth, container_depth=container_depth)
+        elif property_class == FFIELDCLASS_NAME_SETPROPERTY:
+            fields, note = _decode_set_property(
+                api, handle, field_ptr, namepool_live_va=namepool_live_va,
+                objects_by_address=objects_by_address,
+                max_superclass_depth=max_superclass_depth,
+                max_container_depth=max_container_depth, container_depth=container_depth)
+        elif property_class == FFIELDCLASS_NAME_MAPPROPERTY:
+            fields, note = _decode_map_property(
+                api, handle, field_ptr, namepool_live_va=namepool_live_va,
+                objects_by_address=objects_by_address,
+                max_superclass_depth=max_superclass_depth,
+                max_container_depth=max_container_depth, container_depth=container_depth)
+        elif property_class == FFIELDCLASS_NAME_NAMEPROPERTY:
+            fields, note = {"type_name": "FName"}, None
+        elif property_class == FFIELDCLASS_NAME_STRPROPERTY:
+            fields, note = {"type_name": "FString"}, None
+        elif property_class == FFIELDCLASS_NAME_TEXTPROPERTY:
+            fields, note = {"type_name": "FText"}, None
+        elif FFIELDCLASS_NAME_NUMERICPROPERTY in chain["names"]:
+            # every numeric leaf (FIntProperty, FFloatProperty, FByteProperty,
+            # FDoubleProperty, FInt8/16/64Property, FUInt16/32/64Property,
+            # FLargeWorldCoordinatesRealProperty, ...) -- architecturally 0
+            # extra fields beyond FProperty itself (module docstring). No
+            # type_name: property_class already carries the precise type,
+            # and a "pretty name" cannot be derived losslessly from the
+            # FFieldClass name string alone (correctness over guessing).
+            fields, note = {}, None
+        else:
+            fields, note = {}, (
+                "property_class %r has no type-specific decoder in this "
+                "I-06 pass (in scope: FBoolProperty/FObjectProperty/"
+                "FClassProperty/FStructProperty/FEnumProperty/FArrayProperty/"
+                "FSetProperty/FMapProperty/FNameProperty/FStrProperty/"
+                "FTextProperty/every FNumericProperty descendant) -- base "
+                "FProperty fields only" % canonical_property_class)
+    except ReadProcessMemoryFailedError as error:
+        record["rejection_kind"] = "read_failure"
+        record["rejection_reason"] = (
+            "read failure decoding %r-specific fields at 0x%x: %s" %
+            (canonical_property_class, field_ptr, error))
+        return record
+
+    record.update(fields)
+    if note:
+        record["notes"].append(note)
+
+    record["valid"] = True
+    return record
+
+
+def walk_property_chain(api, handle: int, child_properties_ptr: int, *,
+                        namepool_live_va: int, owner_address: int,
+                        objects_by_address: dict | None = None,
+                        max_chain_length: int = DEFAULT_I06_MAX_PROPERTY_CHAIN_LENGTH,
+                        max_superclass_depth: int = DEFAULT_I06_MAX_SUPERCLASS_DEPTH,
+                        max_container_depth: int = DEFAULT_I06_MAX_CONTAINER_NESTING_DEPTH
+                        ) -> dict:
+    """Walks ONE UStruct's own ChildProperties/Next-linked FField sibling
+    chain, decoding each node via decode_property_type() above and applying
+    the ONE validation decode_property_type() itself deliberately does not
+    (its own docstring, step 4): the OWNER ROUND-TRIP -- a top-level
+    ChildProperties entry's own FField::Owner MUST decode as a UObject*
+    (tag bit 1) whose masked address equals *owner_address* (the owning
+    class's OWN address, i.e. this is a genuine self-consistency invariant
+    of THIS class's own property chain, not merely "some Owner value is
+    present"). A node failing this check is counted ('owner_mismatch') and
+    documented, never silently trusted into the accepted list -- the SAME
+    "structural refutation is data" discipline as every other rejection
+    kind in this file.
+
+    *child_properties_ptr* == 0 is a VALID, legitimate "this class declares
+    zero of its own properties" result -- returns immediately with an empty
+    'accepted' list and 'ok': True, never treated as an error (mirrors
+    walk_object_universe()'s own "a freed/never-allocated slot" non-error
+    precedent, applied to the one-time null-ChildProperties case instead).
+
+    BOUNDED (*max_chain_length* siblings) and CYCLE-PROTECTED (an address
+    repeating within THIS ONE class's own chain walk is a traversal failure)
+    -- mirrors resolve_object_path()'s own Outer-chain walk exactly.
+    Crucially, a REJECTED node (decode_property_type() returned
+    'valid': False, OR the Owner round-trip failed) does NOT by itself abort
+    the walk: as long as decode_property_type() managed to read the node's
+    own Next pointer (its own 'next_ptr' is set as soon as step 2 of ITS OWN
+    algorithm succeeds, REGARDLESS of what a later step then decides -- see
+    decode_property_type()'s own docstring), the walk continues past it,
+    counting the rejection and moving on -- exactly the module docstring's
+    own "count it, document the reason, do not crash, do not silently skip
+    without accounting" rule for a SuperClass-chain rejection, applied here
+    at the sibling-chain level too. The walk can ONLY be aborted by a node
+    whose own Next was never even read (rejected at decode_property_type()'s
+    own step 1 or step 2) -- there is no address left to continue from.
+
+    Returns {'accepted': list[dict] (decode_property_type() results, in
+    chain order, EVERY entry 'valid'==True AND Owner-round-tripped -- this
+    list's own 0-based enumeration IS the ordinal the caller assigns; a
+    rejected node consumes NO ordinal slot, per the module's own algorithm
+    step 8), 'nodes_visited' (int, every node the walk actually reached,
+    accepted or not), 'rejected_counts' (dict[str, int], one entry per
+    rejection_kind PLUS 'owner_mismatch'), 'ok' (bool -- False only for an
+    actual traversal FAILURE: cycle, an unreadable first node, or exceeded
+    max_chain_length -- never False merely because SOME nodes were
+    rejected), 'note' (str | None)}.
+    """
+    rejected_counts: dict = {}
+    accepted: list = []
+
+    if child_properties_ptr == 0:
+        return {"accepted": accepted, "nodes_visited": 0,
+                "rejected_counts": rejected_counts, "ok": True, "note": None}
+
+    visited: set = set()
+    address = child_properties_ptr
+    nodes_visited = 0
+
+    for _ in range(max_chain_length):
+        if address in visited:
+            return {"accepted": accepted, "nodes_visited": nodes_visited,
+                    "rejected_counts": rejected_counts, "ok": False,
+                    "note": "cycle detected in FField::Next chain at 0x%x" % address}
+        visited.add(address)
+        nodes_visited += 1
+
+        decoded = decode_property_type(
+            api, handle, address, namepool_live_va=namepool_live_va,
+            objects_by_address=objects_by_address,
+            max_superclass_depth=max_superclass_depth,
+            max_container_depth=max_container_depth, container_depth=0)
+
+        if decoded["valid"]:
+            if decoded["owner_is_uobject"] and decoded["owner_address"] == owner_address:
+                accepted.append(decoded)
+            else:
+                rejected_counts["owner_mismatch"] = rejected_counts.get("owner_mismatch", 0) + 1
+        else:
+            kind = decoded["rejection_kind"]
+            rejected_counts[kind] = rejected_counts.get(kind, 0) + 1
+
+        next_ptr = decoded["next_ptr"]
+        if next_ptr is None:
+            return {"accepted": accepted, "nodes_visited": nodes_visited,
+                    "rejected_counts": rejected_counts, "ok": False,
+                    "note": (
+                        "chain walk aborted at 0x%x: this node's own Next "
+                        "pointer was never read (rejected before the base "
+                        "FField field batch could be read) -- %s" %
+                        (address, decoded["rejection_reason"]))}
+        if next_ptr == 0:
+            return {"accepted": accepted, "nodes_visited": nodes_visited,
+                    "rejected_counts": rejected_counts, "ok": True, "note": None}
+        address = next_ptr
+    else:
+        return {"accepted": accepted, "nodes_visited": nodes_visited,
+                "rejected_counts": rejected_counts, "ok": False,
+                "note": "FField::Next chain exceeded max_chain_length (%d) "
+                        "without terminating" % max_chain_length}
+
+
+def select_i06_engine_proof_classes(all_classes: list, *,
+                                    cap: int = DEFAULT_I06_PROOF_SET_ENGINE_CLASS_CAP) -> list:
+    """A small, deterministic, name-preference-ordered selection of
+    well-known engine classes from *all_classes* -- run_i04()'s OWN full
+    'classes' list (every classified UClass instance THIS run's own walk
+    found, not merely the /Script/MISERY+/Game subset build_i04_document()
+    ever WRITES to classes.jsonl) -- for I-06's proof set. A PURE, in-memory
+    filter: this function never reads process memory itself and never
+    triggers a new GUObjectArray walk.
+
+    Searched in I06_ENGINE_CLASS_NAME_PREFERENCE's own listed order (every
+    occurrence of "Object" considered before ever looking for "Actor", not
+    scan order), so the result is REPRODUCIBLE across two runs against the
+    same live process regardless of which name happened to appear earlier
+    in this run's own GUObjectArray walk. Stops once *cap* classes are found
+    or the preference list is exhausted. A well-known name this specific
+    build does not have (should not normally happen for any of these seven
+    -- all core Engine/CoreUObject types -- but is not itself an error) is
+    simply skipped; the caller's own report states exactly which ones WERE
+    found, never treats a miss as a failure.
+    """
+    by_name: dict = {}
+    for entry in all_classes:
+        name = entry["raw_name"]
+        if name not in by_name:  # first occurrence in scan order wins.
+            by_name[name] = entry
+
+    selected = []
+    for name in I06_ENGINE_CLASS_NAME_PREFERENCE:
+        if len(selected) >= cap:
+            break
+        entry = by_name.get(name)
+        if entry is not None:
+            selected.append(entry)
+    return selected
+
+
+def select_i06_proof_set(*, misery_classes: list, game_sample: list, all_classes: list,
+                         engine_class_cap: int = DEFAULT_I06_PROOF_SET_ENGINE_CLASS_CAP
+                         ) -> list:
+    """The complete I-06 proof set (module docstring's "PROOF-SET-FIRST, NOT
+    A FULL DUMP" section): every /Script/MISERY class (I-04's own 'misery'
+    bucket, in full -- never capped) + I-04's own already-bounded /Game
+    sample (game_sample -- ALREADY capped by --i04-game-sample-cap; this
+    function does not re-select or re-cap it) + up to *engine_class_cap*
+    well-known engine classes (select_i06_engine_proof_classes() above).
+    Deterministic and reproducible: every input is itself already a
+    deterministic, in-memory selection over data I-04 already validated in
+    THIS SAME run -- this function triggers NO new GUObjectArray read.
+
+    De-duplicates by address (architecturally impossible for these three
+    inputs to overlap -- misery_classes/game_sample are /Script/MISERY and
+    /Game respectively, engine_classes are neither -- but a plain
+    address-set guard costs nothing and keeps this function correct even if
+    that invariant were ever violated by a future change to any of the
+    three selectors).
+    """
+    engine_classes = select_i06_engine_proof_classes(all_classes, cap=engine_class_cap)
+    seen: set = set()
+    combined = []
+    for entry in list(misery_classes) + list(game_sample) + engine_classes:
+        if entry["address"] in seen:
+            continue
+        seen.add(entry["address"])
+        combined.append(entry)
+    return combined
+
+
+def run_i06(api, process_handle: int, namepool_live_va: int,
+           objects_by_address: dict | None, proof_set_classes: list, *,
+           max_chain_length: int = DEFAULT_I06_MAX_PROPERTY_CHAIN_LENGTH,
+           max_superclass_depth: int = DEFAULT_I06_MAX_SUPERCLASS_DEPTH,
+           max_container_depth: int = DEFAULT_I06_MAX_CONTAINER_NESTING_DEPTH,
+           child_properties_offset: int = USTRUCT_CHILD_PROPERTIES_OFFSET) -> dict:
+    """The whole of capability I-06: for every class in *proof_set_classes*
+    (select_i06_proof_set()'s own output -- I-04's already-classified,
+    already-validated class list from THIS SAME run, never re-walked),
+    read its own UStruct::ChildProperties (+0x50) and walk_property_chain()
+    from there.
+
+    *namepool_live_va* MUST be from THIS SAME run's own I-03 result, for the
+    identical "reuse, never re-establish" reason run_i04() already
+    documents for its own namepool_live_va parameter.
+
+    A ChildProperties read failure for ONE class is recorded on that class's
+    own entry ('child_properties_read_ok': False) and this function
+    continues with the REMAINING classes in the proof set -- see the module
+    docstring's own "THE 'ALL OR NOTHING' WRITE GUARANTEE" section for why
+    this mirrors I-04's own per-object read-failure precedent (a torn read
+    on an already-located, already-validated candidate) rather than I-02's/
+    I-03's foundational-single-read one: each proof-set class's own
+    ChildProperties field is independent memory, and one class's failure
+    says nothing about any other class's own field.
+
+    Never raises. Returns a plain dict: {'classes' (list[dict], one entry
+    per *proof_set_classes* member, each {'class_address' (int),
+    'class_raw_name' (str), 'object_path' (str | None),
+    'child_properties_ptr_hex' (str | None), 'child_properties_read_ok'
+    (bool), 'child_properties_read_error' (str | None), 'properties'
+    (list[dict], walk_property_chain()'s own 'accepted' list -- full
+    decode_property_type() dicts, NOT yet reduced to property_record shape;
+    build_i06_property_record() does that per-entry, with the ordinal being
+    this list's own 0-based position), 'nodes_visited' (int),
+    'rejected_counts' (dict), 'chain_ok' (bool), 'chain_note' (str | None)}),
+    'classes_examined' (int, len(proof_set_classes)),
+    'properties_accepted_total' (int, sum of every class's own accepted
+    count), 'rejected_counts_total' (dict, summed across every class)}.
+    """
+    classes_out = []
+    total_accepted = 0
+    total_rejected_counts: dict = {}
+
+    for class_entry in proof_set_classes:
+        class_address = class_entry["address"]
+        try:
+            child_properties_ptr = _read_u64(
+                api, process_handle, class_address + child_properties_offset)
+        except ReadProcessMemoryFailedError as error:
+            classes_out.append({
+                "class_address": class_address, "class_raw_name": class_entry["raw_name"],
+                "object_path": class_entry.get("object_path"),
+                "child_properties_ptr_hex": None,
+                "child_properties_read_ok": False,
+                "child_properties_read_error": str(error),
+                "properties": [], "nodes_visited": 0, "rejected_counts": {},
+                "chain_ok": False, "chain_note": None,
+            })
+            continue
+
+        chain = walk_property_chain(
+            api, process_handle, child_properties_ptr, namepool_live_va=namepool_live_va,
+            owner_address=class_address, objects_by_address=objects_by_address,
+            max_chain_length=max_chain_length, max_superclass_depth=max_superclass_depth,
+            max_container_depth=max_container_depth)
+
+        classes_out.append({
+            "class_address": class_address, "class_raw_name": class_entry["raw_name"],
+            "object_path": class_entry.get("object_path"),
+            "child_properties_ptr_hex": "0x%x" % child_properties_ptr,
+            "child_properties_read_ok": True, "child_properties_read_error": None,
+            "properties": chain["accepted"], "nodes_visited": chain["nodes_visited"],
+            "rejected_counts": chain["rejected_counts"],
+            "chain_ok": chain["ok"], "chain_note": chain["note"],
+        })
+        total_accepted += len(chain["accepted"])
+        for kind, count in chain["rejected_counts"].items():
+            total_rejected_counts[kind] = total_rejected_counts.get(kind, 0) + count
+
+    return {
+        "classes": classes_out,
+        "classes_examined": len(proof_set_classes),
+        "properties_accepted_total": total_accepted,
+        "rejected_counts_total": total_rejected_counts,
+    }
+
+
+def build_i06_document(*, result: dict, build_key: str, recorded_at: str | None,
+                       identity_self_established: bool, build_key_cross_checked: bool,
+                       known_build: bool, build_id: str | None) -> dict:
+    """The I-06 raw output document -- research/instrument-runs/<run>/
+    i06-properties.json, the SAME "raw single-run data document, no
+    evidence envelope" shape as build_i01_document()/.../build_i04_document()
+    (see build_i01_document()'s own docstring for the is_record()/
+    MARKER_KEYS reasoning this mirrors verbatim). properties.jsonl (a
+    SEPARATE artifact, built from run_i06()'s own 'classes'[*]['properties']
+    entries via build_i06_property_record() and written by main()) is where
+    the actual GRADED knowledge-base claims live; this document is this
+    run's own bookkeeping/summary, one row per proof-set class, honest about
+    every class whose own ChildProperties read failed or whose own chain
+    walk did not fully complete ('chain_ok': False) -- never silently
+    dropped from this summary even when it contributed zero properties.
+    """
+    return {
+        "capability": CAPABILITY_ID_I06,
+        "classes_examined": result["classes_examined"],
+        "properties_accepted_total": result["properties_accepted_total"],
+        "rejected_counts_total": result["rejected_counts_total"],
+        "classes": [
+            {
+                "class_address_hex": "0x%x" % c["class_address"],
+                "class_raw_name": c["class_raw_name"],
+                "object_path": c["object_path"],
+                "child_properties_ptr_hex": c["child_properties_ptr_hex"],
+                "child_properties_read_ok": c["child_properties_read_ok"],
+                "child_properties_read_error": c["child_properties_read_error"],
+                "property_count": len(c["properties"]),
+                "nodes_visited": c["nodes_visited"],
+                "rejected_counts": c["rejected_counts"],
+                "chain_ok": c["chain_ok"],
+                "chain_note": c["chain_note"],
+            }
+            for c in result["classes"]
+        ],
+        "build_key": build_key,
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
+        "recorded_at": recorded_at,
+        "generator": GENERATOR_NAME,
+        "generator_version": GENERATOR_VERSION,
+    }
+
+
+def build_i06_property_record(decoded: dict, *, owner: str, owner_kind: str,
+                              ordinal: int, build_key: str, recorded_at: str) -> dict:
+    """One properties.jsonl row (research/schema/reflection-record.schema.json's
+    property_record branch) for ONE ACCEPTED top-level ChildProperties-chain
+    entry -- *decoded* MUST be an already-valid, already-Owner-round-tripped
+    decode_property_type() result (walk_property_chain() never places a
+    rejected node in its own 'accepted' list, so this function never has to
+    re-check 'valid' itself).
+
+    CONFIDENCE IS ALWAYS 0.75, EVERY RECORD, NO EXCEPTION -- see the module
+    docstring's own "CONFIDENCE HAS NO POSSIBLE CEILING ABOVE 0.79 FOR THIS
+    CAPABILITY, EVER" section for the full reasoning this mirrors: research/
+    reflection/misery-24826585-ue5.4.4-0eef3715244b/README.md's own "Почему
+    properties.jsonl пуст -- и всегда будет пуст" section proves NO offline
+    cross-check for a property record can EVER exist, for any build, because
+    FProperty is not a UObject and cannot appear in the ScriptObjects chunk
+    global.ucas is built from. Unlike build_i04_class_record()'s own
+    MIX-SPLIT (0.90 cross-checked / 0.75 single-source), there is no
+    "cross-checked" branch here at all -- every property record is
+    single-source by the FORMAT's own construction, not by this run's own
+    bad luck, so 0.75 (plan.md 10.2's own "one strong ... confirmation" band,
+    0.60-0.79, near its own top) is not merely THIS record's grade, it is
+    the entire capability's own permanent ceiling.
+
+    Fields this pass deliberately leaves null (module docstring's "SCOPE,
+    DELIBERATELY" section): cpp_type (no lossless C++ declaration
+    reconstruction attempted), interface_name/function_signature (out of
+    scope -- no FInterfaceProperty/FDelegateProperty/
+    FMulticastDelegateProperty decoder in this pass), is_blueprint_visible/
+    is_editable/is_transient/is_config (no individual EPropertyFlags bit
+    decoding -- only the raw property_flags_raw hex word).
+    """
+    claim = (
+        "the live MISERY-Win64-Shipping.exe process (build_key %s) has a "
+        "property named %r (property_class %r) at ordinal %d of %s %r, "
+        "byte offset %s, size %s" %
+        (build_key, decoded["raw_name"], decoded["property_class"], ordinal,
+         owner_kind, owner, decoded["offset"], decoded["size"]))
+    notes = "; ".join(decoded["notes"]) if decoded["notes"] else None
+
+    return {
+        "kind": "property",
+        "raw_name": decoded["raw_name"],
+        "owner": owner,
+        "owner_kind": owner_kind,
+        "ordinal": ordinal,
+        "ordinal_basis": "runtime-link-order",
+        "offset": decoded["offset"],
+        "size": decoded["size"],
+        "array_dim": decoded["array_dim"],
+        "total_size": decoded["total_size"],
+        "property_class": decoded["property_class"],
+        "type_name": decoded["type_name"],
+        "cpp_type": None,
+        "property_flags_raw": decoded["property_flags_raw"],
+        "rep_index": decoded["rep_index"],
+        "rep_notify_func": decoded["rep_notify_func"],
+        "bool_byte_offset": decoded["bool_byte_offset"],
+        "bool_field_mask": decoded["bool_field_mask"],
+        "is_bitfield": decoded["is_bitfield"],
+        "inner": decoded["inner"],
+        "key_type": decoded["key_type"],
+        "value_type": decoded["value_type"],
+        "struct_name": decoded["struct_name"],
+        "enum_name": decoded["enum_name"],
+        "class_name": decoded["class_name"],
+        "interface_name": None,
+        "function_signature": None,
+        "is_blueprint_visible": None,
+        "is_editable": None,
+        "is_transient": None,
+        "is_config": None,
+        "claim": claim,
+        "claim_type": "class-property",
+        "claim_class": "I",
+        "evidence_level": "OBSERVED",
+        "confidence": 0.75,
+        "oracle": ["runtime-reflection"],
+        "sources": [{
+            "method": (
+                "I-06: UStruct::ChildProperties chain walk (+0x%x) + "
+                "FField/FProperty field reads (Field.h/UnrealType.h "
+                "offsets) + FNamePool decode (I-03's own "
+                "decode_fname_entry_id, reused) + FFieldClass::SuperClass "
+                "chain walk for type dispatch" % USTRUCT_CHILD_PROPERTIES_OFFSET),
+            "artifact": None,
+            "locator": decoded["address_hex"],
+            "note": (
+                "oracle runtime-reflection. The address is this live "
+                "FField/FProperty object's own address in THIS run's "
+                "process -- not stable across a relaunch (ASLR/heap "
+                "allocation), recorded only for this run's own audit trail."),
+        }],
+        "build_key": build_key,
+        "recorded_at": recorded_at,
+        "method": "I-06",
+        "refutation_attempt": (
+            "if this ChildProperties-chain entry were not really an "
+            "FProperty, this would have been refuted by the "
+            "FFieldClass::SuperClass chain walk failing to reach "
+            "'FProperty' (rejection_kind='not_a_property') before a single "
+            "FProperty-specific offset was ever applied; if the FField's "
+            "own Owner did not round-trip to this class's own address "
+            "(tag bit=1, masked pointer == the class's own address), the "
+            "node would have been rejected as 'owner_mismatch' and never "
+            "reached this record at all; if any foundational read on this "
+            "already-located node failed, it would have been rejected as "
+            "'read_failure', never silently reported as though it decoded. "
+            "This record has NO POSSIBLE OFFLINE CROSS-CHECK, for any "
+            "build, ever: FProperty is not a UObject and cannot appear in "
+            "the ScriptObjects chunk global.ucas is built from (research/"
+            "reflection/misery-24826585-ue5.4.4-0eef3715244b/README.md's "
+            "own 'Почему properties.jsonl пуст' section) -- confidence is "
+            "capped at 0.75 (one strong method, runtime-validated, no "
+            "possible independent corroboration) for exactly this reason, "
+            "never higher, for any property record this capability will "
+            "ever produce."),
+        "notes": notes,
+        "semantic_alias": None,
+    }
 
 
 # --------------------------------------------------------------------------- #
@@ -3600,6 +5176,79 @@ def build_arg_parser() -> argparse.ArgumentParser:
              "classes.jsonl -- this tool does not auto-derive that path "
              "from build identity, matching every other per-capability "
              "output path in this file")
+    parser.add_argument(
+        "--run-i06", action="store_true",
+        help="also run capability I-06: decode FProperty for a small, "
+             "proof-set-first sample of already-classified classes (plan.md "
+             "8.2, 'Декодер FProperty') by walking each class's own "
+             "UStruct::ChildProperties (+0x50) Next-linked FField chain, "
+             "resolving each entry's FFieldClass name via a SuperClass "
+             "chain walk (never a hardcoded EClassCastFlags bit), and "
+             "reading FProperty's own base fields plus the 12 named "
+             "type-specific field sets (see eri.py's own module docstring, "
+             "'WHAT I-06 IS', for the exact algorithm and its scope "
+             "boundary -- no ProcessEvent, no UFunction, no individual "
+             "EPropertyFlags bit decoding, no UScriptStruct-owned property "
+             "traversal). Requires --run-i04 in THIS SAME run -- never "
+             "enabled standalone, and never re-walks GUObjectArray itself: "
+             "the proof set is a deterministic, bounded selection over "
+             "I-04's own already-classified class list (every "
+             "/Script/MISERY class, I-04's own bounded /Game sample, and "
+             "up to --i06-engine-class-cap well-known engine classes). "
+             "Writes a raw JSON summary (--i06-out) and a SEPARATE "
+             "properties.jsonl artifact (--properties-jsonl-out).")
+    parser.add_argument(
+        "--child-properties-offset", default=None, metavar="HEX",
+        help="override the byte offset of UStruct::ChildProperties "
+             "(default: 0x%x -- UObjectBase(0x28)+UField's own Next(+0x28, "
+             "total 0x30)+a private FStructBaseChain base subobject "
+             "(+0x30..+0x3F, present in every non-editor/Shipping build)+"
+             "UStruct's own SuperStruct(+0x40)/Children(+0x48)/"
+             "ChildProperties(+0x50); see "
+             "USTRUCT_CHILD_PROPERTIES_OFFSET's own comment in eri.py)." %
+             USTRUCT_CHILD_PROPERTIES_OFFSET)
+    parser.add_argument(
+        "--i06-max-chain-length", type=int,
+        default=DEFAULT_I06_MAX_PROPERTY_CHAIN_LENGTH, metavar="N",
+        help="I-06: bound on how many siblings UStruct::ChildProperties' "
+             "own Next-linked FField chain is walked before treating the "
+             "walk as a traversal failure (default: %d)" %
+             DEFAULT_I06_MAX_PROPERTY_CHAIN_LENGTH)
+    parser.add_argument(
+        "--i06-max-superclass-depth", type=int,
+        default=DEFAULT_I06_MAX_SUPERCLASS_DEPTH, metavar="N",
+        help="I-06: bound on how many FFieldClass::SuperClass hops the "
+             "type-dispatch walk follows before treating it as a traversal "
+             "failure (default: %d)" % DEFAULT_I06_MAX_SUPERCLASS_DEPTH)
+    parser.add_argument(
+        "--i06-max-container-depth", type=int,
+        default=DEFAULT_I06_MAX_CONTAINER_NESTING_DEPTH, metavar="N",
+        help="I-06: bound on how deeply a container property's own Inner/"
+             "KeyProp/ValueProp/UnderlyingProp is recursively decoded "
+             "(default: %d, generous for a realistic TArray<TArray<X>>)" %
+             DEFAULT_I06_MAX_CONTAINER_NESTING_DEPTH)
+    parser.add_argument(
+        "--i06-engine-class-cap", type=int,
+        default=DEFAULT_I06_PROOF_SET_ENGINE_CLASS_CAP, metavar="N",
+        help="I-06: cap on how many well-known engine classes "
+             "(I06_ENGINE_CLASS_NAME_PREFERENCE order) are added to the "
+             "proof set beyond the /Script/MISERY and /Game classes I-04 "
+             "already selected (default: %d)" %
+             DEFAULT_I06_PROOF_SET_ENGINE_CLASS_CAP)
+    parser.add_argument(
+        "--i06-out", default=None, metavar="PATH",
+        help="I-06 raw JSON output path; defaults to <run-dir>/"
+             "i06-properties.json when --run-dir is given")
+    parser.add_argument(
+        "--properties-jsonl-out", default=None, metavar="PATH",
+        help="I-06's properties.jsonl output path (research/schema/"
+             "reflection-record.schema.json's property_record branch); "
+             "defaults to <run-dir>/properties.jsonl when --run-dir is "
+             "given. The operator must pass this explicitly to write to "
+             "the final committed location, research/reflection/"
+             "<build_id>/properties.jsonl -- this tool does not "
+             "auto-derive that path from build identity, matching every "
+             "other per-capability output path in this file")
     return parser
 
 
@@ -3747,6 +5396,64 @@ def _validate_i04_requirements(args: argparse.Namespace) -> None:
             " and ".join(missing))
 
 
+def _resolve_i06_output_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i06 was not given. Otherwise the I-06 raw-JSON output
+    path: --i06-out if given explicitly, else <run-dir>/i06-properties.json
+    via the same --run-dir convenience --out/--i02-out/--i03-out/--i04-out
+    already use. Raises ValueError, before any handle is opened, if
+    --run-i06 was given with neither --i06-out nor --run-dir -- identical
+    shape to _resolve_i04_output_path above.
+    """
+    if not args.run_i06:
+        return None
+    if args.i06_out:
+        return args.i06_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "i06-properties.json")
+    raise ValueError(
+        "--run-i06 requires --i06-out unless --run-dir is given (it "
+        "supplies the default <run-dir>/i06-properties.json)")
+
+
+def _resolve_properties_jsonl_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i06 was not given. Otherwise I-06's properties.jsonl
+    output path: --properties-jsonl-out if given explicitly, else
+    <run-dir>/properties.jsonl -- the SAME --run-dir convenience every other
+    per-capability output path in this file uses, deliberately NOT an
+    auto-derived research/reflection/<build_id>/ path (see
+    --properties-jsonl-out's own help text: the operator passes that
+    explicitly when writing to the final committed location).
+    """
+    if not args.run_i06:
+        return None
+    if args.properties_jsonl_out:
+        return args.properties_jsonl_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "properties.jsonl")
+    raise ValueError(
+        "--run-i06 requires --properties-jsonl-out unless --run-dir is "
+        "given (it supplies the default <run-dir>/properties.jsonl)")
+
+
+def _validate_i06_requirements(args: argparse.Namespace) -> None:
+    """Raises ValueError, before any handle is opened, if --run-i06 was
+    given without --run-i04 in this SAME invocation -- I-06 reuses I-04's
+    own already-classified class list as its proof set and never re-walks
+    GUObjectArray itself (I-04's own _validate_i04_requirements() already
+    separately guarantees --run-i02/--run-i03 whenever --run-i04 is given,
+    so I-06 does not need to re-state that transitive requirement here --
+    the identical "fail loudly before doing any work" shape
+    _validate_i04_requirements above already established).
+    """
+    if not args.run_i06:
+        return
+    if not args.run_i04:
+        raise ValueError(
+            "--run-i06 requires --run-i04 in this same invocation -- I-06 "
+            "reuses I-04's own already-classified class list as its proof "
+            "set, and never re-walks GUObjectArray itself.")
+
+
 def _parse_int_literal(value: str | None, default: int, flag_name: str) -> int:
     """*default* when *value* is None (the normal case); otherwise
     int(value, 0) so '0x7a78ed0', '0X7A78ED0' and a plain decimal string are
@@ -3791,6 +5498,11 @@ def _parse_class_private_offset(value: str | None) -> int:
 
 def _parse_outer_private_offset(value: str | None) -> int:
     return _parse_int_literal(value, DEFAULT_OUTER_PRIVATE_OFFSET, "--outer-private-offset")
+
+
+def _parse_child_properties_offset(value: str | None) -> int:
+    return _parse_int_literal(
+        value, USTRUCT_CHILD_PROPERTIES_OFFSET, "--child-properties-offset")
 
 
 def _write_guarded(document: dict, path: str, *, what: str) -> str:
@@ -3845,6 +5557,8 @@ def main(argv: list[str] | None = None) -> int:
         i03_out_path = _resolve_i03_output_path(args)  # None unless --run-i03
         i04_out_path = _resolve_i04_output_path(args)  # None unless --run-i04
         classes_jsonl_path = _resolve_classes_jsonl_path(args)  # None unless --run-i04
+        i06_out_path = _resolve_i06_output_path(args)  # None unless --run-i06
+        properties_jsonl_path = _resolve_properties_jsonl_path(args)  # None unless --run-i06
         guobjectarray_rva = _parse_guobjectarray_rva(args.guobjectarray_rva)
         namepool_rva = _parse_namepool_rva(args.namepool_rva)
         name_pool_initialized_rva = _parse_name_pool_initialized_rva(
@@ -3852,6 +5566,7 @@ def main(argv: list[str] | None = None) -> int:
         name_private_offset = _parse_name_private_offset(args.name_private_offset)
         class_private_offset = _parse_class_private_offset(args.class_private_offset)
         outer_private_offset = _parse_outer_private_offset(args.outer_private_offset)
+        child_properties_offset = _parse_child_properties_offset(args.child_properties_offset)
         # --run-i03-reflection needs both --run-i02 and --run-i03 in this
         # same invocation -- checked here, before any handle is opened, same
         # "fail loudly before doing any work" discipline as every other
@@ -3860,6 +5575,9 @@ def main(argv: list[str] | None = None) -> int:
         # --run-i04 needs both --run-i02 and --run-i03 too -- identical
         # discipline, checked before any handle is opened.
         _validate_i04_requirements(args)
+        # --run-i06 needs --run-i04 too -- identical discipline, checked
+        # before any handle is opened.
+        _validate_i06_requirements(args)
 
         # Layer 1 first, exactly like the pyghidra_scripts family: a refused
         # output path costs nothing, so it is checked before a single Win32
@@ -3885,6 +5603,14 @@ def main(argv: list[str] | None = None) -> int:
             pathguard.check_output_path(
                 classes_jsonl_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
                 what="--classes-jsonl-out")
+        if i06_out_path is not None:
+            pathguard.check_output_path(
+                i06_out_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--i06-out")
+        if properties_jsonl_path is not None:
+            pathguard.check_output_path(
+                properties_jsonl_path, pathguard.CONFIGURED_INSTALL_ROOTS[0],
+                what="--properties-jsonl-out")
 
         i01_recorded_at = (
             args.recorded_at if args.recorded_at
@@ -3954,6 +5680,7 @@ def main(argv: list[str] | None = None) -> int:
         i04_result = None
         i04_class_buckets = None
         i04_game_sample = None
+        i06_result = None
         if args.run_i03:
             i03_handle = open_process_read_only(api, result["pid"])
             try:
@@ -3987,6 +5714,27 @@ def main(argv: list[str] | None = None) -> int:
                     else:
                         i04_class_buckets = {"misery": [], "game": [], "other": []}
                         i04_game_sample = []
+                    # I-06, if requested, runs in this SAME i03_handle's
+                    # try/finally -- it reuses I-04's own already-classified,
+                    # already-validated class list from THIS SAME run
+                    # (i04_result["classes"], i04_class_buckets["misery"],
+                    # i04_game_sample) as a deterministic, in-memory proof-set
+                    # selection (select_i06_proof_set()), and I-03's own
+                    # namepool_live_va -- never re-walking GUObjectArray, per
+                    # _validate_i06_requirements()'s own requirement.
+                    if args.run_i06:
+                        i06_proof_set = select_i06_proof_set(
+                            misery_classes=i04_class_buckets["misery"],
+                            game_sample=i04_game_sample,
+                            all_classes=i04_result["classes"],
+                            engine_class_cap=args.i06_engine_class_cap)
+                        i06_result = run_i06(
+                            api, i03_handle, i03_result["namepool_live_va"], None,
+                            i06_proof_set,
+                            max_chain_length=args.i06_max_chain_length,
+                            max_superclass_depth=args.i06_max_superclass_depth,
+                            max_container_depth=args.i06_max_container_depth,
+                            child_properties_offset=child_properties_offset)
             finally:
                 api.close_handle(i03_handle)
 
@@ -4068,6 +5816,45 @@ def main(argv: list[str] | None = None) -> int:
                 classes_jsonl_rows, classes_jsonl_path, what="--classes-jsonl-out")
             artifacts.append(_repo_relative(written_classes_jsonl))
 
+        i06_document = None
+        written_i06_out = None
+        written_properties_jsonl = None
+        if i06_result is not None:
+            i06_document = build_i06_document(
+                result=i06_result, build_key=identity["build_key"],
+                recorded_at=i01_recorded_at,
+                identity_self_established=identity["identity_self_established"],
+                build_key_cross_checked=identity["build_key_cross_checked"],
+                known_build=identity["known_build"], build_id=identity["build_id"])
+            written_i06_out = _write_guarded(i06_document, i06_out_path, what="--i06-out")
+            capabilities_enabled.append(CAPABILITY_ID_I06)
+            artifacts.append(_repo_relative(written_i06_out))
+
+            # properties.jsonl is a SEPARATE artifact, in the format
+            # research/schema/reflection-record.schema.json's property_record
+            # branch defines -- EVERY accepted property from EVERY proof-set
+            # class, confidence 0.75 always (build_i06_property_record()'s
+            # own docstring: this capability has NO possible cross-checked
+            # branch, ever, unlike I-04's own MIX-SPLIT). ordinal is each
+            # class's own 'properties' list's 0-based position -- ONLY
+            # accepted/validated nodes ever appear there (walk_property_
+            # chain()'s own docstring), so a rejected node never consumes an
+            # ordinal slot. recorded_at is manifest_timestamp, NOT
+            # i01_recorded_at, for the SAME reason build_i04_class_record()'s
+            # own rows already use it (kb-record.schema.json's own envelope
+            # requires a non-null recorded_at on every row always).
+            properties_jsonl_rows = [
+                build_i06_property_record(
+                    decoded, owner=class_entry["class_raw_name"], owner_kind="class",
+                    ordinal=ordinal, build_key=identity["build_key"],
+                    recorded_at=manifest_timestamp)
+                for class_entry in i06_result["classes"]
+                for ordinal, decoded in enumerate(class_entry["properties"])
+            ]
+            written_properties_jsonl = _write_guarded_jsonl(
+                properties_jsonl_rows, properties_jsonl_path, what="--properties-jsonl-out")
+            artifacts.append(_repo_relative(written_properties_jsonl))
+
         manifest = build_manifest(
             run_id=run_id, arguments=list(sys.argv[1:] if argv is None else argv),
             tool_version=GENERATOR_VERSION, build_key=identity["build_key"],
@@ -4110,6 +5897,12 @@ def main(argv: list[str] | None = None) -> int:
                 summary["i04_game_classes_sample_count"] = (
                     i04_document["game_classes_sample_count"])
                 summary["i04_other_classes_count"] = i04_document["other_classes_count"]
+            if i06_document is not None:
+                summary["i06_out"] = written_i06_out
+                summary["properties_jsonl_out"] = written_properties_jsonl
+                summary["i06_classes_examined"] = i06_document["classes_examined"]
+                summary["i06_properties_accepted_total"] = (
+                    i06_document["properties_accepted_total"])
             print(dump_json(summary))
         else:
             print(
@@ -4171,6 +5964,16 @@ def main(argv: list[str] | None = None) -> int:
                     file=sys.stderr)
                 print("written: %s" % written_i04_out, file=sys.stderr)
                 print("written: %s" % written_classes_jsonl, file=sys.stderr)
+            if i06_document is not None:
+                print(
+                    "I-06: classes_examined=%d properties_accepted_total=%d "
+                    "rejected_counts_total=%r" % (
+                        i06_document["classes_examined"],
+                        i06_document["properties_accepted_total"],
+                        i06_document["rejected_counts_total"]),
+                    file=sys.stderr)
+                print("written: %s" % written_i06_out, file=sys.stderr)
+                print("written: %s" % written_properties_jsonl, file=sys.stderr)
             print("written: %s" % written_manifest, file=sys.stderr)
         return 0
     except (EriError, pathguard.OutputPathRefused, ValueError) as error:

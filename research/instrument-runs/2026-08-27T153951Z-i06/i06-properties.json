@@ -1,0 +1,416 @@
+{
+  "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "build_key_cross_checked": false,
+  "capability": "I-06",
+  "classes": [
+    {
+      "chain_note": "chain walk aborted at 0x16efd: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x16efd is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b0f400",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7ea00",
+      "class_raw_name": "MiseryBlueprintFunctionLibrary",
+      "nodes_visited": 2,
+      "object_path": "/Script/MISERY.MiseryBlueprintFunctionLibrary",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1bf45: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1bf45 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b4ae00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e800",
+      "class_raw_name": "MiseryEditableText",
+      "nodes_visited": 2,
+      "object_path": "/Script/MISERY.MiseryEditableText",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1b9b7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1b9b7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b48000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e600",
+      "class_raw_name": "MiseryFocusableWidget",
+      "nodes_visited": 2,
+      "object_path": "/Script/MISERY.MiseryFocusableWidget",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x2a1c3: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x2a1c3 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64c55400",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e400",
+      "class_raw_name": "MiseryFocusSubsystem",
+      "nodes_visited": 2,
+      "object_path": "/Script/MISERY.MiseryFocusSubsystem",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x259c4: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x259c4 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64c26e00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e200",
+      "class_raw_name": "MiseryGameViewportClient",
+      "nodes_visited": 2,
+      "object_path": "/Script/MISERY.MiseryGameViewportClient",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1b9b7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1b9b7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b48000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a749e2770",
+      "class_raw_name": "CW_Cursor_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/CW_Cursor.CW_Cursor_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1b9b7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1b9b7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b48000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b960400",
+      "class_raw_name": "BP_ControlFunction_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_ControlFunction.BP_ControlFunction_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x24dee: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x24dee is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64c20200",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a75305800",
+      "class_raw_name": "BP_ControlSaves_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_ControlSaves.BP_ControlSaves_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x24dee: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x24dee is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64c20200",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a6d00",
+      "class_raw_name": "BP_SGKSettingsSaveData_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKSettingsSaveData.BP_SGKSettingsSaveData_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x2e7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x2e7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a62fe6000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a6600",
+      "class_raw_name": "BP_SGKGameInstanceInterface_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKGameInstanceInterface.BP_SGKGameInstanceInterface_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x24eea: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x24eea is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64c27e00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a5f00",
+      "class_raw_name": "BP_SGKGameInstance_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKGameInstance.BP_SGKGameInstance_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x2e7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x2e7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a62fe6000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a9380",
+      "class_raw_name": "BPI_PlayerEffect_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/Blueprints/Interfaces/BPI_PlayerEffect.BPI_PlayerEffect_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1b9b7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1b9b7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b48000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a65540010",
+      "class_raw_name": "BP_Chat_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/Chat/BP_Chat.BP_Chat_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1b9b7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1b9b7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b48000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a65540400",
+      "class_raw_name": "BP_ChatText_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/Chat/BP_ChatText.BP_ChatText_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x2e7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x2e7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a62fe6000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a4a00",
+      "class_raw_name": "BPI_PlayerCollision_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/Blueprints/Interfaces/BPI_PlayerCollision.BPI_PlayerCollision_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x336e1: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x336e1 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64cfca00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7a3ca180",
+      "class_raw_name": "BroomShakeHit_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/CameraShake/BroomShakeHit.BroomShakeHit_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x201: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x201 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b0e000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7a3c9380",
+      "class_raw_name": "BP_ExploadSoundEffect_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/Blueprints/BP_ExploadSoundEffect.BP_ExploadSoundEffect_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1b9b7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1b9b7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b48000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a6554b530",
+      "class_raw_name": "BP_NoSaves_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_NoSaves.BP_NoSaves_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1b9b7: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1b9b7 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b48000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a6554b140",
+      "class_raw_name": "BP_NoServers_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_NoServers.BP_NoServers_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x201: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x201 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b0e000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a2a701580",
+      "class_raw_name": "BP_AnomalyBase_C",
+      "nodes_visited": 2,
+      "object_path": "/Game/Blueprints/Anomalys/BP_AnomalyBase.BP_AnomalyBase_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a62a30e00",
+      "class_raw_name": "Object",
+      "nodes_visited": 0,
+      "object_path": "/Script/CoreUObject.Object",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": "chain walk aborted at 0x1f9: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x1f9 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a62a30e00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64b0e000",
+      "class_raw_name": "Actor",
+      "nodes_visited": 2,
+      "object_path": "/Script/Engine.Actor",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x147d3: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x147d3 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a62fe5a00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a62fe5800",
+      "class_raw_name": "Struct",
+      "nodes_visited": 2,
+      "object_path": "/Script/CoreUObject.Struct",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0xf1a9: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0xf1a9 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a62fe5800",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a62fe5400",
+      "class_raw_name": "Class",
+      "nodes_visited": 2,
+      "object_path": "/Script/CoreUObject.Class",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    },
+    {
+      "chain_note": "chain walk aborted at 0x201: this node's own Next pointer was never read (rejected before the base FField field batch could be read) -- FField pointer 0x201 is not a plausible (non-null, 8-byte-aligned) address",
+      "chain_ok": false,
+      "child_properties_ptr_hex": "0x23a64b0e000",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c13600",
+      "class_raw_name": "Pawn",
+      "nodes_visited": 2,
+      "object_path": "/Script/Engine.Pawn",
+      "property_count": 0,
+      "rejected_counts": {
+        "class_pointer_implausible": 1,
+        "pointer_alignment": 1
+      }
+    }
+  ],
+  "classes_examined": 25,
+  "generator": "research/instruments/eri/eri.py",
+  "generator_version": "0.1.0",
+  "identity_self_established": true,
+  "known_build": true,
+  "properties_accepted_total": 0,
+  "recorded_at": "2026-08-27T15:39:52Z",
+  "rejected_counts_total": {
+    "class_pointer_implausible": 24,
+    "pointer_alignment": 24
+  }
+}

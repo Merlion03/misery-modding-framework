@@ -670,7 +670,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 
 > **Этот блок сгенерирован.** Руками его не правят: правка будет затёрта следующим запуском генератора, и — что хуже — станет неотличима от измерения.
 >
-> **Снято:** 2026-08-27 13:28 UTC | HEAD `2356fea` | интерпретатор `C:\Python314\python.exe`
+> **Снято:** 2026-08-27 16:08 UTC | HEAD `368d418` | интерпретатор `C:\Python314\python.exe`
 >
 > Обновить (один шаг): `python .github\scripts\kb_status.py --write`
 >
@@ -683,12 +683,12 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 | показатель | значение |
 |---|---|
 | schema backend | `jsonschema` |
-| файлов просмотрено | 251 |
-| размеченных записей | 1127 |
-| записей по нотациям | inline-annotation=201, log-entry=86, table-row=173 |
+| файлов просмотрено | 276 |
+| размеченных записей | 1679 |
+| записей по нотациям | inline-annotation=201, log-entry=87, table-row=173 |
 | нечитаемых кандидатов в записи | **0** |
 | нарушений (ERROR) | **0** |
-| предупреждений (WARN) | 204 |
+| предупреждений (WARN) | 225 |
 | exit code | 0 |
 
 Нарушения и предупреждения по правилам:
@@ -701,7 +701,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 | `EV-04` | 0 | 37 |
 | `EV-05` | 0 | 15 |
 | `EV-CONF` | 0 | 3 |
-| `MAP` | 0 | 29 |
+| `MAP` | 0 | 50 |
 | `MD-BARE` | 0 | 54 |
 | `ORA-PROSE` | 0 | 2 |
 | `VCS-REACH` | 0 | 8 |
@@ -711,7 +711,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 **Набор тестов — `python -m pytest -q` (exit 1).**
 
 ```
-1 failed, 1846 passed, 1 skipped, 533 subtests passed in 63.18s (0:01:03)
+1 failed, 1927 passed, 1 skipped, 533 subtests passed in 95.31s (0:01:35)
 ```
 
 Провалившиеся тесты, по идентификаторам узлов:

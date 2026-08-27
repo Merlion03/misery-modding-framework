@@ -1,0 +1,515 @@
+{
+  "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "build_key_cross_checked": false,
+  "capability": "I-06",
+  "classes": [
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7ea00",
+      "class_raw_name": "MiseryBlueprintFunctionLibrary",
+      "nodes_visited": 0,
+      "object_path": "/Script/MISERY.MiseryBlueprintFunctionLibrary",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a792c3d80",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e800",
+      "class_raw_name": "MiseryEditableText",
+      "nodes_visited": 8,
+      "object_path": "/Script/MISERY.MiseryEditableText",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 8
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a792c3c00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e600",
+      "class_raw_name": "MiseryFocusableWidget",
+      "nodes_visited": 3,
+      "object_path": "/Script/MISERY.MiseryFocusableWidget",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 3
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e400",
+      "class_raw_name": "MiseryFocusSubsystem",
+      "nodes_visited": 0,
+      "object_path": "/Script/MISERY.MiseryFocusSubsystem",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a792c3a80",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c7e200",
+      "class_raw_name": "MiseryGameViewportClient",
+      "nodes_visited": 2,
+      "object_path": "/Script/MISERY.MiseryGameViewportClient",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 2
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a79588c80",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a749e2770",
+      "class_raw_name": "CW_Cursor_C",
+      "nodes_visited": 1,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/CW_Cursor.CW_Cursor_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 1
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b960400",
+      "class_raw_name": "BP_ControlFunction_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Widgets/BP_ControlFunction.BP_ControlFunction_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a7a570180",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a75305800",
+      "class_raw_name": "BP_ControlSaves_C",
+      "nodes_visited": 3,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_ControlSaves.BP_ControlSaves_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 3
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a7a576080",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a6d00",
+      "class_raw_name": "BP_SGKSettingsSaveData_C",
+      "nodes_visited": 4,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKSettingsSaveData.BP_SGKSettingsSaveData_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 4
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a6600",
+      "class_raw_name": "BP_SGKGameInstanceInterface_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKGameInstanceInterface.BP_SGKGameInstanceInterface_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a7a57fe00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a7b9a5f00",
+      "class_raw_name": "BP_SGKGameInstance_C",
+      "nodes_visited": 11,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKGameInstance.BP_SGKGameInstance_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 11
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ffa8480",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff90780",
+      "class_raw_name": "NewMapGENTEST_C",
+      "nodes_visited": 1,
+      "object_path": "/Game/NewMapGENTEST.NewMapGENTEST_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 1
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ffa8880",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff91900",
+      "class_raw_name": "BP_WoodenBoxResource_C",
+      "nodes_visited": 3,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/Furniture/WorldObect/Gameplay/BP_WoodenBoxResource.BP_WoodenBoxResource_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 3
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ffa8f80",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff91c80",
+      "class_raw_name": "BP_Splitter_C",
+      "nodes_visited": 12,
+      "object_path": "/Game/PlayerElectricitySystem/Blueprints/Devices/BP_Splitter.BP_Splitter_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 12
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ffa6680",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff92e00",
+      "class_raw_name": "BP_ExpeditionDoor_C",
+      "nodes_visited": 24,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/Structures/BP_ExpeditionDoor.BP_ExpeditionDoor_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 24
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ffa2b00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff93880",
+      "class_raw_name": "BP_CraftingBenchWorld_C",
+      "nodes_visited": 10,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/Furniture/BP_CraftingBenchWorld.BP_CraftingBenchWorld_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 10
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ffa0a00",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff94680",
+      "class_raw_name": "BP_INCINERATOR_C",
+      "nodes_visited": 10,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/Furniture/BP_INCINERATOR.BP_INCINERATOR_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 10
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ff8c700",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff94a00",
+      "class_raw_name": "BP_BuildZone_C",
+      "nodes_visited": 4,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Zones/BP_BuildZone.BP_BuildZone_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 4
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ff8d080",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff95100",
+      "class_raw_name": "BP_InsanityZone_C",
+      "nodes_visited": 8,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Zones/BP_InsanityZone.BP_InsanityZone_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 8
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a3536b080",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff95800",
+      "class_raw_name": "BP_BunkersVolume_C",
+      "nodes_visited": 9,
+      "object_path": "/Game/Blueprints/BP_BunkersVolume.BP_BunkersVolume_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 9
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ff8a700",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff95b80",
+      "class_raw_name": "BP_DungeonDoor_C",
+      "nodes_visited": 5,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/BP_DungeonDoor.BP_DungeonDoor_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 5
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ff87880",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff96280",
+      "class_raw_name": "BP_OutsideVolume_C",
+      "nodes_visited": 10,
+      "object_path": "/Game/Blueprints/BP_OutsideVolume.BP_OutsideVolume_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 10
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff96600",
+      "class_raw_name": "BP_StartClothItemSpawner_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/Spawners/Cloth/ZA/BP_StartClothItemSpawner.BP_StartClothItemSpawner_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff96980",
+      "class_raw_name": "BP_StartHoldablesItemSpawner_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/Spawners/HoldablesTools/BP_StartHoldablesItemSpawner.BP_StartHoldablesItemSpawner_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a1ff96d00",
+      "class_raw_name": "BP_StartFoodItemSpawner_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/Spawners/FoodWater/BP_StartFoodItemSpawner.BP_StartFoodItemSpawner_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a1ff87d80",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a4458eb00",
+      "class_raw_name": "BP_GasolineGenerator_C",
+      "nodes_visited": 7,
+      "object_path": "/Game/PlayerElectricitySystem/Blueprints/Devices/BP_GasolineGenerator.BP_GasolineGenerator_C",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 7
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a4458ee80",
+      "class_raw_name": "BP_StartToolslItemSpawner_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/Spawners/HoldablesTools/BP_StartToolslItemSpawner.BP_StartToolslItemSpawner_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a4458f200",
+      "class_raw_name": "BP_StartWaterItemSpawner_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/Spawners/FoodWater/BP_StartWaterItemSpawner.BP_StartWaterItemSpawner_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a4458f580",
+      "class_raw_name": "BP_StartMedicItemSpawner_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/Spawners/Medic/BP_StartMedicItemSpawner.BP_StartMedicItemSpawner_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a4458f900",
+      "class_raw_name": "BP_StartHatItemSpawner_C",
+      "nodes_visited": 0,
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/Spawners/Cloth/ZA/BP_StartHatItemSpawner.BP_StartHatItemSpawner_C",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a62a30e00",
+      "class_raw_name": "Object",
+      "nodes_visited": 0,
+      "object_path": "/Script/CoreUObject.Object",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a7896be80",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64b0e000",
+      "class_raw_name": "Actor",
+      "nodes_visited": 80,
+      "object_path": "/Script/Engine.Actor",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 80
+      }
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a62fe5800",
+      "class_raw_name": "Struct",
+      "nodes_visited": 0,
+      "object_path": "/Script/CoreUObject.Struct",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x0",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a62fe5400",
+      "class_raw_name": "Class",
+      "nodes_visited": 0,
+      "object_path": "/Script/CoreUObject.Class",
+      "property_count": 0,
+      "rejected_counts": {}
+    },
+    {
+      "chain_note": null,
+      "chain_ok": true,
+      "child_properties_ptr_hex": "0x23a78fe0980",
+      "child_properties_read_error": null,
+      "child_properties_read_ok": true,
+      "class_address_hex": "0x23a64c13600",
+      "class_raw_name": "Pawn",
+      "nodes_visited": 19,
+      "object_path": "/Script/Engine.Pawn",
+      "property_count": 0,
+      "rejected_counts": {
+        "not_a_property": 19
+      }
+    }
+  ],
+  "classes_examined": 35,
+  "generator": "research/instruments/eri/eri.py",
+  "generator_version": "0.1.0",
+  "identity_self_established": true,
+  "known_build": true,
+  "properties_accepted_total": 0,
+  "recorded_at": "2026-08-27T15:46:43Z",
+  "rejected_counts_total": {
+    "not_a_property": 234
+  }
+}
