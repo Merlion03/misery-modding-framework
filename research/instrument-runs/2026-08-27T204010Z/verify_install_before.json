@@ -1,0 +1,19 @@
+{
+  "baseline_build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "benign_count": 0,
+  "checked_at": "2026-08-27T20:40:17Z",
+  "findings": [
+    {
+      "actual_size": 124,
+      "kind": "added",
+      "path": ".claude/scheduled_tasks.lock",
+      "severity": "serious"
+    }
+  ],
+  "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "inventory": "D:\\Dev\\MiseryFramework\\research\\builds\\misery-24953925-ue5.4.4-bace50f7185d\\install-inventory.json",
+  "mode": "full",
+  "serious_count": 1,
+  "strict": false
+}

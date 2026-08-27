@@ -1,0 +1,25 @@
+{
+  "invocation": null,
+  "outcome": "discovery-only run: no --allow-call given, capability P-02 was NOT enabled, nothing was written to or executed in the target process",
+  "run_note": [
+    "build identity confirmed: sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331 (self-computed from the live process's own exe_path, not supplied/cached)",
+    "live UClass MiseryBlueprintFunctionLibrary resolved fresh this run at 0x2d460a1ea00 (not cached from any prior session -- addresses are not ASLR-stable across launches)",
+    "live UFunction IsSteamDeck resolved fresh this run at 0x2d4748da880, parms_size=1 return_value_offset=0 re-confirmed live",
+    "CDO self-consistency check PASSED: candidate CDO at 0x2d4736c1ed0 has ClassPrivate == 0x2d460a1ea00 (its own UClass address) -- CLASS_DEFAULT_OBJECT_OFFSET=0x110 confirmed live, not only by source derivation",
+    "ProcessEvent function pointer resolved fresh this run: 0x7ff66394c1f0 (CDO vtable slot 77, within module image bounds)"
+  ],
+  "target": {
+    "base_address": "0x7ff6626a0000",
+    "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "cdo_address": "0x2d4736c1ed0",
+    "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+    "function_address": "0x2d4748da880",
+    "function_name": "IsSteamDeck",
+    "image_size_bytes": "0x83fe000",
+    "parms_size": 1,
+    "pid": 19048,
+    "process_event_ptr": "0x7ff66394c1f0",
+    "return_value_offset": 0,
+    "uclass_address": "0x2d460a1ea00"
+  }
+}

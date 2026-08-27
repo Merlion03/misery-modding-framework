@@ -670,7 +670,7 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 
 > **Этот блок сгенерирован.** Руками его не правят: правка будет затёрта следующим запуском генератора, и — что хуже — станет неотличима от измерения.
 >
-> **Снято:** 2026-08-27 19:40 UTC | HEAD `80f87da` | интерпретатор `C:\Python314\python.exe`
+> **Снято:** 2026-08-27 20:47 UTC | HEAD `00209bf` | интерпретатор `C:\Python314\python.exe`
 >
 > Обновить (один шаг): `python .github\scripts\kb_status.py --write`
 >
@@ -678,43 +678,53 @@ D:\Tools\venv-research\Scripts\python.exe -m pip install jsonschema pytest
 >
 > Почему `--check` не встроен в гейт — см. врезку после блока и шапку генератора: тест, требующий совпадения документа со свежим прогоном, краснел бы на каждом закрытом нарушении, то есть наказывал бы за прогресс.
 
-**Валидатор базы знаний — `tools\kb\validate.py` (exit 0).**
+**Валидатор базы знаний — `tools\kb\validate.py` (exit 1).**
 
 | показатель | значение |
 |---|---|
 | schema backend | `jsonschema` |
-| файлов просмотрено | 327 |
-| размеченных записей | 2836 |
-| записей по нотациям | inline-annotation=205, log-entry=92, table-row=173 |
+| файлов просмотрено | 333 |
+| размеченных записей | 2839 |
+| записей по нотациям | inline-annotation=205, log-entry=93, table-row=173 |
 | нечитаемых кандидатов в записи | **0** |
-| нарушений (ERROR) | **0** |
-| предупреждений (WARN) | 259 |
-| exit code | 0 |
+| нарушений (ERROR) | **12** |
+| предупреждений (WARN) | 263 |
+| exit code | 1 |
 
 Нарушения и предупреждения по правилам:
 
 | правило | нарушений | предупреждений |
 |---|---|---|
+| `SCHEMA` | 9 | 0 |
+| `EV-03` | 2 | 15 |
+| `VCS-ORACLE` | 1 | 0 |
 | `CLASS-I` | 0 | 16 |
 | `CLASS-P` | 0 | 25 |
-| `EV-03` | 0 | 15 |
 | `EV-04` | 0 | 39 |
 | `EV-05` | 0 | 15 |
 | `EV-CONF` | 0 | 3 |
-| `MAP` | 0 | 80 |
+| `MAP` | 0 | 84 |
 | `MD-BARE` | 0 | 56 |
 | `ORA-PROSE` | 0 | 2 |
 | `VCS-REACH` | 0 | 8 |
 
-Ни один файл не несёт нарушений и нечитаемых кандидатов.
+Файлы-носители нарушений (файл без нарушений в таблицу не попадает):
 
-**Набор тестов — `python -m pytest -q` (exit 0).**
+| файл | нарушений | нечитаемых | предупреждений |
+|---|---|---|---|
+| `research/instrument-runs/2026-08-27T203955Z/manifest.json` | 6 | 0 | 0 |
+| `research/instrument-runs/2026-08-27T204010Z/manifest.json` | 5 | 0 | 0 |
+| `research/RESEARCH_LOG.md` | 1 | 0 | 33 |
+
+**Набор тестов — `python -m pytest -q` (exit 1).**
 
 ```
-2030 passed, 2 skipped, 533 subtests passed in 119.58s (0:01:59)
+1 failed, 2029 passed, 2 skipped, 533 subtests passed in 118.84s (0:01:58)
 ```
 
-Провалившихся тестов нет.
+Провалившиеся тесты, по идентификаторам узлов:
+
+* `tests/test_validator_live.py::ValidatorLiveGate::test_validator_exits_clean_over_the_real_repository`
 
 <!-- END GENERATED kb-status -->
 
