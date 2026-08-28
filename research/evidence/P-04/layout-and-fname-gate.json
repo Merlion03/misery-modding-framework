@@ -1,0 +1,42 @@
+{
+  "record": "P-04 direct-path gate (variant 2)",
+  "question": "Can the 40-byte LoadAsset_Blocking Asset parm be built as an allocator-free POD FSoftObjectPtr, skipping MakeSoftObjectPath entirely?",
+  "verdict": "DIRECT PATH NOT VIABLE - required FNames are not interned in the live process",
+  "layout_gate": {
+    "method": "genuine UE 5.4.4 headers + MSVC 14.38 compile-time sizeof (template-instantiation extraction); CoreUObject headers compile standalone with the Core define set",
+    "sizeof": {
+      "FName": 8, "FWeakObjectPtr": 8, "FString": 16,
+      "FTopLevelAssetPath": 16, "FSoftObjectPath": 32, "FSoftObjectPtr": 40
+    },
+    "alignof_FSoftObjectPtr": 8,
+    "trivially_destructible_FSoftObjectPtr": false,
+    "matches_live_reflection": "FSoftObjectProperty size 40 == sizeof(FSoftObjectPtr) 40",
+    "member_order_source": [
+      "TPersistentObjectPtr (UObject/PersistentObjectPtr.h): exactly two members, declared order: mutable FWeakObjectPtr WeakPtr; TObjectID ObjectID; (no TagAtLastTest in 5.4)",
+      "FSoftObjectPath (UObject/SoftObjectPath.h:341,344): FTopLevelAssetPath AssetPath; FString SubPathString;",
+      "FTopLevelAssetPath (UObject/TopLevelAssetPath.h:176,178): FName PackageName; FName AssetName;"
+    ],
+    "offsets_derivation": "member sizes sum EXACTLY to sizeof at every level (8+32=40, 16+16=32, 8+8=16), so there is no padding and offsets are forced prefix sums - arithmetic, not a guessed offset",
+    "byte_map_of_Asset_parm": {
+      "+0": "FWeakObjectPtr WeakPtr (8) - zero = unresolved/null",
+      "+8": "FName PackageName (8)",
+      "+16": "FName AssetName (8)",
+      "+24": "FString SubPathString (16) - zero = empty (valid: {nullptr,0,0})"
+    },
+    "allocation_free_construction": "YES in principle - an all-zero SubPathString is a valid empty FString (no buffer), and our target path has no ':' subobject delimiter, so the whole 40-byte parm would be POD given two FName values. Destruction is also allocator-free because we own the buffer and never invoke a destructor on it."
+  },
+  "fname_gate": {
+    "method": "read-only enumeration of the live FNamePool (35 blocks, 138250 entries) using ERI's verified addressing; strings compared exactly",
+    "positive_control": "MirrorTableRow FOUND at entry_id 0x72e0 - proves the enumerator resolves real names, so a miss is a genuine absence and not a broken scan",
+    "results": {
+      "/Game/ModKit/MK_Canary": "NOT INTERNED",
+      "MK_Canary": "NOT INTERNED",
+      "/Game/ModKit": "NOT INTERNED",
+      "ModKit": "NOT INTERNED"
+    },
+    "consequence": "The two FName values needed for a POD FSoftObjectPtr do not exist in the running process. Creating them means interning new names, which is an engine call (FName construction from a string), i.e. exactly the allocator/runtime dependency this variant was meant to avoid. Mounting a container and registering its IoContainerHeader therefore does NOT intern the package/asset FNames - a concrete, useful negative finding."
+  },
+  "decision": "STOP direct path. Proceed to variant 1: derive FMemory::Realloc and FMemory::Free with independent provenance each (no guessed vtable slots), then use the reflected MakeSoftObjectPath -> LoadAsset_Blocking path.",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "no_live_calls_made": true
+}
