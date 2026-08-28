@@ -1,0 +1,46 @@
+{
+  "record": "P-04 variant 1 gate (derive Realloc/Free, then genuine FString)",
+  "verdict": "NOT READY FOR PREREGISTRATION - design decision required",
+  "no_live_calls_made": true,
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+
+  "slot_derivation": {
+    "method_1_symboled_same_version_binary": {
+      "source": "D:/Program Files/UE_5.4/Engine/Binaries/Win64/UnrealEditor-Core.dll (UE 5.4.4, Core built as a DLL so FMemory is CORE_API-exported with mangled names)",
+      "extracted": {
+        "?Malloc@FMemory@@SAPEAX_KI@Z (RVA 0x2C88E0)": "dispatches GMalloc vtable [rax+0x28] = slot 5",
+        "?Realloc@FMemory@@SAPEAXPEAX_KI@Z (RVA 0x2CEEA0)": "dispatches [rax+0x38] = slot 7",
+        "?Free@FMemory@@SAXPEAX@Z (RVA 0x2B01C0)": "dispatches [rax+0x48] = slot 9"
+      }
+    },
+    "method_2_shipping_side_argument_shape": {
+      "slot_5_Malloc": "PROVEN: standalone thunk RVA 0xfab790 loads GMalloc and tail-jmps [rax+0x28] with (rdx=Count, r8d=Alignment)",
+      "slot_7_Realloc": "CORROBORATED: inlined site RVA 0xfadd71 -> rcx=GMalloc, rdx=Original, r8=Count, r9d=Alignment, call [rax+0x38] -- exactly Realloc's 3-data-arg signature; second variant at 0xfae055 with the null-GMalloc init guard",
+      "slot_9_Free": "CORROBORATED: many inlined sites (e.g. 0x5ced940, 0x5ced970, 0x1ddfaa5) load GMalloc and dispatch [rax+0x48] with a single data arg in rdx -- Free's 1-arg shape"
+    },
+    "anchor_validating_cross_build_transfer": "Malloc = slot 5 in BOTH the symboled editor build and the Shipping build, so the editor-derived slot numbering transfers.",
+    "conclusion": "Slots 5/7/9 = Malloc/Realloc/Free are derived with two independent lines each. NOT inferred from source declaration order alone."
+  },
+
+  "blocking_finding_1": {
+    "what": "FMemory::Realloc and FMemory::Free have NO standalone out-of-line function in this Shipping build.",
+    "evidence": "Exhaustive scan of every .text function that loads the GMalloc global: the only small standalone thunk is FMemory::Malloc (0xfab790, slot 5). Every slot-7 and slot-9 dispatch found is an INLINED call site inside a larger unrelated function.",
+    "consequence": "There is no address to derive for Realloc/Free. They can only be reached the way the engine's own inlined code reaches them: read GMalloc, load its vtable, dispatch slot 7 / slot 9."
+  },
+
+  "blocking_finding_2": {
+    "what": "A genuine FString cannot be constructed inside our injected DLL without several additional un-exported Shipping symbols.",
+    "evidence": [
+      "FString::FString(const TCHAR*), ConstructFromPtrSize(...) and AppendChars(...) are ALL CORE_API out-of-line (UnrealString.h.inl:99-126,375-378) -- none is header-inline, so a standalone MSVC build cannot link them, and the monolithic Shipping exe exports no engine symbols.",
+      "The remaining header-inline route (FString default ctor + FORCEINLINE GetCharArray() at UnrealString.h.inl:350 + inline TArray ops) links only after supplying THREE more out-of-line CORE_API symbols, observed as unresolved externals: TSizedHeapAllocator<32,FMemory>::ForAnyElementType::ResizeAllocation, FMemory::QuantizeSize, UE::Core::Private::OnInvalidArrayNum."
+    ],
+    "consequence": "Each of those must either be derived as a Shipping address, or reimplemented by us. They are simple and well-defined (ResizeAllocation is essentially Data = FMemory::Realloc(Data, Num*Size, Align)), but reimplementing them is our code standing in for engine code, which is a design decision, not a derivation."
+  },
+
+  "options_for_owner": {
+    "A_vtable_dispatch_plus_minimal_reimplementation": "Implement our FMemory::Realloc/Free by dispatching GMalloc vtable slots 7/9 (dual-derived above) and supply trivial local implementations of ResizeAllocation / QuantizeSize / OnInvalidArrayNum. Uses vtable slots (derived, not guessed) and 3 small reimplementations. No new address derivations needed beyond the already-derived GMalloc.",
+    "B_derive_the_missing_CORE_API_symbols": "Derive Shipping addresses for ResizeAllocation / QuantizeSize / OnInvalidArrayNum (and accept vtable dispatch for Realloc/Free, which have no address). More derivation work, still ends up using the vtable for Realloc/Free.",
+    "C_change_the_engine_entry_point": "Look for a reflected UFunction that takes the path in a form we can already build, so no FString is constructed by us at all. Not yet surveyed; would be a targeted reflection query, not a broad survey."
+  },
+  "recommendation": "Owner decision required. Option A is the smallest and uses only already-derived facts, but it does use vtable slots and three local reimplementations, both of which touch the owner's stated constraints."
+}
