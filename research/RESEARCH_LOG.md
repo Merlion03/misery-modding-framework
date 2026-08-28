@@ -6308,3 +6308,117 @@ question → method → evidence → finding → confidence → persistent artif
   указал: не начинать новый глобальный milestone, продолжать по CR-01/gameplay semantic map. Дальше
   — не M4 формально, а прямое продолжение CR-01 в духе `plan.md` §14.4, с M4-подобными находками
   (world/gameinstance), если они появятся попутно.
+
+---
+
+## 2026-08-28 — CR-01 углублён: полная item/inventory/craft-архитектура MISERY (`BP_Master*`-иерархия SGK), функции и свойства, включая реплицируемые поля
+
+- **ID:** LOG-0063
+- **Question:** Продолжение CR-01 (LOG-0061): теперь, когда игра переведена владельцем в активное
+  игровое состояние (загружено сохранение) — что представляет собой definition предмета, где
+  registry/catalog, как предмет добавляется в inventory, как создаётся pickup/world representation,
+  какие lookup/register/create/add/remove функции существуют, что data-driven/Blueprint/native, что
+  реплицируется?
+- **Method:** Три отдельных, независимо названных акта измерения поверх той же самой живой сессии
+  (владелец лично перевёл игру из "playtest hub" в активную игру между `LOG-0061` и этой записью —
+  внешнее для инструментов событие, не действие ERI/IPP). **(1) Повторный запуск
+  `tools/reflection/cr01_semantic_scan.py`** (тот же инструмент, что и `LOG-0061`, без изменений) —
+  `class_universe_size` вырос с 26 258 до **143 387**, bucket `game` — с 10 до **759** живых
+  классов, что само по себе подтверждает гипотезу `LOG-0061`, находка 6 (лениво грузящиеся
+  Blueprint-классы), а не опровергает её. **(2) Целевое разрешение полной родительской цепочки**
+  для 17 наиболее часто встречающихся "родителей" среди 782 найденных по ключевым словам совпадений
+  (тот же механизм `resolve_parent_chain()`, что и в `LOG-0061`, применённый к самим "родительским"
+  классам, не только к их потомкам). **(3) I-05/I-06 декодирование функций и свойств** шести
+  корневых классов (`BP_MasterInventory_C`, `BP_MasterHoldable_C`, `BP_StaticMasterItem_C`,
+  `BP_MasterItemSpawner_C`, `BP_MasterConsumable_C`, `BP_MasterWeapon_C`), переиспользуя `eri.py`'s
+  `run_i05`/`run_i06` без изменений — те же функции, что I-05/I-06 уже использовали весь этот сеанс.
+- **Evidence:** `research/evidence/CR-01/semantic-scan-03.json` (782 совпадения, полная
+  родительская иерархия); `research/evidence/CR-01/master-classes-i05-i06.json` (250 функций +
+  145 свойств шести корневых классов).
+- **Finding:**
+  1. **Обнаружена явная иерархия корневых абстракций с именующим соглашением `BP_Master<Категория>_C`**
+     — не единичные находки, а СИСТЕМА: `BP_MasterHoldable_C` (Actor→Object, база «удерживаемого»
+     предмета) → `BP_MasterConsumable_C` (68 потомков) и `BP_MasterWeapon_C` → `BP_MasterMeleeWeapon_C`
+     (26)/`BP_MasterRangeWeapon_C` (14); `BP_StaticMasterItem_C` (Actor→Object, **14 живых
+     экземпляров** — «мировое»/pickup-представление, отдельное от «удерживаемого»);
+     `BP_MasterInventory_C` (ActorComponent→Object, **215 живых экземпляров** — компонент,
+     присоединяемый к любому Actor'у, которому нужен инвентарь); `BP_MasterBuildPart_C` →
+     `BP_MasterStorageBuildPart_C` (34)/`BP_MasterVendorBuildPart_C` (7)/`BP_MasterPowerDevice_C` (7);
+     `BP_MasterItemSpawner_C` (loot spawner); `BP_MasterResource_C` → `BP_MasterInteractableResource_C`;
+     `BP_MasterAICharacter_C` (Character→Pawn→Actor); `BP_AnomalyBase_C` (STALKER-сигнатурная
+     механика аномалий). Все — под `/Game/SurvivalGameKitV2/...`, ни одного native-эквивалента в
+     `/Script/MISERY`.
+  2. **Definition предмета = Blueprint-класс, идентифицируется через `UClass`, без отдельной
+     numeric/string ID-системы, найденной в этом проходе.** Конкретный предмет — это
+     Blueprint-класс, унаследованный от `BP_MasterHoldable_C` (или его специализаций) для
+     «удерживаемой» формы, и/или от `BP_StaticMasterItem_C` для «мировой»/pickup-формы; сам класс +
+     значения его CDO — и есть definition, классический UE-паттерн (не отдельная база данных
+     предметов). Отдельного ID-поля/тега/DataTable-ссылки не найдено — не значит, что его нет,
+     значит, что I-06 в этом проходе смотрел только на 6 конкретных классов, не на все ~200
+     потомков `BP_MasterHoldable_C`/`BP_MasterConsumable_C`.
+  3. **Registry/catalog — не найден как единая глобальная сущность.**
+     `BP_MasterItemSpawner_C::ConstructItemSpawnList` строит список спавна (свойство
+     `ItemSpawnList`, `FArrayProperty`, плюс `SpawnerTypes` `FSetProperty` и
+     `ItemProbabilities (Read-Only)`) — похоже на ПЕР-СПАВНЕРНЫЙ список с вероятностями, не на
+     центральный каталог всех предметов игры. Открытый вопрос для следующего прохода.
+  4. **Как предмет добавляется в inventory — подтверждено конкретными функциями.**
+     `BP_MasterInventory_C::AddItem`/`AttemptToAddItemAmount`/`ChangeItemCount`/`SetItemAmount`,
+     каждая — с проверками веса/лимита/слотов (`AddWeightCheck`, `ItemLimitCheck`, `CheckFreeSlotCount`,
+     `FindEmptySlots`, `FindFreeStackSpace`) — то есть добавление предмета — не простая вставка в
+     массив, а проверенная операция с учётом веса (`CurrentWeight`, реплицируется) и слотов
+     (`ConstructSlots`/`UpdateInvSlots`/`SetNewSlotItem`).
+  5. **Как создаётся pickup/world representation — подтверждено.**
+     `BP_MasterItemSpawner_C::SpawnNewItem` (по таймеру — `SpawnNewItemTimer`, с проверкой
+     `CanSpawn`) создаёт мировые экземпляры (по всей видимости, `BP_StaticMasterItem_C`-потомков);
+     отдельно `BP_MasterInventory_C::SpawnItemAtLocation`/`SpawnItems`/`SpawnDestructionBag` создают
+     мировые предметы при выбросе/уничтожении содержимого инвентаря (сумка со сброшенными вещами при
+     смерти/переполнении — `ReplaceBagWithLoot`, `UseDestructionBag` свойства).
+  6. **Interaction-система подтверждена целиком на `BP_StaticMasterItem_C`:** `Pickup`, `Interact`,
+     `Hold`, `Consume`, `Learn`, `Open`, `EquipClothing`, `EquipWeapon` — набор действий, доступных
+     конкретному предмету, определяется через `SGK PossibleActions`/`ActionCheck`/`InteractActions`;
+     доступность взаимодействия ограничена близостью игрока (`SGK PlayerInProximity`/
+     `PlayerOutProximity`/`SGK VerifyPlayer`).
+  7. **Craft-система — не отдельная сущность, а встроена прямо в `BP_MasterInventory_C`:**
+     `CraftItem`, `CheckCraftingRequirements`, `CheckRecipeCost`, `CreateNewCraftingListing`,
+     `FindCraftingListing`, `UpdateCraftingListing`, `CancelCraftingRecipe`, с сетевым протоколом
+     `ServerAddClientCraftingListing`/`ServerCancelCraftingListing`/`ServerUpdateClientCraftingListing`
+     и таймером (`CraftingTimer`, `FinishedCraftingTimer`, `ResetCraftingTimer`). Крафт происходит
+     "в инвентаре", не в отдельном верстаке-объекте (хотя `RequiredActorCraftingCheck` намекает на
+     требование близости к определённому Actor'у для некоторых рецептов).
+  8. **Что реплицируется — подтверждено декодированием `PropertyFlags` (бит `CPF_Net=0x20`,
+     `ObjectMacros.h:404`), не только по неймингу `OnRep_*`.** `BP_MasterInventory_C`: `CurrentWeight`,
+     `ItemCount`, `ParentInventory`, `EquippedInventory`, `Index`, `BatteryPower` (6 из 37 свойств).
+     `BP_StaticMasterItem_C`: `InvItem` (сама структура данных предмета!) и `Mesh`. `BP_MasterWeapon_C`:
+     `WeaponInventory`. `BP_MasterHoldable_C`: `CurrentSocket`, `TickEnabled`. Совпадение с функциями
+     `OnRep_CurrentWeight`/`OnRep_ItemCount` (найденными независимо через I-05, не через сам бит
+     `CPF_Net`) — самосогласованность между двумя разными путями декодирования одних и тех же
+     классов, не совпадение.
+  9. **Именующее соглашение `SGK <Имя>` для функций** (с пробелом после `SGK`) встречается систематически
+     во всех шести классов — по всей видимости, это функции/оверрайды самого фреймворка
+     SurvivalGameKitV2, отличаемые от MISERY-специфичных добавлений без такого префикса (например,
+     `AddItem`/`RemoveItem`/`CraftItem` — без префикса, `SGK GetWeaponInventory`/`SGK InvItem` — с
+     префиксом). Даёт способ разделять «что от SGK» и «что добавила MISERY» по одному только имени,
+     без дальнейшего анализа — полезно для будущего SDK/Mod Kit понимания границы кастомизации.
+  10. **`tools/kb/validate.py`: 0 нарушений.**
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.75
+- **Почему не выше:** единственный oracle (`runtime-reflection`) для всего прохода — 2-oracle
+  требование `M5b` (`plan.md` §18.2) для полного подтверждения CR-01 (порог 0.8, ≥2 oracle) этим
+  проходом не закрыто, только приближено. Внутренняя самосогласованность (находка 8: имена функций
+  `OnRep_*` и биты `CPF_Net` декодированы двумя разными путями и совпали) — реальное усиление
+  доказательства, но не второй независимый oracle в смысле `plan.md` §10.5.
+- **Claim class:** I
+- **Почему class I:** утверждение об архитектуре item/inventory/craft-системы MISERY — интерпретация
+  декодированных функций/свойств, не позиционное чтение байт.
+- **Oracle:** `runtime-reflection`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** — (углубляет `LOG-0061`, не отменяет; `LOG-0061`'s собственный вывод о
+  "playtest hub"-состоянии и об отсутствии загруженных Item-классов был верен ДЛЯ ТОГО состояния
+  игры, не общей архитектуры)
+- **Next question:** Готово достаточно для практического выбора между `CT-05` и `E-3b` (следующий
+  gate, отдельное сообщение пользователю) — понятен реальный parent-класс-кандидат
+  (`BP_MasterHoldable_C`/`BP_MasterConsumable_C`/`BP_StaticMasterItem_C`) для будущего Mod Kit
+  эксперимента. Не закрыто: единый registry/catalog (находка 3), точная связь `InvItem`
+  (`FStructProperty`) со самим классом предмета (какая именно структура данных используется —
+  `Item`/`TempItem`/`InvItem`, все три `FStructProperty` в `BP_StaticMasterItem_C`, не декодированы
+  как структуры вглубь в этом проходе).
