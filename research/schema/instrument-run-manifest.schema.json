@@ -216,7 +216,8 @@
         "P-04",
         "P-05",
         "P-06",
-        "GT-01"
+        "GT-01",
+        "CARRIER-FTS"
       ]
     },
     "verify_install_state": {
