@@ -1,0 +1,94 @@
+{
+  "build_sha256": null,
+  "class_address": "0x1e09254b400",
+  "class_path": "/Script/Engine.KismetSystemLibrary",
+  "functions": {
+    "LoadAsset_Blocking": {
+      "address": "0x1e0a5fb7be0",
+      "found": true,
+      "function_flags": "0x4022403",
+      "num_parms": 2,
+      "parameters": [
+        {
+          "array_dim": 1,
+          "flags": [
+            "CPF_Parm"
+          ],
+          "flags_hex": "0x1c000000000080",
+          "is_out": false,
+          "is_return": false,
+          "name": "Asset",
+          "offset": 0,
+          "property_class": "FSoftObjectProperty",
+          "size": 40,
+          "total_size": 40
+        },
+        {
+          "array_dim": 1,
+          "flags": [
+            "CPF_Parm",
+            "CPF_OutParm",
+            "CPF_ReturnParm",
+            "CPF_ZeroConstructor",
+            "CPF_NoDestructor"
+          ],
+          "flags_hex": "0x18001000000780",
+          "is_out": true,
+          "is_return": true,
+          "name": "ReturnValue",
+          "offset": 40,
+          "property_class": "FObjectProperty",
+          "size": 8,
+          "total_size": 8
+        }
+      ],
+      "parms_size": 48,
+      "property_chain_rejected": {},
+      "return_value_offset": 40
+    },
+    "MakeSoftObjectPath": {
+      "address": "0x1e0a5fba7a0",
+      "found": true,
+      "function_flags": "0x14822403",
+      "num_parms": 2,
+      "parameters": [
+        {
+          "array_dim": 1,
+          "flags": [
+            "CPF_Parm",
+            "CPF_ZeroConstructor"
+          ],
+          "flags_hex": "0x18000000000280",
+          "is_out": false,
+          "is_return": false,
+          "name": "PathString",
+          "offset": 0,
+          "property_class": "FStrProperty",
+          "size": 16,
+          "total_size": 16
+        },
+        {
+          "array_dim": 1,
+          "flags": [
+            "CPF_Parm",
+            "CPF_OutParm",
+            "CPF_ReturnParm",
+            "CPF_ZeroConstructor"
+          ],
+          "flags_hex": "0x18000000000780",
+          "is_out": true,
+          "is_return": true,
+          "name": "ReturnValue",
+          "offset": 16,
+          "property_class": "FStructProperty",
+          "size": 32,
+          "total_size": 32
+        }
+      ],
+      "parms_size": 48,
+      "property_chain_rejected": {},
+      "return_value_offset": 16
+    }
+  },
+  "pid": 5636
+}

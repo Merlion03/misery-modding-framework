@@ -20,8 +20,9 @@
       "abi": "(RCX=SIZE_T Count, RDX=uint32 Alignment)->void*"
     },
     "GMalloc_global": {
-      "rva": "0x65f0030",
-      "provenance": "RIP-relative operand in FMemory::Malloc (0xfab79f mov rcx,[rip+0x69b488a]); FMalloc::Malloc = GMalloc->vtable[0x28/8=slot5]"
+      "rva": "0x7960030",
+      "provenance": "RIP-relative operand in FMemory::Malloc (0xfab79f mov rcx,[rip+0x69b488a]); FMalloc::Malloc = GMalloc->vtable[0x28/8=slot5]",
+      "correction_2026-08-28": "Earlier recorded as 0x65f0030 -- WRONG (hand arithmetic error). Re-derived by disassembling FMemory::Malloc and taking the RIP-relative operand target with capstone: GMalloc VA 0x147960030 => RVA 0x7960030 (inside .data). The wrong value was never used by any code path (the FTSTicker probe forwards only FMemory::Malloc 0xfab790, which is unaffected), so no live run was compromised; corrected here for the record."
     },
     "Malloc16_wrapper": {
       "rva": "0x143f013a0-0x140000000=0x3f013a0",
