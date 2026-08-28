@@ -1,0 +1,13 @@
+{
+  "hit_count": 0,
+  "hits": [],
+  "needles": [
+    "MK_Canary",
+    "ModKit",
+    "CT03Probe"
+  ],
+  "note": "finding nothing here means no matching UObject is LOADED; it is not evidence about whether a container is mounted (that is I-14) nor about whether a package is resolvable but unloaded.",
+  "object_universe_size": 144641,
+  "pid": 13808,
+  "recorded_at": "2026-08-28T10:57:02Z"
+}

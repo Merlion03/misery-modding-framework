@@ -1,0 +1,77 @@
+{
+  "artifacts_shipped": {
+    "MiseryModKit_P.pak": {
+      "sha256": "690c20a21e35b034372c282f5e50836eec3441c6abd40d5f7a704983a1ff7dd6",
+      "size": 723
+    },
+    "MiseryModKit_P.ucas": {
+      "sha256": "1b4e7a86fe68fbfc62b3d5ce6963d5980dfb1f4b21d102f3a921c04da8f8def4",
+      "size": 368
+    },
+    "MiseryModKit_P.utoc": {
+      "sha256": "4801e5e6cb62d181ae7018ca2cfc2567968e488b292af0b0f3ff0b78104af668",
+      "size": 387
+    }
+  },
+  "controls": {
+    "bare_pak_mounts_but_registers_no_packages": {
+      "container": "CT03Probe20260828_P.pak",
+      "mounted": true,
+      "packages_registered": false,
+      "why_this_matters": "proves the packages-registered signal discriminates rather than being always-true"
+    },
+    "pre_cook_baseline_had_zero_hits": true,
+    "shipped_pak_unaffected": {
+      "packages_registered": true,
+      "read_order": 4
+    },
+    "unrealpak_test_used_as_evidence": false
+  },
+  "engine_fingerprint": {
+    "changelist": 35576357,
+    "note": "D-10 condition 10: exact engine recorded in evidence",
+    "version": "5.4.4"
+  },
+  "experiment": "CT-05 (first cooked-content test)",
+  "global_container_shipped": false,
+  "package": {
+    "class": "UCurveFloat",
+    "name": "/Game/ModKit/MK_Canary",
+    "package_id": "0xf6620d12509f26d7",
+    "package_id_present_in_utoc": true,
+    "package_id_recomputed_independently": true
+  },
+  "preregistration": "research/evidence/CT-05/preregistration.md",
+  "recorded_at": "2026-08-28T10:57:42Z",
+  "target_process": {
+    "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "pid": 13808
+  },
+  "three_states": {
+    "1_container_mounted": {
+      "by": "I-14 mounted_paks",
+      "engine_reported_entries": 2,
+      "engine_reported_size": 723,
+      "observed": true,
+      "read_order": 101
+    },
+    "2_packages_registered": {
+      "by": "I-14 FPakFile::IoContainerHeader non-null",
+      "header_ptr": "0x1e07a84b580",
+      "observed": true
+    },
+    "3_uobject_loaded": {
+      "by": "find_live_object.py over GUObjectArray",
+      "hits": 0,
+      "objects_walked": 144641,
+      "observed": false
+    }
+  },
+  "verdict": "PARTIAL - resolvable but unreferenced",
+  "verdict_meaning": "The container is discovered, mounted at order 101, and its .utoc sibling was accepted and its container header registered, so the container contributes PACKAGES and not merely files. Nothing loaded our UObject because nothing in the game references it -- an additive asset with no referrer is never resolved on its own. This is the outcome the pre-registration named in advance for this case and explicitly classified as NOT a failure of the mechanism.",
+  "what_is_NOT_established": [
+    "that the package store would successfully resolve the package on demand (the header is registered and we verified the id is in it, but no resolution was observed)",
+    "that the object would construct correctly once loaded",
+    "anything at all about inheritance from game classes (E-3b / E-3c)"
+  ]
+}
