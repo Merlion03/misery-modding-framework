@@ -1,0 +1,42 @@
+{
+  "record": "CR-01A first attempt",
+  "verdict": "NOT-PASS -- hypothesis REFUTED by experiment, root cause established from source",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "hypothesis_tested": "Setting EInternalObjectFlags::RootSet (1<<30) directly on the asset's FUObjectItem is a true GC reference, because UObject::AddToRoot() is FORCEINLINE and appears to do exactly that (UObjectBaseUtility.h:196-199 -> UObjectArray.h:287-290).",
+  "experiment": {
+    "design": "load MK_Canary via the proven P-04 path and set RootSet INSIDE the same GameThread job (no GC window); watch liveness O(1) from the FUObjectItem for 150 s; then release and watch again. No forced GC -- attribution by contrast.",
+    "acquire": "asset 0x1e0cd66f580, item 0x1e0e7c6b9c8, handle 1, rooted_after_acquire=1, owned=1, duplicate_handle_same=1, owned_after_duplicate=1, release_unknown_returned=0",
+    "flag_write_was_correct": "at t=0 the item read back flags=0x40000001 -- 0x40000000 is RootSet and the pre-existing 0x1 is ReachabilityFlag0, a real EInternalObjectFlags bit, confirming the field at FUObjectItem+8 is genuinely Flags; item.Object matched the asset and its name decoded as MK_Canary, confirming the correct item",
+    "observed": "the object was COLLECTED at t=60.0 s DESPITE RootSet being set (flags -> 0x0, item.Object no longer the asset)",
+    "release_phase": "release_ok=1, rooted_after_release=0, owned_after_release=0; object already gone",
+    "lifecycle": "wait_stopped_ok=1, state=kStopped, dll_unloaded=true, released_at_shutdown=0",
+    "install_integrity": "verify_install MATCH before and after (0 findings); game healthy"
+  },
+  "root_cause_from_source": {
+    "chain": [
+      "UObject::AddToRoot() FORCEINLINE (UObjectBaseUtility.h:196)",
+      "-> FUObjectItem::SetRootSet() FORCEINLINE (UObjectArray.h:287)",
+      "-> ThisThreadAtomicallySetFlag(RootSet) FORCEINLINE (UObjectArray.h:205-210) which DISPATCHES on EInternalObjectFlags_RootFlags",
+      "-> FUObjectItem::SetRootFlags() -- COREUOBJECT_API, OUT-OF-LINE (declared UObjectArray.h:347, defined GarbageCollection.cpp:590)"
+    ],
+    "what_SetRootFlags_actually_does": [
+      "takes GRootsCritical",
+      "adds the object's index to GRoots, a static TSet<int32> registry (GarbageCollection.cpp:585,605)",
+      "atomically sets the flag",
+      "if GIsIncrementalReachabilityPending, issues a GC barrier via Object->MarkAsReachable()"
+    ],
+    "why_the_raw_write_failed": "UE 5.4's GC marks roots from RootsArray built out of the GRoots REGISTRY (GarbageCollection.cpp:4166-4179), NOT by scanning every FUObjectItem for the RootSet bit. A direct flag write sets a bit nobody reads for root gathering and skips both the registry insertion and the incremental-reachability barrier, so the object stays collectable.",
+    "note": "Source-chain derivation; grading is carried by the RESEARCH_LOG record LOG-0079, not by this nested object."
+  },
+  "correct_next_option": "SetRootFlags/ClearRootFlags are real OUT-OF-LINE COREUOBJECT_API functions, so -- unlike FMemory::Realloc/Free which are fully inlined -- they should have derivable addresses in this Shipping build. Calling them (on the GameThread, via the proven dispatcher) would be the faithful equivalent of AddToRoot/RemoveFromRoot. This needs a separate targeted derivation and owner authorization.",
+  "why_FGCObject_was_not_chosen": "an FGCObject registers a C++ object whose vtable lives in OUR module and GC calls back into it every pass; if the module is ever torn down while registered the process dies. The root-set path keeps the reference in engine-owned memory, so its worst failure is a leak, not a crash. That reasoning is unchanged and still favours the root-set route -- it simply has to go through SetRootFlags rather than a raw bit.",
+  "architecture_unaffected": "The Public/Internal boundary held: Misery::Assets (Acquire/Release/OwnedCount, opaque handles) and Internal/RuntimeAssetStore (refcount, duplicate-acquire, tolerant release, ReleaseAll on shutdown) are mechanism-agnostic. Only RuntimeAssetStore::SetRoot needs to change.",
+  "store_semantics_that_DID_verify": {
+    "duplicate_acquire_returns_same_handle": true,
+    "duplicate_acquire_does_not_double_count": true,
+    "release_unknown_handle_is_tolerated_no_op": true,
+    "release_clears_and_removes": true,
+    "shutdown_releases_all_before_unload": "path exercised (0 held by then)",
+    "no_reference_source_in_our_memory": true
+  }
+}

@@ -7159,3 +7159,28 @@ question → method → evidence → finding → confidence → persistent artif
 - **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
 - **Supersedes:** снимает `content-depth = PENDING` из LOG-0077 и **закрывает CT-05** целиком: внешний cooked IoStore → mount → PackageStore resolution → UObject construction → корректно десериализованные данные.
 - **Next question:** Отдельное решение владельца: архитектура CR-01 additive item/content registration. Здесь ничего из регистрации/мутаций не делалось.
+
+---
+
+## 2026-08-29 — CR-01A: гипотеза «RootSet-бит = GC-ссылка» ОПРОВЕРГНУТА экспериментом; причина установлена по исходнику
+
+- **ID:** LOG-0079
+- **Question:** Может ли `MiseryRuntime` удерживать загруженный mod-asset живым, выставив `EInternalObjectFlags::RootSet` (1<<30) прямо в `FUObjectItem` ассета — то, что внешне и делает `UObject::AddToRoot()` (`UObjectBaseUtility.h:196-199`, FORCEINLINE)?
+- **Method:** Два независимых акта измерения. **(1) Живой контрастный эксперимент** — `research/instruments/ipp/cr01a_controller.py --arm --gc-window-s 150`: загрузка `MK_Canary` уже доказанным путём P-04, выставление флага **внутри того же GameThread-job** (нулевое окно для GC), затем O(1)-опрос живости и флагов прямо из `FUObjectItem` каждые 5 с в течение 150 с, далее release и повторный опрос; атрибуция по контрасту, без принудительного GC. **(2) Отдельное чтение исходника UE 5.4.4** — построчный разбор цепочки `AddToRoot` → `SetRootSet` → `ThisThreadAtomicallySetFlag` → `SetRootFlags` в `UObjectBaseUtility.h:196`, `UObjectArray.h:205-210,287,347` и `GarbageCollection.cpp:585,590-617,4166-4179`, выполненный независимо от прогона и не переиспользующий ни одного его значения; именно он объясняет, ПОЧЕМУ эксперимент дал отрицательный результат.
+- **Evidence:** `research/evidence/CR-01A/rootset-refuted.json`; `research/instrument-runs/2026-08-28T211921Z-cr01a-armed/report.json`; `runtime/MiseryRuntime/Internal/RuntimeAssetStore.h`, `CR01AProbeDll.cpp`.
+- **Finding:**
+  1. **Гипотеза опровергнута.** Объект был **собран GC на t=60.0 с, несмотря на выставленный RootSet**.
+  2. **Запись была корректной, и это проверено, а не предположено.** На t=0 флаги читались как `0x40000001`: `0x40000000` — RootSet, а уже присутствовавший `0x1` — `ReachabilityFlag0`, настоящий бит `EInternalObjectFlags`. То есть поле по `FUObjectItem+8` — действительно `Flags`. `item.Object` совпадал с ассетом, имя декодировалось как `MK_Canary` — то есть и сам `FUObjectItem` был правильный. Ошибка была **не в адресации**.
+  3. **Причина, установленная по исходнику.** Цепочка: `AddToRoot()` → `SetRootSet()` → `ThisThreadAtomicallySetFlag()` (`UObjectArray.h:205-210`), которая **диспетчеризуется** по `EInternalObjectFlags_RootFlags` → `FUObjectItem::SetRootFlags()` — а это **out-of-line `COREUOBJECT_API`-функция** (`UObjectArray.h:347`, тело `GarbageCollection.cpp:590`). Она под `GRootsCritical` (а) добавляет индекс объекта в **реестр `GRoots`** (`static TSet<int32>`, `GarbageCollection.cpp:585,605`), (б) ставит флаг, (в) при `GIsIncrementalReachabilityPending` выдаёт **GC-барьер** `Object->MarkAsReachable()`.
+  4. **Ключевой факт:** GC в UE 5.4 помечает корни из массива, построенного **из реестра `GRoots`** (`GarbageCollection.cpp:4166-4179`), а **не** сканированием бита RootSet по всем `FUObjectItem`. Поэтому «сырая» запись бита ставит бит, который для сбора корней никто не читает, и пропускает и регистрацию, и барьер — объект остаётся собираемым.
+  5. **Что при этом подтвердилось и остаётся в силе:** семантика самого store — duplicate-acquire возвращает тот же handle и не удваивает счёт; release неизвестного handle — терпимый no-op; release снимает и удаляет; ReleaseAll на shutdown вызывается до выгрузки; в нашей памяти **нет указателя, служащего источником GC-ссылки**. Граница Public/Internal (`Misery::Assets` ↔ `RuntimeAssetStore`) выдержала: сменить нужно только `RuntimeAssetStore::SetRoot`.
+  6. **Установка не затронута:** `verify_install` MATCH до и после (0 находок); игра здорова (PID 5636); DLL выгружена.
+- **Evidence level:** OBSERVED (эксперимент) + DERIVED (цепочка по исходнику)
+- **Confidence:** 0.95
+- **Почему именно столько:** отрицательный результат получен прямым наблюдением с корректным контролем адресации, и независимо объяснён исходником вплоть до конкретных строк; не выше — серия на одной машине/сборке.
+- **Claim class:** I
+- **Почему class I:** утверждение о причине несрабатывания — вывод из сопоставления эксперимента и кода GC, а не позиционное чтение.
+- **Oracle:** `runtime-reflection`, `binary-analysis`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** уточняет LOG-0078 («объект собирается, если не удержан»): теперь известно, **чем именно** его нужно удерживать и почему флага недостаточно.
+- **Next question:** Отдельное решение владельца. `SetRootFlags`/`ClearRootFlags` — настоящие **out-of-line** `COREUOBJECT_API`-функции (в отличие от полностью заинлайненных `FMemory::Realloc/Free`), поэтому их адреса в этой Shipping-сборке, вероятно, выводимы targeted-методом. Это единственный недостающий кусок для CR-01A. Альтернатива `FGCObject` по-прежнему хуже для injected-runtime: её vtable живёт в нашем модуле и GC вызывает её каждый проход, поэтому выгрузка модуля = падение, тогда как у root-set-пути худший исход — утечка.
