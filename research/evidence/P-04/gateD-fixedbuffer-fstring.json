@@ -1,0 +1,53 @@
+{
+  "record": "P-04 gate D -- fixed-buffer FString path",
+  "verdict": "D1 PASS, D2 PASS, D3 PASS -- fixed-buffer construction is valid; ready for preregistration",
+  "no_live_calls_made": true,
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+
+  "D1_invariants": {
+    "authoritative_source": "FString::CheckInvariants() -- Containers/UnrealString.h.inl:284-290",
+    "invariants": [
+      "Num >= 0",
+      "!Num || !Data.GetData()[Num-1]   (last element must be NUL when non-empty)",
+      "Data.GetSlack() >= 0             (ArrayMax - ArrayNum >= 0)"
+    ],
+    "len_semantics": "Len() = Data.Num() ? Data.Num()-1 : 0  (UnrealString.h.inl:1082) => ArrayNum = char_count + 1",
+    "tarray_layout": "Array.h:3231-3233 declares exactly ElementAllocatorType AllocatorInstance; SizeType ArrayNum; SizeType ArrayMax; sizes 8+4+4 sum EXACTLY to sizeof(TArray<TCHAR>)==16, so there is no padding and offsets are forced prefix sums: Data@0, ArrayNum@8, ArrayMax@12",
+    "allocator_member": "TSizedHeapAllocator<32,FMemory>::ForElementType has the single member FScriptContainerElement* Data (ContainerAllocationPolicies.h:187)",
+    "no_extra_invariants_found": "The one candidate extra invariant -- FArraySlackTrackingHeader prepended to the allocation (ContainerAllocationPolicies.h:122) -- is compiled OUT: UE_ENABLE_ARRAY_SLACK_TRACKING is defined as (0 && !WITH_EDITOR) at ContainerAllocationPolicies.h:23, i.e. hardcoded 0. Data is therefore a plain buffer with no header, and FMemory::Free(Data) is the correct release.",
+    "required_alignment": "DEFAULT_ALIGNMENT = 0 (MemoryBase.h:24), i.e. 'allocator default'. TCHAR requires only 2-byte alignment; passing 0 to FMemory::Malloc is exactly what the engine's own path does. Alignment is not needed at Free time."
+  },
+
+  "D2_processevent_ownership": {
+    "authoritative_source": "UObject::ProcessEvent -- CoreUObject/Private/UObject/ScriptCore.cpp (destructor loop ~line 2148)",
+    "code": "for (FProperty* P = Function->DestructorLink; P; P = P->DestructorLinkNext) { if (!P->IsInContainer(Function->ParmsSize)) { P->DestroyValue_InContainer(NewStack.Locals); } else { FMemory::Memcpy(P->ContainerPtrToValuePtr<uint8>(Parms), P->ContainerPtrToValuePtr<uint8>(NewStack.Locals), ...); } }",
+    "reading": "The guard is `!P->IsInContainer(Function->ParmsSize)`. ONLY properties OUTSIDE the parms region (locals) are destroyed. Properties INSIDE ParmsSize -- the caller's parameters -- are memcpy'd back into the caller's buffer and are NEVER destroyed by ProcessEvent.",
+    "conclusion": "The caller-supplied parameter buffer, including our input FString's backing buffer, remains CALLER-OWNED. allocate -> call -> free is safe.",
+    "makesoftobjectpath_retention": "FSoftObjectPath(const FString& Path) { SetPath(FStringView(Path)); } (SoftObjectPath.h:51). SetPath(FWideStringView) parses the VIEW and builds FNames (interning them) plus, when present, its own SubPathString; it stores no pointer or reference into the caller's buffer. For our target there is no ':' subobject delimiter, so SubPathString stays empty. No retention."
+  },
+
+  "D3_construction": {
+    "method": "MSVC 14.38 + genuine UE 5.4.4 headers. Genuine types are used for the layout proof (static_assert sizeof(FString)==16, sizeof(TArray<TCHAR>)==16, and sizeof(void*)+2*sizeof(int32)==sizeof => no padding) and for read-back validation through UE's own FORCEINLINE accessors (Len(), IsEmpty(), operator*). No separate guessed struct is declared.",
+    "construction": "buffer = FMemory::Malloc((len+1)*sizeof(TCHAR), DEFAULT_ALIGNMENT=0); copy chars; buffer[len] = 0; then Data=buffer, ArrayNum=len+1, ArrayMax=len+1.",
+    "host_gate_result": "PASS -- Len()=32 (expected 32), IsEmpty()=0, content match=1, NUL terminated=1, ArrayNum=33, ArrayMax=33, slack=0, alloc=1, free=1; after cleanup Len()=0 IsEmpty()=1.",
+    "forbidden_symbols_not_referenced": "Link-symbol inspection of the compiled object confirms NO reference to FString(const TCHAR*), FMemory::Realloc, ResizeAllocation, QuantizeSize or OnInvalidArrayNum.",
+    "cleanup": "FMemory::Free(Data), then zero Data/ArrayNum/ArrayMax. No FString object with automatic storage duration is created, so no destructor ever runs."
+  },
+
+  "free_provenance_and_live_verification": {
+    "evidence_class": "DERIVED (not a guessed slot): same-version symbolized UE oracle (UnrealEditor-Core.dll ?Free@FMemory@@ dispatches [rax+0x48]) + independent Shipping call-shape corroboration (many sites dispatch slot 9 with Free's single-pointer-arg shape) + proven slot-5 anchor (FMemory::Malloc resolves to [rax+0x28] in BOTH builds).",
+    "live_read_only_verification": {
+      "gmalloc_global": "base+0x7960030 -> instance 0x1e08d193f40 (non-null)",
+      "fmalloc_vtable": "0x7ff7a4d31938, inside the module image",
+      "resolved_targets": {
+        "vtable[5] Malloc": "RVA 0xf89200 -- the function the PROVEN FMemory::Malloc path already reaches on this exact instance",
+        "vtable[7] Realloc": "RVA 0xf89d50",
+        "vtable[9] Free": "RVA 0xf87b70"
+      },
+      "all_in_text": true,
+      "live_equals_disk_bytes": "verified for all of vtable[5], vtable[7], vtable[9] and the FMemory::Malloc thunk 0xfab790",
+      "note": "Slots resolve to concrete co-located addresses in one allocator class's method neighbourhood, an additional corroboration. This is the maximum verification possible for a virtual-dispatch target without calling it."
+    }
+  },
+  "ready_for_preregistration": true
+}
