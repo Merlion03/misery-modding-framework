@@ -140,6 +140,13 @@ def verify(
     # Present on disk now, keyed the same way the snapshot keys them.
     live: dict[str, os.stat_result] = {}
     for dirpath, dirnames, filenames in os.walk(root, followlinks=False):
+        # `.claude/` is Claude Code's own session infrastructure (e.g.
+        # scheduled_tasks.lock), never part of the MISERY install. It can appear
+        # under the install root when the research is driven from here; it is
+        # definitionally not a game file, so pruning it removes a false-positive
+        # `added` finding without weakening verification of any actual game file.
+        # (This is the fix anticipated in research/decisions.md, ESC-01 side-note.)
+        dirnames[:] = [d for d in dirnames if d != ".claude"]
         dirnames.sort()
         for name in sorted(filenames):
             absolute = os.path.join(dirpath, name)
