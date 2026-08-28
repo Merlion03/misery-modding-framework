@@ -1,0 +1,18 @@
+{
+  "engine_content_paks_exists": false,
+  "install_paks_dir_contents": [
+    "MISERY-Windows.pak",
+    "MISERY-Windows.ucas",
+    "MISERY-Windows.utoc",
+    "global.ucas",
+    "global.utoc"
+  ],
+  "note": "Filesystem half of CT-03 snapshot A, recorded before anything was placed. The I-14 half (the engine's own mounted-pak list) is recorded separately.",
+  "phase": "A-baseline-filesystem",
+  "project_saved_dir": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved",
+  "project_saved_dir_exists": true,
+  "recorded_at": "2026-08-28T09:05:33Z",
+  "saved_paks_dir": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks",
+  "saved_paks_dir_exists": false,
+  "test_container_placed": false
+}
