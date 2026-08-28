@@ -1,0 +1,26 @@
+{
+  "record": "P-04 option C -- targeted read-only reflection query",
+  "question": "Is there an ALREADY-LOADED reflected UFunction that can initiate an object/asset load for /Game/ModKit/MK_Canary.MK_Canary while accepting an input we can construct without FString construction, without new FNames, and without allocator-dependent UE object construction?",
+  "verdict": "NO -- OPTION C CLOSED",
+  "no_live_calls_made": true,
+  "method": "read-only; enumerated live UFunctions in GUObjectArray, filtered by a narrow load/path/conversion name pattern set, dumped each candidate's exact reflected parameter ABI (ParmsSize, NumParms, per-property class/offset/size/flags) and classified every input against our proven ABI",
+  "scope": {
+    "live_functions_matching_patterns": 400,
+    "analyzed": 400,
+    "genuinely_load_or_resolve_capable": 20,
+    "candidates_with_all_inputs_constructible": "only POD-input functions with no path parameter at all (int/bool converters, ad/DLC stubs, BP ubergraph entry points) -- none can express the target identity"
+  },
+  "why_every_load_capable_candidate_is_blocked": {
+    "KismetSystemLibrary:LoadAsset_Blocking": "Asset FSoftObjectProperty @0 size 40 -- embeds FTopLevelAssetPath (2 FNames), and both our FNames are NOT interned",
+    "KismetSystemLibrary:LoadClassAsset_Blocking": "AssetClass FSoftClassProperty @0 size 40 -- same FName dependency",
+    "KismetSystemLibrary:LoadAsset / LoadAssetClass": "FSoftObjectPtr input PLUS FDelegateProperty (needs a bound UObject+FName) PLUS FStructProperty LatentInfo",
+    "KismetSystemLibrary:Conv_SoftObjPathToSoftObjRef / Conv_SoftClassPathToSoftClassRef": "input FStructProperty size 32 = FSoftObjectPath -- the very FName-bearing value we cannot build; circular",
+    "KismetSystemLibrary:Conv_SoftObjectReferenceToObject / Conv_SoftObjRefToSoftObjPath / Conv_SoftObjectReferenceToString / Conv_SoftClassReferenceToClass / Conv_SoftClassReferenceToString / Conv_SoftObjRefToSoftClassPath": "all take an already-built FSoftObjectPtr/FSoftClassPtr -- circular for the same reason",
+    "AsyncActionLoadPrimaryAsset / AsyncLoadPrimaryAssetClass": "PrimaryAsset FStructProperty size 16 = FPrimaryAssetId (2 FNames, not interned) + LoadBundles FArrayProperty (allocator-dependent) + WorldContextObject",
+    "AsyncActionLoadPrimaryAssetList / ...ClassList": "FArrayProperty inputs -- allocator-dependent container construction",
+    "AsyncActionHandleSaveGame:AsyncLoadGameFromSlot / LocalPlayerSaveGame:AsyncLoadOrCreateSaveGameForLocalPlayer": "SlotName FStrProperty (allocator) and/or FDelegateProperty; also not an asset-by-path loader",
+    "GameplayStatics:CancelAsyncLoading / PlayerController:ClientSetBlockOnAsyncLoading": "ParmsSize 0 -- take no target at all"
+  },
+  "structural_conclusion": "Every reflected entry point that can load an asset by identity requires that identity as either an FString or an FName-bearing type (FName, FTopLevelAssetPath, FSoftObjectPath, FSoftObjectPtr, FPrimaryAssetId). No reflected function accepts a raw package id, chunk id, or any other non-name identity. Since our target's FNames are provably NOT interned (fname-pool-check.json, positive control MirrorTableRow FOUND) and FString construction is allocator-dependent, no such candidate can exist in the reflected surface. This is a property of the reflection API's identity model, not a gap in the search.",
+  "consequence": "Option C is closed. Supplying the target identity necessarily requires either allocator-backed FString construction or name interning -- both of which are engine calls."
+}
