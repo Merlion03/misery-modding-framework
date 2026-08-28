@@ -7101,3 +7101,33 @@ question → method → evidence → finding → confidence → persistent artif
 - **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
 - **Supersedes:** — (фиксирует GameThread Dispatcher как production foundation поверх LOG-0075; ничего не отменяет)
 - **Next question:** Отдельным решением владельца — gate для фазы-2 (P-04: `MakeSoftObjectPath`→`LoadAsset_Blocking`), которая пока НЕ разрешена. Диспетчер даёт безопасную GameThread-точку исполнения для будущих job'ов, но UObject/content-операции — отдельная эскалация.
+
+---
+
+## 2026-08-28 — P-04 CORE PASS: Shipping MISERY штатно разрешила и загрузила наш внешний cooked package из смонтированного контейнера
+
+- **ID:** LOG-0077
+- **Question:** Может ли текущий MISERY build штатно **разрешить и загрузить** наш уже смонтированный внешний cooked package `/Game/ModKit/MK_Canary` через Unreal object-loading path? Пре-регистрация всех исходов и split rule записаны ЗАРАНЕЕ — `research/evidence/P-04/preregistration.md`.
+- **Method:** Ровно пре-регистрированная цепочка, один проход, POD-only входы: `Misery::GameThread::Enqueue` (доказанный dispatcher, LOG-0076) → GameThread → fixed-buffer `FString` в буфере игрового `FMemory` (gate D3) → `ProcessEvent(CDO, MakeSoftObjectPath, P1)` → копирование 32-байтного `FSoftObjectPath` в `P2+8` → `ProcessEvent(CDO, LoadAsset_Blocking, P2)` → чтение `UObject*` → `FMemory::Free` входного буфера. Все адреса fingerprint-gated и побайтово сверены live==disk; UFunction'ы и CDO найдены reflection'ом по имени; `ProcessEvent` — vtable slot 77 живого CDO. Затем — пре-регистрированный negative control тем же путём. Инспекция результата — **строго read-only** (ERI).
+- **Evidence:** `research/evidence/P-04/preregistration.md`; `research/evidence/P-04/ufunction-abi.json`; `gateD-fixedbuffer-fstring.json`; `layout-and-fname-gate.json`; `fname-pool-check.json`; `research/instrument-runs/2026-08-28T203532Z-p04-armed/report.json` (+ verify_install before/after, manifest).
+- **Finding:**
+  1. **CORE PASS по всем заранее записанным критериям.** `core_verdict=PASS`.
+  2. **Идентичность построена корректно.** `MakeSoftObjectPath` вернул путь, чьи FName декодируются как `/Game/ModKit/MK_Canary` и `MK_Canary` — ровно те имена, которых ДО запуска в пуле **не существовало** (`fname-pool-check.json`, positive control `MirrorTableRow` найден). То есть наш fixed-buffer `FString` был корректен, и движок сам интернировал имена. `SubPathString` остался пустым.
+  3. **Загрузка состоялась.** `LoadAsset_Blocking` вернул **не-null** `UObject*` `0x1e0d067d840`.
+  4. **Объект — именно наш.** object path `= /Game/ModKit/MK_Canary.MK_Canary`, class `= DataTable` (`/Script/Engine.DataTable`) — проверено read-only обходом `GUObjectArray` после загрузки. До запуска объектов `MK_Canary` было **0**.
+  5. **Canary content-depth частично достигнут проверенными механизмами:** через reflection найдено свойство `RowStruct` (offset 40) у класса, прочитан указатель, и он резолвится в `MirrorTableRow` — **ожидаемый RowStruct**. Построчная проверка (`CT05Row`, `Name=CT05CANARY8F4A2E1C`, `MirrorEntryType=Curve`) требует layout `TMap`, который не доказан, поэтому по split rule: **content-depth = PARTIAL** (RowStruct подтверждён; row/value pending).
+  6. **Negative control отработал как надо.** `/Game/ModKit/CT05_DOES_NOT_EXIST...` прошёл ту же цепочку: FName'ы созданы (`CT05_DOES_NOT_EXIST`), `fstring_ok=1`, но `LoadAsset_Blocking` вернул **null**, объект не создан, краха нет, dispatcher жив. То есть PASS положительного прохода не артефакт «всё возвращает не-null».
+  7. **Исполнение на GameThread.** Оба прохода: `callback_tid=15552` — доказанный GameThread (E1==E2).
+  8. **Ownership соблюдён.** Входной `FString` выделен игровым `FMemory::Malloc`, освобождён игровым `Free` (GMalloc slot 9), поля обнулены; `freed=1` в обоих проходах. `ProcessEvent` caller-параметры не разрушает (gate D2).
+  9. **Lifecycle чист.** `activated=1`, `initialized=1`, `state=3 (kStopped)`, `wait_stopped_ok=1`, `dll_unloaded=true`.
+  10. **Установка не затронута:** `verify_install` MATCH до и после (0 находок). Игра осталась запущена и здорова (PID 5636).
+  11. **Побочно подтверждено независимо:** vtable slot 77 живого CDO дал `ProcessEvent` по RVA `0x12AC1F0` — совпадение с трижды выведенным адресом (LOG-0072).
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.95
+- **Почему именно столько:** прямое наблюдение полной цепочки с негативным контролем, независимой read-only верификацией объекта/класса/RowStruct и до/после-проверкой установки; не 0.97+ — одна машина/сборка/экземпляр.
+- **Claim class:** I
+- **Почему class I:** утверждение «внешний IoStore package был разрешён PackageStore и объект сконструирован» — вывод из сопоставления идентичности, возврата, состояния `GUObjectArray` и негативного контроля.
+- **Oracle:** `runtime-reflection`, `binary-analysis`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** закрывает open point CT-05/LOG-0070 («resolvable but unreferenced») — теперь resolution и load доказаны напрямую, а не выведены из `IoContainerHeader != null`.
+- **Next question:** Отдельное решение владельца. P-04 core закрыт; content-depth (row/value) требует доказательства layout `TMap` — отдельный узкий gate. Item/recipe registration, CR-01 additive registry, BP:AActor, E-3b/E-3c — не начинались и требуют отдельной авторизации.

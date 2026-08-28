@@ -1,0 +1,118 @@
+{
+  "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "build_key_cross_checked": false,
+  "capability": "I-14",
+  "chain": [
+    {
+      "is_pak_platform_file": true,
+      "object_hex": "0x1e090a39600",
+      "vptr_hex": "0x7ff7a5003760",
+      "vptr_rva_hex": "0x60e3760"
+    }
+  ],
+  "claim": "the live MISERY-Win64-Shipping.exe process (build_key sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331) has 3 .pak container(s) mounted: 'C:/Users/Anton/AppData/Local/MISERY/Saved/Paks/MiseryModKit_P.pak', 'C:/Users/Anton/AppData/Local/MISERY/Saved/Paks/CT03Probe20260828_P.pak', '../../../MISERY/Content/Paks/MISERY-Windows.pak'",
+  "claim_class": "I",
+  "claim_type": "other",
+  "claim_type_note": "a report of which containers one running process currently has mounted is a statement about that process at that moment, not a durable fact about the game build; no plan.md 10.5 matrix row describes it.",
+  "confidence": 0.75,
+  "evidence_level": "OBSERVED",
+  "generator": "research/instruments/eri/eri.py",
+  "generator_version": "0.1.0",
+  "identity_self_established": true,
+  "known_build": true,
+  "method": "I-14",
+  "mounted_pak_count": 3,
+  "mounted_paks": [
+    {
+      "cached_total_size": 747,
+      "has_io_container_header": true,
+      "index": 0,
+      "index_offset": 246,
+      "index_size": 145,
+      "io_container_header_hex": "0x1e0905bb580",
+      "is_mounted": true,
+      "is_valid": true,
+      "mount_point": "../../../MISERY/",
+      "mount_point_ok": true,
+      "num_entries": 2,
+      "pak_file_hex": "0x1e09033ec00",
+      "pak_filename": "C:/Users/Anton/AppData/Local/MISERY/Saved/Paks/MiseryModKit_P.pak",
+      "pak_filename_ok": true,
+      "pak_version": 11,
+      "pakchunk_index": -1,
+      "read_order": 101,
+      "validation": {
+        "num_refs_sane": true,
+        "pak_magic": true,
+        "pak_version_sane": true,
+        "vptr_ipakfile": true,
+        "vptr_primary": true
+      }
+    },
+    {
+      "cached_total_size": 636,
+      "has_io_container_header": false,
+      "index": 1,
+      "index_offset": 157,
+      "index_size": 126,
+      "io_container_header_hex": "0x0",
+      "is_mounted": true,
+      "is_valid": true,
+      "mount_point": "../../../",
+      "mount_point_ok": true,
+      "num_entries": 1,
+      "pak_file_hex": "0x1e09033e980",
+      "pak_filename": "C:/Users/Anton/AppData/Local/MISERY/Saved/Paks/CT03Probe20260828_P.pak",
+      "pak_filename_ok": true,
+      "pak_version": 11,
+      "pakchunk_index": -1,
+      "read_order": 101,
+      "validation": {
+        "num_refs_sane": true,
+        "pak_magic": true,
+        "pak_version_sane": true,
+        "vptr_ipakfile": true,
+        "vptr_primary": true
+      }
+    },
+    {
+      "cached_total_size": 117658732,
+      "has_io_container_header": true,
+      "index": 2,
+      "index_offset": 117367653,
+      "index_size": 53202,
+      "io_container_header_hex": "0x1e0905bd700",
+      "is_mounted": true,
+      "is_valid": true,
+      "mount_point": "../../../",
+      "mount_point_ok": true,
+      "num_entries": 4424,
+      "pak_file_hex": "0x1e09033e480",
+      "pak_filename": "../../../MISERY/Content/Paks/MISERY-Windows.pak",
+      "pak_filename_ok": true,
+      "pak_version": 11,
+      "pakchunk_index": -1,
+      "read_order": 4,
+      "validation": {
+        "num_refs_sane": true,
+        "pak_magic": true,
+        "pak_version_sane": true,
+        "vptr_ipakfile": true,
+        "vptr_primary": true
+      }
+    }
+  ],
+  "note": null,
+  "oracle": [
+    "runtime-reflection"
+  ],
+  "pak_platform_file_found": true,
+  "recorded_at": "2026-08-28T20:34:20Z",
+  "refutation_attempt": "if the chain walk had landed on something that is not an FPakPlatformFile, the vtable equality test would have rejected it rather than reporting its bytes as a pak list; if an FPakListEntry pointed at something that is not an FPakFile, the two-vtable test plus the FPakInfo magic would have rejected it; if the FString offsets were wrong, the decode would have failed the NUL-termination and UTF-16 checks instead of yielding a plausible name. The decisive external check is that the decoded filename, mount point, pak version, index offset/size and total size of an already-known container can be compared against that container's own bytes on disk.",
+  "sources": [
+    {
+      "method": "I-14"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "addresses": {
+    "add_ticker": "0x7ff79fe6ded0",
+    "fmemory_malloc": "0x7ff79fecb790",
+    "get_core_ticker": "0x7ff79fe73370"
+  },
+  "armed": false,
+  "baseline": {
+    "container_mounted": true,
+    "io_container_registered": true,
+    "mk_canary_absent": true,
+    "objects_before": 140031,
+    "package_id_present": true
+  },
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "outcome": "DRY RUN: baseline confirmed, targets resolved, nothing injected.",
+  "pid": 5636,
+  "run_note": [
+    "pid=5636 build sha256 confirmed",
+    "add_ticker: VA 0x7ff79fe6ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff79fe73370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff79fecb790 byte-verified live==disk (48895c2408574883)",
+    "GMalloc 0x1e08d193f40 vtable 0x7ff7a4d31938 Free slot9 -> RVA 0xf87b70 (bytes live==disk)",
+    "CDO 0x1e0a5a171b0 vtable 0x7ff7a500ef40 ProcessEvent 0x7ff7a01cc1f0 (slot 77)",
+    "MakeSoftObjectPath 0x1e0a5fba7a0  LoadAsset_Blocking 0x1e0a5fb7be0",
+    "pre-load MK_Canary objects: 0",
+    "container mounted=True registered=True (C:/Users/Anton/AppData/Local/MISERY/Saved/Paks/MiseryModKit_P.pak)",
+    "PackageId 0xf6620d12509f26d7 present in C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MiseryModKit_P.utoc: True"
+  ]
+}

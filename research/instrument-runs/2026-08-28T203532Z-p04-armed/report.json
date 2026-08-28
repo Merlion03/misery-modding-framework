@@ -1,0 +1,96 @@
+{
+  "addresses": {
+    "add_ticker": "0x7ff79fe6ded0",
+    "fmemory_malloc": "0x7ff79fecb790",
+    "get_core_ticker": "0x7ff79fe73370"
+  },
+  "baseline": {
+    "container_mounted": true,
+    "io_container_registered": true,
+    "mk_canary_absent": true,
+    "objects_before": 140238,
+    "package_id_present": true
+  },
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "cleanup": {
+    "dll_unloaded": true
+  },
+  "core_verdict": "PASS",
+  "fname_result": {
+    "asset_name": "MK_Canary",
+    "package_name": "/Game/ModKit/MK_Canary",
+    "subpath_empty": true
+  },
+  "lifecycle": {
+    "activated": 1,
+    "initialized": 1,
+    "state": 3,
+    "wait_stopped_ok": 1
+  },
+  "loaded_object": {
+    "address_hex": "0x1e0d067d840",
+    "class_name": "DataTable",
+    "class_path": "/Script/Engine.DataTable",
+    "name": "MK_Canary",
+    "object_path": "/Game/ModKit/MK_Canary.MK_Canary",
+    "package_object_path": null,
+    "present": true,
+    "rowstruct_name": "MirrorTableRow",
+    "rowstruct_offset": 40,
+    "rowstruct_ptr_hex": "0x1e0a6465c80"
+  },
+  "negative": {
+    "asset_cmp_index": 2264201,
+    "asset_number": 0,
+    "callback_tid": 15552,
+    "freed": 1,
+    "fstring_buffer": 2069822947200,
+    "fstring_len": 52,
+    "fstring_ok": 1,
+    "pkg_cmp_index": 2264212,
+    "pkg_number": 0,
+    "ran": 1,
+    "returned_object": 0,
+    "subpath_data": 0,
+    "subpath_max": 0,
+    "subpath_num": 0
+  },
+  "negative_fname": {
+    "asset_name": "CT05_DOES_NOT_EXIST",
+    "package_name": "/Game/ModKit/CT05_DOES_NOT_EXIST"
+  },
+  "pid": 5636,
+  "positive": {
+    "asset_cmp_index": 2264162,
+    "asset_number": 0,
+    "callback_tid": 15552,
+    "freed": 1,
+    "fstring_buffer": 2065025380112,
+    "fstring_len": 32,
+    "fstring_ok": 1,
+    "pkg_cmp_index": 2264168,
+    "pkg_number": 0,
+    "ran": 1,
+    "returned_object": 2065080768576,
+    "subpath_data": 0,
+    "subpath_max": 0,
+    "subpath_num": 0
+  },
+  "run_note": [
+    "pid=5636 build sha256 confirmed",
+    "add_ticker: VA 0x7ff79fe6ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff79fe73370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff79fecb790 byte-verified live==disk (48895c2408574883)",
+    "GMalloc 0x1e08d193f40 vtable 0x7ff7a4d31938 Free slot9 -> RVA 0xf87b70 (bytes live==disk)",
+    "CDO 0x1e0a5a171b0 vtable 0x7ff7a500ef40 ProcessEvent 0x7ff7a01cc1f0 (slot 77)",
+    "MakeSoftObjectPath 0x1e0a5fba7a0  LoadAsset_Blocking 0x1e0a5fb7be0",
+    "pre-load MK_Canary objects: 0",
+    "container mounted=True registered=True (C:/Users/Anton/AppData/Local/MISERY/Saved/Paks/MiseryModKit_P.pak)",
+    "PackageId 0xf6620d12509f26d7 present in C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MiseryModKit_P.utoc: True",
+    "P04Probe.dll built",
+    "Init rc=0x0",
+    "positive pass ran=1",
+    "negative pass ran=1",
+    "loaded object: path=/Game/ModKit/MK_Canary.MK_Canary class=DataTable rowstruct=MirrorTableRow"
+  ]
+}
