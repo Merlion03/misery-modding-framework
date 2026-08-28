@@ -1092,6 +1092,34 @@ UE 5.4.4 / CL 35576357 для `cook` / `stage` / `package` **исследова�
 
 **Пред-регистрация GT-01 фиксирует ДО arming** (`research/evidence/GT-01/preregistration.md`): Method 1 (E1: `GetThreadDescription=="GameThread"`; E2: initial-thread/entry-point) даёт `TID_E1==TID_E2`; N2: debug-регистры GameThread нулевые до arming; N3: страница показывает `count==0`/sentinel tid. После одного trap наблюдается: count, tid, Rip, return-address-в-`.text`, самоочистка.
 
+### ESC-05 — Зарегистрирует ли Shipping MISERY один наш POD-callback на GameThread через штатный FTSTicker (carrier gate)
+
+| Поле                     | Значение |
+|--------------------------|----------|
+| id                       | ESC-05 |
+| date                     | 2026-08-28 |
+| decider                  | project owner (разрешение в чате 2026-08-28: «продолжай и закрывай FTSTicker feasibility gate до настоящего live verdict», с перечнем разрешённых шагов) |
+| milestone                | Carrier gate (выбор постоянного GameThread-carrier для будущего dispatcher; предшествует P-04) |
+| question                 | Может ли MSVC-собранный in-process компонент зарегистрировать **один** наш POD-callback на GameThread живой MISERY через **штатный** `FTSTicker` (не через vtable/.text-патч, не через HW-BP), используя **легитимный** `TFunction`, собранный из настоящих UE 5.4.4 headers? Это отменяет всю vtable-хирургию, если PASS. |
+| why_level_1_insufficient | ERI только читает; зарегистрировать делегат и получить исполнение на GameThread чтением нельзя. Ранее MinGW не мог сконструировать валидный `TFunction`/delegate (MSVC-non-POD vtable) — блокер был toolchain'а, не Unreal API. |
+| workaround_analysis      | Рассмотрено и отклонено: (1) native vtable-slot swap на per-frame UObject (ESC-04, отложен) — это hook, а FTSTicker штатный; (2) MinGW hand-copy TDelegate/TFunction layout — отвергнут владельцем как ненадёжный; вместо этого установлен MSVC 14.38 (UE 5.4 preferred) и собран компонент против настоящих headers. Компиляции PASS недостаточно — требуется live-исполнение. |
+| q_8_2_status             | risk accepted by owner (тот же источник и обоснование, что ESC-01/03; `docs/protection-assessment.md` §9.1/§9.2). Этот механизм — **самый низкорисковый по anti-cheat из всех Level-2**: ноль записи в память движка (только штатная регистрация через thread-safe очередь), никаких debug-регистров, никаких патчей. |
+| q_8_3_status             | risk accepted by owner (тот же источник) |
+| capability_enabled       | CARRIER-FTS (регистрация одного делегата через `FTSTicker::AddTicker`; эквивалент штатного API, не hook) |
+| capabilities_refused     | vtable/vptr writes, .text/.rdata patches, HW-BP (ESC-03/04 — не в этом gate); `MakeSoftObjectPath`/`LoadAsset_Blocking`/UObject-мутации/content-registration (фаза-2, отдельное решение владельца ПОСЛЕ этого gate) |
+| mechanism                | Injected MSVC DLL (`probe_ftsticker.cpp`, собран cl 14.38 + настоящие UE headers). Адреса выведены read-only с чистой provenance и **fingerprint-gated** (whole-image sha256==build_key И побайтовая сверка live==disk у каждого VA): `GetCoreTicker` RVA `0xf53370`, `FTSTicker::AddTicker` RVA `0xf4ded0` (member+sret ABI: RCX=this, RDX=&sret TWeakPtr, R8=name, XMM3=delay, [stack]=&TFunction), `FMemory::Malloc` RVA `0xfab790` (forward для единственного символа, на который ссылается наш owned-object; на inline-пути мёртв — rehearsal показал 0 аллокаций). DLL строит легитимный inline `TFunction<bool(float)>` из captureless callable, вызывает `AddTicker`, освобождает возвращённый weak-handle. `LOG-0074`, `research/evidence/CARRIER-01/`. |
+| thread_safety            | `AddTicker` кладёт `FElement` в `TMpscQueue AddedElements` (multi-producer, `Ticker.cpp`; header: «Can be called concurrently») — безопасно из нашего injected-потока; callback исполняется на GameThread, когда тот (single consumer) дренит очередь в `Tick`. Callback строго TLS-free (POD-записи + `FPlatformTLS::GetCurrentThreadId`), т.к. GameThread предшествует загрузке нашей DLL. |
+| constraints              | Только текущая точная сборка; ровно один callback; POD-only (никаких UObject/load); DLL выгружается после подтверждения; установка не трогается (игра из read-only Steam-инсталла; всё наше — в DLL + одна `VirtualAllocEx` страница). |
+| flags                    | `--arm`, ровно один раз (без него — read-only pre-flight: identity + byte-verify адресов + GameThread id) |
+| build_key                | sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331 |
+| verify_install_before    | заполняется инструментом при запуске |
+| verify_install_after     | заполняется инструментом при запуске |
+| run_manifest             | `research/instrument-runs/<timestamp>/manifest.json` |
+| rehearsal                | Новый thunk/ABI-слой отрепетирован in-process против harmless host (`rehearse/fts_rehearse_host.cpp`) ДО игры: DLL вызвала fake `AddTicker` с верным member-sret ABI (ticker/name/delay marshalled ✓), сконструированный DLL `TFunction` скопирован и вызван host'ом → `ProbeCallback` (marker=FIRE, count=1, result=false). `REHEARSAL PASS`. |
+| rollback                 | DLL выгружается (`FreeLibrary`) после подтверждения + settle-паузы (элемент self-removes по return false и уничтожается на GameThread до выгрузки); страница освобождается; процесс остаётся запущен. |
+| outcome                  | заполняется после запуска; PASS ⇔ callback исполнился ровно один раз на доказанном GameThread, worker≠GameThread, registered_ok, cleanup+DLL unload, игра здорова, verify_install MATCH до/после. |
+| oracle                   | `runtime-reflection` + `binary-analysis` (адреса из статического образа, fingerprint-gated; live one-shot + read-only опрос страницы) |
+
 ### Условие 3 §8.4 после ответов Q-8.3 и Q-8.2 (2026-08-23)
 
 Условие 3 сформулировано так: «Q-8.2 (анти-отладка) и Q-8.3 (анти-чит) закрыты с ответом
