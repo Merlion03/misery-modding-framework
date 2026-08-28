@@ -154,6 +154,28 @@ def test_reports_the_single_mounted_container():
     assert "rejected" not in entry
 
 
+def test_reports_packages_registered_when_a_utoc_sibling_was_found():
+    """FPakFile::IoContainerHeader is non-null exactly when the pak's .utoc
+    neighbour was found and its container header registered. That is the
+    difference between a container contributing FILES and contributing
+    PACKAGES -- the distinction CT-05 exists to keep straight."""
+    memory = _world()
+    blob = bytearray(memory[PAK_FILE])
+    struct.pack_into("<Q", blob, tool.FPAKFILE_IOCONTAINERHEADER_OFFSET, 0x2000BEEF000)
+    memory[PAK_FILE] = bytes(blob)
+    entry = _run(memory)["mounted_paks"][0]
+    assert entry["has_io_container_header"] is True
+    assert entry["io_container_header_hex"] == "0x2000beef000"
+
+
+def test_reports_no_packages_registered_for_a_bare_pak():
+    """A .pak with no .utoc neighbour mounts perfectly well and registers no
+    packages. Reading that as 'the container did not mount' would be wrong,
+    and reading it as 'packages are available' would be worse."""
+    entry = _run(_world())["mounted_paks"][0]   # fixture leaves the field zero
+    assert entry["has_io_container_header"] is False
+
+
 def test_all_structural_checks_pass_on_a_well_formed_pak_file():
     entry = _run(_world())["mounted_paks"][0]
     assert entry["validation"] == {

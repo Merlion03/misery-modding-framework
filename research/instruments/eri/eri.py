@@ -6129,6 +6129,14 @@ FPAKFILE_CACHEDTOTALSIZE_OFFSET = 0x208
 FPAKFILE_ISVALID_OFFSET = 0x211
 FPAKFILE_PAKCHUNKINDEX_OFFSET = 0x218
 FPAKFILE_ISMOUNTED_OFFSET = 0x259
+# TUniquePtr<FIoContainerHeader>. Non-null exactly when this pak's `.utoc`
+# sibling was found and its container header registered -- i.e. when the
+# container contributes PACKAGES and not merely files. This is the cheap
+# middle signal CT-05 needs: mounting a `.pak` and registering its packages
+# are different events, and conflating them is the standard way to misread a
+# content-mod experiment. A bare `.pak` with no `.utoc` neighbour mounts fine
+# and leaves this null.
+FPAKFILE_IOCONTAINERHEADER_OFFSET = 0x260
 
 FPAKINFO_MAGIC_OFFSET = 0x00
 FPAKINFO_VERSION_OFFSET = 0x04
@@ -6411,6 +6419,11 @@ def run_i14(api, process_handle: int, base_address: int, image_size_bytes: int, 
             raw_mounted = api.read_process_memory(
                 process_handle, pak_file + FPAKFILE_ISMOUNTED_OFFSET, 1)
             record["is_mounted"] = bool(raw_mounted[0])
+            header_ptr = _read_u64(
+                api, process_handle, pak_file + FPAKFILE_IOCONTAINERHEADER_OFFSET)
+            record["io_container_header_hex"] = "0x%x" % header_ptr
+            # "packages registered", as distinct from "container mounted".
+            record["has_io_container_header"] = header_ptr != 0
         except ReadProcessMemoryFailedError as error:
             record["detail_read_error"] = str(error)
         entries.append(record)
