@@ -1,0 +1,44 @@
+{
+  "record": "LOG-0074",
+  "question": "Can an MSVC-built in-process component use the standard UE GameThread scheduler (FTSTicker) in this MISERY Shipping build, removing the MinGW-only blocker that forced the native-hook/vtable path?",
+  "status": "COMPILE PASS; runtime deps identified; live FTSTicker acceptance test PENDING (game closed, engine-allocator addresses not yet resolved)",
+  "step1_toolchain": {
+    "installed": "VS 2022 Build Tools (bootstrapper 17.14.37614.0) at D:/DevTools/VS2022/BuildTools",
+    "cl_exe": "D:/DevTools/VS2022/BuildTools/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64/cl.exe",
+    "cl_version_banner": "Microsoft C/C++ Optimizing Compiler version 19.38.33145 for x64",
+    "selected_toolset": "14.38.33130 (v143, VS2022 17.8 LTSC) -- UE 5.4 top-preferred per Engine/Config/Windows/Windows_SDK.json",
+    "also_present": "14.44.35207 (latest, from VC.Tools.x86.x64); NOT used (UE prefers 14.38; 14.39.x is UE-banned)",
+    "windows_sdk": "10.0.26100.0 (already installed; within UE MinVersion..MaxVersion)",
+    "install_targeted_D": true,
+    "free_space_after": {"C": "7.2 GB", "D": "56.6 GB"},
+    "note": "Package cache was already redirected to D:/ProgramData/VisualStudio/Packages; C: lost ~0.1 GB (small shared components only)."
+  },
+  "step2_compile": {
+    "verdict": "PASS",
+    "what": "A minimal .cpp that #includes the REAL UE headers (Delegates/Delegate.h) and constructs FTickerDelegate::CreateStatic(&fn) compiles cleanly with MSVC 14.38 -- no hand-copied TDelegate/TFunction byte layout.",
+    "obj_bytes": 74987,
+    "sizeof_FTickerDelegate": 16,
+    "layout": "TDelegate<bool(float)> = TDelegateBase over TSizedHeapAllocator<32,FMemory> = {void* Allocation, int32 AllocatedSize, pad} = 16 bytes (default NUM_DELEGATE_INLINE_BYTES=0 => heap allocator).",
+    "addticker_overload": "FTSTicker::AddTicker(const FTickerDelegate&, float) [Ticker.h:45] takes the delegate BY CONST REF -- we construct it and pass its address; AddTicker copies it internally. (Only overload 2, TFunction<bool(float)> by value, is the hard one.)",
+    "include_roots": ["Runtime/Core/Public", "Runtime/TraceLog/Public", "Runtime/Core/Internal"],
+    "key_defines": "UBT_COMPILED_PLATFORM=Windows, OVERRIDE_PLATFORM_HEADER_NAME=Windows, _WIN32_WINNT/WINVER=0x0A00, UE_BUILD_SHIPPING=1, WITH_EDITOR=0, CORE_API= (see msvc-defines.txt)"
+  },
+  "step2_runtime_deps": {
+    "engine_symbols_to_resolve_in_game": [
+      "FMemory::Free(void*)  -- ?Free@FMemory@@SAXPEAX@Z",
+      "TSizedHeapAllocator<32,FMemory>::ForAnyElementType::ResizeAllocation(int,int,uint64) -- delegate heap (calls FMemory::Realloc/Malloc)",
+      "FDelegateHandle::GenerateNewID() -- ?GenerateNewID@FDelegateHandle@@CA_KXZ (atomic id counter)"
+    ],
+    "have_addresses": ["FTSTicker::AddTicker RVA 0xf4ded0", "GetCoreTicker RVA 0xf53370 (survey-derived; MUST pass fingerprint gate, no stale auto-accept)"],
+    "crt_win32_satisfied_by_our_dll": ["operator delete", "type_info vftable", "__CxxFrameHandler4", "_fltused", "_purecall", "EnterCriticalSection", "LeaveCriticalSection"],
+    "allocator_boundary": "REAL and load-bearing. AddTicker copies our delegate; the copy's CreateCopy (our vtable code) fills a buffer whose lifetime is owned by the GAME and freed by the GAME's FMemory. Therefore our DLL's FMemory::Malloc/Realloc/Free MUST forward to the GAME's allocator, not the MSVC CRT heap -- otherwise cross-allocator free. Resolution: thunk our FMemory to the game's resolved FMemory addresses.",
+    "abi_note": "Our DLL emits its OWN copy of TBaseStaticDelegateInstance<bool(float)>'s vtable; the game calls Execute() through it. Same UE headers + same MSVC family (game built with some 14.3x, we use 14.38; TDelegate ABI is stable across 14.3x) => layout matches by construction, but must be confirmed live, not assumed."
+  },
+  "remaining_for_live_pass": [
+    "Confirm the game's NUM_DELEGATE_INLINE_BYTES == default (heap) -- if the game used inline delegates, match that instead and the allocator boundary vanishes.",
+    "Resolve the game's FMemory::Malloc/Realloc/Free + FDelegateHandle::GenerateNewID (fingerprint-gated), or GMalloc, to forward our thunks.",
+    "Build the injected MSVC DLL: FMemory thunks -> game; resolve GetCoreTicker+AddTicker; construct FTickerDelegate; AddTicker(delegate,0); callback records POD (marker, GetCurrentThreadId, count) and returns false (one-shot).",
+    "Live acceptance test on the running game: callback on the proven GameThread (tid 16936 from GT-01), one-shot count, self-unregister, no dangling after teardown, DLL unloadable, game healthy, verify_install MATCH."
+  ],
+  "decision_rule_status": "If the live FTSTicker acceptance test PASSES, FTSTicker becomes the preferred GameThread carrier and the GEngine vtable-clone / viewport hook / native .text detour are all closed; HW-BP stays research-only (GT-01). Not yet reached -- only compile feasibility is proven."
+}
