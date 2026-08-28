@@ -75,12 +75,18 @@ def build_probe_dll():
             "/DUBT_COMPILED_PLATFORM=Windows /DOVERRIDE_PLATFORM_HEADER_NAME=Windows")
     inc = ('/I"%s\\Core\\Public" /I"%s\\TraceLog\\Public" /I"%s\\Core\\Internal"'
            % (ue, ue, ue))
-    cmd = ('call "%s" -vcvars_ver=14.38 >nul 2>&1 && cl /nologo /LD /MT /EHsc /std:c++17 %s %s "%s" '
-           '/Fe:"%s" /link /INCREMENTAL:NO' % (vcvars, defs, inc, src, out))
-    r = subprocess.run(["cmd", "/c", cmd], capture_output=True, text=True,
-                       cwd=build_dir)
-    if not os.path.isfile(out) or r.returncode != 0:
-        raise ipp.Blocked("probe_ftsticker.cpp did not build:\n%s\n%s" % (r.stdout, r.stderr))
+    if os.path.isfile(out):
+        os.remove(out)
+    bat = os.path.join(build_dir, "_build_ftsticker.bat")
+    with open(bat, "w", encoding="ascii", newline="\r\n") as f:
+        f.write("@echo off\r\n")
+        f.write('call "%s" -vcvars_ver=14.38 >nul 2>&1\r\n' % vcvars)
+        f.write('cl /nologo /LD /MT /EHsc /std:c++17 %s %s "%s" /Fe:"%s" /link /INCREMENTAL:NO\r\n'
+                % (defs, inc, src, out))
+    r = subprocess.run([bat], capture_output=True, text=True, cwd=build_dir, shell=True)
+    if not os.path.isfile(out):
+        raise ipp.Blocked("probe_ftsticker.cpp did not build (rc=%s):\nSTDOUT:\n%s\nSTDERR:\n%s"
+                          % (r.returncode, r.stdout, r.stderr))
     return out
 
 

@@ -1112,12 +1112,12 @@ UE 5.4.4 / CL 35576357 для `cook` / `stage` / `package` **исследова�
 | constraints              | Только текущая точная сборка; ровно один callback; POD-only (никаких UObject/load); DLL выгружается после подтверждения; установка не трогается (игра из read-only Steam-инсталла; всё наше — в DLL + одна `VirtualAllocEx` страница). |
 | flags                    | `--arm`, ровно один раз (без него — read-only pre-flight: identity + byte-verify адресов + GameThread id) |
 | build_key                | sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331 |
-| verify_install_before    | заполняется инструментом при запуске |
-| verify_install_after     | заполняется инструментом при запуске |
-| run_manifest             | `research/instrument-runs/<timestamp>/manifest.json` |
+| verify_install_before    | MATCH — 0 находок |
+| verify_install_after     | MATCH — 0 находок; игровые файлы не затронуты |
+| run_manifest             | `research/instrument-runs/2026-08-28T184817Z-fts-armed/manifest.json` |
 | rehearsal                | Новый thunk/ABI-слой отрепетирован in-process против harmless host (`rehearse/fts_rehearse_host.cpp`) ДО игры: DLL вызвала fake `AddTicker` с верным member-sret ABI (ticker/name/delay marshalled ✓), сконструированный DLL `TFunction` скопирован и вызван host'ом → `ProbeCallback` (marker=FIRE, count=1, result=false). `REHEARSAL PASS`. |
-| rollback                 | DLL выгружается (`FreeLibrary`) после подтверждения + settle-паузы (элемент self-removes по return false и уничтожается на GameThread до выгрузки); страница освобождается; процесс остаётся запущен. |
-| outcome                  | заполняется после запуска; PASS ⇔ callback исполнился ровно один раз на доказанном GameThread, worker≠GameThread, registered_ok, cleanup+DLL unload, игра здорова, verify_install MATCH до/после. |
+| rollback                 | DLL выгружена (`FreeLibrary`) после подтверждения + settle-паузы (элемент self-removes по return false и уничтожается на GameThread до выгрузки); страница освобождена; процесс остался запущен и здоров. |
+| outcome                  | **PASS 2026-08-28** (LOG-0075). `callback_count=1`, `callback_tid=15552`==`E1`==`E2` (GameThread), `worker_tid=2804`≠GameThread (диспатч планировщиком доказан), `registered_ok=1`, `dll_unloaded=true`, игра здорова (PID 5636), `verify_install` MATCH до/после. **`FTSTicker` = предпочтительный GameThread-carrier; vtable/detour-ветки (ESC-04) закрыты; HW-BP остаётся research-only.** Фаза-2 (P-04) — отдельное решение владельца, пока не разрешена. |
 | oracle                   | `runtime-reflection` + `binary-analysis` (адреса из статического образа, fingerprint-gated; live one-shot + read-only опрос страницы) |
 
 ### Условие 3 §8.4 после ответов Q-8.3 и Q-8.2 (2026-08-23)

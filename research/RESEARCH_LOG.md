@@ -7044,3 +7044,31 @@ question → method → evidence → finding → confidence → persistent artif
 - **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
 - **Supersedes:** — (открывает гейт для решения о carrier фазы-2; ничего не отменяет)
 - **Next question:** Отдельное решение владельца: выбрать carrier фазы-2 (P-04) исходя из требований — безопасная точка GameThread без опасной nested reentrancy, корректность UObject/package loading, минимальная временная модификация, полное восстановление. GT-01 доказал, что попасть на GameThread можно; но HW-BP на входе `ProcessEvent` — точка ВНУТРИ начала чужого `ProcessEvent`, из которой синхронный вложенный load нёс бы reentrancy-риск (критик G3). Если рассматривается Func-swap как carrier — сначала закрыть read-only measurement-gate для `UFunction::Func` offset. Расширение P-04 до двух reflection-вызовов (`MakeSoftObjectPath`→`LoadAsset_Blocking`) требует явного согласия владельца.
+
+---
+
+## 2026-08-28 — CARRIER-FTS PASS: один наш POD-callback исполнился на GameThread через штатный FTSTicker (MSVC-собранный легитимный TFunction), vtable-хирургия не нужна
+
+- **ID:** LOG-0075
+- **Question:** Может ли MSVC-собранный in-process компонент зарегистрировать **один** наш POD-callback на GameThread живой MISERY через **штатный** `FTSTicker` (не hook, не vtable/.text-патч, не HW-BP), используя **легитимный** `TFunction` из настоящих UE 5.4.4 headers? Если да — вся vtable-хирургия (ESC-04) отменяется. Пре-регистрация исходов: `research/evidence/CARRIER-01/`, эскалация ESC-05.
+- **Method:** Три раздельных акта измерения. **(1) Установлен MSVC 14.38** (v143, UE 5.4 top-preferred) и собран `probe_ftsticker.cpp` (cl 14.38 + настоящие UE headers) — строит inline `TFunction<bool(float)>` из captureless callable, определяет `FMemory::Malloc` с forward'ом в игровой аллокатор, вызывает `AddTicker`. **(2) Read-only вывод адресов** (`derive_ticker_addrs.py`, capstone) с чистой provenance и **fingerprint-gate** (whole-image sha256==build_key И побайтовая сверка live==disk у каждого VA перед вызовом): `GetCoreTicker` `0xf53370`, `AddTicker` `0xf4ded0` (member+sret ABI выведен из disasm), `FMemory::Malloc` `0xfab790`. **(3) Live one-shot + read-only опрос страницы:** inject → Init → RegisterTicker (из injected-потока) → callback фиксирует POD на GameThread → return false. Независимо: идентификация GameThread двумя методами (E1 `GetThreadDescription`; E2 initial-thread/entry-point) ДО и независимо от callback. Механизм отрепетирован in-process против harmless host ДО игры (`REHEARSAL PASS`).
+- **Evidence:** `research/evidence/CARRIER-01/` (feasibility.json, derived-addresses.json, derive_ticker_addrs.py, probe sources); `research/instrument-runs/2026-08-28T184817Z-fts-armed/report.json` (+ verify_install before/after, manifest); `research/instruments/ipp/probe_ftsticker/probe_ftsticker.cpp`, `fts_controller.py`, `rehearse/fts_rehearse_host.cpp`.
+- **Finding:**
+  1. **PASS по всей заранее записанной конъюнкции.** `verdict=PASS`, `fired=true`.
+  2. **Callback исполнился ровно один раз** (`callback_count=1`) — one-shot через `return false`, элемент self-removed.
+  3. **Исполнился на доказанном GameThread:** `callback_tid=15552` == `E1`==`E2` (`GetThreadDescription=="GameThread"` И initial-thread/entry-point совпали). Наш регистрирующий поток `worker_tid=2804` ≠ 15552 — то есть исполнение произошло НЕ inline на нашем потоке, а было **диспатчено планировщиком на GameThread** (штатно).
+  4. **Легитимный путь:** `RegisterTicker rc=0`, `registered_ok=1`. `TFunction` собран из настоящих UE headers (не hand-copy). Регистрация через `AddTicker` → `TMpscQueue` (thread-safe из любого потока).
+  5. **Аллокатор-граница закрыта:** наш `FMemory::Malloc` форвардит в игровой `0xfab790`; на inline-`TFunction` пути аллокаций нет (rehearsal: `fake_alloc=0`), forward присутствует для безопасности. Возвращённый weak-handle освобождён (без утечки элемента).
+  6. **Cleanup:** DLL выгружена (`dll_unloaded=true`) после settle-паузы; игра осталась запущена и здорова (PID 5636).
+  7. **Установка не затронута:** `verify_install` MATCH **до и после** (0 находок).
+  8. **Ноль записи в память движка** (кроме штатной регистрации через thread-safe очередь): никаких vtable/vptr/.text/.rdata-патчей, никаких debug-регистров.
+  9. **Что этим НЕ сделано (намеренно):** ни одной UObject/`LoadAsset_Blocking`/content-операции — это фаза-2, отдельное решение владельца.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.95
+- **Почему именно столько:** прямое live-исполнение с двойной идентификацией GameThread, worker≠GameThread (диспатч доказан), rehearsal и до/после-верификация установки; не 0.97+ — одна машина/сборка/экземпляр, воспроизведение на другой не заявляется.
+- **Claim class:** I
+- **Почему class I:** утверждение о причинной связи «наша штатная регистрация → исполнение нашего кода на GameThread планировщиком» — вывод из сопоставления адресов/потоков/маркера, не позиционное чтение.
+- **Oracle:** `runtime-reflection`, `binary-analysis`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** — (закрывает carrier gate; делает `FTSTicker` предпочтительным GameThread-carrier и закрывает vtable/detour-ветки ESC-04; HW-BP остаётся research-only GT-01)
+- **Next question:** Спроектировать нормальную очередь dispatcher'а (worker/mod threads → MiseryRuntime queue → FTSTicker callback → GameThread drain) — и лишь ОТДЕЛЬНЫМ решением владельца переходить к фазе-2 (P-04: `MakeSoftObjectPath`→`LoadAsset_Blocking`), которая пока НЕ разрешена.
