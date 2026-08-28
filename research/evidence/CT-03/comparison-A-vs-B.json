@@ -1,0 +1,58 @@
+{
+  "appeared_in_b": [
+    "CT03Probe20260828_P.pak"
+  ],
+  "cross_checks": {
+    "engine_entry_count_matches_what_we_wrote": true,
+    "engine_size_matches_disk": true,
+    "read_order_is_predicted_101": true,
+    "shipped_pak_order_unchanged_at_4": true
+  },
+  "different_process": true,
+  "experiment": "CT-03",
+  "preregistration": "research/evidence/CT-03/preregistration.md",
+  "probe_observed": {
+    "cached_total_size_engine_reports": 636,
+    "is_mounted": true,
+    "mount_point": "../../../",
+    "num_entries_engine_reports": 1,
+    "pak_filename": "C:/Users/Anton/AppData/Local/MISERY/Saved/Paks/CT03Probe20260828_P.pak",
+    "pak_version": 11,
+    "read_order": 101
+  },
+  "probe_on_disk": {
+    "num_entries_we_wrote": 1,
+    "path": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\CT03Probe20260828_P.pak",
+    "sha256": "5f20b40d8fd0fc19aa7c6d7aceb0b08c997a698378f431285e634b8767f75690",
+    "size_bytes": 636
+  },
+  "recorded_at": "2026-08-28T10:04:26Z",
+  "same_build": true,
+  "snapshot_a": {
+    "mounted_pak_count": 1,
+    "paks": [
+      "MISERY-Windows.pak"
+    ],
+    "pid": 2448,
+    "run": "research/instrument-runs/2026-08-28T0915Z-ct03-snapshotA"
+  },
+  "snapshot_b": {
+    "mounted_pak_count": 2,
+    "paks": [
+      "CT03Probe20260828_P.pak",
+      "MISERY-Windows.pak"
+    ],
+    "pid": 4376,
+    "run": "research/instrument-runs/2026-08-28T1000Z-ct03-snapshotB"
+  },
+  "unchanged": [
+    {
+      "identical": true,
+      "name": "MISERY-Windows.pak",
+      "read_order_a": 4,
+      "read_order_b": 4
+    }
+  ],
+  "vanished_in_b": [],
+  "verdict": "PASS"
+}
