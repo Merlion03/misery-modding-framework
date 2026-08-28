@@ -1,0 +1,70 @@
+{
+  "entry_count": 1,
+  "generator": {
+    "name": "pak_writer.py",
+    "version": "1.0.0"
+  },
+  "layout": {
+    "body_size": 157,
+    "footer_offset": 415,
+    "footer_size": 221,
+    "full_directory_index_offset": 303,
+    "full_directory_index_size": 112,
+    "index_offset": 157,
+    "index_size": 126,
+    "path_hash_index_offset": 283,
+    "path_hash_index_size": 20,
+    "total_size": 636
+  },
+  "mount_point": "../../../",
+  "seed": "0x0000000074afb2ff",
+  "self_test": [
+    {
+      "check": "layout_tiles_exactly",
+      "detail": "regions cover 636 bytes with no gap",
+      "ok": true
+    },
+    {
+      "check": "footer_magic",
+      "detail": "0x5A6F12E1",
+      "ok": true
+    },
+    {
+      "check": "footer_version",
+      "detail": "11",
+      "ok": true
+    },
+    {
+      "check": "footer_encrypted_flag_clear",
+      "detail": "byte=0",
+      "ok": true
+    },
+    {
+      "check": "footer_index_offset_matches_layout",
+      "detail": "stored 157, layout 157",
+      "ok": true
+    },
+    {
+      "check": "footer_index_size_matches_layout",
+      "detail": "stored 126, layout 126",
+      "ok": true
+    },
+    {
+      "check": "primary_index_sha1",
+      "detail": "stored a2dd587c8dfeb4b2583af350f483b40ba6ef0762",
+      "ok": true
+    },
+    {
+      "check": "every_path_resolves_via_path_hash",
+      "detail": "misses: none",
+      "ok": true
+    },
+    {
+      "check": "path_hash_blob_has_pruned_index_tail",
+      "detail": "map=16 bytes, blob=20 bytes, tail present=True",
+      "ok": true
+    }
+  ],
+  "self_test_failed": 0,
+  "target": "CT03Probe20260828_P.pak"
+}

@@ -536,17 +536,22 @@ def main(argv=None) -> int:
         print("refused: %s" % error, file=sys.stderr)
         return 2
 
+    # Split on the LAST '=', not the first: a source path or a literal payload
+    # may legitimately contain '=', while a container-relative destination path
+    # cannot. Using partition() here silently mis-split a probe payload whose
+    # text contained an '=' -- caught only because UnrealPak -List echoed the
+    # resulting nonsense path back.
     entries = []
     for spec in args.add:
-        src, _, dest = spec.partition("=")
-        if not dest:
+        src, sep, dest = spec.rpartition("=")
+        if not sep or not dest or not src:
             print("--add needs SRC=DEST, got %r" % spec, file=sys.stderr)
             return 2
         with open(src, "rb") as handle:
             entries.append((dest.replace("\\", "/"), handle.read()))
     for spec in args.add_literal:
-        text, _, dest = spec.partition("=")
-        if not dest:
+        text, sep, dest = spec.rpartition("=")
+        if not sep or not dest:
             print("--add-literal needs TEXT=DEST, got %r" % spec, file=sys.stderr)
             return 2
         entries.append((dest.replace("\\", "/"), text.encode("ascii")))

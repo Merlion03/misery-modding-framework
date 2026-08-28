@@ -344,3 +344,23 @@ def test_cli_writes_a_container_and_reports_layout(tmp_path):
 
 def test_cli_refuses_without_any_entries(tmp_path):
     assert tool.main([str(tmp_path / "empty.pak")]) == 2
+
+
+def test_cli_splits_on_the_last_equals_not_the_first(tmp_path):
+    """Regression: a probe payload containing '=' was mis-split by partition(),
+    producing a container whose stored path was the tail of the payload. Only
+    UnrealPak -List echoing the nonsense path back revealed it. A destination
+    path cannot contain '=', a payload can, so the split must be rightmost."""
+    target = tmp_path / "eq.pak"
+    assert tool.main([str(target), "--add-literal",
+                      "marker=VALUE=A/probe.txt"]) == 0
+    blob = target.read_bytes()
+    # The directory index stores directory and clean filename as separate
+    # FStrings (H:1480-1528), so the joined path never appears as one run.
+    assert b"A/\x00" in blob, "destination directory stored"
+    assert b"probe.txt\x00" in blob, "destination filename stored"
+    assert b"marker=VALUE" in blob, "payload kept its '=' rather than being split on it"
+
+
+def test_cli_rejects_spec_without_a_destination(tmp_path):
+    assert tool.main([str(tmp_path / "x.pak"), "--add-literal", "no-separator"]) == 2
