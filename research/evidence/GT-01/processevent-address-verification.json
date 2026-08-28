@@ -1,0 +1,33 @@
+{
+  "record": "LOG-0072",
+  "purpose": "Independently re-verify the ProcessEvent code address before using it as a hardware-breakpoint trap location for GT-01. Contrast with LOG-0071 (LoadPackage) where NO derivation existed.",
+  "build": {
+    "exe": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+    "sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "image_base": "0x140000000"
+  },
+  "result_address": "RVA 0x12AC1F0 (VA 0x1412AC1F0) = UObject::ProcessEvent",
+  "derivations": [
+    {
+      "method": "unique byte signature (static, this run)",
+      "detail": "PE-02 signature '40 55 56 57 41 54 41 55 41 56 41 57 48 81 EC 10 01 00 00 48 8D 6C 24 30' (24 bytes) occurs EXACTLY ONCE in the entire image at file offset 0x12ab7f0 -> RVA 0x12ac1f0; the RVA is a .pdata RUNTIME_FUNCTION start.",
+      "independent": true,
+      "source": "research/evidence/PE-01/pe02-signatures.jsonl:1 (recorded source_rva 19579376 = 0x12ac1f0); re-scanned live this session"
+    },
+    {
+      "method": "live vtable slot 77 (dynamic, ESC-01)",
+      "detail": "ipp_controller.py reads the live UObject-derived CDO's vtable pointer, bounds-checks it in-module, reads slot 77*8, bounds-checks the resulting function pointer in-module. Resolved fresh each run.",
+      "independent": true,
+      "source": "research/instruments/ipp/ipp_controller.py:493-510; slot 77 counted line-by-line in research/evidence/PE-01/uobject-vtable-slots.json"
+    },
+    {
+      "method": "empirical call-through (behavioural, ESC-01)",
+      "detail": "One ProcessEvent call of IsSteamDeck through this exact pointer returned the independently-predicted 'false', no exception, no state change. A wrong address could not have produced the predicted result.",
+      "independent": true,
+      "source": "research/decisions.md ESC-01 (outcome); research/instrument-runs/2026-08-27T204010Z/report.json"
+    }
+  ],
+  "contrast_with_log_0071": "LoadPackage @ 0x12CF3B0 had ZERO derivations (assertion only, two supporting claims false). ProcessEvent @ 0x12AC1F0 has THREE agreeing derivations across static, structural, and behavioural methods. This is why ProcessEvent may be used as a trap location and LoadPackage may not be called.",
+  "use": "GT-01 sets an EXECUTE hardware breakpoint (Dr0) on this address, on the GameThread only, to run one VEH callback on the GameThread. No bytes at this address are modified.",
+  "verifier_scripts": ["research/evidence/ESC-02-blocked/verify_loadpackage.py (same PE-parse machinery, reused read-only)"]
+}
