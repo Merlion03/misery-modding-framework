@@ -6039,6 +6039,447 @@ def build_pe02_document(*, result: dict, build_key: str, recorded_at: str | None
 
 
 # --------------------------------------------------------------------------- #
+# I-14: which .pak containers is this process actually running with?
+#
+# WHAT THIS IS FOR, AND WHAT IT DELIBERATELY IS NOT
+# -------------------------------------------------
+# CT-03 asks one question: does the game discover and mount an external .pak
+# placed in a directory it scans? Answering it needs the engine's OWN list of
+# mounted containers -- not the filesystem, which says only what exists, and
+# not a log, because Shipping compiles logging out (the game's Logs/ directory
+# is empty). So this capability reads FPakPlatformFile::PakFiles and nothing
+# else. It is not a filesystem inspector and must not grow into one.
+#
+# WHY THE EXISTING ANCHORS CANNOT REACH IT
+# ----------------------------------------
+# FPakPlatformFile is not a UObject. GUObjectArray (I-02), FNamePool (I-03) and
+# the whole UObject graph I-04..I-06 walk simply do not contain it, and nothing
+# in that graph points at it. I-14 therefore needs its own anchor, which is the
+# only genuinely new thing here.
+#
+# THE ANCHOR
+# ----------
+# FPlatformFileManager::Get() (PlatformFileManager.cpp:164-169) is a
+# function-local static. MSVC constant-initialised it, so -- unlike most magic
+# statics -- there is NO thread-safe-static guard and no _Init_thread_header
+# call; Get() is literally `lea rax,[rip+disp]; ret`. The manager's only member
+# is `IPlatformFile* TopmostPlatformFile` at offset 0 (PlatformFileManager.h:17-24,
+# with USE_ATOMIC_PLATFORM_FILE == WITH_EDITOR == 0 here), so the singleton's
+# address IS the address of that pointer.
+#
+# From there the platform-file chain is walked. A reader cannot CALL the virtual
+# GetLowerLevel(), but it does not need to: every wrapper compiles that override
+# to a five-byte accessor, so the offset can be decoded statically from the
+# function's own bytes:
+#     48 8B 41 dd C3   mov rax,[rcx+dd]; ret   -> lower level at this + dd
+#     33 C0 C3         xor eax,eax;     ret    -> bottom of the chain
+# Decoding rather than assuming keeps the walk correct if a wrapper is ever
+# inserted above the pak layer (a different command line can do that).
+#
+# IDENTITY IS BY VTABLE, NOT BY POSITION
+# --------------------------------------
+# A node is the FPakPlatformFile iff its vtable pointer equals the known
+# FPakPlatformFile vtable. Each FPakFile is confirmed the same way, and it has
+# TWO vtable pointers, because `class FPakFile : FNoncopyable, public
+# FRefCountBase, public IPakFile` puts an IPakFile subobject at +0x10. That
+# second vptr is easy to overlook and getting it wrong shifts every subsequent
+# field: the IPakFile accessors are compiled against the secondary-base `this`,
+# so their displacements are relative to FPakFile+0x10, not to the object start.
+#
+# THE RVAs ARE CANDIDATES, VERIFIED LIVE -- exactly like I-02's GUObjectArray
+# and I-03's FNamePool. They are defaults, overridable, and every one of them is
+# checked structurally before anything is believed. They were derived by
+# byte-pattern matching directly against the target image rather than from the
+# project's Ghidra database, because that database was imported from the
+# PREVIOUS build: same file size, but ~27.6M bytes differ, concentrated in a
+# ~26MB tail of .text. The values below happened to be identical in both builds
+# (all cited extents byte-compared), but that is a fact about this pair of
+# builds and not a guarantee -- which is precisely why nothing here is trusted
+# without the live checks in _validate_pak_file().
+# --------------------------------------------------------------------------- #
+
+CAPABILITY_ID_I14 = "I-14"
+
+# &FPlatformFileManager::TopmostPlatformFile (the singleton's only member).
+DEFAULT_PLATFORM_FILE_MANAGER_RVA = 0x0795BFD0
+# Identity predicates.
+DEFAULT_PAKPLATFORMFILE_VTABLE_RVA = 0x060E3760
+DEFAULT_PAKFILE_VTABLE_PRIMARY_RVA = 0x060E3728
+DEFAULT_PAKFILE_VTABLE_IPAKFILE_RVA = 0x060E3730
+
+# IPlatformFile vtable slot of GetLowerLevel(), from the declaration order in
+# GenericPlatformFile.h:275-841 (slot 14 is GetName, and slot 66 the final
+# virtual, which pins the length).
+IPLATFORMFILE_GETLOWERLEVEL_SLOT = 12
+
+FPAKPLATFORMFILE_LOWERLEVEL_OFFSET = 0x08
+FPAKPLATFORMFILE_PAKFILES_OFFSET = 0x10      # TArray: Data +0x10, Num +0x18, Max +0x1C
+
+FPAKLISTENTRY_SIZE = 0x10
+FPAKLISTENTRY_READORDER_OFFSET = 0x00
+FPAKLISTENTRY_PAKFILE_OFFSET = 0x08
+
+FPAKFILE_NUMREFS_OFFSET = 0x08
+FPAKFILE_IPAKFILE_VPTR_OFFSET = 0x10
+FPAKFILE_PAKFILENAME_OFFSET = 0x18           # FString
+FPAKFILE_INFO_OFFSET = 0x78                  # FPakInfo, in-memory sizeof 0x50
+FPAKFILE_MOUNTPOINT_OFFSET = 0xC8            # FString
+FPAKFILE_NUMENTRIES_OFFSET = 0x1F8
+FPAKFILE_CACHEDTOTALSIZE_OFFSET = 0x208
+FPAKFILE_ISVALID_OFFSET = 0x211
+FPAKFILE_PAKCHUNKINDEX_OFFSET = 0x218
+FPAKFILE_ISMOUNTED_OFFSET = 0x259
+
+FPAKINFO_MAGIC_OFFSET = 0x00
+FPAKINFO_VERSION_OFFSET = 0x04
+FPAKINFO_INDEXOFFSET_OFFSET = 0x08
+FPAKINFO_INDEXSIZE_OFFSET = 0x10
+
+PAK_FILE_MAGIC = 0x5A6F12E1
+PAK_FILE_VERSION_LAST = 12
+
+# FString is one TArray<TCHAR>: Data +0x00, ArrayNum +0x08, ArrayMax +0x0C, and
+# ArrayNum INCLUDES the terminator (UnrealString.h.inl:1082-1085).
+FSTRING_NUM_OFFSET = 0x08
+FSTRING_MAX_OFFSET = 0x0C
+DEFAULT_I14_MAX_CHAIN_HOPS = 16
+DEFAULT_I14_MAX_PAKS = 4096
+MAX_FSTRING_CHARS = 65536
+
+
+def read_fstring(api, handle: int, address: int) -> dict:
+    """Decode one FString, refusing anything that does not look like a real
+    UE string rather than returning plausible garbage.
+
+    Returns {'ok', 'text', 'num', 'max', 'reason'}. A null Data pointer with
+    Num == 0 is the legitimate empty string, not a failure.
+    """
+    out = {"ok": False, "text": None, "num": None, "max": None, "reason": None}
+    try:
+        data_ptr = _read_u64(api, handle, address)
+        num = _read_u32(api, handle, address + FSTRING_NUM_OFFSET)
+        maximum = _read_u32(api, handle, address + FSTRING_MAX_OFFSET)
+    except ReadProcessMemoryFailedError as error:
+        out["reason"] = "read failed: %s" % error
+        return out
+    out["num"], out["max"] = num, maximum
+    if num == 0 and data_ptr == 0:
+        out["ok"], out["text"] = True, ""
+        return out
+    if not (0 < num <= maximum <= MAX_FSTRING_CHARS):
+        out["reason"] = "implausible Num/Max (%d/%d)" % (num, maximum)
+        return out
+    if data_ptr == 0 or (data_ptr & 1) or not _pointer_is_plausible(data_ptr & ~7):
+        out["reason"] = "implausible Data pointer 0x%x" % data_ptr
+        return out
+    try:
+        raw = api.read_process_memory(handle, data_ptr, num * 2)
+    except ReadProcessMemoryFailedError as error:
+        out["reason"] = "buffer read failed: %s" % error
+        return out
+    if raw[-2:] != b"\x00\x00":
+        out["reason"] = "not NUL-terminated"
+        return out
+    try:
+        text = raw[:-2].decode("utf-16-le")
+    except UnicodeDecodeError as error:
+        out["reason"] = "not valid UTF-16LE: %s" % error
+        return out
+    if any(ord(ch) < 0x20 for ch in text):
+        out["reason"] = "control characters in text"
+        return out
+    out["ok"], out["text"] = True, text
+    return out
+
+
+def decode_lower_level_accessor(api, handle: int, function_address: int) -> dict:
+    """Statically decode a GetLowerLevel() override's five bytes.
+
+    Returns {'kind': 'offset'|'null'|'unknown', 'offset', 'bytes'}. 'null'
+    means `xor eax,eax; ret` -- the bottom of the chain.
+    """
+    out = {"kind": "unknown", "offset": None, "bytes": None}
+    try:
+        code = api.read_process_memory(handle, function_address, 5)
+    except ReadProcessMemoryFailedError:
+        return out
+    out["bytes"] = code.hex()
+    if code[:3] == b"\x33\xc0\xc3":
+        out["kind"] = "null"
+    elif code[0] == 0x48 and code[1] == 0x8B and code[2] == 0x41 and code[4] == 0xC3:
+        out["kind"] = "offset"
+        out["offset"] = code[3]
+    return out
+
+
+def walk_platform_file_chain(api, handle: int, base_address: int, image_size_bytes: int,
+                             *, platform_file_manager_rva: int,
+                             pak_vtable_rva: int,
+                             max_hops: int = DEFAULT_I14_MAX_CHAIN_HOPS) -> dict:
+    """Follow TopmostPlatformFile down the wrapper chain until the node whose
+    vtable is FPakPlatformFile's. Never calls a virtual; decodes each
+    GetLowerLevel() instead."""
+    result = {"chain": [], "pak_platform_file": None, "found": False, "note": None}
+    manager_va = base_address + platform_file_manager_rva
+    pak_vtable_va = base_address + pak_vtable_rva
+    try:
+        node = _read_u64(api, handle, manager_va)
+    except ReadProcessMemoryFailedError as error:
+        result["note"] = ("could not read TopmostPlatformFile at 0x%x: %s"
+                          % (manager_va, error))
+        return result
+    for _ in range(max_hops):
+        if not _pointer_is_plausible(node):
+            result["note"] = "implausible platform-file pointer 0x%x" % node
+            return result
+        try:
+            vptr = _read_u64(api, handle, node)
+        except ReadProcessMemoryFailedError as error:
+            result["note"] = "could not read vptr of 0x%x: %s" % (node, error)
+            return result
+        hop = {"object_hex": "0x%x" % node, "vptr_hex": "0x%x" % vptr,
+               "vptr_rva_hex": ("0x%x" % (vptr - base_address)
+                                if base_address <= vptr < base_address + image_size_bytes
+                                else None),
+               "is_pak_platform_file": vptr == pak_vtable_va}
+        result["chain"].append(hop)
+        if vptr == pak_vtable_va:
+            result["pak_platform_file"] = node
+            result["found"] = True
+            return result
+        if not (base_address <= vptr < base_address + image_size_bytes):
+            result["note"] = "vtable 0x%x is outside the module image" % vptr
+            return result
+        try:
+            fn = _read_u64(api, handle, vptr + IPLATFORMFILE_GETLOWERLEVEL_SLOT * 8)
+        except ReadProcessMemoryFailedError as error:
+            result["note"] = "could not read GetLowerLevel slot: %s" % error
+            return result
+        decoded = decode_lower_level_accessor(api, handle, fn)
+        hop["get_lower_level"] = decoded
+        if decoded["kind"] == "null":
+            result["note"] = ("reached the bottom of the platform-file chain "
+                              "without finding FPakPlatformFile")
+            return result
+        if decoded["kind"] != "offset":
+            result["note"] = ("GetLowerLevel at 0x%x is not a recognised 5-byte "
+                              "accessor (bytes %s)" % (fn, decoded["bytes"]))
+            return result
+        try:
+            node = _read_u64(api, handle, node + decoded["offset"])
+        except ReadProcessMemoryFailedError as error:
+            result["note"] = "could not follow lower level: %s" % error
+            return result
+    result["note"] = "chain did not terminate within %d hops" % max_hops
+    return result
+
+
+def _validate_pak_file(api, handle: int, pak_file: int, base_address: int, *,
+                       primary_vtable_rva: int, ipakfile_vtable_rva: int) -> dict:
+    """Structural checks on one candidate FPakFile. The two vtable pointers are
+    the strong test; the rest is defence in depth."""
+    checks = {}
+    try:
+        checks["vptr_primary"] = (
+            _read_u64(api, handle, pak_file) == base_address + primary_vtable_rva)
+        checks["vptr_ipakfile"] = (
+            _read_u64(api, handle, pak_file + FPAKFILE_IPAKFILE_VPTR_OFFSET)
+            == base_address + ipakfile_vtable_rva)
+        num_refs = _read_u32(api, handle, pak_file + FPAKFILE_NUMREFS_OFFSET)
+        checks["num_refs_sane"] = 1 <= num_refs <= (1 << 20)
+        magic = _read_u32(api, handle, pak_file + FPAKFILE_INFO_OFFSET
+                          + FPAKINFO_MAGIC_OFFSET)
+        checks["pak_magic"] = magic == PAK_FILE_MAGIC
+        version = _read_u32(api, handle, pak_file + FPAKFILE_INFO_OFFSET
+                            + FPAKINFO_VERSION_OFFSET)
+        checks["pak_version_sane"] = 1 <= version <= PAK_FILE_VERSION_LAST
+    except ReadProcessMemoryFailedError as error:
+        checks["read_error"] = str(error)
+        return {"ok": False, "checks": checks}
+    return {"ok": all(v is True for v in checks.values()), "checks": checks}
+
+
+def run_i14(api, process_handle: int, base_address: int, image_size_bytes: int, *,
+            platform_file_manager_rva: int = DEFAULT_PLATFORM_FILE_MANAGER_RVA,
+            pak_vtable_rva: int = DEFAULT_PAKPLATFORMFILE_VTABLE_RVA,
+            pakfile_primary_vtable_rva: int = DEFAULT_PAKFILE_VTABLE_PRIMARY_RVA,
+            pakfile_ipakfile_vtable_rva: int = DEFAULT_PAKFILE_VTABLE_IPAKFILE_RVA,
+            max_paks: int = DEFAULT_I14_MAX_PAKS) -> dict:
+    """The whole of capability I-14: report the .pak containers this process
+    currently has mounted, each identified by its own filename and mount point
+    rather than by position in a list.
+
+    Never raises for "not found" -- an honest empty answer with a note beats a
+    confident wrong one, the same contract I-04 uses for its seed search.
+    """
+    walk = walk_platform_file_chain(
+        api, process_handle, base_address, image_size_bytes,
+        platform_file_manager_rva=platform_file_manager_rva,
+        pak_vtable_rva=pak_vtable_rva)
+    result = {
+        "capability": CAPABILITY_ID_I14,
+        "platform_file_manager_rva_hex": "0x%x" % platform_file_manager_rva,
+        "chain": walk["chain"],
+        "pak_platform_file_found": walk["found"],
+        "pak_platform_file_hex": ("0x%x" % walk["pak_platform_file"]
+                                  if walk["pak_platform_file"] else None),
+        "mounted_pak_count": 0,
+        "mounted_paks": [],
+        "note": walk["note"],
+    }
+    if not walk["found"]:
+        return result
+
+    pak_pf = walk["pak_platform_file"]
+    try:
+        data_ptr = _read_u64(api, process_handle, pak_pf + FPAKPLATFORMFILE_PAKFILES_OFFSET)
+        array_num = _read_u32(api, process_handle, pak_pf + FPAKPLATFORMFILE_PAKFILES_OFFSET + 8)
+        array_max = _read_u32(api, process_handle, pak_pf + FPAKPLATFORMFILE_PAKFILES_OFFSET + 12)
+        lower_level = _read_u64(api, process_handle, pak_pf + FPAKPLATFORMFILE_LOWERLEVEL_OFFSET)
+    except ReadProcessMemoryFailedError as error:
+        result["note"] = "could not read PakFiles: %s" % error
+        return result
+
+    result["lower_level_hex"] = "0x%x" % lower_level
+    result["pak_files_array"] = {"data_hex": "0x%x" % data_ptr,
+                                 "num": array_num, "max": array_max}
+    if not (0 <= array_num <= array_max <= max_paks):
+        result["note"] = ("PakFiles array is implausible (Num %d, Max %d) -- refusing "
+                          "to walk it" % (array_num, array_max))
+        return result
+    if array_num and not _pointer_is_plausible(data_ptr):
+        result["note"] = "PakFiles.Data 0x%x is implausible" % data_ptr
+        return result
+
+    entries = []
+    for index in range(array_num):
+        entry_address = data_ptr + index * FPAKLISTENTRY_SIZE
+        record = {"index": index}
+        try:
+            record["read_order"] = _read_u32(
+                api, process_handle, entry_address + FPAKLISTENTRY_READORDER_OFFSET)
+            pak_file = _read_u64(
+                api, process_handle, entry_address + FPAKLISTENTRY_PAKFILE_OFFSET)
+        except ReadProcessMemoryFailedError as error:
+            record["rejected"] = "entry read failed: %s" % error
+            entries.append(record)
+            continue
+        record["pak_file_hex"] = "0x%x" % pak_file
+        if not _pointer_is_plausible(pak_file):
+            record["rejected"] = "implausible FPakFile pointer"
+            entries.append(record)
+            continue
+        validation = _validate_pak_file(
+            api, process_handle, pak_file, base_address,
+            primary_vtable_rva=pakfile_primary_vtable_rva,
+            ipakfile_vtable_rva=pakfile_ipakfile_vtable_rva)
+        record["validation"] = validation["checks"]
+        if not validation["ok"]:
+            record["rejected"] = "failed structural validation"
+            entries.append(record)
+            continue
+        filename = read_fstring(api, process_handle, pak_file + FPAKFILE_PAKFILENAME_OFFSET)
+        mount = read_fstring(api, process_handle, pak_file + FPAKFILE_MOUNTPOINT_OFFSET)
+        record["pak_filename"] = filename["text"]
+        record["pak_filename_ok"] = filename["ok"]
+        record["mount_point"] = mount["text"]
+        record["mount_point_ok"] = mount["ok"]
+        if not filename["ok"]:
+            record["pak_filename_reason"] = filename["reason"]
+        if not mount["ok"]:
+            record["mount_point_reason"] = mount["reason"]
+        try:
+            record["num_entries"] = _read_u32(
+                api, process_handle, pak_file + FPAKFILE_NUMENTRIES_OFFSET)
+            record["cached_total_size"] = _read_u64(
+                api, process_handle, pak_file + FPAKFILE_CACHEDTOTALSIZE_OFFSET)
+            record["pak_version"] = _read_u32(
+                api, process_handle,
+                pak_file + FPAKFILE_INFO_OFFSET + FPAKINFO_VERSION_OFFSET)
+            record["index_offset"] = _read_u64(
+                api, process_handle,
+                pak_file + FPAKFILE_INFO_OFFSET + FPAKINFO_INDEXOFFSET_OFFSET)
+            record["index_size"] = _read_u64(
+                api, process_handle,
+                pak_file + FPAKFILE_INFO_OFFSET + FPAKINFO_INDEXSIZE_OFFSET)
+            chunk_index = _read_u32(
+                api, process_handle, pak_file + FPAKFILE_PAKCHUNKINDEX_OFFSET)
+            record["pakchunk_index"] = chunk_index - (1 << 32) if chunk_index >> 31 else chunk_index
+            raw_flags = api.read_process_memory(
+                process_handle, pak_file + FPAKFILE_ISVALID_OFFSET, 1)
+            record["is_valid"] = bool(raw_flags[0])
+            raw_mounted = api.read_process_memory(
+                process_handle, pak_file + FPAKFILE_ISMOUNTED_OFFSET, 1)
+            record["is_mounted"] = bool(raw_mounted[0])
+        except ReadProcessMemoryFailedError as error:
+            record["detail_read_error"] = str(error)
+        entries.append(record)
+
+    accepted = [e for e in entries if "rejected" not in e]
+    result["mounted_paks"] = entries
+    result["mounted_pak_count"] = len(accepted)
+    result["rejected_count"] = len(entries) - len(accepted)
+    return result
+
+
+def build_i14_document(*, result: dict, build_key: str, recorded_at: str | None,
+                       identity_self_established: bool, build_key_cross_checked: bool,
+                       known_build: bool, build_id: str | None) -> dict:
+    """The I-14 knowledge-base record."""
+    names = [e.get("pak_filename") for e in result["mounted_paks"]
+             if "rejected" not in e and e.get("pak_filename")]
+    return {
+        "capability": CAPABILITY_ID_I14,
+        "claim": ("the live MISERY-Win64-Shipping.exe process (build_key %s) has %d .pak "
+                  "container(s) mounted: %s"
+                  % (build_key, result["mounted_pak_count"],
+                     ", ".join(repr(n) for n in names) or "none")),
+        "claim_type": "other",
+        "claim_type_note": (
+            "a report of which containers one running process currently has mounted is a "
+            "statement about that process at that moment, not a durable fact about the "
+            "game build; no plan.md 10.5 matrix row describes it."),
+        "evidence_level": "OBSERVED",
+        # 0.75, matching every other single-capability document here (I-05,
+        # I-06). This artifact records ONE act of measurement -- one traversal,
+        # one moment -- and plan.md 10.3 v2.2 requires two independent methods
+        # for an interpretive claim from 0.80 up. The corroborated version of
+        # this claim, cross-checked against the container's own bytes on disk,
+        # is graded separately and higher in RESEARCH_LOG.md; putting that
+        # grade here would be exactly the "restating promotes" defect 10.1
+        # forbids, since the tool itself performs no such cross-check.
+        "confidence": 0.75,
+        "claim_class": "I",
+        "oracle": ["runtime-reflection"],
+        "method": CAPABILITY_ID_I14,
+        "sources": [{"method": CAPABILITY_ID_I14}],
+        "refutation_attempt": (
+            "if the chain walk had landed on something that is not an FPakPlatformFile, "
+            "the vtable equality test would have rejected it rather than reporting its "
+            "bytes as a pak list; if an FPakListEntry pointed at something that is not an "
+            "FPakFile, the two-vtable test plus the FPakInfo magic would have rejected it; "
+            "if the FString offsets were wrong, the decode would have failed the "
+            "NUL-termination and UTF-16 checks instead of yielding a plausible name. The "
+            "decisive external check is that the decoded filename, mount point, pak "
+            "version, index offset/size and total size of an already-known container can "
+            "be compared against that container's own bytes on disk."),
+        "pak_platform_file_found": result["pak_platform_file_found"],
+        "mounted_pak_count": result["mounted_pak_count"],
+        "mounted_paks": result["mounted_paks"],
+        "chain": result["chain"],
+        "note": result["note"],
+        "build_key": build_key,
+        "identity_self_established": bool(identity_self_established),
+        "build_key_cross_checked": bool(build_key_cross_checked),
+        "known_build": bool(known_build),
+        "build_id": build_id,
+        "recorded_at": recorded_at,
+        "generator": GENERATOR_NAME,
+        "generator_version": GENERATOR_VERSION,
+    }
+
+
+# --------------------------------------------------------------------------- #
 # document building -- the I-01 JSON output, and the manifest.json required
 # by research/schema/instrument-run-manifest.schema.json.
 # --------------------------------------------------------------------------- #
@@ -6905,6 +7346,33 @@ def build_arg_parser() -> argparse.ArgumentParser:
              "auto-derive that path from build identity, matching every "
              "other per-capability output path in this file")
     parser.add_argument(
+        "--run-i14", action="store_true",
+        help="also run I-14: report which .pak containers this process "
+             "currently has MOUNTED, read from the engine's own "
+             "FPakPlatformFile::PakFiles list rather than from the "
+             "filesystem. Each container is identified by its own decoded "
+             "PakFilename and MountPoint, not by position. Independent of "
+             "every other capability: the pak system is not a UObject, so "
+             "this shares nothing with I-02/I-03/I-04 and can run alone. "
+             "Strictly read-only, like every other capability here.")
+    parser.add_argument(
+        "--i14-out", metavar="PATH",
+        help="I-14 JSON output path; defaults to <run-dir>/i14-mounted-paks.json "
+             "when --run-dir is given")
+    parser.add_argument(
+        "--platform-file-manager-rva", type=lambda v: int(v, 0),
+        default=DEFAULT_PLATFORM_FILE_MANAGER_RVA, metavar="RVA",
+        help="override the FPlatformFileManager singleton RVA I-14 anchors on "
+             "(default 0x%x). Its only member is TopmostPlatformFile at offset "
+             "0, so this address IS that pointer. A candidate, verified live: "
+             "the chain walk refuses to believe any node whose vtable is not "
+             "FPakPlatformFile's." % DEFAULT_PLATFORM_FILE_MANAGER_RVA)
+    parser.add_argument(
+        "--pak-platform-file-vtable-rva", type=lambda v: int(v, 0),
+        default=DEFAULT_PAKPLATFORMFILE_VTABLE_RVA, metavar="RVA",
+        help="override the FPakPlatformFile vtable RVA used as I-14's identity "
+             "predicate (default 0x%x)" % DEFAULT_PAKPLATFORMFILE_VTABLE_RVA)
+    parser.add_argument(
         "--run-pe02-vtable-scan", action="store_true",
         help="also run PE-02: gather LIVE evidence for the PE-01 "
              "UObject::ProcessEvent vtable-slot HYPOTHESIS (research/"
@@ -7217,6 +7685,22 @@ def _validate_i05_requirements(args: argparse.Namespace) -> None:
             "and never re-walks GUObjectArray itself.")
 
 
+def _resolve_i14_output_path(args: argparse.Namespace) -> str | None:
+    """None when --run-i14 was not given. Otherwise --i14-out if explicit, else
+    <run-dir>/i14-mounted-paks.json -- the same --run-dir convenience every
+    other per-capability output path here uses, and the same fail-before-any-
+    handle-is-opened contract."""
+    if not args.run_i14:
+        return None
+    if args.i14_out:
+        return args.i14_out
+    if args.run_dir:
+        return os.path.join(args.run_dir, "i14-mounted-paks.json")
+    raise ValueError(
+        "--run-i14 requires --i14-out unless --run-dir is given (it supplies "
+        "the default <run-dir>/i14-mounted-paks.json)")
+
+
 def _resolve_pe02_output_path(args: argparse.Namespace) -> str | None:
     """None when --run-pe02-vtable-scan was not given. Otherwise the PE-02
     raw-JSON output path: --pe02-out if given explicitly, else <run-dir>/
@@ -7378,6 +7862,7 @@ def main(argv: list[str] | None = None) -> int:
         properties_jsonl_path = _resolve_properties_jsonl_path(args)  # None unless --run-i06
         i05_out_path = _resolve_i05_output_path(args)  # None unless --run-i05
         functions_jsonl_path = _resolve_functions_jsonl_path(args)  # None unless --run-i05
+        i14_out_path = _resolve_i14_output_path(args)    # None unless --run-i14
         pe02_out_path = _resolve_pe02_output_path(args)  # None unless --run-pe02-vtable-scan
         guobjectarray_rva = _parse_guobjectarray_rva(args.guobjectarray_rva)
         namepool_rva = _parse_namepool_rva(args.namepool_rva)
@@ -7504,6 +7989,22 @@ def main(argv: list[str] | None = None) -> int:
                     max_scan_indices=args.i02_max_scan_indices)
             finally:
                 api.close_handle(i02_handle)
+
+        # I-14 is deliberately independent of every other capability: the pak
+        # system is not in the UObject graph, so I-14 shares no state with
+        # I-02/I-03/I-04 and needs only I-01's base address and image size. It
+        # therefore opens its own handle and runs whenever asked, alone if that
+        # is all that was asked for.
+        i14_result = None
+        if args.run_i14:
+            i14_handle = open_process_read_only(api, result["pid"])
+            try:
+                i14_result = run_i14(
+                    api, i14_handle, result["base_address"], result["image_size_bytes"],
+                    platform_file_manager_rva=args.platform_file_manager_rva,
+                    pak_vtable_rva=args.pak_platform_file_vtable_rva)
+            finally:
+                api.close_handle(i14_handle)
 
         # I-03, if requested, ALSO runs before anything is written -- same
         # reason as I-02 above. I-03 opens its OWN fresh handle (I-02's own
@@ -7792,6 +8293,23 @@ def main(argv: list[str] | None = None) -> int:
             written_functions_jsonl = _write_guarded_jsonl(
                 functions_jsonl_rows, functions_jsonl_path, what="--functions-jsonl-out")
             artifacts.append(_repo_relative(written_functions_jsonl))
+
+        i14_document = None
+        written_i14_out = None
+        if i14_result is not None:
+            i14_document = build_i14_document(
+                result=i14_result, build_key=identity["build_key"],
+                recorded_at=i01_recorded_at,
+                identity_self_established=identity["identity_self_established"],
+                build_key_cross_checked=identity["build_key_cross_checked"],
+                known_build=identity["known_build"], build_id=identity["build_id"])
+            written_i14_out = _write_guarded(i14_document, i14_out_path, what="--i14-out")
+            # Unlike PE-02, I-14 IS a plan.md 8.2 capability id and belongs in
+            # capabilities_enabled -- instrument-run-manifest.schema.json's own
+            # eri_capability_id enum is closed to "I-01".."I-16" and I-14 is
+            # inside it.
+            capabilities_enabled.append(CAPABILITY_ID_I14)
+            artifacts.append(_repo_relative(written_i14_out))
 
         pe02_document = None
         written_pe02_out = None
