@@ -60,6 +60,7 @@ IO_PROTO = 1
 SENTINEL_TID = 0xFFFFFFFF
 
 # --- thread access rights ---
+THREAD_QUERY_INFORMATION = 0x0040
 THREAD_QUERY_LIMITED_INFORMATION = 0x0800
 THREAD_GET_CONTEXT = 0x0008
 THREAD_SET_CONTEXT = 0x0010
@@ -248,7 +249,12 @@ def identify_gamethread(k, nt, has_desc, pid, base, entry_rva, api, run_note):
     start_entry_tids = []
     entry_va = base + entry_rva
     for tid in tids:
-        htid = k.OpenThread(THREAD_QUERY_LIMITED_INFORMATION, False, tid)
+        # THREAD_QUERY_INFORMATION (not just LIMITED) is required for
+        # ThreadQuerySetWin32StartAddress; fall back to LIMITED if denied.
+        htid = k.OpenThread(THREAD_QUERY_INFORMATION | THREAD_QUERY_LIMITED_INFORMATION,
+                            False, tid)
+        if not htid:
+            htid = k.OpenThread(THREAD_QUERY_LIMITED_INFORMATION, False, tid)
         if not htid:
             continue
         try:
