@@ -1,0 +1,81 @@
+{
+  "record": "LOG-0071",
+  "question": "Is RVA 0x12CF3B0 in the installed MISERY Shipping image actually LoadPackage(const TCHAR*, ...), as ESC-02's mechanism field asserts?",
+  "verdict": "NOT ESTABLISHED — no reproducible derivation exists; ESC-02's supporting claims are partly false; live P-04 call stopped before injection",
+  "build": {
+    "exe": "D:/Games/Steam/steamapps/common/MISERY/MISERY/Binaries/Win64/MISERY-Win64-Shipping.exe",
+    "sha256_observed": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "sha256_expected_build_key": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "build_identity_matches": true,
+    "image_base": "0x140000000",
+    "engine": "UE 5.4.4 CL 35576357, Shipping x64, monolithic"
+  },
+  "method": "Read-only static analysis of the installed image plus a repository-wide search for the derivation. The live process was never opened, not even for reading. No instrument under research/instruments/ipp/ was executed.",
+  "scripts": [
+    "research/evidence/ESC-02-blocked/verify_loadpackage.py",
+    "research/evidence/ESC-02-blocked/file_anchor.py"
+  ],
+  "checks": [
+    {
+      "id": 1,
+      "name": "repository search for the derivation",
+      "observed": "0x12CF3B0 occurs only as an assertion in research/decisions.md (ESC-02) and in probe/controller code written from a prior session summary. No RESEARCH_LOG derivation entry exists.",
+      "supports_identity": false,
+      "note": "ESC-02's mechanism and thread_safety fields both cite an 'adjacent RESEARCH_LOG entry' that was never written."
+    },
+    {
+      "id": 2,
+      "name": "log-string anchors unique to LoadPackage(const TCHAR*)",
+      "source_anchor": "UObjectGlobals.cpp:1985 (UE 5.4.4 CL 35576357)",
+      "strings_sought": [
+        "LoadPackage can't find package %s.",
+        "Empty name passed to LoadPackage.",
+        "LoadPackage: %s is a short script package name."
+      ],
+      "observed": "zero occurrences in either ASCII or UTF-16LE; load-path log/trace strings are stripped in this build (FlushAsyncLoading=0, LoadPackageAsync=0, IsShortPackageName=0, TryFromMountedName=0, 'SyncLoad - %s'=0)",
+      "supports_identity": false,
+      "consequence": "the standard 'string -> LEA xref -> enclosing function' identification route is unavailable in this build"
+    },
+    {
+      "id": 3,
+      "name": "export table and PDB",
+      "observed": "277 exports, all third-party GPU hints (AmdPowerXpressRequestHighPerformance, NvOptimusEnablement, D3D12SDKPath, agsDriverExtensions*). No engine exports. No LoadPackage export. Debug directory names MISERY-Win64-Shipping.pdb but no PDB ships anywhere under the install.",
+      "supports_identity": false,
+      "falsifies": "ESC-02's claim that LoadPackage is an 'exported CoreUObject function' is factually false for this monolithic Shipping build"
+    },
+    {
+      "id": 4,
+      "name": ".pdata unwind table",
+      "observed": "411385 RUNTIME_FUNCTION records; 0x12CF3B0 is an exact function begin, extent 0x12CF3B0-0x12CF65F, size 0x2AF",
+      "supports_identity": "partial",
+      "note": "proves a real function starts there; carries no name, so it constrains but cannot identify"
+    },
+    {
+      "id": 5,
+      "name": "__FILE__ anchor for the translation unit",
+      "observed": "ANSI 'UObjectGlobals.cpp' present exactly once at file offset 0x5e88fa6 (VA 0x145e89da6), but zero lea r64,[rip+disp32] xrefs to it in .text",
+      "supports_identity": "inconclusive",
+      "note": "UE stores __FILE__ pointers in static check-macro structures via relocation rather than an inline lea, so absence of lea xrefs is uninformative here — this test is neither positive nor negative"
+    },
+    {
+      "id": 6,
+      "name": "prologue carried by the prior session summary",
+      "summary_claimed_prologue": "4c8bf8488bda4489c44d8be9 (MOV R15,RCX; MOV RBX,RDX; MOV R12D,R8D; MOV R13,R9)",
+      "actually_observed_at_0x12CF3B0": "48895c2408488974241848897c242055 (MOV [RSP+8],RBX; MOV [RSP+18],RSI; MOV [RSP+20],RDI; PUSH RBP)",
+      "supports_identity": false,
+      "note": "the inherited prologue was wrong, which is what first exposed the missing derivation"
+    }
+  ],
+  "what_is_not_in_doubt": [
+    "process/build identity: the Shipping exe hashes byte-for-byte equal to build_key",
+    "the injection mechanism itself, proven separately in ESC-01",
+    "the asynchronous behaviour of the Zen loader (a claim about LoadPackage's behaviour, not its address)"
+  ],
+  "what_is_in_doubt": "exactly and only the identity of the call target address",
+  "consequence": "research/instruments/ipp/p04_load_controller.py carries ADDRESS_IDENTITY_VERIFIED = False and refuses to inject until a real derivation lands in the same commit as its evidence",
+  "unblock_routes": [
+    "A — Ghidra headless re-analysis of the current image with tracing from an identifiable anchor",
+    "B — transplant the signature from the symboled UnrealEditor-CoreUObject (PDB present for the same CL), correcting for configuration differences",
+    "C — change the mechanism to a target reachable by reflection (name-addressed) rather than by raw offset"
+  ]
+}
