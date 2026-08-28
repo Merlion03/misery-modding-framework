@@ -1,0 +1,103 @@
+{
+  "arm_readback": {
+    "Dr0": "0x7ff7bf1cc1f0",
+    "Dr7": "0x1"
+  },
+  "base_address": "0x7ff7bdf20000",
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "cleanup": {
+    "debug_regs_after": {
+      "Dr0": "0x0",
+      "Dr7": "0x0"
+    },
+    "disarmed": true,
+    "dll_unloaded": true,
+    "teardown_done": true
+  },
+  "debug_regs_at_fire": {
+    "Dr0": "0x0",
+    "Dr1": "0x0",
+    "Dr2": "0x0",
+    "Dr3": "0x0",
+    "Dr6": "0x0",
+    "Dr7": "0x0"
+  },
+  "debug_regs_before": {
+    "Dr0": "0x0",
+    "Dr1": "0x0",
+    "Dr2": "0x0",
+    "Dr3": "0x0",
+    "Dr6": "0x0",
+    "Dr7": "0x0"
+  },
+  "fired": true,
+  "gamethread": {
+    "detail": {
+      "e1": 16936,
+      "e2": 16936,
+      "earliest": 16936,
+      "entry_match": [
+        16936
+      ],
+      "entry_va": 140702117583504,
+      "named_gamethread": [
+        16936
+      ],
+      "tids_total": 66
+    },
+    "e1": 16936,
+    "e2": 16936,
+    "tid": 16936
+  },
+  "handler_self_cleared": true,
+  "hit": {
+    "hit_count": 1,
+    "hit_qpc": 241692957624,
+    "hit_return_addr": "0x7ff7c11a8e1c",
+    "hit_return_in_text": true,
+    "hit_rip": "0x7ff7bf1cc1f0",
+    "hit_tid": 16936
+  },
+  "negative_control_n1": {
+    "distinguished": true,
+    "gamethread_tid": 16936,
+    "self_done": 1,
+    "self_rsp": "0x688a0ffab0",
+    "self_tid": 7248
+  },
+  "negative_control_n3": {
+    "hit_count": 0,
+    "hit_tid_sentinel": true
+  },
+  "outcome": "GT-01 PASS: callback fired on GameThread tid=16936",
+  "pid": 11616,
+  "run_note": [
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "trap_addr=0x7ff7bf1cc1f0 (base 0x7ff7bdf20000 + RVA 0x12ac1f0); .text [0x7ff7bdf21000,0x7ff7c3ceaa9c); entry_rva=0x5cada90",
+    "enumerated 66 threads for pid 11616",
+    "E1 (GetThreadDescription=='GameThread'): 16936",
+    "E2 (initial thread / entry-point 0x7ff7c3bcda90): earliest=16936 entry_match=[16936] => 16936",
+    "GameThread TID = 16936 (E1==16936, E2==16936)",
+    "GameThread TEB=0x68ece6c000 StackBase=0x68edb80000 DeallocationStack=0x68ed000000 (tid=16936)",
+    "N2 pre-arm debug regs: {'Dr0': 0, 'Dr1': 0, 'Dr2': 0, 'Dr3': 0, 'Dr6': 0, 'Dr7': 0}",
+    "probe_gt01.cpp compiled cleanly",
+    "VEH installed in target",
+    "N1: self_tid=7248 (GT=16936) distinguished=True",
+    "ARMED Dr0=0x7ff7bf1cc1f0 Dr7=0x1 (readback)",
+    "FIRED count=1 tid=16936 rip=0x7ff7bf1cc1f0 ret=0x7ff7c11a8e1c in_text=True",
+    "handler_self_cleared=True (Dr0=0x0 at fire, pre-external-disarm)",
+    "disarmed: Dr0=0x0 Dr7=0x0"
+  ],
+  "teb_fingerprint": {
+    "deallocation_stack": "0x68ed000000",
+    "stack_base": "0x68edb80000",
+    "teb": "0x68ece6c000",
+    "tid_from_tbi": "0x4228"
+  },
+  "text_bounds": [
+    "0x7ff7bdf21000",
+    "0x7ff7c3ceaa9c"
+  ],
+  "trap_addr": "0x7ff7bf1cc1f0",
+  "verdict": "PASS"
+}

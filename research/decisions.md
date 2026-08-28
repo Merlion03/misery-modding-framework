@@ -1082,12 +1082,12 @@ UE 5.4.4 / CL 35576357 для `cook` / `stage` / `package` **исследова�
 | constraints              | Только текущая точная сборка; ровно один callback; callback делает только POD-записи (ноль UObject/ProcessEvent/load); Dr0 ставится один раз, чистится в handler и подтверждается внешне; VEH снимается (`Teardown`); DLL выгружается; установка игры не трогается (игра запущена из read-only Steam-инсталла, всё наше состояние — в injected DLL + одна `VirtualAllocEx` страница). |
 | flags                    | `--arm`, ровно один раз (без него — полный read-only pre-flight + инъекция + N1/N2/N3, ноль записи в debug-регистры) |
 | build_key                | sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331 |
-| verify_install_before    | заполняется инструментом при запуске |
-| verify_install_after     | заполняется инструментом при запуске |
-| run_manifest             | `research/instrument-runs/<timestamp>/manifest.json` — фиксируется при запуске |
+| verify_install_before    | MATCH — 52/52 игровых файла идентичны baseline, 0 находок (после fix `verify_install`: `.claude/` — инфраструктура Claude Code — исключена из поверхности сравнения) |
+| verify_install_after     | MATCH — 52/52 идентичны, 0 находок; ни один игровой файл не затронут между «до» и «после» |
+| run_manifest             | `research/instrument-runs/2026-08-28T135424Z-gt01-armed/manifest.json` |
 | rehearsal                | Механизм отрепетирован end-to-end против безобидного собственного процесса (`rehearse/gt01_rehearse.py` + `gt01_rehearse_target.c`) ДО наведения на игру: инъекция → Init(VEH) → N1 (self_tid≠hot_tid) → arm Dr0 на HotSpot → FIRED count=1, tid и rip верные → Dr0 самоочищен → Teardown → DLL выгружена. `REHEARSAL PASS`. |
-| rollback                 | Dr0/Dr7 очищены в handler (one-shot) и повторно подтверждены нулём внешне; при таймауте — очистка внешне под suspend; VEH снят; DLL выгружена; страница освобождена; процесс игры остаётся запущенным и, кроме единственного trap, невозмущён. |
-| outcome                  | заполняется после запуска; PASS ⇔ count==1 И tid==TID_E1==TID_E2 И Rip==trap_addr И `[Rsp]` в `.text` И N1 различил И cleanup подтверждён (пре-регистрация `research/evidence/GT-01/preregistration.md`). |
+| rollback                 | Dr0/Dr7 очищены в handler (one-shot, подтверждено `handler_self_cleared=true`) и повторно нулём внешне; VEH снят (`teardown_done=true`); DLL выгружена (`dll_unloaded=true`); страница освобождена; процесс игры остался запущен и здоров (~1.76 ГБ working set после единственного trap). |
+| outcome                  | **PASS 2026-08-28** (LOG-0073). `hit_count=1`, `hit_tid=16936`==`TID_E1`==`TID_E2`, `hit_rip=0x7ff7bf1cc1f0`==trap_addr, return-address `0x7ff7c11a8e1c` в `.text` (engine-dispatch), N1 различил (7248≠16936), N2/N3 держались, cleanup подтверждён, установка MATCH до/после. Гейт открыт: выбор carrier фазы-2 — отдельное решение владельца. |
 | oracle                   | `runtime-reflection` + `os-thread-identity` (единственный live one-shot + read-only опрос; адрес `ProcessEvent` унаследован от `binary-analysis`+`runtime-reflection`, LOG-0072, не переустанавливается заново) |
 
 **Пред-регистрация GT-01 фиксирует ДО arming** (`research/evidence/GT-01/preregistration.md`): Method 1 (E1: `GetThreadDescription=="GameThread"`; E2: initial-thread/entry-point) даёт `TID_E1==TID_E2`; N2: debug-регистры GameThread нулевые до arming; N3: страница показывает `count==0`/sentinel tid. После одного trap наблюдается: count, tid, Rip, return-address-в-`.text`, самоочистка.

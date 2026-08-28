@@ -207,7 +207,7 @@
     },
     "ipp_capability_id": {
       "title": "IPP capability id",
-      "description": "One of the six level-2 capabilities of plan.md 8.3 / research/instruments/ipp/README.md, every one of them impossible from outside the process and therefore requiring the plan.md 8.4 escalation record before it may ever appear here: P-01 observe ProcessEvent calls (log of which UFunctions were invoked); P-02 call a safe read-only UFunction to test a hypothesis; P-03 initiate the mount of a test container (only relevant if I-14 showed the build does not auto-discover containers); P-04 load an asset (a LoadObject equivalent); P-05 spawn a test Actor; P-06 verify inheritance and native-member access work correctly on a cooked Blueprint from an external container (M5c / E-3b). This enum is the closed vocabulary; a value outside it is not a level-2 capability, and plan.md 8.4 condition 5 requires that only the minimum necessary subset of it ever be enabled at once.",
+      "description": "One of the level-2 capabilities of plan.md 8.3 / research/instruments/ipp/README.md, every one of them impossible from outside the process and therefore requiring the plan.md 8.4 escalation record before it may ever appear here: P-01 observe ProcessEvent calls (log of which UFunctions were invoked); P-02 call a safe read-only UFunction to test a hypothesis; P-03 initiate the mount of a test container (only relevant if I-14 showed the build does not auto-discover containers); P-04 load an asset (a LoadObject equivalent); P-05 spawn a test Actor; P-06 verify inheritance and native-member access work correctly on a cooked Blueprint from an external container (M5c / E-3b). GT-01 is a targeted gate capability (research/decisions.md ESC-03): one one-shot execute hardware breakpoint on UObject::ProcessEvent, armed on the GameThread only, to prove one callback of ours can run on the GameThread before any Phase-2 delivery carrier is chosen; it writes zero engine memory (debug registers are per-thread CPU state, cleared in the handler). This enum is the closed vocabulary; a value outside it is not a level-2 capability, and plan.md 8.4 condition 5 requires that only the minimum necessary subset of it ever be enabled at once.",
       "type": "string",
       "enum": [
         "P-01",
@@ -215,7 +215,8 @@
         "P-03",
         "P-04",
         "P-05",
-        "P-06"
+        "P-06",
+        "GT-01"
       ]
     },
     "verify_install_state": {
