@@ -7072,3 +7072,32 @@ question → method → evidence → finding → confidence → persistent artif
 - **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
 - **Supersedes:** — (закрывает carrier gate; делает `FTSTicker` предпочтительным GameThread-carrier и закрывает vtable/detour-ветки ESC-04; HW-BP остаётся research-only GT-01)
 - **Next question:** Спроектировать нормальную очередь dispatcher'а (worker/mod threads → MiseryRuntime queue → FTSTicker callback → GameThread drain) — и лишь ОТДЕЛЬНЫМ решением владельца переходить к фазе-2 (P-04: `MakeSoftObjectPath`→`LoadAsset_Blocking`), которая пока НЕ разрешена.
+
+---
+
+## 2026-08-28 — LOG-0076: MiseryRuntime GameThread Dispatcher — production foundation live-proven на FTSTicker
+
+- **ID:** LOG-0076
+- **Question:** Работает ли минимальный production-shaped GameThread Dispatcher (worker/mod threads → Runtime-owned queue → один persistent FTSTicker pump → GameThread drain) на живой MISERY, с определённым lifecycle (init-once, thread-safe enqueue, bounded drain, nested-policy, explicit Shutdown handshake, безопасная выгрузка), POD-only, без единой UObject/gameplay-операции?
+- **Method:** Два независимых уровня проверки. **(1) Host-side unit tests** (`runtime/tests/dispatcher_host_test.cpp`, MSVC, fake carrier — без UE/игры): duplicate-Initialize fail-closed, unknown-build fail-closed, 800 jobs/4 producers exactly-once + per-producer FIFO + bounded drain, nested-enqueue-на-следующем-тике, post-shutdown reject, drop-on-shutdown. **(2) Live test** (`runtime_controller.py --arm`): MSVC-собранная `MiseryRuntime.dll` (dispatcher + `UE54TickerCarrier` на настоящих UE headers) inject → Init → RunTest (4 producer-потока × 200 POD-jobs) → Shutdown handshake. Все game-side адреса fingerprint-gated И byte-verified live==disk И повторно проверяются DLL (fail-closed). GameThread опознан независимо (E1 `GetThreadDescription`; E2 initial-thread/entry-point).
+- **Evidence:** `docs/gamethread-dispatcher.md`; `runtime/MiseryRuntime/**`, `runtime/tests/dispatcher_host_test.cpp`; `research/instrument-runs/2026-08-28T191959Z-runtime-armed/report.json` (+ verify_install before/after, manifest); host-test PASS.
+- **Finding:**
+  1. **PASS по всей заранее записанной acceptance-цепочке.** `verdict=PASS`.
+  2. **Один persistent pump:** `initialized=1`, ровно один `AddTicker` в `Start()`; jobs идут в Runtime-очередь, не в новые AddTicker.
+  3. **Multi-producer, exactly-once, на GameThread:** `submitted=executed=800`, `dropped=0`, `exactly_once=1`, `all_on_gamethread=1`, `exec_thread_id=15552`==E1==E2; `worker_tids=[16924,18588,4564,18296]` все ≠ 15552.
+  4. **Bounded drain:** `ticks=25` при budget 32 (≈800/32) — per-frame работа ограничена, runaway невозможен.
+  5. **Explicit Shutdown handshake (не sleep):** pump арм-сигналит и возвращает false; при уничтожении ticker-элемента (держащего наш код) на GameThread деструктор functor'а сигналит `WaitFullyStopped`. `wait_stopped_ok=1`, `state=3(kStopped)`, `ticks_after_shutdown_delta=0` — pump не вызывается после shutdown, dangling callback отсутствует.
+  6. **Безопасная выгрузка:** `dll_unloaded=true` после handshake; игра здорова (PID 5636).
+  7. **Установка не затронута:** `verify_install` MATCH до и после (0 находок).
+  8. **Fail-closed на неизвестной сборке доказан host-side** (Test B: неактивный carrier → Initialize false, Enqueue reject) и заложен в live-путь (byte-verify в `Activate()`).
+  9. **Architecture boundary:** Public (`Misery::GameThread`) не экспонирует FTSTicker/RVAs/FMemory/UObject; build-specific — только в `UE54TickerCarrier`.
+  10. **Ничего из фазы-2 не выполнялось:** ноль UObject/`LoadAsset_Blocking`/`ProcessEvent`/content-операций.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.95
+- **Почему именно столько:** двухуровневая проверка (host unit + live), независимая идентификация GameThread, worker≠GameThread, до/после-верификация установки; не 0.97+ — одна машина/сборка/экземпляр.
+- **Claim class:** I
+- **Почему class I:** утверждение о корректном lifecycle-поведении диспетчера (exactly-once, bounded, handshake, no-dangling) — вывод из сопоставления множества наблюдений, не позиционное чтение.
+- **Oracle:** `runtime-reflection`, `binary-analysis`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** — (фиксирует GameThread Dispatcher как production foundation поверх LOG-0075; ничего не отменяет)
+- **Next question:** Отдельным решением владельца — gate для фазы-2 (P-04: `MakeSoftObjectPath`→`LoadAsset_Blocking`), которая пока НЕ разрешена. Диспетчер даёт безопасную GameThread-точку исполнения для будущих job'ов, но UObject/content-операции — отдельная эскалация.

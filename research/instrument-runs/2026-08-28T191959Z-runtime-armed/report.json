@@ -1,0 +1,55 @@
+{
+  "addresses": {
+    "add_ticker": "0x7ff79fe6ded0",
+    "fmemory_malloc": "0x7ff79fecb790",
+    "get_core_ticker": "0x7ff79fe73370"
+  },
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "cleanup": {
+    "dll_unloaded": true
+  },
+  "gamethread_tid": 15552,
+  "outcome": "Dispatcher PASS: 800/800 jobs exactly-once on GameThread tid=15552; shutdown handshake=True; pump stopped=True",
+  "pid": 5636,
+  "result": {
+    "activated": 1,
+    "all_on_gamethread": 1,
+    "dropped": 0,
+    "exactly_once": 1,
+    "exec_thread_id": 15552,
+    "executed": 800,
+    "initialized": 1,
+    "rejected": 0,
+    "state": 3,
+    "submitted": 800,
+    "ticks": 25,
+    "ticks_after_shutdown_delta": 0,
+    "wait_stopped_ok": 1,
+    "worker_tids": [
+      16924,
+      18588,
+      4564,
+      18296,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "run_note": [
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "add_ticker: VA 0x7ff79fe6ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff79fe73370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff79fecb790 byte-verified live==disk (48895c2408574883)",
+    "enumerated 65 threads for pid 5636",
+    "E1 (GetThreadDescription=='GameThread'): 15552",
+    "E2 (initial thread / entry-point 0x7ff7a4bcda90): earliest=15552 entry_match=[15552] => 15552",
+    "GameThread tid=15552",
+    "MiseryRuntime.dll built with MSVC 14.38",
+    "Init rc=0x0",
+    "RunTest rc=0x0",
+    "Shutdown rc=0x0"
+  ],
+  "verdict": "PASS",
+  "workers_distinct_from_gamethread": true
+}

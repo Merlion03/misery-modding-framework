@@ -1,0 +1,22 @@
+{
+  "addresses": {
+    "add_ticker": "0x7ff79fe6ded0",
+    "fmemory_malloc": "0x7ff79fecb790",
+    "get_core_ticker": "0x7ff79fe73370"
+  },
+  "armed": false,
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "gamethread_tid": 15552,
+  "outcome": "DRY RUN: identity + address verify + GameThread id passed.",
+  "pid": 5636,
+  "run_note": [
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "add_ticker: VA 0x7ff79fe6ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff79fe73370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff79fecb790 byte-verified live==disk (48895c2408574883)",
+    "enumerated 65 threads for pid 5636",
+    "E1 (GetThreadDescription=='GameThread'): 15552",
+    "E2 (initial thread / entry-point 0x7ff7a4bcda90): earliest=15552 entry_match=[15552] => 15552",
+    "GameThread tid=15552"
+  ]
+}
