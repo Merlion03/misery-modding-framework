@@ -1,0 +1,92 @@
+{
+  "all_same_build": true,
+  "assertions": {
+    "A2_unchanged_while_running": true,
+    "A_baseline_is_one": true,
+    "B_probe_appeared": true,
+    "B_probe_order_is_101": true,
+    "D_count_back_to_one": true,
+    "D_probe_gone_after_removal": true,
+    "shipped_order_4_throughout": true
+  },
+  "design": "A -> B -> D (symmetric)",
+  "experiment": "CT-03",
+  "preregistration": "research/evidence/CT-03/preregistration.md",
+  "probe_in_mounted_list": {
+    "A": false,
+    "A2": false,
+    "B": true,
+    "D": false
+  },
+  "probe_present_on_disk_at_process_start": {
+    "A": false,
+    "A2": false,
+    "B": true,
+    "D": false
+  },
+  "probe_read_order": {
+    "A": null,
+    "A2": null,
+    "B": 101,
+    "D": null
+  },
+  "process_identity": {
+    "A2_is_the_same_running_process_as_A_with_the_probe_already_on_disk": true,
+    "A_and_A2_share_a_process_by_design": true,
+    "B_is_a_fresh_process": true,
+    "D_is_a_fresh_process": true,
+    "pids": {
+      "A": 2448,
+      "A2": 2448,
+      "B": 4376,
+      "D": 3548
+    }
+  },
+  "recorded_at": "2026-08-28T10:21:15Z",
+  "shipped_read_order": {
+    "A": 4,
+    "A2": 4,
+    "B": 4,
+    "D": 4
+  },
+  "snapshots": {
+    "A": {
+      "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "count": 1,
+      "paks": {
+        "MISERY-Windows.pak": 4
+      },
+      "pid": 2448,
+      "run": "research/instrument-runs/2026-08-28T0915Z-ct03-snapshotA"
+    },
+    "A2": {
+      "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "count": 1,
+      "paks": {
+        "MISERY-Windows.pak": 4
+      },
+      "pid": 2448,
+      "run": "research/instrument-runs/2026-08-28T0940Z-ct03-snapshotA2-after-placement"
+    },
+    "B": {
+      "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "count": 2,
+      "paks": {
+        "CT03Probe20260828_P.pak": 101,
+        "MISERY-Windows.pak": 4
+      },
+      "pid": 4376,
+      "run": "research/instrument-runs/2026-08-28T1000Z-ct03-snapshotB"
+    },
+    "D": {
+      "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "count": 1,
+      "paks": {
+        "MISERY-Windows.pak": 4
+      },
+      "pid": 3548,
+      "run": "research/instrument-runs/2026-08-28T1020Z-ct03-snapshotD-removal"
+    }
+  },
+  "verdict": "PASS"
+}

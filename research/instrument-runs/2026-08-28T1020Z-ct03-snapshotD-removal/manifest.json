@@ -1,0 +1,43 @@
+{
+  "arguments": [
+    "--run-dir",
+    "research/instrument-runs/2026-08-28T1020Z-ct03-snapshotD-removal",
+    "--run-i14"
+  ],
+  "artifacts": [
+    "research/instrument-runs/2026-08-28T1020Z-ct03-snapshotD-removal/i01-process-info.json",
+    "research/instrument-runs/2026-08-28T1020Z-ct03-snapshotD-removal/i14-mounted-paks.json"
+  ],
+  "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "build_key_cross_checked": false,
+  "capabilities_enabled": [
+    "I-01",
+    "I-14"
+  ],
+  "claim_type": "other",
+  "claim_type_note": "a manifest records that a research instrument ran, not a fact about the game; no plan.md 10.5 matrix row describes an instrument-run bookkeeping record (research/schema/instrument-run-manifest.schema.json 'claim_type_note').",
+  "confidence": 0.75,
+  "evidence_level": "OBSERVED",
+  "executed_at": "2026-08-28T10:20:52Z",
+  "identity_self_established": true,
+  "instrument_level": "eri",
+  "known_build": true,
+  "notes": "Written by research/instruments/eri/eri.py (capabilities: I-01, I-14). recorded_at/executed_at are real wall-clock time unless --recorded-at pinned them; --no-timestamp affects only the sibling I-01 output document's own 'recorded_at' field, never this manifest's, because instrument-run-manifest.schema.json requires both to be non-null timestamps at all times.",
+  "oracle": [
+    "runtime-reflection"
+  ],
+  "recorded_at": "2026-08-28T10:20:52Z",
+  "run_id": "2026-08-28T1020Z-ct03-snapshotD-removal",
+  "sources": [
+    {
+      "method": "I-01"
+    },
+    {
+      "method": "I-14"
+    }
+  ],
+  "tool_version": "0.1.0",
+  "verify_install_after": null,
+  "verify_install_before": null
+}
