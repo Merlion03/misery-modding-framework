@@ -1,0 +1,10 @@
+{
+  "base_address_hex": "0x7ff7ac4a0000",
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+  "image_size_bytes": 138403840,
+  "note": "Process identity half of CT-03 snapshot A. Recorded so snapshot B can be proven to be a DIFFERENT process (new pid) of the SAME build -- without that, a difference between A and B could be a build change rather than the probe being mounted.",
+  "phase": "A-baseline-process-identity",
+  "pid": 2448,
+  "recorded_at": "2026-08-28T09:08:17Z"
+}
