@@ -1,0 +1,36 @@
+{
+  "record": "LOG-0074 (carrier gate address derivation)",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "image_base": "0x140000000",
+  "method": "string-anchor xref + capstone disasm; fingerprint-gated (build hash asserted before read); no guessed RVA",
+  "addresses": {
+    "FTSTicker::AddTicker": {
+      "rva": "0xf4ded0",
+      "provenance": "3 name-literal anchors (RetirePakReaders, FBackgroundableTicker, InterchangeManagerTickHandle) each LEA the wide name then `call 0xf4ded0`",
+      "abi": "member fn with sret: RCX=&FTSTicker(this), RDX=&sret(FDelegateHandle out), R8=const TCHAR* InName, XMM3=float InDelay, [stack 5th]=TFunction<bool(float)>* Function"
+    },
+    "GetCoreTicker": {
+      "rva": "0xf53370",
+      "provenance": "InterchangeManagerTickHandle site calls it then AddTicker; body returns function-local-static &TheTicker (TLS-guarded init)",
+      "abi": "()->FTSTicker& in RAX"
+    },
+    "FMemory::Malloc": {
+      "rva": "0xfab790",
+      "provenance": "AddTicker allocates the 40-byte FElement via the Malloc16 wrapper 0x143f013a0 which tail-jumps here; FBackgroundableTicker site also calls it (size=24,align=8). Body loads GMalloc and tail-jmp [vtable+0x28].",
+      "abi": "(RCX=SIZE_T Count, RDX=uint32 Alignment)->void*"
+    },
+    "GMalloc_global": {
+      "rva": "0x65f0030",
+      "provenance": "RIP-relative operand in FMemory::Malloc (0xfab79f mov rcx,[rip+0x69b488a]); FMalloc::Malloc = GMalloc->vtable[0x28/8=slot5]"
+    },
+    "Malloc16_wrapper": {
+      "rva": "0x143f013a0-0x140000000=0x3f013a0",
+      "note": "sets align=16, min size 1, tail-jmp FMemory::Malloc; the exact allocator AddTicker uses for the element"
+    }
+  },
+  "clean_path": "AddTicker overload 2 (name, delay, TFunction). TFunction<bool(float)> from a captureless callable stores INLINE (NUM_TFUNCTION_INLINE_BYTES=32 engine default; game builds it inline on the stack, confirmed by disasm). Our injected MSVC DLL needs to forward ONLY FMemory::Malloc to the game's 0xfab790 (referenced by TFunction_CopyableOwnedObject::CloneToEmptyStorage; game heap-owns+frees the element, we don't). GenerateNewID is done inline by AddTicker (lock xadd). No Free/Realloc needed by our code.",
+  "abi_assumptions_to_still_confirm_live": [
+    "AddTicker is safe to call off-GameThread (enqueues to MpscQueue AddedElements -> 0xf4a600); the survey asserted TMpscQueue; will be validated by the callback firing on the GameThread without corruption.",
+    "sret FDelegateHandle size: provide a generous (>=16B) sret buffer and ignore the return -> size ambiguity is non-blocking."
+  ]
+}
