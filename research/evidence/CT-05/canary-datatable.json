@@ -1,0 +1,48 @@
+{
+  "canary_row": {
+    "MirrorEntryType": "Curve(==2, default is Bone==0)",
+    "MirroredName": "CT05MIRROR",
+    "Name": "CT05CANARY8F4A2E1C",
+    "row_key": "CT05Row"
+  },
+  "container_trio": {
+    "MiseryModKit_P.pak": {
+      "sha256": "03f488fe1adf75b220880bdff61bfe818931f3d016d1ad24909104acbf2541b6",
+      "size": 747
+    },
+    "MiseryModKit_P.ucas": {
+      "sha256": "2d635042651b6346b045218cebbce002c9e2ccab488d22ea1c50e8af2ed8739f",
+      "size": 480
+    },
+    "MiseryModKit_P.utoc": {
+      "sha256": "d18e1499c9efd207b4c8ac09002f75b2e3ede23c0447c7108244100d42075ef5",
+      "size": 387
+    }
+  },
+  "engine": {
+    "changelist": 35576357,
+    "version": "5.4.4"
+  },
+  "package": {
+    "class": "UDataTable",
+    "package_id": "0xf6620d12509f26d7",
+    "package_id_unchanged_from_curvefloat_version": true,
+    "path": "/Game/ModKit/MK_Canary",
+    "row_struct": "FMirrorTableRow"
+  },
+  "recorded_at": "2026-08-28T11:15:51Z",
+  "reproduction": {
+    "asset": "workspace/modkit/scripts/make_canary_datatable.py",
+    "note": "cook + IoStore container + pak steps identical to build_modkit.cmd; cook output and scripts live in workspace/ (gitignored) per D-10 condition 7."
+  },
+  "tooling_note_logging": "In UnrealEditor-Cmd -run=PythonScript -nullrhi -unattended, LogPython at Display verbosity is suppressed; only Warning+ surfaces to the captured log. Use unreal.log_warning to see results. Cost two blind runs before this was isolated.",
+  "verification_offline": {
+    "canary_strings_in_authored_uasset": true,
+    "canary_strings_in_container_ucas": true,
+    "canary_strings_in_cooked_uasset": true,
+    "global_utoc_shipped": false,
+    "our_pak_parser_verdict": "NO_ENTRY_ENCRYPTED, probes agree",
+    "package_id_present_in_utoc": true
+  },
+  "what": "CT-05 canary swapped from empty UCurveFloat to UDataTable with a verifiable row"
+}
