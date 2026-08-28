@@ -1,0 +1,95 @@
+{
+  "record": "P-04 content-depth",
+  "verdict": "PASS",
+  "source_run": "research/instrument-runs/2026-08-28T205645Z-p04-content",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "tmap_layout_measured_msvc1438_genuine_headers": {
+    "sizeof_TMap_FName_uint8ptr": 80,
+    "sizeof_TPair": 16,
+    "sizeof_TSetElement": 24,
+    "sizeof_TSparseArray": 56,
+    "sizeof_TBitArray": 32,
+    "sizeof_TArray_header": 16,
+    "sizeof_TObjectPtr": 8,
+    "sizeof_FSetElementId": 4,
+    "alignof_TSetElement": 8
+  },
+  "derived_offsets": {
+    "UDataTable.RowStruct": 40,
+    "UDataTable.RowMap": 48,
+    "TMap->TSet->TSparseArray": "each at +0 (first member)",
+    "TSparseArray.Data": 0,
+    "TSparseArray.AllocationFlags": 16,
+    "TSparseArray.FirstFreeIndex": 48,
+    "TSparseArray.NumFreeIndices": 52,
+    "TArray.Data": 0,
+    "TArray.ArrayNum": 8,
+    "TArray.ArrayMax": 12,
+    "TBitArray.inline": 0,
+    "TBitArray.secondary": 16,
+    "TBitArray.NumBits": 24,
+    "TBitArray.MaxBits": 28,
+    "element_stride": 24,
+    "element.key": 0,
+    "element.value": 8
+  },
+  "offset_derivation": "member sizes sum EXACTLY to sizeof at every layer (16+32+4+4=56; 56+16+4=80 padded; 8+4+4=16), so there is no padding and offsets are forced prefix sums",
+  "host_validation": "PASS - external traversal reproduced a real UE TMap exactly across empty / one element / fifty / sparse holes after removals / free-slot reuse / 400 with holes using secondary bit storage",
+  "live_result": {
+    "address_hex": "0x1e0cdc6c640",
+    "class_name": "DataTable",
+    "class_path": "/Script/Engine.DataTable",
+    "missing_row_found": false,
+    "name": "MK_Canary",
+    "object_path": "/Game/ModKit/MK_Canary.MK_Canary",
+    "package_object_path": null,
+    "present": true,
+    "row_names": [
+      "CT05Row"
+    ],
+    "rowmap": {
+      "allocated_rows": 1,
+      "array_num": 1,
+      "bit_storage": "inline",
+      "data_ptr_hex": "0x1e15743c520",
+      "num_bits": 1
+    },
+    "rows": [
+      {
+        "fields": {
+          "MirrorEntryType": 2,
+          "MirroredName": "CT05MIRROR",
+          "Name": "CT05CANARY8F4A2E1C"
+        },
+        "row_name": "CT05Row",
+        "value_ptr_hex": "0x1e1f6789a20"
+      }
+    ],
+    "rowstruct_fields": {
+      "MirrorEntryType": {
+        "offset": 24,
+        "property_class": "FByteProperty",
+        "size": 1
+      },
+      "MirroredName": {
+        "offset": 16,
+        "property_class": "FNameProperty",
+        "size": 8
+      },
+      "Name": {
+        "offset": 8,
+        "property_class": "FNameProperty",
+        "size": 8
+      }
+    },
+    "rowstruct_name": "MirrorTableRow",
+    "rowstruct_offset": 40,
+    "rowstruct_ptr_hex": "0x1e0a6465c80"
+  },
+  "negative_controls": {
+    "nonexistent_row_CT05_NO_SUCH_ROW_found": false,
+    "nonexistent_asset_load_returned": 0,
+    "allocated_rows_equals_array_num": true
+  },
+  "no_writes": "strictly read-only external memory reads; no code executed in the target for the inspection"
+}

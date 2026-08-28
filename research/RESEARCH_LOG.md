@@ -7131,3 +7131,31 @@ question → method → evidence → finding → confidence → persistent artif
 - **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
 - **Supersedes:** закрывает open point CT-05/LOG-0070 («resolvable but unreferenced») — теперь resolution и load доказаны напрямую, а не выведены из `IoContainerHeader != null`.
 - **Next question:** Отдельное решение владельца. P-04 core закрыт; content-depth (row/value) требует доказательства layout `TMap` — отдельный узкий gate. Item/recipe registration, CR-01 additive registry, BP:AActor, E-3b/E-3c — не начинались и требуют отдельной авторизации.
+
+---
+
+## 2026-08-28 — P-04 CONTENT-DEPTH PASS: RowMap прочитан read-only до значений канарейки; CT-05 закрыт
+
+- **ID:** LOG-0078
+- **Question:** Можно ли read-only прочитать уже загруженный `MK_Canary` вплоть до содержимого строки — `RowStruct == MirrorTableRow` → строка `CT05Row` → маркер `CT05CANARY8F4A2E1C` → `MirrorEntryType == Curve/2`? Это закрывало последний открытый пункт P-04 (LOG-0077, content-depth = PENDING из-за недоказанного layout `TMap`).
+- **Method:** Три уровня, ни одного угаданного offset'а. **(1) Layout gate:** все размеры слоёв измерены компилятором из **настоящих** UE 5.4.4 headers (MSVC 14.38): `sizeof(TMap<FName,uint8*>)=80`, `TPair=16`, `TSetElement=24`, `TSparseArray=56`, `TBitArray=32`, `TArray`-заголовок`=16`, `TObjectPtr=8`, `FSetElementId=4`. Порядок членов взят из исходника (`Map.h:879`; `Set.h:1412-1415`; `SparseArray.h:1117-1126`; `Array.h:3231-3233`). Размеры членов на каждом слое суммируются **точно** в `sizeof`, поэтому padding'а нет и offset'ы вынуждены как префиксные суммы. `UDataTable::RowMap` = 48: `RowStruct` на 40 (OBSERVED через reflection) + `sizeof(TObjectPtr)=8`, т.к. `RowMap` объявлен непосредственно следом (`DataTable.h:85,89`) и **не** является UPROPERTY. **(2) Host validation:** внешний обход по этим offset'ам сверен с настоящим UE `TMap` (layout-идентичный stand-in) на случаях empty / 1 / 50 / разрежённость после удалений / переиспользование free-slot / 400 элементов с дырами и **secondary** bit-storage — совпадение полное, неаллоцированные слоты не считаются элементами. **(3) Live read:** строго read-only внешние чтения (никакого исполнения кода в игре для инспекции), в том же окне сразу после штатной загрузки.
+- **Evidence:** `research/evidence/P-04/content-depth.json`; `research/evidence/P-04/tmap_host_validation.cpp`; `tools/reflection/read_datatable_rows.py`; `research/instrument-runs/2026-08-28T205645Z-p04-content/report.json`.
+- **Finding:**
+  1. **PASS по всей заранее записанной цепочке.**
+  2. `object_path = /Game/ModKit/MK_Canary.MK_Canary`, `class = DataTable`, `RowStruct = MirrorTableRow`.
+  3. **RowMap обойдён:** `array_num=1`, `num_bits=1`, `allocated_rows=1`, `bit_storage=inline`.
+  4. **Строка найдена:** `CT05Row`.
+  5. **Значения канарейки совпали точно** (offset'ы полей взяты из reflection `MirrorTableRow`, не угаданы): `Name = CT05CANARY8F4A2E1C` (`FNameProperty` @8), `MirroredName = CT05MIRROR` (`FNameProperty` @16), `MirrorEntryType = 2` (`FByteProperty` @24) — то есть `Curve`, недефолтное значение (дефолт `Bone=0`), что доказывает **десериализацию наших данных**, а не инициализацию по умолчанию.
+  6. **Negative controls отработали:** несуществующая строка `CT05_NO_SUCH_ROW` не найдена; `allocated_rows == array_num` (дыр нет, как и ожидалось для таблицы из одной строки); повторный negative-control загрузки (`CT05_DOES_NOT_EXIST`) снова вернул null.
+  7. **Побочная находка (важная для будущей архитектуры):** между запусками объект **исчез — его собрал GC**. `LoadAsset_Blocking` возвращает объект, но **не удерживает** сильную ссылку, поэтому неотреференсенный ассет собирается сборщиком. Поэтому чтение выполняется в том же окне сразу после загрузки. Это подтверждает и уточняет находку CT-05: без ссылки контент не живёт.
+  8. **P-04 воспроизведён независимо:** сам core-путь дал `PASS` ещё дважды в этой серии — не единичный результат.
+  9. **Установка не затронута:** `verify_install` MATCH до и после (0 находок). Игра жива и здорова (PID 5636).
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.95
+- **Почему именно столько:** значения прочитаны напрямую и совпали побайтово с заранее записанной канарейкой, алгоритм обхода независимо провалидирован на настоящем контейнере, offset'ы выведены из измеренных размеров, а не угаданы; не 0.97+ — одна машина/сборка/экземпляр.
+- **Claim class:** I
+- **Почему class I:** утверждение «этот `TMap` обойдён корректно и прочитанные байты суть наши cooked-значения» — вывод из сопоставления layout-измерений, host-валидации и живого чтения.
+- **Oracle:** `runtime-reflection`, `binary-analysis`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** снимает `content-depth = PENDING` из LOG-0077 и **закрывает CT-05** целиком: внешний cooked IoStore → mount → PackageStore resolution → UObject construction → корректно десериализованные данные.
+- **Next question:** Отдельное решение владельца: архитектура CR-01 additive item/content registration. Здесь ничего из регистрации/мутаций не делалось.

@@ -272,8 +272,44 @@ def inspect_result(api, handle, base, size, obj_ptr, run_note):
             if cr.get("name_text") == "Package":
                 pkg = eri.resolve_object_path(a, objs).get("object_path")
     out["package_object_path"] = pkg
-    run_note.append("loaded object: path=%s class=%s rowstruct=%s"
-                    % (out.get("object_path"), out.get("class_name"), out.get("rowstruct_name")))
+    # ---- content depth: traverse RowMap and read the canary fields, read-only,
+    # in THIS same window (the object is unreferenced and GC-collectable, so a
+    # second process would race a collection).
+    try:
+        sys.path.insert(0, os.path.join(REPO_ROOT, "tools", "reflection"))
+        import read_datatable_rows as rdr
+        rows, diag = rdr.read_rowmap(api, handle, obj_ptr)
+        out["rowmap"] = diag
+        rs_ptr = eri._read_u64(api, handle, obj_ptr + rdr.OFF_ROWSTRUCT)
+        fields = rdr.struct_fields(api, handle, np, rs_ptr) if rs_ptr else {}
+        out["rowstruct_fields"] = fields
+        decoded = []
+        for cmp_index, number, vptr in rows:
+            t = eri.decode_fname_entry_id(api, handle, np, cmp_index).get("text")
+            nm = "%s_%d" % (t, number - 1) if number else t
+            entry = {"row_name": nm, "value_ptr_hex": "0x%x" % vptr, "fields": {}}
+            for fn, meta in fields.items():
+                off, sz, pc = meta["offset"], meta["size"], meta["property_class"]
+                if off is None or not vptr:
+                    continue
+                raw = api.read_process_memory(handle, vptr + off, sz)
+                if pc == "FNameProperty" and sz >= 8:
+                    ci2, nu2 = struct.unpack("<II", raw[:8])
+                    t2 = eri.decode_fname_entry_id(api, handle, np, ci2).get("text")
+                    entry["fields"][fn] = "%s_%d" % (t2, nu2 - 1) if nu2 else t2
+                elif pc in ("FByteProperty", "FEnumProperty") and sz >= 1:
+                    entry["fields"][fn] = raw[0]
+                else:
+                    entry["fields"][fn] = raw.hex()
+            decoded.append(entry)
+        out["rows"] = decoded
+        out["row_names"] = [r["row_name"] for r in decoded]
+        out["missing_row_found"] = "CT05_NO_SUCH_ROW" in out["row_names"]
+    except Exception as exc:  # noqa: BLE001
+        out["rowmap_error"] = str(exc)
+    run_note.append("loaded object: path=%s class=%s rowstruct=%s rows=%s"
+                    % (out.get("object_path"), out.get("class_name"),
+                       out.get("rowstruct_name"), out.get("row_names")))
     return out
 
 

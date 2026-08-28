@@ -1,0 +1,16 @@
+{
+  "base_address_decimal": 140701500309504,
+  "base_address_hex": "0x7ff79ef20000",
+  "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "build_key_cross_checked": false,
+  "capability": "I-01",
+  "generator": "research/instruments/eri/eri.py",
+  "generator_version": "0.1.0",
+  "identity_self_established": true,
+  "image_size_bytes": 138403840,
+  "known_build": true,
+  "pid": 5636,
+  "process_name": "MISERY-Win64-Shipping.exe",
+  "recorded_at": "2026-08-28T20:55:41Z"
+}
