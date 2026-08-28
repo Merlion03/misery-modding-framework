@@ -1,0 +1,623 @@
+{
+  "content": {
+    "cooked_asset_count": 0,
+    "cooked_asset_extensions_looked_for": [
+      ".uasset",
+      ".uexp",
+      ".umap",
+      ".ubulk",
+      ".uptnl",
+      ".usmap",
+      ".ushaderbytecode",
+      ".utoc",
+      ".ucas"
+    ],
+    "cooked_assets_found": [],
+    "distinct_directories_containing_files": 1,
+    "extension_histogram": [
+      {
+        "bytes": 56,
+        "extension": ".txt",
+        "files": 1
+      }
+    ],
+    "path_depth_histogram": {
+      "1": 1
+    },
+    "top_level_roots": [
+      {
+        "bytes": 56,
+        "files": 1,
+        "root": ""
+      }
+    ]
+  },
+  "decoded_evidence": {
+    "claim_class": "I",
+    "confidence": 0.9,
+    "evidence_level": "INFERRED",
+    "note": "Class I: these fields name what the bytes ARE and rest on an external layout, so they are capped below the literal layer whatever the offsets are. The primitive half is in literal_reads[]. Two independent methods: (1) the field order and every mask read from the first-party UE 5.4.4 source at the build's own changelist, cited per field; (2) the file's own packed layout plus the independent copy of the flags byte in each local entry header, neither of which reads the index bitfield. The two agree: 0 of 1 entries carry Flag_Encrypted in the index, the layout probe returns SUPPORTS_PLAINTEXT, and the local-header probe found 0 disagreements.",
+    "oracle": [
+      "container-metadata",
+      "external-doc"
+    ],
+    "read_locus": null,
+    "sources": [
+      {
+        "artifact": null,
+        "locator": "FPakFile::DecodePakEntry / FPakFile::LoadIndexInternal",
+        "method": "CK-01 pak index decode",
+        "note": "oracle external-doc: the field order and every mask come from the first-party UE 5.4.4 source tree at the changelist this build was made from, cited to file and line in the module docstring of tools/content/pak_index.py and again at the point of use in the decoder."
+      },
+      {
+        "artifact": null,
+        "independent_of": [
+          "CK-01 pak index decode"
+        ],
+        "locator": "probes.layout_probe / probes.local_header_probe",
+        "method": "CK-01 packed-layout and local-header probes",
+        "note": "oracle container-metadata. Second, independent method: the file's own packed layout and the independent copy of the flags byte in each local entry header, neither of which consults the index bitfield."
+      }
+    ]
+  },
+  "engine_source": {
+    "citation_files": [
+      "Engine/Source/Runtime/PakFile/Public/IPlatformFilePak.h",
+      "Engine/Source/Runtime/PakFile/Private/IPlatformFilePak.cpp"
+    ],
+    "note": "every field and every mask in this document is cited to file and line in the module docstring of tools/content/pak_index.py and again at the point of use in the decoder."
+  },
+  "entries": {
+    "compression_block_count_histogram": {
+      "0": 1
+    },
+    "compression_method_index_histogram": {
+      "0": 1
+    },
+    "decoded": 1,
+    "encrypted": 0,
+    "encrypted_flag_source": "bit 22 of the encoded flag word, IPlatformFilePak.cpp:7174, which sets FPakEntry::Flag_Encrypted == 0x01, IPlatformFilePak.h:382",
+    "largest": [
+      {
+        "encrypted": false,
+        "path": "/ct05_probe.txt",
+        "size": 56,
+        "uncompressed_size": 56
+      }
+    ],
+    "total_size_bytes": 56,
+    "total_uncompressed_size_bytes": 56,
+    "unencrypted": 1,
+    "unresolved_locations": []
+  },
+  "footer": {
+    "compression_methods": [],
+    "encrypted_index": false,
+    "encryption_key_guid": "00000000000000000000000000000000",
+    "index_offset": 109,
+    "index_sha1": "1dbdd9cb91be334ccae6e4417bd610f666656ee0",
+    "index_size": 146,
+    "magic": "0x5a6f12e1",
+    "offset": 312,
+    "size": 221,
+    "version": 11
+  },
+  "generated_at": "2026-08-28T08:27:09Z",
+  "generator": {
+    "name": "tools/content/pak_index.py",
+    "version": "1.0.0"
+  },
+  "index": {
+    "directory_index": {
+      "bytes_available": 37,
+      "bytes_consumed": 37,
+      "directory_count": 1,
+      "file_count": 1,
+      "fully_consumed": true
+    },
+    "encoded_entries_length": 12,
+    "full_directory_index": {
+      "offset": 275,
+      "sha1": "2ea3044efe13b39187b40c58f68099f424bbae9b",
+      "size": 37
+    },
+    "mount_point": "../../../MISERY/Content/CT05/",
+    "num_entries_declared": 1,
+    "path_hash_index": {
+      "offset": 255,
+      "sha1": "717f4976649ab8c40dabda92b174ee8c05561e49",
+      "size": 20
+    },
+    "path_hash_seed": "0x000000005b11b820",
+    "primary_index_fully_consumed": true,
+    "unencodable_files_count": 0
+  },
+  "literal_reads": [
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+      "claim": "16 bytes at offset 312 of ct05_ref.pak are 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+      "decoded_field": "encryption_key_guid",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "16 bytes at offset 312 of ct05_ref.pak are 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "length": 16,
+          "note": "inside the 221-byte v11 pak footer at 312",
+          "offset": 312,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@312+16",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 16,
+      "offset": 312,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "00",
+      "claim": "1 byte at offset 328 of ct05_ref.pak are 00",
+      "decoded_field": "encrypted_index",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "1 byte at offset 328 of ct05_ref.pak are 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00",
+          "length": 1,
+          "note": "inside the 221-byte v11 pak footer at 312",
+          "offset": 328,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@328+1",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 1,
+      "offset": 328,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "e1 12 6f 5a",
+      "claim": "4 bytes at offset 329 of ct05_ref.pak are e1 12 6f 5a",
+      "decoded_field": "magic",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 329 of ct05_ref.pak are e1 12 6f 5a. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "e1 12 6f 5a",
+          "length": 4,
+          "note": "inside the 221-byte v11 pak footer at 312",
+          "offset": 329,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@329+4",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 4,
+      "offset": 329,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "0b 00 00 00",
+      "claim": "4 bytes at offset 333 of ct05_ref.pak are 0b 00 00 00",
+      "decoded_field": "pak_version",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "4 bytes at offset 333 of ct05_ref.pak are 0b 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "0b 00 00 00",
+          "length": 4,
+          "note": "inside the 221-byte v11 pak footer at 312",
+          "offset": 333,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@333+4",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 4,
+      "offset": 333,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "6d 00 00 00 00 00 00 00",
+      "claim": "8 bytes at offset 337 of ct05_ref.pak are 6d 00 00 00 00 00 00 00",
+      "decoded_field": "index_offset",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 337 of ct05_ref.pak are 6d 00 00 00 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "6d 00 00 00 00 00 00 00",
+          "length": 8,
+          "note": "inside the 221-byte v11 pak footer at 312",
+          "offset": 337,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@337+8",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 8,
+      "offset": 337,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "92 00 00 00 00 00 00 00",
+      "claim": "8 bytes at offset 345 of ct05_ref.pak are 92 00 00 00 00 00 00 00",
+      "decoded_field": "index_size",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "8 bytes at offset 345 of ct05_ref.pak are 92 00 00 00 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "92 00 00 00 00 00 00 00",
+          "length": 8,
+          "note": "inside the 221-byte v11 pak footer at 312",
+          "offset": 345,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@345+8",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 8,
+      "offset": 345,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "1d bd d9 cb 91 be 33 4c ca e6 e4 41 7b d6 10 f6 66 65 6e e0",
+      "claim": "20 bytes at offset 353 of ct05_ref.pak are 1d bd d9 cb 91 be 33 4c ca e6 e4 41 7b d6 10 f6 66 65 6e e0",
+      "decoded_field": "index_hash",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "20 bytes at offset 353 of ct05_ref.pak are 1d bd d9 cb 91 be 33 4c ca e6 e4 41 7b d6 10 f6 66 65 6e e0. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "1d bd d9 cb 91 be 33 4c ca e6 e4 41 7b d6 10 f6 66 65 6e e0",
+          "length": 20,
+          "note": "inside the 221-byte v11 pak footer at 312",
+          "offset": 353,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@353+20",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 20,
+      "offset": 353,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "01 00 00 00 02 00 00 00 2f 00 01 00 00 00 0f 00 00 00 63 74 30 35 5f 70 72 6f 62 65 2e 74 78 74",
+      "claim": "32 bytes at offset 275 of ct05_ref.pak are 01 00 00 00 02 00 00 00 2f 00 01 00 00 00 0f 00 00 00 63 74 30 35 5f 70 72 6f 62 65 2e 74 78 74",
+      "decoded_field": "full_directory_index_head",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "32 bytes at offset 275 of ct05_ref.pak are 01 00 00 00 02 00 00 00 2f 00 01 00 00 00 0f 00 00 00 63 74 30 35 5f 70 72 6f 62 65 2e 74 78 74. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "01 00 00 00 02 00 00 00 2f 00 01 00 00 00 0f 00 00 00 63 74 30 35 5f 70 72 6f 62 65 2e 74 78 74",
+          "length": 32,
+          "note": "the leading bytes of the range the footer chain names at 275",
+          "offset": 275,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@275+32",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 32,
+      "offset": 275,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 e0 00 00 00 00 38 00 00 00",
+      "claim": "12 bytes at offset 239 of ct05_ref.pak are 00 00 00 e0 00 00 00 00 38 00 00 00",
+      "decoded_field": "encoded_entry_record",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "12 bytes at offset 239 of ct05_ref.pak are 00 00 00 e0 00 00 00 00 38 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 e0 00 00 00 00 38 00 00 00",
+          "length": 12,
+          "note": "one record inside the range the footer chain names at 239",
+          "offset": 239,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@239+12",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 12,
+      "offset": 239,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    },
+    {
+      "bytes_hex": "00 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00 7c 83 a0 fb f2 27 4c 33 ba 7d 5a ac c3 37 fd a6 29 ca cf fe 00 00 00 00 00",
+      "claim": "53 bytes at offset 0 of ct05_ref.pak are 00 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00 7c 83 a0 fb f2 27 4c 33 ba 7d 5a ac c3 37 fd a6 29 ca cf fe 00 00 00 00 00",
+      "decoded_field": "entry_local_header",
+      "evidence": {
+        "claim_class": "P",
+        "confidence": 0.99,
+        "evidence_level": "OBSERVED",
+        "note": "53 bytes at offset 0 of ct05_ref.pak are 00 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00 7c 83 a0 fb f2 27 4c 33 ba 7d 5a ac c3 37 fd a6 29 ca cf fe 00 00 00 00 00. This record gives the position and the extent, and nothing else. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes.",
+        "oracle": [
+          "container-metadata"
+        ],
+        "read_locus": {
+          "address_kind": "file-offset",
+          "bytes_hex": "00 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00 7c 83 a0 fb f2 27 4c 33 ba 7d 5a ac c3 37 fd a6 29 ca cf fe 00 00 00 00 00",
+          "length": 53,
+          "note": "a 53-byte range beginning at a position the index names",
+          "offset": 0,
+          "target": "ct05_ref.pak"
+        },
+        "sources": [
+          {
+            "artifact": null,
+            "locator": "ct05_ref.pak@0+53",
+            "method": "CK-01 pak index read",
+            "note": "oracle container-metadata. Read by tools/content/pak_index.py, read-only. Reproduction: the same range was read a second time through an independently opened handle and gave the same bytes."
+          }
+        ]
+      },
+      "interpretation_lives_in": "the matching field of index/entries in the same document -- plan.md 10.3, the A-07 / A-07i split",
+      "length": 53,
+      "offset": 0,
+      "reproduced": true,
+      "target": "ct05_ref.pak"
+    }
+  ],
+  "literal_reads_reproduced": true,
+  "payload_policy": "D-02. A payload is read only from an entry whose Flag_Encrypted bit (IPlatformFilePak.h:382, read per IPlatformFilePak.cpp:7174) is CLEAR. No key is derived, searched for or used, and no decryption is attempted. When every entry is encrypted this tool reads no payload at all and reports that as the finding.",
+  "plaintext_proofs": [
+    {
+      "blob": "primary_index",
+      "computed_sha1_of_raw_bytes": "1dbdd9cb91be334ccae6e4417bd610f666656ee0",
+      "footer_encrypted_index_flag": false,
+      "length": 146,
+      "reasoning": "bEncryptedIndex is 0 and SHA1 over the 146 bytes as they sit on disk equals the hash stored for this blob, so DecryptAndValidateIndex (IPlatformFilePak.cpp:6489-6500) would take its no-decrypt path and accept exactly these bytes. Reading them is therefore reading plaintext, not decrypting.",
+      "sha1_matches_raw_bytes": true,
+      "stored_sha1": "1dbdd9cb91be334ccae6e4417bd610f666656ee0",
+      "verdict": "PLAINTEXT_PROVEN"
+    },
+    {
+      "blob": "path_hash_index",
+      "computed_sha1_of_raw_bytes": "717f4976649ab8c40dabda92b174ee8c05561e49",
+      "footer_encrypted_index_flag": false,
+      "length": 20,
+      "reasoning": "bEncryptedIndex is 0 and SHA1 over the 20 bytes as they sit on disk equals the hash stored for this blob, so DecryptAndValidateIndex (IPlatformFilePak.cpp:6489-6500) would take its no-decrypt path and accept exactly these bytes. Reading them is therefore reading plaintext, not decrypting.",
+      "sha1_matches_raw_bytes": true,
+      "stored_sha1": "717f4976649ab8c40dabda92b174ee8c05561e49",
+      "verdict": "PLAINTEXT_PROVEN"
+    },
+    {
+      "blob": "full_directory_index",
+      "computed_sha1_of_raw_bytes": "2ea3044efe13b39187b40c58f68099f424bbae9b",
+      "footer_encrypted_index_flag": false,
+      "length": 37,
+      "reasoning": "bEncryptedIndex is 0 and SHA1 over the 37 bytes as they sit on disk equals the hash stored for this blob, so DecryptAndValidateIndex (IPlatformFilePak.cpp:6489-6500) would take its no-decrypt path and accept exactly these bytes. Reading them is therefore reading plaintext, not decrypting.",
+      "sha1_matches_raw_bytes": true,
+      "stored_sha1": "2ea3044efe13b39187b40c58f68099f424bbae9b",
+      "verdict": "PLAINTEXT_PROVEN"
+    }
+  ],
+  "probes": {
+    "encoded_blob_tiling": {
+      "covered_extent": 12,
+      "distinct_locations": 1,
+      "encoded_blob_length": 12,
+      "gaps": 0,
+      "overlaps": 0,
+      "records": 1,
+      "tiles_exactly": true,
+      "what_this_probe_can_refute": "the whole bitfield layout. Wrong field widths cannot tile a blob exactly by accident."
+    },
+    "entry_flag_word_census": {
+      "distinct_flag_words": 1,
+      "flag_words": [
+        {
+          "bit22_encrypted": false,
+          "bit29_size_32bit_safe": true,
+          "bit30_uncompressed_size_32bit_safe": true,
+          "bit31_offset_32bit_safe": true,
+          "bits21_6_compression_block_count": 0,
+          "bits28_23_compression_method_index": 0,
+          "bits5_0_compression_block_size_packed": 0,
+          "compression_method_name": "None (index 0 is NAME_None, never serialized)",
+          "count": 1,
+          "flag_word_hex": "0xE0000000"
+        }
+      ],
+      "footer_compression_methods": [],
+      "refuted": false,
+      "unnameable_compression_method_indices": [],
+      "what_this_probe_can_refute": "a wrong mask. A summary hides a mask error; a census cannot. If the encrypted bit were really the low bit of a wider method field, the method values here would not be nameable from the footer table."
+    },
+    "layout_probe": {
+      "aes_block_size": 16,
+      "consecutive_pairs": 0,
+      "discriminating_gaps_explained_by_padded_model": 0,
+      "discriminating_gaps_explained_by_unpadded_model": 0,
+      "discriminating_pairs": 0,
+      "gaps_explained_by_neither": 0,
+      "gaps_explained_by_nothing": [],
+      "gaps_explained_exactly_by_padded_model": 0,
+      "gaps_explained_exactly_by_unpadded_model": 0,
+      "padded_model_overlaps_a_discriminating_next_entry": 0,
+      "padded_model_overlaps_next_entry": 0,
+      "remaining_gaps_explained_by_next_offset_alignment": {},
+      "tail": {
+        "distinguishes": true,
+        "index_offset": 109,
+        "last_entry_offset": 0,
+        "last_entry_size": 56,
+        "padded_end": 117,
+        "padded_end_meets_index": false,
+        "unpadded_end": 109,
+        "unpadded_end_meets_index": true
+      },
+      "verdict": "SUPPORTS_PLAINTEXT",
+      "what_this_probe_can_refute": "the encrypted verdict, without consulting any flag. An encrypted uncompressed entry occupies Align(Size, 16) bytes on disk and an unencrypted one occupies Size, so the two hypotheses predict different files."
+    },
+    "local_header_probe": {
+      "agree_with_index": 1,
+      "compression_method_index_census": {
+        "0": 1
+      },
+      "disagree_with_index": 0,
+      "disagreements": [],
+      "flag_bit_meaning": "FPakEntry::Flag_Encrypted == 0x01 and Flag_Deleted == 0x02, IPlatformFilePak.h:381-383",
+      "flags_byte_census": {
+        "0x00": 1
+      },
+      "headers_read": 1,
+      "sample_limit": null,
+      "what_this_probe_can_refute": "the index bitfield decode. The local header is a second copy of the same flag, written by a different serializer at a different place in the file; a wrong mask would disagree with it.",
+      "why_these_bytes_are_plaintext": "the packer writes this header with FPakEntry::Serialize and encrypts only the payload buffer (PakFileUtilities.cpp:2736 vs :1057/:1109), and the bytes read here carry Offset 0 and Size/UncompressedSize equal to the index for every header read. Ciphertext would not."
+    }
+  },
+  "readable_within_d02": {
+    "entries_whose_flag_says_plaintext": 1,
+    "note": "No payload byte was read by this run. Under D-02 a payload may be read only from an entry whose Flag_Encrypted bit is clear, and 0 of 1 entries have it set.",
+    "of_those_uncompressed": 1,
+    "paths": [
+      "/ct05_probe.txt"
+    ],
+    "payloads_read_by_this_run": 0
+  },
+  "schema": "pak-index/1",
+  "summary": {
+    "cooked_assets_present": 0,
+    "entries_encrypted": 0,
+    "entries_total": 1,
+    "entries_unencrypted": 1,
+    "layout_probe_verdict": "SUPPORTS_PLAINTEXT",
+    "probes_agree": true,
+    "readable_payload_entries": 1,
+    "verdict": "NO_ENTRY_ENCRYPTED",
+    "what_this_does_not_settle": "whether the cooked packages in the IoStore containers use unversioned property serialization. This pak holds no cooked package at all, so CK-01 cannot be answered from it either way."
+  },
+  "target": {
+    "file_size": 533,
+    "path_relative_to_install": "ct05_ref.pak",
+    "sha256": "4a383f61598b19cb2bfe70f2b8b98d927a6de3e7a51820ee9179d0f3dd91b455"
+  },
+  "warnings": []
+}
