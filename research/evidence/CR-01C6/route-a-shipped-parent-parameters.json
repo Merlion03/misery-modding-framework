@@ -1,0 +1,2860 @@
+{
+  "pid": 14268,
+  "material_instance_classes": [
+    "LandscapeMaterialInstanceConstant",
+    "MaterialInstance",
+    "MaterialInstanceConstant",
+    "MaterialInstanceDynamic"
+  ],
+  "material_instances_scanned": 1817,
+  "distinct_parents": 119,
+  "parents": [
+    {
+      "parent": "M_BlockingMaterial",
+      "parent_class": "Material",
+      "path": "/Game/Stuff/BlockingStarterPack/Materials/Blocking/M_BlockingMaterial.M_BlockingMaterial",
+      "instances": 3,
+      "scalar_params": [
+        "None",
+        "RoughnessMax",
+        "Wire Roughness",
+        "WiresPower"
+      ],
+      "vector_params": [
+        "Color",
+        "Wire Color"
+      ],
+      "texture_params": [
+        "Color Texture",
+        "Mask Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "Color",
+          "Wire Color"
+        ],
+        "metallic": [],
+        "roughness": [
+          "RoughnessMax",
+          "Wire Roughness"
+        ],
+        "emissive": []
+      },
+      "coverage_count": 2
+    },
+    {
+      "parent": "M_BasicColorMaterial",
+      "parent_class": "Material",
+      "path": "/Game/PlayerElectricitySystem/Materials/M_BasicColorMaterial.M_BasicColorMaterial",
+      "instances": 1,
+      "scalar_params": [
+        "Metallic",
+        "None"
+      ],
+      "vector_params": [
+        "Color"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "Color"
+        ],
+        "metallic": [
+          "Metallic"
+        ],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 2
+    },
+    {
+      "parent": "Mat_Boar",
+      "parent_class": "Material",
+      "path": "/Game/SkeletalMeshes/Mutans/PolyArtBoar/Materials/Mat_Boar.Mat_Boar",
+      "instances": 1,
+      "scalar_params": [
+        "Metallic",
+        "None"
+      ],
+      "vector_params": [
+        "Color"
+      ],
+      "texture_params": [
+        "Diffuse"
+      ],
+      "covers": {
+        "basecolor": [
+          "Color"
+        ],
+        "metallic": [
+          "Metallic"
+        ],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 2
+    },
+    {
+      "parent": "M_Mesh_Master",
+      "parent_class": "Material",
+      "path": "/Game/Materials/Master/M_Mesh_Master.M_Mesh_Master",
+      "instances": 569,
+      "scalar_params": [
+        "Alpha Offset",
+        "BlendOpacity",
+        "Breakup Intensity",
+        "Brightness",
+        "Contrast",
+        "Cylinder",
+        "None",
+        "Normal",
+        "Quantize Color",
+        "Reflectivity",
+        "RefractionDepthBias",
+        "Saturation",
+        "Snow Amount",
+        "Snow Glimmer Amount",
+        "Transition Sharpness",
+        "U Tiling"
+      ],
+      "vector_params": [
+        "Snow Base Color",
+        "XYZ Offset",
+        "XYZ Rotation",
+        "XYZ Size"
+      ],
+      "texture_params": [
+        "AlignTexture",
+        "BlendMask",
+        "BlendTexture",
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "Quantize Color",
+          "Snow Base Color"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Foliage_Master",
+      "parent_class": "Material",
+      "path": "/Game/Materials/Master/M_Foliage_Master.M_Foliage_Master",
+      "instances": 27,
+      "scalar_params": [
+        "None",
+        "Quantize Color"
+      ],
+      "vector_params": [
+        "AutumnColor",
+        "Color",
+        "SpringColor",
+        "SummerColor",
+        "WinterDevide"
+      ],
+      "texture_params": [
+        "Texture",
+        "WinterFadeMask",
+        "WinterTexture"
+      ],
+      "covers": {
+        "basecolor": [
+          "AutumnColor",
+          "Color",
+          "Quantize Color",
+          "SpringColor",
+          "SummerColor"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Disto-MASTER",
+      "parent_class": "Material",
+      "path": "/Game/Stuff/SpatialDistortion/DistortionSystem/StaticMesh/Materials/M_Disto-MASTER.M_Disto-MASTER",
+      "instances": 12,
+      "scalar_params": [
+        "None",
+        "TimeSpeed",
+        "Wave Height X Axis",
+        "\u7974\u02c0\u6e49\u5074\u6f72\u6570\u7472y\u0334\u6f42\u6c6f\u7250\u706f\u7265\u7974\u0376\u6c46\u616f\u5074\u6f72\u6570\u7472y\u03b2\u624f\u656a\u7463\u7250\u706f\u7265\u7974\u0304\u614e\u656d\u7250\u706f\u7265\u7974\u042c\u6544\u656c\u6167\u6574\u7250\u706f\u7265\u7974\u0388\u6f44\u6275\u656c\u7250\u706f\u7265\u7974\u036e\u7241\u6172\u5079\u6f72\u6570\u7472y\u03a2\u7453\u7572\u7463\u7250\u706f\u7265\u7974\u0396\u6556\u7463\u726f\u7250\u706f\u7265\u7974\u03ce\u6f52\u6174\u6f74\u5072\u6f72\u6570\u7472y\u02e2\u7453\u5072\u6f72\u6570\u7472y\u030c\u6554\u7478\u7250\u706f\u7265\u7974\u044e\u6e49\u6574\u6672\u6361\u5065\u6f72\u6570\u7472y\u0640\u754d\u746c\u6369\u7361\u4474\u6c65\u6765\u7461\u5065\u6f72\u6570\u7472y\u04b0\u614c\u797a\u624f\u656a\u7463\u7250\u706f\u7265\u7974\u0484\u6f53\u7466\u624f\u656a\u7463\u7250\u706f\u7265\u7974\u036c\u6e49\u3674\u5034\u6f72\u6570\u7472y\u0356\u6e49\u3374\u5032\u6f72\u6570\u7472y\u0348\u6e49\u3174\u5036\u6f72\u6570\u7472y\u032a\u6e49\u3874\u7250\u706f\u7265\u7974\u0388\u4955\u746e\u3436\u7250\u706f\u7265\u7974\u03a8\u4955\u746e\u3233\u7250\u706f\u7265\u7974\u03a0\u4955\u746e\u3631\u7250\u706f\u7265\u7974\u02c8\u614d\u5070\u6f72\u6570\u7472y\u02dc\u6553\u5074\u6f72\u6570\u7472y\u0126\u6f43\u6572\u01ba\u6e45\u6967\u656e\u018a\u6445\u7469\u726f\u02cc\u6f43\u6572\u4f55\u6a62\u6365t\u030c\u6e45\u6d75\u7250\u706f\u7265\u7974\u043a\u704f\u6974\u6e6f\u6c61\u7250\u706f\u7265\u7974\u021e\u7943\u696c\u646e\u7265\u03f0\u6f42\u5378\u6870\u7265\u4265\u756f\u646es\u01a6\u7053\u6568\u6572\u00d2\u6f42x\u0228\u6556\u7463\u726f\u4432\u01f8\u6e49\u5274\u6365t\u022e\u6e49\u5074\u696f\u746e\u01dc\u6556\u7463\u726f4\u0124\u614e\u656d\u01a6\u6556\u7463\u726f\u01d4\u6f52\u6174\u6f74r\u021c\u4853\u6556\u7463\u726f\u0176\u6f43\u6f6cr\u0146\u6c50\u6e61e\u01b4\u614d\u7274\u7869\u02fa\u694c\u656e\u7261\u6f43\u6f6cr\u0330\u6441\u6176\u636e\u4665\u6172\u656d\u01ca\u6f50\u6e69\u6574r\u01be\u6f44\u6275\u656c\u011c\u7551\u7461\u010c\u6553\u666c\u0268\u7254\u6e61\u6673\u726fm\u0234\u6556\u7463\u726f\u6633\u0216\u6556\u7463\u726f\u6433\u01d4\u6c50\u6e61\u3465f\u01fe\u6c50\u6e61\u3465d\u0274\u614d\u7274\u7869\u3434f\u0260\u614d\u7274\u7869\u3434d\u0182\u7551\u7461\u6634\u01a2\u7551\u7461\u6434\u02c4\u7254\u6e61\u6673\u726f\u336df\u02ec\u7254\u6e61\u6673\u726f\u336dd\u0156\u6f42\u3378f\u017e\u6f42\u3378d\u0478\u6f42\u5378\u6870\u7265\u4265\u756f\u646e\u3373f\u0476\u6f42\u5378\u6870\u7265\u4265\u756f\u646e\u3373d\u023c\u6556\u7463\u726f\u6634\u0218\u6556\u7463\u726f\u6434\u0246\u6f52\u6174\u6f74\u3372f\u024e\u6f52\u6174\u6f74\u3372"
+      ],
+      "vector_params": [
+        "Color"
+      ],
+      "texture_params": [
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "Color"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_CircleMask",
+      "parent_class": "Material",
+      "path": "/Game/SurvivalGameKitV2/Materials/M_CircleMask.M_CircleMask",
+      "instances": 4,
+      "scalar_params": [
+        "CircleFillAmount",
+        "None"
+      ],
+      "vector_params": [
+        "CircleColor"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "CircleColor"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Smoke_Master",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/GunFX/Materials/Smokes/M_Smoke_Master.M_Smoke_Master",
+      "instances": 3,
+      "scalar_params": [
+        "Alpha_Pow",
+        "None"
+      ],
+      "vector_params": [
+        "Color1",
+        "Color2"
+      ],
+      "texture_params": [
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "Color1",
+          "Color2"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Placement",
+      "parent_class": "Material",
+      "path": "/Game/SurvivalGameKitV2/Materials/M_Placement.M_Placement",
+      "instances": 3,
+      "scalar_params": [
+        "None",
+        "Opacity",
+        "RefractionDepthBias"
+      ],
+      "vector_params": [
+        "Color"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "Color"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_VFX_Blood_SingleSprite",
+      "parent_class": "Material",
+      "path": "/Game/Vefects/Blood_VFX/Shared/Materials/MasterMaterials/M_VFX_Blood_SingleSprite.M_VFX_Blood_SingleSprite",
+      "instances": 3,
+      "scalar_params": [
+        "None",
+        "Roughness"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "EdgeNormalMap",
+        "ErosionMap",
+        "NormalMap"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [
+          "Roughness"
+        ],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Master_material",
+      "parent_class": "Material",
+      "path": "/Game/Stuff/Mountain_Environment_Set/Master_Materials/M_Master_material.M_Master_material",
+      "instances": 2,
+      "scalar_params": [
+        "Metallic Value",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Base Color",
+        "MT(R)_R(G)_AO(B)",
+        "Normal"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [
+          "Metallic Value"
+        ],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "PP_FogMaewing_Inst",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Game/VFX/Post_Processing_FX/MaewingsFog/PP_FogMaewing_Inst.PP_FogMaewing_Inst",
+      "instances": 2,
+      "scalar_params": [
+        "FogBlendDayNight",
+        "None"
+      ],
+      "vector_params": [
+        "FogColorDay",
+        "FogColorNight",
+        "SelectionColor"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "FogColorDay",
+          "FogColorNight",
+          "SelectionColor"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Alcohol",
+      "parent_class": "Material",
+      "path": "/Game/Stuff/Chameleon/Materials/M_Alcohol.M_Alcohol",
+      "instances": 2,
+      "scalar_params": [
+        "BlendDistanceLog",
+        "BlendMaskScaleY",
+        "None",
+        "StandaloneBlendableMode"
+      ],
+      "vector_params": [
+        "SelectionColor"
+      ],
+      "texture_params": [
+        "BlendMaskTexture"
+      ],
+      "covers": {
+        "basecolor": [
+          "SelectionColor"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Liquid",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/GunFX/Materials/Liquid/M_Liquid.M_Liquid",
+      "instances": 2,
+      "scalar_params": [
+        "Darkness",
+        "None"
+      ],
+      "vector_params": [
+        "MainColor",
+        "SecondaryColor",
+        "SpecularTint"
+      ],
+      "texture_params": [
+        "Normal",
+        "ReflectionTexture",
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "MainColor",
+          "SecondaryColor",
+          "SpecularTint"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_AnomalyMesh_Master",
+      "parent_class": "Material",
+      "path": "/Game/Materials/Master/M_AnomalyMesh_Master.M_AnomalyMesh_Master",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "Quantize Color"
+      ],
+      "vector_params": [
+        "XYZ Offset",
+        "XYZ Rotation",
+        "XYZ Size"
+      ],
+      "texture_params": [
+        "AlignTexture",
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "Quantize Color"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Landscape_Master",
+      "parent_class": "Material",
+      "path": "/Game/RetroGraphics/Materials/M_Landscape_Master.M_Landscape_Master",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "Quantize Color",
+        "RefractionDepthBias"
+      ],
+      "vector_params": [
+        "Alpha Color"
+      ],
+      "texture_params": [
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "Alpha Color",
+          "Quantize Color"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "PP_FogMaewing",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Post_Processing_FX/MaewingsFog/PP_FogMaewing.PP_FogMaewing",
+      "instances": 1,
+      "scalar_params": [
+        "Fog fade distance",
+        "None"
+      ],
+      "vector_params": [
+        "FogColorDay",
+        "FogColorNight"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "FogColorDay",
+          "FogColorNight"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "MM_MW_WheelMenu",
+      "parent_class": "Material",
+      "path": "/SIZZ_Menu_Wheel/Materials/MM_MW_WheelMenu.MM_MW_WheelMenu",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "Opacity"
+      ],
+      "vector_params": [
+        "Color_01",
+        "Color_02"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "Color_01",
+          "Color_02"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Mannequin",
+      "parent_class": "Material",
+      "path": "/Game/SurvivalGameKitV2/Materials/M_Mannequin.M_Mannequin",
+      "instances": 1,
+      "scalar_params": [
+        "BaseColorFallOff",
+        "None"
+      ],
+      "vector_params": [
+        "Tint"
+      ],
+      "texture_params": [
+        "AnisoAOPaintMaskTex",
+        "BNormal",
+        "Base Texture",
+        "CCCCRTex",
+        "MSR_tex",
+        "Normal",
+        "Tangent"
+      ],
+      "covers": {
+        "basecolor": [
+          "BaseColorFallOff",
+          "Tint"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Mannequin",
+      "parent_class": "Material",
+      "path": "/Game/SmartAI/Materials/M_Mannequin.M_Mannequin",
+      "instances": 1,
+      "scalar_params": [
+        "BaseColorFallOff",
+        "None"
+      ],
+      "vector_params": [
+        "Tint"
+      ],
+      "texture_params": [
+        "AnisoAOPaintMaskTex",
+        "BNormal",
+        "Base Texture",
+        "CCCCRTex",
+        "MSR_tex",
+        "Normal",
+        "Tangent"
+      ],
+      "covers": {
+        "basecolor": [
+          "BaseColorFallOff",
+          "Tint"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Bullet_Shells",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/GunFX/Materials/Bullet_Shells/M_Bullet_Shells.M_Bullet_Shells",
+      "instances": 1,
+      "scalar_params": [
+        "ColorBrightness",
+        "None"
+      ],
+      "vector_params": [
+        "Tint"
+      ],
+      "texture_params": [
+        "AO",
+        "Diffuse",
+        "Metallic",
+        "Normal",
+        "Roughness"
+      ],
+      "covers": {
+        "basecolor": [
+          "ColorBrightness",
+          "Tint"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "MM_Fire",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Explosion/Materials/MM_Fire.MM_Fire",
+      "instances": 1,
+      "scalar_params": [
+        "Emissive",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": [
+          "Emissive"
+        ]
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Glow_C",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/Realistic_Starter_VFX_Pack_Vol2/Materials/M_Glow_C.M_Glow_C",
+      "instances": 1,
+      "scalar_params": [
+        "Emissive",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "None"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": [
+          "Emissive"
+        ]
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "MI_Hedge",
+      "parent_class": "Material",
+      "path": "/Game/Materials/Anomalys/MI_Hedge.MI_Hedge",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "TimeSpeed"
+      ],
+      "vector_params": [
+        "Color"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "Color"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_TempLandscape",
+      "parent_class": "Material",
+      "path": "/Game/Materials/LandScape/M_TempLandscape.M_TempLandscape",
+      "instances": 1,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [
+        "AutumnColor",
+        "BurntForestColor",
+        "ForestGroundColor",
+        "GrassColor",
+        "GroundColor",
+        "PineAspfaltColor",
+        "PineGrassColor",
+        "PineGroundColor",
+        "RiverSoilColor",
+        "RoadColor",
+        "SandColor",
+        "SpringColor",
+        "SwampColor"
+      ],
+      "texture_params": [
+        "GroundTex",
+        "TextureSand",
+        "Texure01",
+        "Texure03",
+        "Texure08"
+      ],
+      "covers": {
+        "basecolor": [
+          "AutumnColor",
+          "BurntForestColor",
+          "ForestGroundColor",
+          "GrassColor",
+          "GroundColor",
+          "PineAspfaltColor",
+          "PineGrassColor",
+          "PineGroundColor",
+          "RiverSoilColor",
+          "RoadColor",
+          "SandColor",
+          "SpringColor",
+          "SwampColor"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_SwampWater",
+      "parent_class": "Material",
+      "path": "/Game/RetroGraphics/DemoContent/Materials/M_SwampWater.M_SwampWater",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "RippleScale",
+        "SpecularBias",
+        "Weightmap0"
+      ],
+      "vector_params": [
+        "DistortionScale",
+        "SpecularDistortionScale",
+        "UnderwaterDistortionScale",
+        "UnderwaterTint"
+      ],
+      "texture_params": [
+        "DistortionTexture",
+        "WaterTexture"
+      ],
+      "covers": {
+        "basecolor": [
+          "UnderwaterTint"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_Water",
+      "parent_class": "Material",
+      "path": "/Game/Stuff/RetroWater/Materials/M_Water.M_Water",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "SpecularClampSRGB"
+      ],
+      "vector_params": [
+        "UnderwaterTint"
+      ],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [
+          "UnderwaterTint"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "M_SplatterDecal",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/GunFX/Materials/Liquid/M_SplatterDecal.M_SplatterDecal",
+      "instances": 1,
+      "scalar_params": [
+        "Darkness",
+        "None"
+      ],
+      "vector_params": [
+        "MainColor",
+        "SecondaryColor"
+      ],
+      "texture_params": [
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [
+          "MainColor",
+          "SecondaryColor"
+        ],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 1
+    },
+    {
+      "parent": "MI_Sky",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Game/Materials/MI_Sky.MI_Sky",
+      "instances": 251,
+      "scalar_params": [
+        "StarOpacity"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Icon",
+      "parent_class": "Material",
+      "path": "/Game/SurvivalGameKitV2/Materials/M_Icon.M_Icon",
+      "instances": 154,
+      "scalar_params": [
+        "Rotation"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Image"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "MI_MeadownLandscape",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Game/Materials/LandScape/MI_MeadownLandscape.MI_MeadownLandscape",
+      "instances": 62,
+      "scalar_params": [],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 52,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 38,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 31,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "MI_RadioactiveWaste",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Game/Materials/MI_RadioactiveWaste.MI_RadioactiveWaste",
+      "instances": 30,
+      "scalar_params": [],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Temp/Game/Blueprints/WorldGeneration/WorldPresets/L_MainTerrain_LevelInstance_14799caebeb479ba.L_MainTerrain:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 25,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 25,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 21,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineAspfalt",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 21,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 21,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 21,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Temp/Game/Blueprints/WorldGeneration/WorldPresets/L_MainTerrain_LevelInstance_14799caebeb479ba.L_MainTerrain:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 20,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 19,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask___LANDSCAPE_VISIBILITY__"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 18,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntGround",
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineAspfalt",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround",
+        "LayerMask_Road",
+        "LayerMask___LANDSCAPE_VISIBILITY__"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0",
+        "Weightmap1"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 17,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntForest",
+        "LayerMask_BurntGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 15,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 15,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 15,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 14,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 13,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineAspfalt",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 12,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineAspfalt",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround",
+        "LayerMask_Road",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0",
+        "Weightmap1"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 11,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntForest",
+        "LayerMask_BurntGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 11,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntForest",
+        "LayerMask_BurntGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 10,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 10,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 9,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntGround",
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineAspfalt",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround",
+        "LayerMask_Road",
+        "LayerMask___LANDSCAPE_VISIBILITY__"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0",
+        "Weightmap1"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 8,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 7,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineAspfalt",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 7,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 7,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 7,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask___LANDSCAPE_VISIBILITY__"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 7,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_VFX_SmokeShader",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/Shots_VFX/Shared/Materials/SmokeBased/M_VFX_SmokeShader.M_VFX_SmokeShader",
+      "instances": 6,
+      "scalar_params": [
+        "DepthFadeDistance",
+        "None",
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Flipbook"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 6,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 6,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 6,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntGround",
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 6,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 6,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_BasicMaterial",
+      "parent_class": "Material",
+      "path": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "instances": 5,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "ARM",
+        "BaseColor",
+        "Normal"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 5,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGrass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 5,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 5,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 5,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGround",
+        "LayerMask_Road",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0",
+        "Weightmap1"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 5,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 5,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Moss",
+        "LayerMask_PineGround",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 5,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Fumes_Master",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/GunFX/Materials/Fumes/M_Fumes_Master.M_Fumes_Master",
+      "instances": 4,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 4,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 4,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 4,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask___LANDSCAPE_VISIBILITY__"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 4,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 4,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntForest",
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "Widget3DPassThrough",
+      "parent_class": "Material",
+      "path": "/Engine/EngineMaterials/Widget3DPassThrough.Widget3DPassThrough",
+      "instances": 3,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_BuildPart",
+      "parent_class": "Material",
+      "path": "/Game/SurvivalGameKitV2/Materials/BuildParts/M_BuildPart.M_BuildPart",
+      "instances": 3,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "ARM",
+        "Base Color",
+        "Normal"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 3,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineAspfalt",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround",
+        "LayerMask_Road",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0",
+        "Weightmap1"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 3,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0",
+        "Weightmap1"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 3,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 3,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask___LANDSCAPE_VISIBILITY__"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "Widget3DPassThrough_Opaque",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Engine/EngineMaterials/Widget3DPassThrough_Opaque.Widget3DPassThrough_Opaque",
+      "instances": 2,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "DefaultSpriteMaterial",
+      "parent_class": "Material",
+      "path": "/Paper2D/DefaultSpriteMaterial.DefaultSpriteMaterial",
+      "instances": 2,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "MM_Particles",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Explosion/Materials/MM_Particles.MM_Particles",
+      "instances": 2,
+      "scalar_params": [
+        "FadeDist",
+        "None",
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Tex"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "MM_Particles_01",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Explosion/Materials/MM_Particles_01.MM_Particles_01",
+      "instances": 2,
+      "scalar_params": [
+        "FadeDist",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Tex"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_VFX_Flip_ThinGas",
+      "parent_class": "Material",
+      "path": "/Game/Vefects/Blood_VFX/Shared/Materials/MasterMaterials/M_VFX_Flip_ThinGas.M_VFX_Flip_ThinGas",
+      "instances": 2,
+      "scalar_params": [
+        "LUT",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Flipbook"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Bugs",
+      "parent_class": "Material",
+      "path": "/Game/ExternalPacks/BugsAplenty/MAT/M_Bugs.M_Bugs",
+      "instances": 2,
+      "scalar_params": [
+        "Base multiply",
+        "None",
+        "Speed Minimum "
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Animation",
+        "Diffuse",
+        "Normals"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 2,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road",
+        "LayerMask___LANDSCAPE_VISIBILITY__"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 2,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGrass",
+        "LayerMask_PineGround",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 2,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 2,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_ForestGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 2,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 2,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_BurntForest",
+        "LayerMask_BurntGround",
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "m_SimpleVolumetricCloud",
+      "parent_class": "Material",
+      "path": "/Engine/EngineSky/VolumetricClouds/m_SimpleVolumetricCloud.m_SimpleVolumetricCloud",
+      "instances": 1,
+      "scalar_params": [
+        "BaseNoiseExp",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "Widget3DPassThrough_Translucent",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Engine/EngineMaterials/Widget3DPassThrough_Translucent.Widget3DPassThrough_Translucent",
+      "instances": 1,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Splash_Master",
+      "parent_class": "Material",
+      "path": "/Game/Stuff/Blood_VFX_Pack/Materials/M_Splash_Master.M_Splash_Master",
+      "instances": 1,
+      "scalar_params": [
+        "DistortionPower",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Distortion",
+        "Normal",
+        "Normal02",
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "MI_Manny_01",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Game/SurvivalGameKitV2/Materials/Instances/Manny/MI_Manny_01.MI_Manny_01",
+      "instances": 1,
+      "scalar_params": [
+        "LogoLayer0_BlurLevel",
+        "LogoPosOffset_X",
+        "None",
+        "VectorProperty"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "AnisoAOPaintMaskTex",
+        "BNormal",
+        "Base Texture",
+        "CCCCRTex",
+        "MSR_tex",
+        "Normal",
+        "Tangent"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "MI_Manny_01",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Game/SmartAI/Materials/Instances/Manny/MI_Manny_01.MI_Manny_01",
+      "instances": 1,
+      "scalar_params": [
+        "LogoLayer0_Brightness",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "AnisoAOPaintMaskTex",
+        "BNormal",
+        "Base Texture",
+        "CCCCRTex",
+        "MSR_tex",
+        "Normal",
+        "Tangent"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Skybox_Master",
+      "parent_class": "Material",
+      "path": "/Game/RetroGraphics/Materials/M_Skybox_Master.M_Skybox_Master",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "U Tiling"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_BlackHoleCore",
+      "parent_class": "Material",
+      "path": "/Game/Materials/Anomalys/M_BlackHoleCore.M_BlackHoleCore",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "TimeSpeed"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_VFX_EmissiveSimple",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/Shots_VFX/Shared/Materials/M_VFX_EmissiveSimple.M_VFX_EmissiveSimple",
+      "instances": 1,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [
+        "Texture"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_RedDot",
+      "parent_class": "Material",
+      "path": "/Game/SurvivalGameKitV2/Materials/M_RedDot.M_RedDot",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "X"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Thunder",
+      "parent_class": "Material",
+      "path": "/Game/MultiplayerDynamicWeatherSystem/Materials/M_Thunder.M_Thunder",
+      "instances": 1,
+      "scalar_params": [
+        "RefractionDepthBias"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 1,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_VFX_Mesh_Erosion",
+      "parent_class": "Material",
+      "path": "/Game/Vefects/Blood_VFX/Shared/Materials/MasterMaterials/M_VFX_Mesh_Erosion.M_VFX_Mesh_Erosion",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "WPOStrength"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 1,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Road"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 1,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground",
+        "LayerMask_PineGround",
+        "LayerMask_Road",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0",
+        "Weightmap1"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 1,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Road",
+        "LayerMask_Swamp"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "LandscapeMaterialInstanceConstant",
+      "parent_class": "LandscapeMaterialInstanceConstant",
+      "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+      "instances": 1,
+      "scalar_params": [],
+      "vector_params": [
+        "LayerMask_Grass",
+        "LayerMask_Ground"
+      ],
+      "texture_params": [
+        "Heightmap",
+        "Weightmap0"
+      ],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Water_Inst",
+      "parent_class": "MaterialInstanceConstant",
+      "path": "/Game/Stuff/RetroWater/Materials/M_Water_Inst.M_Water_Inst",
+      "instances": 1,
+      "scalar_params": [
+        "None",
+        "SpecularScale"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_Ember",
+      "parent_class": "Material",
+      "path": "/Game/VFX/Vefects/GunFX/Materials/Sparks/M_Ember.M_Ember",
+      "instances": 1,
+      "scalar_params": [],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    },
+    {
+      "parent": "M_BlackHole",
+      "parent_class": "Material",
+      "path": "/Game/Materials/Anomalys/M_BlackHole.M_BlackHole",
+      "instances": 1,
+      "scalar_params": [
+        "BlackSharpness",
+        "None"
+      ],
+      "vector_params": [],
+      "texture_params": [],
+      "covers": {
+        "basecolor": [],
+        "metallic": [],
+        "roughness": [],
+        "emissive": []
+      },
+      "coverage_count": 0
+    }
+  ],
+  "parents_covering_all_four": [],
+  "parents_covering_three_or_more": []
+}

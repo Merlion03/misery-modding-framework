@@ -1,0 +1,8 @@
+MISERY/Content/ShaderArchive-Global-PCD3D_SM5-PCD3D_SM5.ushaderbytecode
+MISERY/Content/ShaderArchive-MISERY-PCD3D_SM5-PCD3D_SM5.ushaderbytecode
+MISERY/Content/ShaderAssetInfo-Global-PCD3D_SM5-PCD3D_SM5.assetinfo.json
+MISERY/Content/ShaderAssetInfo-MISERY-PCD3D_SM5-PCD3D_SM5.assetinfo.json
+MISERY/Metadata/ShaderLibrarySource/ShaderArchive-Global-PCD3D_SM5-PCD3D_SM5.ushaderbytecode
+MISERY/Metadata/ShaderLibrarySource/ShaderArchive-MISERY-PCD3D_SM5-PCD3D_SM5.ushaderbytecode
+MISERY/Metadata/ShaderLibrarySource/ShaderAssetInfo-Global-PCD3D_SM5-PCD3D_SM5.assetinfo.json
+MISERY/Metadata/ShaderLibrarySource/ShaderAssetInfo-MISERY-PCD3D_SM5-PCD3D_SM5.assetinfo.json

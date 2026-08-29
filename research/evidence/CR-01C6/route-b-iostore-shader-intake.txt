@@ -1,0 +1,13 @@
+LogIoStore: Display: Packages read 8 files in 0.00 seconds, 16,299 total bytes, 16,298,999 bytes per second
+LogIoStore: Display: MatTest                                             -/-/-/I/-             493           34.56                 9.97                 9.97 -
+LogIoStore: Display: MatTest                                                  0.53
+LogIoStore: Display: MatTest                                                   493                0              493             0.00             7.87
+LogIoStore: Display: MatTest                                                     0               8               0
+LogIoStore: Display: Input:         8 Packages
+LogIoStore: Display: Input:      0.00 GB UExp
+LogIoStore: Display: Input:      0.00 GB UAsset
+LogIoStore: Display: Input:      0.00 GB UBulk
+LogIoStore: Display: Input:      5.63 MB for 342 Global shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Shared shaders
+LogIoStore: Display: Input:      1.67 MB for 140 Unique shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Inline shaders
