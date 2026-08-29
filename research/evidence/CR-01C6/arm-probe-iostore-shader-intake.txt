@@ -1,0 +1,9 @@
+LogIoStore: Display: ArmTest                                             -/-/-/I/-               9            1.21                 0.41                 0.41 -
+LogIoStore: Display: ArmTest                                                  0.40
+LogIoStore: Display: ArmTest                                                     9                0                9             0.00             0.36
+LogIoStore: Display: ArmTest                                                     0               8               0
+LogIoStore: Display: Input:         8 Packages
+LogIoStore: Display: Input:      0.00 MB for 0 Global shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Shared shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Unique shaders
+LogIoStore: Display: Input:      0.00 MB for 0 Inline shaders

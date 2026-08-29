@@ -1,0 +1,54 @@
+{
+  "assets": [
+    "/Game/MBPLArmProbe/MI_ARM_Bhot.MI_ARM_Bhot",
+    "/Game/MBPLArmProbe/MI_ARM_Rhot.MI_ARM_Rhot",
+    "/Game/MBPLArmProbe/MI_EmissiveProbe.MI_EmissiveProbe",
+    "/Game/MBPLArmProbe/T_ARM_Bhot.T_ARM_Bhot",
+    "/Game/MBPLArmProbe/T_ARM_Rhot.T_ARM_Rhot",
+    "/Game/MBPLArmProbe/T_Probe_BC.T_Probe_BC",
+    "/Game/MBPLArmProbe/T_Probe_N.T_Probe_N"
+  ],
+  "errors": [],
+  "notes": [
+    "added an Emissive vector parameter to the STAND-IN only",
+    "slots: [(0, 'M_Radio_Body', '/Game/MBPLArmProbe/MI_ARM_Rhot'), (1, 'M_Radio_Battery', '/Game/MBPLArmProbe/MI_ARM_Bhot'), (2, 'M_Radio_Metal', '/Game/MBPLArmProbe/MI_ARM_Bhot'), (3, 'M_Radio_Rubber', '/Game/MBPLArmProbe/MI_ARM_Bhot'), (4, 'M_Radio_Screen', '/Game/MBPLArmProbe/MI_ARM_Bhot'), (5, 'M_Radio_Emissive', '/Game/MBPLArmProbe/MI_ARM_Bhot'), (6, 'M_Radio_Tape', '/Game/MBPLArmProbe/MI_EmissiveProbe')]"
+  ],
+  "ok": true,
+  "slot_assignment": [
+    [
+      0,
+      "M_Radio_Body",
+      "/Game/MBPLArmProbe/MI_ARM_Rhot"
+    ],
+    [
+      1,
+      "M_Radio_Battery",
+      "/Game/MBPLArmProbe/MI_ARM_Bhot"
+    ],
+    [
+      2,
+      "M_Radio_Metal",
+      "/Game/MBPLArmProbe/MI_ARM_Bhot"
+    ],
+    [
+      3,
+      "M_Radio_Rubber",
+      "/Game/MBPLArmProbe/MI_ARM_Bhot"
+    ],
+    [
+      4,
+      "M_Radio_Screen",
+      "/Game/MBPLArmProbe/MI_ARM_Bhot"
+    ],
+    [
+      5,
+      "M_Radio_Emissive",
+      "/Game/MBPLArmProbe/MI_ARM_Bhot"
+    ],
+    [
+      6,
+      "M_Radio_Tape",
+      "/Game/MBPLArmProbe/MI_EmissiveProbe"
+    ]
+  ]
+}

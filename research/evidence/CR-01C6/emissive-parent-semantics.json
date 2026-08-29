@@ -1,0 +1,485 @@
+{
+  "pid": 14268,
+  "candidates": [
+    "M_Glow_C",
+    "MM_Fire",
+    "M_BasicMaterial",
+    "M_BuildPart"
+  ],
+  "materials": [
+    {
+      "material": "M_BuildPart",
+      "address": "0x24682581cc0",
+      "path": "/Game/SurvivalGameKitV2/Materials/BuildParts/M_BuildPart.M_BuildPart",
+      "MaterialDomain": "MD_Surface",
+      "BlendMode": "BLEND_Opaque",
+      "ShadingModel": "MSM_DefaultLit",
+      "TwoSided": true,
+      "instances": [
+        {
+          "instance": "MI_FoundationMetal_01",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "RefractionDepthBias",
+              "named": true,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "ARM",
+              "named": true,
+              "bound": {
+                "texture": "SM_Foundation_Metal_01_ARM",
+                "CompressionSettings": "TC_Default",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Base Color",
+              "named": true,
+              "bound": {
+                "texture": "SM_Foundation_Metal_01_BC",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Normal",
+              "named": true,
+              "bound": {
+                "texture": "SM_Foundation_Metal_01_N",
+                "CompressionSettings": "TC_Normalmap",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            }
+          ],
+          "statics": []
+        },
+        {
+          "instance": "MI_DoorWood_01",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "RefractionDepthBias",
+              "named": true,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "ARM",
+              "named": true,
+              "bound": {
+                "texture": "T_Door_Wood_01_ARM",
+                "CompressionSettings": "TC_Default",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Base Color",
+              "named": true,
+              "bound": {
+                "texture": "T_Door_Wood_01_BC",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Normal",
+              "named": true,
+              "bound": {
+                "texture": "T_Door_Wood_01_N",
+                "CompressionSettings": "TC_Normalmap",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            }
+          ],
+          "statics": []
+        },
+        {
+          "instance": "MI_LStairsWood_01",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "RefractionDepthBias",
+              "named": true,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "ARM",
+              "named": true,
+              "bound": {
+                "texture": "T_LStairs_Wood_01_ARM",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Base Color",
+              "named": true,
+              "bound": {
+                "texture": "T_LStairs_Wood_01_BC",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Normal",
+              "named": true,
+              "bound": {
+                "texture": "T_LStairs_Wood_01_N",
+                "CompressionSettings": "TC_Normalmap",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            }
+          ],
+          "statics": []
+        }
+      ]
+    },
+    {
+      "material": "MM_Fire",
+      "address": "0x246edd11cc0",
+      "path": "/Game/VFX/Explosion/Materials/MM_Fire.MM_Fire",
+      "MaterialDomain": "MD_Surface",
+      "BlendMode": "BLEND_Additive",
+      "ShadingModel": "MSM_DefaultLit",
+      "TwoSided": true,
+      "instances": [
+        {
+          "instance": "MI_Fire_Emissive",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "Emissive",
+              "named": true,
+              "value": 0.05
+            },
+            {
+              "name": "None",
+              "named": false,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [],
+          "statics": []
+        }
+      ]
+    },
+    {
+      "material": "M_Glow_C",
+      "address": "0x246b8210640",
+      "path": "/Game/VFX/Vefects/Realistic_Starter_VFX_Pack_Vol2/Materials/M_Glow_C.M_Glow_C",
+      "MaterialDomain": "MD_Surface",
+      "BlendMode": "BLEND_Translucent",
+      "ShadingModel": "MSM_Unlit",
+      "TwoSided": true,
+      "instances": [
+        {
+          "instance": "M_Glow_C_Inst",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "Emissive",
+              "named": true,
+              "value": 1000.0
+            },
+            {
+              "name": "None",
+              "named": false,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "None",
+              "named": false,
+              "bound": {
+                "texture": "T_Flare_A",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  128,
+                  128
+                ]
+              }
+            }
+          ],
+          "statics": []
+        }
+      ]
+    },
+    {
+      "material": "M_BasicMaterial",
+      "address": "0x246b4682a40",
+      "path": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "MaterialDomain": "MD_Surface",
+      "BlendMode": "BLEND_Opaque",
+      "ShadingModel": "MSM_DefaultLit",
+      "TwoSided": true,
+      "instances": [
+        {
+          "instance": "MI_LandClaimPole",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "RefractionDepthBias",
+              "named": true,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "ARM",
+              "named": true,
+              "bound": {
+                "texture": "T_LandClaimPole_ARM",
+                "CompressionSettings": "TC_Default",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "BaseColor",
+              "named": true,
+              "bound": {
+                "texture": "T_LandClaimPole_BC",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Normal",
+              "named": true,
+              "bound": {
+                "texture": "T_LandClaimPole_N",
+                "CompressionSettings": "TC_Normalmap",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            }
+          ],
+          "statics": []
+        },
+        {
+          "instance": "MI_WallLight_01",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "RefractionDepthBias",
+              "named": true,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "ARM",
+              "named": true,
+              "bound": {
+                "texture": "T_WallLight_01_ARM",
+                "CompressionSettings": "TC_Default",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "BaseColor",
+              "named": true,
+              "bound": {
+                "texture": "T_WallLight_01_BC",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Normal",
+              "named": true,
+              "bound": {
+                "texture": "T_WallLight_01_N",
+                "CompressionSettings": "TC_Normalmap",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            }
+          ],
+          "statics": []
+        },
+        {
+          "instance": "MI_Splitter_01",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "RefractionDepthBias",
+              "named": true,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "ARM",
+              "named": true,
+              "bound": {
+                "texture": "T_Splitter_01_ARM",
+                "CompressionSettings": "TC_Default",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "BaseColor",
+              "named": true,
+              "bound": {
+                "texture": "T_Splitter_01_BC",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Normal",
+              "named": true,
+              "bound": {
+                "texture": "T_Splitter_01_N",
+                "CompressionSettings": "TC_Normalmap",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            }
+          ],
+          "statics": []
+        },
+        {
+          "instance": "MI_CarBattery_01",
+          "own_permutation": false,
+          "scalars": [
+            {
+              "name": "RefractionDepthBias",
+              "named": true,
+              "value": 0.0
+            }
+          ],
+          "vectors": [],
+          "textures": [
+            {
+              "name": "ARM",
+              "named": true,
+              "bound": {
+                "texture": "T_CarBattery_01_ARM",
+                "CompressionSettings": "TC_Default",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "BaseColor",
+              "named": true,
+              "bound": {
+                "texture": "T_CarBattery_01_BC",
+                "CompressionSettings": "TC_Default",
+                "SRGB": true,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            },
+            {
+              "name": "Normal",
+              "named": true,
+              "bound": {
+                "texture": "T_CarBattery_01_N",
+                "CompressionSettings": "TC_Normalmap",
+                "SRGB": false,
+                "ImportedSize": [
+                  2048,
+                  2048
+                ]
+              }
+            }
+          ],
+          "statics": []
+        }
+      ]
+    }
+  ]
+}

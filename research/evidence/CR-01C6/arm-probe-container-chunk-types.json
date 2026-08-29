@@ -1,0 +1,49 @@
+{
+  "shipped": {
+    "label": "shipped MISERY-Windows",
+    "file": "MISERY-Windows.utoc",
+    "entry_count": 19505,
+    "chunks_by_type": {
+      "1": 12939,
+      "2": 5502,
+      "6": 1,
+      "8": 2,
+      "9": 1061
+    },
+    "shader_code_library_chunks": [
+      "f4d8f5097812b6d100000008",
+      "128059fe193bedc900000008"
+    ],
+    "shader_code_chunk_count": 1061
+  },
+  "shipped_global": {
+    "label": "shipped global",
+    "file": "global.utoc",
+    "entry_count": 1,
+    "chunks_by_type": {
+      "5": 1
+    },
+    "shader_code_library_chunks": [],
+    "shader_code_chunk_count": 0
+  },
+  "mod": {
+    "label": "mod container",
+    "file": "ArmTest.utoc",
+    "entry_count": 9,
+    "chunks_by_type": {
+      "1": 8,
+      "6": 1
+    },
+    "shader_code_library_chunks": [],
+    "shader_code_chunk_count": 0
+  },
+  "collision": {
+    "shipped_shader_library_chunk_ids": [
+      "128059fe193bedc900000008",
+      "f4d8f5097812b6d100000008"
+    ],
+    "mod_shader_library_chunk_ids": [],
+    "colliding_ids": [],
+    "collides": false
+  }
+}
