@@ -1,0 +1,23 @@
+{
+  "baseline_inventory_sha256": "ae75589964f2be7e6446e5d9b459fdd81c3ecfc65928eaa2ec1e706490c656b0",
+  "baseline_item_count": 0,
+  "baseline_weight": 3.3306690738754696e-16,
+  "dll": "D:\\Dev\\MiseryFramework\\workspace\\msvc-probe\\CR01C5Probe.dll",
+  "icon_object": 1711778410624,
+  "itemlist": 1705419728512,
+  "master": 1706112038528,
+  "mesh_object": 1711907946368,
+  "objects_ptr": 1707035723616,
+  "pid": 20476,
+  "player_inv": 1706116765856,
+  "rbase": 140715768217600,
+  "retired": true,
+  "retired_reason": "restarted for Probe4_P; pid 20476 gone. Probe 3 DID prove runtime MIC->vanilla parent resolution; its emissive box was mis-designed (metallic 1.0) so its glow reading was inconclusive.",
+  "rio": 1711935586304,
+  "row_fname": 2247162,
+  "row_name": "mbpl__armprobe3",
+  "rpath": 1707006296064,
+  "struct_size": 2264,
+  "table_ptr": 1706087139456,
+  "world_class": 1705457044864
+}
