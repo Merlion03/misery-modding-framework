@@ -1,0 +1,111 @@
+{
+  "record": "CR-01C3C acceptance -- Publish the Runtime aggregate table into MasterItemList, then roll back exactly",
+  "verdict": "PASS",
+  "source_run": "research/instrument-runs/2026-08-29T104808Z-c3c-armed",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "session": {"pid": 12780, "world": "/Game/NewMapGENTEST.NewMapGENTEST"},
+  "what_this_proves": "Production architecture B works end to end. A Runtime-owned UDataTable can be published as a second parent of MasterItemList, the engine republishes the composite through its own delegate path, the mod row resolves from the composite, every vanilla row survives semantically intact, and the whole thing rolls back to a byte-exact ParentTables baseline.",
+  "authorised_vanilla_write": "exactly two stores, both into MasterItemList.ParentTables: element[1] = RuntimeTable (8 bytes, into pre-existing spare capacity) and Num 1 -> 2 (4 bytes). Reversed on rollback, and element[1] then zeroed. NOTHING else in any vanilla object was written.",
+
+  "0_cleanup_corrections_adopted": {
+    "delegate_expectations": "On attach, ItemList's delegate must remain subscribed to MasterItemList AND the RuntimeTable must BECOME subscribed to MasterItemList. On detach, the RuntimeTable's delegate must return to its baseline (empty) and ItemList's must be unchanged. All four are now explicit PASS conditions, not observations.",
+    "spare_slot_hygiene": "After a successful detach and rebuild, while the RuntimeTable is still rooted, element[1] is zeroed so no stale pointer is left beyond Num and the ParentTables allocation is byte-identical to baseline. Verified by comparing the full Max-sized slot array, not just the first Num entries."
+  },
+
+  "1_attach_preconditions_all_required": {
+    "MasterItemList identity": "ClassPrivate == the live UCompositeDataTable UClass; vtable 0x7ff7bb4147b8 != the plain UDataTable vtable 0x7ff7bb373148; and its row-API slots 94/95 differ from the plain ones, so the composite identity check is not vacuous",
+    "ParentTables re-read on the GameThread inside the job": "Data, Num, Max read again immediately before the write",
+    "Num == 1": true,
+    "Max >= 2": "Max == 2, spare capacity 1",
+    "element[0] == exact vanilla ItemList": "0x18a2fff1540",
+    "element[1] == nullptr": true,
+    "RuntimeTable rooted": "verified through the store, not by reading a bit",
+    "RowStruct equality": "RuntimeTable->RowStruct == MasterItemList->RowStruct == ItemList->RowStruct == 0x18a15d80520",
+    "RuntimeTable holds exactly one probe row": "row_count == 1, checked read-only before the attach was enqueued",
+    "no vanilla collision": "the probe row key was checked absent from MasterItemList's 496 keys before arming",
+    "no subscribers yet": "RuntimeTable's own delegate invocation list was Num == 0 before attach",
+    "NO growth authorised": "the job refuses with err 35 if Max - Num < 1; the array is never reallocated"
+  },
+
+  "2_parenttables_mutation": {
+    "before": {"data": "0x18a19ca3dd0", "num": 1, "max": 2, "slots": ["0x18a2fff1540", "0x0"]},
+    "write": "element[1] = 0x18a10f65500 (the RuntimeTable), then Num = 2",
+    "after": {"data": "0x18a19ca3dd0", "num": 2, "max": 2, "slots": ["0x18a2fff1540", "0x18a10f65500"]},
+    "allocation_unchanged": "Data and Max are identical before and after -- no reallocation, no growth",
+    "gc_safety": "the stored referent is the RuntimeTable, which was already a registered GC root at the moment of the store, so the TObjectPtr reachability barrier (ObjectPtr.h:306-312, active only while GIsIncrementalReachabilityPending) cannot matter. Elements are plain 8-byte UObject* because UE_WITH_OBJECT_HANDLE_LATE_RESOLVE == WITH_EDITORONLY_DATA == 0."
+  },
+
+  "3_publication_and_rebuild_proof": {
+    "trigger": "UDataTable::RemoveRow(ItemList, 'misery__c3c_neutral_trigger') -- a name ItemList does not contain. RemoveRowInternal leaves RowData null on a miss so nothing is destroyed or freed (DataTable.cpp:433-451); the only effect is the FScopedDataTableChange destructor's broadcast.",
+    "engine_did_the_rest": "OnParentTablesUpdated -> UpdateCachedRowMap -> subscribe the new parent -> OldParentTables = ParentTables. We wrote two fields; every row operation and every delegate change was performed by engine code.",
+    "OldParentTables_after_attach": ["0x18a2fff1540", "0x18a10f65500"],
+    "composite_rebuilt": true,
+    "master_row_count": "496 -> 497 -> 496",
+    "probe_resolves_from_MasterItemList": {
+      "present": true,
+      "row_ptr": "0x18b9f568960",
+      "source_row_ptr": "0x18b8963f6e0",
+      "is_a_distinct_copy": true,
+      "values": {"Weight": 2.5, "Width": 2, "Height": 1, "MaxStack": 3, "AllowStacking": 1},
+      "values_match_source": true
+    }
+  },
+
+  "4_runtime_table_subscription_proof": {
+    "before_attach": {"num": 0},
+    "after_attach": {"num": 1, "target": {"index": 42568, "serial": 13933, "object": "0x18a16221ac0"}},
+    "identification": "0x18a16221ac0 IS MasterItemList, and both halves of the TWeakObjectPtr match -- the GUObjectArray index AND the FUObjectItem serial number. Matching both is what makes this an identification rather than a coincidence.",
+    "after_detach": {"num": 0, "data": "0x0"},
+    "itemlist_delegate_throughout": {"num": 1, "target": {"index": 42568, "serial": 13933, "object": "0x18a16221ac0"}},
+    "itemlist_delegate_unchanged": "true at attach, at detach and at the end -- byte-for-byte the same decoded structure",
+    "decoder_note": "FUObjectItem: Object @0, Flags @8, ClusterRootIndex @12, SerialNumber @16. The +16 offset was corrected after the decoder initially failed to resolve any target; it was then confirmed by round-tripping a known object."
+  },
+
+  "5_vanilla_preservation": {
+    "why_a_semantic_comparison_is_required": "UpdateCachedRowMap calls UDataTable::EmptyTable() first (CompositeDataTable.cpp:87) and then deep-copies every parent row, so composite row POINTERS and raw bytes legitimately change on any rebuild. Requiring raw equality would be wrong, and requiring only a row count would be far too weak.",
+    "the_mask_is_derived_not_assumed": "Before touching anything, the controller computes the union of 8-byte windows where a parent row and its existing composite copy already differ. That union is 59 windows out of 283, and it consists of owned-container data pointers and allocation slack.",
+    "mask_validated_before_use": "with that mask, masked(parent row) == masked(composite row) for 496 of 496 rows at baseline. A mask that failed to explain the baseline would abort the run.",
+    "after_attach": {"all_496_vanilla_names_present": true, "all_496_semantically_unchanged": true},
+    "after_detach": {"all_496_vanilla_names_present": true, "all_496_semantically_unchanged": true},
+    "final": {"all_496_semantically_unchanged": true},
+    "ItemList_itself": "byte-exact sha256 over the full 2264 bytes of every one of the 496 rows, identical at baseline, after attach, after detach and at the end. ItemList is never rebuilt and was never written."
+  },
+
+  "6_rollback": {
+    "order_executed": ["Num 2 -> 1",
+                       "same engine-native data-neutral trigger",
+                       "verify composite back to vanilla-only, OldParentTables == [ItemList], RuntimeTable unsubscribed, ItemList delegate unchanged, probe absent, all 496 vanilla rows present and semantically identical",
+                       "element[1] = 0",
+                       "verify ParentTables raw baseline restored",
+                       "release the RuntimeTable root"],
+    "why_release_is_last": "unrooting before the composite has dropped the reference would leave the engine holding a pointer to a collectable object",
+    "probe_absent_after_detach": true,
+    "master_row_count_restored": 496,
+    "failure_path_was_wired": "any post-publication invariant failure raises RollbackNeeded, and the rollback runs in a finally block while the table is still rooted. It did not fire this run -- every invariant held."
+  },
+
+  "7_parenttables_exact_restoration": {
+    "baseline": {"data": "0x18a19ca3dd0", "num": 1, "max": 2, "slots": ["0x18a2fff1540", "0x0"]},
+    "final": {"data": "0x18a19ca3dd0", "num": 1, "max": 2, "slots": ["0x18a2fff1540", "0x0"]},
+    "equal_including_the_spare_slot": true,
+    "comparison_covers_Max_not_Num": "the full Max-sized slot array is compared, so a stale pointer left beyond Num would be caught"
+  },
+
+  "8_release_and_health": {
+    "release": {"ran": 1, "rooted_after_release": 0, "owned_count": 0, "item_flags_after": "0x1 -- RootSet cleared"},
+    "shutdown": {"wait_stopped_ok": 1, "state": "Stopped", "released_at_shutdown": 0},
+    "dll_unloaded": true,
+    "game": "pid 12780 still running and Responding after the run",
+    "verify_install": "full mode, 0 serious and 0 benign findings, baseline build key matched, before AND after",
+    "collectability": "the root was cleared; actual collection was not forced or observed this run and is not claimed"
+  },
+
+  "9_remaining_unknowns": [
+    "Whether a published parent survives save/load or a level change -- BLOCKED ON M4 LIFECYCLE EVIDENCE.",
+    "Whether any NATIVE code caches a raw MasterItemList row pointer across frames; a publication rebuild invalidates all of them.",
+    "Behaviour when spare capacity is absent (Max == Num): the attach fails closed by design, and no growth path is derived or authorised.",
+    "Multi-mod arbitration is designed but not exercised: this run published exactly one row from one table.",
+    "All multiplayer canonicalisation questions.",
+    "Actual garbage collection of the released Runtime table."
+  ]
+}

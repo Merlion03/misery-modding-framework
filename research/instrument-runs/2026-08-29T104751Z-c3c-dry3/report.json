@@ -1,0 +1,172 @@
+{
+  "allowstacking_bool_semantics": {
+    "byte_offset": 0,
+    "field_mask": "0xff",
+    "is_bitfield": false
+  },
+  "armed": false,
+  "baseline": {
+    "itemlist_delegate": {
+      "data": "0x18a11c6e780",
+      "num": 1,
+      "targets": [
+        {
+          "index": 42568,
+          "object": "0x18a16221ac0",
+          "serial": 13933
+        }
+      ]
+    },
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "old_parent": {
+      "data": "0x18a22167730",
+      "elements": [
+        "0x18a2fff1540"
+      ],
+      "num": 1
+    },
+    "parent_raw": {
+      "data": "0x18a19ca3dd0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x18a2fff1540",
+        "0x0"
+      ]
+    }
+  },
+  "copy_mask_window_count": 59,
+  "copy_mask_windows": [
+    72,
+    88,
+    288,
+    344,
+    352,
+    360,
+    368,
+    400,
+    432,
+    472,
+    528,
+    536,
+    544,
+    552,
+    616,
+    640,
+    720,
+    776,
+    832,
+    848,
+    864,
+    944,
+    1000,
+    1016,
+    1024,
+    1080,
+    1096,
+    1240,
+    1296,
+    1312,
+    1320,
+    1376,
+    1392,
+    1400,
+    1456,
+    1472,
+    1488,
+    1544,
+    1560,
+    1568,
+    1624,
+    1640,
+    1648,
+    1704,
+    1720,
+    1728,
+    1784,
+    1800,
+    1808,
+    1864,
+    1880,
+    1896,
+    1944,
+    1960,
+    2008,
+    2160,
+    2216,
+    2224,
+    2232
+  ],
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "offset": 64,
+      "size": 1,
+      "value": 1
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "offset": 60,
+      "size": 4,
+      "value": 1
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "offset": 68,
+      "size": 4,
+      "value": 3
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "offset": 48,
+      "size": 8,
+      "value": 2.5
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "offset": 56,
+      "size": 4,
+      "value": 2
+    }
+  },
+  "objects": {
+    "cdt_class": "0x18a4b3fc400",
+    "composite_vtable": "0x7ff7bb4147b8",
+    "dt_class": "0x18a4b3e9800",
+    "itemlist": "0x18a2fff1540",
+    "master": "0x18a16221ac0",
+    "plain_vtable": "0x7ff7bb373148",
+    "row_struct": "0x18a15d80520",
+    "transient": "0x18a495e0c80"
+  },
+  "outcome": "DRY RUN: all fail-closed checks passed, nothing written.",
+  "pid": 12780,
+  "probe_row": "misery__c3c_published_probe",
+  "run_note": [
+    "pid=12780 fingerprint confirmed",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "MasterItemList: class=UCompositeDataTable vtable=0x7ff7bb4147b8 (plain 0x7ff7bb373148), row-API slots overridden as expected",
+    "ProcessEvent: RVA 0x12ac1f0 byte-verified live==disk",
+    "AddRow: RVA 0x3548190 byte-verified live==disk",
+    "RemoveRow: RVA 0x355e170 byte-verified live==disk",
+    "InitializeStruct: RVA 0x3cb1d50 byte-verified live==disk",
+    "DestroyStruct: RVA 0x1199d50 byte-verified live==disk",
+    "SetRootFlags: RVA 0x1210e60 byte-verified live==disk",
+    "ClearRootFlags: RVA 0x11bb340 byte-verified live==disk",
+    "FMemory::Free: RVA 0xfa0090 byte-verified live==disk",
+    "ParentTables baseline: Num=1 Max=2 slots=['0x18a2fff1540', '0x0']",
+    "fail-closed field verification passed for ['AllowStacking', 'Height', 'MaxStack', 'Weight', 'Width']",
+    "copy mask derived this run: 59 windows; masked(parent)==masked(composite) for 496/496 rows",
+    "baseline: ItemList=496 MasterItemList=496 parents=['0x18a2fff1540'] old_parents=['0x18a2fff1540'] itemlist_delegate_num=1"
+  ],
+  "struct_size": 2264,
+  "trigger_row": "misery__c3c_neutral_trigger"
+}

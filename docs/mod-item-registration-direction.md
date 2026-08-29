@@ -74,3 +74,33 @@ batching many registrations into one rebuild is possible in principle — its
 constructor RVA is not yet derived.
 
 Full evidence: `research/evidence/CR-01C3/composite-resolution.json`.
+
+## Proven, end to end (CR-01C3B + CR-01C3C)
+
+Architecture B is no longer a candidate — it is demonstrated:
+
+```
+spawn Runtime UDataTable (reflected UGameplayStatics::SpawnObject)
+  -> root via the CR-01A engine path, in the SAME GameThread job
+  -> RowStruct = the live S_ItemDetails pointer
+  -> materialize + engine AddRow, all while DETACHED (zero composite rebuilds)
+  -> attach: element[1] = table, Num 1->2, into pre-existing spare capacity
+  -> publish: one data-neutral RemoveRow on ItemList; the engine rebuilds
+  -> rollback: Num 2->1, same trigger, zero element[1], then unroot
+```
+
+The only vanilla bytes ever written are `MasterItemList.ParentTables`
+element[1] and `Num`, and both are restored exactly. `ItemList` is never
+written; its 496 rows stay byte-identical throughout.
+
+**No array growth is authorised.** If `Max - Num < 1` at attach time the
+operation fails closed; the TArray growth path against the engine allocator is
+not derived.
+
+**Collision policy stays reject-on-collision.** The composite would technically
+shadow a vanilla row of the same name, but shadowing is not used as override
+behaviour — a mod row colliding with a vanilla semantic/row ID is rejected at
+arbitration time.
+
+Evidence: `research/evidence/CR-01C3B/acceptance.json`,
+`research/evidence/CR-01C3C/acceptance.json`.
