@@ -42,11 +42,15 @@ FREE_SLOT_DISP = 0x48
 INTERNAL_INDEX_OFFSET = 0x0C
 ROOTSET_FLAG = 1 << 30
 ITEM_FLAGS_OFFSET = 8
+# Engine root path, derived with clean provenance (research/evidence/CR-01A/
+# rootpath-derivation.json). Byte-verified live==disk before use; never guessed.
+RVA_SET_ROOT_FLAGS = 0x1210E60
+RVA_CLEAR_ROOT_FLAGS = 0x11BB340
 
-IO_FMT = ("<QII QQQ 16s16s16s Q II QQQQ Q II 128H "
+IO_FMT = ("<QII QQQ 16s16s16s Q II QQQQ Q II QQ 128H "
           "IIII IIII QQQ II IIII III I III").replace(" ", "")
 IO_SIZE = struct.calcsize(IO_FMT)
-assert IO_SIZE == 516, "Cr01aIo wire format drifted (%d)" % IO_SIZE
+assert IO_SIZE == 532, "Cr01aIo wire format drifted (%d)" % IO_SIZE
 IO_MAGIC = 0x4950502D43523141
 IO_PROTO = 1
 
@@ -81,7 +85,7 @@ def build_dll():
     return out
 
 
-def pack_io(carrier, sigs, gmalloc_va, refl, objects_ptr, path):
+def pack_io(carrier, sigs, gmalloc_va, refl, objects_ptr, path, root_fns):
     tp = [ord(c) for c in path] + [0] * (128 - len(path))
     return struct.pack(
         IO_FMT, IO_MAGIC, IO_PROTO, 8,
@@ -90,6 +94,7 @@ def pack_io(carrier, sigs, gmalloc_va, refl, objects_ptr, path):
         gmalloc_va, FREE_SLOT_DISP, 0,
         refl["cdo"], refl["process_event"], refl["fn_make"], refl["fn_load"],
         objects_ptr, INTERNAL_INDEX_OFFSET, 0,
+        root_fns["set"], root_fns["clear"],
         *tp,
         0, 0, 0, 0,
         0, 0, 0, 0,
@@ -103,7 +108,7 @@ def pack_io(carrier, sigs, gmalloc_va, refl, objects_ptr, path):
 
 def unpack_io(raw):
     f = struct.unpack(IO_FMT, raw)
-    i = 3 + 3 + 3 + 3 + 4 + 1 + 2 + 128
+    i = 3 + 3 + 3 + 3 + 4 + 1 + 2 + 2 + 128
     return {"activated": f[i], "initialized": f[i+1], "state": f[i+2], "wait_stopped_ok": f[i+3],
             "load_ran": f[i+4], "load_tid": f[i+5], "fstring_ok": f[i+6], "freed": f[i+7],
             "asset_ptr": f[i+8], "item_ptr": f[i+9], "handle": f[i+10],
@@ -189,6 +194,15 @@ def run(api, args, run_note):
                           name_entry_id=0)
         np = i03["namepool_live_va"]
         refl = p04.find_reflection_targets(api, handle, base, size, run_note)
+        root_fns = {}
+        for label, rva in (("set", RVA_SET_ROOT_FLAGS), ("clear", RVA_CLEAR_ROOT_FLAGS)):
+            va = base + rva
+            live = api.read_process_memory(handle, va, 16)
+            if live != p04.disk_bytes(img, rva):
+                raise ipp.Blocked("%sRootFlags bytes live != disk at RVA 0x%x" % (label, rva))
+            root_fns[label] = va
+            run_note.append("%sRootFlags: RVA 0x%x -> VA 0x%x byte-verified live==disk (%s)"
+                            % (label, rva, va, live[:8].hex()))
     finally:
         api.close_handle(handle)
 
@@ -198,6 +212,7 @@ def run(api, args, run_note):
                   "flag": "1<<30 (ObjectMacros.h:624)",
                   "equivalent_engine_api": "UObject::AddToRoot()/RemoveFromRoot() "
                                            "(UObjectBaseUtility.h:196-205, FORCEINLINE)",
+                  "engine_functions_called": "FUObjectItem::SetRootFlags RVA 0x1210e60 / ClearRootFlags RVA 0x11bb340 (derived; GRootsCritical RVA 0x7a64310 shared by both)",
                   "why_no_callback_into_our_module":
                       "the reference is a bit in engine-owned FUObjectItem memory, not a "
                       "pointer into ours, so GC never calls our code (unlike FGCObject)"}}
@@ -233,7 +248,7 @@ def run(api, args, run_note):
         if rbase is None:
             raise ipp.Blocked("probe DLL not loaded")
 
-        io = pack_io(carrier, sigs, gmalloc_va, refl, objects_ptr, TARGET_PATH)
+        io = pack_io(carrier, sigs, gmalloc_va, refl, objects_ptr, TARGET_PATH, root_fns)
         rio = k.VirtualAllocEx(hproc, None, IO_SIZE, ipp.MEM_COMMIT | ipp.MEM_RESERVE,
                                ipp.PAGE_READWRITE)
         k.WriteProcessMemory(hproc, rio, io, len(io), ctypes.byref(w))

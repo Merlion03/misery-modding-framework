@@ -1,0 +1,25 @@
+{
+  "armed": false,
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "objects_ptr_hex": "0x25b684e0880",
+  "outcome": "DRY RUN: baseline + targets resolved, nothing injected.",
+  "pid": 15784,
+  "reference_mechanism": {
+    "engine_functions_called": "FUObjectItem::SetRootFlags RVA 0x1210e60 / ClearRootFlags RVA 0x11bb340 (derived; GRootsCritical RVA 0x7a64310 shared by both)",
+    "equivalent_engine_api": "UObject::AddToRoot()/RemoveFromRoot() (UObjectBaseUtility.h:196-205, FORCEINLINE)",
+    "flag": "1<<30 (ObjectMacros.h:624)",
+    "name": "EInternalObjectFlags::RootSet on the asset's FUObjectItem",
+    "why_no_callback_into_our_module": "the reference is a bit in engine-owned FUObjectItem memory, not a pointer into ours, so GC never calls our code (unlike FGCObject)"
+  },
+  "run_note": [
+    "pid=15784 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff630e5ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff630e63370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff630ebb790 byte-verified live==disk (48895c2408574883)",
+    "Free slot9 -> RVA 0xf87b70 (live==disk)",
+    "CDO 0x25b7ad96b80 vtable 0x7ff635ffef40 ProcessEvent 0x7ff6311bc1f0 (slot 77)",
+    "MakeSoftObjectPath 0x25b7b38a7a0  LoadAsset_Blocking 0x25b7b387be0",
+    "setRootFlags: RVA 0x1210e60 -> VA 0x7ff631120e60 byte-verified live==disk (4053564883ec4848)",
+    "clearRootFlags: RVA 0x11bb340 -> VA 0x7ff6310cb340 byte-verified live==disk (48895c2408488974)"
+  ]
+}

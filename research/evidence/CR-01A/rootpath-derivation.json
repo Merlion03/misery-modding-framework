@@ -1,0 +1,31 @@
+{
+  "record": "CR-01A A2 -- targeted derivation of the real engine root path",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "verdict": "DERIVED, unambiguous",
+  "functions": {
+    "FUObjectItem::SetRootFlags": {
+      "shipping_rva": "0x1210e60",
+      "note": "the RootFlags-constant hit lands at 0x1210e6a, which is a CODE CHUNK; its .pdata UNWIND_INFO has UNW_FLAG_CHAININFO and chains to the parent RUNTIME_FUNCTION at 0x1210e60. The true entry was resolved from the unwind table, not guessed."
+    },
+    "FUObjectItem::ClearRootFlags": {
+      "shipping_rva": "0x11bb340",
+      "note": "unchained standalone function, size 0x13a"
+    }
+  },
+  "abi": "bool __fastcall f(FUObjectItem* this /*RCX*/, EInternalObjectFlags flags /*EDX*/) -> bool in AL. Confirmed in both: 'mov rbx, rcx' (this) and 'mov edi, edx' (flags); ClearRootFlags returns via 'movzx eax, sil'.",
+  "derivation_lines": [
+    "1. SOURCE SEMANTICS -- UE 5.4.4: AddToRoot (UObjectBaseUtility.h:196) -> SetRootSet (UObjectArray.h:287) -> ThisThreadAtomicallySetFlag which DISPATCHES on EInternalObjectFlags_RootFlags (UObjectArray.h:205-210) -> FUObjectItem::SetRootFlags, declared COREUOBJECT_API at UObjectArray.h:347, defined GarbageCollection.cpp:590.",
+    "2. SYMBOLIZED SAME-VERSION ORACLE -- UnrealEditor-CoreUObject.dll (UE 5.4.4) exports ?SetRootFlags@FUObjectItem@@AEAA_NW4EInternalObjectFlags@@@Z (RVA 0x371DB0) and ?ClearRootFlags@FUObjectItem@@AEAA_NW4EInternalObjectFlags@@@Z (RVA 0x2B4F50); both disassembled to extract their code shape.",
+    "3. CONFIGURATION-INVARIANT ANCHOR -- both use the immediate 0x4E100000 = EInternalObjectFlags_RootFlags (RootSet 1<<30 | AsyncLoading 1<<27 | Async 1<<26 | Native 1<<25 | LoaderImport 1<<20). This is a source-level constant, not a codegen artifact. Scanning the Shipping .text for that immediate yields 15 occurrences in 10 functions.",
+    "4. SHAPE DISCRIMINATION -- SetRootFlags: single 'test eax,0x4E100000; jne skip' followed by the distinctive disregard-for-GC check 'cmp dword[rip+X],0; setg al; test byte[rip+Y],al; jne skip'. ClearRootFlags: 'test ecx,0x4E100000; je skip' then 'not/and' then a SECOND 'test eax,0x4E100000; jne skip'. Both Shipping candidates match their editor counterparts shape-for-shape; no other candidate does.",
+    "5. INDEPENDENT STRUCTURAL CORROBORATION -- BOTH Shipping candidates take the SAME critical section: each does 'lea rcx,[rip+...]' resolving to RVA 0x7a64310 (.data) = GRootsCritical, and calls the adjacent kernel32 IAT slots (0x5dcb9b0 Enter / 0x5dcb9b8 Leave). ClearRootFlags additionally contains 'lock cmpxchg dword ptr [rbx+8], ecx', independently re-confirming FUObjectItem::Flags at +8 -- the layout used earlier -- and matching ThisThreadAtomicallyClearedFlag_ForGC.",
+    "6. GRoots STORAGE -- ClearRootFlags also references .data at RVA 0x77e1a60/0x77e1a98, the GRoots TSet storage it mutates."
+  ],
+  "globals": {
+    "GRootsCritical": "RVA 0x7a64310 (.data) -- referenced by BOTH functions",
+    "GRoots_storage": "RVA 0x77e1a60 (.data)",
+    "disregard_for_gc_check": "RVA 0x7a78ed8 / 0x7a78edc (.data)"
+  },
+  "why_not_ambiguous": "The only chunk-level ambiguity (SetRootFlags' RootFlags hit sitting in a split code chunk) was resolved by following UNW_FLAG_CHAININFO in the unwind table to the parent RUNTIME_FUNCTION, which is a deterministic, reproducible resolution rather than an inference. Both functions are real, callable, out-of-line code -- unlike FMemory::Realloc/Free, which are fully inlined in this build and therefore have no address at all.",
+  "no_manual_gc_internals": "The runtime will CALL these engine functions. It will not reimplement GRoots, GRootsCritical, the RootSet bit manipulation, or the reachability barrier -- all of which live inside SetRootFlags/ClearRootFlags."
+}

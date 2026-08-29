@@ -1,0 +1,73 @@
+{
+  "record": "CR-01A acceptance",
+  "verdict": "PASS",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "source_run": "research/instrument-runs/2026-08-29T072126Z-cr01a-real",
+  "mechanism": "CALL the engine's own FUObjectItem::SetRootFlags / ClearRootFlags (derived, see rootpath-derivation.json). GRoots registration, the RootSet bit and the reachability barrier all happen inside the engine; the runtime reimplements none of them.",
+  "addresses": {
+    "SetRootFlags": "RVA 0x1210e60",
+    "ClearRootFlags": "RVA 0x11bb340",
+    "GRootsCritical_shared_by_both": "RVA 0x7a64310",
+    "verification": "both byte-verified live==disk immediately before use"
+  },
+  "acquire": {
+    "asset_ptr_hex": "0x25b46752e00",
+    "duplicate_handle_same": 1,
+    "freed": 1,
+    "fstring_ok": 1,
+    "handle": 1,
+    "item_ptr_hex": "0x25bd0f823e0",
+    "load_ran": 1,
+    "load_tid": 15796,
+    "owned_after_acquire": 1,
+    "owned_after_duplicate": 1,
+    "release_unknown_returned": 0,
+    "rooted_after_acquire": 1
+  },
+  "release": {
+    "owned_after_release": 0,
+    "release_ok": 1,
+    "release_ran": 1,
+    "rooted_after_release": 0
+  },
+  "shutdown": {
+    "released_at_shutdown": 0,
+    "state": 3,
+    "wait_stopped_ok": 1
+  },
+  "cleanup": {
+    "dll_unloaded": true
+  },
+  "gc_evidence": {
+    "why_not_a_timeout_argument": "While the asset was rooted, the FUObjectItem's reachability bits were observed CYCLING through all three values (0x40000001 / 0x40000002 / 0x40000004 alongside the constant 0x40000000 RootSet). UE 5.4 alternates ReachabilityFlag0/1/2 per reachability pass, so this is direct observation of at least three GC reachability passes DURING which the object survived -- not merely 'nothing happened for 150 s'.",
+    "distinct_flag_values_while_rooted": [
+      "0x40000001",
+      "0x40000002",
+      "0x40000004"
+    ],
+    "phase1_samples": 30,
+    "phase1_alive_at_end": true,
+    "phase1_rooted_at_end": true,
+    "phase2_collected_at_seconds": 65.0,
+    "phase2_samples": 14
+  },
+  "contrast": {
+    "raw_RootSet_bit_write_LOG_0079": "collected at t=60.0 s despite the bit being set",
+    "real_engine_root_path_this_run": "survived the full 150 s window across >=3 observed reachability passes, then was collected 65 s after Release",
+    "conclusion": "survival is attributable to the engine root path, not to timing"
+  },
+  "store_semantics_reverified_with_working_backend": {
+    "duplicate_acquire_same_handle": true,
+    "duplicate_acquire_no_double_count": true,
+    "release_unknown_handle_safe_no_op": true,
+    "release_removes_ownership": true,
+    "release_clears_root": true,
+    "fails_closed_without_root_path": "Acquire returns 0 and Init returns 0xFFFFFFFB if either engine function is missing",
+    "releaseall_before_teardown": "ReleaseAll runs first in Shutdown, before the dispatcher stops and before unload"
+  },
+  "shutdown_ordering": "ReleaseAll -> dispatcher Shutdown (handshake, wait_stopped_ok=1) -> delete store -> FreeLibrary (dll_unloaded=true)",
+  "no_reference_source_in_our_memory": "the GC reference is GRoots + a flag in engine memory; nothing in the unloaded module can be dereferenced by GC",
+  "install_integrity": "verify_install MATCH before and after (0 findings)",
+  "game_health": "process alive and healthy after the run",
+  "world_transition_implication": "GRoots is process-global, so ownership is not world- or map-scoped; not separately exercised across a map change (UNKNOWN pending M4 lifecycle evidence)"
+}

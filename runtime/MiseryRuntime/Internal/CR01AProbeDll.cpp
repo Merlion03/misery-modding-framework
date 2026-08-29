@@ -3,11 +3,12 @@
 // releasing ownership restores normal collectability.
 //
 // The load reuses the already-proven P-04 chain unchanged. The ONLY new thing is
-// ownership: RuntimeAssetStore sets/clears EInternalObjectFlags::RootSet on the
-// asset's FUObjectItem -- exactly what UObject::AddToRoot()/RemoveFromRoot() do
-// (UObjectBaseUtility.h:196-205). Rooting happens INSIDE the same GameThread job
-// as the load, so there is no window in which the fresh, unreferenced asset could
-// be collected before the runtime owns it.
+// ownership: RuntimeAssetStore CALLS the engine's own FUObjectItem::SetRootFlags /
+// ClearRootFlags (derived per run, see research/evidence/CR-01A/
+// rootpath-derivation.json) so that GRoots registration and the reachability
+// barrier happen exactly as UE does them. A raw RootSet bit write was tried first
+// and REFUTED (LOG-0079). Rooting happens INSIDE the same GameThread job as the
+// load, so the fresh, unreferenced asset cannot be collected before we own it.
 #include <atomic>
 #include <cstdint>
 
@@ -46,6 +47,8 @@ struct Cr01aIo {
     uint64_t objects_ptr;              // GUObjectArray chunk pointer array
     uint32_t internal_index_offset;    // UObjectBase::InternalIndex (+0xC)
     uint32_t pad1;
+    uint64_t set_root_flags;           // FUObjectItem::SetRootFlags   (derived)
+    uint64_t clear_root_flags;         // FUObjectItem::ClearRootFlags (derived)
     uint16_t target_path[kPathMax];
     // outputs
     uint32_t activated, initialized, state, wait_stopped_ok;
@@ -58,7 +61,7 @@ struct Cr01aIo {
     uint32_t reserved[3];
 };
 #pragma pack(pop)
-static_assert(sizeof(Cr01aIo) == 516, "Cr01aIo layout must match the controller");
+static_assert(sizeof(Cr01aIo) == 532, "Cr01aIo layout must match the controller");
 
 Cr01aIo* g_io = nullptr;
 GameThreadDispatcher* g_disp = nullptr;
@@ -164,9 +167,13 @@ extern "C" __declspec(dllexport) unsigned long Init(void* param) {
     if (!io || io->magic != kMagic || io->proto != kProto) return 0xFFFFFFFFu;
     if (!io->cdo || !io->process_event || !io->fn_make || !io->fn_load ||
         !io->gmalloc_ptr_va || !io->objects_ptr) return 0xFFFFFFFDu;
+    if (!io->set_root_flags || !io->clear_root_flags) return 0xFFFFFFFBu;
     g_io = io;
     g_malloc = reinterpret_cast<MallocFn>(static_cast<uintptr_t>(io->fmemory_malloc));
     g_store = new RuntimeAssetStore();
+    g_store->SetRootPath(
+        reinterpret_cast<Misery::Internal::RootFlagsFn>(static_cast<uintptr_t>(io->set_root_flags)),
+        reinterpret_cast<Misery::Internal::RootFlagsFn>(static_cast<uintptr_t>(io->clear_root_flags)));
     CarrierBindings b;
     b.add_ticker = io->add_ticker; b.get_core_ticker = io->get_core_ticker;
     b.fmemory_malloc = io->fmemory_malloc;

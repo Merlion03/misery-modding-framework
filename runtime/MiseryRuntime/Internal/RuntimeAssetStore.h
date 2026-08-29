@@ -3,27 +3,39 @@
 //
 // MECHANISM AND WHY THIS ONE.
 // UE's canonical "this object is a GC root" marker is
-// EInternalObjectFlags::RootSet (1<<30, ObjectMacros.h:624 -- "Object will not be
-// garbage collected, even if unreferenced"). UObject::AddToRoot() is FORCEINLINE
-// and does exactly one thing (UObjectBaseUtility.h:196-199):
-//     GUObjectArray.IndexToObject(InternalIndex)->SetRootSet();
-// and SetRootSet() is an atomic set of that flag on the object's FUObjectItem
-// (UObjectArray.h:287-294). So the reference is a single atomic bit living in
-// ENGINE-owned memory.
+// EInternalObjectFlags::RootSet (1<<30, ObjectMacros.h:624). It is TEMPTING to
+// conclude that setting that bit is the whole mechanism, because
+// UObject::AddToRoot() is FORCEINLINE and appears to do exactly that
+// (UObjectBaseUtility.h:196-199 -> UObjectArray.h:287-290).
 //
-// That property is why this mechanism was chosen over FGCObject/
-// AddReferencedObjects for an injected runtime: an FGCObject registers a C++
-// object whose vtable lives in OUR module, and the collector calls back into it
-// on every GC pass -- if the module is ever torn down while registered, GC calls
-// into unmapped memory and the process dies. With the root-set flag there is NO
-// pointer into our memory acting as a GC reference source at all: the worst
-// possible failure is that a flag stays set and an object leaks, never a crash.
-// It is also process-global, so it is unaffected by world/map transitions, needs
-// no Blueprint VM, no per-asset special cases, and no disabling of GC.
+// THAT IS FALSE, AND WE PROVED IT (LOG-0079): an asset with the bit set by a raw
+// write was still collected ~60 s later. The real chain is
+//   AddToRoot -> SetRootSet -> ThisThreadAtomicallySetFlag, which DISPATCHES on
+//   EInternalObjectFlags_RootFlags (UObjectArray.h:205-210)
+//   -> FUObjectItem::SetRootFlags -- an OUT-OF-LINE COREUOBJECT_API function
+//      (UObjectArray.h:347, GarbageCollection.cpp:590)
+// which, under GRootsCritical, (a) registers the object's index in the GRoots
+// TSet, (b) sets the flag, and (c) issues a reachability barrier when incremental
+// GC is pending. UE 5.4's collector marks roots from an array built out of GRoots
+// (GarbageCollection.cpp:4166-4179), NOT by scanning the bit -- so a raw write
+// sets a bit nobody reads and skips both the registration and the barrier.
 //
-// The store adds the bookkeeping the raw flag lacks: explicit ownership, refcount
-// so duplicate Acquire is well defined, tolerant Release, and -- critically --
-// ReleaseAll on shutdown so no root flag outlives the runtime.
+// Therefore this store CALLS the engine's own SetRootFlags/ClearRootFlags and
+// reimplements none of GRoots, GRootsCritical, the bit, or the barrier.
+//
+// Why this rather than FGCObject for an injected runtime: an FGCObject registers
+// a C++ object whose vtable lives in OUR module and the collector calls back into
+// it on every pass, so tearing the module down while registered kills the
+// process. Going through the engine's root path leaves NO pointer into our memory
+// acting as a GC reference source; the worst failure is a leaked root, not a
+// crash. It is also process-global (unaffected by world/map transitions), needs
+// no Blueprint VM, no per-asset special cases, and no disabling of GC. This is
+// not a claim that FGCObject is unfit in general -- a resident production runtime
+// may later be compared against a centralized FGCObject holder.
+//
+// The store adds the bookkeeping the engine call alone lacks: explicit ownership,
+// a refcount so duplicate Acquire is well defined, tolerant Release, and
+// ReleaseAll on shutdown so no runtime-owned root outlives this module.
 #ifndef MISERY_RUNTIMEASSETSTORE_H
 #define MISERY_RUNTIMEASSETSTORE_H
 
@@ -36,12 +48,27 @@ namespace Internal {
 
 // EInternalObjectFlags::RootSet -- ObjectMacros.h:624
 static constexpr int32_t kRootSetFlag = 1 << 30;
-// FUObjectItem: UObjectBase* Object @0 (ERI-verified), int32 Flags @8 (declared
-// immediately after an 8-byte pointer), sizeof 0x18 (ERI-verified).
+// FUObjectItem: UObjectBase* Object @0, int32 Flags @8 (re-confirmed by the
+// 'lock cmpxchg dword ptr [rbx+8]' inside the engine's own ClearRootFlags).
 static constexpr int kUObjectItemFlagsOffset = 8;
+
+// The engine's own root-registration functions, resolved per run and handed in.
+//   bool __fastcall FUObjectItem::SetRootFlags(FUObjectItem* this, EInternalObjectFlags)
+//   bool __fastcall FUObjectItem::ClearRootFlags(FUObjectItem* this, EInternalObjectFlags)
+// We CALL these; we never reimplement GRoots / GRootsCritical / the RootSet bit /
+// the reachability barrier, all of which live inside them.
+using RootFlagsFn = bool(__fastcall*)(void* item, int32_t flags);
 
 class RuntimeAssetStore {
  public:
+  // Must be called once before any Acquire; without it the store refuses to own.
+  void SetRootPath(RootFlagsFn set_fn, RootFlagsFn clear_fn) {
+    std::lock_guard<std::mutex> lk(mtx_);
+    set_root_flags_ = set_fn;
+    clear_root_flags_ = clear_fn;
+  }
+  bool HasRootPath() const { return set_root_flags_ && clear_root_flags_; }
+
   struct Entry {
     const void* asset = nullptr;     // UObject*
     void* item = nullptr;            // its FUObjectItem*
@@ -53,6 +80,7 @@ class RuntimeAssetStore {
   // Returns the handle, or 0 if the inputs are unusable.
   uint64_t Acquire(const void* asset, void* item) {
     if (!asset || !item) return 0;
+    if (!set_root_flags_ || !clear_root_flags_) return 0;  // fail closed
     std::lock_guard<std::mutex> lk(mtx_);
     for (Entry& e : entries_) {
       if (e.asset == asset) { ++e.refcount; return e.handle; }   // duplicate acquire
@@ -112,17 +140,15 @@ class RuntimeAssetStore {
   static int32_t ReadFlags(void* item) {
     return static_cast<int32_t>(*FlagsPtr(item));
   }
-  // Atomic set/clear, mirroring FUObjectItem::ThisThreadAtomicallySet/ClearedFlag.
-  static void SetRoot(void* item, bool on) {
-    volatile long* p = FlagsPtr(item);
-    long old, want;
-    do {
-      old = *p;
-      want = on ? (old | kRootSetFlag) : (old & ~kRootSetFlag);
-      if (old == want) return;
-    } while (_InterlockedCompareExchange(p, want, old) != old);
+  // Delegate to the engine's own root path so GRoots registration and the
+  // incremental-reachability barrier happen exactly as UE does them.
+  void SetRoot(void* item, bool on) {
+    if (on) { if (set_root_flags_) set_root_flags_(item, kRootSetFlag); }
+    else    { if (clear_root_flags_) clear_root_flags_(item, kRootSetFlag); }
   }
 
+  RootFlagsFn set_root_flags_ = nullptr;
+  RootFlagsFn clear_root_flags_ = nullptr;
   std::mutex mtx_;
   std::vector<Entry> entries_;
   uint64_t next_handle_ = 0;

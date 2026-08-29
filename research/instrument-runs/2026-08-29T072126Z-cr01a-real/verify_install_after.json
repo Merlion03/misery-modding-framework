@@ -1,0 +1,12 @@
+{
+  "baseline_build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "benign_count": 0,
+  "checked_at": "2026-08-29T07:25:29Z",
+  "findings": [],
+  "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "inventory": "D:\\Dev\\MiseryFramework\\research\\builds\\misery-24953925-ue5.4.4-bace50f7185d\\install-inventory.json",
+  "mode": "full",
+  "serious_count": 0,
+  "strict": false
+}

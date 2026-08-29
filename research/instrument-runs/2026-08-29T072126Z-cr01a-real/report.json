@@ -1,0 +1,416 @@
+{
+  "acquire": {
+    "asset_ptr_hex": "0x25b46752e00",
+    "duplicate_handle_same": 1,
+    "freed": 1,
+    "fstring_ok": 1,
+    "handle": 1,
+    "item_ptr_hex": "0x25bd0f823e0",
+    "load_ran": 1,
+    "load_tid": 15796,
+    "owned_after_acquire": 1,
+    "owned_after_duplicate": 1,
+    "release_unknown_returned": 0,
+    "rooted_after_acquire": 1
+  },
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "cleanup": {
+    "dll_unloaded": true
+  },
+  "collected_after_release": true,
+  "objects_ptr_hex": "0x25b684e0880",
+  "phase1_rooted_watch": [
+    {
+      "alive": true,
+      "flags_hex": "0x40000004",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 0.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000004",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 5.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000004",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 10.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000004",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 15.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000004",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 20.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000004",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 25.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 30.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 35.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 40.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 45.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 50.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 55.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 60.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 65.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 70.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 75.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 80.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000002",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 85.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 90.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 95.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 100.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 105.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 110.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 115.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 120.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 125.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 130.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 135.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 140.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x40000001",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": true,
+      "t": 145.0
+    }
+  ],
+  "phase2_unrooted_watch": [
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 0.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 5.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 10.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 15.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 20.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 25.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 30.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 35.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 40.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 45.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 50.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 55.0
+    },
+    {
+      "alive": true,
+      "flags_hex": "0x4",
+      "item_object_matches": true,
+      "name": "MK_Canary",
+      "rooted": false,
+      "t": 60.0
+    },
+    {
+      "alive": false,
+      "flags_hex": "0x0",
+      "item_object_matches": false,
+      "name": null,
+      "rooted": false,
+      "t": 65.0
+    }
+  ],
+  "pid": 15784,
+  "reference_mechanism": {
+    "engine_functions_called": "FUObjectItem::SetRootFlags RVA 0x1210e60 / ClearRootFlags RVA 0x11bb340 (derived; GRootsCritical RVA 0x7a64310 shared by both)",
+    "equivalent_engine_api": "UObject::AddToRoot()/RemoveFromRoot() (UObjectBaseUtility.h:196-205, FORCEINLINE)",
+    "flag": "1<<30 (ObjectMacros.h:624)",
+    "name": "EInternalObjectFlags::RootSet on the asset's FUObjectItem",
+    "why_no_callback_into_our_module": "the reference is a bit in engine-owned FUObjectItem memory, not a pointer into ours, so GC never calls our code (unlike FGCObject)"
+  },
+  "release": {
+    "owned_after_release": 0,
+    "release_ok": 1,
+    "release_ran": 1,
+    "rooted_after_release": 0
+  },
+  "run_note": [
+    "pid=15784 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff630e5ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff630e63370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff630ebb790 byte-verified live==disk (48895c2408574883)",
+    "Free slot9 -> RVA 0xf87b70 (live==disk)",
+    "CDO 0x25b7ad96b80 vtable 0x7ff635ffef40 ProcessEvent 0x7ff6311bc1f0 (slot 77)",
+    "MakeSoftObjectPath 0x25b7b38a7a0  LoadAsset_Blocking 0x25b7b387be0",
+    "setRootFlags: RVA 0x1210e60 -> VA 0x7ff631120e60 byte-verified live==disk (4053564883ec4848)",
+    "clearRootFlags: RVA 0x11bb340 -> VA 0x7ff6310cb340 byte-verified live==disk (48895c2408488974)",
+    "CR01AProbe.dll built",
+    "Init ok",
+    "acquired: asset=0x25b46752e00 item=0x25bd0f823e0 handle=1 rooted=1 owned=1",
+    "phase1 (rooted): 30 samples over 150s, alive_at_end=True rooted_at_end=True",
+    "released: ok=1 rooted_now=0 owned=0",
+    "phase2 (released): 14 samples over 150s, alive_at_end=False rooted_at_end=False"
+  ],
+  "shutdown": {
+    "released_at_shutdown": 0,
+    "state": 3,
+    "wait_stopped_ok": 1
+  },
+  "survived_while_rooted": true,
+  "verdict": "PASS"
+}

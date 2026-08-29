@@ -7184,3 +7184,30 @@ question → method → evidence → finding → confidence → persistent artif
 - **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
 - **Supersedes:** уточняет LOG-0078 («объект собирается, если не удержан»): теперь известно, **чем именно** его нужно удерживать и почему флага недостаточно.
 - **Next question:** Отдельное решение владельца. `SetRootFlags`/`ClearRootFlags` — настоящие **out-of-line** `COREUOBJECT_API`-функции (в отличие от полностью заинлайненных `FMemory::Realloc/Free`), поэтому их адреса в этой Shipping-сборке, вероятно, выводимы targeted-методом. Это единственный недостающий кусок для CR-01A. Альтернатива `FGCObject` по-прежнему хуже для injected-runtime: её vtable живёт в нашем модуле и GC вызывает её каждый проход, поэтому выгрузка модуля = падение, тогда как у root-set-пути худший исход — утечка.
+
+---
+
+## 2026-08-29 — CR-01A PASS: MiseryRuntime владеет внешним ассетом через штатный engine root path; объект переживает наблюдаемые GC-проходы
+
+- **ID:** LOG-0080
+- **Question:** Может ли `MiseryRuntime` взять корректное, признаваемое GC владение внешне загруженным `UObject`, чтобы тот пережил реальные проходы сборщика, а после release снова стал нормально собираемым?
+- **Method:** Два независимых акта измерения, не переиспользующих значений друг друга. **(1) Статический вывод адресов** — `research/evidence/CR-01A/rootpath-derivation.json`: дизассемблирование экспортов `?SetRootFlags@FUObjectItem@@` / `?ClearRootFlags@FUObjectItem@@` в символизированном `UnrealEditor-CoreUObject.dll` той же версии, затем скан `.text` установленного Shipping-образа по константе `0x4E100000` (`EInternalObjectFlags_RootFlags`), разделение кандидатов по форме кода и разрешение chunk-неоднозначности чтением `UNW_FLAG_CHAININFO` из `.pdata`; **(2) Живой контрастный эксперимент** — `research/instruments/ipp/cr01a_controller.py --arm --gc-window-s 150`: загрузка `MK_Canary` доказанным путём P-04, `Acquire` в том же GameThread-job, опрос `FUObjectItem` каждые 5 с в течение 150 с, затем `Release` и повторный опрос; наблюдение чередования битов достижимости как индикатора реальных проходов GC.
+- **Evidence:** `research/evidence/CR-01A/rootpath-derivation.json`; `research/evidence/CR-01A/acceptance.json`; `research/instrument-runs/2026-08-29T072126Z-cr01a-real/report.json`; `runtime/MiseryRuntime/Internal/RuntimeAssetStore.h`.
+- **Finding:**
+  1. **PASS по всей заранее записанной цепочке.** `verdict=PASS`.
+  2. **Механизм — вызов штатных функций движка**, а не ручная работа с GC-внутренностями: `SetRootFlags` RVA `0x1210e60`, `ClearRootFlags` RVA `0x11bb340`. Runtime не реализует ни `GRoots`, ни `GRootsCritical`, ни бит `RootSet`, ни reachability-барьер — всё это исполняется внутри движка.
+  3. **Идентификация неоднозначной не осталась.** Попадание константы у `SetRootFlags` лежит в **отколотом code-chunk** (`0x1210e6a`); истинная точка входа получена **детерминированно** — по `UNW_FLAG_CHAININFO` chunk ссылается на родителя `0x1210e60`. Независимое подтверждение: **обе** функции берут **один и тот же** `GRootsCritical` (RVA `0x7a64310`) и вызывают смежные IAT-слоты Enter/LeaveCriticalSection; внутри `ClearRootFlags` виден `lock cmpxchg dword ptr [rbx+8], ecx`, что **повторно подтверждает** `FUObjectItem::Flags` на +8. Оба адреса побайтово сверены live==disk прямо перед вызовом.
+  4. **Доказательство GC — наблюдаемое, а не «прошло время».** Пока ассет был rooted, биты достижимости в его `FUObjectItem` **циклически менялись**: наблюдались `0x40000001`, `0x40000002`, `0x40000004` при неизменном `0x40000000` (RootSet). UE 5.4 чередует `ReachabilityFlag0/1/2` по проходам, то есть зафиксировано **не менее трёх проходов достижимости, которые объект пережил**.
+  5. **Контраст с опровергнутой гипотезой (LOG-0079) прямой:** сырая запись бита → собран на t=60 с; штатный engine root path → пережил все 150 с и ≥3 прохода, а после `Release` собран на t=65 с. Значит выживание объясняется механизмом, а не таймингом.
+  6. **Семантика store перепроверена уже на рабочем backend:** duplicate `Acquire` → тот же handle и без удвоения счёта; `Release` неизвестного handle → безопасный no-op; `Release` снимает root и владение (`rooted_after_release=0`, `owned_after_release=0`); без резолва engine-функций store **fails closed** (`Acquire`→0, `Init`→`0xFFFFFFFB`).
+  7. **Порядок shutdown явный:** `ReleaseAll` → shutdown диспетчера (handshake `wait_stopped_ok=1`) → удаление store → `FreeLibrary` (`dll_unloaded=true`). Ни одной Runtime-owned GC-ссылки после выгрузки не остаётся, и в выгруженной памяти нет указателя, который GC мог бы разыменовать.
+  8. **Установка не затронута:** `verify_install` MATCH до и после (0 находок); игра жива и здорова.
+- **Evidence level:** OBSERVED
+- **Confidence:** 0.95
+- **Почему именно столько:** положительный исход подтверждён наблюдаемыми проходами GC и прямым контрастом с ранее записанным отрицательным результатом на том же ассете; адреса выведены несколькими сходящимися линиями и сверены с диском; не выше — одна машина/сборка, и переход между картами отдельно не проверялся.
+- **Claim class:** I
+- **Почему class I:** утверждение «владение через штатный root path удерживает объект от сборки» — вывод из сопоставления эксперимента, контраста и кода GC.
+- **Oracle:** `runtime-reflection`, `binary-analysis`
+- **Build:** build_key=sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331
+- **Supersedes:** закрывает вопрос, открытый LOG-0079: механизм найден и доказан; сама LOG-0079 остаётся в силе как отрицательный результат для сырой записи бита.
+- **Next question:** CR-01B — blind read-only реконструкция item/content-архитектуры MISERY. Правило владения зафиксировано: **MiseryRuntime владеет загруженными mod-ассетами, пока активна регистрация владеющего мода/рантайма.** Не проверено отдельно: поведение при смене мира/карты (`GRoots` процессно-глобален, но переход не воспроизводился) — **BLOCKED ON M4 LIFECYCLE EVIDENCE**.
