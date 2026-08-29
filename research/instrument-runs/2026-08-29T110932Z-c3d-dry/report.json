@@ -1,0 +1,374 @@
+{
+  "allowstacking_bool_semantics": {
+    "byte_offset": 0,
+    "field_mask": "0xff",
+    "is_bitfield": false
+  },
+  "armed": false,
+  "baseline": {
+    "inventory": {
+      "current_weight": 0.0,
+      "data": "0x18ab3cac080",
+      "item_count": 0,
+      "max": 25,
+      "num": 12,
+      "slots": [
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 0,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000000000000000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 0,
+          "self_index": 0
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 1,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000100000001000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 1,
+          "self_index": 1
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 2,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000200000002000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 2,
+          "self_index": 2
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 3,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000300000003000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 3,
+          "self_index": 3
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 4,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000400000004000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 4,
+          "self_index": 4
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 5,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000500000005000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 5,
+          "self_index": 5
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 6,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000600000006000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 6,
+          "self_index": 6
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 7,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000700000007000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 7,
+          "self_index": 7
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 8,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000800000008000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 8,
+          "self_index": 8
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 9,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000900000009000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 9,
+          "self_index": 9
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 10,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000a0000000a000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 10,
+          "self_index": 10
+        },
+        {
+          "blocked": 0,
+          "clump": 0,
+          "index": 11,
+          "inventory_ptr": "0x18a17284ed0",
+          "item": {
+            "Amount": 0,
+            "DecayTime": 0,
+            "Durability": 100.0,
+            "ID": 0,
+            "ID_number": 0,
+            "InUse": 0,
+            "MasterInventory": "0x0",
+            "QuickBindIndex": -1,
+            "Rotated": 0,
+            "UseAmount": 1
+          },
+          "occupied": 0,
+          "raw": "0000000000000000d04e28178a0100000b0000000b000000000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c842000000000000000000000000",
+          "root_index": 11,
+          "self_index": 11
+        }
+      ],
+      "slots_sha256": "db825767b549a748589e6f0365eceab8674aa416389f4010779313a5b4137fbe",
+      "using_players_num": 1
+    },
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x18a19ca3dd0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x18a2fff1540",
+        "0x0"
+      ]
+    }
+  },
+  "copy_mask_window_count": 59,
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "offset": 64,
+      "size": 1,
+      "value": 0
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "offset": 60,
+      "size": 4,
+      "value": 1
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "offset": 68,
+      "size": 4,
+      "value": 1
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "offset": 48,
+      "size": 8,
+      "value": 0.5
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "offset": 56,
+      "size": 4,
+      "value": 1
+    }
+  },
+  "invitem_initial_state": {
+    "amount": 1,
+    "decaytime": 0,
+    "durability": 100.0,
+    "inuse": 0,
+    "quickbind": -1,
+    "rotated": 0,
+    "useamount": 0
+  },
+  "objects": {
+    "add_item": "0x18a16225e20",
+    "itemlist": "0x18a2fff1540",
+    "master": "0x18a16221ac0",
+    "owner": "0x18a0ef5ade0",
+    "player_inv": "0x18a17284ed0",
+    "remove_item": "0x18a16224e60",
+    "row_struct": "0x18a15d80520",
+    "sgk_details": "0x18a162220e0"
+  },
+  "outcome": "DRY RUN: all fail-closed checks passed, nothing written.",
+  "pid": 12780,
+  "probe_row": "misery__c3d_first_mod_item",
+  "run_note": [
+    "pid=12780 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 EventGraphFunction=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 EventGraphFunction=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 EventGraphFunction=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 EventGraphFunction=null",
+    "AddItem parameter ABI re-verified live: ['Item', 'NewItemSlot', 'RemainingInvItem', 'RemainingItem', 'ShowNotifications', 'StackSearch']",
+    "RemoveItem parameter ABI re-verified live: ['InvSlot', 'RemoveInvAmount', 'RemoveWeight', 'SpecialSlot']",
+    "authority: owner 0x18a0ef5ade0 Role=3 RemoteRole=1, 0 live NetDriver instances",
+    "all 8 engine addresses byte-verified live==disk",
+    "copy mask: 59 windows, masked(parent)==masked(composite) 496/496",
+    "inventory baseline: 12 slots, 0 occupied, weight=0.0 count=0 using_players=1"
+  ],
+  "struct_size": 2264,
+  "trigger_row": "misery__c3d_neutral_trigger"
+}

@@ -1,0 +1,42 @@
+BP_MasterInventory_C       0x18b8bbf9200 slot=0   ID=Weapon_Cleaver              
+    ID=1658460 Amount=1 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=0 InUse=0 Durability=100.0 DecayTime=30
+    raw=5c4e19000000000001000000000000000000000000000000ffffffff0000000000000000000000000000c8421e000000
+BP_MasterInventory_C       0x18b8bbf9200 slot=6   ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9200 slot=12  ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=0   ID=Equipment_FurCoat           
+    ID=1658284 Amount=1 MasterInv=0x18a0037a000 QuickBind=-1 Rotated=0 UseAmount=0 InUse=0 Durability=45.0 DecayTime=30
+    raw=ac4d190000000000010000000000000000a037008a010000ffffffff000000000000000000000000000034421e000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=1   ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=2   ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=6   ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=7   ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=8   ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=12  ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=13  ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9780 slot=14  ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000
+BP_MasterInventory_C       0x18b8bbf9d00 slot=0   ID=Weapon_HunterKnife          
+    ID=1661656 Amount=1 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=0 InUse=0 Durability=100.0 DecayTime=30
+    raw=d85a19000000000001000000000000000000000000000000ffffffff0000000000000000000000000000c8421e000000
+BP_MasterInventory_C       0x18b8bbf9d00 slot=1   ID=None                        
+    ID=0 Amount=0 MasterInv=0x0 QuickBind=-1 Rotated=0 UseAmount=1 InUse=0 Durability=100.0 DecayTime=0
+    raw=000000000000000000000000000000000000000000000000ffffffff0000000001000000000000000000c84200000000

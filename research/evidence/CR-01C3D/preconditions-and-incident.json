@@ -1,0 +1,61 @@
+{
+  "record": "CR-01C3D -- read-only preconditions, and the controller defect that crashed the game on the first armed attempt",
+  "verdict": "PRECONDITIONS CLOSED. First armed attempt ABORTED by a controller bug that also crashed the game process. Two defects fixed; the gate itself has not yet run.",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+
+  "1_removal_path_established_BEFORE_any_mutation": {
+    "why_first": "the gate requires STOPPING before AddItem if a safe removal cannot be proven, so this was settled before anything was armed",
+    "chosen": "BP_MasterInventory_C::RemoveItem(S_InvSlot InvSlot @0, bool RemoveWeight @80, bool RemoveInvAmount @81, bool SpecialSlot @82), ParmsSize 83, FunctionFlags 0xc020000 = BlueprintCallable|BlueprintEvent|Public, no net or authority flag",
+    "why_it_is_the_exact_inverse_of_AddItem": "its Blueprint callees are RemoveItemWeight, ChangeItemCount, SetNewSlotItem and SGK RemoveAdditionalChecks -- the mirror of AddItem's AddItemWeight / ChangeItemCount / SetNewSlotItem",
+    "narrowness_evidence": "its engine-maintained object-reference array holds only 5 entries: IsValid, BP_MasterInventory_C, S_InvSlot, S_InvItem, BP_SGKInventoryInterface_C. No spawn, no drop, no world actor, no MasterItemList. Compare DropItemFromSlot / SpawnDroppedItem, which are entirely separate functions we do not touch.",
+    "SGK_RemoveAdditionalChecks": "an interface hook; the BP_SGKInventoryInterface_C implementation has a 3-byte body, i.e. an empty stub",
+    "argument_choice": "RemoveWeight=1 and RemoveInvAmount=1 (AddItem added weight and changed the count, so both must be undone), SpecialSlot=0 (an ordinary grid slot). These are INFERENCES from the callee names, so they are not trusted: the acceptance criteria instead REQUIRE that CurrentWeight and ItemCount return exactly to their baseline values, which is an observation rather than an assumption.",
+    "ordering_rule": "the inventory entry is removed FIRST; the definition is only unpublished once no S_InvItem carries its ID"
+  },
+
+  "2_S_InvItem_initial_state_derived_from_live_data": {
+    "method": "every live inventory component in the process was scanned and every occupied slot decoded -- 1036 real vanilla entries across 1627 inventories",
+    "distribution": {
+      "QuickBindIndex": "-1 in 1036 of 1036 -- universal",
+      "InUse": "0 in 1036 of 1036",
+      "UseAmount": "0 in 1017 of 1036",
+      "Rotated": "0 in 1015 of 1036",
+      "Durability": "100.0 in 882 of 1036",
+      "MasterInventory": "null in 904 of 1036",
+      "Amount": "1 in 933 of 1036",
+      "DecayTime": "never 0 -- only 1, 10 or 30"
+    },
+    "chosen": {"ID": "the published probe FName", "Amount": 1, "MasterInventory": 0,
+               "QuickBindIndex": -1, "Rotated": 0, "UseAmount": 0, "InUse": 0,
+               "Durability": 100.0, "DecayTime": 0},
+    "why_QuickBindIndex_matters": "a zeroed S_InvItem would carry QuickBindIndex 0, which reads as 'bound to quick slot 0' rather than 'unbound'. Not one live entry uses 0. This is exactly the kind of field that looks safe to leave zeroed and is not.",
+    "the_one_ambiguous_field": {
+      "field": "DecayTime",
+      "problem": "it is never 0 in live data, so 0 could not simply be assumed minimal",
+      "resolution": "decay is gated by the DEFINITION, not the instance: S_ItemDetails.DurabilityDetails (offset 1928) -> S_DurabilityDetails.DecayDetails (offset 48) -> S_DecayDetails.UseItemDecay (offset 0), i.e. absolute offset 1976. The controller reads that byte off the REAL materialized row and refuses to proceed to AddItem if it is set, rather than assuming the default. Same for UseDurability at 1928.",
+      "status": "the check is wired and fails closed; it has not yet been observed on a live materialized row"
+    }
+  },
+
+  "3_abi_reverified_live": {
+    "AddItem": "ParmsSize 120, EventGraphFunction null, and every parameter re-checked against (class, offset, struct name): Item(FStructProperty,0,S_InvItem), StackSearch(FBoolProperty,48), ShowNotifications(FBoolProperty,49), RemainingItem(FBoolProperty,50), RemainingInvItem(FStructProperty,56,S_InvItem), NewItemSlot(FStructProperty,104,S_InvSlotID)",
+    "RemoveItem": "ParmsSize 83, EventGraphFunction null, InvSlot(FStructProperty,0,S_InvSlot) plus the three bools at 80/81/82",
+    "SGK ItemDetails": "ParmsSize 2336, flags 0x1cc22000, EventGraphFunction null",
+    "net_flag_gate": "all three are refused if any FUNC_Net*/FUNC_BlueprintAuthorityOnly bit is set",
+    "authority": "owning actor Role=3 (ROLE_Authority), RemoteRole=1, and ZERO live NetDriver instances -- the run refuses if any exist",
+    "inventory_baseline": "12 slots, 0 occupied, CurrentWeight 0.0, ItemCount 0, UsingPlayers 1"
+  },
+
+  "4_incident_first_armed_attempt": {
+    "what_happened": "the controller raised TypeError inside its first read_io(), immediately after enqueuing RunCreate. The exception was not ipp.Blocked, so it propagated out of run(); the finally block then unloaded the probe DLL. The dispatcher had NOT been shut down, so the carrier's FTSTicker callback was still registered and pointing into the just-unloaded module. The engine ticked into freed code and the game process died.",
+    "root_cause_1_trigger": "unpack_io computed the index of the first output field by hand-summing the format groups and got 252 instead of 253 -- 'iiiB3s' was counted as 4 items when it is 5. The 48-byte out_remaining_invitem was therefore read as the preceding integer, and decode_invitem raised TypeError.",
+    "root_cause_2_structural": "the finally block unloaded the module WITHOUT first calling Shutdown. That defect was latent in CR-01C3B and CR-01C3C too; they simply never raised inside that window.",
+    "how_far_it_got": "Init and RunCreate only. NO vanilla object was written: the ParentTables attach never ran, AddItem never ran. The spawned Runtime UDataTable died with the process.",
+    "install_integrity_after_the_crash": "verify_install full mode: result=match, 0 serious, 0 benign findings. Nothing on disk was touched -- the game install is read-only throughout and remained so.",
+    "fix_1": "OUT_INDEX is now derived from the format string itself (len(struct.unpack(prefix, bytes(calcsize(prefix))))), so it cannot drift from the layout again. It computes to 253, confirming the off-by-one.",
+    "fix_2": "all three controllers (C3B, C3C, C3D) now ALWAYS attempt Shutdown before FreeLibrary in the finally. Shutdown is idempotent -- it early-returns once g_disp is null -- so this is safe on the normal path and is the only thing standing between a controller-side exception and a crashed game.",
+    "honest_assessment": "this crash was caused by my controller, not by the engine, not by the gate design and not by the game. The mutation design held: nothing vanilla was written and the install is untouched. The lesson is that the teardown path needed the same fail-safe discipline as the mutation path, and it did not have it."
+  },
+
+  "5_status": "The gate has NOT run. It needs a relaunched game session with a save loaded."
+}

@@ -1,0 +1,33 @@
+0 BP_MasterInventory_C::AddUsingPlayer                 script=85     
+     names: CheckItemSpawn
+     ptrs : KismetArrayLibrary::Array_AddUnique
+0 BP_MasterInventory_C::RemoveItem                     script=462    
+     names: ChangeItemCount, RemoveItemWeight, SGK RemoveAdditionalChecks, SetNewSlotItem
+     ptrs : 
+0 BP_PlayerInventory_C::RemoveItemFromSlot             script=90     
+     names: SetNewSlotItem
+     ptrs : 
+1 BP_MasterInventory_C::ChangeItemCount                script=302    
+     names: OnRep_ItemCount
+     ptrs : 
+1 BP_MasterInventory_C::CheckItemSpawn                 script=18     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+1 BP_MasterInventory_C::RemoveItemWeight               script=2332   REFS_MASTERITEMLIST
+     names: RemoveWeight, SGK ItemDetails
+     ptrs : 
+1 BP_MasterInventory_C::SGK RemoveAdditionalChecks     script=36     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+1 BP_MasterInventory_C::SetNewSlotItem                 script=1695   
+     names: SGK ItemMovedInInventory, SGK ItemSize, SGK SlotFinder, SGK UpdateSpecialSlot, UpdateInvSlots, UpdateSlotOnUsingPlayers
+     ptrs : KismetArrayLibrary::Array_Get
+1 BP_PlayerInventory_C::SGK RemoveAdditionalChecks     script=36     
+     names: 
+     ptrs : BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory
+1 BP_SGKController_C::SGK RemoveAdditionalChecks       script=36     
+     names: 
+     ptrs : BP_SGKController_C::ExecuteUbergraph_BP_SGKController
+1 BP_SGKInventoryInterface_C::SGK RemoveAdditionalChecks script=3      
+     names: 
+     ptrs : 

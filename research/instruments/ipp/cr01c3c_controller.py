@@ -677,6 +677,17 @@ def run(api, args, run_note):
         report["shutdown"]["released_at_shutdown"] = released
     finally:
         if rbase is not None:
+            # ALWAYS stop the dispatcher before unloading. The carrier registers
+            # an FTSTicker callback that lives in THIS module; unloading while it
+            # is still registered makes the engine tick into freed code and takes
+            # the game down. Shutdown is idempotent (it early-returns once g_disp
+            # is null), so calling it here is safe on the normal path too, and it
+            # is the only thing standing between a controller-side exception and
+            # a crashed game.
+            try:
+                p04.call_export(k, hp, rbase, dll, "Shutdown", rio, 20000)
+            except Exception:  # noqa: BLE001
+                pass
             pf = k.GetProcAddress(k.GetModuleHandleW("kernel32.dll"), b"FreeLibrary")
             t3 = k.CreateRemoteThread(hp, None, 0, pf, rbase, 0, None)
             if t3:

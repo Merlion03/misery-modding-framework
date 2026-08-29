@@ -1,0 +1,178 @@
+{
+  "ambiguous_name_edges": {
+    "RemoveWeight": [
+      "BP_MasterInventory_C::RemoveWeight",
+      "MovieSceneSequencePlayer::RemoveWeight"
+    ],
+    "SGK ItemMovedInInventory": [
+      "BP_CookingComponent_C::SGK ItemMovedInInventory",
+      "BP_CraftingComponent_C::SGK ItemMovedInInventory",
+      "BP_MasterInventory_C::SGK ItemMovedInInventory",
+      "BP_SGKController_C::SGK ItemMovedInInventory",
+      "BP_SGKInventoryInterface_C::SGK ItemMovedInInventory"
+    ],
+    "SGK RemoveAdditionalChecks": [
+      "BP_MasterInventory_C::SGK RemoveAdditionalChecks",
+      "BP_PlayerInventory_C::SGK RemoveAdditionalChecks",
+      "BP_SGKController_C::SGK RemoveAdditionalChecks",
+      "BP_SGKInventoryInterface_C::SGK RemoveAdditionalChecks"
+    ],
+    "SGK UpdateSpecialSlot": [
+      "BP_CookingComponent_C::SGK UpdateSpecialSlot",
+      "BP_MasterInventory_C::SGK UpdateSpecialSlot",
+      "BP_SGKController_C::SGK UpdateSpecialSlot",
+      "BP_SGKInventoryInterface_C::SGK UpdateSpecialSlot"
+    ]
+  },
+  "depth": 2,
+  "nodes": {
+    "BP_MasterInventory_C::AddUsingPlayer": {
+      "callee_names": [
+        "CheckItemSpawn"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_AddUnique"
+      ],
+      "depth": 0,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddUsingPlayer",
+      "references_watched": [],
+      "script_bytes": 85
+    },
+    "BP_MasterInventory_C::ChangeItemCount": {
+      "callee_names": [
+        "OnRep_ItemCount"
+      ],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ChangeItemCount",
+      "references_watched": [],
+      "script_bytes": 302
+    },
+    "BP_MasterInventory_C::CheckItemSpawn": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:CheckItemSpawn",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_MasterInventory_C::RemoveItem": {
+      "callee_names": [
+        "ChangeItemCount",
+        "RemoveItemWeight",
+        "SGK RemoveAdditionalChecks",
+        "SetNewSlotItem"
+      ],
+      "callee_pointers": [],
+      "depth": 0,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:RemoveItem",
+      "references_watched": [],
+      "script_bytes": 462
+    },
+    "BP_MasterInventory_C::RemoveItemWeight": {
+      "callee_names": [
+        "RemoveWeight",
+        "SGK ItemDetails",
+        "湯湥聴þ㈵ਵಮ偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐潆湵慤楴湯片摩潃灭湯湥ㅴಊ偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐潆湵慤楴湯片摩潃灭湯湥㉴಼偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐潆湵慤楴湯片摩潃灭湯湥㍴୦偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐瑓楡獲片摩潃灭湯湥ｴ૚偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐慗汬片摩潃灭湯湥tଢ偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐慗汬片摩潃灭湯湥ㅴଲ偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐慗汬片摩潃灭湯湥㉴ଔ偂䵟瑥污潆湵慤楴湯䍟㙟䈮彐慗汬片摩潃灭湯湥㍴ಖ偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮î㈵6ೊ偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮1೒偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮攲ೖ偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮䜳ஈ偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂卟慴物䝳楲䍤浯潰敮瑮ବ偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂坟污䝬楲䍤浯潰敮瑮୶偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂坟污䝬楲䍤浯潰敮瑮1୤偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂坟污䝬楲䍤浯潰敮瑮ᨲଡ଼偂䵟瑥污潆湵慤楴湯䍟㙟⸰偂坟污䝬楲䍤浯潰敮瑮攳ಮ偂䵟瑥污潆湵慤楴湯䍟㙟⸱偂䙟畯摮瑡潩䝮"
+      ],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:RemoveItemWeight",
+      "references_watched": [
+        "MasterItemList"
+      ],
+      "script_bytes": 2332
+    },
+    "BP_MasterInventory_C::SGK RemoveAdditionalChecks": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SGK RemoveAdditionalChecks",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_MasterInventory_C::SetNewSlotItem": {
+      "callee_names": [
+        "SGK ItemMovedInInventory",
+        "SGK ItemSize",
+        "SGK SlotFinder",
+        "SGK UpdateSpecialSlot",
+        "UpdateInvSlots",
+        "UpdateSlotOnUsingPlayers"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SetNewSlotItem",
+      "references_watched": [],
+      "script_bytes": 1695
+    },
+    "BP_PlayerInventory_C::RemoveItemFromSlot": {
+      "callee_names": [
+        "SetNewSlotItem"
+      ],
+      "callee_pointers": [],
+      "depth": 0,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:RemoveItemFromSlot",
+      "references_watched": [],
+      "script_bytes": 90
+    },
+    "BP_PlayerInventory_C::SGK RemoveAdditionalChecks": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:SGK RemoveAdditionalChecks",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_SGKController_C::SGK RemoveAdditionalChecks": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_SGKController_C::ExecuteUbergraph_BP_SGKController"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C:SGK RemoveAdditionalChecks",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_SGKInventoryInterface_C::SGK RemoveAdditionalChecks": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKInventoryInterface.BP_SGKInventoryInterface_C:SGK RemoveAdditionalChecks",
+      "references_watched": [],
+      "script_bytes": 3
+    },
+    "KismetArrayLibrary::Array_AddUnique": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Script/Engine.KismetArrayLibrary:Array_AddUnique",
+      "references_watched": [],
+      "script_bytes": 0
+    }
+  },
+  "nodes_expanded": 12,
+  "nodes_referencing_watched": [
+    "BP_MasterInventory_C::RemoveItemWeight"
+  ],
+  "pid": 12780,
+  "roots": [
+    "BP_MasterInventory_C::RemoveItem",
+    "BP_PlayerInventory_C::RemoveItemFromSlot",
+    "BP_MasterInventory_C::AddUsingPlayer"
+  ],
+  "watched_objects": {
+    "MasterItemList": {
+      "address": "0x18a16221ac0",
+      "class": "CompositeDataTable"
+    }
+  }
+}
