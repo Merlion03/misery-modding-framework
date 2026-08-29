@@ -1,0 +1,23 @@
+{
+  "baseline_inventory_sha256": "a87b41c9d495310eabe7b7a08759f6b118b778043621a3d4eed92c88c28c7029",
+  "baseline_item_count": 0,
+  "baseline_weight": 0.0,
+  "dll": "D:\\Dev\\MiseryFramework\\workspace\\msvc-probe\\CR01C5Probe.dll",
+  "icon_object": 2741343667968,
+  "itemlist": 2741593752384,
+  "master": 2741593834720,
+  "mesh_object": 2740851136640,
+  "objects_ptr": 2740453115744,
+  "pid": 21360,
+  "player_inv": 2741593122672,
+  "rbase": 140715768217600,
+  "retired": true,
+  "retired_reason": "restarted to mount ArmProbe2_P; pid 21360 gone, all pointers stale",
+  "rio": 2740472315904,
+  "row_fname": 2237054,
+  "row_name": "mbpl__armprobe",
+  "rpath": 2741191114752,
+  "struct_size": 2264,
+  "table_ptr": 2741840104704,
+  "world_class": 2742170290048
+}
