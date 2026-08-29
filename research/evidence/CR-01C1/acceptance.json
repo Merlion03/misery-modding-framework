@@ -1,0 +1,82 @@
+{
+  "record": "CR-01C1 acceptance -- safe additive ItemList row registration primitive",
+  "verdict": "PASS",
+  "source_run": "research/instrument-runs/2026-08-29T080204Z-c1-final",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "row_ownership_semantics_OBSERVED_from_source": {
+    "AddRow": "DataTable.cpp -- RemoveRowInternal(name); FMemory::Malloc(GetStructureSize()); InitializeStruct; CopyScriptStruct(new, &RowData); AddRowInternal -> RowMap.Add",
+    "RemoveRow": "DataTable.cpp -- RemoveRowInternal: RowMap.RemoveAndCopyValue; DestroyStruct; FMemory::Free",
+    "EmptyTable": "iterates RowMap, DestroyStruct + FMemory::Free each, then RowMap.Empty",
+    "owner": "The UDataTable owns every row value allocation end to end.",
+    "aliasing_verdict": "A row POINTER from one table must NEVER be inserted into another: both tables would own it and whichever removed/destructed first would DestroyStruct+Free it, leaving the other dangling. Proven from source, and avoided entirely by passing a SOURCE pointer that AddRow deep-copies FROM."
+  },
+  "mechanism": {
+    "AddRow": "engine virtual, UDataTable vtable slot 95, Shipping RVA 0x3548190",
+    "RemoveRow": "engine virtual, UDataTable vtable slot 94, Shipping RVA 0x355e170",
+    "derivation": "two agreeing lines -- (1) symbolized same-version UnrealEditor-Engine.dll exports ?AddRow@UDataTable@@ / ?RemoveRow@UDataTable@@ / ?EmptyTable@UDataTable@@ sitting CONSECUTIVELY in UDataTable's vtable at 260/259/258; (2) Shipping shape: slots 93/94/95 all call the same GetEmptyUsingStruct (0x3540fc0), which source shows EmptyTable, RemoveRowInternal and AddRow each begin with, and ONLY slot 95 calls the already-proven FMemory::Malloc (0xfab790). Editor indices were NOT transferred (WITH_EDITOR adds virtuals); only the relative order was used.",
+    "verification": "AddRow, RemoveRow and ProcessEvent all byte-verified live==disk immediately before use",
+    "abi": "void __fastcall f(UDataTable* this /*RCX*/, FName RowName /*RDX, 8 bytes by value*/, const FTableRowBase* RowData /*R8*/); RemoveRow omits the third argument",
+    "runtime_allocates_nothing": "the probe performs no Malloc/Free of row memory; only the engine does"
+  },
+  "probe_key_interning": "the engine minted the key: reflected KismetStringLibrary::Conv_StringToName (ParmsSize 24, FString in @0, FName return @16) via ProcessEvent, using the proven fixed-buffer FString",
+  "fixture": "cloned one existing valid vanilla S_ItemDetails row (Artifact_Calculator) under the unused name misery_test__probe",
+  "thread": "all mutation executed on the proven GameThread dispatcher (tid 15796)",
+  "mutation_proof": {
+    "fttext_shared_refcounted_as_expected": true,
+    "neg_key_present": false,
+    "owned_buffer_deep_copied": true,
+    "probe_present": true,
+    "probe_ptr_differs_from_source_row": true,
+    "probe_ptr_fields": {
+      "owned_buffers": {
+        "InventoryActions_data": 2592628633504,
+        "InventoryActions_num": 1,
+        "WorldActions_data": 2590720922992,
+        "WorldActions_num": 2
+      },
+      "shared_refcounted": {
+        "Description_FText": 2590158640576,
+        "Name_FText": 2590158641792,
+        "ShortName_FText": 2590158641728
+      }
+    },
+    "probe_row_ptr": "0x25be502db80",
+    "probe_scalars_match_source": true,
+    "row_count": 497,
+    "source_ptr_fields": {
+      "owned_buffers": {
+        "InventoryActions_data": 2590155781984,
+        "InventoryActions_num": 1,
+        "WorldActions_data": 2590609660864,
+        "WorldActions_num": 2
+      },
+      "shared_refcounted": {
+        "Description_FText": 2590158640576,
+        "Name_FText": 2590158641792,
+        "ShortName_FText": 2590158641728
+      }
+    },
+    "vanilla_all_present": true,
+    "vanilla_unchanged": true
+  },
+  "rollback_proof": {
+    "probe_absent": true,
+    "row_count": 496,
+    "vanilla_all_present": true,
+    "vanilla_unchanged": true
+  },
+  "memory_ownership_proof": {
+    "row_struct_allocation_is_separate": "probe row pointer differs from the source row pointer",
+    "owned_containers_deep_copied": "InventoryActions/WorldActions array DATA pointers differ between clone and source while their element counts match -- proof CopyScriptStruct allocated new buffers rather than aliasing",
+    "FText_shared_by_refcount_is_CORRECT": "FText holds TRefCountPtr<ITextData> (Text.h:811) with a defaulted copy ctor, so a correct copy shares that pointer and bumps the refcount. Identical FText pointers are expected, NOT aliasing. An earlier acceptance criterion wrongly demanded they differ; it was corrected after checking the source, not after seeing the result fail.",
+    "no_double_free": "after RemoveRow destroyed the clone (DestroyStruct+Free), all 496 vanilla rows still hash byte-identically, including the shared FText pointers -- had destruction wrongly freed shared text, the vanilla rows would have been corrupted"
+  },
+  "vanilla_preservation_proof": "a full semantic snapshot was taken of all 496 rows (sha256 over each row's 2264 raw bytes, not merely a row count). Every hash is identical before, after add, and after remove, and every vanilla key remains present.",
+  "negative_control": "the never-registered key misery_test__never_registered was absent throughout",
+  "lifecycle": {
+    "wait_stopped_ok": 1,
+    "dll_unloaded": true
+  },
+  "install_integrity": "verify_install MATCH before and after (0 findings)",
+  "game_health": "process alive and healthy after the run"
+}

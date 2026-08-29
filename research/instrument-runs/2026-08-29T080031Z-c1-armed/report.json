@@ -1,0 +1,102 @@
+{
+  "add": {
+    "activated": 1,
+    "add_ran": 1,
+    "add_rc": 0,
+    "fstring_ok": 1,
+    "gt_tid": 15796,
+    "initialized": 1,
+    "intern_ran": 1,
+    "probe_fname": 2268764,
+    "remove_ran": 0,
+    "remove_rc": 0,
+    "state": 1,
+    "wait_stopped_ok": 0
+  },
+  "addresses": {
+    "AddRow": "0x3548190",
+    "ProcessEvent": "0x12ac1f0",
+    "RemoveRow": "0x355e170"
+  },
+  "after_add": {
+    "deep_copy_not_aliased": false,
+    "neg_key_present": false,
+    "probe_present": true,
+    "probe_ptr_differs_from_source_row": true,
+    "probe_ptr_fields": {
+      "Description_FText_ptr": "0x25b117c2400",
+      "Name_FText_ptr": "0x25b117c24c0",
+      "ShortName_FText_ptr": "0x25b117c2480"
+    },
+    "probe_row_ptr": "0x25c553b0080",
+    "probe_scalars_match_source": true,
+    "row_count": 497,
+    "source_ptr_fields": {
+      "Description_FText_ptr": "0x25b117c2400",
+      "Name_FText_ptr": "0x25b117c24c0",
+      "ShortName_FText_ptr": "0x25b117c2480"
+    },
+    "vanilla_all_present": true,
+    "vanilla_unchanged": true
+  },
+  "after_remove": {
+    "probe_absent": true,
+    "row_count": 496,
+    "vanilla_all_present": true,
+    "vanilla_unchanged": true
+  },
+  "baseline_rows": 496,
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "cleanup": {
+    "dll_unloaded": true
+  },
+  "clone_source_row": "Ammo_5.45",
+  "itemlist_hex": "0x25b40820940",
+  "pid": 15784,
+  "remove": {
+    "activated": 1,
+    "add_ran": 1,
+    "add_rc": 0,
+    "fstring_ok": 1,
+    "gt_tid": 15796,
+    "initialized": 1,
+    "intern_ran": 1,
+    "probe_fname": 2268764,
+    "remove_ran": 1,
+    "remove_rc": 0,
+    "state": 1,
+    "wait_stopped_ok": 0
+  },
+  "rowstruct": "S_ItemDetails",
+  "run_note": [
+    "pid=15784 fingerprint confirmed",
+    "add_ticker: VA 0x7ff630e5ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff630e63370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff630ebb790 byte-verified live==disk (48895c2408574883)",
+    "ProcessEvent: RVA 0x12ac1f0 byte-verified live==disk",
+    "AddRow: RVA 0x3548190 byte-verified live==disk",
+    "RemoveRow: RVA 0x355e170 byte-verified live==disk",
+    "baseline rows=496 (rowmap {'data_ptr_hex': '0x25b33300010', 'array_num': 496, 'num_bits': 496, 'bit_storage': 'secondary', 'allocated_rows': 496})",
+    "clone source row 'Ammo_5.45' @0x25b455152a0",
+    "CR01C1Probe.dll built",
+    "Init ok",
+    "add_ran=1 gt_tid=15796 fname=0x229e5c",
+    "after add: rows=497 probe=True vanilla_unchanged=True",
+    "after remove: rows=496 probe_absent=True vanilla_unchanged=True"
+  ],
+  "shutdown": {
+    "activated": 1,
+    "add_ran": 1,
+    "add_rc": 0,
+    "fstring_ok": 1,
+    "gt_tid": 15796,
+    "initialized": 1,
+    "intern_ran": 1,
+    "probe_fname": 2268764,
+    "remove_ran": 1,
+    "remove_rc": 0,
+    "state": 3,
+    "wait_stopped_ok": 1
+  },
+  "verdict": "NOT-PASS"
+}

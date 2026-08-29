@@ -1,0 +1,26 @@
+{
+  "addresses": {
+    "AddRow": "0x3548190",
+    "ProcessEvent": "0x12ac1f0",
+    "RemoveRow": "0x355e170"
+  },
+  "armed": false,
+  "baseline_rows": 496,
+  "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "clone_source_row": "Ammo_5.45",
+  "itemlist_hex": "0x25b40820940",
+  "outcome": "DRY RUN: preconditions verified, targets resolved, nothing written.",
+  "pid": 15784,
+  "rowstruct": "S_ItemDetails",
+  "run_note": [
+    "pid=15784 fingerprint confirmed",
+    "add_ticker: VA 0x7ff630e5ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff630e63370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff630ebb790 byte-verified live==disk (48895c2408574883)",
+    "ProcessEvent: RVA 0x12ac1f0 byte-verified live==disk",
+    "AddRow: RVA 0x3548190 byte-verified live==disk",
+    "RemoveRow: RVA 0x355e170 byte-verified live==disk",
+    "baseline rows=496 (rowmap {'data_ptr_hex': '0x25b33300010', 'array_num': 496, 'num_bits': 496, 'bit_storage': 'secondary', 'allocated_rows': 496})",
+    "clone source row 'Ammo_5.45' @0x25b455152a0"
+  ]
+}

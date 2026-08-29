@@ -1,0 +1,53 @@
+{
+  "build_sha256": null,
+  "class_address": "0x25b66d6b800",
+  "class_path": "/Script/Engine.KismetStringLibrary",
+  "functions": {
+    "Conv_StringToName": {
+      "address": "0x25b7be745a0",
+      "found": true,
+      "function_flags": "0x14022403",
+      "num_parms": 2,
+      "parameters": [
+        {
+          "array_dim": 1,
+          "flags": [
+            "CPF_Parm",
+            "CPF_ZeroConstructor"
+          ],
+          "flags_hex": "0x18000000000280",
+          "is_out": false,
+          "is_return": false,
+          "name": "InString",
+          "offset": 0,
+          "property_class": "FStrProperty",
+          "size": 16,
+          "total_size": 16
+        },
+        {
+          "array_dim": 1,
+          "flags": [
+            "CPF_Parm",
+            "CPF_OutParm",
+            "CPF_ReturnParm",
+            "CPF_ZeroConstructor",
+            "CPF_IsPlainOldData",
+            "CPF_NoDestructor"
+          ],
+          "flags_hex": "0x18001040000780",
+          "is_out": true,
+          "is_return": true,
+          "name": "ReturnValue",
+          "offset": 16,
+          "property_class": "FNameProperty",
+          "size": 8,
+          "total_size": 8
+        }
+      ],
+      "parms_size": 24,
+      "property_chain_rejected": {},
+      "return_value_offset": 16
+    }
+  },
+  "pid": 15784
+}
