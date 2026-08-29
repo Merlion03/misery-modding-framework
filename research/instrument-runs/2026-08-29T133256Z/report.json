@@ -1,0 +1,283 @@
+{
+  "additem_out": {
+    "NewItemSlot": {
+      "Index": 3,
+      "InvComponent": "0x26828939d90"
+    },
+    "RemainingItem": 0
+  },
+  "after_republish": {
+    "composite_row_ptr": "0x26979e112c0",
+    "composite_row_reallocated_by_rebuild": true,
+    "composite_row_ui": {
+      "InventoryIcon": "0x2682324fe80",
+      "MoveIcon": "0x2682324fe80",
+      "OverrideImageSize": true,
+      "SizeX": 100,
+      "SizeY": 100
+    },
+    "itemlist_rows": 496,
+    "master_rows": 497,
+    "runtime_row_ui": {
+      "InventoryIcon": "0x2682324fe80",
+      "MoveIcon": "0x2682324fe80",
+      "OverrideImageSize": true,
+      "SizeX": 100,
+      "SizeY": 100
+    },
+    "runtime_table_rows": 1,
+    "vanilla_rows_still_present": true
+  },
+  "demo_probe_still_loaded": true,
+  "find": {
+    "before": {
+      "InventoryIcon": "0x2682324fe80",
+      "MoveIcon": "0x0",
+      "OverrideImageSize": false,
+      "SizeX": 0,
+      "SizeY": 0,
+      "Weight": 0.5
+    },
+    "err": 0,
+    "err_step": 0,
+    "find_ran": 1
+  },
+  "inventory": {
+    "Amount": 1,
+    "CurrentWeight_after": 11.100000000000001,
+    "CurrentWeight_before": 10.600000000000001,
+    "CurrentWeight_delta": 0.5,
+    "ItemCount_after": 15,
+    "ItemCount_before": 14,
+    "ItemCount_delta": 1,
+    "entries_with_item": 1,
+    "note": "absolute 0.5 / 1 were the gate's numbers for an empty inventory; the player has unrelated loot now, so this is asserted as a delta",
+    "occupied_after": 6,
+    "occupied_before": 5,
+    "only_our_slot_changed": true,
+    "slot": {
+      "blocked": 0,
+      "clump": 0,
+      "index": 3,
+      "inventory_ptr": "0x26828939d90",
+      "item": {
+        "Amount": 1,
+        "DecayTime": 0,
+        "Durability": 100.0,
+        "ID": 2236760,
+        "ID_number": 0,
+        "InUse": 0,
+        "MasterInventory": "0x0",
+        "QuickBindIndex": -1,
+        "Rotated": 0,
+        "UseAmount": 0
+      },
+      "occupied": 1,
+      "raw": "0100000000000000909d9328680200000300000003000000582122000000000001000000000000000000000000000000ffffffff0000000000000000000000000000c842000000000000000000000000",
+      "root_index": 3,
+      "self_index": 3
+    },
+    "slots_changed": [
+      3
+    ]
+  },
+  "mode": "patch",
+  "observed_at_safety_check": {
+    "CurrentWeight": 10.600000000000001,
+    "ItemCount": 14,
+    "slots_sha256": "2b5196d3fb49cb878516e3cdc541e5ec5fe6cdd3480751d426451219ae0dfb10"
+  },
+  "patch": {
+    "after": {
+      "InventoryIcon": "0x2682324fe80",
+      "MoveIcon": "0x2682324fe80",
+      "OverrideImageSize": true,
+      "SizeX": 100,
+      "SizeY": 100
+    },
+    "both_icons_same_object": true,
+    "err": 0,
+    "err_step": 0,
+    "patch_ran": 1,
+    "trigger_fired": 1
+  },
+  "patch_module_teardown": {
+    "attempted": true,
+    "left_loaded_reason": null,
+    "safe_to_free_remote_memory": true,
+    "shutdown_rc": 0,
+    "state": 3,
+    "unloaded": true,
+    "wait_stopped_ok": 1
+  },
+  "patch_module_unloaded": true,
+  "pid": 16288,
+  "pre_additem": {
+    "CurrentWeight": 10.600000000000001,
+    "ItemCount": 14,
+    "occupied": 5,
+    "slots": 12,
+    "slots_sha256": "2b5196d3fb49cb878516e3cdc541e5ec5fe6cdd3480751d426451219ae0dfb10"
+  },
+  "resolver": {
+    "Height": 1,
+    "InventoryIcon": "0x2682324fe80",
+    "MoveIcon": "0x2682324fe80",
+    "OverrideImageSize": true,
+    "SizeX": 100,
+    "SizeY": 100,
+    "Weight": 0.5,
+    "Width": 1,
+    "drag_size_override_is_100x100": true,
+    "found": 1,
+    "icons_are_the_same_object": true,
+    "text": {
+      "Description": "A runtime-defined MBPL test radio.",
+      "Name": "MBPL Radio",
+      "ShortName": "Radio"
+    },
+    "text_matches": true
+  },
+  "row_name": "mbpl__radio",
+  "run_note": [
+    "pid=16288 build confirmed; demo probe still loaded at 0x7ffb132f0000",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "ProcessEvent slot 77 agrees across 3 unrelated CDOs -> 0x7ff7b602c1f0",
+    "4 engine addresses byte-verified live==disk",
+    "UI offsets: InventoryIcon@224 MoveIcon@232 Override@240 SizeX@248 SizeY@244 (OverrideImageSize mask 0xff, not a bitfield)",
+    "safety 1_no_entry_in_player_inventory: HOLDS",
+    "safety 2_counters_carry_nothing_of_ours: HOLDS",
+    "safety 3_no_other_live_inventory: HOLDS",
+    "safety 4_no_world_pickup_carries_it: HOLDS",
+    "safety 5_runtime_table_still_has_row: HOLDS",
+    "safety 6_master_item_list_still_resolves: HOLDS",
+    "safety 7_icon_still_rooted: HOLDS",
+    "row identified by content: InventoryIcon already == our texture",
+    "row patched: MoveIcon = InventoryIcon = 0x2682324fe80, override 100x100; publication trigger fired",
+    "composite copy refreshed and all 496 vanilla rows still present",
+    "resolver: found=1 icons_same=True override=True 100x100 text_ok=True",
+    "INVENTORY: slot 3, Amount 1, ItemCount 14->15 (+1), CurrentWeight 10.600000000000001->11.100000000000001 (+0.5), no other slot changed",
+    "teardown: stop handshake confirmed (wait_stopped_ok=1), module unloaded"
+  ],
+  "safety_check": {
+    "1_no_entry_in_player_inventory": {
+      "entries": 0,
+      "holds": true
+    },
+    "2_counters_carry_nothing_of_ours": {
+      "CurrentWeight": 10.600000000000001,
+      "ItemCount": 14,
+      "ItemCount_semantics": "not modelled; reported for information only",
+      "at_recorded_baseline": false,
+      "continuation_cells": 3,
+      "current_weight_explained": true,
+      "holds": true,
+      "item_carrying_slots": 2,
+      "occupied_slots": 5,
+      "our_amount": 0,
+      "our_weight": 0.0,
+      "recorded_baseline_CurrentWeight": 0.0,
+      "recorded_baseline_ItemCount": 0,
+      "summed_amount": 9,
+      "summed_weight": 10.6,
+      "unresolved_slots": []
+    },
+    "3_no_other_live_inventory": {
+      "carriers": [],
+      "holds": true,
+      "inventory_components_scanned": 371,
+      "slots_examined": 5944
+    },
+    "4_no_world_pickup_carries_it": {
+      "BP_SkeletalMasterItem_C": {
+        "InvItem_offset": 704,
+        "carrying": [],
+        "live_actors": 0
+      },
+      "BP_StaticMasterItem_C": {
+        "InvItem_offset": 704,
+        "carrying": [],
+        "live_actors": 46
+      },
+      "holds": true
+    },
+    "5_runtime_table_still_has_row": {
+      "contains": true,
+      "holds": true,
+      "row_ptr": "0x268dcf96e00",
+      "rows": 1,
+      "ui": {
+        "InventoryIcon": "0x2682324fe80",
+        "MoveIcon": "0x0",
+        "OverrideImageSize": false,
+        "SizeX": 0,
+        "SizeY": 0
+      },
+      "undecoded_names": 0
+    },
+    "6_master_item_list_still_resolves": {
+      "composite_copy_is_a_distinct_buffer": true,
+      "contains": true,
+      "holds": true,
+      "itemlist_rows": 496,
+      "row_ptr": "0x269749e1be0",
+      "rows": 497,
+      "ui": {
+        "InventoryIcon": "0x2682324fe80",
+        "MoveIcon": "0x0",
+        "OverrideImageSize": false,
+        "SizeX": 0,
+        "SizeY": 0
+      },
+      "undecoded_names": 0
+    },
+    "7_icon_still_rooted": {
+      "address": "0x2682324fe80",
+      "class": "Texture2D",
+      "flags": "0x40000001",
+      "holds": true,
+      "internal_index": 225379,
+      "name": "T_MBPL_Radio_Icon",
+      "rooted": true,
+      "uobject_item_points_back": true
+    },
+    "all_hold": true
+  },
+  "status": "READY_FOR_DRAG_VISUAL_CHECK",
+  "texts": {
+    "Description": "A runtime-defined MBPL test radio.",
+    "Name": "MBPL Radio",
+    "ShortName": "Radio"
+  },
+  "ui_offsets": {
+    "bool_semantics": {
+      "byte_offset": 0,
+      "field_mask": "0xff",
+      "is_bitfield": false
+    },
+    "inventory_icon": 224,
+    "move_icon": 232,
+    "moveiconsizeoverride": 240,
+    "override_flag": 240,
+    "override_sizex": 248,
+    "override_sizey": 244,
+    "uidetails": 224
+  },
+  "ui_offsets_relative": {
+    "InventoryIcon": 0,
+    "MoveIcon": 8,
+    "MoveIconSizeOverride": 16,
+    "OverrideImageSize": 0,
+    "SizeX": 8,
+    "SizeY": 4,
+    "UIDetails": 224
+  },
+  "verdict": "HELD"
+}

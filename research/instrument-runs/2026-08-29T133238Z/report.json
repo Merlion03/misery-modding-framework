@@ -1,0 +1,146 @@
+{
+  "armed": false,
+  "mode": "patch",
+  "observed_at_safety_check": {
+    "CurrentWeight": 10.600000000000001,
+    "ItemCount": 14,
+    "slots_sha256": "2b5196d3fb49cb878516e3cdc541e5ec5fe6cdd3480751d426451219ae0dfb10"
+  },
+  "outcome": "DRY RUN: safety conditions all hold and every offset resolved fail-closed; nothing was written.",
+  "pid": 16288,
+  "row_name": "mbpl__radio",
+  "run_note": [
+    "pid=16288 build confirmed; demo probe still loaded at 0x7ffb132f0000",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "ProcessEvent slot 77 agrees across 3 unrelated CDOs -> 0x7ff7b602c1f0",
+    "4 engine addresses byte-verified live==disk",
+    "UI offsets: InventoryIcon@224 MoveIcon@232 Override@240 SizeX@248 SizeY@244 (OverrideImageSize mask 0xff, not a bitfield)",
+    "safety 1_no_entry_in_player_inventory: HOLDS",
+    "safety 2_counters_carry_nothing_of_ours: HOLDS",
+    "safety 3_no_other_live_inventory: HOLDS",
+    "safety 4_no_world_pickup_carries_it: HOLDS",
+    "safety 5_runtime_table_still_has_row: HOLDS",
+    "safety 6_master_item_list_still_resolves: HOLDS",
+    "safety 7_icon_still_rooted: HOLDS"
+  ],
+  "safety_check": {
+    "1_no_entry_in_player_inventory": {
+      "entries": 0,
+      "holds": true
+    },
+    "2_counters_carry_nothing_of_ours": {
+      "CurrentWeight": 10.600000000000001,
+      "ItemCount": 14,
+      "ItemCount_semantics": "not modelled; reported for information only",
+      "at_recorded_baseline": false,
+      "continuation_cells": 3,
+      "current_weight_explained": true,
+      "holds": true,
+      "item_carrying_slots": 2,
+      "occupied_slots": 5,
+      "our_amount": 0,
+      "our_weight": 0.0,
+      "recorded_baseline_CurrentWeight": 0.0,
+      "recorded_baseline_ItemCount": 0,
+      "summed_amount": 9,
+      "summed_weight": 10.6,
+      "unresolved_slots": []
+    },
+    "3_no_other_live_inventory": {
+      "carriers": [],
+      "holds": true,
+      "inventory_components_scanned": 371,
+      "slots_examined": 5944
+    },
+    "4_no_world_pickup_carries_it": {
+      "BP_SkeletalMasterItem_C": {
+        "InvItem_offset": 704,
+        "carrying": [],
+        "live_actors": 0
+      },
+      "BP_StaticMasterItem_C": {
+        "InvItem_offset": 704,
+        "carrying": [],
+        "live_actors": 46
+      },
+      "holds": true
+    },
+    "5_runtime_table_still_has_row": {
+      "contains": true,
+      "holds": true,
+      "row_ptr": "0x268dcf96e00",
+      "rows": 1,
+      "ui": {
+        "InventoryIcon": "0x2682324fe80",
+        "MoveIcon": "0x0",
+        "OverrideImageSize": false,
+        "SizeX": 0,
+        "SizeY": 0
+      },
+      "undecoded_names": 0
+    },
+    "6_master_item_list_still_resolves": {
+      "composite_copy_is_a_distinct_buffer": true,
+      "contains": true,
+      "holds": true,
+      "itemlist_rows": 496,
+      "row_ptr": "0x269749e1be0",
+      "rows": 497,
+      "ui": {
+        "InventoryIcon": "0x2682324fe80",
+        "MoveIcon": "0x0",
+        "OverrideImageSize": false,
+        "SizeX": 0,
+        "SizeY": 0
+      },
+      "undecoded_names": 0
+    },
+    "7_icon_still_rooted": {
+      "address": "0x2682324fe80",
+      "class": "Texture2D",
+      "flags": "0x40000001",
+      "holds": true,
+      "internal_index": 225379,
+      "name": "T_MBPL_Radio_Icon",
+      "rooted": true,
+      "uobject_item_points_back": true
+    },
+    "all_hold": true
+  },
+  "texts": {
+    "Description": "A runtime-defined MBPL test radio.",
+    "Name": "MBPL Radio",
+    "ShortName": "Radio"
+  },
+  "ui_offsets": {
+    "bool_semantics": {
+      "byte_offset": 0,
+      "field_mask": "0xff",
+      "is_bitfield": false
+    },
+    "inventory_icon": 224,
+    "move_icon": 232,
+    "moveiconsizeoverride": 240,
+    "override_flag": 240,
+    "override_sizex": 248,
+    "override_sizey": 244,
+    "uidetails": 224
+  },
+  "ui_offsets_relative": {
+    "InventoryIcon": 0,
+    "MoveIcon": 8,
+    "MoveIconSizeOverride": 16,
+    "OverrideImageSize": 0,
+    "SizeX": 8,
+    "SizeY": 4,
+    "UIDetails": 224
+  },
+  "verdict": "DRY-RUN"
+}

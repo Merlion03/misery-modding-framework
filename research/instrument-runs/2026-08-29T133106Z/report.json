@@ -1,0 +1,25 @@
+{
+  "blocked": true,
+  "reason": "row identity check failed err=10 step=0",
+  "run_note": [
+    "pid=16288 build confirmed; demo probe still loaded at 0x7ffb132f0000",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "4 engine addresses byte-verified live==disk",
+    "UI offsets: InventoryIcon@224 MoveIcon@232 Override@240 SizeX@248 SizeY@244 (OverrideImageSize mask 0xff, not a bitfield)",
+    "safety 1_no_entry_in_player_inventory: HOLDS",
+    "safety 2_counters_carry_nothing_of_ours: HOLDS",
+    "safety 3_no_other_live_inventory: HOLDS",
+    "safety 4_no_world_pickup_carries_it: HOLDS",
+    "safety 5_runtime_table_still_has_row: HOLDS",
+    "safety 6_master_item_list_still_resolves: HOLDS",
+    "safety 7_icon_still_rooted: HOLDS",
+    "teardown: stop handshake confirmed (wait_stopped_ok=1), module unloaded"
+  ]
+}

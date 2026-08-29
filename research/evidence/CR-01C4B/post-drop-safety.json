@@ -1,0 +1,86 @@
+{
+  "1_player_inventory": {
+    "condition_holds": true,
+    "entries_with_mbpl__radio": 0
+  },
+  "2_counters": {
+    "CurrentWeight": 0.0,
+    "ItemCount": 0,
+    "baseline_CurrentWeight": 0.0,
+    "baseline_ItemCount": 0,
+    "condition_holds": true,
+    "slots_sha256": "9b1649c7751f12dd9ccc410a75d83200fd6a2fd3a1e4dfb2e19c132b85396509",
+    "slots_sha256_matches_baseline": true
+  },
+  "3_all_live_inventories": {
+    "components_carrying_mbpl__radio": [],
+    "condition_holds": true,
+    "inventory_components_scanned": 371,
+    "slots_examined": 5944
+  },
+  "4_world_pickups": {
+    "BP_SkeletalMasterItem_C": {
+      "InvItem_offset": 704,
+      "carrying_mbpl__radio": [],
+      "class_found": true,
+      "live_actors": 0
+    },
+    "BP_StaticMasterItem_C": {
+      "InvItem_offset": 704,
+      "carrying_mbpl__radio": [],
+      "class_found": true,
+      "live_actors": 41
+    },
+    "condition_holds": true
+  },
+  "5_runtime_table": {
+    "condition_holds": true,
+    "contains_mbpl__radio": true,
+    "names_decoded": 1,
+    "names_undecoded": 0,
+    "row_ptr": "0x268dcf96e00",
+    "rows": 1,
+    "ui": {
+      "Height": 1,
+      "InventoryIcon": "0x2682324fe80",
+      "MoveIcon": "0x0",
+      "OverrideImageSize": false,
+      "SizeX": 0,
+      "SizeY": 0,
+      "Width": 1
+    }
+  },
+  "6_master_item_list": {
+    "condition_holds": true,
+    "contains_mbpl__radio": true,
+    "distinct_buffer_from_runtime_row": true,
+    "itemlist_rows": 496,
+    "names_undecoded": 0,
+    "row_ptr": "0x269749e1be0",
+    "rows": 497,
+    "ui": {
+      "Height": 1,
+      "InventoryIcon": "0x2682324fe80",
+      "MoveIcon": "0x0",
+      "OverrideImageSize": false,
+      "SizeX": 0,
+      "SizeY": 0,
+      "Width": 1
+    }
+  },
+  "7_icon_texture": {
+    "address": "0x2682324fe80",
+    "class": "Texture2D",
+    "condition_holds": true,
+    "flags": "0x40000002",
+    "internal_index": 225379,
+    "name": "T_MBPL_Radio_Icon",
+    "rooted": true,
+    "uobject_item_points_back": true
+  },
+  "all_conditions_hold": true,
+  "pid": 16288,
+  "row_fname_id": 2236760,
+  "same_process": true,
+  "state_pid": 16288
+}
