@@ -225,7 +225,8 @@
         "CR-01C3C",
         "CR-01C3D",
         "CR-01C4A",
-        "CR-01C4B"
+        "CR-01C4B",
+        "CR-01C5"
       ]
     },
     "verify_install_state": {
