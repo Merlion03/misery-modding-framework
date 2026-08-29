@@ -1,0 +1,39 @@
+{
+  "record": "CR-01C2 precondition analysis -- mod-owned S_ItemDetails row as an AddRow source",
+  "verdict": "BLOCKED before any cook or live write. No mutation was performed.",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "read_only": true,
+
+  "requirement": "The gate needs a source row belonging to an EXTERNAL mod UDataTable whose RowStruct is S_ItemDetails, carrying real mod-owned content references, so that ItemList AddRow can deep-copy it.",
+
+  "fact_1_OBSERVED": "S_ItemDetails is a game asset, not a native type: UserDefinedStruct at /Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ItemDetails.S_ItemDetails, 2264 bytes.",
+  "fact_2_OBSERVED": "It nests at least ten further game-asset UserDefinedStructs, all under the same SGK path: S_UIDetails(64), S_EquipmentDetails(384), S_ContainerDetails(104), S_HoldableDetails(336), S_ConsumableDetails(104), S_AttachmentDetails(672), S_AmmoDetails(40), S_DurabilityDetails(80), S_RecipeDetails(24), plus the S_InventoryAction and S_WorldAction element types.",
+  "fact_3_CONSTRAINT": "D-10 forbids carrying original cooked game assets into the Mod Kit, and forbids using extracted keys or decrypted original containers. So S_ItemDetails and its nested structs cannot simply be copied into the Mod Kit project.",
+  "fact_4_OBSERVED": "DataTable rows are (de)serialized through LoadUsingStruct->SerializeItem where LoadUsingStruct = RowStruct (DataTable.cpp). For a UserDefinedStruct this is TAGGED, name-based property serialization.",
+  "fact_5_OBSERVED": "UserDefinedStruct property names carry per-asset GUID suffixes, for example Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34 and Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA. A struct recreated in the Mod Kit necessarily receives DIFFERENT GUIDs.",
+  "fact_6_OBSERVED_from_CR01C1": "AddRow copies with CopyScriptStruct(dest, src) using the DESTINATION table RowStruct (the real S_ItemDetails) to interpret the SOURCE pointer. The source memory is therefore read according to the layout of the game struct regardless of what produced it.",
+
+  "route_A_reconstruct_layout": {
+    "idea": "Independently recreate S_ItemDetails and every nested struct in the Mod Kit from our own read-only reflection, so the cooked mod row is byte-compatible.",
+    "gives_real_values": true,
+    "risk": "SEVERE. By fact_6 the game reads our buffer using ITS layout. Any divergence in size, field order or padding anywhere in the 2264-byte tree makes CopyScriptStruct read FString, FText and TArray members from wrong addresses inside the live game. That is a corruption class failure, not a clean error.",
+    "mitigation_possible": "After cooking and loading, compare our struct full recursive field layout against the game one read-only, and refuse to AddRow unless every offset and size matches exactly. That converts the risk from assumed to verified, but the authoring cost is eleven or more structs and the failure mode stays severe if the verification is ever skipped."
+  },
+
+  "route_B_import_real_struct": {
+    "idea": "Cook the mod table against a stub at the vanilla struct path so the shipped container only IMPORTS it, letting RowStruct resolve to the real S_ItemDetails at runtime.",
+    "layout_risk": "NONE, and the resolution is decisively verifiable read-only by comparing the loaded mod table RowStruct pointer against the known game S_ItemDetails object address before any write.",
+    "blocking_defect": "By facts 4 and 5 the row values were serialized under the stub property names. At load the real struct deserializes by name, no GUID-suffixed name matches, and every field falls back to its default. The result is a correctly typed but EMPTY row carrying none of the mod-owned content references this gate exists to prove.",
+    "additional_risk": "If the stub ever shipped inside the container it could shadow the vanilla struct, which is the whole-asset-replacement anti-pattern already rejected. Controllable by verifying container contents before deployment, but it must not be left to chance."
+  },
+
+  "route_C_hybrid_runtime_population": {
+    "idea": "Take route B for the TYPE (real struct, runtime-verified), then populate the mod row fields at runtime using field offsets read live from the REAL struct reflection, and only then AddRow.",
+    "why_promising": "Offsets are OBSERVED from the game own struct rather than reproduced, so there is no layout guessing at all, and we write only into a row buffer we own, never into vanilla data.",
+    "cost": "Changes what a mod-owned row means for this gate: constructed at runtime rather than carried in cooked data. It also needs a decision about which content references to set and how they are owned, where CR-01A applies.",
+    "status": "not attempted; offered as the most promising route"
+  },
+
+  "why_stopped": "The gate as written assumes a cooked mod UDataTable of S_ItemDetails carrying real values is obtainable. The evidence shows it is not, without either a corruption-class layout risk (route A) or silently receiving default-valued rows (route B). Per the standing rule that ambiguity in row memory, struct copy semantics or ownership means STOP before the live write, no cook and no mutation were performed.",
+  "nothing_performed": ["no cook", "no container deployment", "no AddRow", "no RemoveRow", "no inventory or spawn or crafting", "no writes of any kind to the game"]
+}

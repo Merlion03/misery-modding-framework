@@ -1,0 +1,819 @@
+{
+  "S_AmmoDetails": {
+    "address_hex": "0x25b333ba3c0",
+    "fields": [
+      {
+        "class_name": "Class",
+        "name": "Projectile_9_2D41DE964ED6ACF270EE109CE1959A07",
+        "offset": 0,
+        "property_class": "FClassProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FClassProperty(Class)"
+      },
+      {
+        "class_name": null,
+        "name": "Damage_7_135A920D4A4E281633D127BBE3B22A57",
+        "offset": 8,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_Damage>"
+      },
+      {
+        "class_name": null,
+        "name": "ProjectileSpeed_16_ABC0477D473A55F85A01F6B32E98B97E",
+        "offset": 24,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DamageType_15_88DDD99C45C551E3C7E600B2EE8928AF",
+        "offset": 32,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AmmoDetails.S_AmmoDetails"
+  },
+  "S_AttachmentDetails": {
+    "address_hex": "0x25b333ba720",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "IsAttachment_1_A91179EE4BECAB29FB8567BCACB0A40B",
+        "offset": 0,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "Class",
+        "name": "Attachment_5_5E2781EB424C556B72DFCA9355FDCE88",
+        "offset": 8,
+        "property_class": "FClassProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FClassProperty(Class)"
+      },
+      {
+        "class_name": "Texture2D",
+        "name": "AttachmentIcon_8_94B9953445C57C8C722C6280704A6517",
+        "offset": 16,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      },
+      {
+        "class_name": null,
+        "name": "AttachAnimation_35_A9738B9E48AE87A1404B64B8323722B1",
+        "offset": 24,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      },
+      {
+        "class_name": null,
+        "name": "DetachAnimation_38_C714988A42AAAF9BB08F1E9E2FA245CB",
+        "offset": 104,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      },
+      {
+        "class_name": null,
+        "name": "SwapDetachAnimation_41_CEE295B54B0573FD44860CA61A6C2B80",
+        "offset": 184,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      },
+      {
+        "class_name": null,
+        "name": "CanOnlyRemoveAddWhenWeaponHeld_32_12E17DD34C3A3D3BE1CC8582E8084884",
+        "offset": 264,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AttachWeaponAnimations_26_12DEDB2948C830197E46D4A15DB968A7",
+        "offset": 272,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimSequenceBase>"
+      },
+      {
+        "class_name": null,
+        "name": "DetachWeaponAnimations_28_A7F5C39140551BE54C75EE87F5874F6C",
+        "offset": 352,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimSequenceBase>"
+      },
+      {
+        "class_name": null,
+        "name": "FPAttachAnimations_57_90877AF0479B33F85E11819A49064345",
+        "offset": 432,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      },
+      {
+        "class_name": null,
+        "name": "FPDetachAnimations_58_B8C316C14399934143040EA8D836A11D",
+        "offset": 512,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      },
+      {
+        "class_name": null,
+        "name": "FPSwapDetachAnimations_59_540BC86043189F6A8BDA0E9E9DA0F85B",
+        "offset": 592,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AttachmentDetails.S_AttachmentDetails"
+  },
+  "S_ConsumableDetails": {
+    "address_hex": "0x25b397cc580",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "CanConsume_1_F33B573C44E7F10E734CE98A8F8B397B",
+        "offset": 0,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Health_4_58F2B2E648683BE1B8D783B5F9DE5F26",
+        "offset": 4,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Hunger_9_0D90519F43945DD23F8A98A10994E8C6",
+        "offset": 8,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Thirst_10_D9ED71A24C1DAC5DFF4104823F0A5337",
+        "offset": 16,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Stamina_12_C4F7061C4ECC1EC288DC08B8F0EB32DD",
+        "offset": 24,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Radiation_67_D31CAFB144A016D3CA18EAA9BC483FC1",
+        "offset": 32,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Insanity_70_2DC4A05F4C467A170F3092B4AE0647AC",
+        "offset": 40,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StopBleeding_34_8697A21F49FD77710EEA589D8104FE58",
+        "offset": 48,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "HasUseAmount_52_D5C2AD8E4B9EB866F11B6BAF17E2BBE7",
+        "offset": 49,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseAmount_37_EEA30736400AC5BC1B86B5BBEAD734FA",
+        "offset": 52,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ReplaceEmptyItem_40_1468F178488538AC9E98EE8AE08C4032",
+        "offset": 56,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ReplaceItem_43_AF78880646937D734522D7AC866EE5D3",
+        "offset": 64,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "DataTableRowHandle",
+        "type": "struct DataTableRowHandle"
+      },
+      {
+        "class_name": null,
+        "name": "ReplaceItemAmount_46_580B910E42142D14991177A8702E502F",
+        "offset": 80,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "IsKey_48_E7DE5B664CDFC391D25DA781C5D8536A",
+        "offset": 84,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DoNotRemoveAfterEmpty_50_255E7E2F46E0FCCB8B75A4AC46B6E3DF",
+        "offset": 85,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseStartingUseAmount_55_289685BA4BBFB2F9ECEB6DB7760CA01F",
+        "offset": 86,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingUseAmount_58_B6A8E00D4E045E15B34E368ABC6FD6DF",
+        "offset": 88,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": "AnimMontage",
+        "name": "ConsumeAnimation_61_94DEFB354B556911E4AA7699EBAF9169",
+        "offset": 96,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(AnimMontage)"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ConsumableDetails.S_ConsumableDetails"
+  },
+  "S_ContainerDetails": {
+    "address_hex": "0x25b333ba2a0",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "CanContainItems_9_25B233D543AED7B2D8CF249BD72C953A",
+        "offset": 0,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ContainerName_12_EE9C9F0B4A29370B9E8EF09A188E8C15",
+        "offset": 8,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ContainerInventoryCells_13_269D7DB442A1056CD715DEA438F850A2",
+        "offset": 24,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ContainerColumns_14_F97E5A5744D6545EC3C5FD967C512BF1",
+        "offset": 28,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseWeight_16_3F94FD134C121CE317A6D2A0C2938171",
+        "offset": 32,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxWeight_20_5CDB778F4D6FE3E65C8DD1A7E8722133",
+        "offset": 36,
+        "property_class": "FFloatProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FFloatProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ContainerRestrictionType_23_EC5805D64D1B1EF6093FA8B19DBF48C5",
+        "offset": 40,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RestrictionItems_27_B3D5BDB6404ACC06A8D798BDB3047E0E",
+        "offset": 48,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct DataTableRowHandle>"
+      },
+      {
+        "class_name": null,
+        "name": "ContainerType_33_C2D0977F47C071D4354A4BB1817475AD",
+        "offset": 64,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AllowContainerWindow_39_9420D45D470E700EA550EF9030EE64B4",
+        "offset": 65,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseItemCountLimit_38_585327964096457C6B3EF697DA170C6F",
+        "offset": 66,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ItemCountLimit_42_1BB0344A44E3DB354AC3DB9A4917C186",
+        "offset": 68,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CustomGridLayout_68_16D7144B4546126174180297FA5ED745",
+        "offset": 72,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "DataTableRowHandle",
+        "type": "struct DataTableRowHandle"
+      },
+      {
+        "class_name": null,
+        "name": "StartingItems_65_659DE77E404552EC2048FBB7A2C12C0C",
+        "offset": 88,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_CraftingCost>"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ContainerDetails.S_ContainerDetails"
+  },
+  "S_DurabilityDetails": {
+    "address_hex": "0x25b333ba4e0",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "UseDurability_1_13FF8AEC41F8FB8A7E973CA195D0CDF8",
+        "offset": 0,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxDurability_4_2937EBF8401931EACB7C5C932B3CB4FC",
+        "offset": 4,
+        "property_class": "FFloatProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FFloatProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DestroyItemAt0Durability_8_0941EB874C13F33FB68492B0414CEB9F",
+        "offset": 8,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CanRepair_10_E3D078744EB73580CAD78DB9D29BF92B",
+        "offset": 9,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RepairActors_22_250F45ED4AB0016FAB159CB1D840F657",
+        "offset": 16,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_RepairActors>"
+      },
+      {
+        "class_name": null,
+        "name": "RepairCost_17_81F6B265407AA8BFAA7DC8B135B2B54C",
+        "offset": 32,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_CraftingCost>"
+      },
+      {
+        "class_name": null,
+        "name": "DecayDetails_28_E55B8B1D423F7D487FFACDAB43C68F74",
+        "offset": 48,
+        "property_class": "FStructProperty",
+        "size": 32,
+        "struct_name": "S_DecayDetails",
+        "type": "struct S_DecayDetails"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_DurabilityDetails.S_DurabilityDetails"
+  },
+  "S_EquipmentDetails": {
+    "address_hex": "0x25b1116df60",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "EquipmentSlots_10_CCC18F0A4E6318F24AEB748D9321B834",
+        "offset": 0,
+        "property_class": "FSetProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TSet<None>"
+      },
+      {
+        "class_name": null,
+        "name": "ThirdPersonEquipmentMeshes_53_574EB0D34D02565710AE9B8C2B3F49D3",
+        "offset": 80,
+        "property_class": "FStructProperty",
+        "size": 32,
+        "struct_name": "S_EquipmentMeshes",
+        "type": "struct S_EquipmentMeshes"
+      },
+      {
+        "class_name": null,
+        "name": "FirstPersonBodyEquipmentMeshes_54_5B6FE8724D4844528229488149EF2142",
+        "offset": 112,
+        "property_class": "FStructProperty",
+        "size": 32,
+        "struct_name": "S_EquipmentMeshes",
+        "type": "struct S_EquipmentMeshes"
+      },
+      {
+        "class_name": null,
+        "name": "FirstPersonArmsEquipmentMeshes_55_AD17FD464CED29EB1EC5DA9287531E53",
+        "offset": 144,
+        "property_class": "FStructProperty",
+        "size": 32,
+        "struct_name": "S_EquipmentMeshes",
+        "type": "struct S_EquipmentMeshes"
+      },
+      {
+        "class_name": null,
+        "name": "EquipmentQuickSlots_28_BD3FF0BF492929064D5ED09A1E24DD0D",
+        "offset": 176,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "EquipmentArmour_33_2F63729141C3B22C5EEDCCA2D4AA9A13",
+        "offset": 184,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FIntProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "EquipmentDurabilityReductions_46_5CA7B2894623CAA5BFA4FEA0D6A5E522",
+        "offset": 264,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FDoubleProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "HideInFirstPerson_40_40A20CFC40110CB144C75CB6BB371FAF",
+        "offset": 344,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "HideCharacterComponentTags_45_31593B354C0DDD86F10F59826ABF819D",
+        "offset": 352,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<FStrProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "MuffelAudio?_57_99BB965B43E097D0530852BFD0B2D347",
+        "offset": 368,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "EquipmentRadiationProtection_60_2FEADB984BE144EBD354B397E998395F",
+        "offset": 376,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentDetails.S_EquipmentDetails"
+  },
+  "S_HoldableDetails": {
+    "address_hex": "0x25b333ba060",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "HoldableSlots_9_E504501F4C338FAADA1E59AFA1C6103B",
+        "offset": 0,
+        "property_class": "FSetProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TSet<None>"
+      },
+      {
+        "class_name": "Class",
+        "name": "HoldableClass_17_7312536547A482EB0E2E0A966F90BF83",
+        "offset": 80,
+        "property_class": "FClassProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FClassProperty(Class)"
+      },
+      {
+        "class_name": null,
+        "name": "HoldableSlotSockets_16_496EDE764CD0B41C63F43CA622933FAA",
+        "offset": 88,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FNameProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "EquipMontage_30_88C2C4244D6EB03B5907D489ADEF96ED",
+        "offset": 168,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      },
+      {
+        "class_name": null,
+        "name": "UnequipMontage_33_1405C3A34BA962D01BC05787BDC6CC75",
+        "offset": 248,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<SkeletalMesh,AnimMontage>"
+      },
+      {
+        "class_name": null,
+        "name": "OnlyHoldableWhenEquipped_23_20943BA046E9AADA58540798889AD6FE",
+        "offset": 328,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_HoldableDetails.S_HoldableDetails"
+  },
+  "S_InventoryAction": {
+    "address_hex": "0x25b41392800",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "InventoryActions_11_09EA4A134331DF405C8B59A59F4D242C",
+        "offset": 0,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ActionName_12_19BA14C540FCFDAA9B8F29A403079514",
+        "offset": 8,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InventoryAction.S_InventoryAction"
+  },
+  "S_UIDetails": {
+    "address_hex": "0x25b111626e0",
+    "fields": [
+      {
+        "class_name": "Texture2D",
+        "name": "InventoryIcon_2_C039CC7E488FA97F155FACB8819728B2",
+        "offset": 0,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      },
+      {
+        "class_name": "Texture2D",
+        "name": "MoveIcon_4_C94DCDCB483133516E681CB0DC320AAD",
+        "offset": 8,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      },
+      {
+        "class_name": null,
+        "name": "MoveIconSizeOverride_18_9F53D02742BD0DF632AF9BB28120B52B",
+        "offset": 16,
+        "property_class": "FStructProperty",
+        "size": 12,
+        "struct_name": "S_SizeOverride",
+        "type": "struct S_SizeOverride"
+      },
+      {
+        "class_name": "Texture2D",
+        "name": "QuickSlotIcon_6_8F55469A4AFC1173708BB6B10A469E4B",
+        "offset": 32,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      },
+      {
+        "class_name": "Texture2D",
+        "name": "VenderIcon_9_336F489E4954AEB6B14670A8EB50F67F",
+        "offset": 40,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      },
+      {
+        "class_name": "Texture2D",
+        "name": "EquipmentSlotIcon_14_B138564E45BE1CF1369E82A785AA536C",
+        "offset": 48,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      },
+      {
+        "class_name": "Texture2D",
+        "name": "WeaponSlotIcon_15_B266BEA74595773FE417A1B73F9C274C",
+        "offset": 56,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_UIDetails.S_UIDetails"
+  },
+  "S_WorldAction": {
+    "address_hex": "0x25b41390d00",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "WorldActions_14_09EA4A134331DF405C8B59A59F4D242C",
+        "offset": 0,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ActionName_15_19BA14C540FCFDAA9B8F29A403079514",
+        "offset": 8,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_WorldAction.S_WorldAction"
+  }
+}
