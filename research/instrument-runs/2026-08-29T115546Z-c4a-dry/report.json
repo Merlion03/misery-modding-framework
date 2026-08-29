@@ -1,0 +1,118 @@
+{
+  "armed": false,
+  "baseline": {
+    "current_weight": 0.0,
+    "inventory_occupied": 0,
+    "inventory_slots": 12,
+    "item_count": 0,
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x1ec5f15ced0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x1ec66421000",
+        "0x0"
+      ]
+    }
+  },
+  "copy_mask_window_count": 59,
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "offset": 64,
+      "size": 1,
+      "value": 0
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "offset": 60,
+      "size": 4,
+      "value": 1
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "offset": 68,
+      "size": 4,
+      "value": 1
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "offset": 48,
+      "size": 8,
+      "value": 0.5
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "offset": 56,
+      "size": 4,
+      "value": 1
+    }
+  },
+  "objects": {
+    "add_item": "0x1ec5e8f4e60",
+    "itemlist": "0x1ec66421000",
+    "master": "0x1ec5e8f4920",
+    "player_inv": "0x1ec60fd9d90",
+    "remove_item": "0x1ec5e8fa260",
+    "row_struct": "0x1ec5fdd3580",
+    "sgk_details": "0x1ec5e8f35e0",
+    "str2txt": "0x1ec2ca40cc0",
+    "txt2str": "0x1ec2ca40be0"
+  },
+  "outcome": "DRY RUN: all fail-closed checks passed, nothing written.",
+  "pid": 11548,
+  "row_name": "mbpl__c4a_named_item",
+  "run_note": [
+    "pid=11548 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 RVO=16 EventGraphFunction=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EventGraphFunction=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EventGraphFunction=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EventGraphFunction=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EventGraphFunction=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EventGraphFunction=null",
+    "Conv_StringToText parameter ABI verified: ['InString', 'ReturnValue']",
+    "Conv_TextToString parameter ABI verified: ['InText', 'ReturnValue']",
+    "authority: Role=3, 0 live NetDriver instances",
+    "all 8 engine addresses byte-verified live==disk",
+    "FText fields verified: {'Name': 0, 'ShortName': 16, 'Description': 32}"
+  ],
+  "struct_size": 2264,
+  "text_fields": {
+    "Description": {
+      "class": "FTextProperty",
+      "name": "Description_27_39047AE74BB18D53DE9D998ABDC7090D",
+      "offset": 32,
+      "size": 16,
+      "value": "First runtime-defined MBPL item."
+    },
+    "Name": {
+      "class": "FTextProperty",
+      "name": "Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34",
+      "offset": 0,
+      "size": 16,
+      "value": "MBPL Test Item"
+    },
+    "ShortName": {
+      "class": "FTextProperty",
+      "name": "ShortName_53_3FDED9954C8DBFC313F77D9D147163D6",
+      "offset": 16,
+      "size": 16,
+      "value": "MBPL Test"
+    }
+  },
+  "texts": {
+    "Description": "First runtime-defined MBPL item.",
+    "Name": "MBPL Test Item",
+    "ShortName": "MBPL Test"
+  }
+}

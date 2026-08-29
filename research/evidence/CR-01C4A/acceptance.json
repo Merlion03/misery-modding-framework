@@ -1,0 +1,151 @@
+{
+  "record": "CR-01C4A acceptance -- Runtime item FText metadata",
+  "verdict": "PASS",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "session": {
+    "pid": 11548,
+    "world": "/Game/NewMapGENTEST.NewMapGENTEST"
+  },
+  "runs": {
+    "primitive": [
+      "research/instrument-runs/2026-08-29T115606Z-c4a-primitive",
+      "research/instrument-runs/2026-08-29T115739Z-c4a-primitive-run2",
+      "research/instrument-runs/2026-08-29T115811Z-c4a-primitive-run3"
+    ],
+    "demo": "research/instrument-runs/2026-08-29T115917Z-c4a-demo",
+    "cleanup": "research/instrument-runs/2026-08-29T120338Z-c4a-cleanup",
+    "dry": "research/instrument-runs/2026-08-29T115546Z-c4a-dry"
+  },
+  "what_this_proves": "A Runtime-defined item can carry real, engine-owned FText metadata: the game's own resolver returns it and the game's own inventory UI renders it. The whole path is engine-native construction plus a single-reference move; no FText was fabricated byte-wise.",
+  "1_ftext_fields": {
+    "Name": {
+      "offset": 0,
+      "property": "FTextProperty",
+      "size": 16,
+      "reflected_name": "Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34"
+    },
+    "ShortName": {
+      "offset": 16,
+      "property": "FTextProperty",
+      "size": 16,
+      "reflected_name": "ShortName_53_3FDED9954C8DBFC313F77D9D147163D6"
+    },
+    "Description": {
+      "offset": 32,
+      "property": "FTextProperty",
+      "size": 16,
+      "reflected_name": "Description_27_39047AE74BB18D53DE9D998ABDC7090D"
+    },
+    "fail_closed": "wrong FProperty class, wrong size, a duplicate prefix match or a missing field each abort before the DLL is built",
+    "layout_from_source": "FText = { TRefCountPtr<ITextData> TextData; uint32 Flags; } = 16 bytes (Text.h:809-814)"
+  },
+  "2_construction_path": {
+    "function": "UKismetTextLibrary::Conv_StringToText(FString InString @0) -> FText ReturnValue @16",
+    "flags": "0x14022403 = Native|Static|Final|Public|RequiredAPI|BlueprintCallable|BlueprintPure",
+    "gate": "ParmsSize == 32, ReturnValueOffset == 16, EventGraphFunction == null, no net flag, and both parameter shapes re-verified live (class, offset, size) before use",
+    "why_this_one": "engine-native and reflected, the same ProcessEvent route already proven for Conv_StringToName. The engine builds every FText; the runtime never fabricates one.",
+    "read_back": "UKismetTextLibrary::Conv_TextToString(FText @0) -> FString @16, used for every verification so the text is checked through engine code rather than by decoding ITextData"
+  },
+  "3_ownership_and_copy_semantics": {
+    "who_owns_the_returned_FText": "the caller. ProcessEvent never destroys a parameter: for a property inside ParmsSize it either copies the frame's value BACK into the caller's buffer (non-out parameters -- 'so the correct copy is destroyed when the event function returns') or leaves it alone (out/return parameters). ScriptCore.cpp:2143-2156.",
+    "consequence": "the returned FText sits in our Parms buffer holding exactly ONE reference",
+    "transfer_is_a_MOVE_not_a_copy": "the 16 bytes are relocated into the row field and the source is abandoned, never destroyed, so the single reference transfers exactly. FText holds a bare pointer plus flags and nothing points back at the FText itself, so byte relocation is sound. A real copy would need ITextData::AddRef, which we have not derived -- and would be wrong here anyway, because the point is to hand the reference over, not duplicate it.",
+    "a_zeroed_FText_is_INVALID": "FText's move constructor resets the source to FText::GetEmpty().TextData with the comment 'TextData must always point to something valid' (Text.cpp:271-278). The runtime therefore never zeroes an FText.",
+    "AddRow_copy_shares_by_design": "FText(const FText&) = default (Text.h:386), so CopyScriptStruct's copy is a TRefCountPtr copy: AddRef and SHARE the same ITextData. OBSERVED: the row's three TextData pointers equal the source's exactly. This is correctness, not aliasing -- the same conclusion CR-01C1 reached about FText.",
+    "criterion_correction": "the first PASS criterion demanded the row own a DISTINCT ITextData. That contradicted semantics CR-01C1 had already established and was wrong when written, not wrong because it failed. It was replaced with row_shares_textdata_with_source (expected true) plus the real lifecycle proof below. The lifecycle proof passed on the very first run, before any criterion was touched."
+  },
+  "4_destruction_semantics_and_the_lifecycle_proof": {
+    "sequence": "InitializeStruct -> construct 3 FTexts engine-natively -> move each into its field -> AddRow (engine deep-copies, AddRef) -> DestroyStruct(temp) + FMemory::Free -> READ THE TEXT BACK OUT OF THE ROW -> RemoveRow",
+    "the_proof": "the read-back happens AFTER the temp that built the text was destroyed and freed. If the row did not hold its own live reference, the text would be gone or the read would fault.",
+    "observed": {
+      "Name": "MBPL Test Item",
+      "ShortName": "MBPL Test",
+      "Description": "First runtime-defined MBPL item."
+    },
+    "matches_expected": true,
+    "reproduced": "three independent primitive runs, all PASS, all three strings exact",
+    "row_removed_cleanly": "RemoveRow destroyed the row and the table returned to 0 rows in every run",
+    "no_vanilla_write_in_this_phase": "phase 1 runs entirely on a Runtime-owned table; ParentTables, ItemList and the inventory are untouched"
+  },
+  "5_the_honest_cost": {
+    "what_leaks": "overwriting a field discards the reference InitializeStruct put there",
+    "measured_not_assumed": "the probe records those three pointers. Across three independent runs they came back BYTE IDENTICAL: 0x1ec0635d180 / 0x1ec0635de00 / 0x1ec063573c0.",
+    "what_that_means": "they are three PERSISTENT per-field default objects belonging to the UUserDefinedStruct's default instance -- NOT one shared singleton, and NOT fresh allocations per materialization",
+    "correction": "an earlier comment in the probe claimed these were 'one shared empty-text singleton'. That was wrong and has been corrected in the source. The measurement contradicted it.",
+    "actual_impact": "three refcount increments per materialized row, on three long-lived objects. No memory that would otherwise be freed is lost, but those counts never come back down.",
+    "follow_up": "releasing them properly needs ITextData::Release, a virtual not yet derived. Recorded as a named follow-up rather than glossed over."
+  },
+  "6_resolver_observation": {
+    "function": "BP_SGKFunctions_C::'SGK ItemDetails' -- the resolver the inventory path itself uses, reading MasterItemList",
+    "ItemFound": 1,
+    "text_returned": {
+      "Name": "MBPL Test Item",
+      "ShortName": "MBPL Test",
+      "Description": "First runtime-defined MBPL item."
+    },
+    "text_matches_expected": true,
+    "numeric_returned": {
+      "Weight": 0.5,
+      "Width": 1,
+      "Height": 1,
+      "MaxStack": 1
+    },
+    "out_param_lifecycle": "the 2272-byte S_ItemDetails out-param is InitializeStruct'd before the call and DestroyStruct'd after, so the reflected call leaks nothing"
+  },
+  "7_ui_observation": {
+    "reported_by": "the owner, visually, in the running game",
+    "result": "PASS -- the name and the description rendered correctly in the normal MISERY inventory UI",
+    "significance": "this is the one claim the instrumentation cannot make for itself. 'Resolves and is in the array' and 'draws in the grid' are different claims; this closes the second one for text metadata.",
+    "item_state_at_the_time": "slot 0, Amount 1, CurrentWeight 0.0 -> 0.5, ItemCount 0 -> 1, exactly one slot changed"
+  },
+  "8_out_of_scope_observation_accidental_drop": {
+    "what_happened": "the owner accidentally dropped the item from the inventory during the visual check",
+    "recorded_as": "an OUT-OF-SCOPE OBSERVATION ONLY. It is NOT a PASS or FAIL for world-item support, which this gate never claimed and never tested.",
+    "read_only_checks_run_afterwards": {
+      "probe_absent_from_the_player_inventory": "0 entries",
+      "ItemCount": "0, baseline 0 -- restored",
+      "CurrentWeight": "0.0, baseline 0.0 -- restored",
+      "inventory_slots_sha256": "identical to baseline",
+      "probe_in_ANY_other_live_inventory": "0",
+      "world_item_actors_carrying_the_FName": "0 of 7 live BP_StaticMasterItem_C (InvItem@704) and 0 live BP_SkeletalMasterItem_C"
+    },
+    "so": "the entry left the inventory and no world object anywhere carries the id; nothing was left dangling for the registry rollback to trip over",
+    "NOT_investigated": "why no pickup appeared. A plausible explanation exists -- the definition's WorldClass was deliberately never set, and this gate is explicitly forbidden from adding one -- but that was NOT verified and is stated here as an untested hypothesis, not a finding. Per instruction the drop path was not investigated further."
+  },
+  "9_cleanup": {
+    "RemoveItem": "skipped, correctly: no inventory entry carried the id after the drop, and the job's own precondition would have refused a stale slot",
+    "detach": "ran; MasterItemList back to 496, ItemList 496",
+    "OldParentTables": "[ItemList]",
+    "ParentTables": "{data 0x1ec5f15ced0, num 1, max 2, slots ['0x1ec66421000', '0x0']} -- baseline restored including the spare slot",
+    "runtime_table_delegate": "Num 0 -- unsubscribed",
+    "itemlist_delegate": "Num 1, target index 42787 serial 14029 -> 0x1ec5e8f4920, confirmed to BE MasterItemList -- unchanged",
+    "release": {
+      "release_ran": 1,
+      "rooted_after_release": 0,
+      "owned_count": 0,
+      "item_flags": "0x2 -- RootSet cleared"
+    },
+    "teardown": {
+      "shutdown_rc": 0,
+      "wait_stopped_ok": 1,
+      "state": 3,
+      "unloaded": true,
+      "remote_memory_freed": true
+    },
+    "inventory": "0 entries with the id, ItemCount 0, CurrentWeight 0.0, slots byte-identical to baseline",
+    "verdict": "CLEAN"
+  },
+  "10_health": {
+    "game": "pid 11548 running and Responding after the cleanup",
+    "verify_install": "full mode, 0 serious and 0 benign findings, before and after every armed run",
+    "vanilla_writes": "only MasterItemList.ParentTables during the demo phase, restored byte-exactly; ItemList never written"
+  },
+  "11_residual_risks": [
+    "ITextData::Release is not derived, so three refcounts per materialized row are never returned. Bounded and non-growing in objects, but it should be closed.",
+    "World-item / pickup support is entirely untested. The accidental drop is an observation, not evidence either way.",
+    "Save/load and level-change survival -- still BLOCKED ON M4 LIFECYCLE EVIDENCE, and now with text in play the question extends to whether a runtime FText survives serialization at all.",
+    "Localization: Conv_StringToText produces a culture-invariant literal FText, not a localized entry. Anything expecting a namespace/key table entry will not find one.",
+    "Icon, mesh, WorldClass, recipes, equip/use remain unset and untested by design.",
+    "Multi-mod arbitration and all multiplayer questions remain open."
+  ]
+}

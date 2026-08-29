@@ -1,0 +1,71 @@
+{
+  "detach_ran": 1,
+  "dll_unloaded": true,
+  "final": {
+    "inventory_current_weight": 0.0,
+    "inventory_entries_with_id": 0,
+    "inventory_item_count": 0,
+    "inventory_slots_restored": true,
+    "itemlist_delegate": {
+      "data": "0x1ec19a7bf00",
+      "num": 1,
+      "targets": [
+        {
+          "index": 42787,
+          "object": "0x1ec5e8f4920",
+          "serial": 14029
+        }
+      ]
+    },
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "old_parent": {
+      "data": "0x1ec727e5ee0",
+      "elements": [
+        "0x1ec66421000"
+      ],
+      "num": 1
+    },
+    "parent_raw": {
+      "data": "0x1ec5f15ced0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x1ec66421000",
+        "0x0"
+      ]
+    },
+    "runtime_table_delegate": {
+      "data": "0x0",
+      "num": 0,
+      "targets": []
+    }
+  },
+  "inventory_entries_before_cleanup": 0,
+  "mode": "cleanup",
+  "pid": 11548,
+  "release": {
+    "item_flags": 2,
+    "owned_count": 0,
+    "release_ran": 1,
+    "rooted_after_release": 0
+  },
+  "remote_memory_freed": true,
+  "removeitem_skipped": true,
+  "row_name": "mbpl__c4a_named_item",
+  "run_note": [
+    "no inventory entry carries the id; RemoveItem skipped",
+    "teardown: stop handshake confirmed (wait_stopped_ok=1), module unloaded"
+  ],
+  "teardown": {
+    "attempted": true,
+    "left_loaded_reason": null,
+    "safe_to_free_remote_memory": true,
+    "shutdown_rc": 0,
+    "state": 3,
+    "unloaded": true,
+    "wait_stopped_ok": 1
+  },
+  "verdict": "CLEAN",
+  "zero_ran": 1
+}

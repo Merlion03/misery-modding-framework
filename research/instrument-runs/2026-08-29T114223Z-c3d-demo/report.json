@@ -1,0 +1,117 @@
+{
+  "additem_out": {
+    "NewItemSlot": {
+      "Index": 0,
+      "InvComponent": "0x1ec60fd9d90"
+    },
+    "RemainingItem": 0
+  },
+  "baseline_inventory": {
+    "current_weight": 0.0,
+    "item_count": 0,
+    "occupied": 0,
+    "slots": 12
+  },
+  "definition": {
+    "AllowStacking": 0,
+    "Height": 1,
+    "MaxStack": 1,
+    "Weight": 0.5,
+    "Width": 1
+  },
+  "held": {
+    "parenttables_publication_live": true,
+    "probe_module_loaded": true,
+    "remote_io_allocated": true,
+    "runtime_table_rooted": true
+  },
+  "inventory": {
+    "changed_slots": [
+      {
+        "fields": {
+          "item.Amount": [
+            0,
+            1
+          ],
+          "item.ID": [
+            0,
+            2256628
+          ],
+          "item.UseAmount": [
+            1,
+            0
+          ],
+          "occupied": [
+            0,
+            1
+          ]
+        },
+        "index": 0
+      }
+    ],
+    "current_weight": 0.5,
+    "entries_with_item": 1,
+    "item_count": 1,
+    "slot": {
+      "blocked": 0,
+      "clump": 0,
+      "index": 0,
+      "inventory_ptr": "0x1ec60fd9d90",
+      "item": {
+        "Amount": 1,
+        "DecayTime": 0,
+        "Durability": 100.0,
+        "ID": 2256628,
+        "ID_number": 0,
+        "InUse": 0,
+        "MasterInventory": "0x0",
+        "QuickBindIndex": -1,
+        "Rotated": 0,
+        "UseAmount": 0
+      },
+      "occupied": 1,
+      "raw": "0100000000000000909dfd60ec0100000000000000000000f46e22000000000001000000000000000000000000000000ffffffff0000000000000000000000000000c842000000000000000000000000",
+      "root_index": 0,
+      "self_index": 0
+    }
+  },
+  "invitem_initial_state": {
+    "amount": 1,
+    "decaytime": 0,
+    "durability": 100.0,
+    "inuse": 0,
+    "quickbind": -1,
+    "rotated": 0,
+    "useamount": 0
+  },
+  "mode": "demo",
+  "pid": 11548,
+  "resolver": {
+    "found": 1,
+    "height": 1,
+    "maxstack": 1,
+    "weight": 0.5,
+    "width": 1
+  },
+  "row_name": "mbpl__demo_item",
+  "run_note": [
+    "pid=11548 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 EventGraphFunction=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 EventGraphFunction=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 EventGraphFunction=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 EventGraphFunction=null",
+    "AddItem parameter ABI re-verified live: ['Item', 'NewItemSlot', 'RemainingInvItem', 'RemainingItem', 'ShowNotifications', 'StackSearch']",
+    "RemoveItem parameter ABI re-verified live: ['InvSlot', 'RemoveInvAmount', 'RemoveWeight', 'SpecialSlot']",
+    "authority: owner 0x1ec5f4e2e20 Role=3 RemoteRole=1, 0 live NetDriver instances",
+    "all 8 engine addresses byte-verified live==disk",
+    "player inventory 0x1ec60fd9d90: 12 slots, 0 occupied, 12 free, weight=0.0 count=0",
+    "definition materialized (UseDurability=0 UseItemDecay=0)",
+    "published: ParentTables Num 1->2",
+    "resolver found the definition: weight=0.5 1x1"
+  ],
+  "state_file": "D:\\Dev\\MiseryFramework\\workspace\\c3d-demo-state.json",
+  "status": "READY_FOR_VISUAL_CHECK"
+}

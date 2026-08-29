@@ -1,0 +1,58 @@
+{
+  "detach_ran": 1,
+  "dll_unloaded": true,
+  "final": {
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "old_parent": {
+      "data": "0x1ec727e5ee0",
+      "elements": [
+        "0x1ec66421000"
+      ],
+      "num": 1
+    },
+    "parent_raw": {
+      "data": "0x1ec5f15ced0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x1ec66421000",
+        "0x0"
+      ]
+    }
+  },
+  "found_before_cleanup": 1,
+  "inventory_after_remove": {
+    "count_restored": true,
+    "current_weight": 0.0,
+    "entries_with_item": 0,
+    "item_count": 0,
+    "slots_sha256_restored": true,
+    "weight_restored": true
+  },
+  "mode": "cleanup",
+  "pid": 11548,
+  "release": {
+    "owned_count": 0,
+    "release_ran": 1,
+    "rooted_after_release": 0
+  },
+  "remote_memory_freed": true,
+  "removeitem_ran": 1,
+  "row_name": "mbpl__demo_item",
+  "run_note": [
+    "RemoveItem ran=1",
+    "teardown: stop handshake confirmed (wait_stopped_ok=1), module unloaded"
+  ],
+  "status": "CLEAN",
+  "teardown": {
+    "attempted": true,
+    "left_loaded_reason": null,
+    "safe_to_free_remote_memory": true,
+    "shutdown_rc": 0,
+    "state": 3,
+    "unloaded": true,
+    "wait_stopped_ok": 1
+  },
+  "zero_ran": 1
+}
