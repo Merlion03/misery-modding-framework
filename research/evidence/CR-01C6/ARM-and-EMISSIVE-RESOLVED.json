@@ -1,0 +1,75 @@
+{
+  "gate": "CR-01C6",
+  "ARM_MAPPING": {
+    "verdict": "PROVEN by observation",
+    "mapping": "R = AmbientOcclusion, G = Roughness, B = Metallic",
+    "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial",
+    "how": "REF (metallic under either convention) rendered as a red-tinted mirror. Box B matched it; box A rendered as glossy red plastic. B is the R=0,B=1 treatment, so the metallic channel is B.",
+    "note": "This is the literal ARM convention, which the parameter NAME also suggests -- but the name was never sufficient evidence: M_Master_material declares its own mask as MT(R)_R(G)_AO(B), the opposite R/B order, so the two shipped masters genuinely disagree. The name agreeing with the measurement is a coincidence worth noting, not the reason for the conclusion.",
+    "unambiguous_regardless": "G = Roughness holds under both conventions and never needed a test.",
+    "took": "four probes; probes 1 and 2 were invalidated by a slot-assignment bug of mine, probe 3's emissive box was mis-designed as metallic, probe 4 answered both"
+  },
+  "EMISSIVE": {
+    "verdict": "NOT SUPPORTED through M_BasicMaterial",
+    "how": "EM and CTRL were identical in every binding -- same near-black BaseColor, same ARM (metallic 0 and roughness 1 under either reading), same normal -- and differed only by Emissive/EmissiveColor vectors and an EmissiveStrength scalar, verified live. A specular highlight would appear on both. No stable brightness difference was observed from any angle; what brightness there was moved with the camera.",
+    "scope_of_the_claim": "This proves M_BasicMaterial exposes no reachable emissive parameter under the three names tested (Emissive vector, EmissiveColor vector, EmissiveStrength scalar). It does NOT prove no other name exists on that material, and it does not re-test the other shipped parents.",
+    "already_known": "Across 1817 shipped material instances only two parents expose any emissive parameter, MM_Fire and M_Glow_C, and both are non-opaque VFX materials with no normal or mask input -- unusable as a shaded surface."
+  },
+  "PRODUCTION_CAPABILITY": {
+    "workable": [
+      "BaseColor",
+      "AmbientOcclusion",
+      "Roughness",
+      "Metallic",
+      "Normal"
+    ],
+    "not_supported": [
+      "Emissive"
+    ],
+    "shader_cost": "zero -- no new shaders, no ShaderCodeLibrary chunks, no collision",
+    "runtime_parent_resolution": "PROVEN: a cooked MIC referencing a vanilla parent it does not ship resolves that import at runtime"
+  },
+  "radio_ARM_encoding_now_that_the_order_is_known": {
+    "_channel_order": "R=AO, G=Roughness, B=Metallic",
+    "Body": [
+      1.0,
+      0.62,
+      0.25
+    ],
+    "Battery": [
+      1.0,
+      0.76,
+      0.1
+    ],
+    "Metal": [
+      1.0,
+      0.44,
+      0.85
+    ],
+    "Rubber": [
+      1.0,
+      0.72,
+      0.0
+    ],
+    "Screen": [
+      1.0,
+      0.22,
+      0.0
+    ],
+    "Emissive": [
+      1.0,
+      0.45,
+      0.0
+    ],
+    "Tape": [
+      1.0,
+      0.95,
+      0.0
+    ],
+    "note": "The ARM PNGs generated earlier for the seven slots already used (1.0, roughness, metallic), which happens to match the proven order. They are correct as written -- but they were written before the order was known, so they are correct by luck and should be re-derived, not reused on trust."
+  },
+  "fidelity_gap": {
+    "M_Radio_Screen": "base (0.085,0.155,0.080), emissive (0.102,0.156,0.090) -- the emissive barely exceeds the base, so the loss is slight",
+    "M_Radio_Emissive": "base (0.520,0.070,0.030), emissive (1.000,0.111,0.044) -- a bright red lamp becomes a dark red patch. This is the one visible loss."
+  }
+}
