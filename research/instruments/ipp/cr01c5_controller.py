@@ -1042,6 +1042,10 @@ def main(argv=None):
                     help="materialize the TEMPORARY ARM/emissive probe item instead of the "
                          "production radio: a separate row, the probe mesh whose slots carry "
                          "the asymmetric ARM MICs, and its own state file")
+    ap.add_argument("--probe4", action="store_true",
+                    help="probe 4: the ARM A/B plus an emissive test isolated from specular "
+                         "-- near-black base, metallic 0 and roughness 1 under EITHER ARM "
+                         "reading, with an identical no-emissive control beside it")
     ap.add_argument("--probe3", action="store_true",
                     help="the CORRECTED probe: distinct package path, slot assignment "
                          "verified on disk, and a mandatory live material check before "
@@ -1052,7 +1056,41 @@ def main(argv=None):
                          "red base, after the first probe proved visually ambiguous")
     ap.add_argument("--run-dir", default=None)
     a = ap.parse_args(argv)
-    if a.probe3:
+    if a.probe4:
+        g = globals()
+        g["ROW_NAME"] = "mbpl__probe4"
+        g["TRIGGER_NAME"] = "mbpl__probe4_neutral_trigger"
+        g["STATE_PATH"] = os.path.join(REPO, "workspace", "probe4-demo-state.json")
+        g["MESH_PACKAGE"] = "/Game/MBPLProbe4/SM_Probe4"
+        g["MESH_ASSET"] = "SM_Probe4"
+        g["TEXTS"] = {"Name": "MBPL Probe 4",
+                      "ShortName": "Probe 4",
+                      "Description": "REF / A / B are the ARM test; EM and CTRL are an "
+                                     "identical near-black pair, EM emissive and CTRL not."}
+        d = "/Game/MBPLProbe4"
+        red, black, nrm = (d + "/T4_BC_Red.T4_BC_Red", d + "/T4_BC_Black.T4_BC_Black",
+                           d + "/T4_N.T4_N")
+        g["EXPECT_MATERIALS"] = {
+            "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial."
+                      "M_BasicMaterial",
+            "slots": [
+                {"slot_name": "M_P4_REF", "mic": d + "/MI_P4_REF.MI_P4_REF",
+                 "textures": {"BaseColor": red, "ARM": d + "/T4_ARM_REF.T4_ARM_REF",
+                              "Normal": nrm}},
+                {"slot_name": "M_P4_A", "mic": d + "/MI_P4_A.MI_P4_A",
+                 "textures": {"BaseColor": red, "ARM": d + "/T4_ARM_A.T4_ARM_A",
+                              "Normal": nrm}},
+                {"slot_name": "M_P4_B", "mic": d + "/MI_P4_B.MI_P4_B",
+                 "textures": {"BaseColor": red, "ARM": d + "/T4_ARM_B.T4_ARM_B",
+                              "Normal": nrm}},
+                {"slot_name": "M_P4_EM", "mic": d + "/MI_P4_EM.MI_P4_EM",
+                 "textures": {"BaseColor": black, "ARM": d + "/T4_ARM_DARK.T4_ARM_DARK",
+                              "Normal": nrm}},
+                {"slot_name": "M_P4_CTRL", "mic": d + "/MI_P4_CTRL.MI_P4_CTRL",
+                 "textures": {"BaseColor": black, "ARM": d + "/T4_ARM_DARK.T4_ARM_DARK",
+                              "Normal": nrm}},
+            ]}
+    elif a.probe3:
         g = globals()
         g["ROW_NAME"] = "mbpl__armprobe3"
         g["TRIGGER_NAME"] = "mbpl__armprobe3_neutral_trigger"
