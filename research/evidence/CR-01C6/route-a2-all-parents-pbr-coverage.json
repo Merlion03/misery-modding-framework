@@ -1,0 +1,1613 @@
+[
+  {
+    "parent": "M_Master_material",
+    "path": "/Game/Stuff/Mountain_Environment_Set/Master_Materials/M_Master_material.M_Master_material",
+    "instances": 2,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "Base Color",
+      "MT(R)_R(G)_AO(B)",
+      "Normal"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Masks",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": true,
+    "statics": {
+      "Use Metallic": 2
+    }
+  },
+  {
+    "parent": "MI_Manny_01",
+    "path": "/Game/SurvivalGameKitV2/Materials/Instances/Manny/MI_Manny_01.MI_Manny_01",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "AnisoAOPaintMaskTex",
+      "BNormal",
+      "Base Texture",
+      "CCCCRTex",
+      "MSR_tex",
+      "Normal",
+      "Tangent"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Masks",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": true,
+    "statics": {
+      "UseLogo": 1
+    }
+  },
+  {
+    "parent": "M_Mannequin",
+    "path": "/Game/SurvivalGameKitV2/Materials/M_Mannequin.M_Mannequin",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "AnisoAOPaintMaskTex",
+      "BNormal",
+      "Base Texture",
+      "CCCCRTex",
+      "MSR_tex",
+      "Normal",
+      "Tangent"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Masks",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": true,
+    "statics": {
+      "UseLogo": 1
+    }
+  },
+  {
+    "parent": "MI_Manny_01",
+    "path": "/Game/SmartAI/Materials/Instances/Manny/MI_Manny_01.MI_Manny_01",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "AnisoAOPaintMaskTex",
+      "BNormal",
+      "Base Texture",
+      "CCCCRTex",
+      "MSR_tex",
+      "Normal",
+      "Tangent"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Masks",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": true,
+    "statics": {
+      "UseLogo": 1
+    }
+  },
+  {
+    "parent": "M_Mannequin",
+    "path": "/Game/SmartAI/Materials/M_Mannequin.M_Mannequin",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "AnisoAOPaintMaskTex",
+      "BNormal",
+      "Base Texture",
+      "CCCCRTex",
+      "MSR_tex",
+      "Normal",
+      "Tangent"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Masks",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": true,
+    "statics": {}
+  },
+  {
+    "parent": "M_BasicMaterial",
+    "path": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "ARM",
+      "BaseColor",
+      "Normal"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_BuildPart",
+    "path": "/Game/SurvivalGameKitV2/Materials/BuildParts/M_BuildPart.M_BuildPart",
+    "instances": 3,
+    "instances_without_own_permutation": 3,
+    "texture_params": [
+      "ARM",
+      "Base Color",
+      "Normal"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_VFX_Blood_SingleSprite",
+    "path": "/Game/Vefects/Blood_VFX/Shared/Materials/MasterMaterials/M_VFX_Blood_SingleSprite.M_VFX_Blood_SingleSprite",
+    "instances": 3,
+    "instances_without_own_permutation": 3,
+    "texture_params": [
+      "EdgeNormalMap",
+      "ErosionMap",
+      "NormalMap"
+    ],
+    "formats_seen": [
+      "TC_Grayscale",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_Liquid",
+    "path": "/Game/VFX/Vefects/GunFX/Materials/Liquid/M_Liquid.M_Liquid",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Normal",
+      "ReflectionTexture",
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_Splash_Master",
+    "path": "/Game/Stuff/Blood_VFX_Pack/Materials/M_Splash_Master.M_Splash_Master",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "Distortion",
+      "Normal",
+      "Normal02",
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_EditorIcon",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": false,
+    "statics": {
+      "Pixelated": 1
+    }
+  },
+  {
+    "parent": "M_Bullet_Shells",
+    "path": "/Game/VFX/Vefects/GunFX/Materials/Bullet_Shells/M_Bullet_Shells.M_Bullet_Shells",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "AO",
+      "Diffuse",
+      "Metallic",
+      "Normal",
+      "Roughness"
+    ],
+    "formats_seen": [
+      "TC_Grayscale",
+      "TC_Normalmap"
+    ],
+    "has_normalmap": true,
+    "has_masks": false,
+    "statics": {
+      "useRoughnessMap?": 1
+    }
+  },
+  {
+    "parent": "M_Mesh_Master",
+    "path": "/Game/Materials/Master/M_Mesh_Master.M_Mesh_Master",
+    "instances": 569,
+    "instances_without_own_permutation": 61,
+    "texture_params": [
+      "AlignTexture",
+      "BlendMask",
+      "BlendTexture",
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_EditorIcon",
+      "TC_Grayscale",
+      "TC_VectorDisplacementmap"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {
+      "Image Adjustments": 379,
+      "Override Blueprint Settings": 99,
+      "UseBlendTexture?": 24,
+      "Custom Snow Masking": 10
+    }
+  },
+  {
+    "parent": "M_Icon",
+    "path": "/Game/SurvivalGameKitV2/Materials/M_Icon.M_Icon",
+    "instances": 154,
+    "instances_without_own_permutation": 154,
+    "texture_params": [
+      "Image"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 52,
+    "instances_without_own_permutation": 52,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 38,
+    "instances_without_own_permutation": 38,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 31,
+    "instances_without_own_permutation": 31,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_Foliage_Master",
+    "path": "/Game/Materials/Master/M_Foliage_Master.M_Foliage_Master",
+    "instances": 27,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "Texture",
+      "WinterFadeMask",
+      "WinterTexture"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_EditorIcon"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {
+      "Image Adjustments": 27,
+      "Grass": 27,
+      "UseAutumnColor?": 10
+    }
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Temp/Game/Blueprints/WorldGeneration/WorldPresets/L_MainTerrain_LevelInstance_14799caebeb479ba.L_MainTerrain:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 25,
+    "instances_without_own_permutation": 25,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 25,
+    "instances_without_own_permutation": 25,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 21,
+    "instances_without_own_permutation": 21,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 21,
+    "instances_without_own_permutation": 21,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 21,
+    "instances_without_own_permutation": 21,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 21,
+    "instances_without_own_permutation": 21,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Temp/Game/Blueprints/WorldGeneration/WorldPresets/L_MainTerrain_LevelInstance_14799caebeb479ba.L_MainTerrain:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 20,
+    "instances_without_own_permutation": 20,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 19,
+    "instances_without_own_permutation": 19,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 18,
+    "instances_without_own_permutation": 18,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0",
+      "Weightmap1"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 17,
+    "instances_without_own_permutation": 17,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 15,
+    "instances_without_own_permutation": 15,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 15,
+    "instances_without_own_permutation": 15,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 15,
+    "instances_without_own_permutation": 15,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 14,
+    "instances_without_own_permutation": 14,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 13,
+    "instances_without_own_permutation": 13,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_Disto-MASTER",
+    "path": "/Game/Stuff/SpatialDistortion/DistortionSystem/StaticMesh/Materials/M_Disto-MASTER.M_Disto-MASTER",
+    "instances": 12,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {
+      "TextureOrColor?": 12,
+      "ActivateDisplacement": 12,
+      "PivotAtPlayerLocation": 12,
+      "WaveHeightValuesRemappedAroundZero": 12
+    }
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 12,
+    "instances_without_own_permutation": 12,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0",
+      "Weightmap1"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 11,
+    "instances_without_own_permutation": 11,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 11,
+    "instances_without_own_permutation": 11,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 10,
+    "instances_without_own_permutation": 10,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 10,
+    "instances_without_own_permutation": 10,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 9,
+    "instances_without_own_permutation": 9,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0",
+      "Weightmap1"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 8,
+    "instances_without_own_permutation": 8,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 7,
+    "instances_without_own_permutation": 7,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 7,
+    "instances_without_own_permutation": 7,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 7,
+    "instances_without_own_permutation": 7,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 7,
+    "instances_without_own_permutation": 7,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 7,
+    "instances_without_own_permutation": 7,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_VFX_SmokeShader",
+    "path": "/Game/VFX/Vefects/Shots_VFX/Shared/Materials/SmokeBased/M_VFX_SmokeShader.M_VFX_SmokeShader",
+    "instances": 6,
+    "instances_without_own_permutation": 6,
+    "texture_params": [
+      "Flipbook"
+    ],
+    "formats_seen": [
+      "TC_Grayscale"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 6,
+    "instances_without_own_permutation": 6,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 6,
+    "instances_without_own_permutation": 6,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 6,
+    "instances_without_own_permutation": 6,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 6,
+    "instances_without_own_permutation": 6,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 6,
+    "instances_without_own_permutation": 6,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_BigAntenna01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0",
+      "Weightmap1"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_Forest03:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 5,
+    "instances_without_own_permutation": 5,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_Fumes_Master",
+    "path": "/Game/VFX/Vefects/GunFX/Materials/Fumes/M_Fumes_Master.M_Fumes_Master",
+    "instances": 4,
+    "instances_without_own_permutation": 4,
+    "texture_params": [
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 4,
+    "instances_without_own_permutation": 4,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 4,
+    "instances_without_own_permutation": 4,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 4,
+    "instances_without_own_permutation": 4,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 4,
+    "instances_without_own_permutation": 4,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 4,
+    "instances_without_own_permutation": 4,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_BlockingMaterial",
+    "path": "/Game/Stuff/BlockingStarterPack/Materials/Blocking/M_BlockingMaterial.M_BlockingMaterial",
+    "instances": 3,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Color Texture",
+      "Mask Texture"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_Grayscale"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {
+      "InvertWires": 1,
+      "WireBlendScreen": 1
+    }
+  },
+  {
+    "parent": "M_Smoke_Master",
+    "path": "/Game/VFX/Vefects/GunFX/Materials/Smokes/M_Smoke_Master.M_Smoke_Master",
+    "instances": 3,
+    "instances_without_own_permutation": 3,
+    "texture_params": [
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Camp01:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 3,
+    "instances_without_own_permutation": 3,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0",
+      "Weightmap1"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 3,
+    "instances_without_own_permutation": 3,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0",
+      "Weightmap1"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 3,
+    "instances_without_own_permutation": 3,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 3,
+    "instances_without_own_permutation": 3,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "MM_Particles",
+    "path": "/Game/VFX/Explosion/Materials/MM_Particles.MM_Particles",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Tex"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "MM_Particles_01",
+    "path": "/Game/VFX/Explosion/Materials/MM_Particles_01.MM_Particles_01",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Tex"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_Alcohol",
+    "path": "/Game/Stuff/Chameleon/Materials/M_Alcohol.M_Alcohol",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "BlendMaskTexture"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_VFX_Flip_ThinGas",
+    "path": "/Game/Vefects/Blood_VFX/Shared/Materials/MasterMaterials/M_VFX_Flip_ThinGas.M_VFX_Flip_ThinGas",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Flipbook"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_Bugs",
+    "path": "/Game/ExternalPacks/BugsAplenty/MAT/M_Bugs.M_Bugs",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Animation",
+      "Diffuse",
+      "Normals"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_HDR",
+      "TC_VectorDisplacementmap"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Forest04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 2,
+    "instances_without_own_permutation": 2,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_AnomalyMesh_Master",
+    "path": "/Game/Materials/Master/M_AnomalyMesh_Master.M_AnomalyMesh_Master",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "AlignTexture",
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {
+      "Image Adjustments": 1,
+      "WorldAlignedNew": 1,
+      "Override Blueprint Settings": 1
+    }
+  },
+  {
+    "parent": "M_Landscape_Master",
+    "path": "/Game/RetroGraphics/Materials/M_Landscape_Master.M_Landscape_Master",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {
+      "Image Adjustments": 1,
+      "Enable Alpha Channel": 1
+    }
+  },
+  {
+    "parent": "M_Skybox_Master",
+    "path": "/Game/RetroGraphics/Materials/M_Skybox_Master.M_Skybox_Master",
+    "instances": 1,
+    "instances_without_own_permutation": 0,
+    "texture_params": [
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_BC7"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {
+      "Image Adjustments": 1
+    }
+  },
+  {
+    "parent": "M_Glow_C",
+    "path": "/Game/VFX/Vefects/Realistic_Starter_VFX_Pack_Vol2/Materials/M_Glow_C.M_Glow_C",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "None"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_VFX_EmissiveSimple",
+    "path": "/Game/VFX/Vefects/Shots_VFX/Shared/Materials/M_VFX_EmissiveSimple.M_VFX_EmissiveSimple",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Grayscale"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_4.L_Forest05:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_TempLandscape",
+    "path": "/Game/Materials/LandScape/M_TempLandscape.M_TempLandscape",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "GroundTex",
+      "TextureSand",
+      "Texure01",
+      "Texure03",
+      "Texure08"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_SwampWater",
+    "path": "/Game/RetroGraphics/DemoContent/Materials/M_SwampWater.M_SwampWater",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "DistortionTexture",
+      "WaterTexture"
+    ],
+    "formats_seen": [
+      "TC_Default",
+      "TC_HDR"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/Developers/Yuri/Levels_Village/14179_5.L_Meadows_Drainage_Electric:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0",
+      "Weightmap1"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_5.L_Meadows04:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "LandscapeMaterialInstanceConstant",
+    "path": "/Game/Blueprints/WorldGeneration/WorldPresets/NormalVillage/14179_3.L_BombCrater:PersistentLevel:Landscape:LandscapeMaterialInstanceConstant",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Heightmap",
+      "Weightmap0"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "M_SplatterDecal",
+    "path": "/Game/VFX/Vefects/GunFX/Materials/Liquid/M_SplatterDecal.M_SplatterDecal",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Texture"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  },
+  {
+    "parent": "Mat_Boar",
+    "path": "/Game/SkeletalMeshes/Mutans/PolyArtBoar/Materials/Mat_Boar.Mat_Boar",
+    "instances": 1,
+    "instances_without_own_permutation": 1,
+    "texture_params": [
+      "Diffuse"
+    ],
+    "formats_seen": [
+      "TC_Default"
+    ],
+    "has_normalmap": false,
+    "has_masks": false,
+    "statics": {}
+  }
+]

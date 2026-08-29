@@ -1,0 +1,42 @@
+{
+  "assets_in_probe_dir": [
+    "/Game/MBPLA2Probe/MI_MBPL_Radio_Body.MI_MBPL_Radio_Body",
+    "/Game/MBPLA2Probe/T_Neutral_N.T_Neutral_N",
+    "/Game/MBPLA2Probe/T_Radio_Body_ARM.T_Radio_Body_ARM",
+    "/Game/MBPLA2Probe/T_Radio_Body_BC.T_Radio_Body_BC"
+  ],
+  "errors": [],
+  "mic": {
+    "has_static_permutation": null,
+    "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "path": "/Game/MBPLA2Probe/MI_MBPL_Radio_Body",
+    "texture_parameter_values": [
+      [
+        "BaseColor",
+        "/Game/MBPLA2Probe/T_Radio_Body_BC.T_Radio_Body_BC"
+      ],
+      [
+        "ARM",
+        "/Game/MBPLA2Probe/T_Radio_Body_ARM.T_Radio_Body_ARM"
+      ],
+      [
+        "Normal",
+        "/Game/MBPLA2Probe/T_Neutral_N.T_Neutral_N"
+      ]
+    ]
+  },
+  "notes": [
+    "MIC: {'path': '/Game/MBPLA2Probe/MI_MBPL_Radio_Body', 'parent': '/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial', 'has_static_permutation': None, 'texture_parameter_values': [('BaseColor', '/Game/MBPLA2Probe/T_Radio_Body_BC.T_Radio_Body_BC'), ('ARM', '/Game/MBPLA2Probe/T_Radio_Body_ARM.T_Radio_Body_ARM'), ('Normal', '/Game/MBPLA2Probe/T_Neutral_N.T_Neutral_N')]}"
+  ],
+  "ok": true,
+  "textures": {
+    "ARM": "/Game/MBPLA2Probe/T_Radio_Body_ARM",
+    "BaseColor": "/Game/MBPLA2Probe/T_Radio_Body_BC",
+    "Normal": "/Game/MBPLA2Probe/T_Neutral_N",
+    "source_init_ok": [
+      true,
+      true,
+      true
+    ]
+  }
+}

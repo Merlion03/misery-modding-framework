@@ -1,0 +1,64 @@
+{
+  "pid": 14268,
+  "parents_requested": [
+    "M_Glow_C",
+    "MM_Fire"
+  ],
+  "parents": [
+    {
+      "parent": "MM_Fire",
+      "address": "0x246edd11cc0",
+      "path": "/Game/VFX/Explosion/Materials/MM_Fire.MM_Fire",
+      "parent_class": "Material",
+      "instances": 1,
+      "bHasStaticPermutationResource": {
+        "False": 1
+      },
+      "texture_parameters": {},
+      "scalar_parameters": {
+        "Emissive": 1,
+        "None": 1
+      },
+      "vector_parameters": {},
+      "static_switch_parameters": {},
+      "static_switch_set_true": {}
+    },
+    {
+      "parent": "M_Glow_C",
+      "address": "0x246b8210640",
+      "path": "/Game/VFX/Vefects/Realistic_Starter_VFX_Pack_Vol2/Materials/M_Glow_C.M_Glow_C",
+      "parent_class": "Material",
+      "instances": 1,
+      "bHasStaticPermutationResource": {
+        "False": 1
+      },
+      "texture_parameters": {
+        "None": {
+          "bound_texture_formats": {
+            "TC_Default|True": 1
+          },
+          "examples": {
+            "T_Flare_A": {
+              "name": "T_Flare_A",
+              "class": "Texture2D",
+              "CompressionSettings": "TC_Default",
+              "SRGB": true,
+              "LODGroup": 0,
+              "ImportedSize": [
+                128,
+                128
+              ]
+            }
+          }
+        }
+      },
+      "scalar_parameters": {
+        "Emissive": 1,
+        "None": 1
+      },
+      "vector_parameters": {},
+      "static_switch_parameters": {},
+      "static_switch_set_true": {}
+    }
+  ]
+}
