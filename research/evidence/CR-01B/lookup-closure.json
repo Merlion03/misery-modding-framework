@@ -1,0 +1,49 @@
+{
+  "record": "CR-01B lookup closure -- how S_InvItem::ID (bare FName) reaches S_ItemDetails",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "read_only": true,
+  "method": "Blueprint bytecode object-reference analysis: for every live UFunction, read UStruct::ScriptAndPropertyObjectReferences (offset 0x90; forced by exact prefix sums over the UStruct members after the ERI-verified ChildProperties@0x50, ending at the ERI-verified UStruct size 0xB0) and test whether the live ItemList UDataTable pointer appears in it. No native disassembly was needed; no mutation performed.",
+  "scope": "16913 live UFunctions scanned",
+
+  "classification": "A -- bare FName resolves against a HARDCODED vanilla ItemList reference baked into Blueprint bytecode at a small number of specific call sites. No generic resolver, no helper indirection for the inventory path, no runtime cache.",
+
+  "who_references_ItemList_OBSERVED": {
+    "total_functions": 8,
+    "BP_PlayerInventory_C": ["AttemptToAddItemToSlot", "AttemptToHoldItem", "ConsumeItem", "UseInventoryAction", "UseWeaponFromSlot"],
+    "BP_SGKFunctions": ["SGK ItemCookingRecipe (also references GetDataTableRowNames and DataTableFunctionLibrary::GetDataTableRowFromName)"],
+    "BP_MasterResource": ["CollectResource"],
+    "BP_WeaponSlot": ["UpdateWeaponItem"],
+    "BP_MasterInventory_C": "NONE -- the base inventory class's 116 functions reference no DataTable at all",
+    "BP_StaticMasterItem_C": "NONE -- its 42 functions reference no DataTable; it carries the (table,row) handle as DATA instead"
+  },
+
+  "chain_DERIVED": "S_InvItem::ID (bare FName) -> at one of the 8 hardcoded call sites a FDataTableRowHandle is constructed as {ItemList, ID} -> row lookup -> S_ItemDetails. The table half of the identity is supplied by the CALL SITE, not by the stored inventory data.",
+
+  "lookup_timing_OBSERVED_by_function_name": "at add-to-slot (AttemptToAddItemToSlot), at hold/equip (AttemptToHoldItem, UseWeaponFromSlot, UpdateWeaponItem), at consume (ConsumeItem), at inventory action use (UseInventoryAction), at world resource collection (CollectResource), and for cooking recipes (SGK ItemCookingRecipe). So lookup happens repeatedly at use time, not once at initialization.",
+
+  "cache_behaviour": "None observed. No UDataTable-typed property, no TMap<FName,S_ItemDetails>, and no accessor such as GetItemDetails exists on any examined class. Consistent with classification A.",
+
+  "consequence_for_parallel_tables_DERIVED": {
+    "verdict": "Parallel per-mod UDataTables are NOT sufficient on their own for the inventory path.",
+    "why": "Those 5 BP_PlayerInventory_C call sites bake in the ItemList object specifically. An item whose row lives only in a mod-owned table would never be consulted by them, so it could be carried in inventory as an FName but would fail to resolve to a definition.",
+    "where_parallel_tables_DO_work": "Anywhere identity travels as a full FDataTableRowHandle, because the handle carries its own table pointer: S_CraftingCost (recipe costs/outputs), BP_StaticMasterItem_C::Item, S_RecipeDetails::LearnedRecipes, weapon DefaultAttachments, BP_CraftingComponent_C::FuelItems, ItemSpawnerList entries."
+  },
+
+  "globally_unique_row_names": {
+    "answer": "CONFIRMED REQUIRED for anything that must resolve through the inventory path.",
+    "reason": "Because those call sites always pair the stored bare FName with ItemList, every inventory-visible item must exist as a row IN ItemList, whose RowMap is a TMap keyed by FName. Row names therefore share one flat namespace across vanilla plus all mods, and the Runtime must mint collision-free names (e.g. modid__item) and arbitrate them."
+  },
+
+  "revised_extension_point": {
+    "preferred": "Runtime-owned ADDITIVE row registration into the vanilla ItemList RowMap, with per-mod source tables retained as the authoring/ownership unit.",
+    "vanilla_preserved": "Vanilla rows are never modified or removed and the on-disk asset is never touched; only additional keys are added to the live RowMap, and the Runtime can remove exactly its own keys again.",
+    "ownership": "Each mod's source UDataTable and every UObject its rows reference (WorldClass, meshes) are held by Misery::Assets/RuntimeAssetStore via the proven engine root path (CR-01A). Row value memory (S_ItemDetails) must be allocated from the game allocator and owned by the Runtime for the lifetime of the registration.",
+    "fallback": "Handle-only content -- a mod that ships exclusively crafting costs, spawner entries or attachments referencing its own table can work without touching ItemList at all."
+  },
+
+  "remaining_UNKNOWN": [
+    "Whether any of the 8 call sites caches its resolved row within a single frame or call (bytecode opcodes were not decoded, only the object-reference table was read).",
+    "Whether other subclasses of BP_MasterInventory_C beyond BP_PlayerInventory_C perform their own lookups in a build state not currently loaded.",
+    "All multiplayer facts remain UNKNOWN pending a controlled gate."
+  ]
+}
