@@ -1,0 +1,120 @@
+{
+  "record": "CR-01C3D acceptance -- First real inventory-visible mod item",
+  "verdict": "PASS",
+  "source_run": "research/instrument-runs/2026-08-29T112643Z-c3d-armed",
+  "sanity_run_first": "research/instrument-runs/2026-08-29T112301Z-c3c-sanity-armed (CR-01C3C re-run PASS with the hardened teardown)",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "session": {"pid": 11548, "gt_tid": 15500, "world": "/Game/NewMapGENTEST.NewMapGENTEST"},
+
+  "what_this_proves": "The framework created an item definition that did not exist in the game, published it through the registry the game actually reads, and the vanilla inventory code accepted it: a real S_InvItem carrying our FName appeared in the real player's Inventory array. It was then removed and every layer rolled back to an exact baseline.",
+
+  "0_teardown_invariant_hardened_first": {
+    "rule": "Shutdown requested -> stop handshake completes -> wait_stopped_ok == 1 -> ONLY THEN FreeLibrary. On any failure, timeout, exception or unconfirmed handshake the module is LEFT LOADED and the run reports BLOCKED-TEARDOWN.",
+    "also_covered": "when the module is left loaded, the remote IO block is left allocated too -- the loaded module still holds g_io, and freeing it would leave a live dispatcher writing into unmapped memory, which is the same failure one indirection further out",
+    "implementation": "research/instruments/ipp/probe_teardown.py, used by all three armed controllers; no controller calls FreeLibrary itself any more",
+    "enforced_by_tests": "tests/test_probe_teardown.py -- 12 tests, including one that reproduces the exact failure shape that crashed the game (a raising read-back of the shared IO block) and asserts the module is NOT unloaded, plus source-level tests that no controller unloads on its own and that the handshake offsets agree with each controller's own full unpack",
+    "observed_this_run": {"attempted": true, "shutdown_rc": "0xffffffff (idempotent second call)",
+                          "wait_stopped_ok": 1, "state": 3, "unloaded": true,
+                          "safe_to_free_remote_memory": true, "dll_unloaded": true}
+  },
+
+  "1_item_identity": {
+    "semantic_row_id": "misery__c3d_first_mod_item",
+    "interned_FName": "2245448 (the engine minted it via reflected KismetStringLibrary::Conv_StringToName)",
+    "collision_check": "the key was verified absent from all 496 MasterItemList rows and from the player inventory before anything was armed",
+    "neutral_trigger_name": "misery__c3d_neutral_trigger (FName 2245462), distinct from the row name and absent from ItemList"
+  },
+
+  "2_definition": {
+    "materialized_fields_only": {"Weight": 0.5, "Width": 1, "Height": 1, "MaxStack": 1, "AllowStacking": 0},
+    "everything_else": "left exactly as UScriptStruct::InitializeStruct produced it. No FString/FText/TArray/soft-reference assignment mechanism was introduced to make the item prettier.",
+    "decay_gate_checked_on_the_REAL_row": "UseItemDecay (S_ItemDetails+1976) and UseDurability (+1928) were read off the materialized row: both 0. The run would have refused to reach AddItem if UseItemDecay were set, because DecayTime=0 would then have been an unproven choice."
+  },
+
+  "3_S_InvItem_construction": {
+    "derivation": "not guessed -- every occupied slot of every live inventory component was decoded first: 1036 real vanilla entries across 1627 inventories",
+    "values": {"ID": "the published probe FName", "Amount": 1, "MasterInventory": 0,
+               "QuickBindIndex": -1, "Rotated": 0, "UseAmount": 0, "InUse": 0,
+               "Durability": 100.0, "DecayTime": 0},
+    "QuickBindIndex": "-1 in 1036 of 1036 live entries. A zeroed struct would carry 0, which reads as 'bound to quick slot 0'. This is the field that would have been silently wrong.",
+    "Durability_and_DecayTime": "inert for this definition because UseDurability and UseItemDecay are both 0; 100.0 and 0 were chosen to match the observed norm rather than to matter"
+  },
+
+  "4_publication_and_resolution": {
+    "runtime_table": "spawned via reflected UGameplayStatics::SpawnObject into /Engine/Transient, rooted through the CR-01A engine path in the same GameThread job, RowStruct set to the live S_ItemDetails pointer, populated with the CR-01C2R materializer while DETACHED",
+    "attach": "ParentTables element[1] = the Runtime table, Num 1 -> 2, into pre-existing spare capacity; Data and Max unchanged (no reallocation)",
+    "publication": "one data-neutral RemoveRow(ItemList, <a name it does not contain>); the engine rebuilt the composite through its own delegate path",
+    "MasterItemList": "496 -> 497, probe present",
+    "resolver_check_before_AddItem": {
+      "function": "BP_SGKFunctions_C::'SGK ItemDetails' -- the function the inventory path itself uses, reading MasterItemList",
+      "ItemFound": 1,
+      "returned": {"Weight": 0.5, "Width": 1, "Height": 1, "MaxStack": 1, "AllowStacking": 0},
+      "matches_definition": true,
+      "out_param_lifecycle": "the 2272-byte S_ItemDetails out-param was constructed with InitializeStruct before the call and destroyed with DestroyStruct after, so the reflected call leaks nothing"
+    }
+  },
+
+  "5_addItem": {
+    "call": "exactly ONE BP_MasterInventory_C::AddItem on the live BP_PlayerInventory, on the proven GameThread dispatcher",
+    "arguments": {"Item": "our S_InvItem", "StackSearch": false, "ShowNotifications": false},
+    "out_params": {
+      "RemainingItem": 0,
+      "RemainingInvItem": "Amount 0 -- nothing was left over",
+      "NewItemSlot": {"InvComponent": "0x1ec60fd9d90", "Index": 0}
+    },
+    "out_params_were_NOT_treated_as_proof": "the acceptance criterion is the inventory array itself; a successful ProcessEvent with no observable entry would have been NOT-PASS and would have triggered the rollback"
+  },
+
+  "6_inventory_observation_THE_KEY_RESULT": {
+    "entries_carrying_the_probe_FName": 1,
+    "slot": {"index": 0, "occupied": 1, "blocked": 0, "root_index": 0, "self_index": 0, "clump": 0,
+             "inventory_ptr": "0x1ec60fd9d90 -- the player inventory component itself"},
+    "item": {"ID": 2245448, "Amount": 1, "QuickBindIndex": -1, "Rotated": 0, "UseAmount": 0,
+             "InUse": 0, "Durability": 100.0, "DecayTime": 0, "MasterInventory": "0x0"},
+    "slot_relationship": "RootIndex == SelfIndex == 0 and the slot's Inventory pointer is the player inventory, consistent with a 1x1 item occupying a single root slot; NewItemSlot.Index == 0 agrees with the observed slot index",
+    "book_keeping": {"CurrentWeight": "0.0 -> 0.5, exactly the definition's Weight",
+                     "ItemCount": "0 -> 1", "UsingPlayers": "1, unchanged"},
+    "changed_slots": "exactly one -- slot 0, in fields occupied (0->1), item.ID (0->probe), item.Amount (0->1), item.UseAmount (1->0). No other slot changed.",
+    "preexisting_entries_preserved": true,
+    "definition_still_resolved_at_this_point": true
+  },
+
+  "7_removal": {
+    "path": "BP_MasterInventory_C::RemoveItem(the observed S_InvSlot, RemoveWeight=1, RemoveInvAmount=1, SpecialSlot=0)",
+    "why_this_path": "established BEFORE any mutation as the exact inverse of AddItem: its Blueprint callees are RemoveItemWeight + ChangeItemCount + SetNewSlotItem, and its engine-maintained object-reference array holds only 5 entries with no spawn, drop or world path",
+    "the_bools_were_inferences_so_they_were_not_trusted": "instead of assuming the flags were right, the acceptance criteria require CurrentWeight and ItemCount to return to their exact baseline values -- an observation, not an assumption",
+    "result": {"entries_with_probe_id": 0, "CurrentWeight": "back to 0.0", "ItemCount": "back to 0",
+               "slots_sha256_restored": true, "changed_slots_vs_baseline": "none"},
+    "byte_identical_not_merely_semantic": "the whole 12-slot array hashes identically to the baseline, so no normalization or mask was needed for the inventory comparison at all"
+  },
+
+  "8_registry_rollback": {
+    "ordering": "the inventory entry was removed FIRST; the definition was only unpublished once no S_InvItem carried its ID",
+    "detach": "Num 2 -> 1, same data-neutral trigger, composite rebuilt to 496 with the probe absent",
+    "OldParentTables": "back to [ItemList]",
+    "runtime_table_delegate": "back to Num 0 -- unsubscribed",
+    "itemlist_delegate": "unchanged throughout",
+    "spare_slot_zeroed": "element[1] = 0",
+    "ParentTables_raw_baseline": "{data 0x1ec5f15ced0, num 1, max 2, slots ['0x1ec66421000','0x0']} -- identical to baseline including the spare slot",
+    "vanilla": "all 496 names present and semantically unchanged after publication, after detach and at the end; ItemList byte-exact throughout and never written",
+    "release": {"release_ran": 1, "rooted_after_release": 0, "owned_count": 0,
+                "item_flags": "0x1 -- RootSet cleared"}
+  },
+
+  "9_health": {
+    "game": "pid 11548 still running and Responding after the run",
+    "verify_install": "full mode, 0 serious and 0 benign findings, before AND after",
+    "dispatcher": "wait_stopped_ok 1, state Stopped",
+    "dll_unloaded": true
+  },
+
+  "10_residual_risks": [
+    "Save/load and level-change survival of a published parent and of a runtime-created inventory entry -- BLOCKED ON M4 LIFECYCLE EVIDENCE.",
+    "The item has an empty Name/ShortName/Description FText, so any UI that displays it shows blank. A proven FText assignment path is still missing and is a separate gate.",
+    "Behaviour when ParentTables has no spare capacity (Max == Num): fails closed by design; no growth path is derived or authorised.",
+    "Multi-mod arbitration is designed but unexercised -- this run published one row from one table.",
+    "Whether native code caches raw composite row pointers across frames; a publication rebuild invalidates all of them.",
+    "The three RemoveItem bools are inferences validated only by the counters returning to baseline; a definition whose removal has additional side effects might not be covered by that check.",
+    "All multiplayer questions. This gate ran standalone with zero live NetDriver instances and refuses to run otherwise."
+  ]
+}

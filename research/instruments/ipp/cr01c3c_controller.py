@@ -42,6 +42,7 @@ import eri, ipp_controller as ipp, gt01_controller as gt, fts_controller as fts,
 import read_datatable_rows as rdr  # noqa: E402
 import cr01c1_controller as c1  # noqa: E402
 import cr01c3_recon as recon  # noqa: E402
+import probe_teardown  # noqa: E402
 from cr01c3b_controller import (DiskImage, verify_carrier_addresses, verify_fields,  # noqa: E402
                                 bool_semantics, table_row_pointers, parent_state,
                                 delegate_state, RVA_FREE, RVA_SET_ROOT_FLAGS,
@@ -60,6 +61,11 @@ IO_FMT = ("<QII QQQQ 16s16s16s QQQ QQ QQQ QQQ QQ QQQQ QQ Q IIII IIIIII d iiiB3s 
           "IIII IIII IIII IIII IIII IIII QQQQQ QQQQQ QQQQ IIII QQ").replace(" ", "")
 IO_SIZE = struct.calcsize(IO_FMT)
 assert IO_SIZE == 944, "C3CIo wire format drifted (%d)" % IO_SIZE
+# Byte offsets of the two handshake fields, derived from the format string so
+# the teardown path never depends on a hand-counted index.
+_OUTPUT_BLOCK_OFFSET = struct.calcsize(IO_FMT.rsplit("96H", 1)[0] + "96H")
+STATE_OFFSET = _OUTPUT_BLOCK_OFFSET + 8
+WAIT_STOPPED_OK_OFFSET = _OUTPUT_BLOCK_OFFSET + 12
 IO_MAGIC = 0x4950502D43334300
 IO_PROTO = 1
 
@@ -528,6 +534,13 @@ def run(api, args, run_note):
             k.ReadProcessMemory(hp, rio, buf, IO_SIZE, ctypes.byref(rd))
             return unpack_io(buf.raw)
 
+        def read_io_safe():
+            """Teardown must not be defeated by a decode bug -- that is exactly
+            how the first armed CR-01C3D attempt crashed the game."""
+            k.ReadProcessMemory(hp, rio, buf, IO_SIZE, ctypes.byref(rd))
+            return {"wait_stopped_ok": struct.unpack_from("<I", buf.raw, WAIT_STOPPED_OK_OFFSET)[0],
+                    "state": struct.unpack_from("<I", buf.raw, STATE_OFFSET)[0]}
+
         def call(export, field, timeout=20.0):
             p04.call_export(k, hp, rbase, dll, export, rio, ipp.WAIT_TIMEOUT_MS)
             st = read_io(); dl = time.time() + timeout
@@ -676,31 +689,30 @@ def run(api, args, run_note):
         report["shutdown"] = read_io()
         report["shutdown"]["released_at_shutdown"] = released
     finally:
-        if rbase is not None:
-            # ALWAYS stop the dispatcher before unloading. The carrier registers
-            # an FTSTicker callback that lives in THIS module; unloading while it
-            # is still registered makes the engine tick into freed code and takes
-            # the game down. Shutdown is idempotent (it early-returns once g_disp
-            # is null), so calling it here is safe on the normal path too, and it
-            # is the only thing standing between a controller-side exception and
-            # a crashed game.
-            try:
-                p04.call_export(k, hp, rbase, dll, "Shutdown", rio, 20000)
-            except Exception:  # noqa: BLE001
-                pass
-            pf = k.GetProcAddress(k.GetModuleHandleW("kernel32.dll"), b"FreeLibrary")
-            t3 = k.CreateRemoteThread(hp, None, 0, pf, rbase, 0, None)
-            if t3:
-                k.WaitForSingleObject(t3, ipp.WAIT_TIMEOUT_MS); k.CloseHandle(t3)
-        for b2 in (rpath, rio):
-            if b2 is not None:
-                k.VirtualFreeEx(hp, b2, 0, ipp.MEM_RELEASE)
+        # HARD INVARIANT: unload only after the stop handshake confirms.
+        td = probe_teardown.shutdown_then_unload(k, hp, rbase, dll, rio, read_io_safe, run_note)
+        cleanup["teardown"] = td
+        if td["safe_to_free_remote_memory"]:
+            for b2 in (rpath, rio):
+                if b2 is not None:
+                    k.VirtualFreeEx(hp, b2, 0, ipp.MEM_RELEASE)
+        else:
+            # the module is still loaded and still holds g_io -- freeing the IO
+            # block now would leave a live dispatcher writing into unmapped memory
+            cleanup["remote_memory_left_allocated"] = True
         try:
             cleanup["dll_unloaded"] = ipp.confirm_dll_unloaded(pid, DLL_NAME)
         except Exception:  # noqa: BLE001
             cleanup["dll_unloaded"] = None
         k.CloseHandle(hp)
     report["cleanup"] = cleanup
+    td = cleanup.get("teardown") or {}
+    if td.get("attempted") and not td.get("unloaded"):
+        # the probe is still loaded and still reachable by the engine; that is a
+        # BLOCKED outcome, not a mere NOT-PASS, and the game must be restarted
+        report["verdict"] = "BLOCKED-TEARDOWN"
+        report["teardown_blocked"] = td.get("left_loaded_reason")
+        return report
 
     aa = report.get("after_attach", {}); ad = report.get("after_detach", {})
     az = report.get("after_zero", {}); fi = report.get("final", {})
@@ -760,6 +772,11 @@ def main(argv=None):
         with open(rp, "w", encoding="utf-8", newline="\n") as f:
             json.dump(rep, f, indent=2, sort_keys=True, default=str); f.write("\n")
         arts.append(os.path.relpath(rp, REPO).replace(os.sep, "/"))
+        if rep.get("verdict") == "BLOCKED-TEARDOWN":
+            code = 2
+            print("BLOCKED (teardown): %s -- the probe is STILL LOADED in the "
+                  "game process; restart the game before another run."
+                  % rep.get("teardown_blocked"), file=sys.stderr)
         print(json.dumps({kk: rep[kk] for kk in rep
                           if kk not in ("run_note", "copy_mask_windows")},
                          indent=2, sort_keys=True, default=str))
