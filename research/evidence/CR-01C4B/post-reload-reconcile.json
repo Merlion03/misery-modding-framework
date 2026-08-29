@@ -1,0 +1,99 @@
+{
+  "current_pid": 16288,
+  "icon_texture": {
+    "ImportedSize": [
+      1182,
+      846
+    ],
+    "alive": true,
+    "class": "Texture2D",
+    "flags": "0x40000004",
+    "internal_index": 225379,
+    "name": "T_MBPL_Radio_Icon",
+    "pointer": "0x2682324fe80",
+    "rooted": true,
+    "uobject_item_points_back": true
+  },
+  "itemlist": {
+    "live_candidates": [
+      "0x268292debc0"
+    ],
+    "recorded": "0x268292debc0",
+    "same": true
+  },
+  "master_item_list": {
+    "live_candidates": [
+      "0x2682869bf40"
+    ],
+    "recorded": "0x2682869bf40",
+    "same": true
+  },
+  "master_row_ui": {
+    "InventoryIcon": "0x2682324fe80",
+    "MoveIcon": "0x2682324fe80",
+    "OverrideImageSize": true,
+    "SizeX": 100,
+    "SizeY": 100,
+    "icons_equal_and_ours": true
+  },
+  "master_rows": 497,
+  "no_instance_carries_row": {
+    "holds": true,
+    "inventories_scanned": 441,
+    "inventory_carriers": [],
+    "world": {
+      "BP_SkeletalMasterItem_C": {
+        "InvItem_offset": 704,
+        "carrying": [],
+        "live_actors": 0
+      },
+      "BP_StaticMasterItem_C": {
+        "InvItem_offset": 704,
+        "carrying": [],
+        "live_actors": 5
+      }
+    }
+  },
+  "player_inventory": {
+    "live_candidates": [],
+    "recorded": "0x26828939d90",
+    "same_object_as_recorded": false
+  },
+  "publication": {
+    "ParentTables_data": "0x268389de880",
+    "max": 2,
+    "num": 2,
+    "runtime_table_is_a_parent": true,
+    "slot0_is_itemlist": true,
+    "slots": [
+      "0x268292debc0",
+      "0x2681501afc0"
+    ],
+    "still_published": true
+  },
+  "row_resolvable_in_master": true,
+  "runtime_row_ui": {
+    "InventoryIcon": "0x2682324fe80",
+    "MoveIcon": "0x2682324fe80",
+    "OverrideImageSize": true,
+    "SizeX": 100,
+    "SizeY": 100,
+    "icons_equal_and_ours": true
+  },
+  "runtime_table": {
+    "alive": true,
+    "class": "DataTable",
+    "contains_row": true,
+    "flags": "0x40000004",
+    "internal_index": 202776,
+    "name": "DataTable",
+    "pointer": "0x2681501afc0",
+    "rooted": true,
+    "row_ptr": "0x268dcf96e00",
+    "rows": 1,
+    "rowstruct": "S_ItemDetails",
+    "uobject_item_points_back": true
+  },
+  "same_process": true,
+  "state_pid": 16288
+}
