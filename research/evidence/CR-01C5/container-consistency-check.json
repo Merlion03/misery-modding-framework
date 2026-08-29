@@ -1,0 +1,69 @@
+{
+  "matches_build_output": {
+    "MBPLRadio_P.pak": {
+      "bytes": 702,
+      "identical_to_build": true,
+      "sha256": "6320abca55d92b8abd6a996dca23a8f3f38628cea9bd8fb5f35933bf5aaf9436"
+    },
+    "MBPLRadio_P.ucas": {
+      "bytes": 4427536,
+      "identical_to_build": true,
+      "sha256": "3c1b5df9642a3d813b4dc136220092b649b65ce3246f2e5c22b1d447acfc3f49"
+    },
+    "MBPLRadio_P.utoc": {
+      "bytes": 1301,
+      "identical_to_build": true,
+      "sha256": "169579411f7a404b035416c43624ca6d52018ae068d3dfdff04a23cc3a79f858"
+    }
+  },
+  "no_MBPLTest_leftovers": true,
+  "paks_dir_listing": [
+    "CT03Probe20260828_P.pak",
+    "MBPLRadio_P.pak",
+    "MBPLRadio_P.ucas",
+    "MBPLRadio_P.utoc",
+    "MiseryModKit_P.pak",
+    "MiseryModKit_P.ucas",
+    "MiseryModKit_P.utoc"
+  ],
+  "safe_to_launch": true,
+  "toc": {
+    "all_blocks_inside_ucas": true,
+    "blocks_monotonic": true,
+    "blocks_parsed": 69,
+    "bytes": 1301,
+    "chunks_without_perfect_hash": 0,
+    "compressed_block_entry_count": 69,
+    "compressed_block_entry_size": 12,
+    "compressed_block_table_offset": 218,
+    "compression_block_size": 65536,
+    "compression_method_name_count": 0,
+    "compression_methods_used": [
+      0
+    ],
+    "container_flags": 8,
+    "container_flags_decoded": {
+      "Compressed": false,
+      "Encrypted": false,
+      "Indexed": true,
+      "OnDemand": false,
+      "Signed": false
+    },
+    "container_id": "0x56b6f29f3f06786c",
+    "directory_index_size": 156,
+    "encryption_key_guid_is_zero": true,
+    "entry_count": 3,
+    "file": "MBPLRadio_P.utoc",
+    "magic_ok": true,
+    "max_block_end": 4427524,
+    "partition_count": 1,
+    "partition_size": 18446744073709551615,
+    "perfect_hash_seeds_count": 2,
+    "slack_bytes": 12,
+    "sum_compressed": 4365340,
+    "sum_uncompressed": 4365340,
+    "toc_header_size": 144,
+    "ucas_bytes": 4427536,
+    "version": 6
+  }
+}
