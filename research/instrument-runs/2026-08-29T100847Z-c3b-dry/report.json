@@ -1,0 +1,20 @@
+{
+  "blocked": true,
+  "reason": "AllowStacking is a bitfield (mask None); refusing a whole-byte write",
+  "run_note": [
+    "pid=1732 fingerprint confirmed",
+    "add_ticker: VA 0x7ff630e5ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff630e63370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff630ebb790 byte-verified live==disk (48895c2408574883)",
+    "SpawnObject flags=0x4022403 ParmsSize=24 EventGraphFunction=null",
+    "ProcessEvent: RVA 0x12ac1f0 byte-verified live==disk",
+    "AddRow: RVA 0x3548190 byte-verified live==disk",
+    "RemoveRow: RVA 0x355e170 byte-verified live==disk",
+    "InitializeStruct: RVA 0x3cb1d50 byte-verified live==disk",
+    "DestroyStruct: RVA 0x1199d50 byte-verified live==disk",
+    "SetRootFlags: RVA 0x1210e60 byte-verified live==disk",
+    "ClearRootFlags: RVA 0x11bb340 byte-verified live==disk",
+    "FMemory::Free: RVA 0xfa0090 byte-verified live==disk",
+    "MasterItemList.ParentTables vanilla: Num=1 Max=2"
+  ]
+}

@@ -220,7 +220,8 @@
         "CARRIER-FTS",
         "CR-01A",
         "CR-01C1",
-        "CR-01C2R"
+        "CR-01C2R",
+        "CR-01C3B"
       ]
     },
     "verify_install_state": {

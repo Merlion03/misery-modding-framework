@@ -1,0 +1,140 @@
+{
+  "record": "CR-01C3B acceptance -- Detached Aggregate Runtime Item Table",
+  "verdict": "PASS",
+  "source_run": "research/instrument-runs/2026-08-29T101254Z-c3b-armed",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "session": {"pid": 1732, "world": "/Game/NewMapGENTEST.NewMapGENTEST", "gt_tid": 10376},
+  "what_this_proves": "The entire Runtime-owned half of production architecture B works, end to end, with ZERO writes into any vanilla object. Construction, ownership, RowStruct assignment, materialization, registration, removal and release were all exercised against a table the Runtime created and owns.",
+  "vanilla_writes_performed": "NONE. No ParentTables mutation, no ItemList write, no AddItem, no inventory mutation.",
+
+  "1_construction": {
+    "path": "reflected UGameplayStatics::SpawnObject via ProcessEvent on Default__GameplayStatics, on the proven GameThread dispatcher",
+    "abi_gate_before_use": "ParmsSize == 24 exactly; FunctionFlags carry FUNC_Static|FUNC_Native; EventGraphFunction (UFunction+0xC8) is null so ProcessEvent cannot substitute the Parms buffer (ScriptCore.cpp:2041-2049). All three checked and required, or the run refuses to arm.",
+    "arguments": "ObjectClass = /Script/Engine.DataTable UClass @0x15a23bc9800, Outer = the /Engine/Transient package @0x15a21dc0c80",
+    "why_transient_outer": "chosen so that no vanilla content package becomes the object's Outer. Found by reflection (a live UPackage named /Engine/Transient); no RVA for GetTransientPackage was needed.",
+    "result": "UDataTable @0x15a695cafc0, InternalIndex 193930",
+    "identity_checks_all_required": {
+      "class_ok": true,
+      "outer_is_transient": true,
+      "vtable_is_plain_udatatable": "true -- equals ItemList's vtable 0x7ff636503148, NOT the composite's",
+      "addrow_slot_matches": "true -- our table's vtable slot 95 is the real UDataTable::AddRow (RVA 0x3548190)",
+      "removerow_slot_matches": "true -- slot 94 is the real UDataTable::RemoveRow (RVA 0x355e170)"
+    },
+    "fail_closed": "a null return, a wrong ClassPrivate, a wrong OuterPrivate or a wrong vtable each abort the job before anything else happens"
+  },
+
+  "2_ownership": {
+    "why_it_is_urgent": "SpawnObject returns NewObject(..., RF_StrongRefOnFrame) (GameplayStatics.cpp:833). That flag only makes references from a persistent script frame strong; a freshly constructed object with no other referent is collectable at the next GC. So rooting must happen in the SAME GameThread job, before the job yields -- which is how the probe is written.",
+    "mechanism": "the CR-01A engine root path, unchanged: FUObjectItem::SetRootFlags (RVA 0x1210e60) / ClearRootFlags (RVA 0x11bb340), both byte-verified live==disk before use. The Runtime reimplements no part of GRoots, GRootsCritical, the RootSet bit or the reachability barrier.",
+    "FUObjectItem_resolution": "from the object's OWN UObjectBase::InternalIndex at +0x0C, through the chunked array (shift 16 / mask 0xFFFF / stride 24), and then REQUIRED to round-trip: item->Object must equal the object, or the job aborts. Independently validated read-only on ItemList and MasterItemList first.",
+    "observed": {
+      "rooted_after_acquire": 1,
+      "item_flags_while_rooted": "0x40000004 -- RootSet (1<<30) set alongside the current reachability flag",
+      "owned_count_after_acquire": 1,
+      "rooted_after_release": 0,
+      "item_flags_after_release": "0x4 -- RootSet cleared, reachability flag left alone",
+      "owned_count_after_release": 0,
+      "released_at_shutdown": "0 -- nothing was still owned when the module tore down"
+    }
+  },
+
+  "3_rowstruct_assignment": {
+    "why_raw_assignment_had_to_be_justified": "UDataTable::RowStruct is TObjectPtr<UScriptStruct>, and TObjectPtr is NOT always a plain pointer. Its representation is chosen by UE_WITH_OBJECT_HANDLE_LATE_RESOLVE, which is defined as WITH_EDITORONLY_DATA (ObjectHandleDefines.h:10) and is therefore 0 in this Shipping build, making FObjectHandle a plain UObject* (ObjectHandle.h:37). UE_WITH_OBJECT_HANDLE_TRACKING is likewise 0 (:15) and UE_WITH_OBJECT_HANDLE_TYPE_SAFETY is 0 (:20).",
+    "the_write_barrier_question": "UE_OBJECT_PTR_GC_BARRIER is 1 unconditionally (ObjectPtr.h:23), so a real TObjectPtr assignment calls ConditionallyMarkAsReachable, which does something ONLY when UE::GC::GIsIncrementalReachabilityPending is true (ObjectPtr.h:306-312). We do not reimplement it. It cannot matter here for two independent reasons: (a) the referent, the S_ItemDetails UUserDefinedStruct, is already strongly referenced by ItemList->RowStruct and MasterItemList->RowStruct, both live, so it is marked in any pass regardless of our store; (b) the probe roots our table BEFORE storing any reference into it, so at the moment of the write the container is already a registered GC root.",
+    "value_written": "0x15a0b2b3100 -- read live from the game, never constructed",
+    "equality_required_and_observed": "RuntimeTable->RowStruct == ItemList->RowStruct == MasterItemList->RowStruct, all three the same pointer. Pointer identity is what UpdateCachedRowMap compares (CompositeDataTable.cpp:96), so anything weaker would silently make a future attached parent be skipped.",
+    "ordering": "root first, then assign -- deliberate, see (b) above"
+  },
+
+  "4_detached_population": {
+    "materializer": "the CR-01C2R Route C materializer, unchanged: FMemory::Malloc(2264) -> UScriptStruct::InitializeStruct (struct vtable slot 96) -> verified value-type writes -> UDataTable::AddRow -> DestroyStruct (slot 97) + FMemory::Free",
+    "fail_closed_fields": "each field had to match name, FProperty class, offset and size exactly before the DLL was even built",
+    "written": {
+      "Weight": {"property": "FDoubleProperty", "offset": 48, "value": 1.75},
+      "Width": {"property": "FIntProperty", "offset": 56, "value": 1},
+      "Height": {"property": "FIntProperty", "offset": 60, "value": 2},
+      "AllowStacking": {"property": "FBoolProperty", "offset": 64, "value": 1},
+      "MaxStack": {"property": "FIntProperty", "offset": 68, "value": 5}
+    },
+    "AllowStacking_gate": "the controller independently re-reads the FBoolProperty decode (is_bitfield, FieldMask, ByteOffset) and REFUSES to write unless the mask is 0xff. Observed: is_bitfield false, mask 0xff, byte_offset 0. This is the check CR-01C2R could not satisfy and therefore skipped the field.",
+    "observed": {
+      "row_count": "0 -> 1 -> 0",
+      "row_ptr": "0x15b1bcb52a0",
+      "temp_ptr": "0x15b8a68b700",
+      "row_ptr_differs_from_temp": true,
+      "temp_destroyed_and_freed": true,
+      "values_read_back": {"Weight": 1.75, "Width": 1, "Height": 2, "MaxStack": 5, "AllowStacking": 1},
+      "values_match": true
+    }
+  },
+
+  "5_composite_remained_untouched": {
+    "why_this_test_is_strong": "UCompositeDataTable::UpdateCachedRowMap calls UDataTable::EmptyTable() first (CompositeDataTable.cpp:87), which DestroyStructs and frees every cached row, then reallocates them all. So every MasterItemList row VALUE POINTER necessarily changes on any rebuild. Capturing all 496 pointers before and comparing after each step is therefore a direct, positive test for 'no rebuild and no publication occurred' -- much stronger than comparing a row count.",
+    "master_row_pointers_unchanged": {"after_create": true, "after_populate": true, "after_remove": true, "final": true},
+    "itemlist_hashes_unchanged": "true at every step -- all 496 vanilla rows sha256-identical over their full 2264 bytes",
+    "itemlist_rows": "496 throughout",
+    "master_rows": "496 throughout",
+    "master_parents_unchanged": "Data=0x15a36c5d530 Num=1 Max=2 elements=[ItemList] at every step",
+    "delegates_unchanged": "ItemList invocation list Num=1 (the composite) and MasterItemList's own Num=0, before and after",
+    "no_vanilla_reference_to_our_table": true
+  },
+
+  "6_cleanup_and_lifetime": {
+    "sequence": "RemoveRow (1 -> 0) -> Release the root -> Shutdown (ReleaseAll first, then the dispatcher handshake, then unload)",
+    "observed": {"remove_ran": 1, "release_ran": 1, "rooted_after_release": 0, "owned_count": 0,
+                 "released_at_shutdown": 0, "wait_stopped_ok": 1, "dll_unloaded": true},
+    "collectability": "after Release the RootSet bit is cleared and the object holds no root, so it is normally collectable. This run did NOT force or wait for a GC pass, so actual collection is NOT claimed here -- CR-01A already demonstrated separately that an object released through this same path was collected 65 s later.",
+    "verify_install": "MATCH before and after"
+  },
+
+  "7_parenttables_storage_semantics_for_the_FUTURE_attach_gate": {
+    "status": "PREPARED, NOT EXECUTED. No parent-table write was performed.",
+    "property": "UCompositeDataTable::ParentTables, reflected FArrayProperty at offset 176, TArray ElementSize 16",
+    "inner": "FObjectProperty, ElementSize 8, Offset_Internal 0, PropertyClass = DataTable",
+    "element_representation": "TObjectPtr<UDataTable> == a plain 8-byte UObject* in this build (UE_WITH_OBJECT_HANDLE_LATE_RESOLVE == WITH_EDITORONLY_DATA == 0). No packed reference, no tag bits.",
+    "write_barrier": "same analysis as RowStruct: ConditionallyMarkAsReachable only acts while GIsIncrementalReachabilityPending. For the attach the referent would be OUR table, which is already a registered GC root, so it cannot be swept mid-pass.",
+    "live_TArray_invariants": {"Data": "0x15a36c5d530", "Num": 1, "Max": 2, "spare_capacity": 1,
+                              "element_0": "0x15a0eee28c0 (ItemList)",
+                              "element_1_slot": "0x0 -- allocated capacity, currently zero"},
+    "no_growth_authorised": "if Max - Num < 1 at the actual attach run, the attach must FAIL CLOSED. Growing the array would require reproducing TArray growth against the engine allocator, which is not derived and is not authorised.",
+    "publication_order": [
+      "re-read Data/Num/Max and REQUIRE Max - Num >= 1, else fail closed",
+      "re-read element[0] and REQUIRE it is still exactly the vanilla ItemList pointer, else fail closed",
+      "REQUIRE our table is rooted, its RowStruct pointer-equals the composite's, and it is fully populated -- attaching a half-built table would publish garbage",
+      "write element[1] = our table pointer (one aligned 8-byte store into already-committed capacity)",
+      "write Num = 2 (one aligned 4-byte store)",
+      "trigger publication engine-natively: UDataTable::RemoveRow(ItemList, <a name that does not exist>). RemoveRowInternal leaves RowData null on a miss, so nothing is destroyed or freed (DataTable.cpp:433-451); the only effect is the scope destructor's broadcast, which runs OnParentTablesUpdated -> UpdateCachedRowMap (rebuild including our rows) -> subscribe our table -> OldParentTables = ParentTables",
+      "verify: composite row count == 496 + our rows; our rows resolve; all 496 vanilla rows still present and hash-identical; ItemList itself unchanged"
+    ],
+    "rollback_order": [
+      "write Num = 1 (our pointer is left in the spare slot; it is beyond Num and therefore not traced and not read)",
+      "trigger the same engine-native data-neutral RemoveRow on ItemList",
+      "verify: OldParentTables is back to [ItemList], our table has been UNSUBSCRIBED from ItemList's delegate (ItemList invocation list Num back to 1), and the composite is bit-for-bit vanilla again -- all 496 rows present and hash-identical",
+      "ONLY THEN release the Runtime table's root",
+      "the ordering matters: unrooting before the composite has dropped the reference would leave the engine holding a pointer to a collectable object"
+    ],
+    "required_fail_closed_checks": [
+      "Max - Num >= 1, else refuse",
+      "element[0] is still the vanilla ItemList pointer, else refuse",
+      "our RowStruct pointer-equals the composite's, else the parent is silently skipped (CompositeDataTable.cpp:96)",
+      "our table is rooted and owned by the store, else refuse",
+      "MasterItemList is still a UCompositeDataTable with the expected vtable, else refuse",
+      "after publication, every one of the 496 vanilla row names is still present, else roll back immediately",
+      "collision policy: any mod row whose name collides with a vanilla row ID is REJECTED at arbitration time. Composite shadowing is NOT to be used as normal override behaviour."
+    ]
+  },
+
+  "8_environment_note": {
+    "what_happened": "the machine reached its system COMMIT LIMIT during this gate (23351 MB used of a 23556 MB limit). That surfaced as MemoryError on the whole-image read and as MSVC LNK1171 / error 1455 during linking.",
+    "what_was_changed_in_response": "the controller no longer slurps the 134 MB executable; it parses only the PE headers and seeks for the 16 bytes it compares per address. The live==disk verification is byte-identical to before. build_dll also reuses an up-to-date DLL instead of relinking under pressure.",
+    "what_was_NOT_changed": "no verification was weakened or skipped to work around the limit."
+  },
+
+  "9_remaining_unknowns": [
+    "Actual garbage collection of the released Runtime table was not forced or observed in this run.",
+    "Whether an attached parent survives save/load or a level change -- BLOCKED ON M4 LIFECYCLE EVIDENCE.",
+    "Whether any NATIVE code caches a raw MasterItemList row pointer across frames; a publication rebuild invalidates all of them.",
+    "The RVA of FScopedDataTableChange's constructor, which would allow batching.",
+    "All multiplayer canonicalisation questions."
+  ]
+}

@@ -1,0 +1,391 @@
+{
+  "addresses": {
+    "add_row": "0x3548190",
+    "destroy": "0x1199d50",
+    "init": "0x3cb1d50",
+    "pe": "0x12ac1f0",
+    "remove_row": "0x355e170",
+    "spawn": "0x-7e9bf7e12140"
+  },
+  "after_create": {
+    "addrow_slot_matches": true,
+    "class_ok": true,
+    "itemlist_delegate": {
+      "data": "0x15a0029d480",
+      "num": 1
+    },
+    "itemlist_hashes_unchanged": true,
+    "itemlist_rows": 496,
+    "master_parents": {
+      "data": "0x15a36c5d530",
+      "elements": [
+        "0x15a0eee28c0"
+      ],
+      "max": 2,
+      "num": 1
+    },
+    "master_row_pointers_unchanged": true,
+    "master_rows": 496,
+    "our_table": {
+      "row_count": 0,
+      "row_struct": "0x15a0b2b3100",
+      "rowmap_diag": {
+        "array_num": 0,
+        "data_ptr_hex": "0x0",
+        "num_bits": 0
+      }
+    },
+    "outer_is_transient": true,
+    "removerow_slot_matches": true,
+    "rowstruct_equals_itemlist": true,
+    "vtable_is_plain_udatatable": true
+  },
+  "after_populate": {
+    "itemlist_delegate": {
+      "data": "0x15a0029d480",
+      "num": 1
+    },
+    "itemlist_hashes_unchanged": true,
+    "itemlist_rows": 496,
+    "master_parents": {
+      "data": "0x15a36c5d530",
+      "elements": [
+        "0x15a0eee28c0"
+      ],
+      "max": 2,
+      "num": 1
+    },
+    "master_row_pointers_unchanged": true,
+    "master_rows": 496,
+    "our_table": {
+      "row_count": 1,
+      "row_ptr": "0x15b1bcb52a0",
+      "row_struct": "0x15a0b2b3100",
+      "rowmap_diag": {
+        "allocated_rows": 1,
+        "array_num": 1,
+        "bit_storage": "inline",
+        "data_ptr_hex": "0x15b8c43cd00",
+        "num_bits": 1
+      },
+      "values": {
+        "AllowStacking": 1,
+        "Height": 2,
+        "MaxStack": 5,
+        "Weight": 1.75,
+        "Width": 1
+      }
+    },
+    "row_ptr_differs_from_temp": true,
+    "temp_freed": true,
+    "values_match": true
+  },
+  "after_remove": {
+    "itemlist_hashes_unchanged": true,
+    "master_parents": {
+      "data": "0x15a36c5d530",
+      "elements": [
+        "0x15a0eee28c0"
+      ],
+      "max": 2,
+      "num": 1
+    },
+    "master_row_pointers_unchanged": true,
+    "our_table": {
+      "row_count": 0,
+      "row_struct": "0x15a0b2b3100",
+      "rowmap_diag": {
+        "allocated_rows": 0,
+        "array_num": 1,
+        "bit_storage": "inline",
+        "data_ptr_hex": "0x15b8c43cd00",
+        "num_bits": 1
+      }
+    }
+  },
+  "allowstacking_bool_semantics": {
+    "byte_offset": 0,
+    "field_mask": "0xff",
+    "is_bitfield": false
+  },
+  "baseline": {
+    "itemlist_delegate": {
+      "data": "0x15a0029d480",
+      "num": 1
+    },
+    "itemlist_rows": 496,
+    "master_delegate": {
+      "data": "0x0",
+      "num": 0
+    },
+    "master_parents": {
+      "data": "0x15a36c5d530",
+      "elements": [
+        "0x15a0eee28c0"
+      ],
+      "max": 2,
+      "num": 1
+    },
+    "master_rows": 496
+  },
+  "cleanup": {
+    "dll_unloaded": true
+  },
+  "create": {
+    "activated": 1,
+    "create_ran": 1,
+    "err": 0,
+    "err_step": 0,
+    "fstring_ok": 0,
+    "gt_tid": 10376,
+    "initialized": 1,
+    "internal_index": 193930,
+    "item_flags": 1073741828,
+    "owned_count": 1,
+    "populate_ran": 0,
+    "release_ran": 0,
+    "remove_ran": 0,
+    "rooted_after_acquire": 1,
+    "rooted_after_release": 0,
+    "row_fname": 0,
+    "state": 1,
+    "store_handle": 1,
+    "table_addrow_matches": 1,
+    "table_class": 1486658246656,
+    "table_item_ptr": 1487881372920,
+    "table_outer": 1486626753664,
+    "table_ptr": 1487826366400,
+    "table_removerow_matches": 1,
+    "table_rowstruct_after": 1486246064384,
+    "table_vtable": 140695449907528,
+    "temp_freed": 0,
+    "temp_ptr": 0,
+    "wait_stopped_ok": 0
+  },
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "offset": 64,
+      "size": 1,
+      "value": 1
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "offset": 60,
+      "size": 4,
+      "value": 2
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "offset": 68,
+      "size": 4,
+      "value": 5
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "offset": 48,
+      "size": 8,
+      "value": 1.75
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "offset": 56,
+      "size": 4,
+      "value": 1
+    }
+  },
+  "final": {
+    "itemlist_delegate": {
+      "data": "0x15a0029d480",
+      "num": 1
+    },
+    "itemlist_hashes_unchanged": true,
+    "itemlist_rows": 496,
+    "master_delegate": {
+      "data": "0x0",
+      "num": 0
+    },
+    "master_parents": {
+      "data": "0x15a36c5d530",
+      "elements": [
+        "0x15a0eee28c0"
+      ],
+      "max": 2,
+      "num": 1
+    },
+    "master_row_pointers_unchanged": true,
+    "master_rows": 496,
+    "no_vanilla_reference_to_our_table": true
+  },
+  "objects": {
+    "dt_class": "0x15a23bc9800",
+    "gs_cdo": "0x15a371187a0",
+    "itemlist": "0x15a0eee28c0",
+    "master": "0x15a14b86a60",
+    "plain_vtable": "0x7ff636503148",
+    "row_struct": "0x15a0b2b3100",
+    "transient": "0x15a21dc0c80"
+  },
+  "pid": 1732,
+  "populate": {
+    "activated": 1,
+    "create_ran": 1,
+    "err": 0,
+    "err_step": 0,
+    "fstring_ok": 1,
+    "gt_tid": 10376,
+    "initialized": 1,
+    "internal_index": 193930,
+    "item_flags": 1073741828,
+    "owned_count": 1,
+    "populate_ran": 1,
+    "release_ran": 0,
+    "remove_ran": 0,
+    "rooted_after_acquire": 1,
+    "rooted_after_release": 0,
+    "row_fname": 2298384,
+    "state": 1,
+    "store_handle": 1,
+    "table_addrow_matches": 1,
+    "table_class": 1486658246656,
+    "table_item_ptr": 1487881372920,
+    "table_outer": 1486626753664,
+    "table_ptr": 1487826366400,
+    "table_removerow_matches": 1,
+    "table_rowstruct_after": 1486246064384,
+    "table_vtable": 140695449907528,
+    "temp_freed": 1,
+    "temp_ptr": 1492675770112,
+    "wait_stopped_ok": 0
+  },
+  "probe_row": "misery__c3b_detached_probe",
+  "release": {
+    "activated": 1,
+    "create_ran": 1,
+    "err": 0,
+    "err_step": 0,
+    "fstring_ok": 1,
+    "gt_tid": 10376,
+    "initialized": 1,
+    "internal_index": 193930,
+    "item_flags": 4,
+    "owned_count": 0,
+    "populate_ran": 1,
+    "release_ran": 1,
+    "remove_ran": 1,
+    "rooted_after_acquire": 1,
+    "rooted_after_release": 0,
+    "row_fname": 2298384,
+    "state": 1,
+    "store_handle": 1,
+    "table_addrow_matches": 1,
+    "table_class": 1486658246656,
+    "table_item_ptr": 1487881372920,
+    "table_outer": 1486626753664,
+    "table_ptr": 1487826366400,
+    "table_removerow_matches": 1,
+    "table_rowstruct_after": 1486246064384,
+    "table_vtable": 140695449907528,
+    "temp_freed": 1,
+    "temp_ptr": 1492675770112,
+    "wait_stopped_ok": 0
+  },
+  "remove": {
+    "activated": 1,
+    "create_ran": 1,
+    "err": 0,
+    "err_step": 0,
+    "fstring_ok": 1,
+    "gt_tid": 10376,
+    "initialized": 1,
+    "internal_index": 193930,
+    "item_flags": 1073741828,
+    "owned_count": 1,
+    "populate_ran": 1,
+    "release_ran": 0,
+    "remove_ran": 1,
+    "rooted_after_acquire": 1,
+    "rooted_after_release": 0,
+    "row_fname": 2298384,
+    "state": 1,
+    "store_handle": 1,
+    "table_addrow_matches": 1,
+    "table_class": 1486658246656,
+    "table_item_ptr": 1487881372920,
+    "table_outer": 1486626753664,
+    "table_ptr": 1487826366400,
+    "table_removerow_matches": 1,
+    "table_rowstruct_after": 1486246064384,
+    "table_vtable": 140695449907528,
+    "temp_freed": 1,
+    "temp_ptr": 1492675770112,
+    "wait_stopped_ok": 0
+  },
+  "root_path": {
+    "ClearRootFlags": "0x11bb340",
+    "SetRootFlags": "0x1210e60"
+  },
+  "run_note": [
+    "pid=1732 fingerprint confirmed",
+    "add_ticker: VA 0x7ff630e5ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff630e63370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff630ebb790 byte-verified live==disk (48895c2408574883)",
+    "SpawnObject flags=0x4022403 ParmsSize=24 EventGraphFunction=null",
+    "ProcessEvent: RVA 0x12ac1f0 byte-verified live==disk",
+    "AddRow: RVA 0x3548190 byte-verified live==disk",
+    "RemoveRow: RVA 0x355e170 byte-verified live==disk",
+    "InitializeStruct: RVA 0x3cb1d50 byte-verified live==disk",
+    "DestroyStruct: RVA 0x1199d50 byte-verified live==disk",
+    "SetRootFlags: RVA 0x1210e60 byte-verified live==disk",
+    "ClearRootFlags: RVA 0x11bb340 byte-verified live==disk",
+    "FMemory::Free: RVA 0xfa0090 byte-verified live==disk",
+    "MasterItemList.ParentTables vanilla: Num=1 Max=2",
+    "fail-closed field verification passed for ['AllowStacking', 'Height', 'MaxStack', 'Weight', 'Width']",
+    "AllowStacking bool semantics: {'is_bitfield': False, 'field_mask': '0xff', 'byte_offset': 0}",
+    "baseline: ItemList=496 MasterItemList=496 parents={'data': '0x15a36c5d530', 'num': 1, 'max': 2, 'elements': ['0x15a0eee28c0']}",
+    "CR01C3BProbe.dll built",
+    "Init ok",
+    "create_ran=1 err=0 step=0 table=0x15a695cafc0 rooted=1",
+    "after populate: our_rows=1 values_match=True master_ptrs_unchanged=True",
+    "release_ran=1 rooted_after_release=0 owned=0 item_flags=0x4"
+  ],
+  "shutdown": {
+    "activated": 1,
+    "create_ran": 1,
+    "err": 0,
+    "err_step": 0,
+    "fstring_ok": 1,
+    "gt_tid": 10376,
+    "initialized": 1,
+    "internal_index": 193930,
+    "item_flags": 4,
+    "owned_count": 0,
+    "populate_ran": 1,
+    "release_ran": 1,
+    "released_at_shutdown": 0,
+    "remove_ran": 1,
+    "rooted_after_acquire": 1,
+    "rooted_after_release": 0,
+    "row_fname": 2298384,
+    "state": 3,
+    "store_handle": 1,
+    "table_addrow_matches": 1,
+    "table_class": 1486658246656,
+    "table_item_ptr": 1487881372920,
+    "table_outer": 1486626753664,
+    "table_ptr": 1487826366400,
+    "table_removerow_matches": 1,
+    "table_rowstruct_after": 1486246064384,
+    "table_vtable": 140695449907528,
+    "temp_freed": 1,
+    "temp_ptr": 1492675770112,
+    "wait_stopped_ok": 1
+  },
+  "struct_size": 2264,
+  "verdict": "PASS"
+}
