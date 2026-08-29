@@ -1,0 +1,65 @@
+{
+  "run": "research/instrument-runs\\2026-08-29T163621Z\\report.json",
+  "claim": "a cooked MaterialInstanceConstant whose parent package was NOT shipped resolves its Parent import to the real vanilla UMaterial at runtime",
+  "single_live_M_BasicMaterial": "0x18d1cbcb5c0 class Material at /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+  "all_four_MICs_share_that_parent_object": true,
+  "note": "the PlayerElectricitySystem string does appear inside our .ucas files -- that is the IMPORT PATH the MICs record, which is the mechanism working, not a shipped copy of the vanilla asset. The response files listed only MI_P2_*, T2_* and SM_ArmProbe3.",
+  "live_material_verification": [
+    {
+      "mic": "/Game/MBPLArmProbe3/MI_P2_REF.MI_P2_REF",
+      "mic_object": "0x18e95aa4980",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x18d1cbcb5c0",
+      "slot": 0,
+      "slot_name": "M_Probe_REF",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_REF.T2_ARM_REF",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLArmProbe3/MI_P2_A.MI_P2_A",
+      "mic_object": "0x18e95aa4480",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x18d1cbcb5c0",
+      "slot": 1,
+      "slot_name": "M_Probe_A",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_A.T2_ARM_A",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLArmProbe3/MI_P2_B.MI_P2_B",
+      "mic_object": "0x18e95aa4200",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x18d1cbcb5c0",
+      "slot": 2,
+      "slot_name": "M_Probe_B",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_B.T2_ARM_B",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLArmProbe3/MI_P2_EM.MI_P2_EM",
+      "mic_object": "0x18e95aa4700",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x18d1cbcb5c0",
+      "slot": 3,
+      "slot_name": "M_Probe_EM",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_EM.T2_ARM_EM",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Grey.T2_BC_Grey",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    }
+  ]
+}

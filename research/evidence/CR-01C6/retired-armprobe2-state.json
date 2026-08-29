@@ -1,0 +1,23 @@
+{
+  "baseline_inventory_sha256": "4567f9c3a21dc144d98e673f723ae214ed202797cdcf2977ca415e8ec30ecdf2",
+  "baseline_item_count": 0,
+  "baseline_weight": 0.0,
+  "dll": "D:\\Dev\\MiseryFramework\\workspace\\msvc-probe\\CR01C5Probe.dll",
+  "icon_object": 2353839879168,
+  "itemlist": 2349862413568,
+  "master": 2350399677216,
+  "mesh_object": 2350646547840,
+  "objects_ptr": 2351079032672,
+  "pid": 20500,
+  "player_inv": 2350406238224,
+  "rbase": 140715768217600,
+  "retired": true,
+  "retired_reason": "restarted for ArmProbe3_P; pid 20500 gone, pointers stale; that probe was INVALID (fallback materials)",
+  "rio": 2351049932800,
+  "row_fname": 2256066,
+  "row_name": "mbpl__armprobe2",
+  "rpath": 2351049539584,
+  "struct_size": 2264,
+  "table_ptr": 2350220147904,
+  "world_class": 2350750963072
+}

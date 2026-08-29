@@ -1,0 +1,22 @@
+{
+  "blocked": true,
+  "reason": "no free player inventory slot",
+  "run_note": [
+    "pid=20476 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff6cdabded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff6cdac3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff6cdb1b790 byte-verified live==disk (48895c2408574883)",
+    "BP_StaticMasterItem_C super chain to Actor: BP_StaticMasterItem_C -> Actor",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 RVO=16 EG=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "LoadAsset_Blocking: flags=0x4022403 ParmsSize=48 RVO=40 EG=null",
+    "Conv_SoftObjectReferenceToString: flags=0x14422403 ParmsSize=56 RVO=40 EG=null",
+    "ProcessEvent slot 77 agrees across 3 unrelated CDOs -> 0x7ff6cde1c1f0",
+    "all 8 engine addresses byte-verified live==disk",
+    "world offsets: WorldClass@192 StaticMesh@112 ItemOffsets@2064 (Rot@0 Trans@32 Scale@64) MoveIcon@232"
+  ]
+}

@@ -700,8 +700,15 @@ def run(api, args, run_note):
     finally:
         api.close_handle(h)
 
-    if not inv0["slots"] or all(s["occupied"] for s in inv0["slots"]):
-        raise ipp.Blocked("no free player inventory slot")
+    # These are different failures and used to share one message: an inventory
+    # whose slot array is still empty is mid-initialisation, not full.
+    if not inv0["slots"]:
+        raise ipp.Blocked("the player inventory has no slot array yet (%d slots) -- it is "
+                          "still initialising; wait until the inventory is openable"
+                          % inv0["num"])
+    if all(s["occupied"] for s in inv0["slots"]):
+        raise ipp.Blocked("player inventory is full: %d/%d slots occupied"
+                          % (sum(1 for s in inv0["slots"] if s["occupied"]), inv0["num"]))
     before = observe(api, pid, r, mask)
     report = {"pid": pid, "row_name": ROW_NAME, "texts": dict(TEXTS),
               "world": {"WorldClass": WORLD_CLASS,
