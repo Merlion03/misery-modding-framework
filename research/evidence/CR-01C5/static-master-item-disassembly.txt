@@ -1,0 +1,2666 @@
+===== BP_StaticMasterItem_C::ActionCheck  @0x22c6bb96a60  script=427 bytes
+000000 EX_PushExecutionFlow       push 0x1a0
+000005 EX_Let                     ActionCheck::Temp_int_Loop_Counter_Variable
+00000e   EX_LocalVariable           ActionCheck::Temp_int_Loop_Counter_Variable
+000017   EX_IntConst                0
+00001c EX_Let                     ActionCheck::Temp_int_Array_Index_Variable
+000025   EX_LocalVariable           ActionCheck::Temp_int_Array_Index_Variable
+00002e   EX_IntConst                0
+000033 EX_Let                     ActionCheck::CallFunc_Array_Length_ReturnValue
+00003c   EX_LocalVariable           ActionCheck::CallFunc_Array_Length_ReturnValue
+000045   EX_Context                 
+000046     EX_ObjectConst             null_skip=0x13 rvalue=ActionCheck::CallFunc_Array_Length_ReturnValue
+00005b     EX_FinalFunction           KismetArrayLibrary::Array_Length
+000064       EX_LocalOutVariable        ActionCheck::ItemActons
+00006d       EX_EndFunctionParms        
+00006e EX_LetBool                 
+00006f   EX_LocalVariable           ActionCheck::CallFunc_Less_IntInt_ReturnValue
+000078   EX_CallMath                KismetMathLibrary::Less_IntInt
+000081     EX_LocalVariable           ActionCheck::Temp_int_Loop_Counter_Variable
+00008a     EX_LocalVariable           ActionCheck::CallFunc_Array_Length_ReturnValue
+000093     EX_EndFunctionParms        
+000094 EX_JumpIfNot               -> 0x146 if not
+000099   EX_LocalVariable           ActionCheck::CallFunc_Less_IntInt_ReturnValue
+0000a2 EX_Let                     ActionCheck::Temp_int_Array_Index_Variable
+0000ab   EX_LocalVariable           ActionCheck::Temp_int_Array_Index_Variable
+0000b4   EX_LocalVariable           ActionCheck::Temp_int_Loop_Counter_Variable
+0000bd EX_PushExecutionFlow       push 0x156
+0000c2 EX_Context                 
+0000c3   EX_ObjectConst             null_skip=0x25 rvalue=None
+0000d8   EX_FinalFunction           KismetArrayLibrary::Array_Get
+0000e1     EX_LocalOutVariable        ActionCheck::ItemActons
+0000ea     EX_LocalVariable           ActionCheck::Temp_int_Array_Index_Variable
+0000f3     EX_LocalVariable           ActionCheck::CallFunc_Array_Get_Item
+0000fc     EX_EndFunctionParms        
+0000fd EX_LetBool                 
+0000fe   EX_LocalVariable           ActionCheck::CallFunc_EqualEqual_ByteByte_ReturnValue
+000107   EX_CallMath                KismetMathLibrary::EqualEqual_ByteByte
+000110     EX_StructMemberContext     S_WorldAction::WorldActions_14_09EA4A134331DF405C8B59A59F4D242C
+000119       EX_LocalVariable           ActionCheck::CallFunc_Array_Get_Item
+000122     EX_LocalVariable           ActionCheck::ActionType
+00012b     EX_EndFunctionParms        
+00012c EX_PopExecutionFlowIfNot   
+00012d   EX_LocalVariable           ActionCheck::CallFunc_EqualEqual_ByteByte_ReturnValue
+000136 EX_LetBool                 
+000137   EX_LocalOutVariable        ActionCheck::ReturnValue
+000140   EX_True                    
+000141 EX_Jump                    -> 0x1a0
+000146 EX_LetBool                 
+000147   EX_LocalOutVariable        ActionCheck::ReturnValue
+000150   EX_False                   
+000151 EX_Jump                    -> 0x1a0
+000156 EX_Let                     ActionCheck::CallFunc_Add_IntInt_ReturnValue
+00015f   EX_LocalVariable           ActionCheck::CallFunc_Add_IntInt_ReturnValue
+000168   EX_CallMath                KismetMathLibrary::Add_IntInt
+000171     EX_LocalVariable           ActionCheck::Temp_int_Loop_Counter_Variable
+00017a     EX_IntConst                1
+00017f     EX_EndFunctionParms        
+000180 EX_Let                     ActionCheck::Temp_int_Loop_Counter_Variable
+000189   EX_LocalVariable           ActionCheck::Temp_int_Loop_Counter_Variable
+000192   EX_LocalVariable           ActionCheck::CallFunc_Add_IntInt_ReturnValue
+00019b EX_Jump                    -> 0x33
+0001a0 EX_Return                  
+0001a1   EX_LocalOutVariable        ActionCheck::ReturnValue
+0001aa EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::Consume  @0x22c6bb96b40  script=1666 bytes
+000000 EX_PushExecutionFlow       push 0x67f
+000005 EX_PushExecutionFlow       push 0x567
+00000a EX_Context                 
+00000b   EX_ObjectConst             null_skip=0x2a rvalue=None
+000020   EX_LocalVirtualFunction    "SGK ItemConsumableDetails"
+00002d     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000036     EX_Self                    
+000037     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemFound
+000040     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemDetails
+000049     EX_EndFunctionParms        
+00004a EX_JumpIfNot               -> 0x96 if not
+00004f   EX_StructMemberContext     S_ConsumableDetails::HasUseAmount_52_D5C2AD8E4B9EB866F11B6BAF17E2BBE7
+000058     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemDetails
+000061 EX_LetBool                 
+000062   EX_LocalVariable           Consume::CallFunc_Greater_IntInt_ReturnValue
+00006b   EX_CallMath                KismetMathLibrary::Greater_IntInt
+000074     EX_StructMemberContext     S_InvItem::UseAmount_21_73BF7A6447A384E099761EA48F7DB753
+00007d       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000086     EX_IntConst                0
+00008b     EX_EndFunctionParms        
+00008c EX_PopExecutionFlowIfNot   
+00008d   EX_LocalVariable           Consume::CallFunc_Greater_IntInt_ReturnValue
+000096 EX_Context                 
+000097   EX_LocalVariable           null_skip=0x2e rvalue=None
+0000ac   EX_LocalVirtualFunction    "UpdateItemUseAmount"
+0000b9     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0000c2     EX_IntConst                -1
+0000c7     EX_LocalVariable           Consume::CallFunc_UpdateItemUseAmount_ItemEmpty
+0000d0     EX_LocalVariable           Consume::CallFunc_UpdateItemUseAmount_ItemOut
+0000d9     EX_EndFunctionParms        
+0000da EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+0000e3   EX_Self                    
+0000e4   EX_IntConst                10
+0000e9   EX_NameConst               "InvItem"
+0000f6   EX_EndFunctionParms        
+0000f7 EX_Let                     Consume::ConsumedItemL
+000100   EX_LocalVariable           Consume::ConsumedItemL
+000109   EX_LocalVariable           Consume::CallFunc_UpdateItemUseAmount_ItemOut
+000112 EX_PopExecutionFlowIfNot   
+000113   EX_LocalVariable           Consume::CallFunc_UpdateItemUseAmount_ItemEmpty
+00011c EX_Let                     Consume::CallFunc_Subtract_IntInt_ReturnValue
+000125   EX_LocalVariable           Consume::CallFunc_Subtract_IntInt_ReturnValue
+00012e   EX_CallMath                KismetMathLibrary::Subtract_IntInt
+000137     EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000140       EX_LocalVariable           Consume::ConsumedItemL
+000149     EX_IntConst                1
+00014e     EX_EndFunctionParms        
+00014f EX_Let                     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000158   EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000161     EX_LocalVariable           Consume::ConsumedItemL
+00016a   EX_LocalVariable           Consume::CallFunc_Subtract_IntInt_ReturnValue
+000173 EX_Let                     BP_StaticMasterItem_C::TempItem
+00017c   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000185   EX_LocalVariable           Consume::ConsumedItemL
+00018e EX_Context                 
+00018f   EX_ObjectConst             null_skip=0x2a rvalue=None
+0001a4   EX_LocalVirtualFunction    "SGK ItemConsumableDetails"
+0001b1     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0001ba     EX_Self                    
+0001bb     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemFound
+0001c4     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemDetails
+0001cd     EX_EndFunctionParms        
+0001ce EX_JumpIfNot               -> 0x607 if not
+0001d3   EX_StructMemberContext     S_ConsumableDetails::ReplaceEmptyItem_40_1468F178488538AC9E98EE8AE08C4032
+0001dc     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemDetails
+0001e5 EX_LetObj                  
+0001e6   EX_LocalVariable           Consume::CallFunc_GetGameMode_ReturnValue
+0001ef   EX_CallMath                GameplayStatics::GetGameMode
+0001f8     EX_Self                    
+0001f9     EX_EndFunctionParms        
+0001fa EX_Let                     None
+000203   EX_LocalVariable           Consume::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+00020c   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKGameModeInterface_C'
+000215     EX_LocalVariable           Consume::CallFunc_GetGameMode_ReturnValue
+00021e EX_Let                     None
+000227   EX_LocalVariable           Consume::K2Node_DynamicCast_bSuccess
+000230   EX_Cast                    kind=2
+000232     EX_LocalVariable           Consume::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+00023b EX_JumpIfNot               -> 0x650 if not
+000240   EX_LocalVariable           Consume::K2Node_DynamicCast_bSuccess
+000249 EX_Context                 
+00024a   EX_InterfaceContext        
+00024b     EX_LocalVariable           null_skip=0x17 rvalue=None
+000260   EX_LocalVirtualFunction    "SGK GetGlobalInventory"
+00026d     EX_LocalVariable           Consume::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+000276     EX_EndFunctionParms        
+000277 EX_Context                 
+000278   EX_ObjectConst             null_skip=0x2a rvalue=None
+00028d   EX_LocalVirtualFunction    "SGK ItemConsumableDetails"
+00029a     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0002a3     EX_Self                    
+0002a4     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemFound
+0002ad     EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemDetails
+0002b6     EX_EndFunctionParms        
+0002b7 EX_Context                 
+0002b8   EX_LocalVariable           null_skip=0x51 rvalue=None
+0002cd   EX_LocalVirtualFunction    "CreateNewItem"
+0002da     EX_StructMemberContext     DataTableRowHandle::RowName
+0002e3       EX_StructMemberContext     S_ConsumableDetails::ReplaceItem_43_AF78880646937D734522D7AC866EE5D3
+0002ec         EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemDetails
+0002f5     EX_StructMemberContext     S_ConsumableDetails::ReplaceItemAmount_46_580B910E42142D14991177A8702E502F
+0002fe       EX_LocalVariable           Consume::CallFunc_SGK_ItemConsumableDetails_ItemDetails
+000307     EX_True                    
+000308     EX_True                    
+000309     EX_False                   
+00030a     EX_False                   
+00030b     EX_DoubleConst             0.0
+000314     EX_LocalVariable           Consume::CallFunc_CreateNewItem_NewItem
+00031d     EX_EndFunctionParms        
+00031e EX_Let                     Consume::CallFunc_K2_GetActorLocation_ReturnValue
+000327   EX_LocalVariable           Consume::CallFunc_K2_GetActorLocation_ReturnValue
+000330   EX_FinalFunction           Actor::K2_GetActorLocation
+000339     EX_EndFunctionParms        
+00033a EX_Let                     Consume::CallFunc_MakeTransform_ReturnValue
+000343   EX_LocalVariable           Consume::CallFunc_MakeTransform_ReturnValue
+00034c   EX_CallMath                KismetMathLibrary::MakeTransform
+000355     EX_LocalVariable           Consume::CallFunc_K2_GetActorLocation_ReturnValue
+00035e     EX_RotationConst           0,0,0
+000377     EX_VectorConst             1.0,1.0,1.0
+000390     EX_EndFunctionParms        
+000391 EX_Context                 
+000392   EX_ObjectConst             null_skip=0x2a rvalue=None
+0003a7   EX_LocalVirtualFunction    "SGK ItemDetails"
+0003b4     EX_LocalVariable           Consume::CallFunc_CreateNewItem_NewItem
+0003bd     EX_Self                    
+0003be     EX_LocalVariable           Consume::CallFunc_SGK_ItemDetails_ItemFound
+0003c7     EX_LocalVariable           Consume::CallFunc_SGK_ItemDetails_ItemDetails
+0003d0     EX_EndFunctionParms        
+0003d1 EX_LetObj                  
+0003d2   EX_LocalVariable           Consume::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+0003db   EX_CallMath                GameplayStatics::BeginDeferredActorSpawnFromClass
+0003e4     EX_Self                    
+0003e5     EX_StructMemberContext     S_ItemDetails::WorldClass_45_6718387F4F5D57BE9909639A237E57A3
+0003ee       EX_LocalVariable           Consume::CallFunc_SGK_ItemDetails_ItemDetails
+0003f7     EX_LocalVariable           Consume::CallFunc_MakeTransform_ReturnValue
+000400     EX_ByteConst               0
+000402     EX_NoObject                
+000403     EX_ByteConst               2
+000405     EX_EndFunctionParms        
+000406 EX_Let                     Consume::CallFunc_K2_GetActorLocation_ReturnValue
+00040f   EX_LocalVariable           Consume::CallFunc_K2_GetActorLocation_ReturnValue
+000418   EX_FinalFunction           Actor::K2_GetActorLocation
+000421     EX_EndFunctionParms        
+000422 EX_Let                     Consume::CallFunc_MakeTransform_ReturnValue
+00042b   EX_LocalVariable           Consume::CallFunc_MakeTransform_ReturnValue
+000434   EX_CallMath                KismetMathLibrary::MakeTransform
+00043d     EX_LocalVariable           Consume::CallFunc_K2_GetActorLocation_ReturnValue
+000446     EX_RotationConst           0,0,0
+00045f     EX_VectorConst             1.0,1.0,1.0
+000478     EX_EndFunctionParms        
+000479 EX_LetObj                  
+00047a   EX_LocalVariable           Consume::CallFunc_FinishSpawningActor_ReturnValue
+000483   EX_CallMath                GameplayStatics::FinishSpawningActor
+00048c     EX_LocalVariable           Consume::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+000495     EX_LocalVariable           Consume::CallFunc_MakeTransform_ReturnValue
+00049e     EX_ByteConst               2
+0004a0     EX_EndFunctionParms        
+0004a1 EX_Let                     None
+0004aa   EX_LocalVariable           Consume::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+0004b3   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKInteractionInterface_C'
+0004bc     EX_LocalVariable           Consume::CallFunc_FinishSpawningActor_ReturnValue
+0004c5 EX_Let                     None
+0004ce   EX_LocalVariable           Consume::K2Node_DynamicCast_bSuccess
+0004d7   EX_Cast                    kind=2
+0004d9     EX_LocalVariable           Consume::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+0004e2 EX_JumpIfNot               -> 0x660 if not
+0004e7   EX_LocalVariable           Consume::K2Node_DynamicCast_bSuccess
+0004f0 EX_LetBool                 
+0004f1   EX_LocalVariable           Consume::CallFunc_SGK_DropItem_ReturnValue
+0004fa   EX_Context                 
+0004fb     EX_InterfaceContext        
+0004fc       EX_LocalVariable           null_skip=0x1c rvalue=Consume::CallFunc_SGK_DropItem_ReturnValue
+000511     EX_LocalVirtualFunction    "SGK DropItem"
+00051e       EX_LocalVariable           Consume::CallFunc_CreateNewItem_NewItem
+000527       EX_False                   
+000528       EX_True                    
+000529       EX_False                   
+00052a       EX_False                   
+00052b       EX_NoObject                
+00052c       EX_EndFunctionParms        
+00052d EX_LetBool                 
+00052e   EX_LocalVariable           Consume::CallFunc_Greater_IntInt_ReturnValue
+000537   EX_CallMath                KismetMathLibrary::Greater_IntInt
+000540     EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000549       EX_LocalVariable           Consume::ConsumedItemL
+000552     EX_IntConst                0
+000557     EX_EndFunctionParms        
+000558 EX_JumpIfNot               -> 0x670 if not
+00055d   EX_LocalVariable           Consume::CallFunc_Greater_IntInt_ReturnValue
+000566 EX_PopExecutionFlow        
+000567 EX_LetBool                 
+000568   EX_LocalVariable           Consume::CallFunc_ConsumeItem_ReturnValue
+000571   EX_Context                 
+000572     EX_LocalVariable           null_skip=0x18 rvalue=Consume::CallFunc_ConsumeItem_ReturnValue
+000587     EX_LocalVirtualFunction    "ConsumeItem"
+000594       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00059d       EX_False                   
+00059e       EX_EndFunctionParms        
+00059f EX_PopExecutionFlowIfNot   
+0005a0   EX_LocalVariable           Consume::CallFunc_ConsumeItem_ReturnValue
+0005a9 EX_FinalFunction           Actor::FlushNetDormancy
+0005b2   EX_EndFunctionParms        
+0005b3 EX_Let                     BP_StaticMasterItem_C::InvItem
+0005bc   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0005c5   EX_LocalVariable           Consume::ConsumedItemL
+0005ce EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+0005d7   EX_Self                    
+0005d8   EX_IntConst                10
+0005dd   EX_NameConst               "InvItem"
+0005ea   EX_EndFunctionParms        
+0005eb EX_Let                     BP_StaticMasterItem_C::TempItem
+0005f4   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0005fd   EX_LocalVariable           Consume::ConsumedItemL
+000606 EX_PopExecutionFlow        
+000607 EX_LetBool                 
+000608   EX_LocalVariable           Consume::CallFunc_Greater_IntInt_ReturnValue
+000611   EX_CallMath                KismetMathLibrary::Greater_IntInt
+00061a     EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000623       EX_LocalVariable           Consume::ConsumedItemL
+00062c     EX_IntConst                0
+000631     EX_EndFunctionParms        
+000632 EX_JumpIfNot               -> 0x641 if not
+000637   EX_LocalVariable           Consume::CallFunc_Greater_IntInt_ReturnValue
+000640 EX_PopExecutionFlow        
+000641 EX_VirtualFunction         "K2_DestroyActor"
+00064e   EX_EndFunctionParms        
+00064f EX_PopExecutionFlow        
+000650 EX_LetObj                  
+000651   EX_LocalVariable           Consume::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+00065a   EX_NoObject                
+00065b EX_Jump                    -> 0x277
+000660 EX_LetBool                 
+000661   EX_LocalVariable           Consume::CallFunc_SGK_DropItem_ReturnValue
+00066a   EX_False                   
+00066b EX_Jump                    -> 0x52d
+000670 EX_VirtualFunction         "K2_DestroyActor"
+00067d   EX_EndFunctionParms        
+00067e EX_PopExecutionFlow        
+00067f EX_Return                  
+000680   EX_Nothing                 
+000681 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::CreateItem  @0x22c6bb96c20  script=36 bytes
+000000 EX_LetValueOnPersistentFrame ExecuteUbergraph_BP_StaticMasterItem::K2Node_CustomEvent_InventoryManager
+000009   EX_LocalVariable           CreateItem::InventoryManager
+000012 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+00001b   EX_IntConst                2775
+000020   EX_EndFunctionParms        
+000021 EX_Return                  
+000022   EX_Nothing                 
+000023 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::DropDestroyTimer  @0x22c6bb96d00  script=18 bytes
+000000 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+000009   EX_IntConst                3329
+00000e   EX_EndFunctionParms        
+00000f EX_Return                  
+000010   EX_Nothing                 
+000011 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::EquipClothing  @0x22c6bb96de0  script=191 bytes
+000000 EX_Context                 
+000001   EX_LocalVariable           null_skip=0x20 rvalue=None
+000016   EX_LocalVirtualFunction    "AttemptToEquipItem"
+000023     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00002c     EX_LocalVariable           EquipClothing::CallFunc_AttemptToEquipItem_ItemEquipped
+000035     EX_EndFunctionParms        
+000036 EX_JumpIfNot               -> 0xbc if not
+00003b   EX_LocalVariable           EquipClothing::CallFunc_AttemptToEquipItem_ItemEquipped
+000044 EX_VirtualFunction         "K2_DestroyActor"
+000051   EX_EndFunctionParms        
+000052 EX_LetBool                 
+000053   EX_LocalVariable           EquipClothing::CallFunc_IsValid_ReturnValue
+00005c   EX_CallMath                KismetSystemLibrary::IsValid
+000065     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00006e       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000077     EX_EndFunctionParms        
+000078 EX_JumpIfNot               -> 0xbc if not
+00007d   EX_LocalVariable           EquipClothing::CallFunc_IsValid_ReturnValue
+000086 EX_Context                 
+000087   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000090     EX_InstanceVariable        null_skip=0x17 rvalue=None
+0000a5   EX_LocalVirtualFunction    "CloseOtherPlayerTabs"
+0000b2     EX_LocalVariable           EquipClothing::PlayerInventory
+0000bb     EX_EndFunctionParms        
+0000bc EX_Return                  
+0000bd   EX_Nothing                 
+0000be EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::EquipWeapon  @0x22c6bb97080  script=201 bytes
+000000 EX_Context                 
+000001   EX_LocalVariable           null_skip=0x2a rvalue=None
+000016   EX_LocalVirtualFunction    "AttemptToEquipWeapon"
+000023     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00002c     EX_True                    
+00002d     EX_LocalVariable           EquipWeapon::CallFunc_AttemptToEquipWeapon_WeaponEquipped
+000036     EX_LocalVariable           EquipWeapon::CallFunc_AttemptToEquipWeapon_ItemWeaponSlot
+00003f     EX_EndFunctionParms        
+000040 EX_JumpIfNot               -> 0xc6 if not
+000045   EX_LocalVariable           EquipWeapon::CallFunc_AttemptToEquipWeapon_WeaponEquipped
+00004e EX_VirtualFunction         "K2_DestroyActor"
+00005b   EX_EndFunctionParms        
+00005c EX_LetBool                 
+00005d   EX_LocalVariable           EquipWeapon::CallFunc_IsValid_ReturnValue
+000066   EX_CallMath                KismetSystemLibrary::IsValid
+00006f     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000078       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000081     EX_EndFunctionParms        
+000082 EX_JumpIfNot               -> 0xc6 if not
+000087   EX_LocalVariable           EquipWeapon::CallFunc_IsValid_ReturnValue
+000090 EX_Context                 
+000091   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00009a     EX_InstanceVariable        null_skip=0x17 rvalue=None
+0000af   EX_LocalVirtualFunction    "CloseOtherPlayerTabs"
+0000bc     EX_LocalVariable           EquipWeapon::PlayerInventory
+0000c5     EX_EndFunctionParms        
+0000c6 EX_Return                  
+0000c7   EX_Nothing                 
+0000c8 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem  @0x22c6bb96fa0  script=3474 bytes
+000000 EX_PushExecutionFlow       push 0xd8f
+000005 EX_ComputedJump            
+000006   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::EntryPoint
+00000f EX_LocalVirtualFunction    "Reset"
+00001c   EX_EndFunctionParms        
+00001d EX_PopExecutionFlow        
+00001e EX_FinalFunction           Actor::FlushNetDormancy
+000027   EX_EndFunctionParms        
+000028 EX_Let                     BP_StaticMasterItem_C::InvItem
+000031   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00003a   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000043 EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+00004c   EX_Self                    
+00004d   EX_IntConst                10
+000052   EX_NameConst               "InvItem"
+00005f   EX_EndFunctionParms        
+000060 EX_LetBool                 
+000061   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+00006a   EX_CallMath                KismetSystemLibrary::IsValid
+000073     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00007c       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000085     EX_EndFunctionParms        
+000086 EX_PopExecutionFlowIfNot   
+000087   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+000090 EX_JumpIfNot               -> 0xbe if not
+000095   EX_Context                 
+000096     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00009f       EX_InstanceVariable        null_skip=0x9 rvalue=ActorComponent::bReplicates
+0000b4     EX_InstanceVariable        ActorComponent::bReplicates
+0000bd EX_PopExecutionFlow        
+0000be EX_Context                 
+0000bf   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0000c8     EX_InstanceVariable        null_skip=0xf rvalue=None
+0000dd   EX_LocalVirtualFunction    "ReplicateContainingInventories"
+0000ea     EX_True                    
+0000eb     EX_EndFunctionParms        
+0000ec EX_PopExecutionFlow        
+0000ed EX_LocalVirtualFunction    "OnRep_Mesh"
+0000fa   EX_EndFunctionParms        
+0000fb EX_PopExecutionFlow        
+0000fc EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+000105   EX_Self                    
+000106   EX_IntConst                11
+00010b   EX_NameConst               "Mesh"
+000118   EX_EndFunctionParms        
+000119 EX_Jump                    -> 0xed
+00011e EX_FinalFunction           Actor::FlushNetDormancy
+000127   EX_EndFunctionParms        
+000128 EX_Context                 
+000129   EX_ObjectConst             null_skip=0x2a rvalue=None
+00013e   EX_LocalVirtualFunction    "SGK ItemDetails"
+00014b     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000154     EX_Self                    
+000155     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_ItemDetails_ItemFound
+00015e     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_ItemDetails_ItemDetails
+000167     EX_EndFunctionParms        
+000168 EX_Let                     BP_StaticMasterItem_C::Mesh
+000171   EX_InstanceVariable        BP_StaticMasterItem_C::Mesh
+00017a   EX_StructMemberContext     S_ItemDetails::StaticMesh_123_DB8565E8487831578F6D18823B88B876
+000183     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_ItemDetails_ItemDetails
+00018c EX_Jump                    -> 0xfc
+000191 EX_FinalFunction           Actor::FlushNetDormancy
+00019a   EX_EndFunctionParms        
+00019b EX_Let                     BP_StaticMasterItem_C::InvItem
+0001a4   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0001ad   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0001b6 EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+0001bf   EX_Self                    
+0001c0   EX_IntConst                10
+0001c5   EX_NameConst               "InvItem"
+0001d2   EX_EndFunctionParms        
+0001d3 EX_PopExecutionFlow        
+0001d4 EX_LetBool                 
+0001d5   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_HasAuthority_ReturnValue
+0001de   EX_FinalFunction           Actor::HasAuthority
+0001e7     EX_EndFunctionParms        
+0001e8 EX_PopExecutionFlowIfNot   
+0001e9   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_HasAuthority_ReturnValue
+0001f2 EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+0001fb   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+000204   EX_FinalFunction           Actor::K2_GetActorLocation
+00020d     EX_EndFunctionParms        
+00020e EX_CallMath                KismetMathLibrary::BreakVector
+000217   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+000220   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_X
+000229   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_Y
+000232   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_Z
+00023b   EX_EndFunctionParms        
+00023c EX_LetBool                 
+00023d   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+000246   EX_CallMath                KismetMathLibrary::InRange_FloatFloat
+00024f     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_Y
+000258     EX_DoubleConst             19000.0
+000261     EX_DoubleConst             35160.0
+00026a     EX_True                    
+00026b     EX_True                    
+00026c     EX_EndFunctionParms        
+00026d EX_LetBool                 
+00026e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+000277   EX_CallMath                KismetMathLibrary::InRange_FloatFloat
+000280     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_X
+000289     EX_DoubleConst             11498.0
+000292     EX_DoubleConst             27040.0
+00029b     EX_True                    
+00029c     EX_True                    
+00029d     EX_EndFunctionParms        
+00029e EX_LetBool                 
+00029f   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BooleanAND_ReturnValue
+0002a8   EX_CallMath                KismetMathLibrary::BooleanAND
+0002b1     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+0002ba     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+0002c3     EX_EndFunctionParms        
+0002c4 EX_JumpIfNot               -> 0x474 if not
+0002c9   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BooleanAND_ReturnValue
+0002d2 EX_LetObj                  
+0002d3   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetGameMode_ReturnValue
+0002dc   EX_CallMath                GameplayStatics::GetGameMode
+0002e5     EX_Self                    
+0002e6     EX_EndFunctionParms        
+0002e7 EX_Let                     None
+0002f0   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+0002f9   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKGameModeInterface_C'
+000302     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetGameMode_ReturnValue
+00030b EX_Let                     None
+000314   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_bSuccess
+00031d   EX_Cast                    kind=2
+00031f     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+000328 EX_JumpIfNot               -> 0x483 if not
+00032d   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_bSuccess
+000336 EX_Context                 
+000337   EX_InterfaceContext        
+000338     EX_LocalVariable           null_skip=0x17 rvalue=None
+00034d   EX_LocalVirtualFunction    "SGK GetSaveGame"
+00035a     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetSaveGame_SaveGame
+000363     EX_EndFunctionParms        
+000364 EX_LetObj                  
+000365   EX_InstanceVariable        BP_StaticMasterItem_C::SaveGame
+00036e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetSaveGame_SaveGame
+000377 EX_LetBool                 
+000378   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+000381   EX_CallMath                KismetSystemLibrary::IsValid
+00038a     EX_InstanceVariable        BP_StaticMasterItem_C::SaveGame
+000393     EX_EndFunctionParms        
+000394 EX_JumpIfNot               -> 0x493 if not
+000399   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+0003a2 EX_BindDelegate            "LoadItem"
+0003af   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CreateDelegate_OutputDelegate
+0003b8   EX_Self                    
+0003b9 EX_AddMulticastDelegate    
+0003ba   EX_Context                 
+0003bb     EX_InstanceVariable        null_skip=0x9 rvalue=BP_SaveSystem_C::LoadData
+0003d0     EX_InstanceVariable        BP_SaveSystem_C::LoadData
+0003d9   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CreateDelegate_OutputDelegate
+0003e2 EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_Array_AddUnique_ReturnValue
+0003eb   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_Array_AddUnique_ReturnValue
+0003f4   EX_Context                 
+0003f5     EX_ObjectConst             null_skip=0x2a rvalue=ExecuteUbergraph_BP_StaticMasterItem::CallFunc_Array_AddUnique_ReturnValue
+00040a     EX_FinalFunction           KismetArrayLibrary::Array_AddUnique
+000413       EX_Context                 
+000414         EX_InstanceVariable        null_skip=0x9 rvalue=BP_SaveSystem_C::SaveActors
+000429         EX_InstanceVariable        BP_SaveSystem_C::SaveActors
+000432       EX_Self                    
+000433       EX_EndFunctionParms        
+000434 EX_LetObj                  
+000435   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetOwner_ReturnValue
+00043e   EX_FinalFunction           Actor::GetOwner
+000447     EX_EndFunctionParms        
+000448 EX_LetBool                 
+000449   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+000452   EX_CallMath                KismetSystemLibrary::IsValid
+00045b     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetOwner_ReturnValue
+000464     EX_EndFunctionParms        
+000465 EX_JumpIfNot               -> 0x4a2 if not
+00046a   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+000473 EX_PopExecutionFlow        
+000474 EX_LocalVirtualFunction    "SaveNotValid"
+000481   EX_EndFunctionParms        
+000482 EX_PopExecutionFlow        
+000483 EX_LetObj                  
+000484   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetSaveGame_SaveGame
+00048d   EX_NoObject                
+00048e EX_Jump                    -> 0x364
+000493 EX_LocalVirtualFunction    "SaveNotValid"
+0004a0   EX_EndFunctionParms        
+0004a1 EX_PopExecutionFlow        
+0004a2 EX_JumpIfNot               -> 0x4fa if not
+0004a7   EX_Context                 
+0004a8     EX_InstanceVariable        null_skip=0x9 rvalue=BP_SaveSystem_C::FirstLoadDone
+0004bd     EX_InstanceVariable        BP_SaveSystem_C::FirstLoadDone
+0004c6 EX_LetBool                 
+0004c7   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BooleanOR_ReturnValue
+0004d0   EX_CallMath                KismetMathLibrary::BooleanOR
+0004d9     EX_InstanceVariable        BP_StaticMasterItem_C::Spawned
+0004e2     EX_InstanceVariable        BP_StaticMasterItem_C::Dropped
+0004eb     EX_EndFunctionParms        
+0004ec EX_JumpIfNot               -> 0x6ce if not
+0004f1   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BooleanOR_ReturnValue
+0004fa EX_PushExecutionFlow       push 0x5e9
+0004ff EX_PushExecutionFlow       push 0x11e
+000504 EX_LetObj                  
+000505   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetGameMode_ReturnValue
+00050e   EX_CallMath                GameplayStatics::GetGameMode
+000517     EX_Self                    
+000518     EX_EndFunctionParms        
+000519 EX_Let                     None
+000522   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+00052b   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKGameModeInterface_C'
+000534     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetGameMode_ReturnValue
+00053d EX_Let                     None
+000546   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_bSuccess
+00054f   EX_Cast                    kind=2
+000551     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+00055a EX_JumpIfNot               -> 0x5d9 if not
+00055f   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_bSuccess
+000568 EX_Context                 
+000569   EX_InterfaceContext        
+00056a     EX_LocalVariable           null_skip=0x17 rvalue=None
+00057f   EX_LocalVirtualFunction    "SGK GetGlobalInventory"
+00058c     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+000595     EX_EndFunctionParms        
+000596 EX_LetBool                 
+000597   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+0005a0   EX_CallMath                KismetSystemLibrary::IsValid
+0005a9     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+0005b2     EX_EndFunctionParms        
+0005b3 EX_JumpIfNot               -> 0x6ec if not
+0005b8   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+0005c1 EX_LocalVirtualFunction    "CreateItem"
+0005ce   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+0005d7   EX_EndFunctionParms        
+0005d8 EX_PopExecutionFlow        
+0005d9 EX_LetObj                  
+0005da   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+0005e3   EX_NoObject                
+0005e4 EX_Jump                    -> 0x596
+0005e9 EX_Context                 
+0005ea   EX_ObjectConst             null_skip=0x2a rvalue=None
+0005ff   EX_LocalVirtualFunction    "SGK DurabilityDetails"
+00060c     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000615     EX_Self                    
+000616     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_DurabilityDetails_ItemFound
+00061f     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_DurabilityDetails_DurabilityDetails
+000628     EX_EndFunctionParms        
+000629 EX_PopExecutionFlowIfNot   
+00062a   EX_StructMemberContext     S_DecayDetails::UseItemDecay_1_12FBBE5940F95B2CAFEB29B32812EBC0
+000633     EX_StructMemberContext     S_DurabilityDetails::DecayDetails_28_E55B8B1D423F7D487FFACDAB43C68F74
+00063c       EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_DurabilityDetails_DurabilityDetails
+000645 EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_RandomFloatInRange_ReturnValue
+00064e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_RandomFloatInRange_ReturnValue
+000657   EX_CallMath                KismetMathLibrary::RandomFloatInRange
+000660     EX_DoubleConst             0.0
+000669     EX_DoubleConst             0.2
+000672     EX_EndFunctionParms        
+000673 EX_Let                     None
+00067c   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_SetTimer_InitialStartDelay_ImplicitCast
+000685   EX_Cast                    kind=3
+000687     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_RandomFloatInRange_ReturnValue
+000690 EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_SetTimer_ReturnValue
+000699   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_SetTimer_ReturnValue
+0006a2   EX_CallMath                KismetSystemLibrary::K2_SetTimer
+0006ab     EX_Self                    
+0006ac     EX_StringConst             'ItemDecay'
+0006b7     EX_FloatConst              60.0
+0006bc     EX_True                    
+0006bd     EX_False                   
+0006be     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_SetTimer_InitialStartDelay_ImplicitCast
+0006c7     EX_FloatConst              0.0
+0006cc     EX_EndFunctionParms        
+0006cd EX_PopExecutionFlow        
+0006ce EX_JumpIfNot               -> 0x6dd if not
+0006d3   EX_InstanceVariable        BP_StaticMasterItem_C::SaveGameLoaded
+0006dc EX_PopExecutionFlow        
+0006dd EX_VirtualFunction         "K2_DestroyActor"
+0006ea   EX_EndFunctionParms        
+0006eb EX_PopExecutionFlow        
+0006ec EX_LetObj                  
+0006ed   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetGameMode_ReturnValue
+0006f6   EX_CallMath                GameplayStatics::GetGameMode
+0006ff     EX_Self                    
+000700     EX_EndFunctionParms        
+000701 EX_Let                     None
+00070a   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+000713   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKGameModeInterface_C'
+00071c     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetGameMode_ReturnValue
+000725 EX_Let                     None
+00072e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_bSuccess
+000737   EX_Cast                    kind=2
+000739     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+000742 EX_JumpIfNot               -> 0x7bf if not
+000747   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_bSuccess
+000750 EX_Context                 
+000751   EX_InterfaceContext        
+000752     EX_LocalVariable           null_skip=0x17 rvalue=None
+000767   EX_LocalVirtualFunction    "SGK GetInitComponent"
+000774     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetInitComponent_InitComponent
+00077d     EX_EndFunctionParms        
+00077e EX_BindDelegate            "CreateItem"
+00078b   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CreateDelegate_OutputDelegate
+000794   EX_Self                    
+000795 EX_AddMulticastDelegate    
+000796   EX_Context                 
+000797     EX_LocalVariable           null_skip=0x9 rvalue=BP_GameModeInitComponent_C::SpawnedInventoryManager
+0007ac     EX_InstanceVariable        BP_GameModeInitComponent_C::SpawnedInventoryManager
+0007b5   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CreateDelegate_OutputDelegate
+0007be EX_PopExecutionFlow        
+0007bf EX_LetObj                  
+0007c0   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SGK_GetInitComponent_InitComponent
+0007c9   EX_NoObject                
+0007ca EX_Jump                    -> 0x77e
+0007cf EX_PopExecutionFlow        
+0007d0 EX_PopExecutionFlow        
+0007d1 EX_PopExecutionFlowIfNot   
+0007d2   EX_False                   
+0007d3 EX_LetBool                 
+0007d4   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_bool_IsClosed_Variable
+0007dd   EX_True                    
+0007de EX_PopExecutionFlow        
+0007df EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+0007e8   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+0007f1   EX_FinalFunction           Actor::K2_GetActorLocation
+0007fa     EX_EndFunctionParms        
+0007fb EX_CallMath                KismetMathLibrary::BreakVector
+000804   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+00080d   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_X
+000816   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_Y
+00081f   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_Z
+000828   EX_EndFunctionParms        
+000829 EX_LetBool                 
+00082a   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+000833   EX_CallMath                KismetMathLibrary::InRange_FloatFloat
+00083c     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_Y
+000845     EX_DoubleConst             19000.0
+00084e     EX_DoubleConst             35160.0
+000857     EX_True                    
+000858     EX_True                    
+000859     EX_EndFunctionParms        
+00085a EX_LetBool                 
+00085b   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+000864   EX_CallMath                KismetMathLibrary::InRange_FloatFloat
+00086d     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BreakVector_X
+000876     EX_DoubleConst             11498.0
+00087f     EX_DoubleConst             27040.0
+000888     EX_True                    
+000889     EX_True                    
+00088a     EX_EndFunctionParms        
+00088b EX_LetBool                 
+00088c   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BooleanAND_ReturnValue
+000895   EX_CallMath                KismetMathLibrary::BooleanAND
+00089e     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+0008a7     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_InRange_FloatFloat_ReturnValue
+0008b0     EX_EndFunctionParms        
+0008b1 EX_JumpIfNot               -> 0x8c0 if not
+0008b6   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_BooleanAND_ReturnValue
+0008bf EX_PopExecutionFlow        
+0008c0 EX_VirtualFunction         "K2_DestroyActor"
+0008cd   EX_EndFunctionParms        
+0008ce EX_PopExecutionFlow        
+0008cf EX_Context                 
+0008d0   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0008d9     EX_InstanceVariable        null_skip=0xf rvalue=None
+0008ee   EX_LocalVirtualFunction    "ReplicateContainingInventories"
+0008fb     EX_False                   
+0008fc     EX_EndFunctionParms        
+0008fd EX_PopExecutionFlow        
+0008fe EX_LetBool                 
+0008ff   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_bool_IsClosed_Variable
+000908   EX_False                   
+000909 EX_LetBool                 
+00090a   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_bool_Has_Been_Initd_Variable
+000913   EX_True                    
+000914 EX_PopExecutionFlow        
+000915 EX_CallMath                KismetSystemLibrary::Delay
+00091e   EX_Self                    
+00091f   EX_FloatConst              0.5
+000924   EX_StructConst             ScriptStruct'LatentActionInfo' size=32
+000931     EX_SkipOffsetConst         0xf
+000936     EX_IntConst                235621110
+00093b     EX_NameConst               "ExecuteUbergraph_BP_StaticMasterItem"
+000948     EX_Self                    
+000949     EX_EndStructConst          
+00094a   EX_EndFunctionParms        
+00094b EX_PopExecutionFlow        
+00094c EX_PushExecutionFlow       push 0x915
+000951 EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+00095a   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+000963   EX_FinalFunction           Actor::K2_GetActorLocation
+00096c     EX_EndFunctionParms        
+00096d EX_SetArray                
+00096e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_MakeArray_Array
+000977   EX_ByteConst               2
+000979   EX_EndArray                
+00097a EX_SetArray                
+00097b   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SphereOverlapActors_OutActors
+000984   EX_EndArray                
+000985 EX_LetBool                 
+000986   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SphereOverlapActors_ReturnValue
+00098f   EX_CallMath                KismetSystemLibrary::SphereOverlapActors
+000998     EX_Self                    
+000999     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_K2_GetActorLocation_ReturnValue
+0009a2     EX_FloatConst              600.0
+0009a7     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_MakeArray_Array
+0009b0     EX_ObjectConst             Class'Character'
+0009b9     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_object_Variable
+0009c2     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SphereOverlapActors_OutActors
+0009cb     EX_EndFunctionParms        
+0009cc EX_JumpIfNot               -> 0x8cf if not
+0009d1   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SphereOverlapActors_ReturnValue
+0009da EX_PopExecutionFlow        
+0009db EX_LetBool                 
+0009dc   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+0009e5   EX_CallMath                KismetSystemLibrary::IsValid
+0009ee     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0009f7       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000a00     EX_EndFunctionParms        
+000a01 EX_PopExecutionFlowIfNot   
+000a02   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+000a0b EX_PopExecutionFlowIfNot   
+000a0c   EX_Context                 
+000a0d     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000a16       EX_InstanceVariable        null_skip=0x9 rvalue=ActorComponent::bReplicates
+000a2b     EX_InstanceVariable        ActorComponent::bReplicates
+000a34 EX_PushExecutionFlow       push 0xa58
+000a39 EX_JumpIfNot               -> 0xa48 if not
+000a3e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_bool_Has_Been_Initd_Variable
+000a47 EX_PopExecutionFlow        
+000a48 EX_LetBool                 
+000a49   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_bool_Has_Been_Initd_Variable
+000a52   EX_True                    
+000a53 EX_Jump                    -> 0x7d1
+000a58 EX_JumpIfNot               -> 0xa67 if not
+000a5d   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_bool_IsClosed_Variable
+000a66 EX_PopExecutionFlow        
+000a67 EX_LetBool                 
+000a68   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_bool_IsClosed_Variable
+000a71   EX_True                    
+000a72 EX_Jump                    -> 0x94c
+000a77 EX_Jump                    -> 0x1e
+000a7c EX_BindDelegate            "OnLoaded_BC0151D846C9342C8ED4A28DCA01CBC4"
+000a89   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CreateDelegate_OutputDelegate
+000a92   EX_Self                    
+000a93 EX_CallMath                KismetSystemLibrary::LoadAsset
+000a9c   EX_Self                    
+000a9d   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CustomEvent_Mesh
+000aa6   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CreateDelegate_OutputDelegate
+000aaf   EX_StructConst             ScriptStruct'LatentActionInfo' size=32
+000abc     EX_IntConst                -1
+000ac1     EX_IntConst                -1702578299
+000ac6     EX_NameConst               "ExecuteUbergraph_BP_StaticMasterItem"
+000ad3     EX_Self                    
+000ad4     EX_EndStructConst          
+000ad5   EX_EndFunctionParms        
+000ad6 EX_PopExecutionFlow        
+000ad7 EX_Context                 
+000ad8   EX_LocalVariable           null_skip=0x50 rvalue=None
+000aed   EX_LocalVirtualFunction    "CreateNewItem"
+000afa     EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000b03       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000b0c     EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000b15       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000b1e     EX_True                    
+000b1f     EX_InstanceVariable        BP_StaticMasterItem_C::AddStartingItems
+000b28     EX_False                   
+000b29     EX_False                   
+000b2a     EX_DoubleConst             0.0
+000b33     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_CreateNewItem_NewItem
+000b3c     EX_EndFunctionParms        
+000b3d EX_Let                     BP_StaticMasterItem_C::TempItem
+000b46   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000b4f   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_CreateNewItem_NewItem
+000b58 EX_LetBool                 
+000b59   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsStandalone_ReturnValue
+000b62   EX_CallMath                KismetSystemLibrary::IsStandalone
+000b6b     EX_Self                    
+000b6c     EX_EndFunctionParms        
+000b6d EX_PopExecutionFlowIfNot   
+000b6e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsStandalone_ReturnValue
+000b77 EX_Jump                    -> 0x191
+000b7c EX_LetObj                  
+000b7d   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_Conv_SoftObjectReferenceToObject_ReturnValue
+000b86   EX_CallMath                KismetSystemLibrary::Conv_SoftObjectReferenceToObject
+000b8f     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CustomEvent_Mesh
+000b98     EX_EndFunctionParms        
+000b99 EX_Let                     None
+000ba2   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsStatic_Mesh
+000bab   EX_DynamicCast             Class'StaticMesh'
+000bb4     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_Conv_SoftObjectReferenceToObject_ReturnValue
+000bbd EX_Let                     None
+000bc6   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_bSuccess
+000bcf   EX_Cast                    kind=1
+000bd1     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsStatic_Mesh
+000bda EX_LetBool                 
+000bdb   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SetStaticMesh_ReturnValue
+000be4   EX_Context                 
+000be5     EX_InstanceVariable        null_skip=0x17 rvalue=ExecuteUbergraph_BP_StaticMasterItem::CallFunc_SetStaticMesh_ReturnValue
+000bfa     EX_VirtualFunction         "SetStaticMesh"
+000c07       EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_DynamicCast_AsStatic_Mesh
+000c10       EX_EndFunctionParms        
+000c11 EX_PopExecutionFlow        
+000c12 EX_LetObj                  
+000c13   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetOwner_ReturnValue
+000c1c   EX_FinalFunction           Actor::GetOwner
+000c25     EX_EndFunctionParms        
+000c26 EX_LetBool                 
+000c27   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+000c30   EX_CallMath                KismetSystemLibrary::IsValid
+000c39     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetOwner_ReturnValue
+000c42     EX_EndFunctionParms        
+000c43 EX_JumpIfNot               -> 0x4fa if not
+000c48   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsValid_ReturnValue
+000c51 EX_PopExecutionFlow        
+000c52 EX_Jump                    -> 0xc12
+000c57 EX_LetObj                  
+000c58   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::Temp_object_Variable
+000c61   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::K2Node_CustomEvent_Loaded
+000c6a EX_Jump                    -> 0xb7c
+000c6f EX_JumpIfNot               -> 0xc82 if not
+000c74   EX_InstanceVariable        BP_StaticMasterItem_C::SaveGameLoaded
+000c7d EX_Jump                    -> 0x1d4
+000c82 EX_Let                     BP_StaticMasterItem_C::TempItem
+000c8b   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000c94   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000c9d EX_Jump                    -> 0x1d4
+000ca2 EX_LetBool                 
+000ca3   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsStandalone_ReturnValue
+000cac   EX_CallMath                KismetSystemLibrary::IsStandalone
+000cb5     EX_Self                    
+000cb6     EX_EndFunctionParms        
+000cb7 EX_JumpIfNot               -> 0xc6f if not
+000cbc   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_IsStandalone_ReturnValue
+000cc5 EX_Jump                    -> 0xc82
+000cca EX_VirtualFunction         "K2_DestroyActor"
+000cd7   EX_EndFunctionParms        
+000cd8 EX_PopExecutionFlow        
+000cd9 EX_Jump                    -> 0xcca
+000cde EX_LocalFinalFunction      Actor::ReceiveBeginPlay
+000ce7   EX_EndFunctionParms        
+000ce8 EX_Jump                    -> 0xca2
+000ced EX_Jump                    -> 0xcde
+000cf2 EX_VirtualFunction         "K2_DestroyActor"
+000cff   EX_EndFunctionParms        
+000d00 EX_PopExecutionFlow        
+000d01 EX_Jump                    -> 0xcf2
+000d06 EX_JumpIfNot               -> 0xd15 if not
+000d0b   EX_InstanceVariable        BP_StaticMasterItem_C::Spawned
+000d14 EX_PopExecutionFlow        
+000d15 EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetCurrentLevelName_ReturnValue
+000d1e   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetCurrentLevelName_ReturnValue
+000d27   EX_CallMath                GameplayStatics::GetCurrentLevelName
+000d30     EX_Self                    
+000d31     EX_True                    
+000d32     EX_EndFunctionParms        
+000d33 EX_Let                     ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetTransform_ReturnValue
+000d3c   EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetTransform_ReturnValue
+000d45   EX_FinalFunction           Actor::GetTransform
+000d4e     EX_EndFunctionParms        
+000d4f EX_Context                 
+000d50   EX_LocalVariable           null_skip=0x29 rvalue=None
+000d65   EX_LocalVirtualFunction    "SaveItem"
+000d72     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetTransform_ReturnValue
+000d7b     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000d84     EX_LocalVariable           ExecuteUbergraph_BP_StaticMasterItem::CallFunc_GetCurrentLevelName_ReturnValue
+000d8d     EX_EndFunctionParms        
+000d8e EX_PopExecutionFlow        
+000d8f EX_Return                  
+000d90   EX_Nothing                 
+000d91 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::Hold  @0x22c6bb97160  script=94 bytes
+000000 EX_Context                 
+000001   EX_LocalVariable           null_skip=0x29 rvalue=None
+000016   EX_LocalVirtualFunction    "AttemptToPickupHold"
+000023     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00002c     EX_LocalVariable           Hold::CallFunc_AttemptToPickupHold_ItemHeld
+000035     EX_LocalVariable           Hold::CallFunc_AttemptToPickupHold_ItemAdded
+00003e     EX_EndFunctionParms        
+00003f EX_JumpIfNot               -> 0x5b if not
+000044   EX_LocalVariable           Hold::CallFunc_AttemptToPickupHold_ItemAdded
+00004d EX_VirtualFunction         "K2_DestroyActor"
+00005a   EX_EndFunctionParms        
+00005b EX_Return                  
+00005c   EX_Nothing                 
+00005d EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::Interact  @0x22c6bb93a40  script=147 bytes
+000000 EX_CallMath                KismetSystemLibrary::PrintString
+000009   EX_Self                    
+00000a   EX_StringConst             'ERROR :: No functionaliy set in Interact function in the\r\nBP_MasterStaticItem'
+000059   EX_True                    
+00005a   EX_True                    
+00005b   EX_StructConst             ScriptStruct'LinearColor' size=16
+000068     EX_FloatConst              1.0
+00006d     EX_FloatConst              0.0
+000072     EX_FloatConst              0.13761800527572632
+000077     EX_FloatConst              1.0
+00007c     EX_EndStructConst          
+00007d   EX_FloatConst              10.0
+000082   EX_NameConst               "None"
+00008f   EX_EndFunctionParms        
+000090 EX_Return                  
+000091   EX_Nothing                 
+000092 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::InteractActions  @0x22c6bb97320  script=1388 bytes
+000000 EX_LetBool                 
+000001   EX_LocalVariable           InteractActions::CallFunc_IsStandalone_ReturnValue
+00000a   EX_CallMath                KismetSystemLibrary::IsStandalone
+000013     EX_Self                    
+000014     EX_EndFunctionParms        
+000015 EX_JumpIfNot               -> 0x158 if not
+00001a   EX_LocalVariable           InteractActions::CallFunc_IsStandalone_ReturnValue
+000023 EX_Context                 
+000024   EX_ObjectConst             null_skip=0x2a rvalue=None
+000039   EX_LocalVirtualFunction    "SGK ItemDetails"
+000046     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+00004f     EX_Self                    
+000050     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemFound
+000059     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+000062     EX_EndFunctionParms        
+000063 EX_LetBool                 
+000064   EX_LocalVariable           InteractActions::CallFunc_ActionCheck_ReturnValue
+00006d   EX_LocalVirtualFunction    "ActionCheck"
+00007a     EX_StructMemberContext     S_ItemDetails::WorldActions_116_B4CAF39A421B065A46DEACBC5DBD40EE
+000083       EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+00008c     EX_LocalVariable           InteractActions::Action
+000095     EX_EndFunctionParms        
+000096 EX_JumpIfNot               -> 0x569 if not
+00009b   EX_LocalVariable           InteractActions::CallFunc_ActionCheck_ReturnValue
+0000a4 EX_Context                 
+0000a5   EX_ObjectConst             null_skip=0x2a rvalue=None
+0000ba   EX_LocalVirtualFunction    "SGK ItemDetails"
+0000c7     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0000d0     EX_Self                    
+0000d1     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemFound
+0000da     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+0000e3     EX_EndFunctionParms        
+0000e4 EX_LetBool                 
+0000e5   EX_LocalVariable           InteractActions::CallFunc_IsValid_ReturnValue
+0000ee   EX_CallMath                KismetSystemLibrary::IsValid
+0000f7     EX_StructMemberContext     S_ItemDetails::PickupAnimation_119_0B5E9F0B4C814F6522050FB1A71E95A6
+000100       EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+000109     EX_EndFunctionParms        
+00010a EX_JumpIfNot               -> 0x1ad if not
+00010f   EX_LocalVariable           InteractActions::CallFunc_IsValid_ReturnValue
+000118 EX_Context                 
+000119   EX_LocalVariable           null_skip=0x17 rvalue=None
+00012e   EX_LocalVirtualFunction    "InAction"
+00013b     EX_LocalVariable           InteractActions::CallFunc_InAction_InAction
+000144     EX_EndFunctionParms        
+000145 EX_JumpIfNot               -> 0x1ad if not
+00014a   EX_LocalVariable           InteractActions::CallFunc_InAction_InAction
+000153 EX_Jump                    -> 0x569
+000158 EX_JumpIfNot               -> 0x23 if not
+00015d   EX_InstanceVariable        BP_StaticMasterItem_C::SaveGameLoaded
+000166 EX_FinalFunction           Actor::FlushNetDormancy
+00016f   EX_EndFunctionParms        
+000170 EX_Let                     BP_StaticMasterItem_C::InvItem
+000179   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000182   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+00018b EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+000194   EX_Self                    
+000195   EX_IntConst                10
+00019a   EX_NameConst               "InvItem"
+0001a7   EX_EndFunctionParms        
+0001a8 EX_Jump                    -> 0x23
+0001ad EX_LetBool                 
+0001ae   EX_LocalVariable           InteractActions::CallFunc_IsValid_ReturnValue
+0001b7   EX_CallMath                KismetSystemLibrary::IsValid
+0001c0     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0001c9       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0001d2     EX_EndFunctionParms        
+0001d3 EX_JumpIfNot               -> 0x20f if not
+0001d8   EX_LocalVariable           InteractActions::CallFunc_IsValid_ReturnValue
+0001e1 EX_Context                 
+0001e2   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0001eb     EX_InstanceVariable        null_skip=0xf rvalue=None
+000200   EX_LocalVirtualFunction    "ReplicateContainingInventories"
+00020d     EX_True                    
+00020e     EX_EndFunctionParms        
+00020f EX_LetBool                 
+000210   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000219   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+000222     EX_LocalVariable           InteractActions::Action
+00022b     EX_ByteConst               1
+00022d     EX_EndFunctionParms        
+00022e EX_JumpIfNot               -> 0x37c if not
+000233   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+00023c EX_LetBool                 
+00023d   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000246   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+00024f     EX_LocalVariable           InteractActions::Action
+000258     EX_ByteConst               2
+00025a     EX_EndFunctionParms        
+00025b EX_JumpIfNot               -> 0x398 if not
+000260   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000269 EX_LetBool                 
+00026a   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000273   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+00027c     EX_LocalVariable           InteractActions::Action
+000285     EX_ByteConst               3
+000287     EX_EndFunctionParms        
+000288 EX_JumpIfNot               -> 0x4c6 if not
+00028d   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000296 EX_LetBool                 
+000297   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+0002a0   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+0002a9     EX_LocalVariable           InteractActions::Action
+0002b2     EX_ByteConst               4
+0002b4     EX_EndFunctionParms        
+0002b5 EX_JumpIfNot               -> 0x4e2 if not
+0002ba   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+0002c3 EX_LetBool                 
+0002c4   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+0002cd   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+0002d6     EX_LocalVariable           InteractActions::Action
+0002df     EX_ByteConst               5
+0002e1     EX_EndFunctionParms        
+0002e2 EX_JumpIfNot               -> 0x4fe if not
+0002e7   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+0002f0 EX_LetBool                 
+0002f1   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+0002fa   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+000303     EX_LocalVariable           InteractActions::Action
+00030c     EX_ByteConst               6
+00030e     EX_EndFunctionParms        
+00030f EX_JumpIfNot               -> 0x51a if not
+000314   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+00031d EX_LetBool                 
+00031e   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000327   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+000330     EX_LocalVariable           InteractActions::Action
+000339     EX_ByteConst               7
+00033b     EX_EndFunctionParms        
+00033c EX_JumpIfNot               -> 0x536 if not
+000341   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+00034a EX_LetBool                 
+00034b   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000354   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+00035d     EX_LocalVariable           InteractActions::Action
+000366     EX_ByteConst               8
+000368     EX_EndFunctionParms        
+000369 EX_JumpIfNot               -> 0x552 if not
+00036e   EX_LocalVariable           InteractActions::K2Node_SwitchEnum_CmpSuccess
+000377 EX_Jump                    -> 0x569
+00037c EX_LocalVirtualFunction    "Interact"
+000389   EX_LocalVariable           InteractActions::PlayerInventory
+000392   EX_EndFunctionParms        
+000393 EX_Jump                    -> 0x569
+000398 EX_LocalVirtualFunction    "Pickup"
+0003a5   EX_LocalVariable           InteractActions::PlayerInventory
+0003ae   EX_EndFunctionParms        
+0003af EX_Context                 
+0003b0   EX_ObjectConst             null_skip=0x2a rvalue=None
+0003c5   EX_LocalVirtualFunction    "SGK ItemDetails"
+0003d2     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0003db     EX_Self                    
+0003dc     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemFound
+0003e5     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+0003ee     EX_EndFunctionParms        
+0003ef EX_LetBool                 
+0003f0   EX_LocalVariable           InteractActions::CallFunc_IsValid_ReturnValue
+0003f9   EX_CallMath                KismetSystemLibrary::IsValid
+000402     EX_StructMemberContext     S_ItemDetails::PickupAnimation_119_0B5E9F0B4C814F6522050FB1A71E95A6
+00040b       EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+000414     EX_EndFunctionParms        
+000415 EX_JumpIfNot               -> 0x569 if not
+00041a   EX_LocalVariable           InteractActions::CallFunc_IsValid_ReturnValue
+000423 EX_Context                 
+000424   EX_ObjectConst             null_skip=0x2a rvalue=None
+000439   EX_LocalVirtualFunction    "SGK ItemDetails"
+000446     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00044f     EX_Self                    
+000450     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemFound
+000459     EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+000462     EX_EndFunctionParms        
+000463 EX_Context                 
+000464   EX_Context                 
+000465     EX_LocalVariable           null_skip=0x9 rvalue=BP_PlayerInventory_C::CharacterComponent
+00047a     EX_InstanceVariable        null_skip=0x32 rvalue=None
+00048f   EX_VirtualFunction         "MulticastPlayMontage"
+00049c     EX_StructMemberContext     S_ItemDetails::PickupAnimation_119_0B5E9F0B4C814F6522050FB1A71E95A6
+0004a5       EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+0004ae     EX_StructMemberContext     S_ItemDetails::PickupAnimation_119_0B5E9F0B4C814F6522050FB1A71E95A6
+0004b7       EX_LocalVariable           InteractActions::CallFunc_SGK_ItemDetails_ItemDetails
+0004c0     EX_EndFunctionParms        
+0004c1 EX_Jump                    -> 0x569
+0004c6 EX_LocalVirtualFunction    "EquipClothing"
+0004d3   EX_LocalVariable           InteractActions::PlayerInventory
+0004dc   EX_EndFunctionParms        
+0004dd EX_Jump                    -> 0x3af
+0004e2 EX_LocalVirtualFunction    "Open"
+0004ef   EX_LocalVariable           InteractActions::PlayerInventory
+0004f8   EX_EndFunctionParms        
+0004f9 EX_Jump                    -> 0x569
+0004fe EX_LocalVirtualFunction    "EquipWeapon"
+00050b   EX_LocalVariable           InteractActions::PlayerInventory
+000514   EX_EndFunctionParms        
+000515 EX_Jump                    -> 0x3af
+00051a EX_LocalVirtualFunction    "Consume"
+000527   EX_LocalVariable           InteractActions::PlayerInventory
+000530   EX_EndFunctionParms        
+000531 EX_Jump                    -> 0x3af
+000536 EX_LocalVirtualFunction    "Hold"
+000543   EX_LocalVariable           InteractActions::PlayerInventory
+00054c   EX_EndFunctionParms        
+00054d EX_Jump                    -> 0x569
+000552 EX_LocalVirtualFunction    "Learn"
+00055f   EX_LocalVariable           InteractActions::PlayerInventory
+000568   EX_EndFunctionParms        
+000569 EX_Return                  
+00056a   EX_Nothing                 
+00056b EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::ItemDecay  @0x22c6bb93b20  script=2970 bytes
+000000 EX_Let                     ItemDecay::DecayDetailsL
+000009   EX_LocalVariable           ItemDecay::DecayDetailsL
+000012   EX_StructConst             UserDefinedStruct'S_DecayDetails' size=40
+00001f     EX_False                   
+000020     EX_IntConst                30
+000025     EX_False                   
+000026     EX_StructConst             ScriptStruct'DataTableRowHandle' size=24
+000033       EX_ObjectConst             CompositeDataTable'MasterItemList'
+00003c       EX_NameConst               "None"
+000049       EX_EndStructConst          
+00004a     EX_EndStructConst          
+00004b EX_Context                 
+00004c   EX_ObjectConst             null_skip=0x2a rvalue=None
+000061   EX_LocalVirtualFunction    "SGK DurabilityDetails"
+00006e     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000077     EX_Self                    
+000078     EX_LocalVariable           ItemDecay::CallFunc_SGK_DurabilityDetails_ItemFound
+000081     EX_LocalVariable           ItemDecay::CallFunc_SGK_DurabilityDetails_DurabilityDetails
+00008a     EX_EndFunctionParms        
+00008b EX_Let                     ItemDecay::DecayDetailsL
+000094   EX_LocalVariable           ItemDecay::DecayDetailsL
+00009d   EX_StructMemberContext     S_DurabilityDetails::DecayDetails_28_E55B8B1D423F7D487FFACDAB43C68F74
+0000a6     EX_LocalVariable           ItemDecay::CallFunc_SGK_DurabilityDetails_DurabilityDetails
+0000af EX_Context                 
+0000b0   EX_ObjectConst             null_skip=0x2a rvalue=None
+0000c5   EX_LocalVirtualFunction    "SGK ItemDetails"
+0000d2     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0000db     EX_Self                    
+0000dc     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemFound
+0000e5     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemDetails
+0000ee     EX_EndFunctionParms        
+0000ef EX_Context                 
+0000f0   EX_ObjectConst             null_skip=0x2a rvalue=None
+000105   EX_LocalVirtualFunction    "SGK DurabilityDetails"
+000112     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+00011b     EX_Self                    
+00011c     EX_LocalVariable           ItemDecay::CallFunc_SGK_DurabilityDetails_ItemFound
+000125     EX_LocalVariable           ItemDecay::CallFunc_SGK_DurabilityDetails_DurabilityDetails
+00012e     EX_EndFunctionParms        
+00012f EX_LetBool                 
+000130   EX_LocalVariable           ItemDecay::CallFunc_Not_PreBool_ReturnValue
+000139   EX_CallMath                KismetMathLibrary::Not_PreBool
+000142     EX_StructMemberContext     S_ItemDetails::AllowStacking_48_02CFD0D74B05709E8E432E824709C714
+00014b       EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemDetails
+000154     EX_EndFunctionParms        
+000155 EX_LetBool                 
+000156   EX_LocalVariable           ItemDecay::CallFunc_BooleanAND_ReturnValue
+00015f   EX_CallMath                KismetMathLibrary::BooleanAND
+000168     EX_StructMemberContext     S_DecayDetails::UseItemDecay_1_12FBBE5940F95B2CAFEB29B32812EBC0
+000171       EX_StructMemberContext     S_DurabilityDetails::DecayDetails_28_E55B8B1D423F7D487FFACDAB43C68F74
+00017a         EX_LocalVariable           ItemDecay::CallFunc_SGK_DurabilityDetails_DurabilityDetails
+000183     EX_LocalVariable           ItemDecay::CallFunc_Not_PreBool_ReturnValue
+00018c     EX_EndFunctionParms        
+00018d EX_JumpIfNot               -> 0x755 if not
+000192   EX_LocalVariable           ItemDecay::CallFunc_BooleanAND_ReturnValue
+00019b EX_Let                     ItemDecay::CallFunc_Subtract_IntInt_ReturnValue
+0001a4   EX_LocalVariable           ItemDecay::CallFunc_Subtract_IntInt_ReturnValue
+0001ad   EX_CallMath                KismetMathLibrary::Subtract_IntInt
+0001b6     EX_StructMemberContext     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+0001bf       EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0001c8     EX_IntConst                1
+0001cd     EX_EndFunctionParms        
+0001ce EX_LetBool                 
+0001cf   EX_LocalVariable           ItemDecay::CallFunc_LessEqual_IntInt_ReturnValue
+0001d8   EX_CallMath                KismetMathLibrary::LessEqual_IntInt
+0001e1     EX_LocalVariable           ItemDecay::CallFunc_Subtract_IntInt_ReturnValue
+0001ea     EX_IntConst                0
+0001ef     EX_EndFunctionParms        
+0001f0 EX_JumpIfNot               -> 0x9af if not
+0001f5   EX_LocalVariable           ItemDecay::CallFunc_LessEqual_IntInt_ReturnValue
+0001fe EX_Let                     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000207   EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000210     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+000219   EX_StructMemberContext     DataTableRowHandle::RowName
+000222     EX_StructMemberContext     S_DecayDetails::ReplacementItem_8_29EAE32547957C641D561A99857A2984
+00022b       EX_LocalVariable           ItemDecay::DecayDetailsL
+000234 EX_Let                     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+00023d   EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000246     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+00024f   EX_IntConst                0
+000254 EX_LetObj                  
+000255   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00025e     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+000267   EX_NoObject                
+000268 EX_Let                     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+000271   EX_StructMemberContext     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+00027a     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+000283   EX_IntConst                -1
+000288 EX_LetBool                 
+000289   EX_StructMemberContext     S_InvItem::Rotated_18_66B00C8648A7E3BEB56C4282929D015D
+000292     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+00029b   EX_False                   
+00029c EX_Let                     S_InvItem::UseAmount_21_73BF7A6447A384E099761EA48F7DB753
+0002a5   EX_StructMemberContext     S_InvItem::UseAmount_21_73BF7A6447A384E099761EA48F7DB753
+0002ae     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+0002b7   EX_IntConst                1
+0002bc EX_LetBool                 
+0002bd   EX_StructMemberContext     S_InvItem::InUse_23_430FC3BE41900570FBD4AA881817E89F
+0002c6     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+0002cf   EX_False                   
+0002d0 EX_Let                     S_InvItem::Durability_30_E9AF67CA4E71F502EF4B18A440FA0385
+0002d9   EX_StructMemberContext     S_InvItem::Durability_30_E9AF67CA4E71F502EF4B18A440FA0385
+0002e2     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+0002eb   EX_FloatConst              100.0
+0002f0 EX_Let                     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+0002f9   EX_StructMemberContext     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+000302     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+00030b   EX_IntConst                0
+000310 EX_Context                 
+000311   EX_ObjectConst             null_skip=0x2a rvalue=None
+000326   EX_LocalVirtualFunction    "SGK ItemDetails"
+000333     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_S_InvItem
+00033c     EX_Self                    
+00033d     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemFound
+000346     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemDetails
+00034f     EX_EndFunctionParms        
+000350 EX_JumpIfNot               -> 0xa0b if not
+000355   EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemFound
+00035e EX_LetObj                  
+00035f   EX_LocalVariable           ItemDecay::CallFunc_GetGameMode_ReturnValue
+000368   EX_CallMath                GameplayStatics::GetGameMode
+000371     EX_Self                    
+000372     EX_EndFunctionParms        
+000373 EX_Let                     None
+00037c   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+000385   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKGameModeInterface_C'
+00038e     EX_LocalVariable           ItemDecay::CallFunc_GetGameMode_ReturnValue
+000397 EX_Let                     None
+0003a0   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+0003a9   EX_Cast                    kind=2
+0003ab     EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+0003b4 EX_JumpIfNot               -> 0xb54 if not
+0003b9   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+0003c2 EX_Context                 
+0003c3   EX_InterfaceContext        
+0003c4     EX_LocalVariable           null_skip=0x17 rvalue=None
+0003d9   EX_LocalVirtualFunction    "SGK GetGlobalInventory"
+0003e6     EX_LocalVariable           ItemDecay::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+0003ef     EX_EndFunctionParms        
+0003f0 EX_Context                 
+0003f1   EX_LocalVariable           null_skip=0x44 rvalue=None
+000406   EX_LocalVirtualFunction    "CreateNewItem"
+000413     EX_StructMemberContext     DataTableRowHandle::RowName
+00041c       EX_StructMemberContext     S_DecayDetails::ReplacementItem_8_29EAE32547957C641D561A99857A2984
+000425         EX_LocalVariable           ItemDecay::DecayDetailsL
+00042e     EX_IntConst                1
+000433     EX_False                   
+000434     EX_False                   
+000435     EX_False                   
+000436     EX_True                    
+000437     EX_DoubleConst             0.0
+000440     EX_LocalVariable           ItemDecay::CallFunc_CreateNewItem_NewItem
+000449     EX_EndFunctionParms        
+00044a EX_LetObj                  
+00044b   EX_LocalVariable           ItemDecay::CallFunc_GetOwner_ReturnValue
+000454   EX_FinalFunction           Actor::GetOwner
+00045d     EX_EndFunctionParms        
+00045e EX_Let                     ItemDecay::CallFunc_GetTransform_ReturnValue
+000467   EX_LocalVariable           ItemDecay::CallFunc_GetTransform_ReturnValue
+000470   EX_FinalFunction           Actor::GetTransform
+000479     EX_EndFunctionParms        
+00047a EX_Context                 
+00047b   EX_ObjectConst             null_skip=0x2a rvalue=None
+000490   EX_LocalVirtualFunction    "SGK ItemDetails"
+00049d     EX_LocalVariable           ItemDecay::CallFunc_CreateNewItem_NewItem
+0004a6     EX_Self                    
+0004a7     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemFound
+0004b0     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemDetails
+0004b9     EX_EndFunctionParms        
+0004ba EX_LetObj                  
+0004bb   EX_LocalVariable           ItemDecay::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+0004c4   EX_CallMath                GameplayStatics::BeginDeferredActorSpawnFromClass
+0004cd     EX_Self                    
+0004ce     EX_StructMemberContext     S_ItemDetails::WorldClass_45_6718387F4F5D57BE9909639A237E57A3
+0004d7       EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemDetails
+0004e0     EX_LocalVariable           ItemDecay::CallFunc_GetTransform_ReturnValue
+0004e9     EX_ByteConst               1
+0004eb     EX_LocalVariable           ItemDecay::CallFunc_GetOwner_ReturnValue
+0004f4     EX_ByteConst               2
+0004f6     EX_EndFunctionParms        
+0004f7 EX_LetObj                  
+0004f8   EX_LocalVariable           ItemDecay::CallFunc_GetInstigator_ReturnValue
+000501   EX_FinalFunction           Actor::GetInstigator
+00050a     EX_EndFunctionParms        
+00050b EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000514   EX_LocalVariable           ItemDecay::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+00051d   EX_NameConst               "Instigator"
+00052a   EX_LocalVariable           ItemDecay::CallFunc_GetInstigator_ReturnValue
+000533   EX_EndFunctionParms        
+000534 EX_Let                     ItemDecay::CallFunc_GetTransform_ReturnValue
+00053d   EX_LocalVariable           ItemDecay::CallFunc_GetTransform_ReturnValue
+000546   EX_FinalFunction           Actor::GetTransform
+00054f     EX_EndFunctionParms        
+000550 EX_LetObj                  
+000551   EX_LocalVariable           ItemDecay::CallFunc_FinishSpawningActor_ReturnValue
+00055a   EX_CallMath                GameplayStatics::FinishSpawningActor
+000563     EX_LocalVariable           ItemDecay::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+00056c     EX_LocalVariable           ItemDecay::CallFunc_GetTransform_ReturnValue
+000575     EX_ByteConst               2
+000577     EX_EndFunctionParms        
+000578 EX_LetBool                 
+000579   EX_LocalVariable           ItemDecay::CallFunc_IsValid_ReturnValue
+000582   EX_CallMath                KismetSystemLibrary::IsValid
+00058b     EX_LocalVariable           ItemDecay::CallFunc_FinishSpawningActor_ReturnValue
+000594     EX_EndFunctionParms        
+000595 EX_JumpIfNot               -> 0x62f if not
+00059a   EX_LocalVariable           ItemDecay::CallFunc_IsValid_ReturnValue
+0005a3 EX_Let                     None
+0005ac   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+0005b5   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKInteractionInterface_C'
+0005be     EX_LocalVariable           ItemDecay::CallFunc_FinishSpawningActor_ReturnValue
+0005c7 EX_Let                     None
+0005d0   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+0005d9   EX_Cast                    kind=2
+0005db     EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+0005e4 EX_JumpIfNot               -> 0xb64 if not
+0005e9   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+0005f2 EX_LetBool                 
+0005f3   EX_LocalVariable           ItemDecay::CallFunc_SGK_DropItem_ReturnValue
+0005fc   EX_Context                 
+0005fd     EX_InterfaceContext        
+0005fe       EX_LocalVariable           null_skip=0x1c rvalue=ItemDecay::CallFunc_SGK_DropItem_ReturnValue
+000613     EX_LocalVirtualFunction    "SGK DropItem"
+000620       EX_LocalVariable           ItemDecay::CallFunc_CreateNewItem_NewItem
+000629       EX_False                   
+00062a       EX_True                    
+00062b       EX_False                   
+00062c       EX_False                   
+00062d       EX_NoObject                
+00062e       EX_EndFunctionParms        
+00062f EX_JumpIfNot               -> 0xb97 if not
+000634   EX_StructMemberContext     S_DecayDetails::DestroyOnDecay_5_6D147CB247BC631892F003AE614B8A5C
+00063d     EX_LocalVariable           ItemDecay::DecayDetailsL
+000646 EX_LetBool                 
+000647   EX_LocalVariable           ItemDecay::CallFunc_IsValid_ReturnValue
+000650   EX_CallMath                KismetSystemLibrary::IsValid
+000659     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000662       EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+00066b     EX_EndFunctionParms        
+00066c EX_JumpIfNot               -> 0xb74 if not
+000671   EX_LocalVariable           ItemDecay::CallFunc_IsValid_ReturnValue
+00067a EX_LetObj                  
+00067b   EX_LocalVariable           ItemDecay::CallFunc_GetGameMode_ReturnValue
+000684   EX_CallMath                GameplayStatics::GetGameMode
+00068d     EX_Self                    
+00068e     EX_EndFunctionParms        
+00068f EX_Let                     None
+000698   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+0006a1   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKGameModeInterface_C'
+0006aa     EX_LocalVariable           ItemDecay::CallFunc_GetGameMode_ReturnValue
+0006b3 EX_Let                     None
+0006bc   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+0006c5   EX_Cast                    kind=2
+0006c7     EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+0006d0 EX_JumpIfNot               -> 0xb87 if not
+0006d5   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+0006de EX_Context                 
+0006df   EX_InterfaceContext        
+0006e0     EX_LocalVariable           null_skip=0x17 rvalue=None
+0006f5   EX_LocalVirtualFunction    "SGK GetGlobalInventory"
+000702     EX_LocalVariable           ItemDecay::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+00070b     EX_EndFunctionParms        
+00070c EX_Context                 
+00070d   EX_LocalVariable           null_skip=0x20 rvalue=None
+000722   EX_LocalVirtualFunction    "DestroyItemInventory"
+00072f     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000738       EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000741     EX_EndFunctionParms        
+000742 EX_VirtualFunction         "K2_DestroyActor"
+00074f   EX_EndFunctionParms        
+000750 EX_Jump                    -> 0xb97
+000755 EX_Context                 
+000756   EX_ObjectConst             null_skip=0x2a rvalue=None
+00076b   EX_LocalVirtualFunction    "SGK ItemDetails"
+000778     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000781     EX_Self                    
+000782     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemFound
+00078b     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemDetails
+000794     EX_EndFunctionParms        
+000795 EX_Let                     FormatArgumentData::ArgumentName
+00079e   EX_StructMemberContext     FormatArgumentData::ArgumentName
+0007a7     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+0007b0   EX_StringConst             'Item'
+0007b6 EX_Let                     FormatArgumentData::ArgumentValueType
+0007bf   EX_StructMemberContext     FormatArgumentData::ArgumentValueType
+0007c8     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+0007d1   EX_ByteConst               4
+0007d3 EX_Let                     FormatArgumentData::ArgumentValue
+0007dc   EX_StructMemberContext     FormatArgumentData::ArgumentValue
+0007e5     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+0007ee   EX_StructMemberContext     S_ItemDetails::Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34
+0007f7     EX_LocalVariable           ItemDecay::CallFunc_SGK_ItemDetails_ItemDetails
+000800 EX_Let                     FormatArgumentData::ArgumentValueInt
+000809   EX_StructMemberContext     FormatArgumentData::ArgumentValueInt
+000812     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+00081b   EX_Int64Const              0
+000824 EX_Let                     FormatArgumentData::ArgumentValueFloat
+00082d   EX_StructMemberContext     FormatArgumentData::ArgumentValueFloat
+000836     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+00083f   EX_FloatConst              0.0
+000844 EX_Let                     FormatArgumentData::ArgumentValueDouble
+00084d   EX_StructMemberContext     FormatArgumentData::ArgumentValueDouble
+000856     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+00085f   EX_DoubleConst             0.0
+000868 EX_Let                     FormatArgumentData::ArgumentValueGender
+000871   EX_StructMemberContext     FormatArgumentData::ArgumentValueGender
+00087a     EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+000883   EX_ByteConst               0
+000885 EX_SetArray                
+000886   EX_LocalVariable           ItemDecay::K2Node_MakeArray_Array
+00088f   EX_LocalVariable           ItemDecay::K2Node_MakeStruct_FormatArgumentData
+000898   EX_EndArray                
+000899 EX_Let                     ItemDecay::CallFunc_Format_ReturnValue
+0008a2   EX_LocalVariable           ItemDecay::CallFunc_Format_ReturnValue
+0008ab   EX_CallMath                KismetTextLibrary::Format
+0008b4     EX_TextConst               literal_type=1
+0008b6       EX_StringConst             'Warning :: Stackable items do not work with item decay item causing\r\nwaring is {Item}'
+00090d       EX_StringConst             'AA5D2CD040A31CC8E76ADC854F60067B'
+00092f       EX_StringConst             ''
+000931     EX_LocalVariable           ItemDecay::K2Node_MakeArray_Array
+00093a     EX_EndFunctionParms        
+00093b EX_Let                     ItemDecay::CallFunc_Conv_TextToString_ReturnValue
+000944   EX_LocalVariable           ItemDecay::CallFunc_Conv_TextToString_ReturnValue
+00094d   EX_CallMath                KismetTextLibrary::Conv_TextToString
+000956     EX_LocalVariable           ItemDecay::CallFunc_Format_ReturnValue
+00095f     EX_EndFunctionParms        
+000960 EX_CallMath                KismetSystemLibrary::PrintString
+000969   EX_Self                    
+00096a   EX_LocalVariable           ItemDecay::CallFunc_Conv_TextToString_ReturnValue
+000973   EX_True                    
+000974   EX_True                    
+000975   EX_StructConst             ScriptStruct'LinearColor' size=16
+000982     EX_FloatConst              0.0
+000987     EX_FloatConst              0.6600000262260437
+00098c     EX_FloatConst              1.0
+000991     EX_FloatConst              1.0
+000996     EX_EndStructConst          
+000997   EX_FloatConst              2.0
+00099c   EX_NameConst               "None"
+0009a9   EX_EndFunctionParms        
+0009aa EX_Jump                    -> 0xb97
+0009af EX_Let                     ItemDecay::CallFunc_Subtract_IntInt_ReturnValue
+0009b8   EX_LocalVariable           ItemDecay::CallFunc_Subtract_IntInt_ReturnValue
+0009c1   EX_CallMath                KismetMathLibrary::Subtract_IntInt
+0009ca     EX_StructMemberContext     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+0009d3       EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0009dc     EX_IntConst                1
+0009e1     EX_EndFunctionParms        
+0009e2 EX_Let                     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+0009eb   EX_StructMemberContext     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+0009f4     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0009fd   EX_LocalVariable           ItemDecay::CallFunc_Subtract_IntInt_ReturnValue
+000a06 EX_Jump                    -> 0xb97
+000a0b EX_JumpIfNot               -> 0xb97 if not
+000a10   EX_StructMemberContext     S_DecayDetails::DestroyOnDecay_5_6D147CB247BC631892F003AE614B8A5C
+000a19     EX_LocalVariable           ItemDecay::DecayDetailsL
+000a22 EX_LetBool                 
+000a23   EX_LocalVariable           ItemDecay::CallFunc_IsValid_ReturnValue
+000a2c   EX_CallMath                KismetSystemLibrary::IsValid
+000a35     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000a3e       EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000a47     EX_EndFunctionParms        
+000a48 EX_JumpIfNot               -> 0xb41 if not
+000a4d   EX_LocalVariable           ItemDecay::CallFunc_IsValid_ReturnValue
+000a56 EX_LetObj                  
+000a57   EX_LocalVariable           ItemDecay::CallFunc_GetGameMode_ReturnValue
+000a60   EX_CallMath                GameplayStatics::GetGameMode
+000a69     EX_Self                    
+000a6a     EX_EndFunctionParms        
+000a6b EX_Let                     None
+000a74   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+000a7d   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKGameModeInterface_C'
+000a86     EX_LocalVariable           ItemDecay::CallFunc_GetGameMode_ReturnValue
+000a8f EX_Let                     None
+000a98   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+000aa1   EX_Cast                    kind=2
+000aa3     EX_LocalVariable           ItemDecay::K2Node_DynamicCast_AsBP_SGKGame_Mode_Interface
+000aac EX_JumpIfNot               -> 0xb31 if not
+000ab1   EX_LocalVariable           ItemDecay::K2Node_DynamicCast_bSuccess
+000aba EX_Context                 
+000abb   EX_InterfaceContext        
+000abc     EX_LocalVariable           null_skip=0x17 rvalue=None
+000ad1   EX_LocalVirtualFunction    "SGK GetGlobalInventory"
+000ade     EX_LocalVariable           ItemDecay::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+000ae7     EX_EndFunctionParms        
+000ae8 EX_Context                 
+000ae9   EX_LocalVariable           null_skip=0x20 rvalue=None
+000afe   EX_LocalVirtualFunction    "DestroyItemInventory"
+000b0b     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000b14       EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000b1d     EX_EndFunctionParms        
+000b1e EX_VirtualFunction         "K2_DestroyActor"
+000b2b   EX_EndFunctionParms        
+000b2c EX_Jump                    -> 0xb97
+000b31 EX_LetObj                  
+000b32   EX_LocalVariable           ItemDecay::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+000b3b   EX_NoObject                
+000b3c EX_Jump                    -> 0xae8
+000b41 EX_VirtualFunction         "K2_DestroyActor"
+000b4e   EX_EndFunctionParms        
+000b4f EX_Jump                    -> 0xb97
+000b54 EX_LetObj                  
+000b55   EX_LocalVariable           ItemDecay::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+000b5e   EX_NoObject                
+000b5f EX_Jump                    -> 0x3f0
+000b64 EX_LetBool                 
+000b65   EX_LocalVariable           ItemDecay::CallFunc_SGK_DropItem_ReturnValue
+000b6e   EX_False                   
+000b6f EX_Jump                    -> 0x62f
+000b74 EX_VirtualFunction         "K2_DestroyActor"
+000b81   EX_EndFunctionParms        
+000b82 EX_Jump                    -> 0xb97
+000b87 EX_LetObj                  
+000b88   EX_LocalVariable           ItemDecay::CallFunc_SGK_GetGlobalInventory_GlobalInventory
+000b91   EX_NoObject                
+000b92 EX_Jump                    -> 0x70c
+000b97 EX_Return                  
+000b98   EX_Nothing                 
+000b99 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::ItemOffsets  @0x22c6bb93c00  script=2552 bytes
+000000 EX_Let                     ItemOffsets::ItemDetailsL
+000009   EX_LocalVariable           ItemOffsets::ItemDetailsL
+000012   EX_StructConst             UserDefinedStruct'S_ItemDetails' size=2320
+00001f     EX_TextConst               literal_type=1
+000021       EX_StringConst             'Name'
+000027       EX_StringConst             'DB1C888E4BFF2CC9FBE6FDBBAA5D4FA2'
+000049       EX_StringConst             ''
+00004b     EX_TextConst               literal_type=1
+00004d       EX_StringConst             'Short Name'
+000059       EX_StringConst             '85C6E802442254A594317EB89462D967'
+00007b       EX_StringConst             ''
+00007d     EX_TextConst               literal_type=1
+00007f       EX_StringConst             'Descriptions'
+00008d       EX_StringConst             '8265655B45FFC04EE3F480A4E72D88B0'
+0000af       EX_StringConst             ''
+0000b1     EX_DoubleConst             1.0
+0000ba     EX_IntConst                1
+0000bf     EX_IntConst                1
+0000c4     EX_False                   
+0000c5     EX_True                    
+0000c6     EX_True                    
+0000c7     EX_IntConst                1
+0000cc     EX_ArrayConst              InventoryActions_112_685EE89C49954FBB235025AD602B3208 n=0
+0000d9       EX_EndArrayConst           
+0000da     EX_ArrayConst              WorldActions_116_B4CAF39A421B065A46DEACBC5DBD40EE n=1
+0000e7       EX_StructConst             UserDefinedStruct'S_WorldAction' size=24
+0000f4         EX_ByteConst               2
+0000f6         EX_TextConst               literal_type=1
+0000f8           EX_StringConst             'PICKUP'
+000100           EX_StringConst             '2765D7AB41E66D2FB10894B25327D08F'
+000122           EX_StringConst             ''
+000124         EX_EndStructConst          
+000125       EX_EndArrayConst           
+000126     EX_ByteConst               0
+000128     EX_SoftObjectConst         
+000129       EX_StringConst             'None'
+00012f     EX_SoftObjectConst         
+000130       EX_StringConst             'None'
+000136     EX_ObjectConst             BlueprintGeneratedClass'BP_StaticMasterItem_C'
+00013f     EX_NoObject                
+000140     EX_StructConst             ScriptStruct'LinearColor' size=16
+00014d       EX_FloatConst              0.03645800054073334
+000152       EX_FloatConst              0.03645800054073334
+000157       EX_FloatConst              0.03645800054073334
+00015c       EX_FloatConst              0.800000011920929
+000161       EX_EndStructConst          
+000162     EX_StructConst             UserDefinedStruct'S_UIDetails' size=64
+00016f       EX_ObjectConst             Texture2D'T_NoIcon'
+000178       EX_ObjectConst             Texture2D'T_NoIcon'
+000181       EX_StructConst             UserDefinedStruct'S_SizeOverride' size=12
+00018e         EX_False                   
+00018f         EX_IntConst                0
+000194         EX_IntConst                0
+000199         EX_EndStructConst          
+00019a       EX_ObjectConst             Texture2D'T_NoIcon'
+0001a3       EX_ObjectConst             Texture2D'T_NoIcon'
+0001ac       EX_ObjectConst             Texture2D'T_NoIcon'
+0001b5       EX_ObjectConst             Texture2D'T_NoIcon'
+0001be       EX_EndStructConst          
+0001bf     EX_StructConst             UserDefinedStruct'S_EquipmentDetails' size=384
+0001cc       EX_SetConst                EquipmentSlots_10_CCC18F0A4E6318F24AEB748D9321B834 n=0
+0001d9         EX_EndSetConst             
+0001da       EX_StructConst             UserDefinedStruct'S_EquipmentMeshes' size=32
+0001e7         EX_ArrayConst              SkeletalMeshes_8_026A5B7B4DF0F70BE8B4418F0C1FC90A n=0
+0001f4           EX_EndArrayConst           
+0001f5         EX_ArrayConst              StaticMeshes_7_410922E64B39E06876B30A9603426495 n=0
+000202           EX_EndArrayConst           
+000203         EX_EndStructConst          
+000204       EX_StructConst             UserDefinedStruct'S_EquipmentMeshes' size=32
+000211         EX_ArrayConst              SkeletalMeshes_8_026A5B7B4DF0F70BE8B4418F0C1FC90A n=0
+00021e           EX_EndArrayConst           
+00021f         EX_ArrayConst              StaticMeshes_7_410922E64B39E06876B30A9603426495 n=0
+00022c           EX_EndArrayConst           
+00022d         EX_EndStructConst          
+00022e       EX_StructConst             UserDefinedStruct'S_EquipmentMeshes' size=32
+00023b         EX_ArrayConst              SkeletalMeshes_8_026A5B7B4DF0F70BE8B4418F0C1FC90A n=0
+000248           EX_EndArrayConst           
+000249         EX_ArrayConst              StaticMeshes_7_410922E64B39E06876B30A9603426495 n=0
+000256           EX_EndArrayConst           
+000257         EX_EndStructConst          
+000258       EX_IntConst                0
+00025d       EX_MapConst                EquipmentArmour_33_2F63729141C3B22C5EEDCCA2D4AA9A13/EquipmentArmour_33_2F63729141C3B22C5EEDCCA2D4AA9A13_Value n=0
+000272         EX_EndMapConst             
+000273       EX_MapConst                EquipmentDurabilityReductions_46_5CA7B2894623CAA5BFA4FEA0D6A5E522/EquipmentDurabilityReductions_46_5CA7B2894623CAA5BFA4FEA0D6A5E522_Value n=1
+000288         EX_ByteConst               0
+00028a         EX_DoubleConst             1.0
+000293         EX_EndMapConst             
+000294       EX_False                   
+000295       EX_ArrayConst              HideCharacterComponentTags_45_31593B354C0DDD86F10F59826ABF819D n=0
+0002a2         EX_EndArrayConst           
+0002a3       EX_False                   
+0002a4       EX_DoubleConst             0.0
+0002ad       EX_EndStructConst          
+0002ae     EX_StructConst             UserDefinedStruct'S_ContainerDetails' size=112
+0002bb       EX_False                   
+0002bc       EX_TextConst               literal_type=0
+0002be       EX_IntConst                20
+0002c3       EX_IntConst                10
+0002c8       EX_True                    
+0002c9       EX_FloatConst              10.0
+0002ce       EX_ByteConst               0
+0002d0       EX_ArrayConst              RestrictionItems_27_B3D5BDB6404ACC06A8D798BDB3047E0E n=0
+0002dd         EX_EndArrayConst           
+0002de       EX_ByteConst               1
+0002e0       EX_True                    
+0002e1       EX_False                   
+0002e2       EX_IntConst                1
+0002e7       EX_StructConst             ScriptStruct'DataTableRowHandle' size=24
+0002f4         EX_ObjectConst             CompositeDataTable'MasterGridLayoutList'
+0002fd         EX_NameConst               "None"
+00030a         EX_EndStructConst          
+00030b       EX_ArrayConst              StartingItems_65_659DE77E404552EC2048FBB7A2C12C0C n=0
+000318         EX_EndArrayConst           
+000319       EX_EndStructConst          
+00031a     EX_StructConst             UserDefinedStruct'S_HoldableDetails' size=336
+000327       EX_SetConst                HoldableSlots_9_E504501F4C338FAADA1E59AFA1C6103B n=0
+000334         EX_EndSetConst             
+000335       EX_NoObject                
+000336       EX_MapConst                HoldableSlotSockets_16_496EDE764CD0B41C63F43CA622933FAA/HoldableSlotSockets_16_496EDE764CD0B41C63F43CA622933FAA_Value n=2
+00034b         EX_ByteConst               1
+00034d         EX_NameConst               "PrimarySocket"
+00035a         EX_ByteConst               2
+00035c         EX_NameConst               "SecondarySocket"
+000369         EX_EndMapConst             
+00036a       EX_MapConst                EquipMontage_30_88C2C4244D6EB03B5907D489ADEF96ED/EquipMontage_30_88C2C4244D6EB03B5907D489ADEF96ED_Value n=0
+00037f         EX_EndMapConst             
+000380       EX_MapConst                UnequipMontage_33_1405C3A34BA962D01BC05787BDC6CC75/UnequipMontage_33_1405C3A34BA962D01BC05787BDC6CC75_Value n=0
+000395         EX_EndMapConst             
+000396       EX_False                   
+000397       EX_EndStructConst          
+000398     EX_StructConst             UserDefinedStruct'S_ConsumableDetails' size=112
+0003a5       EX_False                   
+0003a6       EX_IntConst                0
+0003ab       EX_DoubleConst             0.0
+0003b4       EX_DoubleConst             0.0
+0003bd       EX_DoubleConst             0.0
+0003c6       EX_DoubleConst             0.0
+0003cf       EX_DoubleConst             0.0
+0003d8       EX_False                   
+0003d9       EX_False                   
+0003da       EX_IntConst                0
+0003df       EX_False                   
+0003e0       EX_StructConst             ScriptStruct'DataTableRowHandle' size=24
+0003ed         EX_NoObject                
+0003ee         EX_NameConst               "None"
+0003fb         EX_EndStructConst          
+0003fc       EX_IntConst                1
+000401       EX_False                   
+000402       EX_False                   
+000403       EX_False                   
+000404       EX_IntConst                0
+000409       EX_NoObject                
+00040a       EX_EndStructConst          
+00040b     EX_StructConst             UserDefinedStruct'S_AttachmentDetails' size=672
+000418       EX_False                   
+000419       EX_NoObject                
+00041a       EX_NoObject                
+00041b       EX_MapConst                AttachAnimation_35_A9738B9E48AE87A1404B64B8323722B1/AttachAnimation_35_A9738B9E48AE87A1404B64B8323722B1_Value n=0
+000430         EX_EndMapConst             
+000431       EX_MapConst                DetachAnimation_38_C714988A42AAAF9BB08F1E9E2FA245CB/DetachAnimation_38_C714988A42AAAF9BB08F1E9E2FA245CB_Value n=0
+000446         EX_EndMapConst             
+000447       EX_MapConst                SwapDetachAnimation_41_CEE295B54B0573FD44860CA61A6C2B80/SwapDetachAnimation_41_CEE295B54B0573FD44860CA61A6C2B80_Value n=0
+00045c         EX_EndMapConst             
+00045d       EX_False                   
+00045e       EX_MapConst                AttachWeaponAnimations_26_12DEDB2948C830197E46D4A15DB968A7/AttachWeaponAnimations_26_12DEDB2948C830197E46D4A15DB968A7_Value n=0
+000473         EX_EndMapConst             
+000474       EX_MapConst                DetachWeaponAnimations_28_A7F5C39140551BE54C75EE87F5874F6C/DetachWeaponAnimations_28_A7F5C39140551BE54C75EE87F5874F6C_Value n=0
+000489         EX_EndMapConst             
+00048a       EX_MapConst                FPAttachAnimations_57_90877AF0479B33F85E11819A49064345/FPAttachAnimations_57_90877AF0479B33F85E11819A49064345_Value n=0
+00049f         EX_EndMapConst             
+0004a0       EX_MapConst                FPDetachAnimations_58_B8C316C14399934143040EA8D836A11D/FPDetachAnimations_58_B8C316C14399934143040EA8D836A11D_Value n=0
+0004b5         EX_EndMapConst             
+0004b6       EX_MapConst                FPSwapDetachAnimations_59_540BC86043189F6A8BDA0E9E9DA0F85B/FPSwapDetachAnimations_59_540BC86043189F6A8BDA0E9E9DA0F85B_Value n=0
+0004cb         EX_EndMapConst             
+0004cc       EX_EndStructConst          
+0004cd     EX_StructConst             UserDefinedStruct'S_AmmoDetails' size=40
+0004da       EX_NoObject                
+0004db       EX_ArrayConst              Damage_7_135A920D4A4E281633D127BBE3B22A57 n=7
+0004e8         EX_StructConst             UserDefinedStruct'S_Damage' size=12
+0004f5           EX_ByteConst               0
+0004f7           EX_IntConst                1
+0004fc           EX_IntConst                1
+000501           EX_EndStructConst          
+000502         EX_StructConst             UserDefinedStruct'S_Damage' size=12
+00050f           EX_ByteConst               1
+000511           EX_IntConst                1
+000516           EX_IntConst                1
+00051b           EX_EndStructConst          
+00051c         EX_StructConst             UserDefinedStruct'S_Damage' size=12
+000529           EX_ByteConst               2
+00052b           EX_IntConst                1
+000530           EX_IntConst                1
+000535           EX_EndStructConst          
+000536         EX_StructConst             UserDefinedStruct'S_Damage' size=12
+000543           EX_ByteConst               3
+000545           EX_IntConst                1
+00054a           EX_IntConst                1
+00054f           EX_EndStructConst          
+000550         EX_StructConst             UserDefinedStruct'S_Damage' size=12
+00055d           EX_ByteConst               4
+00055f           EX_IntConst                1
+000564           EX_IntConst                1
+000569           EX_EndStructConst          
+00056a         EX_StructConst             UserDefinedStruct'S_Damage' size=12
+000577           EX_ByteConst               5
+000579           EX_IntConst                1
+00057e           EX_IntConst                1
+000583           EX_EndStructConst          
+000584         EX_StructConst             UserDefinedStruct'S_Damage' size=12
+000591           EX_ByteConst               6
+000593           EX_IntConst                1
+000598           EX_IntConst                1
+00059d           EX_EndStructConst          
+00059e         EX_EndArrayConst           
+00059f       EX_DoubleConst             13000.0
+0005a8       EX_ByteConst               0
+0005aa       EX_EndStructConst          
+0005ab     EX_StructConst             UserDefinedStruct'S_DurabilityDetails' size=88
+0005b8       EX_False                   
+0005b9       EX_FloatConst              0.0
+0005be       EX_False                   
+0005bf       EX_False                   
+0005c0       EX_ArrayConst              RepairActors_22_250F45ED4AB0016FAB159CB1D840F657 n=0
+0005cd         EX_EndArrayConst           
+0005ce       EX_ArrayConst              RepairCost_17_81F6B265407AA8BFAA7DC8B135B2B54C n=0
+0005db         EX_EndArrayConst           
+0005dc       EX_StructConst             UserDefinedStruct'S_DecayDetails' size=40
+0005e9         EX_False                   
+0005ea         EX_IntConst                30
+0005ef         EX_False                   
+0005f0         EX_StructConst             ScriptStruct'DataTableRowHandle' size=24
+0005fd           EX_ObjectConst             CompositeDataTable'MasterItemList'
+000606           EX_NameConst               "None"
+000613           EX_EndStructConst          
+000614         EX_EndStructConst          
+000615       EX_EndStructConst          
+000616     EX_StructConst             UserDefinedStruct'S_RecipeDetails' size=24
+000623       EX_ArrayConst              LearnedRecipes_4_1331C3D54B72FBD4DF23078F46F693B5 n=0
+000630         EX_EndArrayConst           
+000631       EX_False                   
+000632       EX_EndStructConst          
+000633     EX_StructConst             ScriptStruct'DataTableRowHandle' size=24
+000640       EX_ObjectConst             CompositeDataTable'MasterBuildPartList'
+000649       EX_NameConst               "None"
+000656       EX_EndStructConst          
+000657     EX_DoubleConst             0.0
+000660     EX_TransformConst          0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0
+0006b1     EX_MapConst                ItemSounds_103_4BD8E03A4D601B11AF665B946B56EEFA/ItemSounds_103_4BD8E03A4D601B11AF665B946B56EEFA_Value n=0
+0006c6       EX_EndMapConst             
+0006c7     EX_StructConst             UserDefinedStruct'S_CraftingCost' size=32
+0006d4       EX_StructConst             ScriptStruct'DataTableRowHandle' size=24
+0006e1         EX_NoObject                
+0006e2         EX_NameConst               "None"
+0006ef         EX_EndStructConst          
+0006f0       EX_IntConst                1
+0006f5       EX_EndStructConst          
+0006f6     EX_EndStructConst          
+0006f7 EX_Context                 
+0006f8   EX_ObjectConst             null_skip=0x2a rvalue=None
+00070d   EX_LocalVirtualFunction    "SGK ItemDetails"
+00071a     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000723     EX_Self                    
+000724     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemFound
+00072d     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemDetails
+000736     EX_EndFunctionParms        
+000737 EX_JumpIfNot               -> 0x849 if not
+00073c   EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemFound
+000745 EX_Context                 
+000746   EX_ObjectConst             null_skip=0x2a rvalue=None
+00075b   EX_LocalVirtualFunction    "SGK ItemDetails"
+000768     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000771     EX_Self                    
+000772     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemFound
+00077b     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemDetails
+000784     EX_EndFunctionParms        
+000785 EX_Let                     ItemOffsets::ItemDetailsL
+00078e   EX_LocalVariable           ItemOffsets::ItemDetailsL
+000797   EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemDetails
+0007a0 EX_Let                     ItemOffsets::CallFunc_MakeTransform_ReturnValue
+0007a9   EX_LocalVariable           ItemOffsets::CallFunc_MakeTransform_ReturnValue
+0007b2   EX_CallMath                KismetMathLibrary::MakeTransform
+0007bb     EX_VectorConst             0.0,0.0,0.0
+0007d4     EX_RotationConst           0,0,0
+0007ed     EX_VectorConst             1.0,1.0,1.0
+000806     EX_EndFunctionParms        
+000807 EX_LetBool                 
+000808   EX_LocalVariable           ItemOffsets::CallFunc_EqualEqual_TransformTransform_ReturnValue
+000811   EX_CallMath                KismetMathLibrary::EqualEqual_TransformTransform
+00081a     EX_StructMemberContext     S_ItemDetails::ItemOffsets_94_00D968744A67B380EF0ADAB62D803A4C
+000823       EX_LocalVariable           ItemOffsets::ItemDetailsL
+00082c     EX_LocalVariable           ItemOffsets::CallFunc_MakeTransform_ReturnValue
+000835     EX_EndFunctionParms        
+000836 EX_JumpIfNot               -> 0x8f7 if not
+00083b   EX_LocalVariable           ItemOffsets::CallFunc_EqualEqual_TransformTransform_ReturnValue
+000844 EX_Jump                    -> 0x9f5
+000849 EX_Context                 
+00084a   EX_ObjectConst             null_skip=0x2a rvalue=None
+00085f   EX_LocalVirtualFunction    "SGK ItemDetails"
+00086c     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000875     EX_Self                    
+000876     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemFound
+00087f     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemDetails
+000888     EX_EndFunctionParms        
+000889 EX_JumpIfNot               -> 0x9f5 if not
+00088e   EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemFound
+000897 EX_Context                 
+000898   EX_ObjectConst             null_skip=0x2a rvalue=None
+0008ad   EX_LocalVirtualFunction    "SGK ItemDetails"
+0008ba     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0008c3     EX_Self                    
+0008c4     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemFound
+0008cd     EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemDetails
+0008d6     EX_EndFunctionParms        
+0008d7 EX_Let                     ItemOffsets::ItemDetailsL
+0008e0   EX_LocalVariable           ItemOffsets::ItemDetailsL
+0008e9   EX_LocalVariable           ItemOffsets::CallFunc_SGK_ItemDetails_ItemDetails
+0008f2 EX_Jump                    -> 0x7a0
+0008f7 EX_CallMath                KismetMathLibrary::BreakTransform
+000900   EX_StructMemberContext     S_ItemDetails::ItemOffsets_94_00D968744A67B380EF0ADAB62D803A4C
+000909     EX_LocalVariable           ItemOffsets::ItemDetailsL
+000912   EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Location
+00091b   EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Rotation
+000924   EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Scale
+00092d   EX_EndFunctionParms        
+00092e EX_LetBool                 
+00092f   EX_LocalVariable           ItemOffsets::CallFunc_K2_SetActorRotation_ReturnValue
+000938   EX_FinalFunction           Actor::K2_SetActorRotation
+000941     EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Rotation
+00094a     EX_False                   
+00094b     EX_EndFunctionParms        
+00094c EX_CallMath                KismetMathLibrary::BreakTransform
+000955   EX_StructMemberContext     S_ItemDetails::ItemOffsets_94_00D968744A67B380EF0ADAB62D803A4C
+00095e     EX_LocalVariable           ItemOffsets::ItemDetailsL
+000967   EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Location
+000970   EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Rotation
+000979   EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Scale
+000982   EX_EndFunctionParms        
+000983 EX_Let                     ItemOffsets::CallFunc_K2_GetActorLocation_ReturnValue
+00098c   EX_LocalVariable           ItemOffsets::CallFunc_K2_GetActorLocation_ReturnValue
+000995   EX_FinalFunction           Actor::K2_GetActorLocation
+00099e     EX_EndFunctionParms        
+00099f EX_Let                     ItemOffsets::CallFunc_Add_VectorVector_ReturnValue
+0009a8   EX_LocalVariable           ItemOffsets::CallFunc_Add_VectorVector_ReturnValue
+0009b1   EX_CallMath                KismetMathLibrary::Add_VectorVector
+0009ba     EX_LocalVariable           ItemOffsets::CallFunc_K2_GetActorLocation_ReturnValue
+0009c3     EX_LocalVariable           ItemOffsets::CallFunc_BreakTransform_Location
+0009cc     EX_EndFunctionParms        
+0009cd EX_LetBool                 
+0009ce   EX_LocalVariable           ItemOffsets::CallFunc_K2_SetActorLocation_ReturnValue
+0009d7   EX_FinalFunction           Actor::K2_SetActorLocation
+0009e0     EX_LocalVariable           ItemOffsets::CallFunc_Add_VectorVector_ReturnValue
+0009e9     EX_False                   
+0009ea     EX_LocalVariable           ItemOffsets::CallFunc_K2_SetActorLocation_SweepHitResult
+0009f3     EX_False                   
+0009f4     EX_EndFunctionParms        
+0009f5 EX_Return                  
+0009f6   EX_Nothing                 
+0009f7 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::Learn  @0x22c6bb93dc0  script=172 bytes
+000000 EX_Context                 
+000001   EX_LocalVariable           null_skip=0x20 rvalue=None
+000016   EX_LocalVirtualFunction    "LearnAllItemRecipes"
+000023     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00002c     EX_LocalVariable           Learn::CallFunc_LearnAllItemRecipes_RecipeLearnt
+000035     EX_EndFunctionParms        
+000036 EX_JumpIfNot               -> 0xa9 if not
+00003b   EX_LocalVariable           Learn::CallFunc_LearnAllItemRecipes_RecipeLearnt
+000044 EX_Context                 
+000045   EX_ObjectConst             null_skip=0x2a rvalue=None
+00005a   EX_LocalVirtualFunction    "SGK ItemRecipeDetails"
+000067     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000070     EX_Self                    
+000071     EX_LocalVariable           Learn::CallFunc_SGK_ItemRecipeDetails_ItemFound
+00007a     EX_LocalVariable           Learn::CallFunc_SGK_ItemRecipeDetails_ItemRecipeDetails
+000083     EX_EndFunctionParms        
+000084 EX_JumpIfNot               -> 0xa9 if not
+000089   EX_StructMemberContext     S_RecipeDetails::DestroyItemWhenLearnt_6_691566574CFE133DD707E5A0169D1780
+000092     EX_LocalVariable           Learn::CallFunc_SGK_ItemRecipeDetails_ItemRecipeDetails
+00009b EX_VirtualFunction         "K2_DestroyActor"
+0000a8   EX_EndFunctionParms        
+0000a9 EX_Return                  
+0000aa   EX_Nothing                 
+0000ab EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::LoadItem  @0x22c6bb93ea0  script=36 bytes
+000000 EX_LetValueOnPersistentFrame ExecuteUbergraph_BP_StaticMasterItem::K2Node_CustomEvent_SaveGame
+000009   EX_LocalVariable           LoadItem::SaveGame
+000012 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+00001b   EX_IntConst                3289
+000020   EX_EndFunctionParms        
+000021 EX_Return                  
+000022   EX_Nothing                 
+000023 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::OnLoaded_BC0151D846C9342C8ED4A28DCA01CBC4  @0x22c6bb93f80  script=36 bytes
+000000 EX_LetValueOnPersistentFrame ExecuteUbergraph_BP_StaticMasterItem::K2Node_CustomEvent_Loaded
+000009   EX_LocalVariable           OnLoaded_BC0151D846C9342C8ED4A28DCA01CBC4::Loaded
+000012 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+00001b   EX_IntConst                3159
+000020   EX_EndFunctionParms        
+000021 EX_Return                  
+000022   EX_Nothing                 
+000023 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::OnRep_Mesh  @0x22c6bb94060  script=26 bytes
+000000 EX_LocalVirtualFunction    "UpdateStaticMesh"
+00000d   EX_InstanceVariable        BP_StaticMasterItem_C::Mesh
+000016   EX_EndFunctionParms        
+000017 EX_Return                  
+000018   EX_Nothing                 
+000019 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::Open  @0x22c6bb90940  script=110 bytes
+000000 EX_LetBool                 
+000001   EX_LocalVariable           Open::CallFunc_IsValid_ReturnValue
+00000a   EX_CallMath                KismetSystemLibrary::IsValid
+000013     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00001c       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000025     EX_EndFunctionParms        
+000026 EX_JumpIfNot               -> 0x6b if not
+00002b   EX_LocalVariable           Open::CallFunc_IsValid_ReturnValue
+000034 EX_Context                 
+000035   EX_LocalVariable           null_skip=0x21 rvalue=None
+00004a   EX_VirtualFunction         "ServerOpenContainerWindow"
+000057     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000060       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000069     EX_True                    
+00006a     EX_EndFunctionParms        
+00006b EX_Return                  
+00006c   EX_Nothing                 
+00006d EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::Pickup  @0x22c6bb90a20  script=515 bytes
+000000 EX_Let                     Pickup::StartAmountL
+000009   EX_LocalVariable           Pickup::StartAmountL
+000012   EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+00001b     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000024 EX_LetBool                 
+000025   EX_LocalVariable           Pickup::CallFunc_IsValid_ReturnValue
+00002e   EX_CallMath                KismetSystemLibrary::IsValid
+000037     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000040       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000049     EX_EndFunctionParms        
+00004a EX_JumpIfNot               -> 0x86 if not
+00004f   EX_LocalVariable           Pickup::CallFunc_IsValid_ReturnValue
+000058 EX_Context                 
+000059   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000062     EX_InstanceVariable        null_skip=0xf rvalue=None
+000077   EX_LocalVirtualFunction    "CloseOtherPlayerTabs"
+000084     EX_NoObject                
+000085     EX_EndFunctionParms        
+000086 EX_Context                 
+000087   EX_LocalVariable           null_skip=0x34 rvalue=None
+00009c   EX_LocalVirtualFunction    "AttemptToAddItem"
+0000a9     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0000b2     EX_True                    
+0000b3     EX_True                    
+0000b4     EX_LocalVariable           Pickup::CallFunc_AttemptToAddItem_RemainingItem
+0000bd     EX_LocalVariable           Pickup::CallFunc_AttemptToAddItem_RemainingInvItem
+0000c6     EX_LocalVariable           Pickup::CallFunc_AttemptToAddItem_NewItemSlot
+0000cf     EX_EndFunctionParms        
+0000d0 EX_JumpIfNot               -> 0x17d if not
+0000d5   EX_LocalVariable           Pickup::CallFunc_AttemptToAddItem_RemainingItem
+0000de EX_FinalFunction           Actor::FlushNetDormancy
+0000e7   EX_EndFunctionParms        
+0000e8 EX_Let                     BP_StaticMasterItem_C::InvItem
+0000f1   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0000fa   EX_LocalVariable           Pickup::CallFunc_AttemptToAddItem_RemainingInvItem
+000103 EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+00010c   EX_Self                    
+00010d   EX_IntConst                10
+000112   EX_NameConst               "InvItem"
+00011f   EX_EndFunctionParms        
+000120 EX_Let                     BP_StaticMasterItem_C::TempItem
+000129   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000132   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00013b EX_LetBool                 
+00013c   EX_LocalVariable           Pickup::CallFunc_EqualEqual_IntInt_ReturnValue
+000145   EX_CallMath                KismetMathLibrary::EqualEqual_IntInt
+00014e     EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000157       EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000160     EX_LocalVariable           Pickup::StartAmountL
+000169     EX_EndFunctionParms        
+00016a EX_JumpIfNot               -> 0x1c8 if not
+00016f   EX_LocalVariable           Pickup::CallFunc_EqualEqual_IntInt_ReturnValue
+000178 EX_Jump                    -> 0x200
+00017d EX_Context                 
+00017e   EX_LocalVariable           null_skip=0x22 rvalue=None
+000193   EX_LocalVirtualFunction    "SGK ItemSound"
+0001a0     EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+0001a9       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0001b2     EX_ByteConst               12
+0001b4     EX_EndFunctionParms        
+0001b5 EX_VirtualFunction         "K2_DestroyActor"
+0001c2   EX_EndFunctionParms        
+0001c3 EX_Jump                    -> 0x200
+0001c8 EX_Context                 
+0001c9   EX_LocalVariable           null_skip=0x22 rvalue=None
+0001de   EX_LocalVirtualFunction    "SGK ItemSound"
+0001eb     EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+0001f4       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0001fd     EX_ByteConst               12
+0001ff     EX_EndFunctionParms        
+000200 EX_Return                  
+000201   EX_Nothing                 
+000202 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::ReceiveBeginPlay  @0x22c6bb90b00  script=18 bytes
+000000 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+000009   EX_IntConst                3309
+00000e   EX_EndFunctionParms        
+00000f EX_Return                  
+000010   EX_Nothing                 
+000011 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::Reset  @0x22c6bb90be0  script=18 bytes
+000000 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+000009   EX_IntConst                2302
+00000e   EX_EndFunctionParms        
+00000f EX_Return                  
+000010   EX_Nothing                 
+000011 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK AllowInteraction  @0x22c6bb90da0  script=14 bytes
+000000 EX_LetBool                 
+000001   EX_LocalOutVariable        SGK AllowInteraction::AllowInteraction
+00000a   EX_True                    
+00000b EX_Return                  
+00000c   EX_Nothing                 
+00000d EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK CodeCheck  @0x22c6bb90e80  script=14 bytes
+000000 EX_LetBool                 
+000001   EX_LocalOutVariable        SGK CodeCheck::CodeAccepted
+00000a   EX_False                   
+00000b EX_Return                  
+00000c   EX_Nothing                 
+00000d EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK DropItem  @0x22c6bb90f60  script=910 bytes
+000000 EX_LetBool                 
+000001   EX_InstanceVariable        BP_StaticMasterItem_C::Dropped
+00000a   EX_LocalVariable           SGK DropItem::Dropped
+000013 EX_LetBool                 
+000014   EX_InstanceVariable        BP_StaticMasterItem_C::Spawned
+00001d   EX_LocalVariable           SGK DropItem::Spawned
+000026 EX_LetBool                 
+000027   EX_InstanceVariable        BP_StaticMasterItem_C::SaveGameLoaded
+000030   EX_LocalVariable           SGK DropItem::SaveLoaded
+000039 EX_Let                     SGK DropItem::ItemL
+000042   EX_LocalVariable           SGK DropItem::ItemL
+00004b   EX_LocalVariable           SGK DropItem::InvItem
+000054 EX_LetBool                 
+000055   EX_LocalVariable           SGK DropItem::CallFunc_IsStandalone_ReturnValue
+00005e   EX_CallMath                KismetSystemLibrary::IsStandalone
+000067     EX_Self                    
+000068     EX_EndFunctionParms        
+000069 EX_LetBool                 
+00006a   EX_LocalVariable           SGK DropItem::CallFunc_BooleanOR_ReturnValue
+000073   EX_CallMath                KismetMathLibrary::BooleanOR
+00007c     EX_LocalVariable           SGK DropItem::CallFunc_IsStandalone_ReturnValue
+000085     EX_LocalVariable           SGK DropItem::Dropped
+00008e     EX_EndFunctionParms        
+00008f EX_LetBool                 
+000090   EX_LocalVariable           SGK DropItem::CallFunc_BooleanOR_ReturnValue
+000099   EX_CallMath                KismetMathLibrary::BooleanOR
+0000a2     EX_LocalVariable           SGK DropItem::CallFunc_BooleanOR_ReturnValue
+0000ab     EX_LocalVariable           SGK DropItem::Spawned
+0000b4     EX_EndFunctionParms        
+0000b5 EX_JumpIfNot               -> 0x128 if not
+0000ba   EX_LocalVariable           SGK DropItem::CallFunc_BooleanOR_ReturnValue
+0000c3 EX_LetBool                 
+0000c4   EX_LocalVariable           SGK DropItem::CallFunc_IsStandalone_ReturnValue
+0000cd   EX_CallMath                KismetSystemLibrary::IsStandalone
+0000d6     EX_Self                    
+0000d7     EX_EndFunctionParms        
+0000d8 EX_JumpIfNot               -> 0x23c if not
+0000dd   EX_LocalVariable           SGK DropItem::CallFunc_IsStandalone_ReturnValue
+0000e6 EX_FinalFunction           Actor::FlushNetDormancy
+0000ef   EX_EndFunctionParms        
+0000f0 EX_Let                     BP_StaticMasterItem_C::InvItem
+0000f9   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000102   EX_LocalVariable           SGK DropItem::ItemL
+00010b EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+000114   EX_Self                    
+000115   EX_IntConst                10
+00011a   EX_NameConst               "InvItem"
+000127   EX_EndFunctionParms        
+000128 EX_Let                     BP_StaticMasterItem_C::TempItem
+000131   EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+00013a   EX_LocalVariable           SGK DropItem::InvItem
+000143 EX_LetBool                 
+000144   EX_LocalVariable           SGK DropItem::CallFunc_BooleanOR_ReturnValue
+00014d   EX_CallMath                KismetMathLibrary::BooleanOR
+000156     EX_InstanceVariable        BP_StaticMasterItem_C::Dropped
+00015f     EX_InstanceVariable        BP_StaticMasterItem_C::Spawned
+000168     EX_EndFunctionParms        
+000169 EX_JumpIfNot               -> 0x193 if not
+00016e   EX_LocalVariable           SGK DropItem::CallFunc_BooleanOR_ReturnValue
+000177 EX_LocalVirtualFunction    "ItemOffsets"
+000184   EX_EndFunctionParms        
+000185 EX_JumpIfNot               -> 0x302 if not
+00018a   EX_InstanceVariable        BP_StaticMasterItem_C::Spawned
+000193 EX_FinalFunction           Actor::FlushNetDormancy
+00019c   EX_EndFunctionParms        
+00019d EX_Context                 
+00019e   EX_ObjectConst             null_skip=0x2a rvalue=None
+0001b3   EX_LocalVirtualFunction    "SGK ItemDetails"
+0001c0     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+0001c9     EX_Self                    
+0001ca     EX_LocalVariable           SGK DropItem::CallFunc_SGK_ItemDetails_ItemFound
+0001d3     EX_LocalVariable           SGK DropItem::CallFunc_SGK_ItemDetails_ItemDetails
+0001dc     EX_EndFunctionParms        
+0001dd EX_Let                     BP_StaticMasterItem_C::Mesh
+0001e6   EX_InstanceVariable        BP_StaticMasterItem_C::Mesh
+0001ef   EX_StructMemberContext     S_ItemDetails::StaticMesh_123_DB8565E8487831578F6D18823B88B876
+0001f8     EX_LocalVariable           SGK DropItem::CallFunc_SGK_ItemDetails_ItemDetails
+000201 EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+00020a   EX_Self                    
+00020b   EX_IntConst                11
+000210   EX_NameConst               "Mesh"
+00021d   EX_EndFunctionParms        
+00021e EX_LocalVirtualFunction    "OnRep_Mesh"
+00022b   EX_EndFunctionParms        
+00022c EX_LetBool                 
+00022d   EX_LocalOutVariable        SGK DropItem::ReturnValue
+000236   EX_True                    
+000237 EX_Jump                    -> 0x383
+00023c EX_LetBool                 
+00023d   EX_LocalVariable           SGK DropItem::CallFunc_IsValid_ReturnValue
+000246   EX_CallMath                KismetSystemLibrary::IsValid
+00024f     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000258       EX_LocalVariable           SGK DropItem::ItemL
+000261     EX_EndFunctionParms        
+000262 EX_JumpIfNot               -> 0x2bb if not
+000267   EX_LocalVariable           SGK DropItem::CallFunc_IsValid_ReturnValue
+000270 EX_JumpIfNot               -> 0x2a2 if not
+000275   EX_Context                 
+000276     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00027f       EX_LocalVariable           null_skip=0x9 rvalue=ActorComponent::bReplicates
+000294     EX_InstanceVariable        ActorComponent::bReplicates
+00029d EX_Jump                    -> 0xe6
+0002a2 EX_LetObj                  
+0002a3   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0002ac     EX_LocalVariable           SGK DropItem::ItemL
+0002b5   EX_NoObject                
+0002b6 EX_Jump                    -> 0xe6
+0002bb EX_FinalFunction           Actor::FlushNetDormancy
+0002c4   EX_EndFunctionParms        
+0002c5 EX_Let                     BP_StaticMasterItem_C::InvItem
+0002ce   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0002d7   EX_LocalVariable           SGK DropItem::ItemL
+0002e0 EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+0002e9   EX_Self                    
+0002ea   EX_IntConst                10
+0002ef   EX_NameConst               "InvItem"
+0002fc   EX_EndFunctionParms        
+0002fd EX_Jump                    -> 0x128
+000302 EX_JumpIfNot               -> 0x193 if not
+000307   EX_InstanceVariable        BP_StaticMasterItem_C::UseDroppedItemDestroyTimer
+000310 EX_BindDelegate            "DropDestroyTimer"
+00031d   EX_LocalVariable           SGK DropItem::K2Node_CreateDelegate_OutputDelegate
+000326   EX_Self                    
+000327 EX_Let                     None
+000330   EX_LocalVariable           SGK DropItem::CallFunc_K2_SetTimerDelegate_Time_ImplicitCast
+000339   EX_Cast                    kind=3
+00033b     EX_InstanceVariable        BP_StaticMasterItem_C::DropDestroyTime
+000344 EX_Let                     SGK DropItem::CallFunc_K2_SetTimerDelegate_ReturnValue
+00034d   EX_LocalVariable           SGK DropItem::CallFunc_K2_SetTimerDelegate_ReturnValue
+000356   EX_CallMath                KismetSystemLibrary::K2_SetTimerDelegate
+00035f     EX_LocalVariable           SGK DropItem::K2Node_CreateDelegate_OutputDelegate
+000368     EX_LocalVariable           SGK DropItem::CallFunc_K2_SetTimerDelegate_Time_ImplicitCast
+000371     EX_False                   
+000372     EX_False                   
+000373     EX_FloatConst              0.0
+000378     EX_FloatConst              0.0
+00037d     EX_EndFunctionParms        
+00037e EX_Jump                    -> 0x193
+000383 EX_Return                  
+000384   EX_LocalOutVariable        SGK DropItem::ReturnValue
+00038d EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK EndInteraction  @0x22c6bb91040  script=22 bytes
+000000 EX_LetBool                 
+000001   EX_LocalOutVariable        SGK EndInteraction::ReturnValue
+00000a   EX_False                   
+00000b EX_Return                  
+00000c   EX_LocalOutVariable        SGK EndInteraction::ReturnValue
+000015 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK GetVerifiedPlayers  @0x22c6bb91120  script=35 bytes
+000000 EX_Let                     SGK GetVerifiedPlayers::VerifiedPlayers
+000009   EX_LocalOutVariable        SGK GetVerifiedPlayers::VerifiedPlayers
+000012   EX_ArrayConst              VerifiedPlayers n=0
+00001f     EX_EndArrayConst           
+000020 EX_Return                  
+000021   EX_Nothing                 
+000022 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK Interact  @0x22c6bb91200  script=54 bytes
+000000 EX_LocalVirtualFunction    "InteractActions"
+00000d   EX_LocalVariable           SGK Interact::PlayerInventory
+000016   EX_LocalVariable           SGK Interact::Action
+00001f   EX_EndFunctionParms        
+000020 EX_LetBool                 
+000021   EX_LocalOutVariable        SGK Interact::ReturnValue
+00002a   EX_True                    
+00002b EX_Return                  
+00002c   EX_LocalOutVariable        SGK Interact::ReturnValue
+000035 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK InteractName  @0x22c6bb912e0  script=103 bytes
+000000 EX_Context                 
+000001   EX_ObjectConst             null_skip=0x2a rvalue=None
+000016   EX_LocalVirtualFunction    "SGK ItemDetails"
+000023     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00002c     EX_Self                    
+00002d     EX_LocalVariable           SGK InteractName::CallFunc_SGK_ItemDetails_ItemFound
+000036     EX_LocalVariable           SGK InteractName::CallFunc_SGK_ItemDetails_ItemDetails
+00003f     EX_EndFunctionParms        
+000040 EX_Let                     SGK InteractName::InteractName
+000049   EX_LocalOutVariable        SGK InteractName::InteractName
+000052   EX_StructMemberContext     S_ItemDetails::Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34
+00005b     EX_LocalVariable           SGK InteractName::CallFunc_SGK_ItemDetails_ItemDetails
+000064 EX_Return                  
+000065   EX_Nothing                 
+000066 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK InvItem  @0x22c6bb913c0  script=105 bytes
+000000 EX_Let                     SGK InvItem::CombineItemsL
+000009   EX_LocalVariable           SGK InvItem::CombineItemsL
+000012   EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00001b EX_LetObj                  
+00001c   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000025     EX_LocalVariable           SGK InvItem::CombineItemsL
+00002e   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000037     EX_InstanceVariable        BP_StaticMasterItem_C::TempItem
+000040 EX_LetBool                 
+000041   EX_LocalOutVariable        SGK InvItem::IsItem
+00004a   EX_True                    
+00004b EX_Let                     SGK InvItem::InvItem
+000054   EX_LocalOutVariable        SGK InvItem::InvItem
+00005d   EX_LocalVariable           SGK InvItem::CombineItemsL
+000066 EX_Return                  
+000067   EX_Nothing                 
+000068 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK ItemAmount  @0x22c6bb914a0  script=39 bytes
+000000 EX_Let                     SGK ItemAmount::Amount
+000009   EX_LocalOutVariable        SGK ItemAmount::Amount
+000012   EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+00001b     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000024 EX_Return                  
+000025   EX_Nothing                 
+000026 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK Mesh  @0x22c6bb91580  script=14 bytes
+000000 EX_LetObj                  
+000001   EX_LocalOutVariable        SGK Mesh::Mesh
+00000a   EX_NoObject                
+00000b EX_Return                  
+00000c   EX_Nothing                 
+00000d EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK PlayerInProximity  @0x22c6bb91660  script=18 bytes
+000000 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+000009   EX_IntConst                2679
+00000e   EX_EndFunctionParms        
+00000f EX_Return                  
+000010   EX_Nothing                 
+000011 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK PlayerOutProximity  @0x22c6bb91740  script=18 bytes
+000000 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+000009   EX_IntConst                2523
+00000e   EX_EndFunctionParms        
+00000f EX_Return                  
+000010   EX_Nothing                 
+000011 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK PossibleActions  @0x22c6bb91820  script=224 bytes
+000000 EX_Context                 
+000001   EX_ObjectConst             null_skip=0x2a rvalue=None
+000016   EX_LocalVirtualFunction    "SGK ItemDetails"
+000023     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00002c     EX_Self                    
+00002d     EX_LocalVariable           SGK PossibleActions::CallFunc_SGK_ItemDetails_ItemFound
+000036     EX_LocalVariable           SGK PossibleActions::CallFunc_SGK_ItemDetails_ItemDetails
+00003f     EX_EndFunctionParms        
+000040 EX_Let                     SGK PossibleActions::CallFunc_Array_Length_ReturnValue
+000049   EX_LocalVariable           SGK PossibleActions::CallFunc_Array_Length_ReturnValue
+000052   EX_Context                 
+000053     EX_ObjectConst             null_skip=0x1c rvalue=SGK PossibleActions::CallFunc_Array_Length_ReturnValue
+000068     EX_FinalFunction           KismetArrayLibrary::Array_Length
+000071       EX_StructMemberContext     S_ItemDetails::WorldActions_116_B4CAF39A421B065A46DEACBC5DBD40EE
+00007a         EX_LocalVariable           SGK PossibleActions::CallFunc_SGK_ItemDetails_ItemDetails
+000083       EX_EndFunctionParms        
+000084 EX_LetBool                 
+000085   EX_LocalVariable           SGK PossibleActions::CallFunc_Greater_IntInt_ReturnValue
+00008e   EX_CallMath                KismetMathLibrary::Greater_IntInt
+000097     EX_LocalVariable           SGK PossibleActions::CallFunc_Array_Length_ReturnValue
+0000a0     EX_IntConst                0
+0000a5     EX_EndFunctionParms        
+0000a6 EX_LetBool                 
+0000a7   EX_LocalOutVariable        SGK PossibleActions::ActionsFound
+0000b0   EX_LocalVariable           SGK PossibleActions::CallFunc_Greater_IntInt_ReturnValue
+0000b9 EX_Let                     SGK PossibleActions::PossibleActions
+0000c2   EX_LocalOutVariable        SGK PossibleActions::PossibleActions
+0000cb   EX_StructMemberContext     S_ItemDetails::WorldActions_116_B4CAF39A421B065A46DEACBC5DBD40EE
+0000d4     EX_LocalVariable           SGK PossibleActions::CallFunc_SGK_ItemDetails_ItemDetails
+0000dd EX_Return                  
+0000de   EX_Nothing                 
+0000df EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK SetVerifiedPlayers  @0x22c6bb91900  script=36 bytes
+000000 EX_LetValueOnPersistentFrame ExecuteUbergraph_BP_StaticMasterItem::K2Node_Event_VerifiedPlayers
+000009   EX_LocalOutVariable        SGK SetVerifiedPlayers::VerifiedPlayers
+000012 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+00001b   EX_IntConst                1999
+000020   EX_EndFunctionParms        
+000021 EX_Return                  
+000022   EX_Nothing                 
+000023 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK TurnedOnEffect  @0x22c6bb9a5e0  script=36 bytes
+000000 EX_LetValueOnPersistentFrame ExecuteUbergraph_BP_StaticMasterItem::K2Node_Event_TurnedOn
+000009   EX_LocalVariable           SGK TurnedOnEffect::TurnedOn
+000012 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+00001b   EX_IntConst                2000
+000020   EX_EndFunctionParms        
+000021 EX_Return                  
+000022   EX_Nothing                 
+000023 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK UpdateCode  @0x22c6bb9a6c0  script=22 bytes
+000000 EX_LetBool                 
+000001   EX_LocalOutVariable        SGK UpdateCode::ReturnValue
+00000a   EX_False                   
+00000b EX_Return                  
+00000c   EX_LocalOutVariable        SGK UpdateCode::ReturnValue
+000015 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGK VerifyPlayer  @0x22c6bb9a7a0  script=22 bytes
+000000 EX_LetBool                 
+000001   EX_LocalOutVariable        SGK VerifyPlayer::ReturnValue
+00000a   EX_False                   
+00000b EX_Return                  
+00000c   EX_LocalOutVariable        SGK VerifyPlayer::ReturnValue
+000015 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SGKSave  @0x22c6bb9a880  script=36 bytes
+000000 EX_LetValueOnPersistentFrame ExecuteUbergraph_BP_StaticMasterItem::K2Node_Event_Save
+000009   EX_LocalVariable           SGKSave::Save
+000012 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+00001b   EX_IntConst                3334
+000020   EX_EndFunctionParms        
+000021 EX_Return                  
+000022   EX_Nothing                 
+000023 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::SaveNotValid  @0x22c6bb90cc0  script=18 bytes
+000000 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+000009   EX_IntConst                3154
+00000e   EX_EndFunctionParms        
+00000f EX_Return                  
+000010   EX_Nothing                 
+000011 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::UnloadStreamingLevels  @0x22c6bb9a960  script=18 bytes
+000000 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+000009   EX_IntConst                2015
+00000e   EX_EndFunctionParms        
+00000f EX_Return                  
+000010   EX_Nothing                 
+000011 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::UpdateStaticMesh  @0x22c6bb9aa40  script=36 bytes
+000000 EX_LetValueOnPersistentFrame ExecuteUbergraph_BP_StaticMasterItem::K2Node_CustomEvent_Mesh
+000009   EX_LocalVariable           UpdateStaticMesh::Mesh
+000012 EX_LocalFinalFunction      BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem
+00001b   EX_IntConst                2684
+000020   EX_EndFunctionParms        
+000021 EX_Return                  
+000022   EX_Nothing                 
+000023 EX_EndOfScript             
+
+===== BP_StaticMasterItem_C::UserConstructionScript  @0x22c6bb9ab20  script=1134 bytes
+000000 EX_Context                 
+000001   EX_ObjectConst             null_skip=0x2a rvalue=None
+000016   EX_LocalVirtualFunction    "SGK ItemDetails"
+000023     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00002c     EX_Self                    
+00002d     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemFound
+000036     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemDetails
+00003f     EX_EndFunctionParms        
+000040 EX_Let                     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000049   EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000052     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+00005b   EX_StructMemberContext     DataTableRowHandle::RowName
+000064     EX_InstanceVariable        BP_StaticMasterItem_C::Item
+00006d EX_Let                     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000076   EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+00007f     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+000088   EX_IntConst                0
+00008d EX_LetObj                  
+00008e   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000097     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+0000a0   EX_NoObject                
+0000a1 EX_Let                     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+0000aa   EX_StructMemberContext     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+0000b3     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+0000bc   EX_IntConst                -1
+0000c1 EX_LetBool                 
+0000c2   EX_StructMemberContext     S_InvItem::Rotated_18_66B00C8648A7E3BEB56C4282929D015D
+0000cb     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+0000d4   EX_False                   
+0000d5 EX_Let                     S_InvItem::UseAmount_21_73BF7A6447A384E099761EA48F7DB753
+0000de   EX_StructMemberContext     S_InvItem::UseAmount_21_73BF7A6447A384E099761EA48F7DB753
+0000e7     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+0000f0   EX_IntConst                1
+0000f5 EX_LetBool                 
+0000f6   EX_StructMemberContext     S_InvItem::InUse_23_430FC3BE41900570FBD4AA881817E89F
+0000ff     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+000108   EX_False                   
+000109 EX_Let                     S_InvItem::Durability_30_E9AF67CA4E71F502EF4B18A440FA0385
+000112   EX_StructMemberContext     S_InvItem::Durability_30_E9AF67CA4E71F502EF4B18A440FA0385
+00011b     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+000124   EX_FloatConst              100.0
+000129 EX_Let                     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+000132   EX_StructMemberContext     S_InvItem::DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93
+00013b     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+000144   EX_IntConst                0
+000149 EX_Context                 
+00014a   EX_ObjectConst             null_skip=0x2a rvalue=None
+00015f   EX_LocalVirtualFunction    "SGK ItemDetails"
+00016c     EX_LocalVariable           UserConstructionScript::K2Node_MakeStruct_S_InvItem
+000175     EX_Self                    
+000176     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemFound
+00017f     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemDetails
+000188     EX_EndFunctionParms        
+000189 EX_LetBool                 
+00018a   EX_LocalVariable           UserConstructionScript::CallFunc_BooleanOR_ReturnValue
+000193   EX_CallMath                KismetMathLibrary::BooleanOR
+00019c     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemFound
+0001a5     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemFound
+0001ae     EX_EndFunctionParms        
+0001af EX_JumpIfNot               -> 0x46b if not
+0001b4   EX_LocalVariable           UserConstructionScript::CallFunc_BooleanOR_ReturnValue
+0001bd EX_LetBool                 
+0001be   EX_InstanceVariable        BP_StaticMasterItem_C::RefreshItem
+0001c7   EX_False                   
+0001c8 EX_LetBool                 
+0001c9   EX_LocalVariable           UserConstructionScript::CallFunc_BooleanOR_ReturnValue
+0001d2   EX_CallMath                KismetMathLibrary::BooleanOR
+0001db     EX_InstanceVariable        BP_StaticMasterItem_C::Spawned
+0001e4     EX_InstanceVariable        BP_StaticMasterItem_C::Dropped
+0001ed     EX_EndFunctionParms        
+0001ee EX_LetBool                 
+0001ef   EX_LocalVariable           UserConstructionScript::CallFunc_BooleanOR_ReturnValue
+0001f8   EX_CallMath                KismetMathLibrary::BooleanOR
+000201     EX_LocalVariable           UserConstructionScript::CallFunc_BooleanOR_ReturnValue
+00020a     EX_InstanceVariable        BP_StaticMasterItem_C::SaveGameLoaded
+000213     EX_EndFunctionParms        
+000214 EX_JumpIfNot               -> 0x227 if not
+000219   EX_LocalVariable           UserConstructionScript::CallFunc_BooleanOR_ReturnValue
+000222 EX_Jump                    -> 0x46b
+000227 EX_LetBool                 
+000228   EX_LocalVariable           UserConstructionScript::CallFunc_NotEqual_NameName_ReturnValue
+000231   EX_CallMath                KismetMathLibrary::NotEqual_NameName
+00023a     EX_StructMemberContext     DataTableRowHandle::RowName
+000243       EX_InstanceVariable        BP_StaticMasterItem_C::Item
+00024c     EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000255       EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00025e     EX_EndFunctionParms        
+00025f EX_JumpIfNot               -> 0x415 if not
+000264   EX_LocalVariable           UserConstructionScript::CallFunc_NotEqual_NameName_ReturnValue
+00026d EX_Let                     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000276   EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+00027f     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000288   EX_StructMemberContext     DataTableRowHandle::RowName
+000291     EX_InstanceVariable        BP_StaticMasterItem_C::Item
+00029a EX_Let                     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+0002a3   EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+0002ac     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0002b5   EX_InstanceVariable        BP_StaticMasterItem_C::ItemAmount
+0002be EX_LocalVirtualFunction    "ItemOffsets"
+0002cb   EX_EndFunctionParms        
+0002cc EX_Context                 
+0002cd   EX_ObjectConst             null_skip=0x2a rvalue=None
+0002e2   EX_LocalVirtualFunction    "SGK ItemDetails"
+0002ef     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+0002f8     EX_Self                    
+0002f9     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemFound
+000302     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemDetails
+00030b     EX_EndFunctionParms        
+00030c EX_LetObj                  
+00030d   EX_LocalVariable           UserConstructionScript::CallFunc_LoadAsset_Blocking_ReturnValue
+000316   EX_CallMath                KismetSystemLibrary::LoadAsset_Blocking
+00031f     EX_StructMemberContext     S_ItemDetails::StaticMesh_123_DB8565E8487831578F6D18823B88B876
+000328       EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemDetails
+000331     EX_EndFunctionParms        
+000332 EX_Context                 
+000333   EX_ObjectConst             null_skip=0x2a rvalue=None
+000348   EX_LocalVirtualFunction    "SGK ItemDetails"
+000355     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00035e     EX_Self                    
+00035f     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemFound
+000368     EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemDetails
+000371     EX_EndFunctionParms        
+000372 EX_LetObj                  
+000373   EX_LocalVariable           UserConstructionScript::CallFunc_Conv_SoftObjectReferenceToObject_ReturnValue
+00037c   EX_CallMath                KismetSystemLibrary::Conv_SoftObjectReferenceToObject
+000385     EX_StructMemberContext     S_ItemDetails::StaticMesh_123_DB8565E8487831578F6D18823B88B876
+00038e       EX_LocalVariable           UserConstructionScript::CallFunc_SGK_ItemDetails_ItemDetails
+000397     EX_EndFunctionParms        
+000398 EX_Let                     None
+0003a1   EX_LocalVariable           UserConstructionScript::K2Node_DynamicCast_AsStatic_Mesh
+0003aa   EX_DynamicCast             Class'StaticMesh'
+0003b3     EX_LocalVariable           UserConstructionScript::CallFunc_Conv_SoftObjectReferenceToObject_ReturnValue
+0003bc EX_Let                     None
+0003c5   EX_LocalVariable           UserConstructionScript::K2Node_DynamicCast_bSuccess
+0003ce   EX_Cast                    kind=1
+0003d0     EX_LocalVariable           UserConstructionScript::K2Node_DynamicCast_AsStatic_Mesh
+0003d9 EX_LetBool                 
+0003da   EX_LocalVariable           UserConstructionScript::CallFunc_SetStaticMesh_ReturnValue
+0003e3   EX_Context                 
+0003e4     EX_InstanceVariable        null_skip=0x17 rvalue=UserConstructionScript::CallFunc_SetStaticMesh_ReturnValue
+0003f9     EX_VirtualFunction         "SetStaticMesh"
+000406       EX_LocalVariable           UserConstructionScript::K2Node_DynamicCast_AsStatic_Mesh
+00040f       EX_EndFunctionParms        
+000410 EX_Jump                    -> 0x46b
+000415 EX_Let                     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+00041e   EX_StructMemberContext     S_InvItem::ID_2_84C2CB8945979246059C568DCD463423
+000427     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+000430   EX_StructMemberContext     DataTableRowHandle::RowName
+000439     EX_InstanceVariable        BP_StaticMasterItem_C::Item
+000442 EX_Let                     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+00044b   EX_StructMemberContext     S_InvItem::Amount_5_62DB2267439500D86A52E0B2266494D2
+000454     EX_InstanceVariable        BP_StaticMasterItem_C::InvItem
+00045d   EX_InstanceVariable        BP_StaticMasterItem_C::ItemAmount
+000466 EX_Jump                    -> 0x2cc
+00046b EX_Return                  
+00046c   EX_Nothing                 
+00046d EX_EndOfScript             

@@ -1,0 +1,90 @@
+{
+  "Ammo_7.62": {
+    "WorldClass": "BP_StaticMasterItem_C",
+    "StaticMesh": "/Game/Meshes/BPS/Items/Ammo/SM_AmmoBox_7_62mm.SM_AmmoBox_7_62mm",
+    "SkeletalMesh": "None.None",
+    "grid": "1x1",
+    "ItemOffsets_rot_xyzw": [
+      0.0,
+      -0.0,
+      0.0,
+      1.0
+    ],
+    "ItemOffsets_translation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ItemOffsets_scale": [
+      0.0,
+      1.0,
+      1.0
+    ]
+  },
+  "Holdable_RGD5": {
+    "WorldClass": "BP_StaticMasterItem_C",
+    "StaticMesh": "/Game/Meshes/BPS/GUNS/SM_rgd5.SM_rgd5",
+    "SkeletalMesh": "None.None",
+    "grid": "1x1",
+    "ItemOffsets_rot_xyzw": [
+      0.0,
+      -0.0,
+      0.0,
+      1.0
+    ],
+    "ItemOffsets_translation": [
+      0.0,
+      0.0,
+      5.0
+    ],
+    "ItemOffsets_scale": [
+      0.0,
+      1.0,
+      1.0
+    ]
+  },
+  "Resource_Glass": {
+    "WorldClass": "BP_StaticMasterItem_C",
+    "StaticMesh": "/Game/Meshes/BPS/Items/SM_GlassRec.SM_GlassRec",
+    "SkeletalMesh": "None.None",
+    "grid": "1x1",
+    "ItemOffsets_rot_xyzw": [
+      0.0,
+      -0.0,
+      0.0,
+      1.0
+    ],
+    "ItemOffsets_translation": [
+      0.0,
+      0.0,
+      2.0
+    ],
+    "ItemOffsets_scale": [
+      0.0,
+      1.0,
+      1.0
+    ]
+  },
+  "Misc_Key": {
+    "WorldClass": "BP_StaticMasterItem_C",
+    "StaticMesh": "/Game/Models/Props/Boxes/SM_Wooden_Box_04.SM_Wooden_Box_04",
+    "SkeletalMesh": "None.None",
+    "grid": "1x1",
+    "ItemOffsets_rot_xyzw": [
+      0.0,
+      -0.0,
+      0.0,
+      1.0
+    ],
+    "ItemOffsets_translation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ItemOffsets_scale": [
+      0.0,
+      1.0,
+      1.0
+    ]
+  }
+}

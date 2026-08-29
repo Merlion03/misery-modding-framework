@@ -1,0 +1,27 @@
+{
+  "attempts": [
+    {
+      "imported": [
+        "/Game/MBPLTest/Items/Radio/M_Radio_Body.M_Radio_Body",
+        "/Game/MBPLTest/Items/Radio/M_Radio_Battery.M_Radio_Battery",
+        "/Game/MBPLTest/Items/Radio/M_Radio_Metal.M_Radio_Metal",
+        "/Game/MBPLTest/Items/Radio/M_Radio_Rubber.M_Radio_Rubber",
+        "/Game/MBPLTest/Items/Radio/M_Radio_Screen.M_Radio_Screen",
+        "/Game/MBPLTest/Items/Radio/M_Radio_Tape.M_Radio_Tape",
+        "/Game/MBPLTest/Items/Radio/M_Radio_Emissive.M_Radio_Emissive",
+        "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio"
+      ],
+      "label": "glb",
+      "source": "D:/Dev/Models/Radio/mbpl_radio.glb"
+    }
+  ],
+  "class": "StaticMesh",
+  "errors": [
+    "AttributeError: 'StaticMesh' object has no attribute 'get_num_vertices'"
+  ],
+  "notes": [
+    "glb import ran; imported=['/Game/MBPLTest/Items/Radio/M_Radio_Body.M_Radio_Body', '/Game/MBPLTest/Items/Radio/M_Radio_Battery.M_Radio_Battery', '/Game/MBPLTest/Items/Radio/M_Radio_Metal.M_Radio_Metal', '/Game/MBPLTest/Items/Radio/M_Radio_Rubber.M_Radio_Rubber', '/Game/MBPLTest/Items/Radio/M_Radio_Screen.M_Radio_Screen', '/Game/MBPLTest/Items/Radio/M_Radio_Tape.M_Radio_Tape', '/Game/MBPLTest/Items/Radio/M_Radio_Emissive.M_Radio_Emissive', '/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio']"
+  ],
+  "ok": false,
+  "package_path": "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio"
+}

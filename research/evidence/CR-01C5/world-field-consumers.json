@@ -1,0 +1,1959 @@
+{
+  "S_ItemDetails_world_fields": [
+    {
+      "class": "FTextProperty",
+      "inner": null,
+      "name": "Name",
+      "offset": 0,
+      "size": 16
+    },
+    {
+      "class": "FDoubleProperty",
+      "inner": "AudioComponent",
+      "name": "Weight",
+      "offset": 48,
+      "size": 8
+    },
+    {
+      "class": "FSoftObjectProperty",
+      "inner": "StaticMesh",
+      "name": "StaticMesh",
+      "offset": 112,
+      "size": 40
+    },
+    {
+      "class": "FSoftObjectProperty",
+      "inner": "SkeletalMesh",
+      "name": "SkeletalMesh",
+      "offset": 152,
+      "size": 40
+    },
+    {
+      "class": "FClassProperty",
+      "inner": "Class",
+      "name": "WorldClass",
+      "offset": 192,
+      "size": 8
+    },
+    {
+      "class": "FObjectProperty",
+      "inner": "AnimMontage",
+      "name": "PickupAnimation",
+      "offset": 200,
+      "size": 8
+    },
+    {
+      "class": "FStructProperty",
+      "inner": "Transform",
+      "name": "ItemOffsets",
+      "offset": 2064,
+      "size": 96
+    }
+  ],
+  "consumers": {
+    "BP_SkeletalMasterItem_C.AddStartingItems": [
+      {
+        "at": 3774,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.Attachments": [
+      {
+        "at": 1287,
+        "fn": "BP_SkeletalMasterItem_C::SpawnAttachments"
+      },
+      {
+        "at": 1490,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 1611,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 1709,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.DropDestroyTime": [
+      {
+        "at": 465,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.Dropped": [
+      {
+        "at": 485,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 2,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 343,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 1102,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.InvItem": [
+      {
+        "at": 36,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 598,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 640,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 685,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 754,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 856,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1057,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1102,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 36,
+        "fn": "BP_SkeletalMasterItem_C::SGK PossibleActions"
+      },
+      {
+        "at": 28,
+        "fn": "BP_SkeletalMasterItem_C::SGK ItemAmount"
+      },
+      {
+        "at": 19,
+        "fn": "BP_SkeletalMasterItem_C::SGK InvItem"
+      },
+      {
+        "at": 36,
+        "fn": "BP_SkeletalMasterItem_C::SGK InteractName"
+      },
+      {
+        "at": 241,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 250,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 838,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 847,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 29,
+        "fn": "BP_SkeletalMasterItem_C::Open"
+      },
+      {
+        "at": 97,
+        "fn": "BP_SkeletalMasterItem_C::Open"
+      },
+      {
+        "at": 28,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 65,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 99,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 170,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 233,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 242,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 307,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 426,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 501,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 36,
+        "fn": "BP_SkeletalMasterItem_C::Learn"
+      },
+      {
+        "at": 104,
+        "fn": "BP_SkeletalMasterItem_C::Learn"
+      },
+      {
+        "at": 1771,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 1849,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 36,
+        "fn": "BP_SkeletalMasterItem_C::EquipWeapon"
+      },
+      {
+        "at": 121,
+        "fn": "BP_SkeletalMasterItem_C::EquipWeapon"
+      },
+      {
+        "at": 155,
+        "fn": "BP_SkeletalMasterItem_C::EquipWeapon"
+      },
+      {
+        "at": 36,
+        "fn": "BP_SkeletalMasterItem_C::EquipClothing"
+      },
+      {
+        "at": 111,
+        "fn": "BP_SkeletalMasterItem_C::EquipClothing"
+      },
+      {
+        "at": 145,
+        "fn": "BP_SkeletalMasterItem_C::EquipClothing"
+      },
+      {
+        "at": 200,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 369,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 378,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 458,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 492,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 979,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1095,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 36,
+        "fn": "BP_SkeletalMasterItem_C::Hold"
+      },
+      {
+        "at": 41,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 50,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 125,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 160,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 201,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 422,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 502,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 511,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3746,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3764,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 4083,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 46,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 126,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 186,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 434,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 667,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 1429,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 1460,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 1469,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.Is Placed": [
+      {
+        "at": 6,
+        "fn": "BP_SkeletalMasterItem_C::RotateWeapon"
+      },
+      {
+        "at": 1979,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.Item": [
+      {
+        "at": 101,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 580,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 658,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1075,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.ItemAmount": [
+      {
+        "at": 694,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1111,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.Mesh": [
+      {
+        "at": 606,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 615,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 14,
+        "fn": "BP_SkeletalMasterItem_C::OnRep_Mesh"
+      },
+      {
+        "at": 285,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 451,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 460,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3347,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.PlacedComponent": [
+      {
+        "at": 2037,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.RefreshItem": [
+      {
+        "at": 447,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.SaveGame": [
+      {
+        "at": 736,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 773,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 822,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 911,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 1044,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.SaveGameLoaded": [
+      {
+        "at": 523,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 40,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 350,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1370,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 4051,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.SkeletalMesh": [
+      {
+        "at": 989,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 804,
+        "fn": "BP_SkeletalMasterItem_C::SpawnAttachments"
+      },
+      {
+        "at": 938,
+        "fn": "BP_SkeletalMasterItem_C::SpawnAttachments"
+      },
+      {
+        "at": 1130,
+        "fn": "BP_SkeletalMasterItem_C::SpawnAttachments"
+      },
+      {
+        "at": 1347,
+        "fn": "BP_SkeletalMasterItem_C::SpawnAttachments"
+      },
+      {
+        "at": 34,
+        "fn": "BP_SkeletalMasterItem_C::RotateWeapon"
+      },
+      {
+        "at": 84,
+        "fn": "BP_SkeletalMasterItem_C::RotateWeapon"
+      },
+      {
+        "at": 225,
+        "fn": "BP_SkeletalMasterItem_C::RotateWeapon"
+      },
+      {
+        "at": 295,
+        "fn": "BP_SkeletalMasterItem_C::RotateWeapon"
+      },
+      {
+        "at": 2295,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3423,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.Spawned": [
+      {
+        "at": 476,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 21,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 352,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 1093,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 4207,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.TempItem": [
+      {
+        "at": 56,
+        "fn": "BP_SkeletalMasterItem_C::SGK InvItem"
+      },
+      {
+        "at": 297,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 306,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 577,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 289,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 298,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 344,
+        "fn": "BP_SkeletalMasterItem_C::Pickup"
+      },
+      {
+        "at": 2124,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 2202,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 111,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 211,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 275,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 448,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 1635,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 1849,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 1914,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 1947,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 2021,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 2235,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 71,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 387,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 59,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 520,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 1171,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 2474,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 2569,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 2811,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 2890,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 2921,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3055,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3804,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3813,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 3876,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 4065,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 4074,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 4319,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      },
+      {
+        "at": 372,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 381,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 1516,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 1525,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      }
+    ],
+    "BP_SkeletalMasterItem_C.UseDroppedItemDestroyTimer": [
+      {
+        "at": 413,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.AddStartingItems": [
+      {
+        "at": 2848,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.DropDestroyTime": [
+      {
+        "at": 828,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.Dropped": [
+      {
+        "at": 485,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 2,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 343,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 1251,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.InvItem": [
+      {
+        "at": 36,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 598,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 640,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 685,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 752,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 854,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1064,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1109,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 36,
+        "fn": "BP_StaticMasterItem_C::SGK PossibleActions"
+      },
+      {
+        "at": 28,
+        "fn": "BP_StaticMasterItem_C::SGK ItemAmount"
+      },
+      {
+        "at": 19,
+        "fn": "BP_StaticMasterItem_C::SGK InvItem"
+      },
+      {
+        "at": 36,
+        "fn": "BP_StaticMasterItem_C::SGK InteractName"
+      },
+      {
+        "at": 241,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 250,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 710,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 719,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 28,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 65,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 99,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 170,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 233,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 242,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 307,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 426,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 501,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 29,
+        "fn": "BP_StaticMasterItem_C::Open"
+      },
+      {
+        "at": 97,
+        "fn": "BP_StaticMasterItem_C::Open"
+      },
+      {
+        "at": 36,
+        "fn": "BP_StaticMasterItem_C::Learn"
+      },
+      {
+        "at": 104,
+        "fn": "BP_StaticMasterItem_C::Learn"
+      },
+      {
+        "at": 1819,
+        "fn": "BP_StaticMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 1897,
+        "fn": "BP_StaticMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 200,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 369,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 378,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 458,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 492,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 979,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1095,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 36,
+        "fn": "BP_StaticMasterItem_C::Hold"
+      },
+      {
+        "at": 41,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 50,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 125,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 160,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 201,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 332,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 412,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 421,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 2266,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 2552,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 2583,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 2820,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 2838,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 3221,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 36,
+        "fn": "BP_StaticMasterItem_C::EquipWeapon"
+      },
+      {
+        "at": 121,
+        "fn": "BP_StaticMasterItem_C::EquipWeapon"
+      },
+      {
+        "at": 155,
+        "fn": "BP_StaticMasterItem_C::EquipWeapon"
+      },
+      {
+        "at": 36,
+        "fn": "BP_StaticMasterItem_C::EquipClothing"
+      },
+      {
+        "at": 111,
+        "fn": "BP_StaticMasterItem_C::EquipClothing"
+      },
+      {
+        "at": 145,
+        "fn": "BP_StaticMasterItem_C::EquipClothing"
+      },
+      {
+        "at": 46,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 126,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 186,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 434,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 667,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 1429,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 1460,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 1469,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      }
+    ],
+    "BP_StaticMasterItem_C.Item": [
+      {
+        "at": 101,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 580,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 658,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1082,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      }
+    ],
+    "BP_StaticMasterItem_C.ItemAmount": [
+      {
+        "at": 694,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 1118,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      }
+    ],
+    "BP_StaticMasterItem_C.Mesh": [
+      {
+        "at": 478,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 487,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 14,
+        "fn": "BP_StaticMasterItem_C::OnRep_Mesh"
+      },
+      {
+        "at": 361,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 370,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.RefreshItem": [
+      {
+        "at": 447,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      }
+    ],
+    "BP_StaticMasterItem_C.SaveGame": [
+      {
+        "at": 870,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 907,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 956,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 1045,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 1193,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.SaveGameLoaded": [
+      {
+        "at": 523,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 40,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 350,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1748,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 3189,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.Spawned": [
+      {
+        "at": 476,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 21,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 352,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 395,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 1242,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 3340,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.StaticMesh": [
+      {
+        "at": 997,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 3046,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      }
+    ],
+    "BP_StaticMasterItem_C.TempItem": [
+      {
+        "at": 56,
+        "fn": "BP_StaticMasterItem_C::SGK InvItem"
+      },
+      {
+        "at": 297,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 306,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 449,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 289,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 298,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 344,
+        "fn": "BP_StaticMasterItem_C::Pickup"
+      },
+      {
+        "at": 2157,
+        "fn": "BP_StaticMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 2235,
+        "fn": "BP_StaticMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 111,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 211,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 275,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 448,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 1635,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 1849,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 1913,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 2516,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 2549,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 2623,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 2837,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 71,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 387,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 59,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 430,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 1549,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 2878,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 2887,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 3203,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 3212,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 3452,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 372,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 381,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 1516,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 1525,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      }
+    ],
+    "BP_StaticMasterItem_C.UseDroppedItemDestroyTimer": [
+      {
+        "at": 776,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      }
+    ],
+    "S_ItemDetails.ItemOffsets": [
+      {
+        "at": 2075,
+        "fn": "BP_StaticMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 2305,
+        "fn": "BP_StaticMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 2390,
+        "fn": "BP_StaticMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 2385,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 2441,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      },
+      {
+        "at": 2526,
+        "fn": "BP_SkeletalMasterItem_C::ItemOffsets"
+      }
+    ],
+    "S_ItemDetails.Name": [
+      {
+        "at": 1693,
+        "fn": "BP_GasolineGenerator_C::SGK Interact"
+      },
+      {
+        "at": 83,
+        "fn": "BP_StaticMasterItem_C::SGK InteractName"
+      },
+      {
+        "at": 2031,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 454,
+        "fn": "BP_MasterItemInventory_C::RetrieveItemContainerDetails"
+      },
+      {
+        "at": 822,
+        "fn": "BP_BuildMenuCostPanel_C::UpdateText"
+      },
+      {
+        "at": 1256,
+        "fn": "BP_EquipmentInventory_C::DecreaseEquipmentDurability"
+      },
+      {
+        "at": 124,
+        "fn": "BP_InventoryItemIcon_C::UpdateNameText"
+      },
+      {
+        "at": 253,
+        "fn": "BP_ItemTooltip_C::InitializeTooltip"
+      },
+      {
+        "at": 781,
+        "fn": "BP_RepairCost_C::Initialize"
+      },
+      {
+        "at": 416,
+        "fn": "BP_CraftingTooltipEntry_C::EntryCost"
+      },
+      {
+        "at": 179,
+        "fn": "BP_WeaponSlot_C::GetItemName"
+      },
+      {
+        "at": 179,
+        "fn": "BP_EquipmentSlot_C::GetItemName"
+      },
+      {
+        "at": 1262,
+        "fn": "BP_VendorListing_C::ToggleTooltip"
+      },
+      {
+        "at": 2916,
+        "fn": "BP_VendorListing_C::InitializeVenderSellListing"
+      },
+      {
+        "at": 2865,
+        "fn": "BP_VendorListing_C::InitializeVenderBuyListing"
+      },
+      {
+        "at": 817,
+        "fn": "BP_VendorListingTooltips_C::InitializeSellTooltip"
+      },
+      {
+        "at": 2083,
+        "fn": "BP_VendorListingTooltips_C::InitializeSellTooltip"
+      },
+      {
+        "at": 817,
+        "fn": "BP_VendorListingTooltips_C::InitializeBuyTooltip"
+      },
+      {
+        "at": 2083,
+        "fn": "BP_VendorListingTooltips_C::InitializeBuyTooltip"
+      },
+      {
+        "at": 179,
+        "fn": "BP_AttachmentSlot_C::GetItemName"
+      },
+      {
+        "at": 271,
+        "fn": "BP_CookingSlot_C::GetItemName"
+      },
+      {
+        "at": 1285,
+        "fn": "BP_AmmoCounter_C::GetVisibility"
+      },
+      {
+        "at": 83,
+        "fn": "BP_SkeletalMasterItem_C::SGK InteractName"
+      },
+      {
+        "at": 3977,
+        "fn": "BP_MasterResource_C::CollectResource"
+      },
+      {
+        "at": 1157,
+        "fn": "BP_MasterInventory_C::DecreaseWeaponDurability"
+      },
+      {
+        "at": 1664,
+        "fn": "BP_MasterInventory_C::DecreaseItemDurability"
+      },
+      {
+        "at": 1888,
+        "fn": "BP_WellInteracion_C::SGK Interact"
+      },
+      {
+        "at": 3143,
+        "fn": "BP_WellInteracion_C::SGK Interact"
+      }
+    ],
+    "S_ItemDetails.PickupAnimation": [
+      {
+        "at": 248,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1027,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1181,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1199,
+        "fn": "BP_StaticMasterItem_C::InteractActions"
+      },
+      {
+        "at": 248,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1027,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1181,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      },
+      {
+        "at": 1199,
+        "fn": "BP_SkeletalMasterItem_C::InteractActions"
+      }
+    ],
+    "S_ItemDetails.SkeletalMesh": [
+      {
+        "at": 541,
+        "fn": "BP_PlayerInventory_C::SpawnDroppedItem"
+      },
+      {
+        "at": 802,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 904,
+        "fn": "BP_SkeletalMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 624,
+        "fn": "BP_SkeletalMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 469,
+        "fn": "BP_SkeletalMasterItem_C::ExecuteUbergraph_BP_SkeletalMasterItem"
+      }
+    ],
+    "S_ItemDetails.StaticMesh": [
+      {
+        "at": 800,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 902,
+        "fn": "BP_StaticMasterItem_C::UserConstructionScript"
+      },
+      {
+        "at": 496,
+        "fn": "BP_StaticMasterItem_C::SGK DropItem"
+      },
+      {
+        "at": 379,
+        "fn": "BP_StaticMasterItem_C::ExecuteUbergraph_BP_StaticMasterItem"
+      },
+      {
+        "at": 370,
+        "fn": "BP_Mangal_C::OnRep_LCooking Slots"
+      }
+    ],
+    "S_ItemDetails.Weight": [
+      {
+        "at": 8560,
+        "fn": "BP_PlayerInventory_C::MoveItem"
+      },
+      {
+        "at": 2970,
+        "fn": "BP_PlayerInventory_C::CombineSlotStacks"
+      },
+      {
+        "at": 4316,
+        "fn": "BP_PlayerInventory_C::CombineSlotStacks"
+      },
+      {
+        "at": 4488,
+        "fn": "BP_PlayerInventory_C::CombineSlotStacks"
+      },
+      {
+        "at": 4621,
+        "fn": "BP_PlayerInventory_C::CombineSlotStacks"
+      },
+      {
+        "at": 4732,
+        "fn": "BP_PlayerInventory_C::CombineSlotStacks"
+      },
+      {
+        "at": 5897,
+        "fn": "BP_PlayerInventory_C::MoveAddToContainer"
+      },
+      {
+        "at": 5624,
+        "fn": "BP_PlayerInventory_C::AddAmmoToRangeWeapon"
+      },
+      {
+        "at": 579,
+        "fn": "BP_ItemTooltip_C::InitializeTooltip"
+      },
+      {
+        "at": 1424,
+        "fn": "BP_ItemTooltip_C::InitializeTooltip"
+      },
+      {
+        "at": 124,
+        "fn": "BP_SGKFunctions_C::SGK ItemWeight"
+      },
+      {
+        "at": 504,
+        "fn": "BP_MasterInventory_C::AddItem"
+      },
+      {
+        "at": 2959,
+        "fn": "BP_MasterInventory_C::AddItem"
+      },
+      {
+        "at": 967,
+        "fn": "BP_MasterInventory_C::AttemptToAddItemAmount"
+      },
+      {
+        "at": 2062,
+        "fn": "BP_MasterInventory_C::WeightCheck"
+      },
+      {
+        "at": 2138,
+        "fn": "BP_MasterInventory_C::WeightCheck"
+      },
+      {
+        "at": 1965,
+        "fn": "BP_MasterInventory_C::AddItemWeight"
+      },
+      {
+        "at": 2207,
+        "fn": "BP_MasterInventory_C::AddItemWeight"
+      },
+      {
+        "at": 2028,
+        "fn": "BP_MasterInventory_C::RemoveItemWeight"
+      },
+      {
+        "at": 2270,
+        "fn": "BP_MasterInventory_C::RemoveItemWeight"
+      },
+      {
+        "at": 2080,
+        "fn": "BP_MasterInventory_C::AttemptToAddWeight"
+      }
+    ],
+    "S_ItemDetails.WorldClass": [
+      {
+        "at": 1231,
+        "fn": "BP_StaticMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 998,
+        "fn": "BP_StaticMasterItem_C::Consume"
+      },
+      {
+        "at": 111,
+        "fn": "BP_PlayerInventory_C::SpawnDroppedItem"
+      },
+      {
+        "at": 484,
+        "fn": "BP_PlayerInventory_C::SpawnDroppedItem"
+      },
+      {
+        "at": 1248,
+        "fn": "BP_PlayerInventory_C::SpawnDroppedItem"
+      },
+      {
+        "at": 807,
+        "fn": "BP_SaveSystem_C::LoadSavedItems"
+      },
+      {
+        "at": 2099,
+        "fn": "BP_SaveSystem_C::LoadSavedItems"
+      },
+      {
+        "at": 976,
+        "fn": "BP_MasterItemSpawner_C::SpawnNewItem"
+      },
+      {
+        "at": 123,
+        "fn": "BP_MasterItemSpawner_C::RespawnEndProximityItem"
+      },
+      {
+        "at": 373,
+        "fn": "BP_MasterItemSpawner_C::LoadItemSpawnerSave"
+      },
+      {
+        "at": 1691,
+        "fn": "BP_MasterItemSpawner_C::LoadItemSpawnerSave"
+      },
+      {
+        "at": 2801,
+        "fn": "BP_CookingComponent_C::AddReturnedItems"
+      },
+      {
+        "at": 2033,
+        "fn": "BP_CookingComponent_C::Add Burnt Fuel Item"
+      },
+      {
+        "at": 1231,
+        "fn": "BP_SkeletalMasterItem_C::ItemDecay"
+      },
+      {
+        "at": 998,
+        "fn": "BP_SkeletalMasterItem_C::Consume"
+      },
+      {
+        "at": 1726,
+        "fn": "BP_CraftingComponent_C::Add Burnt Fuel Item"
+      },
+      {
+        "at": 132,
+        "fn": "BP_MasterInventory_C::SpawnItemAtLocation"
+      }
+    ]
+  },
+  "fields_with_no_consumer": [
+    "BP_SkeletalMasterItem_C.ActorOffset",
+    "BP_SkeletalMasterItem_C.DefaultSceneRoot",
+    "BP_SkeletalMasterItem_C.UberGraphFrame",
+    "BP_StaticMasterItem_C.UberGraphFrame"
+  ],
+  "functions_scanned": 16884,
+  "objects_in_snapshot": 144211,
+  "pid": 16680,
+  "world_classes": {
+    "BP_MasterItem_C": {
+      "resolved": false
+    },
+    "BP_MasterWorldItem_C": {
+      "resolved": false
+    },
+    "BP_SkeletalMasterItem_C": {
+      "address": "0x22c0efad980",
+      "live_instances": 2,
+      "properties": [
+        {
+          "class": "FStructProperty",
+          "inner": "PointerToUberGraphFrame",
+          "name": "UberGraphFrame",
+          "offset": 656,
+          "size": 8
+        },
+        {
+          "class": "FObjectProperty",
+          "inner": "SkeletalMeshComponent",
+          "name": "SkeletalMesh",
+          "offset": 664,
+          "size": 8
+        },
+        {
+          "class": "FObjectProperty",
+          "inner": "SceneComponent",
+          "name": "DefaultSceneRoot",
+          "offset": 672,
+          "size": 8
+        },
+        {
+          "class": "FStructProperty",
+          "inner": "DataTableRowHandle",
+          "name": "Item",
+          "offset": 680,
+          "size": 16
+        },
+        {
+          "class": "FIntProperty",
+          "inner": null,
+          "name": "ItemAmount",
+          "offset": 696,
+          "size": 4
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "RefreshItem",
+          "offset": 700,
+          "size": 1
+        },
+        {
+          "class": "FStructProperty",
+          "inner": "S_InvItem",
+          "name": "InvItem",
+          "offset": 704,
+          "size": 48
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "Spawned",
+          "offset": 752,
+          "size": 1
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "Dropped",
+          "offset": 753,
+          "size": 1
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "SaveGameLoaded",
+          "offset": 754,
+          "size": 1
+        },
+        {
+          "class": "FObjectProperty",
+          "inner": "BP_SaveSystem_C",
+          "name": "SaveGame",
+          "offset": 760,
+          "size": 8
+        },
+        {
+          "class": "FStructProperty",
+          "inner": "S_InvItem",
+          "name": "TempItem",
+          "offset": 768,
+          "size": 48
+        },
+        {
+          "class": "FArrayProperty",
+          "inner": null,
+          "name": "Attachments",
+          "offset": 816,
+          "size": 16
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "UseDroppedItemDestroyTimer",
+          "offset": 832,
+          "size": 1
+        },
+        {
+          "class": "FDoubleProperty",
+          "inner": null,
+          "name": "DropDestroyTime",
+          "offset": 840,
+          "size": 8
+        },
+        {
+          "class": "FSoftObjectProperty",
+          "inner": "SkeletalMesh",
+          "name": "Mesh",
+          "offset": 848,
+          "size": 40
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "AddStartingItems",
+          "offset": 888,
+          "size": 1
+        },
+        {
+          "class": "FStructProperty",
+          "inner": "Vector",
+          "name": "ActorOffset",
+          "offset": 896,
+          "size": 24
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "Is Placed",
+          "offset": 920,
+          "size": 1
+        },
+        {
+          "class": "FObjectProperty",
+          "inner": "SceneComponent",
+          "name": "PlacedComponent",
+          "offset": 928,
+          "size": 8
+        }
+      ],
+      "resolved": true,
+      "super_chain": [
+        "Actor",
+        "Object"
+      ]
+    },
+    "BP_StaticMasterItem_C": {
+      "address": "0x22c6d15b300",
+      "live_instances": 52,
+      "properties": [
+        {
+          "class": "FStructProperty",
+          "inner": "PointerToUberGraphFrame",
+          "name": "UberGraphFrame",
+          "offset": 656,
+          "size": 8
+        },
+        {
+          "class": "FObjectProperty",
+          "inner": "StaticMeshComponent",
+          "name": "StaticMesh",
+          "offset": 664,
+          "size": 8
+        },
+        {
+          "class": "FStructProperty",
+          "inner": "DataTableRowHandle",
+          "name": "Item",
+          "offset": 672,
+          "size": 16
+        },
+        {
+          "class": "FIntProperty",
+          "inner": null,
+          "name": "ItemAmount",
+          "offset": 688,
+          "size": 4
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "RefreshItem",
+          "offset": 692,
+          "size": 1
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "AddStartingItems",
+          "offset": 693,
+          "size": 1
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "UseDroppedItemDestroyTimer",
+          "offset": 694,
+          "size": 1
+        },
+        {
+          "class": "FDoubleProperty",
+          "inner": null,
+          "name": "DropDestroyTime",
+          "offset": 696,
+          "size": 8
+        },
+        {
+          "class": "FStructProperty",
+          "inner": "S_InvItem",
+          "name": "InvItem",
+          "offset": 704,
+          "size": 48
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "Spawned",
+          "offset": 752,
+          "size": 1
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "Dropped",
+          "offset": 753,
+          "size": 1
+        },
+        {
+          "class": "FBoolProperty",
+          "inner": null,
+          "name": "SaveGameLoaded",
+          "offset": 754,
+          "size": 1
+        },
+        {
+          "class": "FStructProperty",
+          "inner": "S_InvItem",
+          "name": "TempItem",
+          "offset": 760,
+          "size": 48
+        },
+        {
+          "class": "FObjectProperty",
+          "inner": "BP_SaveSystem_C",
+          "name": "SaveGame",
+          "offset": 808,
+          "size": 8
+        },
+        {
+          "class": "FSoftObjectProperty",
+          "inner": "StaticMesh",
+          "name": "Mesh",
+          "offset": 816,
+          "size": 40
+        }
+      ],
+      "resolved": true,
+      "super_chain": [
+        "Actor",
+        "Object"
+      ]
+    }
+  }
+}

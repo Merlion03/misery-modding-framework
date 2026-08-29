@@ -1,0 +1,425 @@
+===== BP_MasterInventory_C::SpawnItemAtLocation  @0x22c55f099a0  script=548 bytes
+000000 EX_Let                     SpawnItemAtLocation::ItemL
+000009   EX_LocalVariable           SpawnItemAtLocation::ItemL
+000012   EX_LocalVariable           SpawnItemAtLocation::InvItem
+00001b EX_LetObj                  
+00001c   EX_LocalVariable           SpawnItemAtLocation::CallFunc_GetOwner_ReturnValue
+000025   EX_FinalFunction           ActorComponent::GetOwner
+00002e     EX_EndFunctionParms        
+00002f EX_Context                 
+000030   EX_ObjectConst             null_skip=0x2a rvalue=None
+000045   EX_LocalVirtualFunction    "SGK ItemDetails"
+000052     EX_LocalVariable           SpawnItemAtLocation::InvItem
+00005b     EX_Self                    
+00005c     EX_LocalVariable           SpawnItemAtLocation::CallFunc_SGK_ItemDetails_ItemFound
+000065     EX_LocalVariable           SpawnItemAtLocation::CallFunc_SGK_ItemDetails_ItemDetails
+00006e     EX_EndFunctionParms        
+00006f EX_LetObj                  
+000070   EX_LocalVariable           SpawnItemAtLocation::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+000079   EX_CallMath                GameplayStatics::BeginDeferredActorSpawnFromClass
+000082     EX_Self                    
+000083     EX_StructMemberContext     S_ItemDetails::WorldClass_45_6718387F4F5D57BE9909639A237E57A3
+00008c       EX_LocalVariable           SpawnItemAtLocation::CallFunc_SGK_ItemDetails_ItemDetails
+000095     EX_LocalVariable           SpawnItemAtLocation::Transform
+00009e     EX_ByteConst               2
+0000a0     EX_LocalVariable           SpawnItemAtLocation::CallFunc_GetOwner_ReturnValue
+0000a9     EX_ByteConst               2
+0000ab     EX_EndFunctionParms        
+0000ac EX_LetObj                  
+0000ad   EX_LocalVariable           SpawnItemAtLocation::CallFunc_FinishSpawningActor_ReturnValue
+0000b6   EX_CallMath                GameplayStatics::FinishSpawningActor
+0000bf     EX_LocalVariable           SpawnItemAtLocation::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+0000c8     EX_LocalVariable           SpawnItemAtLocation::Transform
+0000d1     EX_ByteConst               2
+0000d3     EX_EndFunctionParms        
+0000d4 EX_Let                     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+0000dd   EX_StructMemberContext     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+0000e6     EX_LocalVariable           SpawnItemAtLocation::ItemL
+0000ef   EX_IntConst                -1
+0000f4 EX_Let                     None
+0000fd   EX_LocalVariable           SpawnItemAtLocation::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+000106   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKInteractionInterface_C'
+00010f     EX_LocalVariable           SpawnItemAtLocation::CallFunc_FinishSpawningActor_ReturnValue
+000118 EX_Let                     None
+000121   EX_LocalVariable           SpawnItemAtLocation::K2Node_DynamicCast_bSuccess
+00012a   EX_Cast                    kind=2
+00012c     EX_LocalVariable           SpawnItemAtLocation::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+000135 EX_JumpIfNot               -> 0x211 if not
+00013a   EX_LocalVariable           SpawnItemAtLocation::K2Node_DynamicCast_bSuccess
+000143 EX_LetBool                 
+000144   EX_LocalVariable           SpawnItemAtLocation::CallFunc_SGK_DropItem_ReturnValue
+00014d   EX_Context                 
+00014e     EX_InterfaceContext        
+00014f       EX_LocalVariable           null_skip=0x1c rvalue=SpawnItemAtLocation::CallFunc_SGK_DropItem_ReturnValue
+000164     EX_LocalVirtualFunction    "SGK DropItem"
+000171       EX_LocalVariable           SpawnItemAtLocation::ItemL
+00017a       EX_True                    
+00017b       EX_False                   
+00017c       EX_False                   
+00017d       EX_False                   
+00017e       EX_NoObject                
+00017f       EX_EndFunctionParms        
+000180 EX_LetBool                 
+000181   EX_LocalVariable           SpawnItemAtLocation::CallFunc_IsValid_ReturnValue
+00018a   EX_CallMath                KismetSystemLibrary::IsValid
+000193     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+00019c       EX_LocalVariable           SpawnItemAtLocation::InvItem
+0001a5     EX_EndFunctionParms        
+0001a6 EX_JumpIfNot               -> 0x221 if not
+0001ab   EX_LocalVariable           SpawnItemAtLocation::CallFunc_IsValid_ReturnValue
+0001b4 EX_LetObj                  
+0001b5   EX_Context                 
+0001b6     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0001bf       EX_LocalVariable           null_skip=0x9 rvalue=BP_MasterInventory_C::ParentInventory
+0001d4     EX_InstanceVariable        BP_MasterInventory_C::ParentInventory
+0001dd   EX_NoObject                
+0001de EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+0001e7   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0001f0     EX_LocalVariable           SpawnItemAtLocation::InvItem
+0001f9   EX_IntConst                4
+0001fe   EX_NameConst               "ParentInventory"
+00020b   EX_EndFunctionParms        
+00020c EX_Jump                    -> 0x221
+000211 EX_LetBool                 
+000212   EX_LocalVariable           SpawnItemAtLocation::CallFunc_SGK_DropItem_ReturnValue
+00021b   EX_False                   
+00021c EX_Jump                    -> 0x180
+000221 EX_Return                  
+000222   EX_Nothing                 
+000223 EX_EndOfScript             
+
+===== BP_PlayerInventory_C::SpawnDroppedItem  @0x22c5c007400  script=2457 bytes
+000000 EX_Let                     SpawnDroppedItem::ItemL
+000009   EX_LocalVariable           SpawnDroppedItem::ItemL
+000012   EX_LocalVariable           SpawnDroppedItem::InvItem
+00001b EX_Context                 
+00001c   EX_ObjectConst             null_skip=0x2a rvalue=None
+000031   EX_LocalVirtualFunction    "SGK ItemDetails"
+00003e     EX_LocalVariable           SpawnDroppedItem::InvItem
+000047     EX_Self                    
+000048     EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemFound
+000051     EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemDetails
+00005a     EX_EndFunctionParms        
+00005b EX_LetBool                 
+00005c   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValidClass_ReturnValue
+000065   EX_CallMath                KismetSystemLibrary::IsValidClass
+00006e     EX_StructMemberContext     S_ItemDetails::WorldClass_45_6718387F4F5D57BE9909639A237E57A3
+000077       EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemDetails
+000080     EX_EndFunctionParms        
+000081 EX_JumpIfNot               -> 0x8d5 if not
+000086   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValidClass_ReturnValue
+00008f EX_LetBool                 
+000090   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValid_ReturnValue
+000099   EX_CallMath                KismetSystemLibrary::IsValid
+0000a2     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0000ab       EX_LocalVariable           SpawnDroppedItem::InvItem
+0000b4     EX_EndFunctionParms        
+0000b5 EX_JumpIfNot               -> 0xed if not
+0000ba   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValid_ReturnValue
+0000c3 EX_Context                 
+0000c4   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0000cd     EX_LocalVariable           null_skip=0xb rvalue=None
+0000e2   EX_FinalFunction           ActorComponent::SetIsReplicated
+0000eb     EX_True                    
+0000ec     EX_EndFunctionParms        
+0000ed EX_Let                     None
+0000f6   EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_AsBP_SGKCharacter_Interface
+0000ff   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKCharacterInterface_C'
+000108     EX_InstanceVariable        BP_EquipmentInventory_C::OwningCharacter
+000111 EX_Let                     None
+00011a   EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_bSuccess
+000123   EX_Cast                    kind=2
+000125     EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_AsBP_SGKCharacter_Interface
+00012e EX_JumpIfNot               -> 0x956 if not
+000133   EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_bSuccess
+00013c EX_Context                 
+00013d   EX_InterfaceContext        
+00013e     EX_LocalVariable           null_skip=0x17 rvalue=None
+000153   EX_LocalVirtualFunction    "SGK GetDropLocation"
+000160     EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_GetDropLocation_DropLocation
+000169     EX_EndFunctionParms        
+00016a EX_LetObj                  
+00016b   EX_LocalVariable           SpawnDroppedItem::Temp_class_Variable
+000174   EX_ObjectConst             BlueprintGeneratedClass'BP_StaticMasterItem_C'
+00017d EX_LetObj                  
+00017e   EX_LocalVariable           SpawnDroppedItem::Temp_class_Variable
+000187   EX_ObjectConst             BlueprintGeneratedClass'BP_SkeletalMasterItem_C'
+000190 EX_Context                 
+000191   EX_ObjectConst             null_skip=0x2a rvalue=None
+0001a6   EX_LocalVirtualFunction    "SGK ItemDetails"
+0001b3     EX_LocalVariable           SpawnDroppedItem::InvItem
+0001bc     EX_Self                    
+0001bd     EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemFound
+0001c6     EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemDetails
+0001cf     EX_EndFunctionParms        
+0001d0 EX_LetBool                 
+0001d1   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValidClass_ReturnValue
+0001da   EX_CallMath                KismetSystemLibrary::IsValidClass
+0001e3     EX_StructMemberContext     S_ItemDetails::WorldClass_45_6718387F4F5D57BE9909639A237E57A3
+0001ec       EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemDetails
+0001f5     EX_EndFunctionParms        
+0001f6 EX_LetBool                 
+0001f7   EX_LocalVariable           SpawnDroppedItem::Temp_bool_Variable
+000200   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValidClass_ReturnValue
+000209 EX_LetBool                 
+00020a   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValidSoftObjectReference_ReturnValue
+000213   EX_CallMath                KismetSystemLibrary::IsValidSoftObjectReference
+00021c     EX_StructMemberContext     S_ItemDetails::SkeletalMesh_124_983FF1EB4798AEEFCA843F981AEC9BF6
+000225       EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemDetails
+00022e     EX_EndFunctionParms        
+00022f EX_LetBool                 
+000230   EX_LocalVariable           SpawnDroppedItem::Temp_bool_Variable
+000239   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValidSoftObjectReference_ReturnValue
+000242 EX_Let                     SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+00024b   EX_LocalVariable           SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+000254   EX_Context                 
+000255     EX_Context                 
+000256       EX_InstanceVariable        null_skip=0x9 rvalue=Character::Mesh
+00026b       EX_InstanceVariable        null_skip=0xa rvalue=SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+000280     EX_FinalFunction           SceneComponent::K2_GetComponentToWorld
+000289       EX_EndFunctionParms        
+00028a EX_CallMath                KismetMathLibrary::BreakTransform
+000293   EX_LocalVariable           SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+00029c   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Location
+0002a5   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Rotation
+0002ae   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Scale
+0002b7   EX_EndFunctionParms        
+0002b8 EX_CallMath                KismetMathLibrary::BreakVector
+0002c1   EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_GetDropLocation_DropLocation
+0002ca   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_X
+0002d3   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Y
+0002dc   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Z
+0002e5   EX_EndFunctionParms        
+0002e6 EX_Let                     SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+0002ef   EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+0002f8   EX_CallMath                KismetMathLibrary::Subtract_DoubleDouble
+000301     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Y
+00030a     EX_DoubleConst             30.0
+000313     EX_EndFunctionParms        
+000314 EX_Let                     SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+00031d   EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+000326   EX_CallMath                KismetMathLibrary::Add_DoubleDouble
+00032f     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Y
+000338     EX_DoubleConst             30.0
+000341     EX_EndFunctionParms        
+000342 EX_Let                     SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+00034b   EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+000354   EX_CallMath                KismetMathLibrary::Subtract_DoubleDouble
+00035d     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_X
+000366     EX_DoubleConst             30.0
+00036f     EX_EndFunctionParms        
+000370 EX_Let                     SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+000379   EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+000382   EX_CallMath                KismetMathLibrary::RandomFloatInRange
+00038b     EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+000394     EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+00039d     EX_EndFunctionParms        
+00039e EX_Let                     SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+0003a7   EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+0003b0   EX_CallMath                KismetMathLibrary::Add_DoubleDouble
+0003b9     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_X
+0003c2     EX_DoubleConst             30.0
+0003cb     EX_EndFunctionParms        
+0003cc EX_Let                     SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+0003d5   EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+0003de   EX_CallMath                KismetMathLibrary::RandomFloatInRange
+0003e7     EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+0003f0     EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+0003f9     EX_EndFunctionParms        
+0003fa EX_Let                     SpawnDroppedItem::CallFunc_MakeVector_ReturnValue
+000403   EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeVector_ReturnValue
+00040c   EX_CallMath                KismetMathLibrary::MakeVector
+000415     EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+00041e     EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+000427     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Z
+000430     EX_EndFunctionParms        
+000431 EX_Let                     SpawnDroppedItem::CallFunc_MakeTransform_ReturnValue
+00043a   EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeTransform_ReturnValue
+000443   EX_CallMath                KismetMathLibrary::MakeTransform
+00044c     EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeVector_ReturnValue
+000455     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Rotation
+00045e     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Scale
+000467     EX_EndFunctionParms        
+000468 EX_LetObj                  
+000469   EX_LocalVariable           SpawnDroppedItem::CallFunc_GetOwner_ReturnValue
+000472   EX_FinalFunction           ActorComponent::GetOwner
+00047b     EX_EndFunctionParms        
+00047c EX_LetObj                  
+00047d   EX_LocalVariable           SpawnDroppedItem::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+000486   EX_CallMath                GameplayStatics::BeginDeferredActorSpawnFromClass
+00048f     EX_Self                    
+000490     EX_SwitchValue             cases=2 end=0x4fa
+000497       EX_LocalVariable           SpawnDroppedItem::Temp_bool_Variable
+0004a0       EX_False                   
+0004a5       EX_SwitchValue             cases=2 end=0x4da
+0004ac         EX_LocalVariable           SpawnDroppedItem::Temp_bool_Variable
+0004b5         EX_False                   
+0004ba         EX_LocalVariable           SpawnDroppedItem::Temp_class_Variable
+0004c3         EX_True                    
+0004c8         EX_LocalVariable           SpawnDroppedItem::Temp_class_Variable
+0004d1         EX_LocalVariable           SpawnDroppedItem::K2Node_Select_Default
+0004da       EX_True                    
+0004df       EX_StructMemberContext     S_ItemDetails::WorldClass_45_6718387F4F5D57BE9909639A237E57A3
+0004e8         EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_ItemDetails_ItemDetails
+0004f1       EX_LocalVariable           SpawnDroppedItem::K2Node_Select_Default
+0004fa     EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeTransform_ReturnValue
+000503     EX_ByteConst               2
+000505     EX_LocalVariable           SpawnDroppedItem::CallFunc_GetOwner_ReturnValue
+00050e     EX_ByteConst               2
+000510     EX_EndFunctionParms        
+000511 EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+00051a   EX_LocalVariable           SpawnDroppedItem::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+000523   EX_NameConst               "Instigator"
+000530   EX_InstanceVariable        BP_EquipmentInventory_C::OwningCharacter
+000539   EX_EndFunctionParms        
+00053a EX_Let                     SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+000543   EX_LocalVariable           SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+00054c   EX_Context                 
+00054d     EX_Context                 
+00054e       EX_InstanceVariable        null_skip=0x9 rvalue=Character::Mesh
+000563       EX_InstanceVariable        null_skip=0xa rvalue=SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+000578     EX_FinalFunction           SceneComponent::K2_GetComponentToWorld
+000581       EX_EndFunctionParms        
+000582 EX_CallMath                KismetMathLibrary::BreakTransform
+00058b   EX_LocalVariable           SpawnDroppedItem::CallFunc_K2_GetComponentToWorld_ReturnValue
+000594   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Location
+00059d   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Rotation
+0005a6   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Scale
+0005af   EX_EndFunctionParms        
+0005b0 EX_CallMath                KismetMathLibrary::BreakVector
+0005b9   EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_GetDropLocation_DropLocation
+0005c2   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_X
+0005cb   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Y
+0005d4   EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Z
+0005dd   EX_EndFunctionParms        
+0005de EX_Let                     SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+0005e7   EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+0005f0   EX_CallMath                KismetMathLibrary::Subtract_DoubleDouble
+0005f9     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Y
+000602     EX_DoubleConst             30.0
+00060b     EX_EndFunctionParms        
+00060c EX_Let                     SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+000615   EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+00061e   EX_CallMath                KismetMathLibrary::Add_DoubleDouble
+000627     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Y
+000630     EX_DoubleConst             30.0
+000639     EX_EndFunctionParms        
+00063a EX_Let                     SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+000643   EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+00064c   EX_CallMath                KismetMathLibrary::Subtract_DoubleDouble
+000655     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_X
+00065e     EX_DoubleConst             30.0
+000667     EX_EndFunctionParms        
+000668 EX_Let                     SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+000671   EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+00067a   EX_CallMath                KismetMathLibrary::RandomFloatInRange
+000683     EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+00068c     EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+000695     EX_EndFunctionParms        
+000696 EX_Let                     SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+00069f   EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+0006a8   EX_CallMath                KismetMathLibrary::Add_DoubleDouble
+0006b1     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_X
+0006ba     EX_DoubleConst             30.0
+0006c3     EX_EndFunctionParms        
+0006c4 EX_Let                     SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+0006cd   EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+0006d6   EX_CallMath                KismetMathLibrary::RandomFloatInRange
+0006df     EX_LocalVariable           SpawnDroppedItem::CallFunc_Subtract_DoubleDouble_ReturnValue
+0006e8     EX_LocalVariable           SpawnDroppedItem::CallFunc_Add_DoubleDouble_ReturnValue
+0006f1     EX_EndFunctionParms        
+0006f2 EX_Let                     SpawnDroppedItem::CallFunc_MakeVector_ReturnValue
+0006fb   EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeVector_ReturnValue
+000704   EX_CallMath                KismetMathLibrary::MakeVector
+00070d     EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+000716     EX_LocalVariable           SpawnDroppedItem::CallFunc_RandomFloatInRange_ReturnValue
+00071f     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakVector_Z
+000728     EX_EndFunctionParms        
+000729 EX_Let                     SpawnDroppedItem::CallFunc_MakeTransform_ReturnValue
+000732   EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeTransform_ReturnValue
+00073b   EX_CallMath                KismetMathLibrary::MakeTransform
+000744     EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeVector_ReturnValue
+00074d     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Rotation
+000756     EX_LocalVariable           SpawnDroppedItem::CallFunc_BreakTransform_Scale
+00075f     EX_EndFunctionParms        
+000760 EX_LetObj                  
+000761   EX_LocalVariable           SpawnDroppedItem::CallFunc_FinishSpawningActor_ReturnValue
+00076a   EX_CallMath                GameplayStatics::FinishSpawningActor
+000773     EX_LocalVariable           SpawnDroppedItem::CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue
+00077c     EX_LocalVariable           SpawnDroppedItem::CallFunc_MakeTransform_ReturnValue
+000785     EX_ByteConst               2
+000787     EX_EndFunctionParms        
+000788 EX_Let                     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+000791   EX_StructMemberContext     S_InvItem::QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34
+00079a     EX_LocalVariable           SpawnDroppedItem::ItemL
+0007a3   EX_IntConst                -1
+0007a8 EX_Let                     None
+0007b1   EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+0007ba   EX_ObjToInterfaceCast      BlueprintGeneratedClass'BP_SGKInteractionInterface_C'
+0007c3     EX_LocalVariable           SpawnDroppedItem::CallFunc_FinishSpawningActor_ReturnValue
+0007cc EX_Let                     None
+0007d5   EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_bSuccess
+0007de   EX_Cast                    kind=2
+0007e0     EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_AsBP_SGKInteraction_Interface
+0007e9 EX_JumpIfNot               -> 0x986 if not
+0007ee   EX_LocalVariable           SpawnDroppedItem::K2Node_DynamicCast_bSuccess
+0007f7 EX_LetBool                 
+0007f8   EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_DropItem_ReturnValue
+000801   EX_Context                 
+000802     EX_InterfaceContext        
+000803       EX_LocalVariable           null_skip=0x2c rvalue=SpawnDroppedItem::CallFunc_SGK_DropItem_ReturnValue
+000818     EX_LocalVirtualFunction    "SGK DropItem"
+000825       EX_LocalVariable           SpawnDroppedItem::ItemL
+00082e       EX_True                    
+00082f       EX_False                   
+000830       EX_False                   
+000831       EX_LocalVariable           SpawnDroppedItem::Placed
+00083a       EX_LocalVariable           SpawnDroppedItem::PlacedComponent
+000843       EX_EndFunctionParms        
+000844 EX_LetBool                 
+000845   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValid_ReturnValue
+00084e   EX_CallMath                KismetSystemLibrary::IsValid
+000857     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000860       EX_LocalVariable           SpawnDroppedItem::InvItem
+000869     EX_EndFunctionParms        
+00086a EX_JumpIfNot               -> 0x996 if not
+00086f   EX_LocalVariable           SpawnDroppedItem::CallFunc_IsValid_ReturnValue
+000878 EX_LetObj                  
+000879   EX_Context                 
+00087a     EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+000883       EX_LocalVariable           null_skip=0x9 rvalue=BP_MasterInventory_C::ParentInventory
+000898     EX_InstanceVariable        BP_MasterInventory_C::ParentInventory
+0008a1   EX_NoObject                
+0008a2 EX_CallMath                NetPushModelHelpers::MarkPropertyDirtyFromRepIndex
+0008ab   EX_StructMemberContext     S_InvItem::MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5
+0008b4     EX_LocalVariable           SpawnDroppedItem::InvItem
+0008bd   EX_IntConst                4
+0008c2   EX_NameConst               "ParentInventory"
+0008cf   EX_EndFunctionParms        
+0008d0 EX_Jump                    -> 0x996
+0008d5 EX_CallMath                KismetSystemLibrary::PrintString
+0008de   EX_Self                    
+0008df   EX_StringConst             'ERROR :: Item has no World Item class set in the ItemList'
+00091a   EX_True                    
+00091b   EX_True                    
+00091c   EX_StructConst             ScriptStruct'LinearColor' size=16
+000929     EX_FloatConst              1.0
+00092e     EX_FloatConst              0.0
+000933     EX_FloatConst              0.0
+000938     EX_FloatConst              1.0
+00093d     EX_EndStructConst          
+00093e   EX_FloatConst              10.0
+000943   EX_NameConst               "None"
+000950   EX_EndFunctionParms        
+000951 EX_Jump                    -> 0x996
+000956 EX_Let                     SpawnDroppedItem::CallFunc_SGK_GetDropLocation_DropLocation
+00095f   EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_GetDropLocation_DropLocation
+000968   EX_VectorConst             0.0,0.0,0.0
+000981 EX_Jump                    -> 0x16a
+000986 EX_LetBool                 
+000987   EX_LocalVariable           SpawnDroppedItem::CallFunc_SGK_DropItem_ReturnValue
+000990   EX_False                   
+000991 EX_Jump                    -> 0x844
+000996 EX_Return                  
+000997   EX_Nothing                 
+000998 EX_EndOfScript             
