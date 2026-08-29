@@ -1,0 +1,49 @@
+{
+  "BP_MoveIcon_C": {
+    "CDO_ImageScale": 0.8999999761581421,
+    "live_instances": 0
+  },
+  "UDragDropOperation_CDO": {
+    "DefaultDragVisual": "0x0",
+    "Offset": [
+      0.0,
+      0.0
+    ],
+    "Pivot": 5,
+    "Pivot_meaning": "5 == EDragPivot::CenterCenter, the engine C++ constructor default (DragDropOperation.cpp:13) -- the shared CDO was never touched"
+  },
+  "conclusion": "VANILLA BEHAVIOUR, not a regression",
+  "our_total_write_surface": [
+    "CR01C4BProbeDll: RowStruct of the runtime table we spawned",
+    "CR01C4BProbeDll: MasterItemList.ParentTables Num (1<->2) and element[1]",
+    "CR01C4BProbeDll: RootSet flag on our 2 objects, via the engine's own SetRootFlags",
+    "CR01C4BProbeDll: engine AddRow/RemoveRow on OUR table + RemoveRow(ItemList, absent name)",
+    "CR01C4BPatchDll: 5 stores, all into our own row -- InventoryIcon, MoveIcon, OverrideImageSize, SizeX, SizeY",
+    "CR01C4BPatchDll: RemoveRow(ItemList, absent name) as the publication trigger"
+  ],
+  "pivot_literal_per_drag_source": {
+    "BP_AttachmentSlot_C::OnDragDetected": 1,
+    "BP_CookingSlot_C::OnDragDetected": 1,
+    "BP_EquipmentSlot_C::OnDragDetected": 1,
+    "BP_InventoryItemIcon_C::OnDragDetected": 1,
+    "BP_QuickSlot_C::OnDragDetected": 1,
+    "BP_WeaponSlot_C::OnDragDetected": 1,
+    "Offset_property_set_anywhere": false,
+    "source": "EX_ByteConst inside MakeLiteralByte, i.e. a compile-time literal in cooked bytecode; 1 == EDragPivot::TopLeft (DragDropOperation.h:22-35)"
+  },
+  "purpose": "CR-01C4B drag-pivot root cause: is TopLeft vanilla, or a regression from our work?",
+  "vanilla_itemlist_now": {
+    "MoveIcon_equals_InventoryIcon": 496,
+    "MoveIcon_set": 496,
+    "OverrideImageSize_on": 61,
+    "note": "an earlier artifact reported 460 rows here. That denominator was wrong: the script keyed rows by FName comparison-index alone, which is not unique once the Number part differs, so 36 rows collapsed. The RATIO was never wrong -- every row sets MoveIcon == InventoryIcon -- and it is now measured over all 496. override_on == 61 matches the earlier figure exactly, which is what makes the collapse, rather than a real change, the explanation.",
+    "override_sizes": {
+      "100x100": 35,
+      "128x128": 14,
+      "200x200": 8,
+      "300x300": 3,
+      "64x64": 1
+    },
+    "rows": 496
+  }
+}

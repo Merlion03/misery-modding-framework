@@ -1,0 +1,517 @@
+===== BP_AttachmentSlot_C::OnDragDetected  @0x268380f9460  script=414 bytes
+000000 EX_LetBool                 
+000001   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ReturnValue
+00000a   EX_LocalVirtualFunction    "IsItemValid"
+000017     EX_EndFunctionParms        
+000018 EX_JumpIfNot               -> 0x19b if not
+00001d   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ReturnValue
+000026 EX_LetObj                  
+000027   EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+000030   EX_VirtualFunction         "GetOwningPlayer"
+00003d     EX_EndFunctionParms        
+00003e EX_LetObj                  
+00003f   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+000048   EX_Context                 
+000049     EX_ObjectConst             null_skip=0x1d rvalue=OnDragDetected::CallFunc_Create_ReturnValue
+00005e     EX_FinalFunction           WidgetBlueprintLibrary::Create
+000067       EX_Self                    
+000068       EX_ObjectConst             WidgetBlueprintGeneratedClass'BP_MoveIcon_C'
+000071       EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+00007a       EX_EndFunctionParms        
+00007b EX_LetObj                  
+00007c   EX_InstanceVariable        BP_AttachmentSlot_C::MoveIconL
+000085   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+00008e EX_Let                     S_AttachmentSlotID::AttachmentType_5_0BDCC26C4837967B4AD293ADB461FEC1
+000097   EX_StructMemberContext     S_AttachmentSlotID::AttachmentType_5_0BDCC26C4837967B4AD293ADB461FEC1
+0000a0     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_AttachmentSlotID
+0000a9   EX_InstanceVariable        BP_AttachmentSlot_C::AttachmentSlotType
+0000b2 EX_LetObj                  
+0000b3   EX_StructMemberContext     S_AttachmentSlotID::Inventory_8_D191C3114B31434718293C9778BD11D2
+0000bc     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_AttachmentSlotID
+0000c5   EX_InstanceVariable        BP_AttachmentSlot_C::Inventory
+0000ce EX_Context                 
+0000cf   EX_InstanceVariable        null_skip=0x17 rvalue=None
+0000e4   EX_LocalVirtualFunction    "InitializeMoveAttachmentItem"
+0000f1     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_AttachmentSlotID
+0000fa     EX_EndFunctionParms        
+0000fb EX_LetObj                  
+0000fc   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000105   EX_CallMath                WidgetBlueprintLibrary::CreateDragDropOperation
+00010e     EX_ObjectConst             Class'DragDropOperation'
+000117     EX_EndFunctionParms        
+000118 EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000121   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00012a   EX_NameConst               "DefaultDragVisual"
+000137   EX_InstanceVariable        BP_AttachmentSlot_C::MoveIconL
+000140   EX_EndFunctionParms        
+000141 EX_Let                     OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+00014a   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+000153   EX_CallMath                KismetSystemLibrary::MakeLiteralByte
+00015c     EX_ByteConst               1
+00015e     EX_EndFunctionParms        
+00015f EX_CallMath                KismetSystemLibrary::SetBytePropertyByName
+000168   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000171   EX_NameConst               "Pivot"
+00017e   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+000187   EX_EndFunctionParms        
+000188 EX_LetObj                  
+000189   EX_LocalOutVariable        OnDragDetected::Operation
+000192   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00019b EX_Return                  
+00019c   EX_Nothing                 
+00019d EX_EndOfScript             
+
+===== BP_CookingSlot_C::OnDragDetected  @0x26831f451e0  script=497 bytes
+000000 EX_LocalVirtualFunction    "IsItemValid"
+00000d   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ItemValid
+000016   EX_EndFunctionParms        
+000017 EX_JumpIfNot               -> 0x1ee if not
+00001c   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ItemValid
+000025 EX_LetObj                  
+000026   EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+00002f   EX_VirtualFunction         "GetOwningPlayer"
+00003c     EX_EndFunctionParms        
+00003d EX_LetObj                  
+00003e   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+000047   EX_Context                 
+000048     EX_ObjectConst             null_skip=0x1d rvalue=OnDragDetected::CallFunc_Create_ReturnValue
+00005d     EX_FinalFunction           WidgetBlueprintLibrary::Create
+000066       EX_Self                    
+000067       EX_ObjectConst             WidgetBlueprintGeneratedClass'BP_MoveIcon_C'
+000070       EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+000079       EX_EndFunctionParms        
+00007a EX_LetObj                  
+00007b   EX_LocalVariable           OnDragDetected::MoveIconL
+000084   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+00008d EX_LetObj                  
+00008e   EX_StructMemberContext     S_InvSlotID::InvComponent_5_A1D58E004822DA933B61B28C627EDF23
+000097     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_InvSlotID
+0000a0   EX_StructMemberContext     S_InvSlot::Inventory_13_75D853E34C33E03489A41A94465989CA
+0000a9     EX_InstanceVariable        BP_CookingSlot_C::CookingSlot
+0000b2 EX_Let                     S_InvSlotID::Index_4_ABD9C3F64229CF5D88D6FC8CCDD577B6
+0000bb   EX_StructMemberContext     S_InvSlotID::Index_4_ABD9C3F64229CF5D88D6FC8CCDD577B6
+0000c4     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_InvSlotID
+0000cd   EX_InstanceVariable        BP_CookingSlot_C::CookingSlotIndex
+0000d6 EX_Context                 
+0000d7   EX_LocalVariable           null_skip=0x17 rvalue=None
+0000ec   EX_LocalVirtualFunction    "InitializeMoveItem"
+0000f9     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_InvSlotID
+000102     EX_EndFunctionParms        
+000103 EX_Let                     BP_MoveIcon_C::SpecialType
+00010c   EX_Context                 
+00010d     EX_LocalVariable           null_skip=0x9 rvalue=BP_MoveIcon_C::SpecialType
+000122     EX_InstanceVariable        BP_MoveIcon_C::SpecialType
+00012b   EX_ByteConst               2
+00012d EX_LetObj                  
+00012e   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000137   EX_CallMath                WidgetBlueprintLibrary::CreateDragDropOperation
+000140     EX_ObjectConst             Class'DragDropOperation'
+000149     EX_EndFunctionParms        
+00014a EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000153   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00015c   EX_NameConst               "Payload"
+000169   EX_Self                    
+00016a   EX_EndFunctionParms        
+00016b EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000174   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00017d   EX_NameConst               "DefaultDragVisual"
+00018a   EX_LocalVariable           OnDragDetected::MoveIconL
+000193   EX_EndFunctionParms        
+000194 EX_Let                     OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+00019d   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+0001a6   EX_CallMath                KismetSystemLibrary::MakeLiteralByte
+0001af     EX_ByteConst               1
+0001b1     EX_EndFunctionParms        
+0001b2 EX_CallMath                KismetSystemLibrary::SetBytePropertyByName
+0001bb   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0001c4   EX_NameConst               "Pivot"
+0001d1   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+0001da   EX_EndFunctionParms        
+0001db EX_LetObj                  
+0001dc   EX_LocalOutVariable        OnDragDetected::Operation
+0001e5   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0001ee EX_Return                  
+0001ef   EX_Nothing                 
+0001f0 EX_EndOfScript             
+
+===== BP_EquipmentSlot_C::OnDragDetected  @0x268380f29a0  script=464 bytes
+000000 EX_LocalVirtualFunction    "IsItemValid"
+00000d   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ItemValid
+000016   EX_EndFunctionParms        
+000017 EX_JumpIfNot               -> 0x1cd if not
+00001c   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ItemValid
+000025 EX_LetObj                  
+000026   EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+00002f   EX_VirtualFunction         "GetOwningPlayer"
+00003c     EX_EndFunctionParms        
+00003d EX_LetObj                  
+00003e   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+000047   EX_Context                 
+000048     EX_ObjectConst             null_skip=0x1d rvalue=OnDragDetected::CallFunc_Create_ReturnValue
+00005d     EX_FinalFunction           WidgetBlueprintLibrary::Create
+000066       EX_Self                    
+000067       EX_ObjectConst             WidgetBlueprintGeneratedClass'BP_MoveIcon_C'
+000070       EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+000079       EX_EndFunctionParms        
+00007a EX_LetObj                  
+00007b   EX_LocalVariable           OnDragDetected::MoveIconL
+000084   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+00008d EX_Let                     S_EquipmentSlotID::EquipmentType_7_DBC325364B1E82FF76D04A8F5A23012C
+000096   EX_StructMemberContext     S_EquipmentSlotID::EquipmentType_7_DBC325364B1E82FF76D04A8F5A23012C
+00009f     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_EquipmentSlotID
+0000a8   EX_StructMemberContext     S_EquipmentSlot::EquipmentType_18_4F6B348C414CD1C1C532D2B5C23843E3
+0000b1     EX_InstanceVariable        BP_EquipmentSlot_C::EquipmentSlot
+0000ba EX_LetObj                  
+0000bb   EX_StructMemberContext     S_EquipmentSlotID::Inventory_8_E95E31574D7A6ADF7B47BE888B02A9AE
+0000c4     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_EquipmentSlotID
+0000cd   EX_StructMemberContext     S_EquipmentSlot::Inventory_13_8B869DAC43BA92FF9032ACA9E848229C
+0000d6     EX_InstanceVariable        BP_EquipmentSlot_C::EquipmentSlot
+0000df EX_Context                 
+0000e0   EX_LocalVariable           null_skip=0x17 rvalue=None
+0000f5   EX_LocalVirtualFunction    "InitilalizeMoveEquipmentItem"
+000102     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_EquipmentSlotID
+00010b     EX_EndFunctionParms        
+00010c EX_LetObj                  
+00010d   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000116   EX_CallMath                WidgetBlueprintLibrary::CreateDragDropOperation
+00011f     EX_ObjectConst             Class'DragDropOperation'
+000128     EX_EndFunctionParms        
+000129 EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000132   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00013b   EX_NameConst               "Payload"
+000148   EX_Self                    
+000149   EX_EndFunctionParms        
+00014a EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000153   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00015c   EX_NameConst               "DefaultDragVisual"
+000169   EX_LocalVariable           OnDragDetected::MoveIconL
+000172   EX_EndFunctionParms        
+000173 EX_Let                     OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+00017c   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+000185   EX_CallMath                KismetSystemLibrary::MakeLiteralByte
+00018e     EX_ByteConst               1
+000190     EX_EndFunctionParms        
+000191 EX_CallMath                KismetSystemLibrary::SetBytePropertyByName
+00019a   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0001a3   EX_NameConst               "Pivot"
+0001b0   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+0001b9   EX_EndFunctionParms        
+0001ba EX_LetObj                  
+0001bb   EX_LocalOutVariable        OnDragDetected::Operation
+0001c4   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0001cd EX_Return                  
+0001ce   EX_Nothing                 
+0001cf EX_EndOfScript             
+
+===== BP_InventoryItemIcon_C::OnDragDetected  @0x2683e68f120  script=755 bytes
+000000 EX_LocalVirtualFunction    "IsItemValid"
+00000d   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_IsItemValid
+000016   EX_EndFunctionParms        
+000017 EX_JumpIfNot               -> 0x2f0 if not
+00001c   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_IsItemValid
+000025 EX_LocalVirtualFunction    "GetCurrentItem"
+000032   EX_LocalVariable           OnDragDetected::CallFunc_GetCurrentItem_InvItem
+00003b   EX_EndFunctionParms        
+00003c EX_JumpIfNot               -> 0x15a if not
+000041   EX_StructMemberContext     S_InvItem::InUse_23_430FC3BE41900570FBD4AA881817E89F
+00004a     EX_LocalVariable           OnDragDetected::CallFunc_GetCurrentItem_InvItem
+000053 EX_Let                     S_NotificationDetails::Message_2_7839810D4B82BA098B267494175BD032
+00005c   EX_StructMemberContext     S_NotificationDetails::Message_2_7839810D4B82BA098B267494175BD032
+000065     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_NotificationDetails
+00006e   EX_TextConst               literal_type=1
+000070     EX_StringConst             'Cannot move item while in use'
+00008f     EX_StringConst             '831E6CD34ECE70805D1D6EB8EA47B24C'
+0000b1     EX_StringConst             ''
+0000b3 EX_Let                     S_NotificationDetails::TextColor_6_3EB6E95D4D2888E776728988C692E288
+0000bc   EX_StructMemberContext     S_NotificationDetails::TextColor_6_3EB6E95D4D2888E776728988C692E288
+0000c5     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_NotificationDetails
+0000ce   EX_StructConst             ScriptStruct'LinearColor' size=16
+0000db     EX_FloatConst              1.0
+0000e0     EX_FloatConst              0.0
+0000e5     EX_FloatConst              0.0
+0000ea     EX_FloatConst              1.0
+0000ef     EX_EndStructConst          
+0000f0 EX_LetObj                  
+0000f1   EX_StructMemberContext     S_NotificationDetails::IconImage_9_C893B8004328C4127BAC1FAE079F633C
+0000fa     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_NotificationDetails
+000103   EX_ObjectConst             Texture2D'T_WarningIcon_UI'
+00010c EX_LetObj                  
+00010d   EX_StructMemberContext     S_NotificationDetails::Sound_12_B62C83D9436FA8503F14548A13E43A5A
+000116     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_NotificationDetails
+00011f   EX_ObjectConst             SoundCue'SC_Click'
+000128 EX_Context                 
+000129   EX_InstanceVariable        null_skip=0x17 rvalue=None
+00013e   EX_VirtualFunction         "ClientCreateNotification"
+00014b     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_NotificationDetails
+000154     EX_EndFunctionParms        
+000155 EX_Jump                    -> 0x2f0
+00015a EX_LetObj                  
+00015b   EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+000164   EX_VirtualFunction         "GetOwningPlayer"
+000171     EX_EndFunctionParms        
+000172 EX_LetObj                  
+000173   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+00017c   EX_Context                 
+00017d     EX_ObjectConst             null_skip=0x1d rvalue=OnDragDetected::CallFunc_Create_ReturnValue
+000192     EX_FinalFunction           WidgetBlueprintLibrary::Create
+00019b       EX_Self                    
+00019c       EX_ObjectConst             WidgetBlueprintGeneratedClass'BP_MoveIcon_C'
+0001a5       EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+0001ae       EX_EndFunctionParms        
+0001af EX_LetObj                  
+0001b0   EX_LocalVariable           OnDragDetected::MoveIconL
+0001b9   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+0001c2 EX_LetObj                  
+0001c3   EX_StructMemberContext     S_InvSlotID::InvComponent_5_A1D58E004822DA933B61B28C627EDF23
+0001cc     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_InvSlotID
+0001d5   EX_InstanceVariable        BP_InventoryItemIcon_C::GridInven
+0001de EX_Let                     S_InvSlotID::Index_4_ABD9C3F64229CF5D88D6FC8CCDD577B6
+0001e7   EX_StructMemberContext     S_InvSlotID::Index_4_ABD9C3F64229CF5D88D6FC8CCDD577B6
+0001f0     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_InvSlotID
+0001f9   EX_InstanceVariable        BP_InventoryItemIcon_C::ItemIndex
+000202 EX_Context                 
+000203   EX_LocalVariable           null_skip=0x17 rvalue=None
+000218   EX_LocalVirtualFunction    "InitializeMoveItem"
+000225     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_InvSlotID
+00022e     EX_EndFunctionParms        
+00022f EX_LetObj                  
+000230   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000239   EX_CallMath                WidgetBlueprintLibrary::CreateDragDropOperation
+000242     EX_ObjectConst             Class'DragDropOperation'
+00024b     EX_EndFunctionParms        
+00024c EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000255   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00025e   EX_NameConst               "Payload"
+00026b   EX_Self                    
+00026c   EX_EndFunctionParms        
+00026d EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000276   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00027f   EX_NameConst               "DefaultDragVisual"
+00028c   EX_LocalVariable           OnDragDetected::MoveIconL
+000295   EX_EndFunctionParms        
+000296 EX_Let                     OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+00029f   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+0002a8   EX_CallMath                KismetSystemLibrary::MakeLiteralByte
+0002b1     EX_ByteConst               1
+0002b3     EX_EndFunctionParms        
+0002b4 EX_CallMath                KismetSystemLibrary::SetBytePropertyByName
+0002bd   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0002c6   EX_NameConst               "Pivot"
+0002d3   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+0002dc   EX_EndFunctionParms        
+0002dd EX_LetObj                  
+0002de   EX_LocalOutVariable        OnDragDetected::Operation
+0002e7   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0002f0 EX_Return                  
+0002f1   EX_Nothing                 
+0002f2 EX_EndOfScript             
+
+===== BP_QuickSlot_C::OnDragDetected  @0x2683e689fc0  script=1011 bytes
+000000 EX_JumpIfNot               -> 0x13 if not
+000005   EX_InstanceVariable        BP_QuickSlot_C::InUse
+00000e EX_Jump                    -> 0x3f0
+000013 EX_LetBool                 
+000014   EX_LocalVariable           OnDragDetected::CallFunc_IsValid_ReturnValue
+00001d   EX_CallMath                KismetSystemLibrary::IsValid
+000026     EX_StructMemberContext     S_InvSlotID::InvComponent_5_A1D58E004822DA933B61B28C627EDF23
+00002f       EX_InstanceVariable        BP_QuickSlot_C::ItemSlot
+000038     EX_EndFunctionParms        
+000039 EX_JumpIfNot               -> 0x198 if not
+00003e   EX_LocalVariable           OnDragDetected::CallFunc_IsValid_ReturnValue
+000047 EX_Context                 
+000048   EX_ObjectConst             null_skip=0x45 rvalue=None
+00005d   EX_LocalVirtualFunction    "SGK SlotItemDetails"
+00006a     EX_StructMemberContext     S_InvSlotID::InvComponent_5_A1D58E004822DA933B61B28C627EDF23
+000073       EX_InstanceVariable        BP_QuickSlot_C::ItemSlot
+00007c     EX_StructMemberContext     S_InvSlotID::Index_4_ABD9C3F64229CF5D88D6FC8CCDD577B6
+000085       EX_InstanceVariable        BP_QuickSlot_C::ItemSlot
+00008e     EX_Self                    
+00008f     EX_LocalVariable           OnDragDetected::CallFunc_SGK_SlotItemDetails_ItemFound
+000098     EX_LocalVariable           OnDragDetected::CallFunc_SGK_SlotItemDetails_ItemDetails
+0000a1     EX_EndFunctionParms        
+0000a2 EX_JumpIfNot               -> 0x198 if not
+0000a7   EX_LocalVariable           OnDragDetected::CallFunc_SGK_SlotItemDetails_ItemFound
+0000b0 EX_LetObj                  
+0000b1   EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+0000ba   EX_VirtualFunction         "GetOwningPlayer"
+0000c7     EX_EndFunctionParms        
+0000c8 EX_LetObj                  
+0000c9   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+0000d2   EX_Context                 
+0000d3     EX_ObjectConst             null_skip=0x1d rvalue=OnDragDetected::CallFunc_Create_ReturnValue
+0000e8     EX_FinalFunction           WidgetBlueprintLibrary::Create
+0000f1       EX_Self                    
+0000f2       EX_ObjectConst             WidgetBlueprintGeneratedClass'BP_MoveIcon_C'
+0000fb       EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+000104       EX_EndFunctionParms        
+000105 EX_LetObj                  
+000106   EX_LocalVariable           OnDragDetected::MoveIconL
+00010f   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+000118 EX_LetObj                  
+000119   EX_Context                 
+00011a     EX_LocalVariable           null_skip=0x9 rvalue=BP_MoveIcon_C::QuickSlot
+00012f     EX_InstanceVariable        BP_MoveIcon_C::QuickSlot
+000138   EX_Self                    
+000139 EX_LetBool                 
+00013a   EX_LocalVariable           OnDragDetected::K2Node_SwitchEnum_CmpSuccess
+000143   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+00014c     EX_InstanceVariable        BP_QuickSlot_C::QuickSlotItemType
+000155     EX_ByteConst               0
+000157     EX_EndFunctionParms        
+000158 EX_JumpIfNot               -> 0x279 if not
+00015d   EX_LocalVariable           OnDragDetected::K2Node_SwitchEnum_CmpSuccess
+000166 EX_LetBool                 
+000167   EX_LocalVariable           OnDragDetected::K2Node_SwitchEnum_CmpSuccess
+000170   EX_CallMath                KismetMathLibrary::NotEqual_ByteByte
+000179     EX_InstanceVariable        BP_QuickSlot_C::QuickSlotItemType
+000182     EX_ByteConst               3
+000184     EX_EndFunctionParms        
+000185 EX_JumpIfNot               -> 0x36c if not
+00018a   EX_LocalVariable           OnDragDetected::K2Node_SwitchEnum_CmpSuccess
+000193 EX_Jump                    -> 0x3f0
+000198 EX_LetBool                 
+000199   EX_LocalVariable           OnDragDetected::CallFunc_IsValid_ReturnValue
+0001a2   EX_CallMath                KismetSystemLibrary::IsValid
+0001ab     EX_StructMemberContext     S_WeaponSlotID::Inventory_6_E5137D954576EF492E5E329688C5A484
+0001b4       EX_InstanceVariable        BP_QuickSlot_C::WeaponSlot
+0001bd     EX_EndFunctionParms        
+0001be EX_JumpIfNot               -> 0x3f0 if not
+0001c3   EX_LocalVariable           OnDragDetected::CallFunc_IsValid_ReturnValue
+0001cc EX_Let                     OnDragDetected::CallFunc_SelectedWeaponSlot_ReturnValue
+0001d5   EX_LocalVariable           OnDragDetected::CallFunc_SelectedWeaponSlot_ReturnValue
+0001de   EX_Context                 
+0001df     EX_StructMemberContext     S_WeaponSlotID::Inventory_6_E5137D954576EF492E5E329688C5A484
+0001e8       EX_InstanceVariable        null_skip=0x20 rvalue=OnDragDetected::CallFunc_SelectedWeaponSlot_ReturnValue
+0001fd     EX_LocalVirtualFunction    "SelectedWeaponSlot"
+00020a       EX_StructMemberContext     S_WeaponSlotID::WeaponSlot_4_A82839DA40560F03DB4B2083FD53D988
+000213         EX_InstanceVariable        BP_QuickSlot_C::WeaponSlot
+00021c       EX_EndFunctionParms        
+00021d EX_Context                 
+00021e   EX_ObjectConst             null_skip=0x33 rvalue=None
+000233   EX_LocalVirtualFunction    "SGK ItemDetails"
+000240     EX_StructMemberContext     S_WeaponSlot::Item_9_08D0FEA54FF8147DD55DE08559E54FAB
+000249       EX_LocalVariable           OnDragDetected::CallFunc_SelectedWeaponSlot_ReturnValue
+000252     EX_Self                    
+000253     EX_LocalVariable           OnDragDetected::CallFunc_SGK_ItemDetails_ItemFound
+00025c     EX_LocalVariable           OnDragDetected::CallFunc_SGK_ItemDetails_ItemDetails
+000265     EX_EndFunctionParms        
+000266 EX_JumpIfNot               -> 0x3f0 if not
+00026b   EX_LocalVariable           OnDragDetected::CallFunc_SGK_ItemDetails_ItemFound
+000274 EX_Jump                    -> 0xb0
+000279 EX_Context                 
+00027a   EX_LocalVariable           null_skip=0x17 rvalue=None
+00028f   EX_LocalVirtualFunction    "InitilalizeMoveQuickSlot"
+00029c     EX_InstanceVariable        BP_QuickSlot_C::ItemSlot
+0002a5     EX_EndFunctionParms        
+0002a6 EX_LetObj                  
+0002a7   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0002b0   EX_CallMath                WidgetBlueprintLibrary::CreateDragDropOperation
+0002b9     EX_ObjectConst             Class'DragDropOperation'
+0002c2     EX_EndFunctionParms        
+0002c3 EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+0002cc   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0002d5   EX_NameConst               "Payload"
+0002e2   EX_Self                    
+0002e3   EX_EndFunctionParms        
+0002e4 EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+0002ed   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0002f6   EX_NameConst               "DefaultDragVisual"
+000303   EX_LocalVariable           OnDragDetected::MoveIconL
+00030c   EX_EndFunctionParms        
+00030d EX_Let                     OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+000316   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+00031f   EX_CallMath                KismetSystemLibrary::MakeLiteralByte
+000328     EX_ByteConst               1
+00032a     EX_EndFunctionParms        
+00032b EX_CallMath                KismetSystemLibrary::SetBytePropertyByName
+000334   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00033d   EX_NameConst               "Pivot"
+00034a   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+000353   EX_EndFunctionParms        
+000354 EX_LetObj                  
+000355   EX_LocalOutVariable        OnDragDetected::Operation
+00035e   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000367 EX_Jump                    -> 0x3f0
+00036c EX_Let                     S_WeaponSlotID::WeaponSlot_4_A82839DA40560F03DB4B2083FD53D988
+000375   EX_StructMemberContext     S_WeaponSlotID::WeaponSlot_4_A82839DA40560F03DB4B2083FD53D988
+00037e     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_WeaponSlotID
+000387   EX_StructMemberContext     S_WeaponSlotID::WeaponSlot_4_A82839DA40560F03DB4B2083FD53D988
+000390     EX_InstanceVariable        BP_QuickSlot_C::WeaponSlot
+000399 EX_LetObj                  
+00039a   EX_StructMemberContext     S_WeaponSlotID::Inventory_6_E5137D954576EF492E5E329688C5A484
+0003a3     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_WeaponSlotID
+0003ac   EX_StructMemberContext     S_WeaponSlotID::Inventory_6_E5137D954576EF492E5E329688C5A484
+0003b5     EX_InstanceVariable        BP_QuickSlot_C::WeaponSlot
+0003be EX_Context                 
+0003bf   EX_LocalVariable           null_skip=0x17 rvalue=None
+0003d4   EX_LocalVirtualFunction    "InitilalizeMoveWeaponItem"
+0003e1     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_WeaponSlotID
+0003ea     EX_EndFunctionParms        
+0003eb EX_Jump                    -> 0x2a6
+0003f0 EX_Return                  
+0003f1   EX_Nothing                 
+0003f2 EX_EndOfScript             
+
+===== BP_WeaponSlot_C::OnDragDetected  @0x268380f4ae0  script=431 bytes
+000000 EX_LocalVirtualFunction    "IsItemValid"
+00000d   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ItemValid
+000016   EX_EndFunctionParms        
+000017 EX_JumpIfNot               -> 0x1ac if not
+00001c   EX_LocalVariable           OnDragDetected::CallFunc_IsItemValid_ItemValid
+000025 EX_LetObj                  
+000026   EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+00002f   EX_VirtualFunction         "GetOwningPlayer"
+00003c     EX_EndFunctionParms        
+00003d EX_LetObj                  
+00003e   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+000047   EX_Context                 
+000048     EX_ObjectConst             null_skip=0x1d rvalue=OnDragDetected::CallFunc_Create_ReturnValue
+00005d     EX_FinalFunction           WidgetBlueprintLibrary::Create
+000066       EX_Self                    
+000067       EX_ObjectConst             WidgetBlueprintGeneratedClass'BP_MoveIcon_C'
+000070       EX_LocalVariable           OnDragDetected::CallFunc_GetOwningPlayer_ReturnValue
+000079       EX_EndFunctionParms        
+00007a EX_LetObj                  
+00007b   EX_LocalVariable           OnDragDetected::MoveIconL
+000084   EX_LocalVariable           OnDragDetected::CallFunc_Create_ReturnValue
+00008d EX_Let                     S_WeaponSlotID::WeaponSlot_4_A82839DA40560F03DB4B2083FD53D988
+000096   EX_StructMemberContext     S_WeaponSlotID::WeaponSlot_4_A82839DA40560F03DB4B2083FD53D988
+00009f     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_WeaponSlotID
+0000a8   EX_StructMemberContext     S_WeaponSlot::EquipmentType_25_4F6B348C414CD1C1C532D2B5C23843E3
+0000b1     EX_InstanceVariable        BP_WeaponSlot_C::WeaponSlot
+0000ba EX_LetObj                  
+0000bb   EX_StructMemberContext     S_WeaponSlotID::Inventory_6_E5137D954576EF492E5E329688C5A484
+0000c4     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_WeaponSlotID
+0000cd   EX_StructMemberContext     S_WeaponSlot::Inventory_13_8B869DAC43BA92FF9032ACA9E848229C
+0000d6     EX_InstanceVariable        BP_WeaponSlot_C::WeaponSlot
+0000df EX_Context                 
+0000e0   EX_LocalVariable           null_skip=0x17 rvalue=None
+0000f5   EX_LocalVirtualFunction    "InitilalizeMoveWeaponItem"
+000102     EX_LocalVariable           OnDragDetected::K2Node_MakeStruct_S_WeaponSlotID
+00010b     EX_EndFunctionParms        
+00010c EX_LetObj                  
+00010d   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000116   EX_CallMath                WidgetBlueprintLibrary::CreateDragDropOperation
+00011f     EX_ObjectConst             Class'DragDropOperation'
+000128     EX_EndFunctionParms        
+000129 EX_CallMath                KismetSystemLibrary::SetObjectPropertyByName
+000132   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+00013b   EX_NameConst               "DefaultDragVisual"
+000148   EX_LocalVariable           OnDragDetected::MoveIconL
+000151   EX_EndFunctionParms        
+000152 EX_Let                     OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+00015b   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+000164   EX_CallMath                KismetSystemLibrary::MakeLiteralByte
+00016d     EX_ByteConst               1
+00016f     EX_EndFunctionParms        
+000170 EX_CallMath                KismetSystemLibrary::SetBytePropertyByName
+000179   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+000182   EX_NameConst               "Pivot"
+00018f   EX_LocalVariable           OnDragDetected::CallFunc_MakeLiteralByte_ReturnValue
+000198   EX_EndFunctionParms        
+000199 EX_LetObj                  
+00019a   EX_LocalOutVariable        OnDragDetected::Operation
+0001a3   EX_LocalVariable           OnDragDetected::CallFunc_CreateDragDropOperation_ReturnValue
+0001ac EX_Return                  
+0001ad   EX_Nothing                 
+0001ae EX_EndOfScript             
