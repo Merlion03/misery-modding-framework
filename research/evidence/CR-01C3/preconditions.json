@@ -1,0 +1,98 @@
+{
+  "record": "CR-01C3 preconditions -- everything the gate required to be closed BEFORE any gameplay mutation",
+  "verdict": "ALL PRECONDITIONS CLOSED. The gameplay mutation itself was NOT performed: the MISERY process exited during the read-only pass and no live target remained.",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "read_only": true,
+  "nothing_performed": ["no AddRow", "no AddItem", "no ProcessEvent call", "no allocation in the target", "no write of any kind"],
+  "session": {
+    "pid": 15784,
+    "world": "/Game/NewMapGENTEST.NewMapGENTEST (PersistentLevel loaded; L_MainTerrain, L_Town01, L_BombCraterTown01 and others also live)",
+    "process_state_at_end": "EXITED. A read at 12:2x local time returned ERROR_PARTIAL_COPY and the process was then absent. Everything this session ran against it opened PROCESS_QUERY_INFORMATION | PROCESS_VM_READ only; no write, injection, remote thread or kill was issued by this session or by any subagent (their transcripts were audited for exactly that)."
+  },
+
+  "1_addItem_target_and_signature": {
+    "target": "BP_MasterInventory_C::AddItem @0x25b330d5800",
+    "why_this_one": "BP_PlayerInventory_C does NOT declare AddItem -- its own 327 functions contain only AddItemToContainer, AttemptToAddItem and AttemptToAddItemToSlot. The player inventory therefore INHERITS BP_MasterInventory_C::AddItem unchanged (chain: BP_PlayerInventory_C : BP_EquipmentInventory_C : BP_MasterInventory_C : ActorComponent : Object).",
+    "signature_reflected": "AddItem(S_InvItem Item @0, bool StackSearch @48, bool ShowNotifications @49, out bool RemainingItem @50, out S_InvItem RemainingInvItem @56, out S_InvSlotID NewItemSlot @104)",
+    "parms_size": 120,
+    "num_parms": 6,
+    "return_value_offset": 65535,
+    "function_flags": "0xcc20000 = FUNC_BlueprintCallable | FUNC_BlueprintEvent | FUNC_HasDefaults | FUNC_HasOutParms | FUNC_Public",
+    "script_bytes": 4813,
+    "not_native": "FUNC_Native (0x400) is clear and Script.Num() = 4813, so ProcessEvent takes the Blueprint VM path, not the native-thunk path (ScriptCore.cpp:2002-2018).",
+    "the_true_vanilla_entry_above_it": "BP_PlayerInventory_C::AttemptToAddItem, identical shape, is what world pickup calls (BP_StaticMasterItem_C::Pickup, BP_SkeletalMasterItem_C::Pickup, BP_MasterResource_C::CollectResource, BP_VendorComponent_C::BuyVenderItem/SellVenderItem, BP_PlayerBuildingComponent_C::PickupActor and others) and it in turn calls AddItem. It was NOT chosen as the call target because it additionally reaches SelectEquipmentSlot, and equip is outside this gate's permitted scope."
+  },
+
+  "2_required_parameters": {
+    "S_InvItem": "48 bytes: ID FName @0, Amount int32 @8, MasterInventory Object* @16, QuickBindIndex int32 @24, Rotated bool @28, UseAmount int32 @32, InUse bool @36, Durability float @40, DecayTime int32 @44",
+    "S_InvSlotID": "12 bytes (16 in the Parms buffer): InvComponent Object* @0, Index int32 @8",
+    "S_InvSlot": "77 bytes (ElementSize 80): Occupied bool @0, Inventory Object* @8, RootIndex int32 @16, SelfIndex int32 @20, Item S_InvItem @24, Clump int32 @72, Blocked bool @76",
+    "every_parameter_type_is_POD": "None of S_InvItem, S_InvSlotID or S_InvSlot contains an FString, FText, TArray, TMap, TSet or nested non-POD struct. All three are plain value types. A ZEROED Parms buffer is therefore a valid construction and needs no InitializeStruct and no destruction -- which is what keeps this gate inside already-proven assignment semantics.",
+    "every_bool_is_a_full_byte": "StackSearch, ShowNotifications, RemainingItem and every bool in the three structs report is_bitfield=false, FieldMask 0xff, ByteOffset 0. No bitfield write is required anywhere.",
+    "how_ProcessEvent_consumes_Parms": "FMemory::Memcpy(Frame, Parms, Function->ParmsSize) copies the caller's buffer in (ScriptCore.cpp:2080-2083), and each out parameter's PropAddr is set to ContainerPtrToValuePtr<uint8>(Parms) (ScriptCore.cpp:2100-2107) -- so out values are written back DIRECTLY into our own buffer and can be read there afterwards.",
+    "eventgraph_fastcall_hazard": "UE_BLUEPRINT_EVENTGRAPH_FASTCALLS is 1 unconditionally, including Shipping (Build.h:365). If UFunction::EventGraphFunction were non-null, ProcessEvent would REPLACE our Parms with a 4-byte int (ScriptCore.cpp:2041-2049). The macro's own comment restricts the optimisation to 'event thunks into an event graph that have no parameters', and AddItem has six -- but the live confirmation (reading UFunction+0xC8 for AddItem against a known event stub such as CreateNotificationInChild as a positive control) was NOT completed before the process exited. STATUS: UNKNOWN, must be closed before the call."
+  },
+
+  "3_target_inventory_instance": {
+    "instance": "BP_PlayerInventory @0x25b32f4b140",
+    "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory",
+    "class": "BP_PlayerInventory_C",
+    "owning_actor": "BP_SGKController_C @0x25b13999ba0 (the component's Outer)",
+    "disambiguation": "exactly three BP_PlayerInventory_C objects exist live -- the CDO (Default__BP_PlayerInventory_C), the class template (BP_PlayerInventory_GEN_VARIABLE) and this one world instance. Only this one is a real component in a loaded level.",
+    "inventory_array": "BP_MasterInventory_C::Inventory, FArrayProperty at reflected offset 336, inner S_InvSlot ElementSize 80. Live: Data=0x25bbb226140, Num=12, Max=25.",
+    "baseline_state": "all 12 slots have Occupied = 0 -- the inventory is completely empty, which is a clean baseline for an insertion test."
+  },
+
+  "4_authority_context": {
+    "verdict": "AUTHORITY ESTABLISHED -- standalone, locally authoritative.",
+    "role": "the owning actor BP_SGKController_C has Role = 3 and RemoteRole = 1, read at the reflected AActor offsets Role @336 and RemoteRole @96",
+    "enum": "ENetRole: ROLE_None=0, ROLE_SimulatedProxy=1, ROLE_AutonomousProxy=2, ROLE_Authority=3 (EngineTypes.h:3057-3068)",
+    "semantics": "AActor::HasAuthority() is exactly (GetLocalRole() == ROLE_Authority) (Actor.h:4649-4652), and GetLocalRole() returns Role (Actor.h:636). Role == 3 therefore means HasAuthority() is TRUE.",
+    "why_it_matters": "AddItem's own object references include /Script/Engine.Actor:HasAuthority and ActorComponent::GetOwner, so the function branches on authority.",
+    "networking": "zero live NetDriver instances (5 objects, all CDOs), zero NetConnection instances (6 objects, all CDOs), zero DemoNetDriver instances. One GameSession and one OnlineSession instance exist, which is normal for single-player.",
+    "function_flags": "neither AddItem nor AttemptToAddItem nor RemoveItem carries any FUNC_Net, FUNC_NetServer, FUNC_NetClient, FUNC_NetMulticast, FUNC_NetRequest, FUNC_NetResponse, FUNC_NetValidate or FUNC_BlueprintAuthorityOnly flag. They are not RPCs.",
+    "fail_closed_rule_satisfied": "the gate required failing closed if authority could not be established. It was established, on two independent lines: the actor's own Role byte and the absence of any live net driver."
+  },
+
+  "5_gamethread_requirement": {
+    "verdict": "REQUIRED, and available.",
+    "why": "UObject::ProcessEvent asserts !IsUnreachable() and its own message states UObject functions are unsafe off the GameThread (ScriptCore.cpp:1973-1976). All Blueprint VM execution is GameThread work.",
+    "mechanism": "the production GameThread dispatcher proven in the dispatcher gate and used unchanged by CR-01C1 and CR-01C2R (queue -> persistent FTSTicker pump -> GameThread drain). In CR-01C2R it ran on tid 15796 and shut down cleanly with wait_stopped_ok=1."
+  },
+
+  "6_registration_target": {
+    "verdict": "CORRECTED. See composite-resolution.json.",
+    "summary": "The definition resolver reads MasterItemList (a UCompositeDataTable), not ItemList. But UDataTable::AddRow on ItemList broadcasts OnDataTableChanged, MasterItemList is the single subscriber to that delegate (verified live by weak-pointer index AND serial), and the handler rebuilds the composite from its parents. So the already-proven primitive on ItemList does reach the resolver, and no new mechanism is needed."
+  },
+
+  "7_removal_path": {
+    "inventory_entry_removal": "BP_MasterInventory_C::RemoveItem(S_InvSlot InvSlot @0, bool RemoveWeight @80, bool RemoveInvAmount @81, bool SpecialSlot @82), ParmsSize 83, FunctionFlags 0xc020000 = BlueprintCallable|BlueprintEvent|Public, no net flags. It takes the WHOLE slot by value, so the occupied slot must first be read back out of the live Inventory array.",
+    "alternatives_present": "RemoveItemAmount (ParmsSize 86, with an out ItemRemoved) and BP_PlayerInventory_C::RemoveItemFromSlot (ParmsSize 81). RemoveItem is the base-class, whole-entry removal and is the correct inverse of AddItem.",
+    "row_unregistration": "engine UDataTable::RemoveRow on ItemList, exactly as proven in CR-01C1 / CR-01C2R, which will again trigger the composite rebuild back to the 496-row baseline.",
+    "ordering_rule_from_the_gate": "the ItemList row must NOT be unregistered while a live inventory entry still carries its FName. Order is therefore: RemoveItem -> verify absent -> RemoveRow -> verify 496."
+  },
+
+  "8_minimal_materialized_field_set": {
+    "what_the_path_reads": "SGK ItemSize(S_InvItem) -> (Height, Width) drives FindEmptySlots grid placement; WeightCheck and AddItemWeight read Weight; FindFreeStackSpace and SGK IsMaxAmount drive stacking from MaxStack / AllowStacking; ContainerRestrictionCheck reads ContainerDetails.",
+    "populate": {
+      "Weight": {"property": "FDoubleProperty", "offset": 48, "size": 8},
+      "Width": {"property": "FIntProperty", "offset": 56, "size": 4},
+      "Height": {"property": "FIntProperty", "offset": 60, "size": 4},
+      "AllowStacking": {"property": "FBoolProperty", "offset": 64, "size": 1, "is_bitfield": false, "field_mask": "0xff"},
+      "AllowQuickBind": {"property": "FBoolProperty", "offset": 65, "size": 1, "is_bitfield": false, "field_mask": "0xff"},
+      "AllowDroppingItem": {"property": "FBoolProperty", "offset": 66, "size": 1, "is_bitfield": false, "field_mask": "0xff"},
+      "MaxStack": {"property": "FIntProperty", "offset": 68, "size": 4}
+    },
+    "AllowStacking_now_unblocked": "CR-01C2R deliberately skipped AllowStacking because an FBoolProperty may be a bitfield whose mask was unverified. It is now verified NOT to be one: FieldMask 0xff, ByteOffset 0, is_bitfield false. A whole-byte write is safe.",
+    "left_at_InitializeStruct_defaults": "Name / ShortName / Description (FText @0/@16/@32), InventoryActions / WorldActions (TArray @72/@88), StaticMesh / SkeletalMesh (FSoftObjectProperty @112/@152), WorldClass (FClassProperty @192), and every nested details struct. None of these has a proven assignment path, so none is written.",
+    "known_gap": "an item with an empty Name FText will show blank in any UI that displays it. ShowNotifications=false avoids the notification path during the test, but a general mod item WILL need a proven FText assignment path. That is a separate gate."
+  },
+
+  "9_what_remains_unknown": [
+    "UFunction::EventGraphFunction for AddItem -- must be read live (UFunction+0xC8, with CreateNotificationInChild as a positive control) and confirmed null before calling, or the Parms buffer would be discarded.",
+    "Whether any NATIVE code caches a raw MasterItemList row pointer across frames; the composite rebuild invalidates every row pointer.",
+    "The RVA of FScopedDataTableChange's constructor, which would allow batching many registrations into one composite rebuild. Not needed for a single row.",
+    "Whether a runtime-registered row survives save/load or a level change -- still BLOCKED ON M4 LIFECYCLE EVIDENCE.",
+    "Everything about multiplayer. This session establishes authority only for the observed standalone case."
+  ]
+}

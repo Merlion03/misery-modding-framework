@@ -1,0 +1,282 @@
+{
+  "composite_class_address": "0x25b66d5c400",
+  "parent_tables_reflected_offset": 176,
+  "pid": 15784,
+  "table_count": 19,
+  "tables": [
+    {
+      "address": "0x25b31ccdd00",
+      "class": "CompositeDataTable",
+      "name": "MasterBuildPartList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterBuildPartList.MasterBuildPartList",
+      "parent_table_count": 1,
+      "parent_tables": [
+        {
+          "address": "0x25b31b92bc0",
+          "class": "DataTable",
+          "index": 0,
+          "name": "BuildPartList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/BuildPartList.BuildPartList"
+        }
+      ],
+      "parent_tables_offset": 176,
+      "parent_tables_property_class": "FArrayProperty",
+      "row_count": 210,
+      "row_struct": "S_BuildPartDetails",
+      "row_struct_address": "0x25b333baf00",
+      "vtable": "0x7ff6365a47b8"
+    },
+    {
+      "address": "0x25b31c49380",
+      "class": "CompositeDataTable",
+      "name": "MasterCookingList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterCookingList.MasterCookingList",
+      "parent_table_count": 1,
+      "parent_tables": [
+        {
+          "address": "0x25b31b9d180",
+          "class": "DataTable",
+          "index": 0,
+          "name": "CookingList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/CookingList.CookingList"
+        }
+      ],
+      "parent_tables_offset": 176,
+      "parent_tables_property_class": "FArrayProperty",
+      "row_count": 15,
+      "row_struct": "S_CookingRecipe",
+      "row_struct_address": "0x25b2b542920",
+      "vtable": "0x7ff6365a47b8"
+    },
+    {
+      "address": "0x25b3383c100",
+      "class": "CompositeDataTable",
+      "name": "MasterCraftingRecipeList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterCraftingRecipeList.MasterCraftingRecipeList",
+      "parent_table_count": 1,
+      "parent_tables": [
+        {
+          "address": "0x25b40822bc0",
+          "class": "DataTable",
+          "index": 0,
+          "name": "CraftingRecipesList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/CraftingRecipesList.CraftingRecipesList"
+        }
+      ],
+      "parent_tables_offset": 176,
+      "parent_tables_property_class": "FArrayProperty",
+      "row_count": 104,
+      "row_struct": "S_CraftingRecipe",
+      "row_struct_address": "0x25b7d737ea0",
+      "vtable": "0x7ff6365a47b8"
+    },
+    {
+      "address": "0x25b3296d7c0",
+      "class": "CompositeDataTable",
+      "name": "MasterDeviceList",
+      "object_path": "/Game/PlayerElectricitySystem/Blueprints/Other/MasterDeviceList.MasterDeviceList",
+      "parent_table_count": 1,
+      "parent_tables": [
+        {
+          "address": "0x25b33032500",
+          "class": "DataTable",
+          "index": 0,
+          "name": "DeviceList",
+          "object_path": "/Game/PlayerElectricitySystem/Blueprints/DeviceList.DeviceList"
+        }
+      ],
+      "parent_tables_offset": 176,
+      "parent_tables_property_class": "FArrayProperty",
+      "row_count": 18,
+      "row_struct": "S_PowerDeviceDetails",
+      "row_struct_address": "0x25b3388bfe0",
+      "vtable": "0x7ff6365a47b8"
+    },
+    {
+      "address": "0x25b330d0860",
+      "class": "CompositeDataTable",
+      "name": "MasterGridLayoutList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterGridLayoutList.MasterGridLayoutList",
+      "parent_table_count": 1,
+      "parent_tables": [
+        {
+          "address": "0x25b31b94600",
+          "class": "DataTable",
+          "index": 0,
+          "name": "InventoryGridLayout",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/InventoryGridLayout.InventoryGridLayout"
+        }
+      ],
+      "parent_tables_offset": 176,
+      "parent_tables_property_class": "FArrayProperty",
+      "row_count": 1,
+      "row_struct": "S_CustomGridLayoutData",
+      "row_struct_address": "0x25b2b542a40",
+      "vtable": "0x7ff6365a47b8"
+    },
+    {
+      "address": "0x25b31ccdb40",
+      "class": "CompositeDataTable",
+      "name": "MasterItemList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterItemList.MasterItemList",
+      "parent_table_count": 1,
+      "parent_tables": [
+        {
+          "address": "0x25b40820940",
+          "class": "DataTable",
+          "index": 0,
+          "name": "ItemList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/ItemList.ItemList"
+        }
+      ],
+      "parent_tables_offset": 176,
+      "parent_tables_property_class": "FArrayProperty",
+      "row_count": 496,
+      "row_struct": "S_ItemDetails",
+      "row_struct_address": "0x25b333ba180",
+      "vtable": "0x7ff6365a47b8"
+    },
+    {
+      "address": "0x25b31c4fba0",
+      "class": "CompositeDataTable",
+      "name": "MasterSpawnerList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterSpawnerList.MasterSpawnerList",
+      "parent_table_count": 1,
+      "parent_tables": [
+        {
+          "address": "0x25b31b92140",
+          "class": "DataTable",
+          "index": 0,
+          "name": "ItemSpawnerList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/ItemSpawnerList.ItemSpawnerList"
+        }
+      ],
+      "parent_tables_offset": 176,
+      "parent_tables_property_class": "FArrayProperty",
+      "row_count": 251,
+      "row_struct": "S_SpawnerList",
+      "row_struct_address": "0x25b7d731de0",
+      "vtable": "0x7ff6365a47b8"
+    },
+    {
+      "address": "0x25b31b92bc0",
+      "class": "DataTable",
+      "name": "BuildPartList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/BuildPartList.BuildPartList",
+      "row_count": 210,
+      "row_struct": "S_BuildPartDetails",
+      "row_struct_address": "0x25b333baf00",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b31b9d180",
+      "class": "DataTable",
+      "name": "CookingList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/CookingList.CookingList",
+      "row_count": 15,
+      "row_struct": "S_CookingRecipe",
+      "row_struct_address": "0x25b2b542920",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b40822bc0",
+      "class": "DataTable",
+      "name": "CraftingRecipesList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/CraftingRecipesList.CraftingRecipesList",
+      "row_count": 104,
+      "row_struct": "S_CraftingRecipe",
+      "row_struct_address": "0x25b7d737ea0",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b33034600",
+      "class": "DataTable",
+      "name": "DT_Artifacts",
+      "object_path": "/Game/Blueprints/Anomalys/Artifacts/DT_Artifacts.DT_Artifacts",
+      "row_count": 12,
+      "row_struct": "BP_ArtifactStruct",
+      "row_struct_address": "0x25b32dc0880",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b7d1b3400",
+      "class": "DataTable",
+      "name": "DT_PlayerStatDescr",
+      "object_path": "/Game/Blueprints/DT_PlayerStatDescr.DT_PlayerStatDescr",
+      "row_count": 24,
+      "row_struct": "S_PlayerStatDescription",
+      "row_struct_address": "0x25b7d73c8e0",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b33035b00",
+      "class": "DataTable",
+      "name": "DT_Weather",
+      "object_path": "/Game/MultiplayerDynamicWeatherSystem/Blueprints/DT_Weather.DT_Weather",
+      "row_count": 4,
+      "row_struct": "S_Weather",
+      "row_struct_address": "0x25b1116cc40",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b33032500",
+      "class": "DataTable",
+      "name": "DeviceList",
+      "object_path": "/Game/PlayerElectricitySystem/Blueprints/DeviceList.DeviceList",
+      "row_count": 18,
+      "row_struct": "S_PowerDeviceDetails",
+      "row_struct_address": "0x25b3388bfe0",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b7d1b4300",
+      "class": "DataTable",
+      "name": "DifficultyList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/DifficultyList.DifficultyList",
+      "row_count": 4,
+      "row_struct": "S_GameplaySettings",
+      "row_struct_address": "0x25b7d731f00",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b31b94600",
+      "class": "DataTable",
+      "name": "InventoryGridLayout",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/InventoryGridLayout.InventoryGridLayout",
+      "row_count": 1,
+      "row_struct": "S_CustomGridLayoutData",
+      "row_struct_address": "0x25b2b542a40",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b40820940",
+      "class": "DataTable",
+      "name": "ItemList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/ItemList.ItemList",
+      "row_count": 496,
+      "row_struct": "S_ItemDetails",
+      "row_struct_address": "0x25b333ba180",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b31b92140",
+      "class": "DataTable",
+      "name": "ItemSpawnerList",
+      "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/ItemSpawnerList.ItemSpawnerList",
+      "row_count": 251,
+      "row_struct": "S_SpawnerList",
+      "row_struct_address": "0x25b7d731de0",
+      "vtable": "0x7ff636503148"
+    },
+    {
+      "address": "0x25b33032080",
+      "class": "DataTable",
+      "name": "LOOK_Presets",
+      "object_path": "/Game/Stuff/Chameleon/DataTables/LOOK_Presets.LOOK_Presets",
+      "row_count": 150,
+      "row_struct": "LOOKCGStruct",
+      "row_struct_address": "0x25b7a021a80",
+      "vtable": "0x7ff636503148"
+    }
+  ]
+}

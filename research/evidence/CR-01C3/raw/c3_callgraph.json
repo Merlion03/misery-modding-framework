@@ -1,0 +1,1728 @@
+{
+  "ambiguous_name_edges": {
+    "Activate": [
+      "ActorComponent::Activate",
+      "BlueprintAsyncActionBase::Activate",
+      "Emitter::Activate"
+    ],
+    "AddItem": [
+      "BP_MasterInventory_C::AddItem",
+      "ListView::AddItem"
+    ],
+    "AddQuickSlots": [
+      "BP_PlayerInventory_C::AddQuickSlots",
+      "BP_QuickSlotsPanel_C::AddQuickSlots"
+    ],
+    "AddStartingItems": [
+      "BP_CookingComponent_C::AddStartingItems",
+      "BP_MasterInventory_C::AddStartingItems"
+    ],
+    "CheckRecipeCost": [
+      "BP_MasterInventory_C::CheckRecipeCost",
+      "BP_PlayerInventory_C::CheckRecipeCost"
+    ],
+    "ClientCreateNotification": [
+      "BP_PlayerInventory_C::ClientCreateNotification",
+      "BP_PlayerPowerComponent_C::ClientCreateNotification"
+    ],
+    "ClientInitialize": [
+      "BP_PlayerBuildingComponent_C::ClientInitialize",
+      "BP_SGKController_C::ClientInitialize"
+    ],
+    "ClientNewWeapon": [
+      "BP_CharacterComponent_C::ClientNewWeapon",
+      "BP_MasterHoldable_C::ClientNewWeapon"
+    ],
+    "ClientPlaceNamedBuildPart": [
+      "BP_PlayerBuildingComponent_C::ClientPlaceNamedBuildPart",
+      "BP_PlayerInventory_C::ClientPlaceNamedBuildPart"
+    ],
+    "ConstructSlots": [
+      "BP_CookingComponent_C::ConstructSlots",
+      "BP_CraftingComponent_C::ConstructSlots",
+      "BP_MasterInventory_C::ConstructSlots"
+    ],
+    "CreateNewInventoryPanel": [
+      "BP_EquipmentInventoryList_C::CreateNewInventoryPanel",
+      "BP_ExtCharacterEquipment_C::CreateNewInventoryPanel",
+      "BP_ExtCraftingMenu_C::CreateNewInventoryPanel"
+    ],
+    "CreateNotification": [
+      "BP_NotificationPanel_C::CreateNotification",
+      "BP_NotificationPanel_C::CreateNotification"
+    ],
+    "CreateNotificationInChild": [
+      "BP_MasterInventory_C::CreateNotificationInChild",
+      "BP_PlayerInventory_C::CreateNotificationInChild"
+    ],
+    "DeletePlayerSave": [
+      "BP_PESSaveSystem_C::DeletePlayerSave",
+      "BP_SGKSaveGame_C::DeletePlayerSave",
+      "BP_SaveSystem_C::DeletePlayerSave"
+    ],
+    "EquipWeapon": [
+      "BP_EquipmentInventory_C::EquipWeapon",
+      "BP_SkeletalMasterItem_C::EquipWeapon",
+      "BP_StaticMasterItem_C::EquipWeapon"
+    ],
+    "FindCraftingListing": [
+      "BP_CraftingQueue_C::FindCraftingListing",
+      "BP_MasterInventory_C::FindCraftingListing"
+    ],
+    "GetGameplaySettings": [
+      "BP_SGKGameInstanceInterface_C::GetGameplaySettings",
+      "BP_SGKGameInstance_C::GetGameplaySettings"
+    ],
+    "HitActor": [
+      "BP_PlayerBuildingComponent_C::HitActor",
+      "BP_PlayerInventory_C::HitActor"
+    ],
+    "InGameLoadComponentData": [
+      "BP_MasterInventory_C::InGameLoadComponentData",
+      "BP_PlayerInventory_C::InGameLoadComponentData"
+    ],
+    "IsFuelItem": [
+      "BP_CookingComponent_C::IsFuelItem",
+      "BP_CraftingComponent_C::IsFuelItem"
+    ],
+    "IsIndexFuelSlot": [
+      "BP_CookingComponent_C::IsIndexFuelSlot",
+      "BP_CraftingComponent_C::IsIndexFuelSlot"
+    ],
+    "LoadComponentData": [
+      "BP_CookingComponent_C::LoadComponentData",
+      "BP_CraftingComponent_C::LoadComponentData",
+      "BP_EquipmentInventory_C::LoadComponentData",
+      "BP_MasterInventory_C::LoadComponentData",
+      "BP_PlayerInventory_C::LoadComponentData",
+      "BP_VendorComponent_C::LoadComponentData"
+    ],
+    "LoadSave": [
+      "BP_GlobalInventoryManager_C::LoadSave",
+      "BP_SaveSystem_C::LoadSave"
+    ],
+    "MulticastPlayMontage": [
+      "BP_CharacterComponent_C::MulticastPlayMontage",
+      "BP_MasterWeapon_C::MulticastPlayMontage"
+    ],
+    "MulticastStopMontage": [
+      "BP_CharacterComponent_C::MulticastStopMontage",
+      "BP_MasterConsumable_C::MulticastStopMontage"
+    ],
+    "Pause/UnPauseSingleSlot": [
+      "BP_CookingComponent_C::Pause/UnPauseSingleSlot",
+      "BP_ExtCookingMenu_C::Pause/UnPauseSingleSlot"
+    ],
+    "RemoveAttachment": [
+      "BP_PlayerInventory_C::RemoveAttachment",
+      "BP_ShadowDummy_C::RemoveAttachment",
+      "BP_WeaponInventory_C::RemoveAttachment"
+    ],
+    "RemoveInventoryPanel": [
+      "BP_EquipmentInventoryList_C::RemoveInventoryPanel",
+      "BP_ExtCharacterEquipment_C::RemoveInventoryPanel"
+    ],
+    "RemoveQuickSlots": [
+      "BP_PlayerInventory_C::RemoveQuickSlots",
+      "BP_QuickSlotsPanel_C::RemoveQuickSlots"
+    ],
+    "ReplicateContainingInventories": [
+      "BP_MasterInventory_C::ReplicateContainingInventories",
+      "BP_WeaponInventory_C::ReplicateContainingInventories"
+    ],
+    "SGK AttachNewAttachment": [
+      "BP_MasterHoldable_C::SGK AttachNewAttachment",
+      "BP_MasterRangeWeapon_C::SGK AttachNewAttachment",
+      "BP_MasterWeapon_C::SGK AttachNewAttachment",
+      "BP_SGKHoldableInterface_C::SGK AttachNewAttachment"
+    ],
+    "SGK BuildPartType": [
+      "BP_DwarfTamed_C::SGK BuildPartType",
+      "BP_MasterBuildPart_C::SGK BuildPartType",
+      "BP_SGKBuildingInterface_C::SGK BuildPartType"
+    ],
+    "SGK ChamberWeaponAmmo": [
+      "BP_MasterHoldable_C::SGK ChamberWeaponAmmo",
+      "BP_MasterRangeWeapon_C::SGK ChamberWeaponAmmo",
+      "BP_SGKHoldableInterface_C::SGK ChamberWeaponAmmo"
+    ],
+    "SGK ClientPrimaryAction": [
+      "BP_MasterHoldable_C::SGK ClientPrimaryAction",
+      "BP_MasterRangeWeapon_C::SGK ClientPrimaryAction",
+      "BP_SGKHoldableInterface_C::SGK ClientPrimaryAction"
+    ],
+    "SGK ClientReloadChecks": [
+      "BP_MasterHoldable_C::SGK ClientReloadChecks",
+      "BP_MasterRangeWeapon_C::SGK ClientReloadChecks",
+      "BP_SGKHoldableInterface_C::SGK ClientReloadChecks"
+    ],
+    "SGK ClientSecondaryAction": [
+      "BP_MasterHoldable_C::SGK ClientSecondaryAction",
+      "BP_MasterRangeWeapon_C::SGK ClientSecondaryAction",
+      "BP_SGKHoldableInterface_C::SGK ClientSecondaryAction"
+    ],
+    "SGK CodeCheck": [
+      "BP_ArtifactSpawner_C::SGK CodeCheck",
+      "BP_CampFireZone_C::SGK CodeCheck",
+      "BP_DestroyedStorageBag_C::SGK CodeCheck",
+      "BP_InteractiveBuroviksourceComponent_C::SGK CodeCheck",
+      "BP_InteractiveCarrotResourceComponent1_C::SGK CodeCheck",
+      "BP_InteractiveCucumberResourceComponent_C::SGK CodeCheck",
+      "BP_InteractiveMuhamorsourceComponent_C::SGK CodeCheck",
+      "BP_InteractiveTomatoResourceComponent_C::SGK CodeCheck",
+      "BP_InteractiveWheatResourceComponent_C::SGK CodeCheck",
+      "BP_MasterAICharacter_C::SGK CodeCheck",
+      "BP_MasterBuildPart_C::SGK CodeCheck",
+      "BP_MasterInteractableResource_C::SGK CodeCheck",
+      "BP_MasterLock_C::SGK CodeCheck",
+      "BP_SGKInteractionInterface_C::SGK CodeCheck",
+      "BP_SGKMasterCharacter_C::SGK CodeCheck",
+      "BP_SkeletalMasterItem_C::SGK CodeCheck",
+      "BP_StaticMasterItem_C::SGK CodeCheck"
+    ],
+    "SGK DestroyWeaponAttachments": [
+      "BP_MasterInventory_C::SGK DestroyWeaponAttachments",
+      "BP_SGKController_C::SGK DestroyWeaponAttachments",
+      "BP_SGKInventoryInterface_C::SGK DestroyWeaponAttachments",
+      "BP_WeaponInventory_C::SGK DestroyWeaponAttachments"
+    ],
+    "SGK EndInteraction": [
+      "BP_Antenna_C::SGK EndInteraction",
+      "BP_ArmChair_C::SGK EndInteraction",
+      "BP_ArtifactSpawner_C::SGK EndInteraction",
+      "BP_BedMetal_C::SGK EndInteraction",
+      "BP_Bed_C::SGK EndInteraction",
+      "BP_BigFlag_C::SGK EndInteraction",
+      "BP_Bookcase2_C::SGK EndInteraction",
+      "BP_Buffet_C::SGK EndInteraction",
+      "BP_Buffet_World_C::SGK EndInteraction",
+      "BP_Cabinet1_C::SGK EndInteraction",
+      "BP_CabinetWorld_C::SGK EndInteraction",
+      "BP_CampFireZone_C::SGK EndInteraction",
+      "BP_CarMaster_C::SGK EndInteraction",
+      "BP_Chair2_C::SGK EndInteraction",
+      "BP_Chair_C::SGK EndInteraction",
+      "BP_Computer_C::SGK EndInteraction",
+      "BP_DeadBodyCivil_C::SGK EndInteraction",
+      "BP_DeadBodyMil_C::SGK EndInteraction",
+      "BP_DestroyedStorageBag_C::SGK EndInteraction",
+      "BP_DungeonDoor_C::SGK EndInteraction",
+      "BP_FurChair_C::SGK EndInteraction",
+      "BP_GarbageWorld_C::SGK EndInteraction",
+      "BP_Globe_C::SGK EndInteraction",
+      "BP_InteractiveBuroviksourceComponent_C::SGK EndInteraction",
+      "BP_InteractiveCarrotResourceComponent1_C::SGK EndInteraction",
+      "BP_InteractiveCucumberResourceComponent_C::SGK EndInteraction",
+      "BP_InteractiveMuhamorsourceComponent_C::SGK EndInteraction",
+      "BP_InteractiveTomatoResourceComponent_C::SGK EndInteraction",
+      "BP_InteractiveWheatResourceComponent_C::SGK EndInteraction",
+      "BP_MasterAICharacter_C::SGK EndInteraction",
+      "BP_MasterBuildPart_C::SGK EndInteraction",
+      "BP_MasterCookingBuildPart_C::SGK EndInteraction",
+      "BP_MasterCraftingBuildPart_C::SGK EndInteraction",
+      "BP_MasterEquipmentBuildPart_C::SGK EndInteraction",
+      "BP_MasterInteractableResource_C::SGK EndInteraction",
+      "BP_MasterStorageBuildPart_C::SGK EndInteraction",
+      "BP_MasterVendorBuildPart_C::SGK EndInteraction",
+      "BP_SGKInteractionInterface_C::SGK EndInteraction",
+      "BP_SGKMasterCharacter_C::SGK EndInteraction",
+      "BP_SM_WaitChairs2_C::SGK EndInteraction",
+      "BP_SM_WaitChairs_C::SGK EndInteraction",
+      "BP_SafeWrold_C::SGK EndInteraction",
+      "BP_SkeletalMasterItem_C::SGK EndInteraction",
+      "BP_SmallFlag_C::SGK EndInteraction",
+      "BP_Sofa2_C::SGK EndInteraction",
+      "BP_Sofa3_C::SGK EndInteraction",
+      "BP_Sofa_C::SGK EndInteraction",
+      "BP_StaticMasterItem_C::SGK EndInteraction",
+      "BP_TV_C::SGK EndInteraction",
+      "BP_Table02_C::SGK EndInteraction",
+      "BP_Table03_C::SGK EndInteraction",
+      "BP_Table1_C::SGK EndInteraction",
+      "BP_Taburetka03_C::SGK EndInteraction",
+      "BP_Taburetka_C::SGK EndInteraction",
+      "BP_Toilet_C::SGK EndInteraction",
+      "BP_TrashCan_C::SGK EndInteraction",
+      "BP_Tumbochka2_C::SGK EndInteraction",
+      "BP_VanityTable_C::SGK EndInteraction",
+      "BP_Wordrobe1_C::SGK EndInteraction",
+      "BP_WordrobeWorld_C::SGK EndInteraction"
+    ],
+    "SGK GetGlobalInventory": [
+      "BP_SGKGameModeInterface_C::SGK GetGlobalInventory",
+      "BP_SGKGameMode_C::SGK GetGlobalInventory"
+    ],
+    "SGK GetSaveGame": [
+      "BP_SGKGameModeInterface_C::SGK GetSaveGame",
+      "BP_SGKGameMode_C::SGK GetSaveGame"
+    ],
+    "SGK InteractName": [
+      "BP_Antenna_C::SGK InteractName",
+      "BP_ArtifactSpawner_C::SGK InteractName",
+      "BP_Barman_C::SGK InteractName",
+      "BP_Bed_C::SGK InteractName",
+      "BP_CampFireZone_C::SGK InteractName",
+      "BP_Carpet1_C::SGK InteractName",
+      "BP_Chair_C::SGK InteractName",
+      "BP_DeadBodyCivil_C::SGK InteractName",
+      "BP_DeadBodyMil_C::SGK InteractName",
+      "BP_DestroyedStorageBag_C::SGK InteractName",
+      "BP_DungeonDoor_C::SGK InteractName",
+      "BP_ExpeditionDoor_C::SGK InteractName",
+      "BP_GasolineGenerator_C::SGK InteractName",
+      "BP_GunDealerReal_C::SGK InteractName",
+      "BP_Hunter_C::SGK InteractName",
+      "BP_INCINERATOR_C::SGK InteractName",
+      "BP_InteractiveBuroviksourceComponent_C::SGK InteractName",
+      "BP_InteractiveCarrotResourceComponent1_C::SGK InteractName",
+      "BP_InteractiveCucumberResourceComponent_C::SGK InteractName",
+      "BP_InteractiveMuhamorsourceComponent_C::SGK InteractName",
+      "BP_InteractiveTomatoResourceComponent_C::SGK InteractName",
+      "BP_InteractiveWheatResourceComponent_C::SGK InteractName",
+      "BP_Mannequin_C::SGK InteractName",
+      "BP_MasterAICharacter_C::SGK InteractName",
+      "BP_MasterBuildPart_C::SGK InteractName",
+      "BP_MasterEquipmentBuildPart_C::SGK InteractName",
+      "BP_MasterInteractableResource_C::SGK InteractName",
+      "BP_MasterStorageBuildPart_C::SGK InteractName",
+      "BP_Medic_C::SGK InteractName",
+      "BP_MetalDoor_C::SGK InteractName",
+      "BP_ResourseSaler_C::SGK InteractName",
+      "BP_SGKInteractionInterface_C::SGK InteractName",
+      "BP_SGKMasterCharacter_C::SGK InteractName",
+      "BP_SM_WaitChairs2_C::SGK InteractName",
+      "BP_SM_WaitChairs_C::SGK InteractName",
+      "BP_SkeletalMasterItem_C::SGK InteractName",
+      "BP_Sofa3_C::SGK InteractName",
+      "BP_Sofa_C::SGK InteractName",
+      "BP_StartGameDoor_C::SGK InteractName",
+      "BP_StashMid_C::SGK InteractName",
+      "BP_StaticMasterItem_C::SGK InteractName",
+      "BP_Technician_C::SGK InteractName",
+      "BP_Toilet_C::SGK InteractName",
+      "BP_TrashCan_C::SGK InteractName",
+      "BP_Vasya_C::SGK InteractName"
+    ],
+    "SGK IsPlaced": [
+      "BP_DwarfTamed_C::SGK IsPlaced",
+      "BP_MasterBuildPart_C::SGK IsPlaced",
+      "BP_SGKBuildingInterface_C::SGK IsPlaced"
+    ],
+    "SGK ItemMovedInInventory": [
+      "BP_CookingComponent_C::SGK ItemMovedInInventory",
+      "BP_CraftingComponent_C::SGK ItemMovedInInventory",
+      "BP_MasterInventory_C::SGK ItemMovedInInventory",
+      "BP_SGKController_C::SGK ItemMovedInInventory",
+      "BP_SGKInventoryInterface_C::SGK ItemMovedInInventory"
+    ],
+    "SGK MeleeCollisionToggle": [
+      "BP_MasterHoldable_C::SGK MeleeCollisionToggle",
+      "BP_MasterMeleeWeapon_C::SGK MeleeCollisionToggle",
+      "BP_SGKHoldableInterface_C::SGK MeleeCollisionToggle"
+    ],
+    "SGK NewHeld": [
+      "BP_MasterHoldable_C::SGK NewHeld",
+      "BP_MasterRangeWeapon_C::SGK NewHeld",
+      "BP_MasterThrowable_C::SGK NewHeld",
+      "BP_SGKHoldableInterface_C::SGK NewHeld"
+    ],
+    "SGK Options Save": [
+      "BP_SGKGameInstanceInterface_C::SGK Options Save",
+      "BP_SGKGameInstance_C::SGK Options Save"
+    ],
+    "SGK ResetHoldable": [
+      "BP_Guitar_C::SGK ResetHoldable",
+      "BP_MasterConsumable_C::SGK ResetHoldable",
+      "BP_MasterHoldable_C::SGK ResetHoldable",
+      "BP_MasterMeleeWeapon_C::SGK ResetHoldable",
+      "BP_MasterRangeWeapon_C::SGK ResetHoldable",
+      "BP_SGKHoldableInterface_C::SGK ResetHoldable"
+    ],
+    "SGK SelfItem": [
+      "BP_DwarfTamed_C::SGK SelfItem",
+      "BP_MasterInventory_C::SGK SelfItem",
+      "BP_MasterItemInventory_C::SGK SelfItem",
+      "BP_SGKController_C::SGK SelfItem",
+      "BP_SGKInventoryInterface_C::SGK SelfItem"
+    ],
+    "SGK ServerPrimaryAction": [
+      "BP_Flashlight_C::SGK ServerPrimaryAction",
+      "BP_Guitar_C::SGK ServerPrimaryAction",
+      "BP_Horn_C::SGK ServerPrimaryAction",
+      "BP_MasterConsumable_C::SGK ServerPrimaryAction",
+      "BP_MasterHoldable_C::SGK ServerPrimaryAction",
+      "BP_MasterMeleeWeapon_C::SGK ServerPrimaryAction",
+      "BP_MasterRangeWeapon_C::SGK ServerPrimaryAction",
+      "BP_MasterThrowable_C::SGK ServerPrimaryAction",
+      "BP_SGKHoldableInterface_C::SGK ServerPrimaryAction"
+    ],
+    "SGK ServerSecondaryAction": [
+      "BP_MasterHoldable_C::SGK ServerSecondaryAction",
+      "BP_MasterRangeWeapon_C::SGK ServerSecondaryAction",
+      "BP_MasterThrowable_C::SGK ServerSecondaryAction",
+      "BP_SGKHoldableInterface_C::SGK ServerSecondaryAction"
+    ],
+    "SGK ShowAttachments": [
+      "BP_MasterInventory_C::SGK ShowAttachments",
+      "BP_SGKController_C::SGK ShowAttachments",
+      "BP_SGKInventoryInterface_C::SGK ShowAttachments",
+      "BP_WeaponInventory_C::SGK ShowAttachments"
+    ],
+    "SGK ShowNewAttachment": [
+      "BP_MasterHoldable_C::SGK ShowNewAttachment",
+      "BP_MasterWeapon_C::SGK ShowNewAttachment",
+      "BP_RPG7_C::SGK ShowNewAttachment",
+      "BP_SGKHoldableInterface_C::SGK ShowNewAttachment"
+    ],
+    "SGK ToggleComponent": [
+      "BP_CookingComponent_C::SGK ToggleComponent",
+      "BP_CraftingComponent_C::SGK ToggleComponent",
+      "BP_MasterInventory_C::SGK ToggleComponent",
+      "BP_SGKController_C::SGK ToggleComponent",
+      "BP_SGKInventoryInterface_C::SGK ToggleComponent"
+    ],
+    "SGK ToggleFireMode": [
+      "BP_MasterHoldable_C::SGK ToggleFireMode",
+      "BP_MasterRangeWeapon_C::SGK ToggleFireMode",
+      "BP_SGKHoldableInterface_C::SGK ToggleFireMode"
+    ],
+    "SGK TurnedOnEffect": [
+      "BP_Antenna_C::SGK TurnedOnEffect",
+      "BP_ArmChair_C::SGK TurnedOnEffect",
+      "BP_ArtifactSpawner_C::SGK TurnedOnEffect",
+      "BP_BedMetal_C::SGK TurnedOnEffect",
+      "BP_Bed_C::SGK TurnedOnEffect",
+      "BP_BigFlag_C::SGK TurnedOnEffect",
+      "BP_Bookcase2_C::SGK TurnedOnEffect",
+      "BP_Buffet_C::SGK TurnedOnEffect",
+      "BP_Buffet_World_C::SGK TurnedOnEffect",
+      "BP_Cabinet1_C::SGK TurnedOnEffect",
+      "BP_CabinetWorld_C::SGK TurnedOnEffect",
+      "BP_CampFireZone_C::SGK TurnedOnEffect",
+      "BP_CarMaster_C::SGK TurnedOnEffect",
+      "BP_Chair2_C::SGK TurnedOnEffect",
+      "BP_Chair_C::SGK TurnedOnEffect",
+      "BP_Computer_C::SGK TurnedOnEffect",
+      "BP_CraftingBenchWorld_C::SGK TurnedOnEffect",
+      "BP_CraftingBench_C::SGK TurnedOnEffect",
+      "BP_CuboardWorld_C::SGK TurnedOnEffect",
+      "BP_Cuboard_C::SGK TurnedOnEffect",
+      "BP_DeadBodyCivil_C::SGK TurnedOnEffect",
+      "BP_DeadBodyMil_C::SGK TurnedOnEffect",
+      "BP_DestroyedStorageBag_C::SGK TurnedOnEffect",
+      "BP_DungeonDoor_C::SGK TurnedOnEffect",
+      "BP_FurChair_C::SGK TurnedOnEffect",
+      "BP_GarbageWorld_C::SGK TurnedOnEffect",
+      "BP_GasStove_C::SGK TurnedOnEffect",
+      "BP_Globe_C::SGK TurnedOnEffect",
+      "BP_INCINERATOR_C::SGK TurnedOnEffect",
+      "BP_InteractiveBuroviksourceComponent_C::SGK TurnedOnEffect",
+      "BP_InteractiveCarrotResourceComponent1_C::SGK TurnedOnEffect",
+      "BP_InteractiveCucumberResourceComponent_C::SGK TurnedOnEffect",
+      "BP_InteractiveMuhamorsourceComponent_C::SGK TurnedOnEffect",
+      "BP_InteractiveTomatoResourceComponent_C::SGK TurnedOnEffect",
+      "BP_InteractiveWheatResourceComponent_C::SGK TurnedOnEffect",
+      "BP_Mangal_C::SGK TurnedOnEffect",
+      "BP_MasterAICharacter_C::SGK TurnedOnEffect",
+      "BP_MasterBuildPart_C::SGK TurnedOnEffect",
+      "BP_MasterInteractableResource_C::SGK TurnedOnEffect",
+      "BP_MicrowavePower_C::SGK TurnedOnEffect",
+      "BP_MidCrate_C::SGK TurnedOnEffect",
+      "BP_MilBigCrateWorld_C::SGK TurnedOnEffect",
+      "BP_MilMidCrateWorld_C::SGK TurnedOnEffect",
+      "BP_NightStandWorld_C::SGK TurnedOnEffect",
+      "BP_SGKInteractionInterface_C::SGK TurnedOnEffect",
+      "BP_SGKMasterCharacter_C::SGK TurnedOnEffect",
+      "BP_SM_WaitChairs2_C::SGK TurnedOnEffect",
+      "BP_SM_WaitChairs_C::SGK TurnedOnEffect",
+      "BP_SafeWrold_C::SGK TurnedOnEffect",
+      "BP_ScafWorld_C::SGK TurnedOnEffect",
+      "BP_Scaf_C::SGK TurnedOnEffect",
+      "BP_SkeletalMasterItem_C::SGK TurnedOnEffect",
+      "BP_SmallFlag_C::SGK TurnedOnEffect",
+      "BP_Sofa2_C::SGK TurnedOnEffect",
+      "BP_Sofa3_C::SGK TurnedOnEffect",
+      "BP_Sofa_C::SGK TurnedOnEffect",
+      "BP_StashMid_C::SGK TurnedOnEffect",
+      "BP_StaticMasterItem_C::SGK TurnedOnEffect",
+      "BP_TV_C::SGK TurnedOnEffect",
+      "BP_Table02_C::SGK TurnedOnEffect",
+      "BP_Table03_C::SGK TurnedOnEffect",
+      "BP_Table1_C::SGK TurnedOnEffect",
+      "BP_Taburetka03_C::SGK TurnedOnEffect",
+      "BP_Taburetka_C::SGK TurnedOnEffect",
+      "BP_Toilet_C::SGK TurnedOnEffect",
+      "BP_TrashCan_C::SGK TurnedOnEffect",
+      "BP_Tumbochka2_C::SGK TurnedOnEffect",
+      "BP_VanityTable_C::SGK TurnedOnEffect",
+      "BP_Wordrobe1_C::SGK TurnedOnEffect",
+      "BP_WordrobeWorld_C::SGK TurnedOnEffect"
+    ],
+    "SGK UpdateAllAttachments": [
+      "BP_MasterInventory_C::SGK UpdateAllAttachments",
+      "BP_SGKController_C::SGK UpdateAllAttachments",
+      "BP_SGKInventoryInterface_C::SGK UpdateAllAttachments",
+      "BP_WeaponInventory_C::SGK UpdateAllAttachments"
+    ],
+    "SGK UpdateCode": [
+      "BP_ArtifactSpawner_C::SGK UpdateCode",
+      "BP_CampFireZone_C::SGK UpdateCode",
+      "BP_DestroyedStorageBag_C::SGK UpdateCode",
+      "BP_InteractiveBuroviksourceComponent_C::SGK UpdateCode",
+      "BP_InteractiveCarrotResourceComponent1_C::SGK UpdateCode",
+      "BP_InteractiveCucumberResourceComponent_C::SGK UpdateCode",
+      "BP_InteractiveMuhamorsourceComponent_C::SGK UpdateCode",
+      "BP_InteractiveTomatoResourceComponent_C::SGK UpdateCode",
+      "BP_InteractiveWheatResourceComponent_C::SGK UpdateCode",
+      "BP_MasterAICharacter_C::SGK UpdateCode",
+      "BP_MasterBuildPart_C::SGK UpdateCode",
+      "BP_MasterInteractableResource_C::SGK UpdateCode",
+      "BP_MasterLock_C::SGK UpdateCode",
+      "BP_SGKInteractionInterface_C::SGK UpdateCode",
+      "BP_SGKMasterCharacter_C::SGK UpdateCode",
+      "BP_SkeletalMasterItem_C::SGK UpdateCode",
+      "BP_StaticMasterItem_C::SGK UpdateCode"
+    ],
+    "SGK UpdateSpecialSlot": [
+      "BP_CookingComponent_C::SGK UpdateSpecialSlot",
+      "BP_MasterInventory_C::SGK UpdateSpecialSlot",
+      "BP_SGKController_C::SGK UpdateSpecialSlot",
+      "BP_SGKInventoryInterface_C::SGK UpdateSpecialSlot"
+    ],
+    "SGK VerifyPlayer": [
+      "BP_ArtifactSpawner_C::SGK VerifyPlayer",
+      "BP_CampFireZone_C::SGK VerifyPlayer",
+      "BP_DestroyedStorageBag_C::SGK VerifyPlayer",
+      "BP_InteractiveBuroviksourceComponent_C::SGK VerifyPlayer",
+      "BP_InteractiveCarrotResourceComponent1_C::SGK VerifyPlayer",
+      "BP_InteractiveCucumberResourceComponent_C::SGK VerifyPlayer",
+      "BP_InteractiveMuhamorsourceComponent_C::SGK VerifyPlayer",
+      "BP_InteractiveTomatoResourceComponent_C::SGK VerifyPlayer",
+      "BP_InteractiveWheatResourceComponent_C::SGK VerifyPlayer",
+      "BP_MasterAICharacter_C::SGK VerifyPlayer",
+      "BP_MasterBuildPart_C::SGK VerifyPlayer",
+      "BP_MasterInteractableResource_C::SGK VerifyPlayer",
+      "BP_MasterLock_C::SGK VerifyPlayer",
+      "BP_SGKInteractionInterface_C::SGK VerifyPlayer",
+      "BP_SGKMasterCharacter_C::SGK VerifyPlayer",
+      "BP_SkeletalMasterItem_C::SGK VerifyPlayer",
+      "BP_StaticMasterItem_C::SGK VerifyPlayer"
+    ],
+    "SaveComponentData": [
+      "BP_CookingComponent_C::SaveComponentData",
+      "BP_CraftingComponent_C::SaveComponentData",
+      "BP_EquipmentInventory_C::SaveComponentData",
+      "BP_MasterInventory_C::SaveComponentData",
+      "BP_PlayerInventory_C::SaveComponentData",
+      "BP_VendorComponent_C::SaveComponentData"
+    ],
+    "ServerBuyVenderItem": [
+      "BP_PlayerInventory_C::ServerBuyVenderItem",
+      "BP_VendorComponent_C::ServerBuyVenderItem"
+    ],
+    "ServerInteract": [
+      "BP_PlayerInventory_C::ServerInteract",
+      "BP_PlayerPowerComponent_C::ServerInteract"
+    ],
+    "ServerSellVenderItem": [
+      "BP_PlayerInventory_C::ServerSellVenderItem",
+      "BP_VendorComponent_C::ServerSellVenderItem"
+    ],
+    "SetCollisionBetweenPlayers": [
+      "BPI_PlayerCollision_C::SetCollisionBetweenPlayers",
+      "BP_SGKMasterCharacter_C::SetCollisionBetweenPlayers"
+    ],
+    "SetVisibility": [
+      "MovieSceneLevelVisibilitySection::SetVisibility",
+      "SceneComponent::SetVisibility",
+      "Widget::SetVisibility"
+    ],
+    "SpawnDestructionBag": [
+      "BP_CookingComponent_C::SpawnDestructionBag",
+      "BP_EquipmentInventory_C::SpawnDestructionBag",
+      "BP_MasterInventory_C::SpawnDestructionBag"
+    ],
+    "StopAllCameraShakes": [
+      "CameraShakeSourceComponent::StopAllCameraShakes",
+      "PlayerCameraManager::StopAllCameraShakes"
+    ],
+    "UpdateAttachmentItem": [
+      "BP_AttachmentSlot_C::UpdateAttachmentItem",
+      "BP_WeaponInventory_C::UpdateAttachmentItem"
+    ],
+    "UpdateCraftingListing": [
+      "BP_CraftingMenu_C::UpdateCraftingListing",
+      "BP_CraftingQueueListing_C::UpdateCraftingListing",
+      "BP_CraftingQueue_C::UpdateCraftingListing",
+      "BP_ExtCraftingMenu_C::UpdateCraftingListing",
+      "BP_InventoryHUD_C::UpdateCraftingListing",
+      "BP_MasterInventory_C::UpdateCraftingListing"
+    ],
+    "UpdateFloat": [
+      "BP_CircleStat_C::UpdateFloat",
+      "BP_ProgressStat_C::UpdateFloat"
+    ],
+    "UpdateInteger": [
+      "BP_CircleStat_C::UpdateInteger",
+      "BP_ProgressStat_C::UpdateInteger"
+    ]
+  },
+  "depth": 3,
+  "nodes": {
+    "Actor::HasAuthority": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Script/Engine.Actor:HasAuthority",
+      "references_watched": [],
+      "script_bytes": 0
+    },
+    "ActorComponent::GetOwner": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Script/Engine.ActorComponent:GetOwner",
+      "references_watched": [],
+      "script_bytes": 0
+    },
+    "BP_CookingComponent_C::IsCookingSlot": {
+      "callee_names": [],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CookingComponent.BP_CookingComponent_C:IsCookingSlot",
+      "references_watched": [],
+      "script_bytes": 229
+    },
+    "BP_CookingComponent_C::IsFuelItem": {
+      "callee_names": [],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CookingComponent.BP_CookingComponent_C:IsFuelItem",
+      "references_watched": [],
+      "script_bytes": 419
+    },
+    "BP_CookingComponent_C::IsIndexFuelSlot": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CookingComponent.BP_CookingComponent_C:IsIndexFuelSlot",
+      "references_watched": [],
+      "script_bytes": 551
+    },
+    "BP_CookingComponent_C::SGK ItemMovedInInventory": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_CookingComponent_C::ExecuteUbergraph_BP_CookingComponent"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CookingComponent.BP_CookingComponent_C:SGK ItemMovedInInventory",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_CookingComponent_C::SGK UpdateSpecialSlot": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_CookingComponent_C::ExecuteUbergraph_BP_CookingComponent"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CookingComponent.BP_CookingComponent_C:SGK UpdateSpecialSlot",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_CraftingComponent_C::IsFuelItem": {
+      "callee_names": [],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CraftingComponent.BP_CraftingComponent_C:IsFuelItem",
+      "references_watched": [],
+      "script_bytes": 419
+    },
+    "BP_CraftingComponent_C::IsIndexFuelSlot": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CraftingComponent.BP_CraftingComponent_C:IsIndexFuelSlot",
+      "references_watched": [],
+      "script_bytes": 594
+    },
+    "BP_CraftingComponent_C::SGK ItemMovedInInventory": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_CraftingComponent_C::ExecuteUbergraph_BP_CraftingComponent"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_CraftingComponent.BP_CraftingComponent_C:SGK ItemMovedInInventory",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_DwarfTamed_C::SGK SelfItem": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/Blueprints/AI/BP_DwarfTamed.BP_DwarfTamed_C:SGK SelfItem",
+      "references_watched": [],
+      "script_bytes": 76
+    },
+    "BP_EquipmentInventory_C::SelectEquipmentSlot": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_EquipmentInventory.BP_EquipmentInventory_C:SelectEquipmentSlot",
+      "references_watched": [],
+      "script_bytes": 382
+    },
+    "BP_MasterInventory_C::AddItem": {
+      "callee_names": [
+        "AddItemWeight",
+        "AddUsingPlayer",
+        "AddWeightCheck",
+        "ChangeItemCount",
+        "ContainerRestrictionCheck",
+        "CreateNotificationInChild",
+        "FindEmptySlots",
+        "FindFreeStackSpace",
+        "ItemLimitCheck",
+        "SGK ItemDetails",
+        "SGK UpdateAllAttachments",
+        "SetNewSlotItem",
+        "UpdateAllPlayersRootItems",
+        "WeightCheck"
+      ],
+      "callee_pointers": [
+        "Actor::HasAuthority",
+        "ActorComponent::GetOwner",
+        "KismetArrayLibrary::Array_Get"
+      ],
+      "depth": 0,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddItem",
+      "references_watched": [],
+      "script_bytes": 4813
+    },
+    "BP_MasterInventory_C::AddItemWeight": {
+      "callee_names": [
+        "AddWeight",
+        "SGK ItemDetails",
+        "潰敮瑮୐偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤱ଡ଼偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮栲ୄ偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤳ಮ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮ö㌵2೔偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮栱೾偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮2ೀ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ர偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂卟慴物䝳楲䍤浯潰敮瑮ବ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮୤偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮1ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮2ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮3ಸ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮à㌵3ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮1೚偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮∲ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ஜ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂卟慴物䝳楲䍤浯潰敮"
+      ],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddItemWeight",
+      "references_watched": [],
+      "script_bytes": 2269
+    },
+    "BP_MasterInventory_C::AddUsingPlayer": {
+      "callee_names": [
+        "CheckItemSpawn"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_AddUnique"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddUsingPlayer",
+      "references_watched": [],
+      "script_bytes": 85
+    },
+    "BP_MasterInventory_C::AddWeight": {
+      "callee_names": [
+        "AddWeight",
+        "OnRep_CurrentWeight"
+      ],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddWeight",
+      "references_watched": [],
+      "script_bytes": 375
+    },
+    "BP_MasterInventory_C::AddWeightCheck": {
+      "callee_names": [
+        "ParentWeightCheck",
+        "RemainingFreeWeight"
+      ],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddWeightCheck",
+      "references_watched": [],
+      "script_bytes": 991
+    },
+    "BP_MasterInventory_C::AllItems": {
+      "callee_names": [
+        "SGK InvSlotItem",
+        "SGK IsRootSlot"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_AddUnique",
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AllItems",
+      "references_watched": [],
+      "script_bytes": 640
+    },
+    "BP_MasterInventory_C::AttemptToAddItemAmount": {
+      "callee_names": [
+        "AddWeightCheck",
+        "ChangeItemCount",
+        "None",
+        "SGK GetInvSlot",
+        "SGK InvSlotItem",
+        "SGK ItemDetails",
+        "SetNewSlotItem"
+      ],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AttemptToAddItemAmount",
+      "references_watched": [],
+      "script_bytes": 1435
+    },
+    "BP_MasterInventory_C::ChangeItemCount": {
+      "callee_names": [
+        "OnRep_ItemCount"
+      ],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ChangeItemCount",
+      "references_watched": [],
+      "script_bytes": 302
+    },
+    "BP_MasterInventory_C::CheckItemSpawn": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:CheckItemSpawn",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_MasterInventory_C::ContainerRestrictionCheck": {
+      "callee_names": [
+        "SGK ItemContainerDetails",
+        "SGK SelfItem"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ContainerRestrictionCheck",
+      "references_watched": [],
+      "script_bytes": 1285
+    },
+    "BP_MasterInventory_C::CreateNotificationInChild": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:CreateNotificationInChild",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory": {
+      "callee_names": [
+        "AddNewInvPanel",
+        "AddStartingItems",
+        "AllItems",
+        "CancelCraftingRecipe",
+        "CheckCraftingRequirements",
+        "CheckItemSpawn",
+        "CheckRecipeCost",
+        "ClearInventoryItems",
+        "ClientAddCraftingListing",
+        "ClientCloseContainerWindow",
+        "ClientCreateNotification",
+        "ClientStartCraftingListingTimer",
+        "ClientUpdateCraftingListing",
+        "ClientUpdateSlotsWithItems",
+        "ConstructSlots",
+        "CraftItem",
+        "CreateNewCraftingListing",
+        "CreateNotificationInChild",
+        "DestroyAttachedActors",
+        "DestroyContainingInventories",
+        "EmptyInventory",
+        "FindCraftingListing",
+        "InGameLoadComponentData",
+        "LoadComponentData",
+        "OnRep_CurrentWeight",
+        "OnRep_ItemCount",
+        "RequiredActorCraftingCheck",
+        "SGK BuildPartType",
+        "SGK GetSaveGame",
+        "SGK IsPlaced",
+        "SGK IsRootSlot",
+        "SGK ItemDetails",
+        "SGK RecipeDetails",
+        "SaveComponentData",
+        "ServerAddClientCraftingListing",
+        "ServerPlaySound",
+        "ServerSpawnDestructionBag",
+        "ServerStartClientListingTimer",
+        "ServerUpdateClientCraftingListing",
+        "ServerUpdateItemQuickSlot",
+        "SpawnDestructionBag",
+        "SpawnItems",
+        "UpdateAllPlayersRootItems",
+        "UpdateCraftingListing",
+        "UpdateItemInventory"
+      ],
+      "callee_pointers": [
+        "Actor::GetComponentByClass",
+        "ActorComponent::GetOwner",
+        "KismetArrayLibrary::Array_AddUnique",
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length",
+        "KismetArrayLibrary::Array_Remove"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ExecuteUbergraph_BP_MasterInventory",
+      "references_watched": [],
+      "script_bytes": 12683
+    },
+    "BP_MasterInventory_C::FindEmptySlots": {
+      "callee_names": [
+        "IsCookingSlot",
+        "IsFuelItem",
+        "IsIndexFuelSlot",
+        "SGK InvSlotOccupied",
+        "SGK IsRootSlot",
+        "SGK ItemSize",
+        "SGK RootSpaceCheck",
+        "WeightCheck"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Clear",
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:FindEmptySlots",
+      "references_watched": [],
+      "script_bytes": 5661
+    },
+    "BP_MasterInventory_C::FindFreeStackSpace": {
+      "callee_names": [
+        "AddItemWeight",
+        "AttemptToAddItemAmount",
+        "SGK IsMaxAmount",
+        "SGK IsRootSlot",
+        "SGK ItemDetails"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:FindFreeStackSpace",
+      "references_watched": [],
+      "script_bytes": 1327
+    },
+    "BP_MasterInventory_C::ItemLimitCheck": {
+      "callee_names": [
+        "RemainingItemCount"
+      ],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ItemLimitCheck",
+      "references_watched": [],
+      "script_bytes": 442
+    },
+    "BP_MasterInventory_C::OnRep_ItemCount": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:OnRep_ItemCount",
+      "references_watched": [],
+      "script_bytes": 22
+    },
+    "BP_MasterInventory_C::ParentWeightCheck": {
+      "callee_names": [
+        "AddWeightCheck"
+      ],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ParentWeightCheck",
+      "references_watched": [],
+      "script_bytes": 745
+    },
+    "BP_MasterInventory_C::RemainingFreeWeight": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:RemainingFreeWeight",
+      "references_watched": [],
+      "script_bytes": 249
+    },
+    "BP_MasterInventory_C::RemainingItemCount": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:RemainingItemCount",
+      "references_watched": [],
+      "script_bytes": 85
+    },
+    "BP_MasterInventory_C::ReplaceUsingPlayers": {
+      "callee_names": [
+        "CheckItemSpawn"
+      ],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ReplaceUsingPlayers",
+      "references_watched": [],
+      "script_bytes": 44
+    },
+    "BP_MasterInventory_C::SGK ItemMovedInInventory": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SGK ItemMovedInInventory",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_MasterInventory_C::SGK SelfItem": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SGK SelfItem",
+      "references_watched": [],
+      "script_bytes": 76
+    },
+    "BP_MasterInventory_C::SGK UpdateAllAttachments": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SGK UpdateAllAttachments",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_MasterInventory_C::SGK UpdateSpecialSlot": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SGK UpdateSpecialSlot",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_MasterInventory_C::ServerForceRootItemUpdate": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ServerForceRootItemUpdate",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_MasterInventory_C::SetNewSlotItem": {
+      "callee_names": [
+        "SGK ItemMovedInInventory",
+        "SGK ItemSize",
+        "SGK SlotFinder",
+        "SGK UpdateSpecialSlot",
+        "UpdateInvSlots",
+        "UpdateSlotOnUsingPlayers"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SetNewSlotItem",
+      "references_watched": [],
+      "script_bytes": 1695
+    },
+    "BP_MasterInventory_C::UpdateAllPlayersRootItems": {
+      "callee_names": [
+        "AllItems",
+        "ClientUpdateItemSlots",
+        "ReplaceUsingPlayers",
+        "SGK UpdateAllAttachments",
+        "ServerForceRootItemUpdate",
+        "UpdateAllPlayersRootItems"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:UpdateAllPlayersRootItems",
+      "references_watched": [],
+      "script_bytes": 3244
+    },
+    "BP_MasterInventory_C::UpdateInvSlots": {
+      "callee_names": [
+        "None",
+        "牥祴ˀ湉側潲数瑲y̴潂汯牐灯牥祴Ͷ汆慯側潲数瑲yβ扏敪瑣牐灯牥祴̄慎敭牐灯牥祴Ь敄敬慧整牐灯牥祴Έ潄扵敬牐灯牥祴ͮ牁慲偹潲数瑲y΢瑓畲瑣牐灯牥祴Ζ敖瑣牯牐灯牥祴ώ潒慴潴偲潲数瑲yˢ瑓偲潲数瑲y̌敔瑸牐灯牥祴ю湉整晲捡健潲数瑲yـ畍瑬捩獡䑴汥来瑡健潲数瑲yҰ慌祺扏敪瑣牐灯牥祴҄潓瑦扏敪瑣牐灯牥祴ͬ湉㙴倴潲数瑲y͖湉㍴倲潲数瑲y͈湉ㅴ倶潲数瑲y̪湉㡴牐灯牥祴Έ䥕瑮㐶牐灯牥祴Ψ䥕瑮㈳牐灯牥祴Π䥕瑮㘱牐灯牥祴ˈ慍偰潲数瑲y˜敓側潲数瑲yĦ潃敲ƺ湅楧敮Ɗ摅瑩牯ˌ潃敲何橢捥ť湅浵牐灯牥祴к灏楴湯污牐灯牥祴Ȟ祃楬摮牥ϰ潂卸桰牥䉥畯摮sƦ灓敨敲Ò潂xȨ敖瑣牯䐲Ǹ湉剴捥tȮ湉側楯瑮ǜ敖瑣牯4Ĥ慎敭Ʀ敖瑣牯ǔ潒慴潴rȜ䡓敖瑣牯Ŷ潃潬rņ汐湡eƴ慍牴硩˺楌敮牡潃潬r̰摁慶据䙥慲敭Ǌ潐湩整rƾ潄扵敬Ĝ畑瑡Č敓晬ɨ牔湡晳牯mȴ敖瑣牯昳Ȗ敖瑣牯搳ǔ汐湡㑥fǾ汐湡㑥dɴ慍牴硩㐴fɠ慍牴硩㐴dƂ畑瑡昴Ƣ畑瑡搴˄牔湡晳牯㍭fˬ牔湡晳牯㍭dŖ潂㍸fž潂㍸dѸ潂卸桰牥䉥畯摮㍳fѶ潂卸桰牥䉥畯摮㍳dȼ敖瑣牯昴Ș敖瑣牯搴Ɇ潒"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Add",
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_IsValidIndex",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:UpdateInvSlots",
+      "references_watched": [],
+      "script_bytes": 2078
+    },
+    "BP_MasterInventory_C::UpdateSlotOnUsingPlayers": {
+      "callee_names": [
+        "ClientUpdateInvSlot"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:UpdateSlotOnUsingPlayers",
+      "references_watched": [],
+      "script_bytes": 1824
+    },
+    "BP_MasterInventory_C::WeightCheck": {
+      "callee_names": [
+        "ParentWeightCheck",
+        "SGK ItemDetails"
+      ],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:WeightCheck",
+      "references_watched": [],
+      "script_bytes": 3177
+    },
+    "BP_MasterItemInventory_C::SGK SelfItem": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_MasterItemInventory.BP_MasterItemInventory_C:SGK SelfItem",
+      "references_watched": [],
+      "script_bytes": 286
+    },
+    "BP_PlayerInventory_C::AttemptToAddItem": {
+      "callee_names": [
+        "AddItem",
+        "CreateNotificationInChild",
+        "FindFreeStackSpace",
+        "SGK ItemDetails",
+        "SelectEquipmentSlot",
+        "污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮୐偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤱ଡ଼偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮栲ୄ偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤳ಮ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮ö㌵2೔偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮栱೾偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮2ೀ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ர偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂卟慴物䝳楲䍤浯潰敮瑮ବ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮୤偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮1ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮2ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮3ಸ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮à㌵3ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮1೚偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮∲ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ஜ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂卟慴物䝳楲䍤浯潰敮瑮଄偂䵟瑥污潆湵慤楴湯䍟"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length"
+      ],
+      "depth": 0,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AttemptToAddItem",
+      "references_watched": [],
+      "script_bytes": 3197
+    },
+    "BP_PlayerInventory_C::ClientUpdateItemSlots": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:ClientUpdateItemSlots",
+      "references_watched": [],
+      "script_bytes": 72
+    },
+    "BP_PlayerInventory_C::CreateNotificationInChild": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:CreateNotificationInChild",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory": {
+      "callee_names": [
+        "AddAllEquipmentQuickSlots",
+        "AddAttachmentFromSlot",
+        "AddEquipmentComponent",
+        "AddPanelToUsingPlayers",
+        "AddQuickSlots",
+        "AddStartingItems",
+        "AddUsingPlayer",
+        "AllEquipmentActors",
+        "ApplyAttachment",
+        "Block Input",
+        "CancelReload",
+        "ChangeState",
+        "CheckEquipmentSlot",
+        "ClearBleed",
+        "ClientAddStat",
+        "ClientClearQuickSlotItem",
+        "ClientCloseLockpad",
+        "ClientCodeResult",
+        "ClientCreateNotification",
+        "ClientEnterCombatMode",
+        "ClientEnterStandardMode",
+        "ClientGetAchievement",
+        "ClientGetStatsAchievement",
+        "ClientNewEquipment",
+        "ClientNewWeapon",
+        "ClientOpenContainerInv",
+        "ClientOpenExtCookingMenu",
+        "ClientOpenExtCraftingMenu",
+        "ClientOpenExtEquipmentInv",
+        "ClientOpenExtInv",
+        "ClientOpenLockpad",
+        "ClientOpenVenderMenu",
+        "ClientOpenWeaponWindow",
+        "ClientPlaceNamedBuildPart",
+        "ClientPlayerInventoryRepawned",
+        "ClientQuickSlotHighlight",
+        "ClientRefreshCraftingList",
+        "ClientRemoveShadowDummy",
+        "ClientRespawnPlayer",
+        "ClientSelectBuildMode",
+        "ClientSetControlRotation",
+        "ClientSetIgnoreActor",
+        "ClientShowRespawnScreen",
+        "ClientStartCameraShake",
+        "ClientStartingCamera",
+        "ClientStopLean",
+        "ClientUpdateInvSlot",
+        "ClientUpdateStatUI",
+        "ClientUpdateState",
+        "Client_PlayTakeDamageAnimation",
+        "CloseCodeLockUI",
+        "CloseContainerWindow",
+        "CloseInventory",
+        "ClosePickupConfirmation",
+        "ConfirmPickup",
+        "ConstructSlots",
+        "CreateAttachmentWindow",
+        "CreateContainerWindow",
+        "CreateCraftingListing",
+        "CreateNewInventoryPanel",
+        "CreateNotification",
+        "DeletePlayerSave",
+        "DisableInput",
+        "DoesSocketExist",
+        "DropItemFromSlot",
+        "EnterCombatMode",
+        "EnterStandardMode",
+        "EquipItem",
+        "EquipItemFromSlot",
+        "EquipWeapon",
+        "EquipWeaponFromSlot",
+        "FindAttachmentSlot",
+        "FindGridIcon",
+        "FindQuickSlot",
+        "FindSpawnPoint",
+        "GetGameplaySettings",
+        "GetUp",
+        "GetVelocity",
+        "HasInteractedActorSelectedAction",
+        "HideTint",
+        "HitActor",
+        "InGameLoadPlayerInventory",
+        "InitializeComponentSaveSystem",
+        "InteractSphereTrace",
+        "InteractTrace",
+        "IsInventoryEquipped",
+        "K2_DestroyActor",
+        "LoadPlayerInventory",
+        "LoadSave",
+        "Misery Game Input",
+        "Misery UI Input",
+        "MiseryDeathScreenInput",
+        "MoveItem",
+        "MulticastEndChamber",
+        "MulticastPlayMontage",
+        "MulticastPlaySound",
+        "MulticastStopMontage",
+        "OnRep_CurrentHealth",
+        "OnRep_CurrentHunger",
+        "OnRep_CurrentRadiation",
+        "OnRep_CurrentSocket",
+        "OnRep_CurrentStamina",
+        "OnRep_CurrentThirst",
+        "OnRep_HoldingItem",
+        "OnRep_Reload",
+        "OnRep_TickEnabled",
+        "OpenCodeLockUI",
+        "OpenEquipmentMenu",
+        "OpenExtCookingMenu",
+        "OpenExtCraftingMenu",
+        "OpenInvMenu",
+        "OpenVenderMenu",
+        "Pause/UnPauseSingleSlot",
+        "PauseAllCookingSlots",
+        "PauseCraftingQueue",
+        "PlayItemSound",
+        "PlayTakeDamageAnimation",
+        "QuickMove",
+        "QuickSlotUseSelect",
+        "RefreshAllItemIcons",
+        "RemoveAttachment",
+        "RemoveFromParent",
+        "RemoveHUD",
+        "RemoveInventoryPanel",
+        "RemoveQuickSlots",
+        "RemoveShadowDummy",
+        "RemoveUsingPlayer",
+        "RepairItemInSlot",
+        "RepairItemInWeaponSlot",
+        "ReplicateContainingInventories",
+        "ResetStats",
+        "RestartCookingSlotTimer",
+        "ResumeCookingSlotTimer",
+        "ResumeCraftingQueue",
+        "SGK AttachNewAttachment",
+        "SGK AttachmentDetails",
+        "SGK ChamberWeaponAmmo",
+        "SGK ClientPrimaryAction",
+        "SGK ClientReloadChecks",
+        "SGK ClientSecondaryAction",
+        "SGK CodeCheck",
+        "SGK DestroyWeaponAttachments",
+        "SGK EndInteraction",
+        "SGK GetInvSlot",
+        "SGK GetSaveGame",
+        "SGK InteractName",
+        "SGK InvSlotItem",
+        "SGK IsPlaced",
+        "SGK ItemDetails",
+        "SGK ItemSize",
+        "SGK MeleeCollisionToggle",
+        "SGK NewHeld",
+        "SGK Options Save",
+        "SGK ResetHoldable",
+        "SGK SelfItem",
+        "SGK ServerPrimaryAction",
+        "SGK ServerSecondaryAction",
+        "SGK ShowAttachments",
+        "SGK ShowNewAttachment",
+        "SGK ToggleComponent",
+        "SGK ToggleFireMode",
+        "SGK TurnedOnEffect",
+        "SGK UpdateAllAttachments",
+        "SGK UpdateCode",
+        "SGK VerifyPlayer",
+        "SaveGame",
+        "SavePlayerInventory",
+        "SelectBuildMode",
+        "SelectEquipmentSlot",
+        "SelectedContextEntry",
+        "SelectedWeaponSlot",
+        "ServerBuyVenderItem",
+        "ServerCancelCraftingListing",
+        "ServerCreateNewListingCheck",
+        "ServerEmptyInventory",
+        "ServerInteract",
+        "ServerOpenContainerWindow",
+        "ServerOpenWeaponWindow",
+        "ServerPlayDeathAnimation",
+        "ServerRespawn",
+        "ServerSellVenderItem",
+        "ServerSetInAction",
+        "ServerSprintKey",
+        "ServerUpdateItemQuickSlot",
+        "ServerUpdateItemSlots",
+        "ServerUpdateState",
+        "ServerUpdateWeaponQuickSlot",
+        "SetActorHiddenInGame",
+        "SetCollisionBetweenPlayers",
+        "SetControlRotation",
+        "SetInvSlots",
+        "SetVisibility",
+        "ShowTint",
+        "SplitStack",
+        "StaminaStateCheck",
+        "StartCookingSlotTimer",
+        "StartCraftingListingTimer",
+        "StopAllCameraShakes",
+        "SwapAttachments",
+        "SwapEquipmentFromItemSlot",
+        "SwapEquipmentSlots",
+        "SwapWeaponFromItemSlot",
+        "SwapWeaponSlots",
+        "ToggleBlock",
+        "ToggleInGameMenu",
+        "ToggleInventory",
+        "Unblock Input",
+        "UnequipItem",
+        "UnequipWeapon",
+        "UpdateAllAttachments",
+        "UpdateAllPlayersRootItems",
+        "UpdateAreYouSureMenu",
+        "UpdateCookingSlot",
+        "UpdateCraftingListing",
+        "UpdateCurrentItem",
+        "UpdateFloat",
+        "UpdateInteger",
+        "UpdateInvSlots",
+        "UpdateItemIcon",
+        "UpdateItemQuickSlot",
+        "UpdateMaxMovementSpeed",
+        "UpdateQuickSlotItem",
+        "UpdateQuickSlotWeapon",
+        "UpdateWeaponQuickSlot",
+        "UpdateWeaponSlotWidget",
+        "UseItemFromSlot",
+        "UseWeaponFromSlot",
+        "ValveIndex_Right_Thumbstick_Y",
+        "Weapon For VisibilityForOwner",
+        "牥Ղ敇啴敳䙲牯湉異䑴癥捩eފ敇啴敳䙲牯湕慰物摥湉異䑴癥捩獥Ҕ湉異䑴癥捩䥥彤潎敮۬獉敄楶散牐灯牥祴慈摮敬慖楬dࡠ獉湉異䑴癥捩䵥灡数呤啯灮楡敲啤敳rШ獉湕慰物摥獕牥摉Ҋ獉慖楬䥤灮瑵敄楶散ў獉慖楬偤慬晴牯䥭dֺ潎䕴畱污䥟灮瑵敄楶散摉׈潎䕴畱污偟慬晴牯啭敳䥲dӬ汐瑡潦浲獕牥摉也湯eע湉異䭴祥敄敬慧整楂摮湩gٔ湉異呴畯档敄敬慧整楂摮湩gޔ湉異噴捥潴䅲楸䑳汥来瑡䉥湩楤杮߼湉瑳湡散偤慬散敭䍮楬湥却瑥楴杮sࠔ湉瑳湡散偤慬散敭瑮慐瑲瑩潩䅮瑣牯ˀ瑓楲杮慔汢eҠ湉整灲畃癲䕥卤瑥灵В湉却牥慩楬慺楴湯˼楋汬噚汯浵eҖ楋浳瑥牁慲䱹扩慲祲ɚ牁慲役摁dϬ牁慲役摁啤楮畱e̶牁慲役灁数摮˞牁慲役汃慥rΐ牁慲役潃瑮楡獮ʴ牁慲役楆摮Ɉ牁慲役敇tϾ牁慲役摉湥楴慣l̺牁慲役湉敳瑲͘牁慲役獉浅瑰yР牁慲役獉潎䕴灭祴Ғ牁慲役獉慖楬䥤摮硥϶牁慲役慌瑳湉敤x̄牁慲役敌杮桴̜牁慲役慒摮浯־牁慲役慒摮浯牆浯瑓敲浡̔牁慲役敒潭敶Є牁慲役敒潭敶瑉浥̊牁慲役敒楳敺͆牁慲役敒敶獲eɤ牁慲役敓t͆牁慲役桓晵汦eה牁慲役桓晵汦䙥潲卭牴慥mʨ牁慲役睓灡˨楆瑬牥牁慲y֚敓䅴牲祡牐",
+        "畨扭瑳捩彫Xݸ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫Yࡂ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫汃捩kࡾ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫潔捵hޔ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫灕࠸慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫潄湷ࠈ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫敌瑦ࡨ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫楒桧tܒ慖癬䥥摮硥剟杩瑨呟慲正慰彤䐲۪慖癬䥥摮硥剟杩瑨呟慲正慰彤X۰慖癬䥥摮硥剟杩瑨呟慲正慰彤Y߬慖癬䥥摮硥剟杩瑨呟慲正慰彤潆捲eߊ慖癬䥥摮硥剟杩瑨呟慲正慰彤潔捵hܶ慖癬䥥摮硥剟杩瑨呟慲正慰彤灕ފ慖癬䥥摮硥剟杩瑨呟慲正慰彤潄湷ކ慖癬䥥摮硥剟杩瑨呟慲正慰彤敌瑦ߌ慖癬䥥摮硥剟杩瑨呟慲正慰彤楒桧tǠ慇敭慰dŶ潍獵eЎ灁印慴畴味慲正牥Ӧ敐偲慬晴牯卭瑥楴杮s٢匯牣灩⽴敄敶潬数卲瑥楴杮sٲ汐瑡潦浲敓瑴湩獧湉瑳湡散sϒ潆瑮摓卦瑥楴杮sѺ匯",
+        "祴Ͷ汆慯側潲数瑲yβ扏敪瑣牐灯牥祴̄慎敭牐灯牥祴Ь敄敬慧整牐灯牥祴Έ潄扵敬牐灯牥祴ͮ牁慲偹潲数瑲y΢瑓畲瑣牐灯牥祴Ζ敖瑣牯牐灯牥祴ώ潒慴潴偲潲数瑲yˢ瑓偲潲数瑲y̌敔瑸牐灯牥祴ю湉整晲捡健潲数瑲yـ畍瑬捩獡䑴汥来瑡健潲数瑲yҰ慌祺扏敪瑣牐灯牥祴҄潓瑦扏敪瑣牐灯牥祴ͬ湉㙴倴潲数瑲y͖湉㍴倲潲数瑲y͈湉ㅴ倶潲数瑲y̪湉㡴牐灯牥祴Έ䥕瑮㐶牐灯牥祴Ψ䥕瑮㈳牐灯牥祴Π䥕瑮㘱牐灯牥祴ˈ慍偰潲数瑲y˜敓側潲数瑲yĦ潃敲ƺ湅楧敮Ɗ摅瑩牯ˌ潃敲何橢捥ť湅浵牐灯牥祴к灏楴湯污牐灯牥祴Ȟ祃楬摮牥ϰ潂卸桰牥䉥畯摮sƦ灓敨敲Ò潂xȨ敖瑣牯䐲Ǹ湉剴捥tȮ湉側楯瑮ǜ敖瑣牯4Ĥ慎敭Ʀ敖瑣牯ǔ潒慴潴rȜ䡓敖瑣牯Ŷ潃潬rņ汐湡eƴ慍牴硩˺楌敮牡潃潬r̰摁慶据䙥慲敭Ǌ潐湩整rƾ潄扵敬Ĝ畑瑡Č敓晬ɨ牔湡晳牯mȴ敖瑣牯昳Ȗ敖瑣牯搳ǔ汐湡㑥fǾ汐湡㑥dɴ慍牴硩㐴fɠ慍牴硩㐴dƂ畑瑡昴Ƣ畑瑡搴˄牔湡晳牯㍭fˬ牔湡晳牯㍭dŖ潂㍸fž潂㍸dѸ潂卸桰牥䉥畯摮㍳fѶ潂卸桰牥䉥畯摮㍳dȼ敖瑣牯昴Ș敖瑣牯搴Ɇ潒慴潴㍲fɎ潒慴潴㍲dȴ敖瑣牯昲ż潂㉸DŐ潂㉸f"
+      ],
+      "callee_pointers": [
+        "Actor::FlushNetDormancy",
+        "Actor::GetAttachedActors",
+        "Actor::GetComponentByClass",
+        "Actor::GetTransform",
+        "Actor::HasAuthority",
+        "Actor::K2_AttachToComponent",
+        "ActorComponent::GetOwner",
+        "BP_EquipmentInventory_C::ReceiveBeginPlay",
+        "BlueprintMapLibrary::Map_Find",
+        "Controller::K2_GetPawn",
+        "Controller::Possess",
+        "Controller::UnPossess",
+        "KismetArrayLibrary::Array_Clear",
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_IsValidIndex",
+        "KismetArrayLibrary::Array_Length",
+        "SceneComponent::K2_AttachToComponent",
+        "UserWidget::AddToViewport",
+        "WidgetBlueprintLibrary::Create"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:ExecuteUbergraph_BP_PlayerInventory",
+      "references_watched": [],
+      "script_bytes": 47298
+    },
+    "BP_SGKController_C::ExecuteUbergraph_BP_SGKController": {
+      "callee_names": [
+        "Activate",
+        "AddMappingContext",
+        "AddNewInvPanel",
+        "AllWeaponActors",
+        "ClientInitialize",
+        "ClientRespawn",
+        "ClientSetPlayerName",
+        "CloseInventory",
+        "DestroyContainingInventories",
+        "DestroyItemInventory",
+        "EnableInput",
+        "InitWheelMenus",
+        "InitializeEquipmentInventory",
+        "InitializePlayerInventory",
+        "InterruptWheelInput",
+        "IsLocalController",
+        "IsWheelInputAllowed",
+        "K2_DestroyActor",
+        "LoadControls",
+        "Misery In Game Menu Input",
+        "MulticastInitPlayerInventory",
+        "None",
+        "OnPossess",
+        "RemoveMappingContext",
+        "SGK GetGlobalInventory",
+        "SelectEquipmentSlot",
+        "SelectedWeaponSlot",
+        "ServerFinishInGameLoad",
+        "ServerInitPlayerInventory",
+        "ServerPlayerInventoryRespawned",
+        "ServerResetRespawn",
+        "SetIgnoreLookInput",
+        "SetIgnoreMoveInput",
+        "SpawnDroppedItem",
+        "SpawnGridManager",
+        "StartCameraFade",
+        "ToggleInGameMenu",
+        "UpdatePlayerSave"
+      ],
+      "callee_pointers": [
+        "Actor::GetComponentByClass",
+        "Actor::HasAuthority",
+        "Controller::K2_GetPawn",
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_Length",
+        "MW_MenuWheelComponent::HideMenu",
+        "MW_MenuWheelComponent::ShowMenu",
+        "MW_MenuWheelComponent::UpdateButtons",
+        "UserWidget::AddToViewport",
+        "WidgetBlueprintLibrary::Create",
+        "WidgetBlueprintLibrary::SetInputMode_GameAndUIEx"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C:ExecuteUbergraph_BP_SGKController",
+      "references_watched": [],
+      "script_bytes": 8592
+    },
+    "BP_SGKController_C::SGK ItemMovedInInventory": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_SGKController_C::ExecuteUbergraph_BP_SGKController"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C:SGK ItemMovedInInventory",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_SGKController_C::SGK SelfItem": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C:SGK SelfItem",
+      "references_watched": [],
+      "script_bytes": 76
+    },
+    "BP_SGKController_C::SGK UpdateAllAttachments": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_SGKController_C::ExecuteUbergraph_BP_SGKController"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C:SGK UpdateAllAttachments",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "BP_SGKController_C::SGK UpdateSpecialSlot": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_SGKController_C::ExecuteUbergraph_BP_SGKController"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C:SGK UpdateSpecialSlot",
+      "references_watched": [],
+      "script_bytes": 36
+    },
+    "BP_SGKFunctions_C::SGK InvSlotOccupied": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK InvSlotOccupied",
+      "references_watched": [],
+      "script_bytes": 31
+    },
+    "BP_SGKFunctions_C::SGK IsMaxAmount": {
+      "callee_names": [
+        "SGK ItemDetails"
+      ],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK IsMaxAmount",
+      "references_watched": [],
+      "script_bytes": 146
+    },
+    "BP_SGKFunctions_C::SGK IsRootSlot": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK IsRootSlot",
+      "references_watched": [],
+      "script_bytes": 114
+    },
+    "BP_SGKFunctions_C::SGK ItemContainerDetails": {
+      "callee_names": [],
+      "callee_pointers": [
+        "DataTableFunctionLibrary::GetDataTableRowFromName"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK ItemContainerDetails",
+      "references_watched": [],
+      "script_bytes": 326
+    },
+    "BP_SGKFunctions_C::SGK ItemDetails": {
+      "callee_names": [],
+      "callee_pointers": [
+        "DataTableFunctionLibrary::GetDataTableRowFromName"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK ItemDetails",
+      "references_watched": [],
+      "script_bytes": 1918
+    },
+    "BP_SGKFunctions_C::SGK ItemSize": {
+      "callee_names": [
+        "SGK ItemDetails"
+      ],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK ItemSize",
+      "references_watched": [],
+      "script_bytes": 125
+    },
+    "BP_SGKFunctions_C::SGK RootSpaceCheck": {
+      "callee_names": [
+        "SGK InvSlotAmount",
+        "SGK IsRootSlot"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Add",
+        "KismetArrayLibrary::Array_Get",
+        "KismetArrayLibrary::Array_IsValidIndex"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK RootSpaceCheck",
+      "references_watched": [],
+      "script_bytes": 4993
+    },
+    "BP_SGKFunctions_C::SGK SlotFinder": {
+      "callee_names": [
+        "SGK GetInvSlot"
+      ],
+      "callee_pointers": [
+        "KismetArrayLibrary::Array_Add",
+        "KismetArrayLibrary::Array_IsValidIndex"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.BP_SGKFunctions_C:SGK SlotFinder",
+      "references_watched": [],
+      "script_bytes": 1618
+    },
+    "BP_SGKInventoryInterface_C::SGK ItemMovedInInventory": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKInventoryInterface.BP_SGKInventoryInterface_C:SGK ItemMovedInInventory",
+      "references_watched": [],
+      "script_bytes": 3
+    },
+    "BP_SGKInventoryInterface_C::SGK SelfItem": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKInventoryInterface.BP_SGKInventoryInterface_C:SGK SelfItem",
+      "references_watched": [],
+      "script_bytes": 3
+    },
+    "BP_SGKInventoryInterface_C::SGK UpdateAllAttachments": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKInventoryInterface.BP_SGKInventoryInterface_C:SGK UpdateAllAttachments",
+      "references_watched": [],
+      "script_bytes": 3
+    },
+    "BP_SGKInventoryInterface_C::SGK UpdateSpecialSlot": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKInventoryInterface.BP_SGKInventoryInterface_C:SGK UpdateSpecialSlot",
+      "references_watched": [],
+      "script_bytes": 3
+    },
+    "BP_WeaponInventory_C::ExecuteUbergraph_BP_WeaponInventory": {
+      "callee_names": [
+        "AddAttachmentUsingPlayers",
+        "AddWeaponAttachment",
+        "ChamberRoundFromMag",
+        "ClientUpdateWeaponSlot",
+        "ConstructSlots",
+        "CreateAllAttachments",
+        "K2_DestroyActor",
+        "RemoveAttachment",
+        "SGK ItemHoldableDetails",
+        "SelectAttachmentItem",
+        "SelectedWeaponSlot",
+        "ServerForceRootItemUpdate",
+        "SetActorHiddenInGame",
+        "UpdateAllClientAttachments",
+        "UpdateAttachmentItem",
+        "UpdateAttachmentUsingPlayers"
+      ],
+      "callee_pointers": [
+        "Actor::GetComponentByClass",
+        "BP_MasterItemInventory_C::ReceiveBeginPlay",
+        "BlueprintSetLibrary::Set_ToArray",
+        "KismetArrayLibrary::Array_Get"
+      ],
+      "depth": 2,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_WeaponInventory.BP_WeaponInventory_C:ExecuteUbergraph_BP_WeaponInventory",
+      "references_watched": [],
+      "script_bytes": 3913
+    },
+    "BP_WeaponInventory_C::SGK UpdateAllAttachments": {
+      "callee_names": [],
+      "callee_pointers": [
+        "BP_WeaponInventory_C::ExecuteUbergraph_BP_WeaponInventory"
+      ],
+      "depth": 1,
+      "path": "/Game/SurvivalGameKitV2/Components/BP_WeaponInventory.BP_WeaponInventory_C:SGK UpdateAllAttachments",
+      "references_watched": [],
+      "script_bytes": 18
+    },
+    "DataTableFunctionLibrary::GetDataTableRowFromName": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Script/Engine.DataTableFunctionLibrary:GetDataTableRowFromName",
+      "references_watched": [],
+      "script_bytes": 0
+    },
+    "KismetArrayLibrary::Array_AddUnique": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Script/Engine.KismetArrayLibrary:Array_AddUnique",
+      "references_watched": [],
+      "script_bytes": 0
+    },
+    "KismetArrayLibrary::Array_Clear": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 2,
+      "path": "/Script/Engine.KismetArrayLibrary:Array_Clear",
+      "references_watched": [],
+      "script_bytes": 0
+    },
+    "KismetArrayLibrary::Array_Get": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Script/Engine.KismetArrayLibrary:Array_Get",
+      "references_watched": [],
+      "script_bytes": 0
+    },
+    "KismetArrayLibrary::Array_Length": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Script/Engine.KismetArrayLibrary:Array_Length",
+      "references_watched": [],
+      "script_bytes": 0
+    },
+    "ListView::AddItem": {
+      "callee_names": [],
+      "callee_pointers": [],
+      "depth": 1,
+      "path": "/Script/UMG.ListView:AddItem",
+      "references_watched": [],
+      "script_bytes": 0
+    }
+  },
+  "nodes_expanded": 72,
+  "nodes_referencing_watched": [],
+  "pid": 15784,
+  "roots": [
+    "BP_PlayerInventory_C::AttemptToAddItem",
+    "BP_MasterInventory_C::AddItem"
+  ],
+  "watched_objects": {
+    "ItemList": {
+      "address": "0x25b40820940",
+      "class": "DataTable"
+    }
+  }
+}

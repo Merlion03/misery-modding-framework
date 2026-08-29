@@ -1,0 +1,195 @@
+0 BP_MasterInventory_C::AddItem                                  script=4813   
+     names: AddItemWeight, AddUsingPlayer, AddWeightCheck, ChangeItemCount, ContainerRestrictionCheck, CreateNotificationInChild, FindEmptySlots, FindFreeStackSpace, ItemLimitCheck, SGK ItemDetails, SGK UpdateAllAttachments, SetNewSlotItem, UpdateAllPlayersRootItems, WeightCheck
+     ptrs : Actor::HasAuthority, ActorComponent::GetOwner, KismetArrayLibrary::Array_Get
+0 BP_PlayerInventory_C::AttemptToAddItem                         script=3197   
+     names: AddItem, CreateNotificationInChild, FindFreeStackSpace, SGK ItemDetails, SelectEquipmentSlot, 污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮୐偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤱ଡ଼偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮栲ୄ偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤳ಮ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮ö㌵2೔偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮栱೾偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮2ೀ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ர偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂卟慴物䝳楲䍤浯潰敮瑮ବ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮୤偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮1ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮2ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮3ಸ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮à㌵3ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮1೚偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮∲ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ஜ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂卟慴物䝳楲䍤浯潰敮瑮଄偂䵟瑥污潆湵慤楴湯䍟
+     ptrs : KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+1 BP_EquipmentInventory_C::SelectEquipmentSlot                   script=382    
+     names: 
+     ptrs : 
+1 BP_MasterInventory_C::AddItemWeight                            script=2269   
+     names: AddWeight, SGK ItemDetails, 潰敮瑮୐偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤱ଡ଼偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮栲ୄ偂䵟瑥污潆湵慤楴湯䍟㙟⸵偂坟污䝬楲䍤浯潰敮瑮㤳ಮ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮ö㌵2೔偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮栱೾偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮2ೀ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ர偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂卟慴物䝳楲䍤浯潰敮瑮ବ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮୤偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮1ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮2ୌ偂䵟瑥污潆湵慤楴湯䍟㙟⸶偂坟污䝬楲䍤浯潰敮瑮3ಸ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮à㌵3ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮1೚偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮∲ೞ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂䙟畯摮瑡潩䝮楲䍤浯潰敮瑮3ஜ偂䵟瑥污潆湵慤楴湯䍟㙟⸷偂卟慴物䝳楲䍤浯潰敮
+     ptrs : 
+1 BP_MasterInventory_C::AddUsingPlayer                           script=85     
+     names: CheckItemSpawn
+     ptrs : KismetArrayLibrary::Array_AddUnique
+1 BP_MasterInventory_C::AddWeightCheck                           script=991    
+     names: ParentWeightCheck, RemainingFreeWeight
+     ptrs : 
+1 BP_MasterInventory_C::ChangeItemCount                          script=302    
+     names: OnRep_ItemCount
+     ptrs : 
+1 BP_MasterInventory_C::ContainerRestrictionCheck                script=1285   
+     names: SGK ItemContainerDetails, SGK SelfItem
+     ptrs : KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+1 BP_MasterInventory_C::CreateNotificationInChild                script=36     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+1 BP_MasterInventory_C::FindEmptySlots                           script=5661   
+     names: IsCookingSlot, IsFuelItem, IsIndexFuelSlot, SGK InvSlotOccupied, SGK IsRootSlot, SGK ItemSize, SGK RootSpaceCheck, WeightCheck
+     ptrs : KismetArrayLibrary::Array_Clear, KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+1 BP_MasterInventory_C::FindFreeStackSpace                       script=1327   
+     names: AddItemWeight, AttemptToAddItemAmount, SGK IsMaxAmount, SGK IsRootSlot, SGK ItemDetails
+     ptrs : KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+1 BP_MasterInventory_C::ItemLimitCheck                           script=442    
+     names: RemainingItemCount
+     ptrs : 
+1 BP_MasterInventory_C::SGK UpdateAllAttachments                 script=18     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+1 BP_MasterInventory_C::SetNewSlotItem                           script=1695   
+     names: SGK ItemMovedInInventory, SGK ItemSize, SGK SlotFinder, SGK UpdateSpecialSlot, UpdateInvSlots, UpdateSlotOnUsingPlayers
+     ptrs : KismetArrayLibrary::Array_Get
+1 BP_MasterInventory_C::UpdateAllPlayersRootItems                script=3244   
+     names: AllItems, ClientUpdateItemSlots, ReplaceUsingPlayers, SGK UpdateAllAttachments, ServerForceRootItemUpdate, UpdateAllPlayersRootItems
+     ptrs : KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+1 BP_MasterInventory_C::WeightCheck                              script=3177   
+     names: ParentWeightCheck, SGK ItemDetails
+     ptrs : 
+1 BP_PlayerInventory_C::CreateNotificationInChild                script=36     
+     names: 
+     ptrs : BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory
+1 BP_SGKController_C::SGK UpdateAllAttachments                   script=18     
+     names: 
+     ptrs : BP_SGKController_C::ExecuteUbergraph_BP_SGKController
+1 BP_SGKFunctions_C::SGK ItemDetails                             script=1918   
+     names: 
+     ptrs : DataTableFunctionLibrary::GetDataTableRowFromName
+1 BP_SGKInventoryInterface_C::SGK UpdateAllAttachments           script=3      
+     names: 
+     ptrs : 
+1 BP_WeaponInventory_C::SGK UpdateAllAttachments                 script=18     
+     names: 
+     ptrs : BP_WeaponInventory_C::ExecuteUbergraph_BP_WeaponInventory
+2 BP_CookingComponent_C::IsCookingSlot                           script=229    
+     names: 
+     ptrs : KismetArrayLibrary::Array_Length
+2 BP_CookingComponent_C::IsFuelItem                              script=419    
+     names: 
+     ptrs : KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+2 BP_CookingComponent_C::IsIndexFuelSlot                         script=551    
+     names: 
+     ptrs : 
+2 BP_CookingComponent_C::SGK ItemMovedInInventory                script=18     
+     names: 
+     ptrs : BP_CookingComponent_C::ExecuteUbergraph_BP_CookingComponent
+2 BP_CookingComponent_C::SGK UpdateSpecialSlot                   script=36     
+     names: 
+     ptrs : BP_CookingComponent_C::ExecuteUbergraph_BP_CookingComponent
+2 BP_CraftingComponent_C::IsFuelItem                             script=419    
+     names: 
+     ptrs : KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+2 BP_CraftingComponent_C::IsIndexFuelSlot                        script=594    
+     names: 
+     ptrs : 
+2 BP_CraftingComponent_C::SGK ItemMovedInInventory               script=18     
+     names: 
+     ptrs : BP_CraftingComponent_C::ExecuteUbergraph_BP_CraftingComponent
+2 BP_DwarfTamed_C::SGK SelfItem                                  script=76     
+     names: 
+     ptrs : 
+2 BP_MasterInventory_C::AddWeight                                script=375    
+     names: AddWeight, OnRep_CurrentWeight
+     ptrs : 
+2 BP_MasterInventory_C::AllItems                                 script=640    
+     names: SGK InvSlotItem, SGK IsRootSlot
+     ptrs : KismetArrayLibrary::Array_AddUnique, KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+2 BP_MasterInventory_C::AttemptToAddItemAmount                   script=1435   
+     names: AddWeightCheck, ChangeItemCount, None, SGK GetInvSlot, SGK InvSlotItem, SGK ItemDetails, SetNewSlotItem
+     ptrs : 
+2 BP_MasterInventory_C::CheckItemSpawn                           script=18     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+2 BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory      script=12683  
+     names: AddNewInvPanel, AddStartingItems, AllItems, CancelCraftingRecipe, CheckCraftingRequirements, CheckItemSpawn, CheckRecipeCost, ClearInventoryItems, ClientAddCraftingListing, ClientCloseContainerWindow, ClientCreateNotification, ClientStartCraftingListingTimer, ClientUpdateCraftingListing, ClientUpdateSlotsWithItems, ConstructSlots, CraftItem, CreateNewCraftingListing, CreateNotificationInChild, DestroyAttachedActors, DestroyContainingInventories, EmptyInventory, FindCraftingListing, InGameLoadComponentData, LoadComponentData, OnRep_CurrentWeight, OnRep_ItemCount, RequiredActorCraftingCheck, SGK BuildPartType, SGK GetSaveGame, SGK IsPlaced, SGK IsRootSlot, SGK ItemDetails, SGK RecipeDetails, SaveComponentData, ServerAddClientCraftingListing, ServerPlaySound, ServerSpawnDestructionBag, ServerStartClientListingTimer, ServerUpdateClientCraftingListing, ServerUpdateItemQuickSlot, SpawnDestructionBag, SpawnItems, UpdateAllPlayersRootItems, UpdateCraftingListing, UpdateItemInventory
+     ptrs : Actor::GetComponentByClass, ActorComponent::GetOwner, KismetArrayLibrary::Array_AddUnique, KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length, KismetArrayLibrary::Array_Remove
+2 BP_MasterInventory_C::OnRep_ItemCount                          script=22     
+     names: 
+     ptrs : 
+2 BP_MasterInventory_C::ParentWeightCheck                        script=745    
+     names: AddWeightCheck
+     ptrs : 
+2 BP_MasterInventory_C::RemainingFreeWeight                      script=249    
+     names: 
+     ptrs : 
+2 BP_MasterInventory_C::RemainingItemCount                       script=85     
+     names: 
+     ptrs : 
+2 BP_MasterInventory_C::ReplaceUsingPlayers                      script=44     
+     names: CheckItemSpawn
+     ptrs : 
+2 BP_MasterInventory_C::SGK ItemMovedInInventory                 script=18     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+2 BP_MasterInventory_C::SGK SelfItem                             script=76     
+     names: 
+     ptrs : 
+2 BP_MasterInventory_C::SGK UpdateSpecialSlot                    script=36     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+2 BP_MasterInventory_C::ServerForceRootItemUpdate                script=18     
+     names: 
+     ptrs : BP_MasterInventory_C::ExecuteUbergraph_BP_MasterInventory
+2 BP_MasterInventory_C::UpdateInvSlots                           script=2078   
+     names: None, 牥祴ˀ湉側潲数瑲y̴潂汯牐灯牥祴Ͷ汆慯側潲数瑲yβ扏敪瑣牐灯牥祴̄慎敭牐灯牥祴Ь敄敬慧整牐灯牥祴Έ潄扵敬牐灯牥祴ͮ牁慲偹潲数瑲y΢瑓畲瑣牐灯牥祴Ζ敖瑣牯牐灯牥祴ώ潒慴潴偲潲数瑲yˢ瑓偲潲数瑲y̌敔瑸牐灯牥祴ю湉整晲捡健潲数瑲yـ畍瑬捩獡䑴汥来瑡健潲数瑲yҰ慌祺扏敪瑣牐灯牥祴҄潓瑦扏敪瑣牐灯牥祴ͬ湉㙴倴潲数瑲y͖湉㍴倲潲数瑲y͈湉ㅴ倶潲数瑲y̪湉㡴牐灯牥祴Έ䥕瑮㐶牐灯牥祴Ψ䥕瑮㈳牐灯牥祴Π䥕瑮㘱牐灯牥祴ˈ慍偰潲数瑲y˜敓側潲数瑲yĦ潃敲ƺ湅楧敮Ɗ摅瑩牯ˌ潃敲何橢捥ť湅浵牐灯牥祴к灏楴湯污牐灯牥祴Ȟ祃楬摮牥ϰ潂卸桰牥䉥畯摮sƦ灓敨敲Ò潂xȨ敖瑣牯䐲Ǹ湉剴捥tȮ湉側楯瑮ǜ敖瑣牯4Ĥ慎敭Ʀ敖瑣牯ǔ潒慴潴rȜ䡓敖瑣牯Ŷ潃潬rņ汐湡eƴ慍牴硩˺楌敮牡潃潬r̰摁慶据䙥慲敭Ǌ潐湩整rƾ潄扵敬Ĝ畑瑡Č敓晬ɨ牔湡晳牯mȴ敖瑣牯昳Ȗ敖瑣牯搳ǔ汐湡㑥fǾ汐湡㑥dɴ慍牴硩㐴fɠ慍牴硩㐴dƂ畑瑡昴Ƣ畑瑡搴˄牔湡晳牯㍭fˬ牔湡晳牯㍭dŖ潂㍸fž潂㍸dѸ潂卸桰牥䉥畯摮㍳fѶ潂卸桰牥䉥畯摮㍳dȼ敖瑣牯昴Ș敖瑣牯搴Ɇ潒
+     ptrs : KismetArrayLibrary::Array_Add, KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_IsValidIndex, KismetArrayLibrary::Array_Length
+2 BP_MasterInventory_C::UpdateSlotOnUsingPlayers                 script=1824   
+     names: ClientUpdateInvSlot
+     ptrs : KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length
+2 BP_MasterItemInventory_C::SGK SelfItem                         script=286    
+     names: 
+     ptrs : 
+2 BP_PlayerInventory_C::ClientUpdateItemSlots                    script=72     
+     names: 
+     ptrs : BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory
+2 BP_PlayerInventory_C::ExecuteUbergraph_BP_PlayerInventory      script=47298  
+     names: AddAllEquipmentQuickSlots, AddAttachmentFromSlot, AddEquipmentComponent, AddPanelToUsingPlayers, AddQuickSlots, AddStartingItems, AddUsingPlayer, AllEquipmentActors, ApplyAttachment, Block Input, CancelReload, ChangeState, CheckEquipmentSlot, ClearBleed, ClientAddStat, ClientClearQuickSlotItem, ClientCloseLockpad, ClientCodeResult, ClientCreateNotification, ClientEnterCombatMode, ClientEnterStandardMode, ClientGetAchievement, ClientGetStatsAchievement, ClientNewEquipment, ClientNewWeapon, ClientOpenContainerInv, ClientOpenExtCookingMenu, ClientOpenExtCraftingMenu, ClientOpenExtEquipmentInv, ClientOpenExtInv, ClientOpenLockpad, ClientOpenVenderMenu, ClientOpenWeaponWindow, ClientPlaceNamedBuildPart, ClientPlayerInventoryRepawned, ClientQuickSlotHighlight, ClientRefreshCraftingList, ClientRemoveShadowDummy, ClientRespawnPlayer, ClientSelectBuildMode, ClientSetControlRotation, ClientSetIgnoreActor, ClientShowRespawnScreen, ClientStartCameraShake, ClientStartingCamera, ClientStopLean, ClientUpdateInvSlot, ClientUpdateStatUI, ClientUpdateState, Client_PlayTakeDamageAnimation, CloseCodeLockUI, CloseContainerWindow, CloseInventory, ClosePickupConfirmation, ConfirmPickup, ConstructSlots, CreateAttachmentWindow, CreateContainerWindow, CreateCraftingListing, CreateNewInventoryPanel, CreateNotification, DeletePlayerSave, DisableInput, DoesSocketExist, DropItemFromSlot, EnterCombatMode, EnterStandardMode, EquipItem, EquipItemFromSlot, EquipWeapon, EquipWeaponFromSlot, FindAttachmentSlot, FindGridIcon, FindQuickSlot, FindSpawnPoint, GetGameplaySettings, GetUp, GetVelocity, HasInteractedActorSelectedAction, HideTint, HitActor, InGameLoadPlayerInventory, InitializeComponentSaveSystem, InteractSphereTrace, InteractTrace, IsInventoryEquipped, K2_DestroyActor, LoadPlayerInventory, LoadSave, Misery Game Input, Misery UI Input, MiseryDeathScreenInput, MoveItem, MulticastEndChamber, MulticastPlayMontage, MulticastPlaySound, MulticastStopMontage, OnRep_CurrentHealth, OnRep_CurrentHunger, OnRep_CurrentRadiation, OnRep_CurrentSocket, OnRep_CurrentStamina, OnRep_CurrentThirst, OnRep_HoldingItem, OnRep_Reload, OnRep_TickEnabled, OpenCodeLockUI, OpenEquipmentMenu, OpenExtCookingMenu, OpenExtCraftingMenu, OpenInvMenu, OpenVenderMenu, Pause/UnPauseSingleSlot, PauseAllCookingSlots, PauseCraftingQueue, PlayItemSound, PlayTakeDamageAnimation, QuickMove, QuickSlotUseSelect, RefreshAllItemIcons, RemoveAttachment, RemoveFromParent, RemoveHUD, RemoveInventoryPanel, RemoveQuickSlots, RemoveShadowDummy, RemoveUsingPlayer, RepairItemInSlot, RepairItemInWeaponSlot, ReplicateContainingInventories, ResetStats, RestartCookingSlotTimer, ResumeCookingSlotTimer, ResumeCraftingQueue, SGK AttachNewAttachment, SGK AttachmentDetails, SGK ChamberWeaponAmmo, SGK ClientPrimaryAction, SGK ClientReloadChecks, SGK ClientSecondaryAction, SGK CodeCheck, SGK DestroyWeaponAttachments, SGK EndInteraction, SGK GetInvSlot, SGK GetSaveGame, SGK InteractName, SGK InvSlotItem, SGK IsPlaced, SGK ItemDetails, SGK ItemSize, SGK MeleeCollisionToggle, SGK NewHeld, SGK Options Save, SGK ResetHoldable, SGK SelfItem, SGK ServerPrimaryAction, SGK ServerSecondaryAction, SGK ShowAttachments, SGK ShowNewAttachment, SGK ToggleComponent, SGK ToggleFireMode, SGK TurnedOnEffect, SGK UpdateAllAttachments, SGK UpdateCode, SGK VerifyPlayer, SaveGame, SavePlayerInventory, SelectBuildMode, SelectEquipmentSlot, SelectedContextEntry, SelectedWeaponSlot, ServerBuyVenderItem, ServerCancelCraftingListing, ServerCreateNewListingCheck, ServerEmptyInventory, ServerInteract, ServerOpenContainerWindow, ServerOpenWeaponWindow, ServerPlayDeathAnimation, ServerRespawn, ServerSellVenderItem, ServerSetInAction, ServerSprintKey, ServerUpdateItemQuickSlot, ServerUpdateItemSlots, ServerUpdateState, ServerUpdateWeaponQuickSlot, SetActorHiddenInGame, SetCollisionBetweenPlayers, SetControlRotation, SetInvSlots, SetVisibility, ShowTint, SplitStack, StaminaStateCheck, StartCookingSlotTimer, StartCraftingListingTimer, StopAllCameraShakes, SwapAttachments, SwapEquipmentFromItemSlot, SwapEquipmentSlots, SwapWeaponFromItemSlot, SwapWeaponSlots, ToggleBlock, ToggleInGameMenu, ToggleInventory, Unblock Input, UnequipItem, UnequipWeapon, UpdateAllAttachments, UpdateAllPlayersRootItems, UpdateAreYouSureMenu, UpdateCookingSlot, UpdateCraftingListing, UpdateCurrentItem, UpdateFloat, UpdateInteger, UpdateInvSlots, UpdateItemIcon, UpdateItemQuickSlot, UpdateMaxMovementSpeed, UpdateQuickSlotItem, UpdateQuickSlotWeapon, UpdateWeaponQuickSlot, UpdateWeaponSlotWidget, UseItemFromSlot, UseWeaponFromSlot, ValveIndex_Right_Thumbstick_Y, Weapon For VisibilityForOwner, 牥Ղ敇啴敳䙲牯湉異䑴癥捩eފ敇啴敳䙲牯湕慰物摥湉異䑴癥捩獥Ҕ湉異䑴癥捩䥥彤潎敮۬獉敄楶散牐灯牥祴慈摮敬慖楬dࡠ獉湉異䑴癥捩䵥灡数呤啯灮楡敲啤敳rШ獉湕慰物摥獕牥摉Ҋ獉慖楬䥤灮瑵敄楶散ў獉慖楬偤慬晴牯䥭dֺ潎䕴畱污䥟灮瑵敄楶散摉׈潎䕴畱污偟慬晴牯啭敳䥲dӬ汐瑡潦浲獕牥摉也湯eע湉異䭴祥敄敬慧整楂摮湩gٔ湉異呴畯档敄敬慧整楂摮湩gޔ湉異噴捥潴䅲楸䑳汥来瑡䉥湩楤杮߼湉瑳湡散偤慬散敭䍮楬湥却瑥楴杮sࠔ湉瑳湡散偤慬散敭瑮慐瑲瑩潩䅮瑣牯ˀ瑓楲杮慔汢eҠ湉整灲畃癲䕥卤瑥灵В湉却牥慩楬慺楴湯˼楋汬噚汯浵eҖ楋浳瑥牁慲䱹扩慲祲ɚ牁慲役摁dϬ牁慲役摁啤楮畱e̶牁慲役灁数摮˞牁慲役汃慥rΐ牁慲役潃瑮楡獮ʴ牁慲役楆摮Ɉ牁慲役敇tϾ牁慲役摉湥楴慣l̺牁慲役湉敳瑲͘牁慲役獉浅瑰yР牁慲役獉潎䕴灭祴Ғ牁慲役獉慖楬䥤摮硥϶牁慲役慌瑳湉敤x̄牁慲役敌杮桴̜牁慲役慒摮浯־牁慲役慒摮浯牆浯瑓敲浡̔牁慲役敒潭敶Є牁慲役敒潭敶瑉浥̊牁慲役敒楳敺͆牁慲役敒敶獲eɤ牁慲役敓t͆牁慲役桓晵汦eה牁慲役桓晵汦䙥潲卭牴慥mʨ牁慲役睓灡˨楆瑬牥牁慲y֚敓䅴牲祡牐, 畨扭瑳捩彫Xݸ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫Yࡂ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫汃捩kࡾ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫潔捵hޔ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫灕࠸慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫潄湷ࠈ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫敌瑦ࡨ慖癬䥥摮硥剟杩瑨呟畨扭瑳捩彫楒桧tܒ慖癬䥥摮硥剟杩瑨呟慲正慰彤䐲۪慖癬䥥摮硥剟杩瑨呟慲正慰彤X۰慖癬䥥摮硥剟杩瑨呟慲正慰彤Y߬慖癬䥥摮硥剟杩瑨呟慲正慰彤潆捲eߊ慖癬䥥摮硥剟杩瑨呟慲正慰彤潔捵hܶ慖癬䥥摮硥剟杩瑨呟慲正慰彤灕ފ慖癬䥥摮硥剟杩瑨呟慲正慰彤潄湷ކ慖癬䥥摮硥剟杩瑨呟慲正慰彤敌瑦ߌ慖癬䥥摮硥剟杩瑨呟慲正慰彤楒桧tǠ慇敭慰dŶ潍獵eЎ灁印慴畴味慲正牥Ӧ敐偲慬晴牯卭瑥楴杮s٢匯牣灩⽴敄敶潬数卲瑥楴杮sٲ汐瑡潦浲敓瑴湩獧湉瑳湡散sϒ潆瑮摓卦瑥楴杮sѺ匯, 祴Ͷ汆慯側潲数瑲yβ扏敪瑣牐灯牥祴̄慎敭牐灯牥祴Ь敄敬慧整牐灯牥祴Έ潄扵敬牐灯牥祴ͮ牁慲偹潲数瑲y΢瑓畲瑣牐灯牥祴Ζ敖瑣牯牐灯牥祴ώ潒慴潴偲潲数瑲yˢ瑓偲潲数瑲y̌敔瑸牐灯牥祴ю湉整晲捡健潲数瑲yـ畍瑬捩獡䑴汥来瑡健潲数瑲yҰ慌祺扏敪瑣牐灯牥祴҄潓瑦扏敪瑣牐灯牥祴ͬ湉㙴倴潲数瑲y͖湉㍴倲潲数瑲y͈湉ㅴ倶潲数瑲y̪湉㡴牐灯牥祴Έ䥕瑮㐶牐灯牥祴Ψ䥕瑮㈳牐灯牥祴Π䥕瑮㘱牐灯牥祴ˈ慍偰潲数瑲y˜敓側潲数瑲yĦ潃敲ƺ湅楧敮Ɗ摅瑩牯ˌ潃敲何橢捥ť湅浵牐灯牥祴к灏楴湯污牐灯牥祴Ȟ祃楬摮牥ϰ潂卸桰牥䉥畯摮sƦ灓敨敲Ò潂xȨ敖瑣牯䐲Ǹ湉剴捥tȮ湉側楯瑮ǜ敖瑣牯4Ĥ慎敭Ʀ敖瑣牯ǔ潒慴潴rȜ䡓敖瑣牯Ŷ潃潬rņ汐湡eƴ慍牴硩˺楌敮牡潃潬r̰摁慶据䙥慲敭Ǌ潐湩整rƾ潄扵敬Ĝ畑瑡Č敓晬ɨ牔湡晳牯mȴ敖瑣牯昳Ȗ敖瑣牯搳ǔ汐湡㑥fǾ汐湡㑥dɴ慍牴硩㐴fɠ慍牴硩㐴dƂ畑瑡昴Ƣ畑瑡搴˄牔湡晳牯㍭fˬ牔湡晳牯㍭dŖ潂㍸fž潂㍸dѸ潂卸桰牥䉥畯摮㍳fѶ潂卸桰牥䉥畯摮㍳dȼ敖瑣牯昴Ș敖瑣牯搴Ɇ潒慴潴㍲fɎ潒慴潴㍲dȴ敖瑣牯昲ż潂㉸DŐ潂㉸f
+     ptrs : Actor::FlushNetDormancy, Actor::GetAttachedActors, Actor::GetComponentByClass, Actor::GetTransform, Actor::HasAuthority, Actor::K2_AttachToComponent, ActorComponent::GetOwner, BP_EquipmentInventory_C::ReceiveBeginPlay, BlueprintMapLibrary::Map_Find, Controller::K2_GetPawn, Controller::Possess, Controller::UnPossess, KismetArrayLibrary::Array_Clear, KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_IsValidIndex, KismetArrayLibrary::Array_Length, SceneComponent::K2_AttachToComponent, UserWidget::AddToViewport, WidgetBlueprintLibrary::Create
+2 BP_SGKController_C::ExecuteUbergraph_BP_SGKController          script=8592   
+     names: Activate, AddMappingContext, AddNewInvPanel, AllWeaponActors, ClientInitialize, ClientRespawn, ClientSetPlayerName, CloseInventory, DestroyContainingInventories, DestroyItemInventory, EnableInput, InitWheelMenus, InitializeEquipmentInventory, InitializePlayerInventory, InterruptWheelInput, IsLocalController, IsWheelInputAllowed, K2_DestroyActor, LoadControls, Misery In Game Menu Input, MulticastInitPlayerInventory, None, OnPossess, RemoveMappingContext, SGK GetGlobalInventory, SelectEquipmentSlot, SelectedWeaponSlot, ServerFinishInGameLoad, ServerInitPlayerInventory, ServerPlayerInventoryRespawned, ServerResetRespawn, SetIgnoreLookInput, SetIgnoreMoveInput, SpawnDroppedItem, SpawnGridManager, StartCameraFade, ToggleInGameMenu, UpdatePlayerSave
+     ptrs : Actor::GetComponentByClass, Actor::HasAuthority, Controller::K2_GetPawn, KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_Length, MW_MenuWheelComponent::HideMenu, MW_MenuWheelComponent::ShowMenu, MW_MenuWheelComponent::UpdateButtons, UserWidget::AddToViewport, WidgetBlueprintLibrary::Create, WidgetBlueprintLibrary::SetInputMode_GameAndUIEx
+2 BP_SGKController_C::SGK ItemMovedInInventory                   script=18     
+     names: 
+     ptrs : BP_SGKController_C::ExecuteUbergraph_BP_SGKController
+2 BP_SGKController_C::SGK SelfItem                               script=76     
+     names: 
+     ptrs : 
+2 BP_SGKController_C::SGK UpdateSpecialSlot                      script=36     
+     names: 
+     ptrs : BP_SGKController_C::ExecuteUbergraph_BP_SGKController
+2 BP_SGKFunctions_C::SGK InvSlotOccupied                         script=31     
+     names: 
+     ptrs : 
+2 BP_SGKFunctions_C::SGK IsMaxAmount                             script=146    
+     names: SGK ItemDetails
+     ptrs : 
+2 BP_SGKFunctions_C::SGK IsRootSlot                              script=114    
+     names: 
+     ptrs : 
+2 BP_SGKFunctions_C::SGK ItemContainerDetails                    script=326    
+     names: 
+     ptrs : DataTableFunctionLibrary::GetDataTableRowFromName
+2 BP_SGKFunctions_C::SGK ItemSize                                script=125    
+     names: SGK ItemDetails
+     ptrs : 
+2 BP_SGKFunctions_C::SGK RootSpaceCheck                          script=4993   
+     names: SGK InvSlotAmount, SGK IsRootSlot
+     ptrs : KismetArrayLibrary::Array_Add, KismetArrayLibrary::Array_Get, KismetArrayLibrary::Array_IsValidIndex
+2 BP_SGKFunctions_C::SGK SlotFinder                              script=1618   
+     names: SGK GetInvSlot
+     ptrs : KismetArrayLibrary::Array_Add, KismetArrayLibrary::Array_IsValidIndex
+2 BP_SGKInventoryInterface_C::SGK ItemMovedInInventory           script=3      
+     names: 
+     ptrs : 
+2 BP_SGKInventoryInterface_C::SGK SelfItem                       script=3      
+     names: 
+     ptrs : 
+2 BP_SGKInventoryInterface_C::SGK UpdateSpecialSlot              script=3      
+     names: 
+     ptrs : 
+2 BP_WeaponInventory_C::ExecuteUbergraph_BP_WeaponInventory      script=3913   
+     names: AddAttachmentUsingPlayers, AddWeaponAttachment, ChamberRoundFromMag, ClientUpdateWeaponSlot, ConstructSlots, CreateAllAttachments, K2_DestroyActor, RemoveAttachment, SGK ItemHoldableDetails, SelectAttachmentItem, SelectedWeaponSlot, ServerForceRootItemUpdate, SetActorHiddenInGame, UpdateAllClientAttachments, UpdateAttachmentItem, UpdateAttachmentUsingPlayers
+     ptrs : Actor::GetComponentByClass, BP_MasterItemInventory_C::ReceiveBeginPlay, BlueprintSetLibrary::Set_ToArray, KismetArrayLibrary::Array_Get
+
+nodes_referencing_watched: []
+ambiguous name edges: ['Activate', 'AddItem', 'AddQuickSlots', 'AddStartingItems', 'CheckRecipeCost', 'ClientCreateNotification', 'ClientInitialize', 'ClientNewWeapon', 'ClientPlaceNamedBuildPart', 'ConstructSlots', 'CreateNewInventoryPanel', 'CreateNotification', 'CreateNotificationInChild', 'DeletePlayerSave', 'EquipWeapon', 'FindCraftingListing', 'GetGameplaySettings', 'HitActor', 'InGameLoadComponentData', 'IsFuelItem', 'IsIndexFuelSlot', 'LoadComponentData', 'LoadSave', 'MulticastPlayMontage', 'MulticastStopMontage', 'Pause/UnPauseSingleSlot', 'RemoveAttachment', 'RemoveInventoryPanel', 'RemoveQuickSlots', 'ReplicateContainingInventories', 'SGK AttachNewAttachment', 'SGK BuildPartType', 'SGK ChamberWeaponAmmo', 'SGK ClientPrimaryAction', 'SGK ClientReloadChecks', 'SGK ClientSecondaryAction', 'SGK CodeCheck', 'SGK DestroyWeaponAttachments', 'SGK EndInteraction', 'SGK GetGlobalInventory']

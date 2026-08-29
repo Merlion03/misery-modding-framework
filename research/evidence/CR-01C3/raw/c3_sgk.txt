@@ -1,0 +1,39 @@
+BP_SGKFunctions_C class @0x25b36c43f80
+BP_SGKFunctions_C functions: 43
+  ## SGK ItemDetails  flags=0x1cc22000 parms_size=2336
+     @0    InvItem              FStructProperty    size=48   -> S_InvItem
+     @48   __WorldContext       FObjectProperty    size=8    -> Object
+     @56   ItemFound            FBoolProperty      size=1    OUT 
+     @64   ItemDetails          FStructProperty    size=2272 OUT -> S_ItemDetails
+  ## SGK ItemSize  flags=0x1cc22000 parms_size=64
+     @0    InvItem              FStructProperty    size=48   -> S_InvItem
+     @48   __WorldContext       FObjectProperty    size=8    -> Object
+     @56   Height               FIntProperty       size=4    OUT 
+     @60   Width                FIntProperty       size=4    OUT 
+  ## SGK IsMaxAmount  flags=0x1cc22000 parms_size=89
+     @0    InvSlot              FStructProperty    size=80   -> S_InvSlot
+     @80   __WorldContext       FObjectProperty    size=8    -> Object
+     @88   MaxCount             FBoolProperty      size=1    OUT 
+  ## SGK ItemContainerDetails  flags=0x1cc22000 parms_size=168
+     @0    InvItem              FStructProperty    size=48   -> S_InvItem
+     @48   __WorldContext       FObjectProperty    size=8    -> Object
+     @56   ItemFound            FBoolProperty      size=1    OUT 
+     @64   ItemContainerDetails FStructProperty    size=104  OUT -> S_ContainerDetails
+  ## SGK RootSpaceCheck  flags=0xcc22000 parms_size=144
+     @0    RootInvSlot          FStructProperty    size=80   -> S_InvSlot
+     @80   Height               FIntProperty       size=4    
+     @84   Width                FIntProperty       size=4    
+     @88   IgnoreItem           FStructProperty    size=16   -> S_InvSlotID
+     @104  Rotated              FBoolProperty      size=1    
+     @112  __WorldContext       FObjectProperty    size=8    -> Object
+     @120  SlotsBlocked         FBoolProperty      size=1    OUT 
+     @128  FoundSlots           FArrayProperty     size=16   OUT 
+  ## SGK InvSlotOccupied  flags=0x1c422000 parms_size=89
+     @0    InvSlot              FStructProperty    size=80   -> S_InvSlot
+     @80   __WorldContext       FObjectProperty    size=8    -> Object
+     @88   Occupied             FBoolProperty      size=1    OUT 
+  ## SGK IsRootSlot  flags=0x1c422000 parms_size=96
+     @0    Inv Slot             FStructProperty    size=80   -> S_InvSlot
+     @80   __WorldContext       FObjectProperty    size=8    -> Object
+     @88   IsRootSlot           FBoolProperty      size=1    OUT 
+     @92   RootIndex            FIntProperty       size=4    OUT 

@@ -1,0 +1,37 @@
+S_InvSlot @0x25b333b9d00 size=77
+   @0    Occupied           FBoolProperty      size=1
+   @8    Inventory          FObjectProperty    size=8
+   @16   RootIndex          FIntProperty       size=4
+   @20   SelfIndex          FIntProperty       size=4
+   @24   Item               FStructProperty    size=48
+   @72   Clump              FIntProperty       size=4
+   @76   Blocked            FBoolProperty      size=1
+S_InvItem @0x25b333b9f40 size=48
+   @0    ID                 FNameProperty      size=8
+   @8    Amount             FIntProperty       size=4
+   @16   MasterInventory    FObjectProperty    size=8
+   @24   QuickBindIndex     FIntProperty       size=4
+   @28   Rotated            FBoolProperty      size=1
+   @32   UseAmount          FIntProperty       size=4
+   @36   InUse              FBoolProperty      size=1
+   @40   Durability         FFloatProperty     size=4
+   @44   DecayTime          FIntProperty       size=4
+S_InvSlotID @0x25b333baa80 size=12
+   @0    InvComponent       FObjectProperty    size=8
+   @8    Index              FIntProperty       size=4
+
+inventory array data=0x25bbb226140 num=12
+Inventory FArrayProperty inner: {"class_name": null, "struct_name": "S_InvSlot", "size": 80, "total_size": null}
+stride=80
+  slot  0 raw[0:8]=0000000000000000
+  slot  1 raw[0:8]=0000000000000000
+  slot  2 raw[0:8]=0000000000000000
+  slot  3 raw[0:8]=0000000000000000
+  slot  4 raw[0:8]=0000000000000000
+  slot  5 raw[0:8]=0000000000000000
+  slot  6 raw[0:8]=0000000000000000
+  slot  7 raw[0:8]=0000000000000000
+  slot  8 raw[0:8]=0000000000000000
+  slot  9 raw[0:8]=0000000000000000
+  slot 10 raw[0:8]=0000000000000000
+  slot 11 raw[0:8]=0000000000000000

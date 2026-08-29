@@ -1,0 +1,18 @@
+=== net-related live objects ===
+  NetDriver      total=5   instances(non-CDO)=0  []
+  NetConnection  total=6   instances(non-CDO)=0  []
+  GameSession    total=3   instances(non-CDO)=1  [('GameSession', 'GameSession')]
+  DemoNet        total=2   instances(non-CDO)=0  []
+  OnlineSession  total=4   instances(non-CDO)=1  [('OnlineSession', 'OnlineSession')]
+
+Actor UClass @0x25b66c4e000
+   bReplicates  @91    FBoolProperty      size=1
+   RemoteRole   @96    FByteProperty      size=1
+   Owner        @320   FObjectProperty    size=8
+   Role         @336   FByteProperty      size=1
+
+player inventory 0x25b32f4b140 class=BP_PlayerInventory_C
+   outer 0x25b13999ba0 name=BP_SGKController_C class=BP_SGKController_C
+   owner Role=3 RemoteRole=1  (ENetRole: 0=None 1=SimulatedProxy 2=AutonomousProxy 3=Authority)
+
+inventory slots: data=0x25bbb226140 num=12 max=25

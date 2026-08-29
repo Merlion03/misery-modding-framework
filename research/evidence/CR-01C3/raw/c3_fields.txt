@@ -1,0 +1,40 @@
+BP_MasterInventory_C @0x25b36c4e400
+   prop UsingPlayers       FArrayProperty     @168   size=16
+   prop CurrentWeight      FDoubleProperty    @184   size=8
+   prop ItemCount          FIntProperty       @192   size=4
+   prop Inventory          FArrayProperty     @336   size=16
+   prop ParentInventory    FObjectProperty    @352   size=8
+
+S_ItemDetails @0x25b333ba180  PropertiesSize=2264
+   @0     Name                   FTextProperty          size=16   
+   @16    ShortName              FTextProperty          size=16   
+   @32    Description            FTextProperty          size=16   
+   @48    Weight                 FDoubleProperty        size=8    
+   @56    Width                  FIntProperty           size=4    
+   @60    Height                 FIntProperty           size=4    
+   @64    AllowStacking          FBoolProperty          size=1      bitfield=False mask=0xff byteoff=0
+   @65    AllowQuickBind         FBoolProperty          size=1      bitfield=False mask=0xff byteoff=0
+   @66    AllowDroppingItem      FBoolProperty          size=1      bitfield=False mask=0xff byteoff=0
+   @68    MaxStack               FIntProperty           size=4    
+   @72    InventoryActions       FArrayProperty         size=16   
+   @88    WorldActions           FArrayProperty         size=16   
+   @104   QuickUseAction         FByteProperty          size=1    
+   @112   StaticMesh             FSoftObjectProperty    size=40     -> StaticMesh
+   @152   SkeletalMesh           FSoftObjectProperty    size=40     -> SkeletalMesh
+   @192   WorldClass             FClassProperty         size=8      -> Class
+   @200   PickupAnimation        FObjectProperty        size=8      -> AnimMontage
+   @208   IconBackroundColor     FStructProperty        size=16     -> LinearColor
+   @224   UIDetails              FStructProperty        size=64     -> S_UIDetails
+   @288   EquipmentDetails       FStructProperty        size=384    -> S_EquipmentDetails
+   @672   ContainerDetails       FStructProperty        size=104    -> S_ContainerDetails
+   @776   HoldableDetails        FStructProperty        size=336    -> S_HoldableDetails
+   @1112  ConsumableDetails      FStructProperty        size=104    -> S_ConsumableDetails
+   @1216  AttachmentDetails      FStructProperty        size=672    -> S_AttachmentDetails
+   @1888  AmmoDetails            FStructProperty        size=40     -> S_AmmoDetails
+   @1928  DurabilityDetails      FStructProperty        size=80     -> S_DurabilityDetails
+   @2008  RecipeDetails          FStructProperty        size=24     -> S_RecipeDetails
+   @2032  BuildPartDetails       FStructProperty        size=16     -> DataTableRowHandle
+   @2048  FuelTime               FDoubleProperty        size=8    
+   @2064  ItemOffsets            FStructProperty        size=96     -> Transform
+   @2160  ItemSounds             FMapProperty           size=80   
+   @2240  BurntFuelItem          FStructProperty        size=24     -> S_CraftingCost

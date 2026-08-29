@@ -1,0 +1,1384 @@
+{
+  "functions": {
+    "BP_MasterInventory_C::AddItem": {
+      "address": "0x25b330d5800",
+      "found": true,
+      "object_reference_count": 23,
+      "object_references": [
+        {
+          "address": "0x25b776f92a0",
+          "class": "Function",
+          "index": 0,
+          "name": "GetOwner",
+          "object_path": "/Script/Engine.ActorComponent:GetOwner"
+        },
+        {
+          "address": "0x25b7b680160",
+          "class": "Function",
+          "index": 1,
+          "name": "HasAuthority",
+          "object_path": "/Script/Engine.Actor:HasAuthority"
+        },
+        {
+          "address": "0x25b333b9f40",
+          "class": "UserDefinedStruct",
+          "index": 2,
+          "name": "S_InvItem",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+        },
+        {
+          "address": "0x25b333ba2a0",
+          "class": "UserDefinedStruct",
+          "index": 3,
+          "name": "S_ContainerDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ContainerDetails.S_ContainerDetails"
+        },
+        {
+          "address": "0x25b36c4e400",
+          "class": "BlueprintGeneratedClass",
+          "index": 4,
+          "name": "BP_MasterInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C"
+        },
+        {
+          "address": "0x25b7bdee160",
+          "class": "Function",
+          "index": 5,
+          "name": "Conv_IntToDouble",
+          "object_path": "/Script/Engine.KismetMathLibrary:Conv_IntToDouble"
+        },
+        {
+          "address": "0x25b3509c5b0",
+          "class": "BP_SGKFunctions_C",
+          "index": 6,
+          "name": "Default__BP_SGKFunctions_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.Default__BP_SGKFunctions_C"
+        },
+        {
+          "address": "0x25b333ba180",
+          "class": "UserDefinedStruct",
+          "index": 7,
+          "name": "S_ItemDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ItemDetails.S_ItemDetails"
+        },
+        {
+          "address": "0x25b7be1ebe0",
+          "class": "Function",
+          "index": 8,
+          "name": "Multiply_DoubleDouble",
+          "object_path": "/Script/Engine.KismetMathLibrary:Multiply_DoubleDouble"
+        },
+        {
+          "address": "0x25b7be40240",
+          "class": "Function",
+          "index": 9,
+          "name": "Not_PreBool",
+          "object_path": "/Script/Engine.KismetMathLibrary:Not_PreBool"
+        },
+        {
+          "address": "0x25b7bdea260",
+          "class": "Function",
+          "index": 10,
+          "name": "BooleanAND",
+          "object_path": "/Script/Engine.KismetMathLibrary:BooleanAND"
+        },
+        {
+          "address": "0x25b7be4a5e0",
+          "class": "Function",
+          "index": 11,
+          "name": "Subtract_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Subtract_IntInt"
+        },
+        {
+          "address": "0x25b333b9d00",
+          "class": "UserDefinedStruct",
+          "index": 12,
+          "name": "S_InvSlot",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlot.S_InvSlot"
+        },
+        {
+          "address": "0x25b7ad976c0",
+          "class": "KismetArrayLibrary",
+          "index": 13,
+          "name": "Default__KismetArrayLibrary",
+          "object_path": "/Script/Engine.Default__KismetArrayLibrary"
+        },
+        {
+          "address": "0x25b7bde3260",
+          "class": "Function",
+          "index": 14,
+          "name": "Array_Get",
+          "object_path": "/Script/Engine.KismetArrayLibrary:Array_Get"
+        },
+        {
+          "address": "0x25b7b386b40",
+          "class": "Function",
+          "index": 15,
+          "name": "IsValid",
+          "object_path": "/Script/Engine.KismetSystemLibrary:IsValid"
+        },
+        {
+          "address": "0x25b36c4d600",
+          "class": "BlueprintGeneratedClass",
+          "index": 16,
+          "name": "BP_PlayerInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C"
+        },
+        {
+          "address": "0x25b7be16440",
+          "class": "Function",
+          "index": 17,
+          "name": "Greater_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Greater_IntInt"
+        },
+        {
+          "address": "0x25b333baa80",
+          "class": "UserDefinedStruct",
+          "index": 18,
+          "name": "S_InvSlotID",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlotID.S_InvSlotID"
+        },
+        {
+          "address": "0x25b32dc1060",
+          "class": "UserDefinedStruct",
+          "index": 19,
+          "name": "S_NotificationDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_NotificationDetails.S_NotificationDetails"
+        },
+        {
+          "address": "0x25b776b7e40",
+          "class": "ScriptStruct",
+          "index": 20,
+          "name": "LinearColor",
+          "object_path": "/Script/CoreUObject.LinearColor"
+        },
+        {
+          "address": "0x25b456fe800",
+          "class": "Texture2D",
+          "index": 21,
+          "name": "T_WarningIcon_UI",
+          "object_path": "/Game/SurvivalGameKitV2/Textures/UI/T_WarningIcon_UI.T_WarningIcon_UI"
+        },
+        {
+          "address": "0x25b36c43880",
+          "class": "BlueprintGeneratedClass",
+          "index": 22,
+          "name": "BP_SGKInventoryInterface_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKInventoryInterface.BP_SGKInventoryInterface_C"
+        }
+      ],
+      "script_bytes": 4813
+    },
+    "BP_MasterInventory_C::FindEmptySlots": {
+      "address": "0x25b330d5b80",
+      "found": true,
+      "object_reference_count": 24,
+      "object_references": [
+        {
+          "address": "0x25b333b9f40",
+          "class": "UserDefinedStruct",
+          "index": 0,
+          "name": "S_InvItem",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+        },
+        {
+          "address": "0x25b36c4e400",
+          "class": "BlueprintGeneratedClass",
+          "index": 1,
+          "name": "BP_MasterInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C"
+        },
+        {
+          "address": "0x25b3509c5b0",
+          "class": "BP_SGKFunctions_C",
+          "index": 2,
+          "name": "Default__BP_SGKFunctions_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.Default__BP_SGKFunctions_C"
+        },
+        {
+          "address": "0x25b333ba2a0",
+          "class": "UserDefinedStruct",
+          "index": 3,
+          "name": "S_ContainerDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ContainerDetails.S_ContainerDetails"
+        },
+        {
+          "address": "0x25b4017e780",
+          "class": "BlueprintGeneratedClass",
+          "index": 4,
+          "name": "BP_CookingComponent_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_CookingComponent.BP_CookingComponent_C"
+        },
+        {
+          "address": "0x25b7be1e940",
+          "class": "Function",
+          "index": 5,
+          "name": "Multiply_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Multiply_IntInt"
+        },
+        {
+          "address": "0x25b7be16440",
+          "class": "Function",
+          "index": 6,
+          "name": "Greater_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Greater_IntInt"
+        },
+        {
+          "address": "0x25b7be40240",
+          "class": "Function",
+          "index": 7,
+          "name": "Not_PreBool",
+          "object_path": "/Script/Engine.KismetMathLibrary:Not_PreBool"
+        },
+        {
+          "address": "0x25b7ad976c0",
+          "class": "KismetArrayLibrary",
+          "index": 8,
+          "name": "Default__KismetArrayLibrary",
+          "object_path": "/Script/Engine.Default__KismetArrayLibrary"
+        },
+        {
+          "address": "0x25b7bde2c40",
+          "class": "Function",
+          "index": 9,
+          "name": "Array_Length",
+          "object_path": "/Script/Engine.KismetArrayLibrary:Array_Length"
+        },
+        {
+          "address": "0x25b333b9d00",
+          "class": "UserDefinedStruct",
+          "index": 10,
+          "name": "S_InvSlot",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlot.S_InvSlot"
+        },
+        {
+          "address": "0x25b7be17a20",
+          "class": "Function",
+          "index": 11,
+          "name": "Less_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Less_IntInt"
+        },
+        {
+          "address": "0x25b7bdea260",
+          "class": "Function",
+          "index": 12,
+          "name": "BooleanAND",
+          "object_path": "/Script/Engine.KismetMathLibrary:BooleanAND"
+        },
+        {
+          "address": "0x25b7bde3260",
+          "class": "Function",
+          "index": 13,
+          "name": "Array_Get",
+          "object_path": "/Script/Engine.KismetArrayLibrary:Array_Get"
+        },
+        {
+          "address": "0x25b3f34b680",
+          "class": "BlueprintGeneratedClass",
+          "index": 14,
+          "name": "BP_CraftingComponent_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_CraftingComponent.BP_CraftingComponent_C"
+        },
+        {
+          "address": "0x25b7bde7b00",
+          "class": "Function",
+          "index": 15,
+          "name": "Add_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Add_IntInt"
+        },
+        {
+          "address": "0x25b7bde3500",
+          "class": "Function",
+          "index": 16,
+          "name": "Array_Clear",
+          "object_path": "/Script/Engine.KismetArrayLibrary:Array_Clear"
+        },
+        {
+          "address": "0x25b7b386b40",
+          "class": "Function",
+          "index": 17,
+          "name": "IsValid",
+          "object_path": "/Script/Engine.KismetSystemLibrary:IsValid"
+        },
+        {
+          "address": "0x25b7bdee160",
+          "class": "Function",
+          "index": 18,
+          "name": "Conv_IntToDouble",
+          "object_path": "/Script/Engine.KismetMathLibrary:Conv_IntToDouble"
+        },
+        {
+          "address": "0x25b7be128c0",
+          "class": "Function",
+          "index": 19,
+          "name": "FMod",
+          "object_path": "/Script/Engine.KismetMathLibrary:FMod"
+        },
+        {
+          "address": "0x25b7be10be0",
+          "class": "Function",
+          "index": 20,
+          "name": "EqualEqual_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:EqualEqual_IntInt"
+        },
+        {
+          "address": "0x25b7be4a5e0",
+          "class": "Function",
+          "index": 21,
+          "name": "Subtract_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Subtract_IntInt"
+        },
+        {
+          "address": "0x25b7be15f00",
+          "class": "Function",
+          "index": 22,
+          "name": "GreaterEqual_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:GreaterEqual_IntInt"
+        },
+        {
+          "address": "0x25b333baa80",
+          "class": "UserDefinedStruct",
+          "index": 23,
+          "name": "S_InvSlotID",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlotID.S_InvSlotID"
+        }
+      ],
+      "script_bytes": 5661
+    },
+    "BP_MasterInventory_C::SetNewSlotItem": {
+      "address": "0x25b330d6fa0",
+      "found": true,
+      "object_reference_count": 8,
+      "object_references": [
+        {
+          "address": "0x25b7be16440",
+          "class": "Function",
+          "index": 0,
+          "name": "Greater_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Greater_IntInt"
+        },
+        {
+          "address": "0x25b333b9f40",
+          "class": "UserDefinedStruct",
+          "index": 1,
+          "name": "S_InvItem",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+        },
+        {
+          "address": "0x25b3509c5b0",
+          "class": "BP_SGKFunctions_C",
+          "index": 2,
+          "name": "Default__BP_SGKFunctions_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.Default__BP_SGKFunctions_C"
+        },
+        {
+          "address": "0x25b333b9d00",
+          "class": "UserDefinedStruct",
+          "index": 3,
+          "name": "S_InvSlot",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlot.S_InvSlot"
+        },
+        {
+          "address": "0x25b7ad976c0",
+          "class": "KismetArrayLibrary",
+          "index": 4,
+          "name": "Default__KismetArrayLibrary",
+          "object_path": "/Script/Engine.Default__KismetArrayLibrary"
+        },
+        {
+          "address": "0x25b7bde3260",
+          "class": "Function",
+          "index": 5,
+          "name": "Array_Get",
+          "object_path": "/Script/Engine.KismetArrayLibrary:Array_Get"
+        },
+        {
+          "address": "0x25b36c4e400",
+          "class": "BlueprintGeneratedClass",
+          "index": 6,
+          "name": "BP_MasterInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C"
+        },
+        {
+          "address": "0x25b36c43880",
+          "class": "BlueprintGeneratedClass",
+          "index": 7,
+          "name": "BP_SGKInventoryInterface_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKInventoryInterface.BP_SGKInventoryInterface_C"
+        }
+      ],
+      "script_bytes": 1695
+    },
+    "BP_MasterInventory_C::WeightCheck": {
+      "address": "0x25b330d12e0",
+      "found": true,
+      "object_reference_count": 44,
+      "object_references": [
+        {
+          "address": "0x25b333ba180",
+          "class": "UserDefinedStruct",
+          "index": 0,
+          "name": "S_ItemDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ItemDetails.S_ItemDetails"
+        },
+        {
+          "address": "0x25b41392800",
+          "class": "UserDefinedStruct",
+          "index": 1,
+          "name": "S_InventoryAction",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InventoryAction.S_InventoryAction"
+        },
+        {
+          "address": "0x25b41390d00",
+          "class": "UserDefinedStruct",
+          "index": 2,
+          "name": "S_WorldAction",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_WorldAction.S_WorldAction"
+        },
+        {
+          "address": "0x25b45505b80",
+          "class": "BlueprintGeneratedClass",
+          "index": 3,
+          "name": "BP_StaticMasterItem_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C"
+        },
+        {
+          "address": "0x25b776b7e40",
+          "class": "ScriptStruct",
+          "index": 4,
+          "name": "LinearColor",
+          "object_path": "/Script/CoreUObject.LinearColor"
+        },
+        {
+          "address": "0x25b111626e0",
+          "class": "UserDefinedStruct",
+          "index": 5,
+          "name": "S_UIDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_UIDetails.S_UIDetails"
+        },
+        {
+          "address": "0x25b456f4300",
+          "class": "Texture2D",
+          "index": 6,
+          "name": "T_NoIcon",
+          "object_path": "/Game/SurvivalGameKitV2/Textures/UI/T_NoIcon.T_NoIcon"
+        },
+        {
+          "address": "0x25b11162800",
+          "class": "UserDefinedStruct",
+          "index": 7,
+          "name": "S_SizeOverride",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_SizeOverride.S_SizeOverride"
+        },
+        {
+          "address": "0x25b1116df60",
+          "class": "UserDefinedStruct",
+          "index": 8,
+          "name": "S_EquipmentDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentDetails.S_EquipmentDetails"
+        },
+        {
+          "address": "0x25b1048a180",
+          "class": "UserDefinedEnum",
+          "index": 9,
+          "name": "E_EquipmentType",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_EquipmentType.E_EquipmentType"
+        },
+        {
+          "address": "0x25b7d738560",
+          "class": "UserDefinedStruct",
+          "index": 10,
+          "name": "S_EquipmentMeshes",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentMeshes.S_EquipmentMeshes"
+        },
+        {
+          "address": "0x25b7d738200",
+          "class": "UserDefinedStruct",
+          "index": 11,
+          "name": "S_SocketAttachments",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_SocketAttachments.S_SocketAttachments"
+        },
+        {
+          "address": "0x25b1048a3c0",
+          "class": "UserDefinedEnum",
+          "index": 12,
+          "name": "E_DamageType",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_DamageType.E_DamageType"
+        },
+        {
+          "address": "0x25b333ba2a0",
+          "class": "UserDefinedStruct",
+          "index": 13,
+          "name": "S_ContainerDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ContainerDetails.S_ContainerDetails"
+        },
+        {
+          "address": "0x25b7b839b80",
+          "class": "ScriptStruct",
+          "index": 14,
+          "name": "DataTableRowHandle",
+          "object_path": "/Script/Engine.DataTableRowHandle"
+        },
+        {
+          "address": "0x25b330d0860",
+          "class": "CompositeDataTable",
+          "index": 15,
+          "name": "MasterGridLayoutList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterGridLayoutList.MasterGridLayoutList"
+        },
+        {
+          "address": "0x25b7d730880",
+          "class": "UserDefinedStruct",
+          "index": 16,
+          "name": "S_CraftingCost",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_CraftingCost.S_CraftingCost"
+        },
+        {
+          "address": "0x25b333ba060",
+          "class": "UserDefinedStruct",
+          "index": 17,
+          "name": "S_HoldableDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_HoldableDetails.S_HoldableDetails"
+        },
+        {
+          "address": "0x25b79f74780",
+          "class": "UserDefinedEnum",
+          "index": 18,
+          "name": "E_WeaponSlots",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_WeaponSlots.E_WeaponSlots"
+        },
+        {
+          "address": "0x25b397cc580",
+          "class": "UserDefinedStruct",
+          "index": 19,
+          "name": "S_ConsumableDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ConsumableDetails.S_ConsumableDetails"
+        },
+        {
+          "address": "0x25b333ba720",
+          "class": "UserDefinedStruct",
+          "index": 20,
+          "name": "S_AttachmentDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AttachmentDetails.S_AttachmentDetails"
+        },
+        {
+          "address": "0x25b333ba3c0",
+          "class": "UserDefinedStruct",
+          "index": 21,
+          "name": "S_AmmoDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AmmoDetails.S_AmmoDetails"
+        },
+        {
+          "address": "0x25b413926e0",
+          "class": "UserDefinedStruct",
+          "index": 22,
+          "name": "S_Damage",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_Damage.S_Damage"
+        },
+        {
+          "address": "0x25b333ba4e0",
+          "class": "UserDefinedStruct",
+          "index": 23,
+          "name": "S_DurabilityDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_DurabilityDetails.S_DurabilityDetails"
+        },
+        {
+          "address": "0x25b32dc2920",
+          "class": "UserDefinedStruct",
+          "index": 24,
+          "name": "S_RepairActors",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_RepairActors.S_RepairActors"
+        },
+        {
+          "address": "0x25b333baba0",
+          "class": "UserDefinedStruct",
+          "index": 25,
+          "name": "S_DecayDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_DecayDetails.S_DecayDetails"
+        },
+        {
+          "address": "0x25b31ccdb40",
+          "class": "CompositeDataTable",
+          "index": 26,
+          "name": "MasterItemList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterItemList.MasterItemList"
+        },
+        {
+          "address": "0x25b41390e20",
+          "class": "UserDefinedStruct",
+          "index": 27,
+          "name": "S_RecipeDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_RecipeDetails.S_RecipeDetails"
+        },
+        {
+          "address": "0x25b31ccdd00",
+          "class": "CompositeDataTable",
+          "index": 28,
+          "name": "MasterBuildPartList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterBuildPartList.MasterBuildPartList"
+        },
+        {
+          "address": "0x25b10485f80",
+          "class": "UserDefinedEnum",
+          "index": 29,
+          "name": "E_Sounds",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_Sounds.E_Sounds"
+        },
+        {
+          "address": "0x25b3509c5b0",
+          "class": "BP_SGKFunctions_C",
+          "index": 30,
+          "name": "Default__BP_SGKFunctions_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.Default__BP_SGKFunctions_C"
+        },
+        {
+          "address": "0x25b333b9f40",
+          "class": "UserDefinedStruct",
+          "index": 31,
+          "name": "S_InvItem",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+        },
+        {
+          "address": "0x25b7b386b40",
+          "class": "Function",
+          "index": 32,
+          "name": "IsValid",
+          "object_path": "/Script/Engine.KismetSystemLibrary:IsValid"
+        },
+        {
+          "address": "0x25b36c4e400",
+          "class": "BlueprintGeneratedClass",
+          "index": 33,
+          "name": "BP_MasterInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C"
+        },
+        {
+          "address": "0x25b7bde7cc0",
+          "class": "Function",
+          "index": 34,
+          "name": "Add_DoubleDouble",
+          "object_path": "/Script/Engine.KismetMathLibrary:Add_DoubleDouble"
+        },
+        {
+          "address": "0x25b7bc1f900",
+          "class": "Function",
+          "index": 35,
+          "name": "Conv_DoubleToText",
+          "object_path": "/Script/Engine.KismetTextLibrary:Conv_DoubleToText"
+        },
+        {
+          "address": "0x25b7bc1f2e0",
+          "class": "Function",
+          "index": 36,
+          "name": "Conv_TextToString",
+          "object_path": "/Script/Engine.KismetTextLibrary:Conv_TextToString"
+        },
+        {
+          "address": "0x25b7be74840",
+          "class": "Function",
+          "index": 37,
+          "name": "Conv_StringToDouble",
+          "object_path": "/Script/Engine.KismetStringLibrary:Conv_StringToDouble"
+        },
+        {
+          "address": "0x25b7be48200",
+          "class": "Function",
+          "index": 38,
+          "name": "SelectInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:SelectInt"
+        },
+        {
+          "address": "0x25b7be17a20",
+          "class": "Function",
+          "index": 39,
+          "name": "Less_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Less_IntInt"
+        },
+        {
+          "address": "0x25b7be10be0",
+          "class": "Function",
+          "index": 40,
+          "name": "EqualEqual_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:EqualEqual_IntInt"
+        },
+        {
+          "address": "0x25b7be40240",
+          "class": "Function",
+          "index": 41,
+          "name": "Not_PreBool",
+          "object_path": "/Script/Engine.KismetMathLibrary:Not_PreBool"
+        },
+        {
+          "address": "0x25b7be1ea20",
+          "class": "Function",
+          "index": 42,
+          "name": "Multiply_IntFloat",
+          "object_path": "/Script/Engine.KismetMathLibrary:Multiply_IntFloat"
+        },
+        {
+          "address": "0x25b7be176a0",
+          "class": "Function",
+          "index": 43,
+          "name": "LessEqual_DoubleDouble",
+          "object_path": "/Script/Engine.KismetMathLibrary:LessEqual_DoubleDouble"
+        }
+      ],
+      "script_bytes": 3177
+    },
+    "BP_PlayerInventory_C::AttemptToAddItem": {
+      "address": "0x25b74c95800",
+      "found": true,
+      "object_reference_count": 20,
+      "object_references": [
+        {
+          "address": "0x25b333b9f40",
+          "class": "UserDefinedStruct",
+          "index": 0,
+          "name": "S_InvItem",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+        },
+        {
+          "address": "0x25b3509c5b0",
+          "class": "BP_SGKFunctions_C",
+          "index": 1,
+          "name": "Default__BP_SGKFunctions_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.Default__BP_SGKFunctions_C"
+        },
+        {
+          "address": "0x25b333ba180",
+          "class": "UserDefinedStruct",
+          "index": 2,
+          "name": "S_ItemDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ItemDetails.S_ItemDetails"
+        },
+        {
+          "address": "0x25b7bdea260",
+          "class": "Function",
+          "index": 3,
+          "name": "BooleanAND",
+          "object_path": "/Script/Engine.KismetMathLibrary:BooleanAND"
+        },
+        {
+          "address": "0x25b7ad976c0",
+          "class": "KismetArrayLibrary",
+          "index": 4,
+          "name": "Default__KismetArrayLibrary",
+          "object_path": "/Script/Engine.Default__KismetArrayLibrary"
+        },
+        {
+          "address": "0x25b7bde2c40",
+          "class": "Function",
+          "index": 5,
+          "name": "Array_Length",
+          "object_path": "/Script/Engine.KismetArrayLibrary:Array_Length"
+        },
+        {
+          "address": "0x25b36c40080",
+          "class": "BlueprintGeneratedClass",
+          "index": 6,
+          "name": "BP_EquipmentInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_EquipmentInventory.BP_EquipmentInventory_C"
+        },
+        {
+          "address": "0x25b1048a180",
+          "class": "UserDefinedEnum",
+          "index": 7,
+          "name": "E_EquipmentType",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_EquipmentType.E_EquipmentType"
+        },
+        {
+          "address": "0x25b7be17a20",
+          "class": "Function",
+          "index": 8,
+          "name": "Less_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Less_IntInt"
+        },
+        {
+          "address": "0x25b7bde3260",
+          "class": "Function",
+          "index": 9,
+          "name": "Array_Get",
+          "object_path": "/Script/Engine.KismetArrayLibrary:Array_Get"
+        },
+        {
+          "address": "0x25b7be11040",
+          "class": "Function",
+          "index": 10,
+          "name": "EqualEqual_ByteByte",
+          "object_path": "/Script/Engine.KismetMathLibrary:EqualEqual_ByteByte"
+        },
+        {
+          "address": "0x25b333baa80",
+          "class": "UserDefinedStruct",
+          "index": 11,
+          "name": "S_InvSlotID",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlotID.S_InvSlotID"
+        },
+        {
+          "address": "0x25b32dc1060",
+          "class": "UserDefinedStruct",
+          "index": 12,
+          "name": "S_NotificationDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_NotificationDetails.S_NotificationDetails"
+        },
+        {
+          "address": "0x25b776b7e40",
+          "class": "ScriptStruct",
+          "index": 13,
+          "name": "LinearColor",
+          "object_path": "/Script/CoreUObject.LinearColor"
+        },
+        {
+          "address": "0x25b456fe800",
+          "class": "Texture2D",
+          "index": 14,
+          "name": "T_WarningIcon_UI",
+          "object_path": "/Game/SurvivalGameKitV2/Textures/UI/T_WarningIcon_UI.T_WarningIcon_UI"
+        },
+        {
+          "address": "0x25b7be16440",
+          "class": "Function",
+          "index": 15,
+          "name": "Greater_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Greater_IntInt"
+        },
+        {
+          "address": "0x25b7bde7b00",
+          "class": "Function",
+          "index": 16,
+          "name": "Add_IntInt",
+          "object_path": "/Script/Engine.KismetMathLibrary:Add_IntInt"
+        },
+        {
+          "address": "0x25b2b54a600",
+          "class": "UserDefinedStruct",
+          "index": 17,
+          "name": "S_EquipmentSlot",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentSlot.S_EquipmentSlot"
+        },
+        {
+          "address": "0x25b7b386b40",
+          "class": "Function",
+          "index": 18,
+          "name": "IsValid",
+          "object_path": "/Script/Engine.KismetSystemLibrary:IsValid"
+        },
+        {
+          "address": "0x25b36c4e400",
+          "class": "BlueprintGeneratedClass",
+          "index": 19,
+          "name": "BP_MasterInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C"
+        }
+      ],
+      "script_bytes": 3197
+    },
+    "BP_PlayerInventory_C::AttemptToAddItemToSlot": {
+      "address": "0x25b77619c40",
+      "found": true,
+      "object_reference_count": 39,
+      "object_references": [
+        {
+          "address": "0x25b333ba180",
+          "class": "UserDefinedStruct",
+          "index": 0,
+          "name": "S_ItemDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ItemDetails.S_ItemDetails"
+        },
+        {
+          "address": "0x25b41392800",
+          "class": "UserDefinedStruct",
+          "index": 1,
+          "name": "S_InventoryAction",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InventoryAction.S_InventoryAction"
+        },
+        {
+          "address": "0x25b41390d00",
+          "class": "UserDefinedStruct",
+          "index": 2,
+          "name": "S_WorldAction",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_WorldAction.S_WorldAction"
+        },
+        {
+          "address": "0x25b45505b80",
+          "class": "BlueprintGeneratedClass",
+          "index": 3,
+          "name": "BP_StaticMasterItem_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C"
+        },
+        {
+          "address": "0x25b776b7e40",
+          "class": "ScriptStruct",
+          "index": 4,
+          "name": "LinearColor",
+          "object_path": "/Script/CoreUObject.LinearColor"
+        },
+        {
+          "address": "0x25b111626e0",
+          "class": "UserDefinedStruct",
+          "index": 5,
+          "name": "S_UIDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_UIDetails.S_UIDetails"
+        },
+        {
+          "address": "0x25b456f4300",
+          "class": "Texture2D",
+          "index": 6,
+          "name": "T_NoIcon",
+          "object_path": "/Game/SurvivalGameKitV2/Textures/UI/T_NoIcon.T_NoIcon"
+        },
+        {
+          "address": "0x25b11162800",
+          "class": "UserDefinedStruct",
+          "index": 7,
+          "name": "S_SizeOverride",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_SizeOverride.S_SizeOverride"
+        },
+        {
+          "address": "0x25b1116df60",
+          "class": "UserDefinedStruct",
+          "index": 8,
+          "name": "S_EquipmentDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentDetails.S_EquipmentDetails"
+        },
+        {
+          "address": "0x25b1048a180",
+          "class": "UserDefinedEnum",
+          "index": 9,
+          "name": "E_EquipmentType",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_EquipmentType.E_EquipmentType"
+        },
+        {
+          "address": "0x25b7d738560",
+          "class": "UserDefinedStruct",
+          "index": 10,
+          "name": "S_EquipmentMeshes",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentMeshes.S_EquipmentMeshes"
+        },
+        {
+          "address": "0x25b7d738200",
+          "class": "UserDefinedStruct",
+          "index": 11,
+          "name": "S_SocketAttachments",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_SocketAttachments.S_SocketAttachments"
+        },
+        {
+          "address": "0x25b1048a3c0",
+          "class": "UserDefinedEnum",
+          "index": 12,
+          "name": "E_DamageType",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_DamageType.E_DamageType"
+        },
+        {
+          "address": "0x25b333ba2a0",
+          "class": "UserDefinedStruct",
+          "index": 13,
+          "name": "S_ContainerDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ContainerDetails.S_ContainerDetails"
+        },
+        {
+          "address": "0x25b7b839b80",
+          "class": "ScriptStruct",
+          "index": 14,
+          "name": "DataTableRowHandle",
+          "object_path": "/Script/Engine.DataTableRowHandle"
+        },
+        {
+          "address": "0x25b330d0860",
+          "class": "CompositeDataTable",
+          "index": 15,
+          "name": "MasterGridLayoutList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterGridLayoutList.MasterGridLayoutList"
+        },
+        {
+          "address": "0x25b7d730880",
+          "class": "UserDefinedStruct",
+          "index": 16,
+          "name": "S_CraftingCost",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_CraftingCost.S_CraftingCost"
+        },
+        {
+          "address": "0x25b333ba060",
+          "class": "UserDefinedStruct",
+          "index": 17,
+          "name": "S_HoldableDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_HoldableDetails.S_HoldableDetails"
+        },
+        {
+          "address": "0x25b79f74780",
+          "class": "UserDefinedEnum",
+          "index": 18,
+          "name": "E_WeaponSlots",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_WeaponSlots.E_WeaponSlots"
+        },
+        {
+          "address": "0x25b397cc580",
+          "class": "UserDefinedStruct",
+          "index": 19,
+          "name": "S_ConsumableDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ConsumableDetails.S_ConsumableDetails"
+        },
+        {
+          "address": "0x25b40820940",
+          "class": "DataTable",
+          "index": 20,
+          "name": "ItemList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/ItemList.ItemList"
+        },
+        {
+          "address": "0x25b333ba720",
+          "class": "UserDefinedStruct",
+          "index": 21,
+          "name": "S_AttachmentDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AttachmentDetails.S_AttachmentDetails"
+        },
+        {
+          "address": "0x25b333ba3c0",
+          "class": "UserDefinedStruct",
+          "index": 22,
+          "name": "S_AmmoDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AmmoDetails.S_AmmoDetails"
+        },
+        {
+          "address": "0x25b413926e0",
+          "class": "UserDefinedStruct",
+          "index": 23,
+          "name": "S_Damage",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_Damage.S_Damage"
+        },
+        {
+          "address": "0x25b333ba4e0",
+          "class": "UserDefinedStruct",
+          "index": 24,
+          "name": "S_DurabilityDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_DurabilityDetails.S_DurabilityDetails"
+        },
+        {
+          "address": "0x25b32dc2920",
+          "class": "UserDefinedStruct",
+          "index": 25,
+          "name": "S_RepairActors",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_RepairActors.S_RepairActors"
+        },
+        {
+          "address": "0x25b333baba0",
+          "class": "UserDefinedStruct",
+          "index": 26,
+          "name": "S_DecayDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_DecayDetails.S_DecayDetails"
+        },
+        {
+          "address": "0x25b31ccdb40",
+          "class": "CompositeDataTable",
+          "index": 27,
+          "name": "MasterItemList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterItemList.MasterItemList"
+        },
+        {
+          "address": "0x25b41390e20",
+          "class": "UserDefinedStruct",
+          "index": 28,
+          "name": "S_RecipeDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_RecipeDetails.S_RecipeDetails"
+        },
+        {
+          "address": "0x25b31ccdd00",
+          "class": "CompositeDataTable",
+          "index": 29,
+          "name": "MasterBuildPartList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterBuildPartList.MasterBuildPartList"
+        },
+        {
+          "address": "0x25b10485f80",
+          "class": "UserDefinedEnum",
+          "index": 30,
+          "name": "E_Sounds",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_Sounds.E_Sounds"
+        },
+        {
+          "address": "0x25b333b9d00",
+          "class": "UserDefinedStruct",
+          "index": 31,
+          "name": "S_InvSlot",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlot.S_InvSlot"
+        },
+        {
+          "address": "0x25b333b9f40",
+          "class": "UserDefinedStruct",
+          "index": 32,
+          "name": "S_InvItem",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+        },
+        {
+          "address": "0x25b36c4e400",
+          "class": "BlueprintGeneratedClass",
+          "index": 33,
+          "name": "BP_MasterInventory_C",
+          "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C"
+        },
+        {
+          "address": "0x25b3509c5b0",
+          "class": "BP_SGKFunctions_C",
+          "index": 34,
+          "name": "Default__BP_SGKFunctions_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKFunctions.Default__BP_SGKFunctions_C"
+        },
+        {
+          "address": "0x25b333baa80",
+          "class": "UserDefinedStruct",
+          "index": 35,
+          "name": "S_InvSlotID",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlotID.S_InvSlotID"
+        },
+        {
+          "address": "0x25b7bdb5c60",
+          "class": "Function",
+          "index": 36,
+          "name": "GetGameMode",
+          "object_path": "/Script/Engine.GameplayStatics:GetGameMode"
+        },
+        {
+          "address": "0x25b36c43c00",
+          "class": "BlueprintGeneratedClass",
+          "index": 37,
+          "name": "BP_SGKGameModeInterface_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Interfaces/BP_SGKGameModeInterface.BP_SGKGameModeInterface_C"
+        },
+        {
+          "address": "0x25b45505480",
+          "class": "BlueprintGeneratedClass",
+          "index": 38,
+          "name": "BP_GlobalInventoryManager_C",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/BP_GlobalInventoryManager.BP_GlobalInventoryManager_C"
+        }
+      ],
+      "script_bytes": 3530
+    },
+    "BP_SGKFunctions_C::SGK ItemDetails": {
+      "address": "0x25b31ccf4a0",
+      "found": true,
+      "object_reference_count": 31,
+      "object_references": [
+        {
+          "address": "0x25b7ad97840",
+          "class": "DataTableFunctionLibrary",
+          "index": 0,
+          "name": "Default__DataTableFunctionLibrary",
+          "object_path": "/Script/Engine.Default__DataTableFunctionLibrary"
+        },
+        {
+          "address": "0x25b7bd62d20",
+          "class": "Function",
+          "index": 1,
+          "name": "GetDataTableRowFromName",
+          "object_path": "/Script/Engine.DataTableFunctionLibrary:GetDataTableRowFromName"
+        },
+        {
+          "address": "0x25b31ccdb40",
+          "class": "CompositeDataTable",
+          "index": 2,
+          "name": "MasterItemList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterItemList.MasterItemList"
+        },
+        {
+          "address": "0x25b333b9f40",
+          "class": "UserDefinedStruct",
+          "index": 3,
+          "name": "S_InvItem",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+        },
+        {
+          "address": "0x25b333ba180",
+          "class": "UserDefinedStruct",
+          "index": 4,
+          "name": "S_ItemDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ItemDetails.S_ItemDetails"
+        },
+        {
+          "address": "0x25b41392800",
+          "class": "UserDefinedStruct",
+          "index": 5,
+          "name": "S_InventoryAction",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InventoryAction.S_InventoryAction"
+        },
+        {
+          "address": "0x25b41390d00",
+          "class": "UserDefinedStruct",
+          "index": 6,
+          "name": "S_WorldAction",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_WorldAction.S_WorldAction"
+        },
+        {
+          "address": "0x25b776b7e40",
+          "class": "ScriptStruct",
+          "index": 7,
+          "name": "LinearColor",
+          "object_path": "/Script/CoreUObject.LinearColor"
+        },
+        {
+          "address": "0x25b111626e0",
+          "class": "UserDefinedStruct",
+          "index": 8,
+          "name": "S_UIDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_UIDetails.S_UIDetails"
+        },
+        {
+          "address": "0x25b11162800",
+          "class": "UserDefinedStruct",
+          "index": 9,
+          "name": "S_SizeOverride",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_SizeOverride.S_SizeOverride"
+        },
+        {
+          "address": "0x25b1116df60",
+          "class": "UserDefinedStruct",
+          "index": 10,
+          "name": "S_EquipmentDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentDetails.S_EquipmentDetails"
+        },
+        {
+          "address": "0x25b1048a180",
+          "class": "UserDefinedEnum",
+          "index": 11,
+          "name": "E_EquipmentType",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_EquipmentType.E_EquipmentType"
+        },
+        {
+          "address": "0x25b7d738560",
+          "class": "UserDefinedStruct",
+          "index": 12,
+          "name": "S_EquipmentMeshes",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_EquipmentMeshes.S_EquipmentMeshes"
+        },
+        {
+          "address": "0x25b7d738200",
+          "class": "UserDefinedStruct",
+          "index": 13,
+          "name": "S_SocketAttachments",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_SocketAttachments.S_SocketAttachments"
+        },
+        {
+          "address": "0x25b1048a3c0",
+          "class": "UserDefinedEnum",
+          "index": 14,
+          "name": "E_DamageType",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_DamageType.E_DamageType"
+        },
+        {
+          "address": "0x25b333ba2a0",
+          "class": "UserDefinedStruct",
+          "index": 15,
+          "name": "S_ContainerDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ContainerDetails.S_ContainerDetails"
+        },
+        {
+          "address": "0x25b7b839b80",
+          "class": "ScriptStruct",
+          "index": 16,
+          "name": "DataTableRowHandle",
+          "object_path": "/Script/Engine.DataTableRowHandle"
+        },
+        {
+          "address": "0x25b330d0860",
+          "class": "CompositeDataTable",
+          "index": 17,
+          "name": "MasterGridLayoutList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterGridLayoutList.MasterGridLayoutList"
+        },
+        {
+          "address": "0x25b7d730880",
+          "class": "UserDefinedStruct",
+          "index": 18,
+          "name": "S_CraftingCost",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_CraftingCost.S_CraftingCost"
+        },
+        {
+          "address": "0x25b333ba060",
+          "class": "UserDefinedStruct",
+          "index": 19,
+          "name": "S_HoldableDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_HoldableDetails.S_HoldableDetails"
+        },
+        {
+          "address": "0x25b79f74780",
+          "class": "UserDefinedEnum",
+          "index": 20,
+          "name": "E_WeaponSlots",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_WeaponSlots.E_WeaponSlots"
+        },
+        {
+          "address": "0x25b397cc580",
+          "class": "UserDefinedStruct",
+          "index": 21,
+          "name": "S_ConsumableDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ConsumableDetails.S_ConsumableDetails"
+        },
+        {
+          "address": "0x25b333ba720",
+          "class": "UserDefinedStruct",
+          "index": 22,
+          "name": "S_AttachmentDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AttachmentDetails.S_AttachmentDetails"
+        },
+        {
+          "address": "0x25b333ba3c0",
+          "class": "UserDefinedStruct",
+          "index": 23,
+          "name": "S_AmmoDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_AmmoDetails.S_AmmoDetails"
+        },
+        {
+          "address": "0x25b413926e0",
+          "class": "UserDefinedStruct",
+          "index": 24,
+          "name": "S_Damage",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_Damage.S_Damage"
+        },
+        {
+          "address": "0x25b333ba4e0",
+          "class": "UserDefinedStruct",
+          "index": 25,
+          "name": "S_DurabilityDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_DurabilityDetails.S_DurabilityDetails"
+        },
+        {
+          "address": "0x25b32dc2920",
+          "class": "UserDefinedStruct",
+          "index": 26,
+          "name": "S_RepairActors",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_RepairActors.S_RepairActors"
+        },
+        {
+          "address": "0x25b333baba0",
+          "class": "UserDefinedStruct",
+          "index": 27,
+          "name": "S_DecayDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_DecayDetails.S_DecayDetails"
+        },
+        {
+          "address": "0x25b41390e20",
+          "class": "UserDefinedStruct",
+          "index": 28,
+          "name": "S_RecipeDetails",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_RecipeDetails.S_RecipeDetails"
+        },
+        {
+          "address": "0x25b31ccdd00",
+          "class": "CompositeDataTable",
+          "index": 29,
+          "name": "MasterBuildPartList",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Items/MasterLists/MasterBuildPartList.MasterBuildPartList"
+        },
+        {
+          "address": "0x25b10485f80",
+          "class": "UserDefinedEnum",
+          "index": 30,
+          "name": "E_Sounds",
+          "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Enum/E_Sounds.E_Sounds"
+        }
+      ],
+      "script_bytes": 1918
+    }
+  },
+  "pid": 15784
+}

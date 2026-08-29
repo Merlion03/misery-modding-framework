@@ -1,0 +1,87 @@
+{
+  "record": "CR-01C3 -- how an inventory item's S_ItemDetails is really resolved, and what that means for additive registration",
+  "verdict": "ARCHITECTURAL CORRECTION. The inventory definition resolver reads MasterItemList, a UCompositeDataTable, not the plain ItemList UDataTable. Additive registration into ItemList nevertheless reaches it, because the composite is subscribed to its parent's change delegate and rebuilds itself. Both halves were verified live and read-only.",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "read_only": true,
+  "nothing_performed": ["no live call", "no allocation", "no write", "no gameplay mutation"],
+  "supersedes": "research/evidence/CR-01B/lookup-closure.json -- its classification A ('bare FName resolves against a HARDCODED vanilla ItemList reference') is INCOMPLETE. That census scanned only for an object named ItemList of class DataTable, so a UCompositeDataTable could not appear in it at all. The lookup does terminate in a DataTable row lookup, as CR-01B said; the TABLE is a different one.",
+
+  "the_resolver_OBSERVED": {
+    "function": "BP_SGKFunctions_C::'SGK ItemDetails'",
+    "class_kind": "BP_SGKFunctions_C : BlueprintFunctionLibrary : Object (SuperStruct chain read live)",
+    "abi": "static, pure: (S_InvItem InvItem @0, Object* __WorldContext @48) -> (bool ItemFound @56, S_ItemDetails ItemDetails @64), ParmsSize 2336, FunctionFlags 0x1cc22000 = Static|Public|HasOutParms|HasDefaults|BlueprintCallable|BlueprintEvent|BlueprintPure",
+    "mechanism": "its own ScriptAndPropertyObjectReferences hold Default__DataTableFunctionLibrary, DataTableFunctionLibrary::GetDataTableRowFromName and MasterItemList -- so it builds the (table,row) pair itself from the bare FName plus a table literal baked into ITS bytecode",
+    "table_it_uses": "MasterItemList, NOT ItemList"
+  },
+
+  "the_census_OBSERVED": {
+    "method": "every live UFunction's engine-maintained UStruct::ScriptAndPropertyObjectReferences (+0x90) tested for the live ItemList and MasterItemList pointers; 17063 UFunctions scanned",
+    "MasterItemList_referencing_functions": 71,
+    "ItemList_referencing_functions": 8,
+    "ItemList_only": ["BP_PlayerInventory_C::ConsumeItem"],
+    "both": ["BP_MasterResource_C::CollectResource", "BP_PlayerInventory_C::AttemptToAddItemToSlot",
+             "BP_PlayerInventory_C::AttemptToHoldItem", "BP_PlayerInventory_C::UseInventoryAction",
+             "BP_PlayerInventory_C::UseWeaponFromSlot", "BP_SGKFunctions_C::SGK ItemCookingRecipe",
+             "BP_WeaponSlot_C::UpdateWeaponItem"],
+    "reading": "MasterItemList is the primary registry by an order of magnitude. Seven of the eight ItemList references also reference MasterItemList, so ItemList is a secondary, not the canonical, lookup target."
+  },
+
+  "the_composite_OBSERVED": {
+    "MasterItemList": "UCompositeDataTable @0x25b31ccdb40, RowStruct S_ItemDetails, 496 rows, vtable 0x7ff6365a47b8, ParentTables (reflected offset 176) = [ItemList]",
+    "ItemList": "UDataTable @0x25b40820940, RowStruct S_ItemDetails, 496 rows, vtable 0x7ff636503148",
+    "class_chain": "CompositeDataTable : DataTable : Object -- read live from UStruct::SuperStruct",
+    "row_ownership": "0 of the 496 common row keys share a value pointer between the two tables. The composite owns its own deep copies; it does not alias the parent's rows.",
+    "all_seven_composites": "MasterItemList 496/496, MasterBuildPartList 210/210, MasterCookingList 15/15, MasterCraftingRecipeList 104/104, MasterDeviceList 18/18, MasterGridLayoutList 1/1, MasterSpawnerList 251/251 -- every composite mirrors its single parent's row count exactly"
+  },
+
+  "the_no_op_overrides_OBSERVED": {
+    "source": "CompositeDataTable.cpp:191-199 -- UCompositeDataTable::RemoveRow and ::AddRow both have empty bodies; the header comments them 'Composite data tables don't currently add or remove rows.'",
+    "binary_confirmation": {
+      "plain_UDataTable_vtable": {"slot 93 EmptyTable": "RVA 0x354cf50", "slot 94 RemoveRow": "RVA 0x355e170", "slot 95 AddRow": "RVA 0x3548190"},
+      "composite_vtable": {"slot 93 EmptyTable": "RVA 0x3508ed0 (a real override, matching EmptyCompositeTable)", "slot 94 RemoveRow": "RVA 0xf309c0", "slot 95 AddRow": "RVA 0xf309c0"},
+      "body_at_0xf309c0": "c2 00 00 then cc padding -- a bare ret. Two empty bodies folded to one address (COMDAT), exactly matching the two empty overrides.",
+      "why_the_slot_indices_transfer": "UCompositeDataTable derives DIRECTLY from UDataTable and its header declares only overrides, no new virtuals. A subclass keeps the base slot ordering and replaces only overridden entries -- which is precisely what is observed: slot 93 differs (EmptyTable is overridden), 94 and 95 differ (both overridden to nothing), and the three overridden slots are exactly the three overrides the header declares."
+    },
+    "consequence": "Calling the proven registration primitive through the COMPOSITE's vtable would silently do nothing. MasterItemList is not a valid target for AddRow/RemoveRow."
+  },
+
+  "why_registration_into_the_parent_still_works_OBSERVED": {
+    "chain_from_source": [
+      "UDataTable::AddRow opens DATATABLE_CHANGE_SCOPE() -- DataTable.cpp:456 (function at :454-470)",
+      "the scope's destructor calls Table->HandleDataTableChanged() when the nesting count reaches 0 -- DataTable.cpp:53-63",
+      "HandleDataTableChanged ends in OnDataTableChanged().Broadcast() -- DataTable.cpp:202-230",
+      "UCompositeDataTable::OnParentTablesUpdated subscribes the composite to EVERY parent's OnDataTableChanged -- CompositeDataTable.cpp:338",
+      "the handler calls UpdateCachedRowMap -- CompositeDataTable.cpp:332",
+      "UpdateCachedRowMap does UDataTable::EmptyTable() then re-adds every parent row with an explicitly qualified UDataTable::AddRow -- CompositeDataTable.cpp:87 and :118"
+    ],
+    "not_editor_gated": "OnDataTableChangedDelegate, OnDataTableChanged() and HandleDataTableChanged are declared outside every #if -- DataTable.h:176, :180, :186.",
+    "LIVE_PROOF": {
+      "what_was_read": "ItemList + 0x98, the structurally forced offset of OnDataTableChangedDelegate in a non-editor build (0x28 RowStruct; 0x30 RowMap TMap, 0x50 bytes; 0x80 the three import bitfields; 0x88 ImportKeyField FString, 16 bytes; WITH_EDITORONLY_DATA block absent; 0x98 the delegate)",
+      "observed": "InvocationList TArray = { Data=0x25b46114140, Num=1, Max=4 } -- exactly ONE bound delegate",
+      "delegate_instance": "0x25b37596fd0, whose bytes carry the pair (int32 41986, int32 13863) at +24/+28",
+      "identification": "41986 is MasterItemList's own GUObjectArray index and 13863 (0x3627) is its own FUObjectItem serial number -- i.e. a TWeakObjectPtr pointing at MasterItemList. BOTH halves match, which is what makes this an identification rather than a coincidence.",
+      "offset_cross_check": "the structurally derived offset and the semantic content agree: the only thing at 0x98 that could hold a weak pointer to the composite IS the change delegate."
+    },
+    "verdict": "Adding or removing a row on ItemList triggers a FULL rebuild of MasterItemList, automatically, with no patching and no extra call."
+  },
+
+  "why_the_rebuild_is_safe_for_this_row_struct_OBSERVED": {
+    "risk": "HandleDataTableChanged, before broadcasting, iterates every row and calls the VIRTUAL FTableRowBase::OnDataTableChanged on it -- DataTable.cpp:216-228. On a struct with no vptr that would be a wild virtual call.",
+    "guard": "the loop is entered only if RowStruct->IsChildOf(FTableRowBase::StaticStruct()) -- DataTable.cpp:213",
+    "live_check": "S_ItemDetails is a UUserDefinedStruct with SuperStruct == 0 and its first property at offset 0 (no vptr). It is therefore NOT a child of FTableRowBase, the loop is skipped, and HandleDataTableChanged degenerates to a single Broadcast.",
+    "retrospective_evidence": "CR-01C1 and CR-01C2R each already performed AddRow + RemoveRow on this same live ItemList while a world was loaded, so this rebuild path already executed four times, and all 496 vanilla rows stayed hash-identical with the process healthy."
+  },
+
+  "cost_and_residual_risk": {
+    "cost": "every mutation of ItemList destroys and deep-copies all 496 (or 497) rows of MasterItemList -- roughly 1.1 MB of churn per call. The engine itself warns that runtime parent-table changes 'can be slow and can cause hitches during gameplay' (CompositeDataTable.h, above AppendParentTables).",
+    "pointer_invalidation": "every MasterItemList row pointer changes on every rebuild. Blueprint consumers are unaffected because GetDataTableRowFromName copies the row out by value. Whether any NATIVE code caches a raw row uint8* across frames is UNKNOWN.",
+    "batching": "FScopedDataTableChange is reference-counted per table (DataTable.cpp:45-63), so N registrations inside one outer scope would collapse to ONE rebuild. Holding such a scope requires constructing FScopedDataTableChange, whose constructor RVA is NOT derived. UNKNOWN for now; not needed for a single row."
+  },
+
+  "options_considered": {
+    "chosen": "Register into the parent ItemList with the already-proven engine UDataTable::AddRow / RemoveRow, and let the engine rebuild the composite. No new mechanism, no new derivation, no constraint bent.",
+    "rejected_non_virtual_base_AddRow_on_the_composite": "Calling UDataTable::AddRow non-virtually with this = MasterItemList is what UpdateCachedRowMap itself does (CompositeDataTable.cpp:118), so it is not raw RowMap mutation -- but it writes a CACHE that the next rebuild wipes (CompositeDataTable.cpp:87), and it is invisible to the call sites that read ItemList directly. Strictly worse than registering in the parent.",
+    "rejected_AppendParentTables": "UCompositeDataTable::AppendParentTables / AddParentTable are non-virtual, non-UFUNCTION native members. No vtable slot, no ProcessEvent route, and their RVA is not derivable read-only. BLOCKED -- would require a guessed address.",
+    "rejected_raw_RowMap": "forbidden by the standing architectural rule."
+  }
+}

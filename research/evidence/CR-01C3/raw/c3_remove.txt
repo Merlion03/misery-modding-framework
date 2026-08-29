@@ -1,0 +1,16 @@
+## BP_MasterInventory_C::RemoveItem flags=0xc020000 ['FUNC_BlueprintCallable', 'FUNC_BlueprintEvent', 'FUNC_Public'] parms_size=83 net=[]
+    @0    InvSlot              FStructProperty    size=80   -> S_InvSlot
+    @80   RemoveWeight         FBoolProperty      size=1    
+    @81   RemoveInvAmount      FBoolProperty      size=1    
+    @82   SpecialSlot          FBoolProperty      size=1    
+## BP_MasterInventory_C::RemoveItemAmount flags=0xcc20000 ['FUNC_BlueprintCallable', 'FUNC_BlueprintEvent', 'FUNC_HasDefaults', 'FUNC_HasOutParms', 'FUNC_Public'] parms_size=86 net=[]
+    @0    InvSlot              FStructProperty    size=80   -> S_InvSlot
+    @80   Amount               FIntProperty       size=4    
+    @84   SpecialSlot          FBoolProperty      size=1    
+    @85   ItemRemoved          FBoolProperty      size=1    OUT 
+## BP_MasterInventory_C::ChangeItemCount flags=0xc020000 ['FUNC_BlueprintCallable', 'FUNC_BlueprintEvent', 'FUNC_Public'] parms_size=5 net=[]
+    @0    Amount               FIntProperty       size=4    
+    @4    Add                  FBoolProperty      size=1    
+## BP_PlayerInventory_C::RemoveItemFromSlot flags=0xc020000 ['FUNC_BlueprintCallable', 'FUNC_BlueprintEvent', 'FUNC_Public'] parms_size=81 net=[]
+    @0    InvSlot              FStructProperty    size=80   -> S_InvSlot
+    @80   SpecialSlot          FBoolProperty      size=1    

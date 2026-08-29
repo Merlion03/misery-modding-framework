@@ -1,0 +1,310 @@
+{
+  "pid": 15784,
+  "targets": {
+    "BP_MasterInventory_C::AddItem": {
+      "address": "0x25b330d5800",
+      "caller_count_bytecode_pointer_form": 0,
+      "caller_count_name_form": 17,
+      "caller_count_object_reference_form": 0,
+      "callers_bytecode_pointer_form": [],
+      "callers_name_form": [
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_WeaponInventory.BP_WeaponInventory_C:ChamberRoundFromMag",
+          "caller_name": "ChamberRoundFromMag",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1792
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_WeaponInventory.BP_WeaponInventory_C:AddWeaponAmmo",
+          "caller_name": "AddWeaponAmmo",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 291
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_WeaponInventory.BP_WeaponInventory_C:AddWeaponAmmo",
+          "caller_name": "AddWeaponAmmo",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 694
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AddItemToContainer",
+          "caller_name": "AddItemToContainer",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 413
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AttemptToAddItem",
+          "caller_name": "AttemptToAddItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 865
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AttemptToAddItem",
+          "caller_name": "AttemptToAddItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 2873
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_EquipmentInventory.BP_EquipmentInventory_C:ItemDecay",
+          "caller_name": "ItemDecay",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1824
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_CookingComponent.BP_CookingComponent_C:SpawnDestructionBag",
+          "caller_name": "SpawnDestructionBag",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 2159
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_CraftingComponent.BP_CraftingComponent_C:Add Burnt Fuel Item",
+          "caller_name": "Add Burnt Fuel Item",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 946
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Blueprints/Items/HoldableItems/BP_MasterRangeWeapon.BP_MasterRangeWeapon_C:ExecuteUbergraph_BP_MasterRangeWeapon",
+          "caller_name": "ExecuteUbergraph_BP_MasterRangeWeapon",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 8694
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Blueprints/BuildParts/BP_MasterBuildPart.BP_MasterBuildPart_C:ExecuteUbergraph_BP_MasterBuildPart",
+          "caller_name": "ExecuteUbergraph_BP_MasterBuildPart",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 3602
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:EmptyInventory",
+          "caller_name": "EmptyInventory",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 680
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:CraftItem",
+          "caller_name": "CraftItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1225
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:DecreaseItemDurability",
+          "caller_name": "DecreaseItemDurability",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1458
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddStartingItems",
+          "caller_name": "AddStartingItems",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 710
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:SpawnItems",
+          "caller_name": "SpawnItems",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 4963
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:ItemDecay",
+          "caller_name": "ItemDecay",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 2298
+        }
+      ],
+      "callers_object_reference_form": [],
+      "name_entry_id": 112836,
+      "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AddItem",
+      "own_object_reference_count": 23,
+      "own_script_bytes": 4813
+    },
+    "BP_MasterInventory_C::AttemptToAddItemAmount": {
+      "address": "0x25b330d1740",
+      "caller_count_bytecode_pointer_form": 0,
+      "caller_count_name_form": 1,
+      "caller_count_object_reference_form": 0,
+      "callers_bytecode_pointer_form": [],
+      "callers_name_form": [
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:FindFreeStackSpace",
+          "caller_name": "FindFreeStackSpace",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 709
+        }
+      ],
+      "callers_object_reference_form": [],
+      "name_entry_id": 1730805,
+      "object_path": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:AttemptToAddItemAmount",
+      "own_object_reference_count": 11,
+      "own_script_bytes": 1435
+    },
+    "BP_PlayerInventory_C::AddItemToContainer": {
+      "address": "0x25b74c96600",
+      "caller_count_bytecode_pointer_form": 0,
+      "caller_count_name_form": 2,
+      "caller_count_object_reference_form": 0,
+      "callers_bytecode_pointer_form": [],
+      "callers_name_form": [
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:UnequipItem",
+          "caller_name": "UnequipItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 4398
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:UnequipWeapon",
+          "caller_name": "UnequipWeapon",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 3723
+        }
+      ],
+      "callers_object_reference_form": [],
+      "name_entry_id": 1661582,
+      "object_path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AddItemToContainer",
+      "own_object_reference_count": 10,
+      "own_script_bytes": 1099
+    },
+    "BP_PlayerInventory_C::AttemptToAddItem": {
+      "address": "0x25b74c95800",
+      "caller_count_bytecode_pointer_form": 0,
+      "caller_count_name_form": 18,
+      "caller_count_object_reference_form": 0,
+      "callers_bytecode_pointer_form": [],
+      "callers_name_form": [
+        {
+          "caller": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C:Pickup",
+          "caller_name": "Pickup",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 156
+        },
+        {
+          "caller": "/Game/PlayerElectricitySystem/Blueprints/Components/BP_PlayerPowerComponent.BP_PlayerPowerComponent_C:Pickup",
+          "caller_name": "Pickup",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 932
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:UnequipItem",
+          "caller_name": "UnequipItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1341
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AttemptToAddItemToSlot",
+          "caller_name": "AttemptToAddItemToSlot",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 2705
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AttemptToPickupHold",
+          "caller_name": "AttemptToPickupHold",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 757
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerBuildingComponent.BP_PlayerBuildingComponent_C:PickupActor",
+          "caller_name": "PickupActor",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1177
+        },
+        {
+          "caller": "/Game/Blueprints/AI/BP_DwarfTamed.BP_DwarfTamed_C:SGK Interact",
+          "caller_name": "SGK Interact",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 659
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKMasterCharacter.BP_SGKMasterCharacter_C:ExecuteUbergraph_BP_SGKMasterCharacter",
+          "caller_name": "ExecuteUbergraph_BP_SGKMasterCharacter",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 50977
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKMasterCharacter.BP_SGKMasterCharacter_C:ExecuteUbergraph_BP_SGKMasterCharacter",
+          "caller_name": "ExecuteUbergraph_BP_SGKMasterCharacter",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 61356
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_SkeletalMasterItem.BP_SkeletalMasterItem_C:Pickup",
+          "caller_name": "Pickup",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 156
+        },
+        {
+          "caller": "/Game/Blueprints/Anomalys/Artifacts/BP_ArtifactSpawner.BP_ArtifactSpawner_C:SGK Interact",
+          "caller_name": "SGK Interact",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 245
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Blueprints/Resources/BP_MasterResource.BP_MasterResource_C:CollectResource",
+          "caller_name": "CollectResource",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1305
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_MasterInventory.BP_MasterInventory_C:CraftItem",
+          "caller_name": "CraftItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 1412
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_VendorComponent.BP_VendorComponent_C:BuyVenderItem",
+          "caller_name": "BuyVenderItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 3192
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_VendorComponent.BP_VendorComponent_C:BuyVenderItem",
+          "caller_name": "BuyVenderItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 4440
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_VendorComponent.BP_VendorComponent_C:BuyVenderItem",
+          "caller_name": "BuyVenderItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 5786
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_VendorComponent.BP_VendorComponent_C:SellVenderItem",
+          "caller_name": "SellVenderItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 3817
+        },
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_VendorComponent.BP_VendorComponent_C:SellVenderItem",
+          "caller_name": "SellVenderItem",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 6098
+        }
+      ],
+      "callers_object_reference_form": [],
+      "name_entry_id": 1642947,
+      "object_path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AttemptToAddItem",
+      "own_object_reference_count": 20,
+      "own_script_bytes": 3197
+    },
+    "BP_PlayerInventory_C::AttemptToAddItemToSlot": {
+      "address": "0x25b77619c40",
+      "caller_count_bytecode_pointer_form": 0,
+      "caller_count_name_form": 1,
+      "caller_count_object_reference_form": 0,
+      "callers_bytecode_pointer_form": [],
+      "callers_name_form": [
+        {
+          "caller": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:UseInventoryAction",
+          "caller_name": "UseInventoryAction",
+          "opcode": "EX_LocalVirtualFunction",
+          "script_offset": 5393
+        }
+      ],
+      "callers_object_reference_form": [],
+      "name_entry_id": 1661257,
+      "object_path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C:AttemptToAddItemToSlot",
+      "own_object_reference_count": 39,
+      "own_script_bytes": 3530
+    }
+  },
+  "ufunctions_scanned": 17063
+}
