@@ -1,0 +1,146 @@
+{
+  "record": "CR-01C3A -- Composite Parent Registration Feasibility. Can MiseryRuntime publish a Runtime-owned UDataTable<S_ItemDetails> as an additional parent of MasterItemList instead of writing every mod row into vanilla ItemList?",
+  "verdict": "FEASIBLE IN PRINCIPLE, WITH ONE UNPROVEN WRITE. There is NO engine-native reachable API for changing the parent set, so attaching requires one direct write to MasterItemList.ParentTables. Everything else in the chain is engine-native and derivable. Preferred production architecture = B (one Runtime aggregate parent table); fallback = C (direct ItemList mutation, already proven).",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "read_only": true,
+  "session": {"pid": 1732, "world": "/Game/NewMapGENTEST.NewMapGENTEST", "note": "a second, independent game session from the one CR-01C3 preconditions were read in"},
+  "nothing_performed": ["no parent-table mutation", "no AddItem", "no inventory mutation", "no row registration", "no allocation in the target", "no write of any kind"],
+
+  "0_eventgraphfunction_unknown_closed": {
+    "question": "Is UFunction::EventGraphFunction non-null for AddItem, which would make ProcessEvent discard our Parms buffer (ScriptCore.cpp:2041-2049)?",
+    "answer": "NO. AddItem->EventGraphFunction == nullptr. No STOP required.",
+    "layout_derivation": "UFunction after UStruct(0xB0): 0xB0 FunctionFlags, 0xB4 NumParms, 0xB6 ParmsSize, 0xB8 ReturnValueOffset, 0xBA RPCId, 0xBC RPCResponseId, 0xC0 FirstPropertyToInit, 0xC8 EventGraphFunction, 0xD0 EventGraphCallOffset, 0xD8 Func (Class.h:1789-1830)",
+    "how_the_offset_was_PROVEN_rather_than_assumed": {
+      "problem": "+0xC8 is null for ALL 17032 live UFunctions, so no positive control for the field exists in this build and 'always zero' is also what wrong-offset padding looks like.",
+      "discriminator": "If UE_BLUEPRINT_EVENTGRAPH_FASTCALLS were absent from the layout, Func would sit at +0xC8 and would be a .text pointer everywhere. Observed instead: +0xC8 null 17032/17032, and +0xD8 a .text pointer 17031/17032, with a single value (RVA 0x12ac660) shared by 6616 functions -- the UObject::ProcessInternal thunk every Blueprint function points at. Func is therefore at 0xD8, which forces the EventGraphFunction/EventGraphCallOffset pair to occupy 0xC8/0xD0.",
+      "second_line": "+0xC0 behaves exactly like FirstPropertyToInit: non-null for 1237 functions, and every single one of those 1237 also carries FUNC_HasDefaults (zero counterexamples). The converse correctly does not hold (1816 HasDefaults with a null pointer), because FirstPropertyToInit tracks local struct properties with defaults, a subset.",
+      "why_it_is_null_everywhere": "the compiler sets it only for a simple no-parameter stub graph whose ubergraph has FirstPropertyToInit == nullptr AND PostConstructLink == nullptr (KismetCompilerVMBackend.cpp:1266-1276). ExecuteUbergraph_BP_MasterInventory has FirstPropertyToInit non-null, so no stub in that class qualifies -- which is exactly why the no-parameter stub SGK UpdateAllAttachments also reads null. The observation is explained, not merely recorded.",
+      "corroboration": "RVA 0x12ac660 sits 0x470 past the independently proven ProcessEvent at RVA 0x12ac1f0 -- same translation unit (ScriptCore.cpp), consistent with ProcessInternal."
+    }
+  },
+
+  "1_masteritemlist_parent_model_OBSERVED": {
+    "MasterItemList": "UCompositeDataTable @0x15a14b86a60, RowStruct S_ItemDetails @0x15a0b2b3100, 496 rows, vtable 0x7ff6365a47b8",
+    "current_parents": "exactly one: ItemList (plain UDataTable) @0x15a0eee28c0",
+    "ParentTables": "reflected FArrayProperty at offset 176, TArray<TObjectPtr<UDataTable>>, live Data=0x15a36c5d530 Num=1 Max=2 -- one element of SPARE CAPACITY",
+    "OldParentTables": "reflected FArrayProperty at offset 192, a SEPARATE allocation (Data=0x15a5c1d6460, Num=1, Max=2). Transient. The difference between the two arrays is what drives delegate subscribe/unsubscribe.",
+    "property_flags": {
+      "ParentTables": "0x124080000000215 = Edit | BlueprintVisible | BlueprintReadOnly | ZeroConstructor | UObjectWrapper | Protected | NativeAccessSpecifierProtected -- BlueprintReadOnly means no Blueprint setter exists",
+      "RowStruct": "0x11c001000020201 = Edit | EditConst | HasGetValueTypeHash | NoDestructor | UObjectWrapper | ZeroConstructor | NativeAccessSpecifierPublic -- EditConst is an editor-UI constraint only, not a runtime one"
+    },
+    "all_seven_composites": "MasterItemList 496, MasterBuildPartList 210, MasterCookingList 15, MasterCraftingRecipeList 104, MasterDeviceList 18, MasterGridLayoutList 1, MasterSpawnerList 251 -- each has exactly one parent and each ParentTables array is Num=1 Max=2",
+    "RowStruct_identity": "MasterItemList->RowStruct and ItemList->RowStruct are the SAME UScriptStruct pointer (0x15a0b2b3100). A runtime table only has to copy that pointer."
+  },
+
+  "2_parent_mutation_api_VERDICT": {
+    "engine_api": "UCompositeDataTable::AppendParentTables, RemoveParentTables, AddParentTable, RemoveParentTable (CompositeDataTable.h, bodies at CompositeDataTable.cpp:276-313)",
+    "reachable": "NO",
+    "why": [
+      "they are plain non-virtual ENGINE_API members -- not in any vtable, so no slot can be derived",
+      "they carry no UFUNCTION macro. Confirmed LIVE: walking the children chain of both /Script/Engine.DataTable and /Script/Engine.CompositeDataTable returns ZERO UFunctions, so there is no ProcessEvent route either",
+      "no export table exists in a monolithic Shipping build, and their RVAs are not derivable read-only from anything observed",
+      "additionally, nothing inside the engine calls them -- they exist for game C++ -- so a monolithic link may well have dropped them entirely. Unverifiable, and moot, since they are unreachable regardless"
+    ],
+    "conclusion": "There is NO provable engine-native path equivalent to changing the parent table set. Attaching a parent requires writing MasterItemList.ParentTables directly. This is the single unproven write in the whole candidate and it is what the next gate must decide."
+  },
+
+  "3_delegate_and_rebuild_semantics_OBSERVED": {
+    "subscription": "UCompositeDataTable::OnParentTablesUpdated (CompositeDataTable.cpp:315-345) does, in order: (a) unsubscribe from every table in OldParentTables that is no longer in ParentTables (:324-330); (b) UpdateCachedRowMap (:332); (c) subscribe to every table in ParentTables that was not in OldParentTables (:334-341); (d) OldParentTables = ParentTables (:343). A bUpdatingParentTables guard prevents recursion (:317-322).",
+    "rebuild": "UpdateCachedRowMap (:53-142) runs FindLoops, then UDataTable::EmptyTable() (:87) which DestroyStructs and frees every cached row, then re-adds every parent's rows in ParentTables order with an explicitly qualified UDataTable::AddRow (:118). A parent whose RowStruct != the composite's RowStruct is SKIPPED with an error log (:96-107) -- a natural fail-closed guard.",
+    "trigger": "UDataTable::AddRow / RemoveRow open DATATABLE_CHANGE_SCOPE (DataTable.cpp:456, :435); the scope destructor calls HandleDataTableChanged when the refcount reaches 0 (:53-63); that ends in OnDataTableChanged().Broadcast() (:230). None of it is editor-gated (DataTable.h:176, :180, :186).",
+    "LIVE_CONFIRMATION_in_this_second_session": "ItemList's OnDataTableChanged invocation list (offset 0x98) holds Num=1; MasterItemList's own holds Num=0. Independently reproduced from the earlier session, in a different process instance.",
+    "delegate_offset_now_bounded_EXACTLY": "the reflected properties pin it: ImportKeyField is at 136 (0x88, 16 bytes, ending 0x98) and the subclass's first member ParentTables is at 176 (0xB0). That leaves exactly 0x18 = 24 bytes at 0x98 -- precisely sizeof(FMulticastDelegateBase) (TArray InvocationList 16 + two int32). The structural derivation and the observed content agree.",
+    "data_neutral_publication_trigger": "UDataTable::RemoveRow(<a name that does not exist>) on ItemList is data-neutral: RemoveRowInternal calls RowMap.RemoveAndCopyValue, which leaves RowData null for a missing key, so nothing is destroyed or freed (DataTable.cpp:433-451). The ONLY effect is the scope destructor's broadcast. That single call publishes a newly appended parent AND subscribes it, entirely inside engine code."
+  },
+
+  "4_duplicate_precedence_and_cycles": {
+    "precedence": "'Tables with higher indices override data in tables with lower indices' (CompositeDataTable.h, above ParentTables). Mechanically: UpdateCachedRowMap iterates ParentTables in order and calls UDataTable::AddRow, which removes an existing row of that name first (DataTable.cpp:461) -- so the LAST parent to supply a name wins. Appending our table at the end therefore gives mod rows precedence over vanilla.",
+    "crucially_non_destructive": "that precedence lives entirely in the composite's CACHE. The vanilla ItemList row is never written, and it reappears verbatim the moment our table is detached and the composite rebuilds.",
+    "cycles": "UCompositeDataTable::FindLoops (called first inside UpdateCachedRowMap, :55) walks the parent graph and leaves the table empty if a cycle exists. Our table would be a plain UDataTable, not a composite, so it cannot participate in a cycle at all.",
+    "row_struct_mismatch": "a parent whose RowStruct pointer differs is skipped, not merged -- so getting RowStruct wrong degrades to 'our rows are absent', never to corruption."
+  },
+
+  "5_runtime_table_creation_feasibility": {
+    "construction": {
+      "path": "UGameplayStatics::SpawnObject, live @0x15a380fdec0, FunctionFlags 0x4022403 = Native|Static|Final|Public|RequiredAPI|BlueprintCallable, ParmsSize 24: (TSubclassOf<UObject> ObjectClass @0, UObject* Outer @8) -> UObject* ReturnValue @16",
+      "implementation": "returns NewObject<UObject>(Outer, ObjectClass, NAME_None, RF_StrongRefOnFrame) after three null/ClassWithin guards (GameplayStatics.cpp:813-833)",
+      "verdict": "FEASIBLE and engine-native -- no StaticConstructObject_Internal RVA is needed. The UDataTable UClass is live at /Script/Engine.DataTable.",
+      "caveat_RF_StrongRefOnFrame": "the returned object is kept alive only by the script frame. It MUST be rooted immediately through the CR-01A engine root path (SetRootFlags/GRoots) in the same GameThread job, or it is collectable as soon as the frame unwinds.",
+      "outer": "UDataTable declares no Within, so ClassWithin is UObject and any live UObject is an acceptable Outer. Choosing one that is not a vanilla content package is preferable; not yet decided.",
+      "status": "NOT YET DEMONSTRATED LIVE."
+    },
+    "row_struct_assignment": {
+      "mechanism": "UDataTable::RowStruct is a reflected FObjectProperty at offset 40. Writing it on an object WE created is not vanilla mutation. CPF_EditConst restricts the editor UI only.",
+      "value": "the exact same UScriptStruct pointer MasterItemList->RowStruct holds -- read live, never constructed or guessed",
+      "why_it_must_be_pointer-identical": "UpdateCachedRowMap compares RowStruct by POINTER (CompositeDataTable.cpp:96)",
+      "status": "NOT YET DEMONSTRATED LIVE."
+    },
+    "detached_population": {
+      "mechanism": "our table is a plain UDataTable, so its vtable slot 95 is the real UDataTable::AddRow at RVA 0x3548190 -- the exact primitive proven in CR-01C1 and CR-01C2R, applied to an object we own",
+      "materializer": "the CR-01C2R Route C materializer works unchanged: FMemory::Malloc(PropertiesSize) -> InitializeStruct (struct vtable slot 96) -> populate verified value types -> AddRow -> DestroyStruct (slot 97) + FMemory::Free",
+      "no_rebuild_while_detached": "the composite only rebuilds on a broadcast from a table it is SUBSCRIBED to. While our table is not yet in ParentTables, nothing is subscribed to it, so populating N rows costs ZERO composite rebuilds.",
+      "GetEmptyUsingStruct": "uses RowStruct when set, and only falls back to FTableRowBase with an error log when it is null (DataTable.cpp:400-413). Setting RowStruct before the first AddRow is therefore both necessary and sufficient.",
+      "status": "mechanism proven; not yet exercised on a runtime-created table."
+    }
+  },
+
+  "6_architecture_comparison": {
+    "A_one_parent_table_per_mod": {
+      "vanilla_preservation": "vanilla ItemList RowMap never written; MasterItemList.ParentTables written once PER MOD",
+      "composite_rebuilds": "1 if all appends are batched before a single trigger; otherwise 1 per mod, and 1 per mod hot-reload",
+      "row_pointer_invalidation": "proportional to the number of rebuilds",
+      "multi_mod_determinism": "WEAK. Conflicts are resolved implicitly by ParentTables index, i.e. by load order, with no explicit arbitration and nothing to audit.",
+      "rollback": "remove one element per mod and re-trigger; index bookkeeping grows with mod count",
+      "collision": "non-destructive -- a colliding name only shadows in the cache",
+      "capacity": "needs N spare slots in a vanilla array that currently has 1",
+      "verdict": "rejected: same unproven write as B, but with worse determinism and N times the array bookkeeping"
+    },
+    "B_one_runtime_aggregate_parent_table": {
+      "vanilla_preservation": "vanilla ItemList RowMap NEVER written. Exactly ONE vanilla field is ever touched: MasterItemList.ParentTables, Num 1 -> 2, using the spare capacity that already exists.",
+      "composite_rebuilds": "ONE, at publication. All N mod rows are added while detached.",
+      "row_pointer_invalidation": "one rebuild's worth, once -- the minimum any approach can achieve",
+      "multi_mod_determinism": "STRONG. The Runtime arbitrates Mod A/B/C itself and publishes one already-resolved table, so precedence is explicit, auditable and independent of load order.",
+      "rollback": "write Num back to 1, fire the data-neutral trigger, unroot our table. The composite returns to bit-for-bit vanilla content.",
+      "collision": "non-destructive. A mod row named like a vanilla row SHADOWS it in the cache; the vanilla ItemList row is untouched and returns on detach.",
+      "ownership": "our table is Runtime-owned and rooted via the CR-01A engine root path; once attached it is ALSO traced by GC through MasterItemList.ParentTables (a UPROPERTY). Two independent keep-alive paths.",
+      "multiplayer": "best positioned -- one deterministic published artifact that can be hashed and version-checked between client and server. Still UNKNOWN in substance.",
+      "blocking_gap": "the ParentTables append is a direct write into a vanilla UObject's array, because the engine's own parent API is unreachable. This is the one thing that is not engine-native."
+    },
+    "C_direct_ItemList_mutation": {
+      "vanilla_preservation": "vanilla ROWS are provably preserved (all 496 hash-identical across CR-01C1 and CR-01C2R), but the vanilla table's RowMap gains keys",
+      "composite_rebuilds": "ONE PER REGISTERED ROW. N rows means N full 496-row destroy-and-deep-copy cycles, roughly 1.1 MB of churn each.",
+      "row_pointer_invalidation": "N rebuilds' worth",
+      "multi_mod_determinism": "WEAK and silent. Last writer wins with no arbitration point.",
+      "rollback": "RemoveRow per name -- clean, EXCEPT after a collision",
+      "collision": "DESTRUCTIVE AND IRREVERSIBLE. UDataTable::AddRow calls RemoveRowInternal first (DataTable.cpp:461), which DestroyStructs and frees the existing row. A mod that reuses a vanilla row name permanently deletes that vanilla item for the session, and the Runtime cannot restore it.",
+      "ownership": "the engine owns every row end to end; the Runtime allocates and frees nothing",
+      "status": "FULLY PROVEN TODAY, end to end, twice",
+      "verdict": "kept as the fallback precisely because it is the only fully proven option, but it is not the right production shape"
+    }
+  },
+
+  "7_decision": {
+    "preferred": "B -- one Runtime-owned aggregate parent table (working name MBPL_EffectiveModItems), attached once to MasterItemList.ParentTables after being fully populated while detached",
+    "fallback": "C -- direct additive registration into vanilla ItemList with the already-proven engine AddRow/RemoveRow",
+    "decisive_reason": "collision safety. Under C a third-party mod that reuses a vanilla row name irreversibly destroys that vanilla row; under B the same name merely shadows it and the vanilla row returns on detach. On a platform that must survive arbitrary third-party content that difference is categorical, and it is reinforced by 1 rebuild instead of N and by explicit rather than load-order-dependent multi-mod precedence.",
+    "honest_cost_of_B": "B trades 'only engine code ever writes vanilla data' (which C satisfies completely) for one 8-byte pointer write plus one int32 Num increment in a vanilla object's array. That trade has NOT been authorised and is exactly what the next gate must decide.",
+    "CR-01C1_and_CR-01C2R_remain_valid": "unchanged and unaffected. B uses the SAME primitives -- engine UDataTable::AddRow/RemoveRow and the Route C materializer -- merely pointed at a table the Runtime owns instead of a vanilla one."
+  },
+
+  "8_what_B_still_needs_proven": [
+    "constructing a UDataTable at runtime through the reflected UGameplayStatics::SpawnObject and rooting it in the same GameThread job before the script frame unwinds",
+    "assigning RowStruct to the exact live S_ItemDetails pointer and confirming AddRow then allocates 2264-byte rows",
+    "populating it while detached and confirming ZERO composite rebuilds occur",
+    "the ParentTables append itself: whether spare capacity exists (Max-Num >= 1 must be re-checked at run time and fail closed if not; growing the array would require engine-allocator TArray semantics we have not derived)",
+    "that a data-neutral RemoveRow of a non-existent name on ItemList does publish and subscribe the new parent, and changes nothing else",
+    "clean detach: Num back to 1, rebuild, and MasterItemList's 496 rows hash-identical to the pre-attach baseline"
+  ],
+
+  "9_remaining_unknowns": [
+    "Whether any NATIVE code caches a raw MasterItemList row pointer across frames; every rebuild invalidates all of them.",
+    "Whether AppendParentTables et al. survive the monolithic link at all -- unverifiable read-only, and moot because they are unreachable either way.",
+    "The RVA of FScopedDataTableChange's constructor, which would let many registrations share one rebuild without the detach/attach dance.",
+    "Whether an attached parent survives save/load or a level change -- BLOCKED ON M4 LIFECYCLE EVIDENCE.",
+    "All multiplayer canonicalisation questions."
+  ]
+}
