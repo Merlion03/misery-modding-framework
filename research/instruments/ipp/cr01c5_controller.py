@@ -544,6 +544,107 @@ def pack_io(carrier, sigs, r, offs, toffs, woffs):
         0, 0)
 
 
+EXPECT_MATERIALS = None
+
+SMC_STATICMESH = 1376
+SM_STATICMATERIALS = 344
+MI_PARENT = 272
+MI_TEXTURE = 408
+MI_TEXTURE_STRIDE = 40
+
+
+def verify_live_materials(api, pid, mesh_obj, expect, run_note):
+    """Prove, against the LIVE process, that the loaded mesh's slots resolve to
+    our MICs, that each MIC is really loaded, that its Parent resolves to the
+    REAL vanilla material, and that every texture override resolves to our
+    cooked Texture2D.
+
+    This exists because the MIC -> vanilla parent import has never resolved
+    successfully even once. Two probes were observed before anyone checked that
+    the materials had loaded at all, and both were fallbacks.
+    """
+    h = eri.open_process_read_only(api, pid)
+    try:
+        np, objs = recon.universe(api, h, eri.run_i01(api, eri.DEFAULT_PROCESS_NAME)
+                                  ["base_address"],
+                                  eri.run_i01(api, eri.DEFAULT_PROCESS_NAME)
+                                  ["image_size_bytes"])
+
+        def path_of(a):
+            if not a:
+                return None
+            try:
+                return eri.canonicalize_object_path(
+                    eri.resolve_object_path(a, objs).get("object_path"))
+            except Exception:  # noqa: BLE001
+                return None
+
+        def fname(eid):
+            try:
+                return eri.decode_fname_entry_id(api, h, np, eid).get("text")
+            except Exception:  # noqa: BLE001
+                return None
+
+        ss = [a for a, rr in objs.items() if rr.get("name_ok")
+              and rr.get("name_text") == "StaticMaterial"
+              and (objs.get(rr.get("class_ptr") or 0) or {}).get("name_text") == "ScriptStruct"]
+        if len(ss) != 1:
+            raise ipp.Blocked("StaticMaterial ScriptStruct not uniquely resolved")
+        stride = struct.unpack("<i", api.read_process_memory(h, ss[0] + 0x58, 4))[0]
+
+        data = eri._read_u64(api, h, mesh_obj + SM_STATICMATERIALS)
+        num = struct.unpack("<i", api.read_process_memory(
+            h, mesh_obj + SM_STATICMATERIALS + 8, 4))[0]
+        if not data or num != len(expect["slots"]):
+            raise ipp.Blocked("mesh has %r slots, expected %d" % (num, len(expect["slots"])))
+        blob = api.read_process_memory(h, data, num * stride)
+
+        out = []
+        for i, want in enumerate(expect["slots"]):
+            mi = struct.unpack_from("<Q", blob, i * stride)[0]
+            slot_name = fname(struct.unpack_from("<I", blob, i * stride + 8)[0])
+            if not mi:
+                raise ipp.Blocked("slot %d MaterialInterface is NULL" % i)
+            mpath = path_of(mi)
+            if mpath != want["mic"]:
+                raise ipp.Blocked("slot %d is %r, expected %r" % (i, mpath, want["mic"]))
+            if slot_name != want["slot_name"]:
+                raise ipp.Blocked("slot %d name is %r, expected %r"
+                                  % (i, slot_name, want["slot_name"]))
+            parent = eri._read_u64(api, h, mi + MI_PARENT)
+            ppath = path_of(parent)
+            if ppath != expect["parent"]:
+                raise ipp.Blocked("slot %d MIC parent is %r, expected the real vanilla %r"
+                                  % (i, ppath, expect["parent"]))
+            pcls = (objs.get(eri._read_u64(api, h, parent
+                                           + eri.DEFAULT_CLASS_PRIVATE_OFFSET)) or {}
+                    ).get("name_text")
+            if pcls != "Material":
+                raise ipp.Blocked("slot %d parent class is %r, expected Material" % (i, pcls))
+            tdata = eri._read_u64(api, h, mi + MI_TEXTURE)
+            tnum = struct.unpack("<i", api.read_process_memory(
+                h, mi + MI_TEXTURE + 8, 4))[0]
+            got = {}
+            if tdata and tnum > 0:
+                tb = api.read_process_memory(h, tdata, tnum * MI_TEXTURE_STRIDE)
+                for j in range(tnum):
+                    pn = fname(struct.unpack_from("<I", tb, j * MI_TEXTURE_STRIDE)[0])
+                    t = struct.unpack_from("<Q", tb, j * MI_TEXTURE_STRIDE + 16)[0]
+                    got[pn] = path_of(t)
+            for pn, wpath in want["textures"].items():
+                if got.get(pn) != wpath:
+                    raise ipp.Blocked("slot %d override %s is %r, expected %r"
+                                      % (i, pn, got.get(pn), wpath))
+            out.append({"slot": i, "slot_name": slot_name, "mic": mpath,
+                        "mic_object": "0x%x" % mi, "parent": ppath,
+                        "parent_object": "0x%x" % parent, "parent_class": pcls,
+                        "textures": got})
+            run_note.append("slot %d OK: %s -> parent %s" % (i, want["slot_name"], ppath))
+        return out
+    finally:
+        api.close_handle(h)
+
+
 def observe(api, pid, r, mask):
     size = r["struct_size"]
     h = eri.open_process_read_only(api, pid)
@@ -714,6 +815,12 @@ def run(api, args, run_note):
                         % (st["mesh_path_roundtrip"], mesh_obj,
                            report["mesh_load"]["is_staticmesh"], report["mesh_load"]["rooted"],
                            st["owned_count"]))
+
+        if EXPECT_MATERIALS:
+            report["live_material_verification"] = verify_live_materials(
+                api, pid, mesh_obj, EXPECT_MATERIALS, run_note)
+            run_note.append("live material verification PASSED for all %d slots"
+                            % len(EXPECT_MATERIALS["slots"]))
 
         st = call("RunPopulate", "populate_ran")
         if st["populate_ran"] != 1:
@@ -928,13 +1035,53 @@ def main(argv=None):
                     help="materialize the TEMPORARY ARM/emissive probe item instead of the "
                          "production radio: a separate row, the probe mesh whose slots carry "
                          "the asymmetric ARM MICs, and its own state file")
+    ap.add_argument("--probe3", action="store_true",
+                    help="the CORRECTED probe: distinct package path, slot assignment "
+                         "verified on disk, and a mandatory live material check before "
+                         "AddItem")
     ap.add_argument("--probe2", action="store_true",
                     help="the SECOND ARM/emissive probe: four large separated boxes with a "
                          "known-metallic reference box, mirror-low roughness and a saturated "
                          "red base, after the first probe proved visually ambiguous")
     ap.add_argument("--run-dir", default=None)
     a = ap.parse_args(argv)
-    if a.probe2:
+    if a.probe3:
+        g = globals()
+        g["ROW_NAME"] = "mbpl__armprobe3"
+        g["TRIGGER_NAME"] = "mbpl__armprobe3_neutral_trigger"
+        g["STATE_PATH"] = os.path.join(REPO, "workspace", "armprobe3-demo-state.json")
+        g["MESH_PACKAGE"] = "/Game/MBPLArmProbe3/SM_ArmProbe3"
+        g["MESH_ASSET"] = "SM_ArmProbe3"
+        g["TEXTS"] = {"Name": "MBPL ARM Probe 3",
+                      "ShortName": "ARM Probe 3",
+                      "Description": "Four boxes, left to right: REFERENCE (metallic under "
+                                     "either reading), A (R-hot), B (B-hot), EMISSIVE probe."}
+        # Every one of these is asserted against the LIVE process before AddItem.
+        # The MIC -> vanilla parent import has never resolved successfully even
+        # once, so it is checked rather than assumed.
+        d = "/Game/MBPLArmProbe3"
+        g["EXPECT_MATERIALS"] = {
+            "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial."
+                      "M_BasicMaterial",
+            "slots": [
+                {"slot_name": "M_Probe_REF", "mic": d + "/MI_P2_REF.MI_P2_REF",
+                 "textures": {"BaseColor": d + "/T2_BC_Red.T2_BC_Red",
+                              "ARM": d + "/T2_ARM_REF.T2_ARM_REF",
+                              "Normal": d + "/T2_N.T2_N"}},
+                {"slot_name": "M_Probe_A", "mic": d + "/MI_P2_A.MI_P2_A",
+                 "textures": {"BaseColor": d + "/T2_BC_Red.T2_BC_Red",
+                              "ARM": d + "/T2_ARM_A.T2_ARM_A",
+                              "Normal": d + "/T2_N.T2_N"}},
+                {"slot_name": "M_Probe_B", "mic": d + "/MI_P2_B.MI_P2_B",
+                 "textures": {"BaseColor": d + "/T2_BC_Red.T2_BC_Red",
+                              "ARM": d + "/T2_ARM_B.T2_ARM_B",
+                              "Normal": d + "/T2_N.T2_N"}},
+                {"slot_name": "M_Probe_EM", "mic": d + "/MI_P2_EM.MI_P2_EM",
+                 "textures": {"BaseColor": d + "/T2_BC_Grey.T2_BC_Grey",
+                              "ARM": d + "/T2_ARM_EM.T2_ARM_EM",
+                              "Normal": d + "/T2_N.T2_N"}},
+            ]}
+    elif a.probe2:
         g = globals()
         g["ROW_NAME"] = "mbpl__armprobe2"
         g["TRIGGER_NAME"] = "mbpl__armprobe2_neutral_trigger"

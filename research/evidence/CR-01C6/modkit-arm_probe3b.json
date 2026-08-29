@@ -1,0 +1,240 @@
+{
+  "assertions": [
+    {
+      "check": "stand-in parent loads",
+      "detail": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial",
+      "pass": true
+    },
+    {
+      "check": "MIC REF parent is the intended material",
+      "detail": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "pass": true
+    },
+    {
+      "check": "MIC REF override BaseColor",
+      "detail": "got '/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red' want '/Game/MBPLArmProbe3/T2_BC_Red'",
+      "pass": true
+    },
+    {
+      "check": "MIC REF override ARM",
+      "detail": "got '/Game/MBPLArmProbe3/T2_ARM_REF.T2_ARM_REF' want '/Game/MBPLArmProbe3/T2_ARM_REF'",
+      "pass": true
+    },
+    {
+      "check": "MIC REF override Normal",
+      "detail": "got '/Game/MBPLArmProbe3/T2_N.T2_N' want '/Game/MBPLArmProbe3/T2_N'",
+      "pass": true
+    },
+    {
+      "check": "MIC A parent is the intended material",
+      "detail": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "pass": true
+    },
+    {
+      "check": "MIC A override BaseColor",
+      "detail": "got '/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red' want '/Game/MBPLArmProbe3/T2_BC_Red'",
+      "pass": true
+    },
+    {
+      "check": "MIC A override ARM",
+      "detail": "got '/Game/MBPLArmProbe3/T2_ARM_A.T2_ARM_A' want '/Game/MBPLArmProbe3/T2_ARM_A'",
+      "pass": true
+    },
+    {
+      "check": "MIC A override Normal",
+      "detail": "got '/Game/MBPLArmProbe3/T2_N.T2_N' want '/Game/MBPLArmProbe3/T2_N'",
+      "pass": true
+    },
+    {
+      "check": "MIC B parent is the intended material",
+      "detail": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "pass": true
+    },
+    {
+      "check": "MIC B override BaseColor",
+      "detail": "got '/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red' want '/Game/MBPLArmProbe3/T2_BC_Red'",
+      "pass": true
+    },
+    {
+      "check": "MIC B override ARM",
+      "detail": "got '/Game/MBPLArmProbe3/T2_ARM_B.T2_ARM_B' want '/Game/MBPLArmProbe3/T2_ARM_B'",
+      "pass": true
+    },
+    {
+      "check": "MIC B override Normal",
+      "detail": "got '/Game/MBPLArmProbe3/T2_N.T2_N' want '/Game/MBPLArmProbe3/T2_N'",
+      "pass": true
+    },
+    {
+      "check": "MIC EM parent is the intended material",
+      "detail": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "pass": true
+    },
+    {
+      "check": "MIC EM override BaseColor",
+      "detail": "got '/Game/MBPLArmProbe3/T2_BC_Grey.T2_BC_Grey' want '/Game/MBPLArmProbe3/T2_BC_Grey'",
+      "pass": true
+    },
+    {
+      "check": "MIC EM override ARM",
+      "detail": "got '/Game/MBPLArmProbe3/T2_ARM_EM.T2_ARM_EM' want '/Game/MBPLArmProbe3/T2_ARM_EM'",
+      "pass": true
+    },
+    {
+      "check": "MIC EM override Normal",
+      "detail": "got '/Game/MBPLArmProbe3/T2_N.T2_N' want '/Game/MBPLArmProbe3/T2_N'",
+      "pass": true
+    },
+    {
+      "check": "probe mesh loads",
+      "detail": "/Game/MBPLArmProbe3/SM_ArmProbe3",
+      "pass": true
+    },
+    {
+      "check": "probe mesh slot count",
+      "detail": "4",
+      "pass": true
+    },
+    {
+      "check": "MIC REF loads for assignment",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_REF",
+      "pass": true
+    },
+    {
+      "check": "MIC A loads for assignment",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_A",
+      "pass": true
+    },
+    {
+      "check": "MIC B loads for assignment",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_B",
+      "pass": true
+    },
+    {
+      "check": "MIC EM loads for assignment",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_EM",
+      "pass": true
+    },
+    {
+      "check": "slot 0 MaterialInterface is not null",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_REF.MI_P2_REF",
+      "pass": true
+    },
+    {
+      "check": "slot 0 material path",
+      "detail": "got '/Game/MBPLArmProbe3/MI_P2_REF.MI_P2_REF' want '/Game/MBPLArmProbe3/MI_P2_REF'",
+      "pass": true
+    },
+    {
+      "check": "slot 0 slot name",
+      "detail": "got 'M_Probe_REF' want 'M_Probe_REF'",
+      "pass": true
+    },
+    {
+      "check": "slot 1 MaterialInterface is not null",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_A.MI_P2_A",
+      "pass": true
+    },
+    {
+      "check": "slot 1 material path",
+      "detail": "got '/Game/MBPLArmProbe3/MI_P2_A.MI_P2_A' want '/Game/MBPLArmProbe3/MI_P2_A'",
+      "pass": true
+    },
+    {
+      "check": "slot 1 slot name",
+      "detail": "got 'M_Probe_A' want 'M_Probe_A'",
+      "pass": true
+    },
+    {
+      "check": "slot 2 MaterialInterface is not null",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_B.MI_P2_B",
+      "pass": true
+    },
+    {
+      "check": "slot 2 material path",
+      "detail": "got '/Game/MBPLArmProbe3/MI_P2_B.MI_P2_B' want '/Game/MBPLArmProbe3/MI_P2_B'",
+      "pass": true
+    },
+    {
+      "check": "slot 2 slot name",
+      "detail": "got 'M_Probe_B' want 'M_Probe_B'",
+      "pass": true
+    },
+    {
+      "check": "slot 3 MaterialInterface is not null",
+      "detail": "/Game/MBPLArmProbe3/MI_P2_EM.MI_P2_EM",
+      "pass": true
+    },
+    {
+      "check": "slot 3 material path",
+      "detail": "got '/Game/MBPLArmProbe3/MI_P2_EM.MI_P2_EM' want '/Game/MBPLArmProbe3/MI_P2_EM'",
+      "pass": true
+    },
+    {
+      "check": "slot 3 slot name",
+      "detail": "got 'M_Probe_EM' want 'M_Probe_EM'",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "mic_verification": {
+    "A": {
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_A.T2_ARM_A",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    },
+    "B": {
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_B.T2_ARM_B",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    },
+    "EM": {
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_EM.T2_ARM_EM",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Grey.T2_BC_Grey",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    },
+    "REF": {
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "textures": {
+        "ARM": "/Game/MBPLArmProbe3/T2_ARM_REF.T2_ARM_REF",
+        "BaseColor": "/Game/MBPLArmProbe3/T2_BC_Red.T2_BC_Red",
+        "Normal": "/Game/MBPLArmProbe3/T2_N.T2_N"
+      }
+    }
+  },
+  "notes": [
+    "all slot assertions passed: [{'slot': 0, 'slot_name': 'M_Probe_REF', 'material': '/Game/MBPLArmProbe3/MI_P2_REF.MI_P2_REF'}, {'slot': 1, 'slot_name': 'M_Probe_A', 'material': '/Game/MBPLArmProbe3/MI_P2_A.MI_P2_A'}, {'slot': 2, 'slot_name': 'M_Probe_B', 'material': '/Game/MBPLArmProbe3/MI_P2_B.MI_P2_B'}, {'slot': 3, 'slot_name': 'M_Probe_EM', 'material': '/Game/MBPLArmProbe3/MI_P2_EM.MI_P2_EM'}]"
+  ],
+  "ok": true,
+  "slots_after_reload": [
+    {
+      "material": "/Game/MBPLArmProbe3/MI_P2_REF.MI_P2_REF",
+      "slot": 0,
+      "slot_name": "M_Probe_REF"
+    },
+    {
+      "material": "/Game/MBPLArmProbe3/MI_P2_A.MI_P2_A",
+      "slot": 1,
+      "slot_name": "M_Probe_A"
+    },
+    {
+      "material": "/Game/MBPLArmProbe3/MI_P2_B.MI_P2_B",
+      "slot": 2,
+      "slot_name": "M_Probe_B"
+    },
+    {
+      "material": "/Game/MBPLArmProbe3/MI_P2_EM.MI_P2_EM",
+      "slot": 3,
+      "slot_name": "M_Probe_EM"
+    }
+  ]
+}
