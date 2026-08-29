@@ -1,0 +1,72 @@
+{
+  "_comment": [
+    "Configuration for research/instruments/runner/runner.py. Everything here is a",
+    "declaration of what THIS machine and THIS build look like; nothing here is a",
+    "fact about the game and nothing here carries an evidence grade. Facts live in",
+    "research/ with their oracle and confidence.",
+    "",
+    "build.expected_sha256 must equal the sha256 of the live MISERY-Win64-Shipping.exe.",
+    "It is duplicated from research/builds/index.json on purpose: the runner fails",
+    "closed on a mismatch, and a mismatch is exactly the signal that Steam updated",
+    "the game (it has happened once already -- RESEARCH_LOG LOG-0048)."
+  ],
+  "build": {
+    "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+    "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331"
+  },
+  "containers": {
+    "_comment": [
+      "apply=false means the runner verifies what is staged but changes nothing.",
+      "Set apply=true and fill remove/stage to make the runner own the staging.",
+      "expect=null accepts whatever is there; a list makes any other container a",
+      "hard failure -- which is the point, because a leftover container from an",
+      "old experiment is mounted by the engine just as eagerly as an intended one."
+    ],
+    "stage_dir": null,
+    "apply": false,
+    "remove": [],
+    "stage": [],
+    "expect": null
+  },
+  "save_entry": {
+    "_comment": [
+      "strategy: ui | keyboard | manual | none. See saveentry.py for the ladder.",
+      "'ui' is the state machine: it classifies the screen from the live object",
+      "graph, sends that screen's one declared action, waits for an observable",
+      "signature change, and reclassifies. An unrecognised screen stops the cycle",
+      "with its measured signature attached -- it never guesses a key.",
+      "ui_states=null uses the table measured against this build in saveentry.py."
+    ],
+    "strategy": "ui",
+    "ui_states": null,
+    "max_steps": 12,
+    "max_visits_per_state": 2,
+    "transition_timeout_s": 240,
+    "keyboard_steps": [],
+    "save_row_geometry": null,
+    "_timeout_note": "240s because one of these transitions is a level load, not a panel swap; the check is still observational (signature change), the timeout only bounds it."
+  },
+  "expect": {
+    "_comment": [
+      "The gameplay invariants readiness.prove_gameplay is held to. authority is",
+      "'standalone' or 'networked'; world_name null means any world is accepted."
+    ],
+    "player_inventory_object": "BP_PlayerInventory",
+    "player_inventory_class": "BP_PlayerInventory_C",
+    "authority": "standalone",
+    "world_name": null,
+    "min_objects_started": 15000,
+    "_measured": "live object counts measured on build bace50f7185d: 26263 at the thank-you screen (WD_PlaytestNote01_C), 62711 at the main menu, 230007 at the moment the gameplay gate passed. The floor only rejects a half-built graph; the settle window is the real predicate.",
+    "save_slot": "123",
+    "save_dir": null,
+    "_save_slot_note": "the save slot NAME, as it appears in SaveGameMetaData.sav. The runner computes its row in the load list each cycle (saves.py) instead of clicking a fixed row, because an autosave reorders that list."
+  },
+  "timeouts": {
+    "prove_gone_s": 30,
+    "new_process_s": 240,
+    "runtime_inspectable_s": 300,
+    "runtime_poll_interval_s": 2.0,
+    "save_entry_s": 900,
+    "gameplay_poll_interval_s": 5.0
+  }
+}

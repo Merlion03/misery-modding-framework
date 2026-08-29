@@ -1,0 +1,881 @@
+{
+  "note": [
+    "WM_CLOSE posted to 'MISERY  ' (hwnd 0x350b88)",
+    "proved gone: no MISERY-Win64-Shipping.exe process, old pids [11100] are dead",
+    "verify_install before: match (0 serious, 0 benign)",
+    "containers consistent: ['ArmProbe2_P', 'ArmProbe3_P', 'ArmProbe_P', 'CT03Probe20260828_P', 'MBPLRadio_P', 'MiseryModKit_P', 'Probe4_P']",
+    "launch requested through Steam: steam://run/2119830",
+    "new process: pid 14792 started 2026-08-29T18:22:59Z",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "runtime inspectable: 26263 objects, settled over 3 readings (spread 0 <= 64)",
+    "object identity anchor OK: unique self-referential UClass at 0x1d117eb5400",
+    "live PlayerController at 0x1d130359280 (PlayerController)",
+    "possessed pawn 0x1d12f8a9000 (BP_PlaytestBeginPlyer_C), via AController::Pawn@+720",
+    "AcknowledgedPawn agrees with Pawn -- possession has settled",
+    "ui state THANK_YOU_SCREEN -> the screen itself prompts '\u041d\u0410\u0416\u041c\u0418\u0422\u0415 [SPACE] \u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0418\u0422\u042c'; the game exposes exactly one deterministic keyboard action here, so no pointer input is used",
+    "ui state THANK_YOU_SCREEN transitioned: +['AN_Footstep_C', 'BP_AmmoCounter_C', 'BP_AreYouSureMenu_C', 'BP_AttachWeaponAttachment_C', 'BP_AttachmentSlot_C', 'BP_AudioSettings_C', 'BP_BatteryInput_C', 'BP_BatteryOutput_C', 'BP_BuildPartHealth_C', 'BP_ButtonPanel_C', 'BP_CableConnectionPointComponent_C', 'BP_CableConnectionType_C', 'BP_CableInfo_C', 'BP_ChamberWeaponAmmo_C', 'BP_CharacterComponent_C', 'BP_CharacterEquipment_C', 'BP_Chat_C', 'BP_CheckBox_C', 'BP_CircleStat_C', 'BP_ClimbLadderComponent_C', 'BP_CodeLockPanel_C', 'BP_ConsumeConsumable_C', 'BP_ControlsSettings_C', 'BP_CraftingComponent_C', 'BP_CraftingListing_C', 'BP_CraftingMenu_C', 'BP_CraftingQueue_C', 'BP_CraftingTooltipEntry_C', 'BP_DebuffIcon_C', 'BP_Debug_C', 'BP_DestroyAttachment_C', 'BP_DisableHandIks_C', 'BP_DistantEffectCheckerNormal_C', 'BP_DropBox_C', 'BP_DropZone_C', 'BP_EnableHandIks_C', 'BP_EndMeleeCollision_C', 'BP_EndWeaponReload_C', 'BP_EquipmentInventoryList_C', 'BP_EquipmentInventory_C', 'BP_EquipmentSlot_C', 'BP_ExtCharacterEquipment_C', 'BP_ExtCookingMenu_C', 'BP_ExtCraftingMenu_C', 'BP_FootStep_C', 'BP_GameModeInitComponent_C', 'BP_GameSettings_C', 'BP_GroundCheckComponent_C', 'BP_GroundDetectComponent_C', 'BP_HostNewGameServer_C', 'BP_HoveredEventWidget_C', 'BP_InGameSettingsMenu_C', 'BP_InGameStartMenu_C', 'BP_InteractContextMenuEntry_C', 'BP_InteractionContextMenu_C', 'BP_InteractiveBuroviksourceComponent_C', 'BP_InteractiveCarrotResourceComponent1_C', 'BP_InteractiveCucumberResourceComponent_C', 'BP_InteractiveMuhamorsourceComponent_C', 'BP_InteractiveTomatoResourceComponent_C', 'BP_InteractiveWheatResourceComponent_C', 'BP_InventoryPanel_C', 'BP_ItemName_C', 'BP_LoadGameMenuPanel_C', 'BP_LoadGameMenu_C', 'BP_MasterInventory_C', 'BP_MasterItemInventory_C', 'BP_MasterPowerComponent_C', 'BP_MasterSegment_C', 'BP_MeleeTraceSocket_C', 'BP_MenuButton_C', 'BP_MenuPlayer_C', 'BP_MiseryMenuWheelComponent_C', 'BP_MultiplayerDynamicWeatherManager_C', 'BP_MultiplayerMenu_C', 'BP_NewGame_C', 'BP_NotificationPanel_C', 'BP_NumericalTextBox_C', 'BP_OptionsMenuSlot_C', 'BP_OverlayKey_C', 'BP_Panel_C', 'BP_PlacementControlsOverlay_C', 'BP_PlayerAIActivator_C', 'BP_PlayerBuildingComponent_C', 'BP_PlayerInventory_C', 'BP_PlayerPowerComponent_C', 'BP_PoopItemSpawner_C', 'BP_PowerGameModeComponent_C', 'BP_PowerGenerated_C', 'BP_PowerInfoPanel_C', 'BP_PowerManagerComponent_C', 'BP_PowerRequired_C', 'BP_PowerStored_C', 'BP_PowerTitleBar_C', 'BP_ProgressStat_C', 'BP_QuickSlotKey_C', 'BP_QuickSlotsPanel_C', 'BP_RemoveAttachment_C', 'BP_ResolutionSetting_C', 'BP_SaveComplete_C', 'BP_SaveGameMenuPanel_C', 'BP_SaveGameMenu_C', 'BP_SaveNameMenu_C', 'BP_ScalerSetting_C', 'BP_SelectionGridMenu_C', 'BP_ServerBrowser_C', 'BP_ServerConnecting_C', 'BP_ServerListing_C', 'BP_SettingsMenu_C', 'BP_SingleplayerMenu_C', 'BP_SittingComponent_C', 'BP_SkyBox_C', 'BP_Slider_C', 'BP_SlotPool_C', 'BP_SmartAIComponent_C', 'BP_SpawnHoldable_C', 'BP_SpawnWeaponAttachment_C', 'BP_StartMeleeCollision_C', 'BP_StartMenu_C', 'BP_StatText_C', 'BP_SupportComponent_C', 'BP_ThrowChargeEnd_C', 'BP_ThrowRelease_C', 'BP_VendorComponent_C', 'BP_VendorMenu_C', 'BP_VendorTooltipEntry_C', 'BP_VideoSettings_C', 'BP_WeaponInventory_C', 'BP_WeaponSlot_C', 'BTD_Activated_C', 'BTD_CanStrafe_C', 'BTD_CanTargetInteract_C', 'BTD_FollowDistances_C', 'BTS_CanPath_C', 'BTS_FaceDirectionAnimations_C', 'BTS_FollowChecks_C', 'BTS_IsSearchDead_C', 'BTS_MeleeAttackLocation_C', 'BTS_PerceptionCheck_C', 'BTS_RangeAttackLocation_C', 'BTT_AIInteract_C', 'BTT_AtWayPoint_C', 'BTT_BeginFlee_C', 'BTT_ClimbPath_C', 'BTT_EndFlee_C', 'BTT_EndHide_C', 'BTT_FindAIInteract_C', 'BTT_FindActionPoint_C', 'BTT_FindRoamLocation_C', 'BTT_FindWayPoint_C', 'BTT_Interact_C', 'BTT_MoveToTarget_C', 'BTT_RangeMoveTo_C', 'BTT_RoamWaitAnim_C', 'BTT_Search_C', 'BTT_StartHide_C', 'BTT_StillAnimation_C', 'BTT_StrafeLocation_C', 'C_FS_ComponentPlayer_C', 'Chameleon_C', 'L_MenuMap05_C', 'Notify_BlockAttack_C', 'Notify_EmoteProp_C', 'WBP_MW_MenuButton_C', 'WD_Clocks_C'] -['BP_PlaytestBeginPlyer_C', 'PlaytestBeginPGmaemode_C', 'WD_PlaytestNote01_C']",
+    "ui state MAIN_MENU -> \u041e\u0414\u0418\u041d\u041e\u0427\u041d\u0410\u042f \u0418\u0413\u0420\u0410 then \u0417\u0410\u0413\u0420\u0423\u0417\u0418\u0422\u042c \u0418\u0413\u0420\u0423. Two clicks in one action because the runtime cannot see the panel change between them; the pair is verified by BP_SGKSaveGameMetaData_C appearing. Both points are far from \u041d\u041e\u0412\u0410\u042f \u0418\u0413\u0420\u0410 and from any delete control.",
+    "ui state MAIN_MENU transitioned: +['BP_SGKSaveGameMetaData_C'] -[]",
+    "ui state LOAD_GAME_MENU -> click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded",
+    "clicking save '123' at row 1 (2026-08-29T16:25:07Z)",
+    "ui state LOAD_GAME_MENU transitioned: +['BP_762mm_WI_C', 'BP_AIManager_C', 'BP_BomberSpawn_C', 'BP_BuildZone_C', 'BP_BunkerChunck_C', 'BP_BunkerFloor_C', 'BP_BunkerWorldGeneration_C', 'BP_BunkersVolume_C', 'BP_CampFireZone_C', 'BP_CookingComponent_C', 'BP_CraftingBenchWorld_C', 'BP_DamageZone_C', 'BP_DistantEffectCheckerBunker_C', 'BP_DungeonDoor_C', 'BP_DwarfSpawn_C', 'BP_EasySnowMask_C', 'BP_ExpeditionDoor_C', 'BP_FactoryGeneration_C', 'BP_GasolineGenerator_C', 'BP_GlobalInventoryManager_C', 'BP_GlobalManager_C', 'BP_GridComponent_C', 'BP_INCINERATOR_C', 'BP_InsanityZone_C', 'BP_LighBumb_C', 'BP_LightBulbRotation_C', 'BP_MeadowsWorldGeneration_C', 'BP_MetalDoor_C', 'BP_OutsideVolumeNOACTORDESTROY_C', 'BP_OutsideVolume_C', 'BP_PaneliWorldGeneration_C', 'BP_ResourceItemSpawner_C', 'BP_SGKController_C', 'BP_SGKGameMode_C', 'BP_SGKSaveGame_C', 'BP_SaveSystem_C', 'BP_Spark_C', 'BP_SplitterPowerComponent_C', 'BP_Splitter_C', 'BP_StartClothItemSpawner_C', 'BP_StartFoodItemSpawner_C', 'BP_StartGameDoor_C', 'BP_StartHatItemSpawner_C', 'BP_StartHoldablesItemSpawner_C', 'BP_StartMedicItemSpawner_C', 'BP_StartToolslItemSpawner_C', 'BP_StartWaterItemSpawner_C', 'BP_StaticMasterItem_C', 'BP_TPHouseZone_C', 'BP_TPLocationWithTag_C', 'BP_WoodenBoxResource_C', 'LandedShake_C', 'NewMapGENTEST_C'] -['BP_CheckBox_C', 'BP_ControlFunction_C', 'BP_ControlSaves_C', 'BP_DropBox_C', 'BP_HostNewGameServer_C', 'BP_InteractiveBuroviksourceComponent_C', 'BP_InteractiveCarrotResourceComponent1_C', 'BP_InteractiveCucumberResourceComponent_C', 'BP_InteractiveMuhamorsourceComponent_C', 'BP_InteractiveTomatoResourceComponent_C', 'BP_InteractiveWheatResourceComponent_C', 'BP_Keybind_C', 'BP_MainMenu_C', 'BP_MenuPlayer_C', 'BP_MultiplayerMenu_C', 'BP_NewGame_C', 'BP_SGKMenuController_C', 'BP_SGKMenuGameMode_C', 'BP_ServerBrowser_C', 'BP_ServerConnecting_C', 'BP_SettingsMenu_C', 'BP_SingleplayerMenu_C', 'BP_Slider_C', 'BP_StartMenu_C', 'L_MenuMap05_C']",
+    "ui state machine: gameplay reached after 3 step(s)",
+    "object identity anchor OK: unique self-referential UClass at 0x1d117eb5400",
+    "live PlayerController at 0x1d1615c7720 (BP_SGKController_C)",
+    "possessed pawn 0x1d167731640 (BP_SGKMasterCharacter_C), via AController::Pawn@+720",
+    "AcknowledgedPawn agrees with Pawn -- possession has settled",
+    "live player inventory 0x1d13168c4f0 is owned by the PlayerController",
+    "GAMEPLAY READY: controller 0x1d1615c7720 -> possessed pawn 0x1d167731640 (BP_SGKMasterCharacter_C); inventory owned by that controller; authority=True; net=standalone",
+    "READY_FOR_PROBE",
+    "starting probe 'recon': C:\\Python314\\python.exe D:\\Dev\\MiseryFramework\\research/instruments/ipp/cr01c3_recon.py --out D:/Dev/MiseryFramework/research/instrument-runs/2026-08-29T182252Z-runner/recon.json",
+    "verify_install after: match (0 serious, 0 benign)"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6ccb70000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 14792
+    },
+    "containers": {
+      "applied": null,
+      "check": {
+        "consistent": true,
+        "containers": [
+          {
+            "mountable": true,
+            "name": "ArmProbe2_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 13,
+              "bytes": 1503,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 13,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 458,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x64b74c2dcbaa57ce",
+              "directory_index_size": 460,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 13,
+              "file": "ArmProbe2_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 34620,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 7,
+              "slack_bytes": 4,
+              "sum_compressed": 34550,
+              "sum_uncompressed": 34550,
+              "toc_header_size": 144,
+              "ucas_bytes": 34624,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\ArmProbe2_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "ArmProbe3_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 13,
+              "bytes": 1503,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 13,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 458,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0xc2181c35892c6ffe",
+              "directory_index_size": 460,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 13,
+              "file": "ArmProbe3_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 34604,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 7,
+              "slack_bytes": 4,
+              "sum_compressed": 34542,
+              "sum_uncompressed": 34542,
+              "toc_header_size": 144,
+              "ucas_bytes": 34608,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\ArmProbe3_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "ArmProbe_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 14,
+              "bytes": 1236,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 14,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 362,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x4730833fb020925f",
+              "directory_index_size": 409,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 9,
+              "file": "ArmProbe_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 430548,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 5,
+              "slack_bytes": 12,
+              "sum_compressed": 377553,
+              "sum_uncompressed": 377553,
+              "toc_header_size": 144,
+              "ucas_bytes": 430560,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\ArmProbe_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "MBPLRadio_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 69,
+              "bytes": 1301,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 69,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 218,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x56b6f29f3f06786c",
+              "directory_index_size": 156,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 3,
+              "file": "MBPLRadio_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 4427524,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 2,
+              "slack_bytes": 12,
+              "sum_compressed": 4365340,
+              "sum_uncompressed": 4365340,
+              "toc_header_size": 144,
+              "ucas_bytes": 4427536,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MBPLRadio_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "MiseryModKit_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 2,
+              "bytes": 387,
+              "chunks_without_perfect_hash": 2,
+              "compressed_block_entry_count": 2,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 200,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x7c42f5212bf72656",
+              "directory_index_size": 97,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 2,
+              "file": "MiseryModKit_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 468,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 1,
+              "slack_bytes": 12,
+              "sum_compressed": 461,
+              "sum_uncompressed": 461,
+              "toc_header_size": 144,
+              "ucas_bytes": 480,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MiseryModKit_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "Probe4_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 14,
+              "bytes": 1613,
+              "chunks_without_perfect_hash": 3,
+              "compressed_block_entry_count": 14,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 492,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x2e54919992b88aa8",
+              "directory_index_size": 491,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 14,
+              "file": "Probe4_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 39308,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 7,
+              "slack_bytes": 4,
+              "sum_compressed": 39225,
+              "sum_uncompressed": 39225,
+              "toc_header_size": 144,
+              "ucas_bytes": 39312,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Probe4_P.utoc"
+          }
+        ],
+        "listing": [
+          "ArmProbe2_P.pak",
+          "ArmProbe2_P.ucas",
+          "ArmProbe2_P.utoc",
+          "ArmProbe3_P.pak",
+          "ArmProbe3_P.ucas",
+          "ArmProbe3_P.utoc",
+          "ArmProbe_P.pak",
+          "ArmProbe_P.ucas",
+          "ArmProbe_P.utoc",
+          "CT03Probe20260828_P.pak",
+          "MBPLRadio_P.pak",
+          "MBPLRadio_P.ucas",
+          "MBPLRadio_P.utoc",
+          "MiseryModKit_P.pak",
+          "MiseryModKit_P.ucas",
+          "MiseryModKit_P.utoc",
+          "Probe4_P.pak",
+          "Probe4_P.ucas",
+          "Probe4_P.utoc"
+        ],
+        "missing_containers": [],
+        "pak_only_containers": [
+          "CT03Probe20260828_P"
+        ],
+        "present_containers": [
+          "ArmProbe2_P",
+          "ArmProbe3_P",
+          "ArmProbe_P",
+          "CT03Probe20260828_P",
+          "MBPLRadio_P",
+          "MiseryModKit_P",
+          "Probe4_P"
+        ],
+        "stage_dir": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks",
+        "unexpected_containers": []
+      },
+      "profile": {
+        "_comment": [
+          "apply=false means the runner verifies what is staged but changes nothing.",
+          "Set apply=true and fill remove/stage to make the runner own the staging.",
+          "expect=null accepts whatever is there; a list makes any other container a",
+          "hard failure -- which is the point, because a leftover container from an",
+          "old experiment is mounted by the engine just as eagerly as an intended one."
+        ],
+        "apply": false,
+        "expect": null,
+        "remove": [],
+        "stage": [],
+        "stage_dir": null
+      },
+      "report_artifact": "research/instrument-runs/2026-08-29T182252Z-runner/containers.json"
+    },
+    "gameplay_proof": {
+      "facts": {
+        "game_modes": [
+          {
+            "address": "0x1d118a2e470",
+            "class": "BP_SGKGameMode_C",
+            "name": "BP_SGKGameMode_C",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKGameMode_C"
+          }
+        ],
+        "has_authority": true,
+        "inventory_owner": {
+          "address": "0x1d1615c7720",
+          "class": "BP_SGKController_C",
+          "name": "BP_SGKController_C",
+          "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+        },
+        "net_drivers": [],
+        "net_mode_observed": "standalone",
+        "objects_total": 230007,
+        "objects_valid": 230007,
+        "player_controllers": [
+          {
+            "address": "0x1d1615c7720",
+            "class": "BP_SGKController_C",
+            "name": "BP_SGKController_C",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          }
+        ],
+        "player_inventories": [
+          {
+            "address": "0x1d13168c4f0",
+            "class": "BP_PlayerInventory_C",
+            "name": "BP_PlayerInventory",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          }
+        ],
+        "player_pawn": {
+          "address": "0x1d167731640",
+          "class": "BP_SGKMasterCharacter_C",
+          "name": "BP_SGKMasterCharacter_C",
+          "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+        },
+        "playtest_hub_classes_live": [],
+        "possession": {
+          "AcknowledgedPawn": {
+            "declared_on": "PlayerController",
+            "offset": 824,
+            "raw": 1998895388224,
+            "value": "0x1d167731640"
+          },
+          "Pawn": {
+            "declared_on": "Controller",
+            "offset": 720,
+            "raw": 1998895388224,
+            "value": "0x1d167731640"
+          }
+        },
+        "uclass_self_reference": [
+          "0x1d117eb5400"
+        ],
+        "world_count": 7,
+        "world_names": [
+          "L_Factory_Depo",
+          "L_Factory_TraktorniyZavod",
+          "L_LF_ElectricFactory",
+          "L_MainTerrain",
+          "L_SafeHub",
+          "NewMapGENTEST"
+        ]
+      },
+      "ready": true,
+      "reasons": []
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 14792
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 14792,
+        "start_time": "2026-08-29T18:22:59Z"
+      },
+      "requested_at": "2026-08-29T18:22:54Z"
+    },
+    "probe": {
+      "command": [
+        "C:\\Python314\\python.exe",
+        "D:\\Dev\\MiseryFramework\\research/instruments/ipp/cr01c3_recon.py",
+        "--out",
+        "D:/Dev/MiseryFramework/research/instrument-runs/2026-08-29T182252Z-runner/recon.json"
+      ],
+      "probe": "recon",
+      "returncode": 0,
+      "stdout_artifact": "research/instrument-runs/2026-08-29T182252Z-runner/probe-recon.stdout.txt",
+      "stdout_duplicate_of": "recon.json",
+      "what": "CR-01C3 read-only recon: inventory classes, live instances, authority"
+    },
+    "runtime_ready": {
+      "name_pool_initialized": true,
+      "namepool_live_va": 140698100900224,
+      "num_elements": 26263,
+      "objects_ptr_live_va": 1997614155616,
+      "settle_tolerance": 64,
+      "settle_window": [
+        26263,
+        26263,
+        26263
+      ]
+    },
+    "save_entry": {
+      "acted": true,
+      "final_state": "GAMEPLAY",
+      "steps": [
+        {
+          "did": [
+            {
+              "key": "space"
+            }
+          ],
+          "signature_gained": [
+            "AN_Footstep_C",
+            "BP_AmmoCounter_C",
+            "BP_AreYouSureMenu_C",
+            "BP_AttachWeaponAttachment_C",
+            "BP_AttachmentSlot_C",
+            "BP_AudioSettings_C",
+            "BP_BatteryInput_C",
+            "BP_BatteryOutput_C",
+            "BP_BuildPartHealth_C",
+            "BP_ButtonPanel_C",
+            "BP_CableConnectionPointComponent_C",
+            "BP_CableConnectionType_C",
+            "BP_CableInfo_C",
+            "BP_ChamberWeaponAmmo_C",
+            "BP_CharacterComponent_C",
+            "BP_CharacterEquipment_C",
+            "BP_Chat_C",
+            "BP_CheckBox_C",
+            "BP_CircleStat_C",
+            "BP_ClimbLadderComponent_C",
+            "BP_CodeLockPanel_C",
+            "BP_ConsumeConsumable_C",
+            "BP_ControlsSettings_C",
+            "BP_CraftingComponent_C",
+            "BP_CraftingListing_C",
+            "BP_CraftingMenu_C",
+            "BP_CraftingQueue_C",
+            "BP_CraftingTooltipEntry_C",
+            "BP_DebuffIcon_C",
+            "BP_Debug_C",
+            "BP_DestroyAttachment_C",
+            "BP_DisableHandIks_C",
+            "BP_DistantEffectCheckerNormal_C",
+            "BP_DropBox_C",
+            "BP_DropZone_C",
+            "BP_EnableHandIks_C",
+            "BP_EndMeleeCollision_C",
+            "BP_EndWeaponReload_C",
+            "BP_EquipmentInventoryList_C",
+            "BP_EquipmentInventory_C",
+            "BP_EquipmentSlot_C",
+            "BP_ExtCharacterEquipment_C",
+            "BP_ExtCookingMenu_C",
+            "BP_ExtCraftingMenu_C",
+            "BP_FootStep_C",
+            "BP_GameModeInitComponent_C",
+            "BP_GameSettings_C",
+            "BP_GroundCheckComponent_C",
+            "BP_GroundDetectComponent_C",
+            "BP_HostNewGameServer_C",
+            "BP_HoveredEventWidget_C",
+            "BP_InGameSettingsMenu_C",
+            "BP_InGameStartMenu_C",
+            "BP_InteractContextMenuEntry_C",
+            "BP_InteractionContextMenu_C",
+            "BP_InteractiveBuroviksourceComponent_C",
+            "BP_InteractiveCarrotResourceComponent1_C",
+            "BP_InteractiveCucumberResourceComponent_C",
+            "BP_InteractiveMuhamorsourceComponent_C",
+            "BP_InteractiveTomatoResourceComponent_C",
+            "BP_InteractiveWheatResourceComponent_C",
+            "BP_InventoryPanel_C",
+            "BP_ItemName_C",
+            "BP_LoadGameMenuPanel_C",
+            "BP_LoadGameMenu_C",
+            "BP_MasterInventory_C",
+            "BP_MasterItemInventory_C",
+            "BP_MasterPowerComponent_C",
+            "BP_MasterSegment_C",
+            "BP_MeleeTraceSocket_C",
+            "BP_MenuButton_C",
+            "BP_MenuPlayer_C",
+            "BP_MiseryMenuWheelComponent_C",
+            "BP_MultiplayerDynamicWeatherManager_C",
+            "BP_MultiplayerMenu_C",
+            "BP_NewGame_C",
+            "BP_NotificationPanel_C",
+            "BP_NumericalTextBox_C",
+            "BP_OptionsMenuSlot_C",
+            "BP_OverlayKey_C",
+            "BP_Panel_C",
+            "BP_PlacementControlsOverlay_C",
+            "BP_PlayerAIActivator_C",
+            "BP_PlayerBuildingComponent_C",
+            "BP_PlayerInventory_C",
+            "BP_PlayerPowerComponent_C",
+            "BP_PoopItemSpawner_C",
+            "BP_PowerGameModeComponent_C",
+            "BP_PowerGenerated_C",
+            "BP_PowerInfoPanel_C",
+            "BP_PowerManagerComponent_C",
+            "BP_PowerRequired_C",
+            "BP_PowerStored_C",
+            "BP_PowerTitleBar_C",
+            "BP_ProgressStat_C",
+            "BP_QuickSlotKey_C",
+            "BP_QuickSlotsPanel_C",
+            "BP_RemoveAttachment_C",
+            "BP_ResolutionSetting_C",
+            "BP_SaveComplete_C",
+            "BP_SaveGameMenuPanel_C",
+            "BP_SaveGameMenu_C",
+            "BP_SaveNameMenu_C",
+            "BP_ScalerSetting_C",
+            "BP_SelectionGridMenu_C",
+            "BP_ServerBrowser_C",
+            "BP_ServerConnecting_C",
+            "BP_ServerListing_C",
+            "BP_SettingsMenu_C",
+            "BP_SingleplayerMenu_C",
+            "BP_SittingComponent_C",
+            "BP_SkyBox_C",
+            "BP_Slider_C",
+            "BP_SlotPool_C",
+            "BP_SmartAIComponent_C",
+            "BP_SpawnHoldable_C",
+            "BP_SpawnWeaponAttachment_C",
+            "BP_StartMeleeCollision_C",
+            "BP_StartMenu_C",
+            "BP_StatText_C",
+            "BP_SupportComponent_C",
+            "BP_ThrowChargeEnd_C",
+            "BP_ThrowRelease_C",
+            "BP_VendorComponent_C",
+            "BP_VendorMenu_C",
+            "BP_VendorTooltipEntry_C",
+            "BP_VideoSettings_C",
+            "BP_WeaponInventory_C",
+            "BP_WeaponSlot_C",
+            "BTD_Activated_C",
+            "BTD_CanStrafe_C",
+            "BTD_CanTargetInteract_C",
+            "BTD_FollowDistances_C",
+            "BTS_CanPath_C",
+            "BTS_FaceDirectionAnimations_C",
+            "BTS_FollowChecks_C",
+            "BTS_IsSearchDead_C",
+            "BTS_MeleeAttackLocation_C",
+            "BTS_PerceptionCheck_C",
+            "BTS_RangeAttackLocation_C",
+            "BTT_AIInteract_C",
+            "BTT_AtWayPoint_C",
+            "BTT_BeginFlee_C",
+            "BTT_ClimbPath_C",
+            "BTT_EndFlee_C",
+            "BTT_EndHide_C",
+            "BTT_FindAIInteract_C",
+            "BTT_FindActionPoint_C",
+            "BTT_FindRoamLocation_C",
+            "BTT_FindWayPoint_C",
+            "BTT_Interact_C",
+            "BTT_MoveToTarget_C",
+            "BTT_RangeMoveTo_C",
+            "BTT_RoamWaitAnim_C",
+            "BTT_Search_C",
+            "BTT_StartHide_C",
+            "BTT_StillAnimation_C",
+            "BTT_StrafeLocation_C",
+            "C_FS_ComponentPlayer_C",
+            "Chameleon_C",
+            "L_MenuMap05_C",
+            "Notify_BlockAttack_C",
+            "Notify_EmoteProp_C",
+            "WBP_MW_MenuButton_C",
+            "WD_Clocks_C"
+          ],
+          "signature_lost": [
+            "BP_PlaytestBeginPlyer_C",
+            "PlaytestBeginPGmaemode_C",
+            "WD_PlaytestNote01_C"
+          ],
+          "state": "THANK_YOU_SCREEN",
+          "step": 0,
+          "transitioned": true,
+          "why": "the screen itself prompts '\u041d\u0410\u0416\u041c\u0418\u0422\u0415 [SPACE] \u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0418\u0422\u042c'; the game exposes exactly one deterministic keyboard action here, so no pointer input is used"
+        },
+        {
+          "did": [
+            {
+              "click": [
+                0.5039,
+                0.7708
+              ],
+              "screen": [
+                1289,
+                1109
+              ]
+            },
+            {
+              "click": [
+                0.1445,
+                0.4861
+              ],
+              "screen": [
+                369,
+                699
+              ]
+            }
+          ],
+          "signature_gained": [
+            "BP_SGKSaveGameMetaData_C"
+          ],
+          "signature_lost": [],
+          "state": "MAIN_MENU",
+          "step": 1,
+          "transitioned": true,
+          "why": "\u041e\u0414\u0418\u041d\u041e\u0427\u041d\u0410\u042f \u0418\u0413\u0420\u0410 then \u0417\u0410\u0413\u0420\u0423\u0417\u0418\u0422\u042c \u0418\u0413\u0420\u0423. Two clicks in one action because the runtime cannot see the panel change between them; the pair is verified by BP_SGKSaveGameMetaData_C appearing. Both points are far from \u041d\u041e\u0412\u0410\u042f \u0418\u0413\u0420\u0410 and from any delete control."
+        },
+        {
+          "did": [
+            {
+              "click": [
+                0.4258,
+                0.3909
+              ],
+              "save_row": {
+                "level": "NewMapGENTEST",
+                "row": 1,
+                "slot": "123",
+                "ticks": 639236175078390000,
+                "time": "2026-08-29T16:25:07Z"
+              },
+              "screen": [
+                1090,
+                562
+              ]
+            }
+          ],
+          "signature_gained": [
+            "BP_762mm_WI_C",
+            "BP_AIManager_C",
+            "BP_BomberSpawn_C",
+            "BP_BuildZone_C",
+            "BP_BunkerChunck_C",
+            "BP_BunkerFloor_C",
+            "BP_BunkerWorldGeneration_C",
+            "BP_BunkersVolume_C",
+            "BP_CampFireZone_C",
+            "BP_CookingComponent_C",
+            "BP_CraftingBenchWorld_C",
+            "BP_DamageZone_C",
+            "BP_DistantEffectCheckerBunker_C",
+            "BP_DungeonDoor_C",
+            "BP_DwarfSpawn_C",
+            "BP_EasySnowMask_C",
+            "BP_ExpeditionDoor_C",
+            "BP_FactoryGeneration_C",
+            "BP_GasolineGenerator_C",
+            "BP_GlobalInventoryManager_C",
+            "BP_GlobalManager_C",
+            "BP_GridComponent_C",
+            "BP_INCINERATOR_C",
+            "BP_InsanityZone_C",
+            "BP_LighBumb_C",
+            "BP_LightBulbRotation_C",
+            "BP_MeadowsWorldGeneration_C",
+            "BP_MetalDoor_C",
+            "BP_OutsideVolumeNOACTORDESTROY_C",
+            "BP_OutsideVolume_C",
+            "BP_PaneliWorldGeneration_C",
+            "BP_ResourceItemSpawner_C",
+            "BP_SGKController_C",
+            "BP_SGKGameMode_C",
+            "BP_SGKSaveGame_C",
+            "BP_SaveSystem_C",
+            "BP_Spark_C",
+            "BP_SplitterPowerComponent_C",
+            "BP_Splitter_C",
+            "BP_StartClothItemSpawner_C",
+            "BP_StartFoodItemSpawner_C",
+            "BP_StartGameDoor_C",
+            "BP_StartHatItemSpawner_C",
+            "BP_StartHoldablesItemSpawner_C",
+            "BP_StartMedicItemSpawner_C",
+            "BP_StartToolslItemSpawner_C",
+            "BP_StartWaterItemSpawner_C",
+            "BP_StaticMasterItem_C",
+            "BP_TPHouseZone_C",
+            "BP_TPLocationWithTag_C",
+            "BP_WoodenBoxResource_C",
+            "LandedShake_C",
+            "NewMapGENTEST_C"
+          ],
+          "signature_lost": [
+            "BP_CheckBox_C",
+            "BP_ControlFunction_C",
+            "BP_ControlSaves_C",
+            "BP_DropBox_C",
+            "BP_HostNewGameServer_C",
+            "BP_InteractiveBuroviksourceComponent_C",
+            "BP_InteractiveCarrotResourceComponent1_C",
+            "BP_InteractiveCucumberResourceComponent_C",
+            "BP_InteractiveMuhamorsourceComponent_C",
+            "BP_InteractiveTomatoResourceComponent_C",
+            "BP_InteractiveWheatResourceComponent_C",
+            "BP_Keybind_C",
+            "BP_MainMenu_C",
+            "BP_MenuPlayer_C",
+            "BP_MultiplayerMenu_C",
+            "BP_NewGame_C",
+            "BP_SGKMenuController_C",
+            "BP_SGKMenuGameMode_C",
+            "BP_ServerBrowser_C",
+            "BP_ServerConnecting_C",
+            "BP_SettingsMenu_C",
+            "BP_SingleplayerMenu_C",
+            "BP_Slider_C",
+            "BP_StartMenu_C",
+            "L_MenuMap05_C"
+          ],
+          "state": "LOAD_GAME_MENU",
+          "step": 2,
+          "transitioned": true,
+          "why": "click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded"
+        }
+      ],
+      "strategy": "ui"
+    },
+    "teardown": {
+      "closed": [
+        {
+          "exit_code": 0,
+          "exited": true,
+          "graceful_timeout_s": 45,
+          "method": "wm_close",
+          "pid": 11100,
+          "window": {
+            "hwnd": "0x350b88",
+            "title": "MISERY  "
+          }
+        }
+      ],
+      "live_before": [
+        {
+          "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+          "pid": 11100,
+          "start_time": "2026-08-29T18:11:24Z"
+        }
+      ],
+      "probe_shutdown": null,
+      "proved_gone": {
+        "checked_at": "2026-08-29T18:22:54Z",
+        "old_pids": [
+          11100
+        ],
+        "proved": true
+      }
+    }
+  },
+  "probe": "recon",
+  "run_id": "2026-08-29T182252Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": 140697973227520,
+      "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+      "image_size_bytes": 138403840,
+      "loaded_probe_module": null,
+      "pid": 11100,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": "2026-08-29T18:11:24Z"
+    },
+    "did_not_apply_because": null,
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "PROBE_STARTED"
+}

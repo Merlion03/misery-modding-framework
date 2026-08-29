@@ -1,0 +1,588 @@
+{
+  "exec_command_count": 88,
+  "exec_commands": [
+    {
+      "address": "0x1b51b57bbc0",
+      "class": "PlayerController",
+      "command": "ToggleSpeaking",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57bca0",
+      "class": "PlayerController",
+      "command": "TestServerLevelVisibilityChange",
+      "flags": "0x40603"
+    },
+    {
+      "address": "0x1b51b57bd80",
+      "class": "PlayerController",
+      "command": "SwitchLevel",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57c100",
+      "class": "PlayerController",
+      "command": "StartFire",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57c3a0",
+      "class": "PlayerController",
+      "command": "SetName",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57a6c0",
+      "class": "PlayerController",
+      "command": "ServerExec",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b57ace0",
+      "class": "PlayerController",
+      "command": "SendToConsole",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b577400",
+      "class": "PlayerController",
+      "command": "RestartLevel",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b577860",
+      "class": "PlayerController",
+      "command": "Pause",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b577b00",
+      "class": "PlayerController",
+      "command": "LocalTravel",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b575d40",
+      "class": "PlayerController",
+      "command": "FOV",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b575e20",
+      "class": "PlayerController",
+      "command": "EnableCheats",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5760c0",
+      "class": "PlayerController",
+      "command": "ConsoleKey",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5722a0",
+      "class": "PlayerController",
+      "command": "Camera",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b515560",
+      "class": "CheatManager",
+      "command": "Walk",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b515640",
+      "class": "CheatManager",
+      "command": "ViewSelf",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b511d60",
+      "class": "CheatManager",
+      "command": "ViewPlayer",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b511e40",
+      "class": "CheatManager",
+      "command": "ViewClass",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b511f20",
+      "class": "CheatManager",
+      "command": "ViewActor",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b512000",
+      "class": "CheatManager",
+      "command": "UpdateSafeArea",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b5120e0",
+      "class": "CheatManager",
+      "command": "ToggleServerStatReplicatorUpdateStatNet",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b5121c0",
+      "class": "CheatManager",
+      "command": "ToggleServerStatReplicatorClientOverwrite",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b5122a0",
+      "class": "CheatManager",
+      "command": "ToggleDebugCamera",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b512380",
+      "class": "CheatManager",
+      "command": "ToggleAILogging",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b512460",
+      "class": "CheatManager",
+      "command": "TestCollisionDistance",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b512540",
+      "class": "CheatManager",
+      "command": "Teleport",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b512620",
+      "class": "CheatManager",
+      "command": "Summon",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b512700",
+      "class": "CheatManager",
+      "command": "StreamLevelOut",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5127e0",
+      "class": "CheatManager",
+      "command": "StreamLevelIn",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5128c0",
+      "class": "CheatManager",
+      "command": "SpawnServerStatReplicator",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b5129a0",
+      "class": "CheatManager",
+      "command": "Slomo",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b512a80",
+      "class": "CheatManager",
+      "command": "SetWorldOrigin",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b512b60",
+      "class": "CheatManager",
+      "command": "SetMouseSensitivityToDefault",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b512ee0",
+      "class": "CheatManager",
+      "command": "PlayersOnly",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b5130a0",
+      "class": "CheatManager",
+      "command": "OnlyLoadLevel",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b513180",
+      "class": "CheatManager",
+      "command": "LogLoc",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b513260",
+      "class": "CheatManager",
+      "command": "InvertMouse",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b513340",
+      "class": "CheatManager",
+      "command": "God",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b513420",
+      "class": "CheatManager",
+      "command": "Ghost",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b5135e0",
+      "class": "CheatManager",
+      "command": "FreezeFrame",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b5136c0",
+      "class": "CheatManager",
+      "command": "Fly",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b5137a0",
+      "class": "CheatManager",
+      "command": "FlushLog",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b513960",
+      "class": "CheatManager",
+      "command": "DumpVoiceMutingState",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510080",
+      "class": "CheatManager",
+      "command": "DumpPartyState",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510160",
+      "class": "CheatManager",
+      "command": "DumpOnlineSessionState",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510240",
+      "class": "CheatManager",
+      "command": "DumpChatState",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510400",
+      "class": "CheatManager",
+      "command": "DestroyTarget",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b5104e0",
+      "class": "CheatManager",
+      "command": "DestroyServerStatReplicator",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b5105c0",
+      "class": "CheatManager",
+      "command": "DestroyPawns",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5106a0",
+      "class": "CheatManager",
+      "command": "DestroyAllPawnsExceptTarget",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510780",
+      "class": "CheatManager",
+      "command": "DestroyAll",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510860",
+      "class": "CheatManager",
+      "command": "DebugCapsuleSweepSize",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510940",
+      "class": "CheatManager",
+      "command": "DebugCapsuleSweepPawn",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510a20",
+      "class": "CheatManager",
+      "command": "DebugCapsuleSweepComplex",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510b00",
+      "class": "CheatManager",
+      "command": "DebugCapsuleSweepClear",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510be0",
+      "class": "CheatManager",
+      "command": "DebugCapsuleSweepChannel",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510cc0",
+      "class": "CheatManager",
+      "command": "DebugCapsuleSweepCapture",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510da0",
+      "class": "CheatManager",
+      "command": "DebugCapsuleSweep",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b510e80",
+      "class": "CheatManager",
+      "command": "DamageTarget",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b510f60",
+      "class": "CheatManager",
+      "command": "CheatScript",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b511040",
+      "class": "CheatManager",
+      "command": "ChangeSize",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b511120",
+      "class": "CheatManager",
+      "command": "BugItStringCreator",
+      "flags": "0xc20602"
+    },
+    {
+      "address": "0x1b51b511200",
+      "class": "CheatManager",
+      "command": "BugItGo",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5112e0",
+      "class": "CheatManager",
+      "command": "BugIt",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57b4c0",
+      "class": "DebugCameraController",
+      "command": "ShowDebugSelectedInfo",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57d440",
+      "class": "HUD",
+      "command": "ShowHUD",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57d520",
+      "class": "HUD",
+      "command": "ShowDebugToggleSubCategory",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b57d600",
+      "class": "HUD",
+      "command": "ShowDebugForReticleTargetToggle",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b57d6e0",
+      "class": "HUD",
+      "command": "ShowDebug",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57dec0",
+      "class": "HUD",
+      "command": "PreviousDebugTarget",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b57dfa0",
+      "class": "HUD",
+      "command": "NextDebugTarget",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51a89da60",
+      "class": "GameInstance",
+      "command": "DebugRemovePlayer",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51a89db40",
+      "class": "GameInstance",
+      "command": "DebugCreatePlayer",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5c4a00",
+      "class": "GameMode",
+      "command": "Say",
+      "flags": "0x4020602"
+    },
+    {
+      "address": "0x1b51b5f0e80",
+      "class": "GameViewportClient",
+      "command": "SSSwapControllers",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5f0f60",
+      "class": "GameViewportClient",
+      "command": "ShowTitleSafeArea",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b5f1040",
+      "class": "GameViewportClient",
+      "command": "SetConsoleTarget",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b6bc560",
+      "class": "HealthSnapshotBlueprintLibrary",
+      "command": "StopPerformanceSnapshots",
+      "flags": "0x4022603"
+    },
+    {
+      "address": "0x1b51b6bc640",
+      "class": "HealthSnapshotBlueprintLibrary",
+      "command": "StartPerformanceSnapshots",
+      "flags": "0x4022603"
+    },
+    {
+      "address": "0x1b51b6bc720",
+      "class": "HealthSnapshotBlueprintLibrary",
+      "command": "LogPerformanceSnapshot",
+      "flags": "0x4022603"
+    },
+    {
+      "address": "0x1b51b700160",
+      "class": "PlayerInput",
+      "command": "SetMouseSensitivity",
+      "flags": "0x20601"
+    },
+    {
+      "address": "0x1b51b700240",
+      "class": "PlayerInput",
+      "command": "SetBind",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b700320",
+      "class": "PlayerInput",
+      "command": "InvertAxisKey",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b700400",
+      "class": "PlayerInput",
+      "command": "InvertAxis",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b7005c0",
+      "class": "PlayerInput",
+      "command": "ClearSmoothing",
+      "flags": "0x20603"
+    },
+    {
+      "address": "0x1b51b859d20",
+      "class": "AISystem",
+      "command": "AILoggingVerbose",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b51b859e00",
+      "class": "AISystem",
+      "command": "AIIgnorePlayers",
+      "flags": "0x20602"
+    },
+    {
+      "address": "0x1b53e45c2c0",
+      "class": "BP_MasterInventory_C",
+      "command": "ModifyChanceFromSettings",
+      "flags": "0x5cc20200"
+    }
+  ],
+  "gameplay": {
+    "facts": {
+      "game_modes": [
+        {
+          "address": "0x1b542fc2000",
+          "class": "BP_SGKMenuGameMode_C",
+          "name": "BP_SGKMenuGameMode_C",
+          "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap07.L_MenuMap07:PersistentLevel:BP_SGKMenuGameMode_C"
+        }
+      ],
+      "has_authority": true,
+      "net_drivers": [],
+      "net_mode_observed": "standalone",
+      "objects_total": 61764,
+      "objects_valid": 61764,
+      "player_controllers": [
+        {
+          "address": "0x1b5174edb80",
+          "class": "BP_SGKMenuController_C",
+          "name": "BP_SGKMenuController_C",
+          "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap07.L_MenuMap07:PersistentLevel:BP_SGKMenuController_C"
+        }
+      ],
+      "player_inventories": [],
+      "player_pawn": null,
+      "playtest_hub_classes_live": [],
+      "uclass_self_reference": [
+        "0x1b564035400"
+      ],
+      "worlds": [
+        {
+          "address": "0x1b571d6d260",
+          "class": "World",
+          "name": "L_MenuMap07",
+          "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap07.L_MenuMap07"
+        }
+      ]
+    },
+    "ready": false,
+    "reasons": [
+      "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0 -- the player's inventory component is the anchor for everything below"
+    ]
+  },
+  "note": [
+    "object identity anchor OK: unique self-referential UClass at 0x1b564035400",
+    "live PlayerController at 0x1b5174edb80 (BP_SGKMenuController_C)"
+  ],
+  "objects": 61764,
+  "pid": 8524,
+  "run_id": "2026-08-29T174930Z-runner",
+  "session_interactive": true,
+  "window": {
+    "hwnd": "0x3b0b98",
+    "title": "MISERY  "
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "blocked_phase": null,
+  "blocked_reason": "state LOAD_GAME_MENU reached 3 times: the machine is looping rather than advancing, so it stops instead of pressing keys at a live game",
+  "note": [
+    "--skip-restart: reusing the live process, no teardown or launch",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "runtime inspectable: 62312 objects, settled over 3 readings (spread 0 <= 64)",
+    "object identity anchor OK: unique self-referential UClass at 0x1b564035400",
+    "live PlayerController at 0x1b5174edb80 (BP_SGKMenuController_C)",
+    "ui state LOAD_GAME_MENU -> click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded",
+    "clicking save '123' at row 1 (2026-08-29T16:25:07Z)",
+    "ui state LOAD_GAME_MENU transitioned: +['BP_762mm_WI_C', 'BP_AIManager_C', 'BP_BomberSpawn_C', 'BP_BuildZone_C', 'BP_BunkerChunck_C', 'BP_BunkerFloor_C', 'BP_BunkerWorldGeneration_C', 'BP_BunkersVolume_C', 'BP_CampFireZone_C', 'BP_CookingComponent_C', 'BP_CraftingBenchWorld_C', 'BP_DamageZone_C', 'BP_DistantEffectCheckerBunker_C', 'BP_DungeonDoor_C', 'BP_DwarfSpawn_C', 'BP_EasySnowMask_C', 'BP_ExpeditionDoor_C', 'BP_FactoryGeneration_C', 'BP_GasolineGenerator_C', 'BP_GlobalManager_C', 'BP_GridComponent_C', 'BP_INCINERATOR_C', 'BP_InsanityZone_C', 'BP_LighBumb_C', 'BP_LightBulbRotation_C', 'BP_MeadowsWorldGeneration_C', 'BP_OutsideVolumeNOACTORDESTROY_C', 'BP_OutsideVolume_C', 'BP_PaneliWorldGeneration_C', 'BP_ResourceItemSpawner_C', 'BP_SGKGameMode_C', 'BP_Spark_C', 'BP_SplitterPowerComponent_C', 'BP_Splitter_C', 'BP_StartClothItemSpawner_C', 'BP_StartFoodItemSpawner_C', 'BP_StartGameDoor_C', 'BP_StartHatItemSpawner_C', 'BP_StartHoldablesItemSpawner_C', 'BP_StartMedicItemSpawner_C', 'BP_StartToolslItemSpawner_C', 'BP_StartWaterItemSpawner_C', 'BP_TPHouseZone_C', 'BP_TPLocationWithTag_C', 'BP_WoodenBoxResource_C', 'NewMapGENTEST_C'] -['BP_CheckBox_C', 'BP_DropBox_C', 'BP_FloatingMesh_C', 'BP_HostNewGameServer_C', 'BP_InteractiveBuroviksourceComponent_C', 'BP_InteractiveCarrotResourceComponent1_C', 'BP_InteractiveCucumberResourceComponent_C', 'BP_InteractiveMuhamorsourceComponent_C', 'BP_InteractiveTomatoResourceComponent_C', 'BP_InteractiveWheatResourceComponent_C', 'BP_Keybind_C', 'BP_MainMenu_C', 'BP_MenuPlayer_C', 'BP_MultiplayerMenu_C', 'BP_NewGame_C', 'BP_SGKMenuController_C', 'BP_SGKMenuGameMode_C', 'BP_SGKSaveGameMetaData_C', 'BP_ServerBrowser_C', 'BP_ServerConnecting_C', 'BP_SettingsMenu_C', 'BP_SingleplayerMenu_C', 'BP_Slider_C', 'BP_StartMenu_C']",
+    "ui state LOAD_GAME_MENU -> click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded",
+    "clicking save '123' at row 1 (2026-08-29T16:25:07Z)",
+    "ui state LOAD_GAME_MENU transitioned: +['BP_AK_AI_Child_C', 'BP_AnomalyClusterActivator_C', 'BP_AnomalyCluster_C', 'BP_AnomalyGarbage_C', 'BP_AnomalyZone_C', 'BP_Bed_C', 'BP_Bench_C', 'BP_BigFlag_C', 'BP_BlackHole_C', 'BP_Bookcase2_C', 'BP_Buffet_C', 'BP_Buffet_World_C', 'BP_CabinetWorld_C', 'BP_CarMaster_C', 'BP_Carpet2_C', 'BP_Carpet3_C', 'BP_Carpet5_C', 'BP_Chair2_C', 'BP_ClothHanger_C', 'BP_Computer_C', 'BP_CrayFish_C', 'BP_CricetsNormal_Cue_C', 'BP_CuboardWorld_C', 'BP_Cuboard_C', 'BP_DeadBodyCivil_C', 'BP_DeadBodyMil_C', 'BP_DoorType4_C', 'BP_FloatingMesh_C', 'BP_Fridge1_C', 'BP_FridgeWorld_C', 'BP_FurChair_C', 'BP_GarbageWorld_C', 'BP_GasStove_C', 'BP_Globe_C', 'BP_HangFlag_C', 'BP_HollowWindSphere_Cue_C', 'BP_InsanitySphere_C', 'BP_LeavesWind_Cue_C', 'BP_Mangal_C', 'BP_Mannequin_C', 'BP_MasterAIController_C', 'BP_MasterCrowdAIController_C', 'BP_MicrowavePower_C', 'BP_MidAmmoItemSpawner_C', 'BP_MidClothItemSpawner_C', 'BP_MidCrate_C', 'BP_MidHatItemSpawner_C', 'BP_MidMedicItemSpawner_C', 'BP_MilBigCrateWorld_C', 'BP_MilMidCrateWorld_C', 'BP_NightStandWorld_C', 'BP_RadSign_C', 'BP_RadioactiveWaste_C', 'BP_RetroWater_C', 'BP_RustyGastank02_C', 'BP_SafeWrold_C', 'BP_ScafWorld_C', 'BP_Scaf_C', 'BP_Sink2_C', 'BP_SmallFlag_C', 'BP_Sofa2_C', 'BP_Sofa_C', 'BP_StartGunsItemSpawner_C', 'BP_StashMid_C', 'BP_TV_C', 'BP_Table02_C', 'BP_Table03_C', 'BP_Table04_C', 'BP_Table1_C', 'BP_Taburetka03_C', 'BP_Taburetka_C', 'BP_TeleportAnomaly_C', 'BP_Tent_Start_C', 'BP_Toilet_C', 'BP_TrashCan_C', 'BP_Tumbochka2_C', 'BP_Twins_C', 'BP_VanityTable_C', 'BP_WallClock_C', 'BP_WeaponWI_C', 'BP_WoodenBoxEmpty_C', 'BP_WoodenPlank_C', 'BP_Wordrobe1_C', 'BP_WordrobeWorld_C', 'BP_ZombieSoilder_C', 'Crayfish_AnimBP_C', 'L_Road01_C', 'Twins_AnimBP_C', 'WD_DaysCount_C', 'Zombie_AnimBP_C'] -[]",
+    "BLOCKED: state LOAD_GAME_MENU reached 3 times: the machine is looping rather than advancing, so it stops instead of pressing keys at a live game"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6ccb70000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 8524
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 8524
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 8524,
+        "start_time": "2026-08-29T17:36:45Z"
+      },
+      "reused": true
+    },
+    "runtime_ready": {
+      "name_pool_initialized": true,
+      "namepool_live_va": 140698100900224,
+      "num_elements": 62312,
+      "objects_ptr_live_va": 1878633744224,
+      "settle_tolerance": 64,
+      "settle_window": [
+        62312,
+        62312,
+        62312
+      ]
+    }
+  },
+  "probe": null,
+  "run_id": "2026-08-29T180415Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": null,
+      "build_sha256": null,
+      "exe_path": null,
+      "image_size_bytes": null,
+      "loaded_probe_module": null,
+      "pid": null,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": null
+    },
+    "did_not_apply_because": "no session state file",
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "BLOCKED"
+}

@@ -1,0 +1,64 @@
+{
+  "note": [
+    "--skip-restart: reusing the live process, no teardown or launch",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "runtime inspectable: 26263 objects, settled over 3 readings (spread 0 <= 64)",
+    "object identity anchor OK: unique self-referential UClass at 0x1b564035400",
+    "live PlayerController at 0x1b51da48960 (PlayerController)"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6ccb70000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 8524
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 8524
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 8524,
+        "start_time": "2026-08-29T17:36:45Z"
+      },
+      "reused": true
+    },
+    "runtime_ready": {
+      "name_pool_initialized": true,
+      "namepool_live_va": 140698100900224,
+      "num_elements": 26263,
+      "objects_ptr_live_va": 1878633744224,
+      "settle_tolerance": 64,
+      "settle_window": [
+        26263,
+        26263,
+        26263
+      ]
+    }
+  },
+  "probe": null,
+  "run_id": "2026-08-29T174709Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": null,
+      "build_sha256": null,
+      "exe_path": null,
+      "image_size_bytes": null,
+      "loaded_probe_module": null,
+      "pid": null,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": null
+    },
+    "did_not_apply_because": "no session state file",
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "INCOMPLETE"
+}

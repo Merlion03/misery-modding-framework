@@ -1,0 +1,314 @@
+{
+  "note": [
+    "--skip-restart: reusing the live process, no teardown or launch",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "runtime inspectable: 62711 objects, settled over 3 readings (spread 0 <= 64)",
+    "object identity anchor OK: unique self-referential UClass at 0x1f27f045400",
+    "live PlayerController at 0x1f25916f6e0 (BP_SGKMenuController_C)",
+    "possessed pawn 0x1f21970dd00 (BP_MenuPlayer_C), via AController::Pawn@+720",
+    "AcknowledgedPawn agrees with Pawn -- possession has settled",
+    "ui state MAIN_MENU -> \u041e\u0414\u0418\u041d\u041e\u0427\u041d\u0410\u042f \u0418\u0413\u0420\u0410 then \u0417\u0410\u0413\u0420\u0423\u0417\u0418\u0422\u042c \u0418\u0413\u0420\u0423. Two clicks in one action because the runtime cannot see the panel change between them; the pair is verified by BP_SGKSaveGameMetaData_C appearing. Both points are far from \u041d\u041e\u0412\u0410\u042f \u0418\u0413\u0420\u0410 and from any delete control.",
+    "ui state MAIN_MENU transitioned: +['BP_SGKSaveGameMetaData_C'] -[]",
+    "ui state LOAD_GAME_MENU -> click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded",
+    "clicking save '123' at row 1 (2026-08-29T16:25:07Z)",
+    "ui state LOAD_GAME_MENU transitioned: +['BP_762mm_WI_C', 'BP_AIManager_C', 'BP_BomberSpawn_C', 'BP_BuildZone_C', 'BP_BunkerChunck_C', 'BP_BunkerFloor_C', 'BP_BunkerWorldGeneration_C', 'BP_BunkersVolume_C', 'BP_CampFireZone_C', 'BP_CookingComponent_C', 'BP_CraftingBenchWorld_C', 'BP_DamageZone_C', 'BP_DistantEffectCheckerBunker_C', 'BP_DungeonDoor_C', 'BP_DwarfSpawn_C', 'BP_EasySnowMask_C', 'BP_ExpeditionDoor_C', 'BP_FactoryGeneration_C', 'BP_GasolineGenerator_C', 'BP_GlobalInventoryManager_C', 'BP_GlobalManager_C', 'BP_GridComponent_C', 'BP_INCINERATOR_C', 'BP_InsanityZone_C', 'BP_LighBumb_C', 'BP_LightBulbRotation_C', 'BP_MeadowsWorldGeneration_C', 'BP_MetalDoor_C', 'BP_OutsideVolumeNOACTORDESTROY_C', 'BP_OutsideVolume_C', 'BP_PaneliWorldGeneration_C', 'BP_ResourceItemSpawner_C', 'BP_SGKController_C', 'BP_SGKGameMode_C', 'BP_SGKSaveGame_C', 'BP_SaveSystem_C', 'BP_Spark_C', 'BP_SplitterPowerComponent_C', 'BP_Splitter_C', 'BP_StartClothItemSpawner_C', 'BP_StartFoodItemSpawner_C', 'BP_StartGameDoor_C', 'BP_StartHatItemSpawner_C', 'BP_StartHoldablesItemSpawner_C', 'BP_StartMedicItemSpawner_C', 'BP_StartToolslItemSpawner_C', 'BP_StartWaterItemSpawner_C', 'BP_StaticMasterItem_C', 'BP_TPHouseZone_C', 'BP_TPLocationWithTag_C', 'BP_WoodenBoxResource_C', 'LandedShake_C', 'NewMapGENTEST_C'] -['BP_Barrel_C', 'BP_CheckBox_C', 'BP_DropBox_C', 'BP_HostNewGameServer_C', 'BP_InteractiveBuroviksourceComponent_C', 'BP_InteractiveCarrotResourceComponent1_C', 'BP_InteractiveCucumberResourceComponent_C', 'BP_InteractiveMuhamorsourceComponent_C', 'BP_InteractiveTomatoResourceComponent_C', 'BP_InteractiveWheatResourceComponent_C', 'BP_Keybind_C', 'BP_MainMenu_C', 'BP_MenuPlayer_C', 'BP_MultiplayerMenu_C', 'BP_NewGame_C', 'BP_Pallet_C', 'BP_SGKMenuController_C', 'BP_SGKMenuGameMode_C', 'BP_ServerBrowser_C', 'BP_ServerConnecting_C', 'BP_SettingsMenu_C', 'BP_SingleplayerMenu_C', 'BP_Slider_C', 'BP_StartMenu_C', 'BP_WoodenCrate_C', 'L_MenuMap03_C']",
+    "ui state machine: gameplay reached after 2 step(s)",
+    "object identity anchor OK: unique self-referential UClass at 0x1f27f045400",
+    "live PlayerController at 0x1f23795edc0 (BP_SGKController_C)",
+    "possessed pawn 0x1f255c720e0 (BP_SGKMasterCharacter_C), via AController::Pawn@+720",
+    "AcknowledgedPawn agrees with Pawn -- possession has settled",
+    "live player inventory 0x1f21299ec50 is owned by the PlayerController",
+    "GAMEPLAY READY: controller 0x1f23795edc0 -> possessed pawn 0x1f255c720e0 (BP_SGKMasterCharacter_C); inventory owned by that controller; authority=True; net=standalone",
+    "READY_FOR_PROBE",
+    "starting probe 'recon': C:\\Python314\\python.exe D:\\Dev\\MiseryFramework\\research/instruments/ipp/cr01c3_recon.py --out D:/Dev/MiseryFramework/research/instrument-runs/2026-08-29T182140Z-runner/recon.json"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6ccb70000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 11100
+    },
+    "gameplay_proof": {
+      "facts": {
+        "game_modes": [
+          {
+            "address": "0x1f201032770",
+            "class": "BP_SGKGameMode_C",
+            "name": "BP_SGKGameMode_C",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKGameMode_C"
+          }
+        ],
+        "has_authority": true,
+        "inventory_owner": {
+          "address": "0x1f23795edc0",
+          "class": "BP_SGKController_C",
+          "name": "BP_SGKController_C",
+          "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+        },
+        "net_drivers": [],
+        "net_mode_observed": "standalone",
+        "objects_total": 208462,
+        "objects_valid": 208462,
+        "player_controllers": [
+          {
+            "address": "0x1f23795edc0",
+            "class": "BP_SGKController_C",
+            "name": "BP_SGKController_C",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          }
+        ],
+        "player_inventories": [
+          {
+            "address": "0x1f21299ec50",
+            "class": "BP_PlayerInventory_C",
+            "name": "BP_PlayerInventory",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          }
+        ],
+        "player_pawn": {
+          "address": "0x1f255c720e0",
+          "class": "BP_SGKMasterCharacter_C",
+          "name": "BP_SGKMasterCharacter_C",
+          "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+        },
+        "playtest_hub_classes_live": [],
+        "possession": {
+          "AcknowledgedPawn": {
+            "declared_on": "PlayerController",
+            "offset": 824,
+            "raw": 2140332826848,
+            "value": "0x1f255c720e0"
+          },
+          "Pawn": {
+            "declared_on": "Controller",
+            "offset": 720,
+            "raw": 2140332826848,
+            "value": "0x1f255c720e0"
+          }
+        },
+        "uclass_self_reference": [
+          "0x1f27f045400"
+        ],
+        "world_count": 7,
+        "world_names": [
+          "L_Factory_Depo",
+          "L_Factory_TraktorniyZavod",
+          "L_LF_CoolingTower_A",
+          "L_MainTerrain",
+          "L_SafeHub",
+          "NewMapGENTEST"
+        ]
+      },
+      "ready": true,
+      "reasons": []
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 11100
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 11100,
+        "start_time": "2026-08-29T18:11:24Z"
+      },
+      "reused": true
+    },
+    "probe": {
+      "command": [
+        "C:\\Python314\\python.exe",
+        "D:\\Dev\\MiseryFramework\\research/instruments/ipp/cr01c3_recon.py",
+        "--out",
+        "D:/Dev/MiseryFramework/research/instrument-runs/2026-08-29T182140Z-runner/recon.json"
+      ],
+      "probe": "recon",
+      "returncode": 0,
+      "stdout_artifact": "research/instrument-runs/2026-08-29T182140Z-runner/probe-recon.stdout.txt",
+      "stdout_duplicate_of": "recon.json",
+      "what": "CR-01C3 read-only recon: inventory classes, live instances, authority"
+    },
+    "runtime_ready": {
+      "name_pool_initialized": true,
+      "namepool_live_va": 140698100900224,
+      "num_elements": 62711,
+      "objects_ptr_live_va": 2138930284384,
+      "settle_tolerance": 64,
+      "settle_window": [
+        62711,
+        62711,
+        62711
+      ]
+    },
+    "save_entry": {
+      "acted": true,
+      "final_state": "GAMEPLAY",
+      "steps": [
+        {
+          "did": [
+            {
+              "click": [
+                0.5039,
+                0.7708
+              ],
+              "screen": [
+                1289,
+                1109
+              ]
+            },
+            {
+              "click": [
+                0.1445,
+                0.4861
+              ],
+              "screen": [
+                369,
+                699
+              ]
+            }
+          ],
+          "signature_gained": [
+            "BP_SGKSaveGameMetaData_C"
+          ],
+          "signature_lost": [],
+          "state": "MAIN_MENU",
+          "step": 0,
+          "transitioned": true,
+          "why": "\u041e\u0414\u0418\u041d\u041e\u0427\u041d\u0410\u042f \u0418\u0413\u0420\u0410 then \u0417\u0410\u0413\u0420\u0423\u0417\u0418\u0422\u042c \u0418\u0413\u0420\u0423. Two clicks in one action because the runtime cannot see the panel change between them; the pair is verified by BP_SGKSaveGameMetaData_C appearing. Both points are far from \u041d\u041e\u0412\u0410\u042f \u0418\u0413\u0420\u0410 and from any delete control."
+        },
+        {
+          "did": [
+            {
+              "click": [
+                0.4258,
+                0.3909
+              ],
+              "save_row": {
+                "level": "NewMapGENTEST",
+                "row": 1,
+                "slot": "123",
+                "ticks": 639236175078390000,
+                "time": "2026-08-29T16:25:07Z"
+              },
+              "screen": [
+                1090,
+                562
+              ]
+            }
+          ],
+          "signature_gained": [
+            "BP_762mm_WI_C",
+            "BP_AIManager_C",
+            "BP_BomberSpawn_C",
+            "BP_BuildZone_C",
+            "BP_BunkerChunck_C",
+            "BP_BunkerFloor_C",
+            "BP_BunkerWorldGeneration_C",
+            "BP_BunkersVolume_C",
+            "BP_CampFireZone_C",
+            "BP_CookingComponent_C",
+            "BP_CraftingBenchWorld_C",
+            "BP_DamageZone_C",
+            "BP_DistantEffectCheckerBunker_C",
+            "BP_DungeonDoor_C",
+            "BP_DwarfSpawn_C",
+            "BP_EasySnowMask_C",
+            "BP_ExpeditionDoor_C",
+            "BP_FactoryGeneration_C",
+            "BP_GasolineGenerator_C",
+            "BP_GlobalInventoryManager_C",
+            "BP_GlobalManager_C",
+            "BP_GridComponent_C",
+            "BP_INCINERATOR_C",
+            "BP_InsanityZone_C",
+            "BP_LighBumb_C",
+            "BP_LightBulbRotation_C",
+            "BP_MeadowsWorldGeneration_C",
+            "BP_MetalDoor_C",
+            "BP_OutsideVolumeNOACTORDESTROY_C",
+            "BP_OutsideVolume_C",
+            "BP_PaneliWorldGeneration_C",
+            "BP_ResourceItemSpawner_C",
+            "BP_SGKController_C",
+            "BP_SGKGameMode_C",
+            "BP_SGKSaveGame_C",
+            "BP_SaveSystem_C",
+            "BP_Spark_C",
+            "BP_SplitterPowerComponent_C",
+            "BP_Splitter_C",
+            "BP_StartClothItemSpawner_C",
+            "BP_StartFoodItemSpawner_C",
+            "BP_StartGameDoor_C",
+            "BP_StartHatItemSpawner_C",
+            "BP_StartHoldablesItemSpawner_C",
+            "BP_StartMedicItemSpawner_C",
+            "BP_StartToolslItemSpawner_C",
+            "BP_StartWaterItemSpawner_C",
+            "BP_StaticMasterItem_C",
+            "BP_TPHouseZone_C",
+            "BP_TPLocationWithTag_C",
+            "BP_WoodenBoxResource_C",
+            "LandedShake_C",
+            "NewMapGENTEST_C"
+          ],
+          "signature_lost": [
+            "BP_Barrel_C",
+            "BP_CheckBox_C",
+            "BP_DropBox_C",
+            "BP_HostNewGameServer_C",
+            "BP_InteractiveBuroviksourceComponent_C",
+            "BP_InteractiveCarrotResourceComponent1_C",
+            "BP_InteractiveCucumberResourceComponent_C",
+            "BP_InteractiveMuhamorsourceComponent_C",
+            "BP_InteractiveTomatoResourceComponent_C",
+            "BP_InteractiveWheatResourceComponent_C",
+            "BP_Keybind_C",
+            "BP_MainMenu_C",
+            "BP_MenuPlayer_C",
+            "BP_MultiplayerMenu_C",
+            "BP_NewGame_C",
+            "BP_Pallet_C",
+            "BP_SGKMenuController_C",
+            "BP_SGKMenuGameMode_C",
+            "BP_ServerBrowser_C",
+            "BP_ServerConnecting_C",
+            "BP_SettingsMenu_C",
+            "BP_SingleplayerMenu_C",
+            "BP_Slider_C",
+            "BP_StartMenu_C",
+            "BP_WoodenCrate_C",
+            "L_MenuMap03_C"
+          ],
+          "state": "LOAD_GAME_MENU",
+          "step": 1,
+          "transitioned": true,
+          "why": "click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded"
+        }
+      ],
+      "strategy": "ui"
+    }
+  },
+  "probe": "recon",
+  "run_id": "2026-08-29T182140Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": null,
+      "build_sha256": null,
+      "exe_path": null,
+      "image_size_bytes": null,
+      "loaded_probe_module": null,
+      "pid": null,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": null
+    },
+    "did_not_apply_because": "no session state file",
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "PROBE_STARTED"
+}

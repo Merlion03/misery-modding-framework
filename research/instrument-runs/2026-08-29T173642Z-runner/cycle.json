@@ -1,0 +1,415 @@
+{
+  "blocked_phase": null,
+  "blocked_reason": "runtime did not become inspectable within 300s (object count 26263 below floor 50000)",
+  "note": [
+    "proved gone: no MISERY-Win64-Shipping.exe process, old pids [] are dead",
+    "verify_install before: match (0 serious, 0 benign)",
+    "containers consistent: ['ArmProbe2_P', 'ArmProbe3_P', 'ArmProbe_P', 'CT03Probe20260828_P', 'MBPLRadio_P', 'MiseryModKit_P', 'Probe4_P']",
+    "launch requested through Steam: steam://run/2119830",
+    "new process: pid 8524 started 2026-08-29T17:36:45Z",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "BLOCKED: runtime did not become inspectable within 300s (object count 26263 below floor 50000)",
+    "verify_install after: mismatch (1 serious, 0 benign)",
+    "post-cycle install check: install-integrity: verify_install reports 1 serious findings (None)"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6ccb70000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 8524
+    },
+    "containers": {
+      "applied": null,
+      "check": {
+        "consistent": true,
+        "containers": [
+          {
+            "mountable": true,
+            "name": "ArmProbe2_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 13,
+              "bytes": 1503,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 13,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 458,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x64b74c2dcbaa57ce",
+              "directory_index_size": 460,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 13,
+              "file": "ArmProbe2_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 34620,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 7,
+              "slack_bytes": 4,
+              "sum_compressed": 34550,
+              "sum_uncompressed": 34550,
+              "toc_header_size": 144,
+              "ucas_bytes": 34624,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\ArmProbe2_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "ArmProbe3_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 13,
+              "bytes": 1503,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 13,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 458,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0xc2181c35892c6ffe",
+              "directory_index_size": 460,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 13,
+              "file": "ArmProbe3_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 34604,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 7,
+              "slack_bytes": 4,
+              "sum_compressed": 34542,
+              "sum_uncompressed": 34542,
+              "toc_header_size": 144,
+              "ucas_bytes": 34608,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\ArmProbe3_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "ArmProbe_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 14,
+              "bytes": 1236,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 14,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 362,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x4730833fb020925f",
+              "directory_index_size": 409,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 9,
+              "file": "ArmProbe_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 430548,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 5,
+              "slack_bytes": 12,
+              "sum_compressed": 377553,
+              "sum_uncompressed": 377553,
+              "toc_header_size": 144,
+              "ucas_bytes": 430560,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\ArmProbe_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "MBPLRadio_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 69,
+              "bytes": 1301,
+              "chunks_without_perfect_hash": 0,
+              "compressed_block_entry_count": 69,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 218,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x56b6f29f3f06786c",
+              "directory_index_size": 156,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 3,
+              "file": "MBPLRadio_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 4427524,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 2,
+              "slack_bytes": 12,
+              "sum_compressed": 4365340,
+              "sum_uncompressed": 4365340,
+              "toc_header_size": 144,
+              "ucas_bytes": 4427536,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MBPLRadio_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "MiseryModKit_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 2,
+              "bytes": 387,
+              "chunks_without_perfect_hash": 2,
+              "compressed_block_entry_count": 2,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 200,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x7c42f5212bf72656",
+              "directory_index_size": 97,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 2,
+              "file": "MiseryModKit_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 468,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 1,
+              "slack_bytes": 12,
+              "sum_compressed": 461,
+              "sum_uncompressed": 461,
+              "toc_header_size": 144,
+              "ucas_bytes": 480,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MiseryModKit_P.utoc"
+          },
+          {
+            "mountable": true,
+            "name": "Probe4_P",
+            "pak_present": true,
+            "reasons": [],
+            "toc": {
+              "all_blocks_inside_ucas": true,
+              "blocks_monotonic": true,
+              "blocks_parsed": 14,
+              "bytes": 1613,
+              "chunks_without_perfect_hash": 3,
+              "compressed_block_entry_count": 14,
+              "compressed_block_entry_size": 12,
+              "compressed_block_table_offset": 492,
+              "compression_block_size": 65536,
+              "compression_method_name_count": 0,
+              "compression_method_name_length": 32,
+              "compression_methods_used": [
+                0
+              ],
+              "container_flags": 8,
+              "container_flags_decoded": {
+                "Compressed": false,
+                "Encrypted": false,
+                "Indexed": true,
+                "OnDemand": false,
+                "Signed": false
+              },
+              "container_id": "0x2e54919992b88aa8",
+              "directory_index_size": 491,
+              "encryption_key_guid_is_zero": true,
+              "entry_count": 14,
+              "file": "Probe4_P.utoc",
+              "magic_ok": true,
+              "max_block_end": 39308,
+              "partition_count": 1,
+              "partition_size": 18446744073709551615,
+              "perfect_hash_seeds_count": 7,
+              "slack_bytes": 4,
+              "sum_compressed": 39225,
+              "sum_uncompressed": 39225,
+              "toc_header_size": 144,
+              "ucas_bytes": 39312,
+              "version": 6
+            },
+            "ucas_present": true,
+            "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Probe4_P.utoc"
+          }
+        ],
+        "listing": [
+          "ArmProbe2_P.pak",
+          "ArmProbe2_P.ucas",
+          "ArmProbe2_P.utoc",
+          "ArmProbe3_P.pak",
+          "ArmProbe3_P.ucas",
+          "ArmProbe3_P.utoc",
+          "ArmProbe_P.pak",
+          "ArmProbe_P.ucas",
+          "ArmProbe_P.utoc",
+          "CT03Probe20260828_P.pak",
+          "MBPLRadio_P.pak",
+          "MBPLRadio_P.ucas",
+          "MBPLRadio_P.utoc",
+          "MiseryModKit_P.pak",
+          "MiseryModKit_P.ucas",
+          "MiseryModKit_P.utoc",
+          "Probe4_P.pak",
+          "Probe4_P.ucas",
+          "Probe4_P.utoc"
+        ],
+        "missing_containers": [],
+        "pak_only_containers": [
+          "CT03Probe20260828_P"
+        ],
+        "present_containers": [
+          "ArmProbe2_P",
+          "ArmProbe3_P",
+          "ArmProbe_P",
+          "CT03Probe20260828_P",
+          "MBPLRadio_P",
+          "MiseryModKit_P",
+          "Probe4_P"
+        ],
+        "stage_dir": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks",
+        "unexpected_containers": []
+      },
+      "profile": {
+        "_comment": [
+          "apply=false means the runner verifies what is staged but changes nothing.",
+          "Set apply=true and fill remove/stage to make the runner own the staging.",
+          "expect=null accepts whatever is there; a list makes any other container a",
+          "hard failure -- which is the point, because a leftover container from an",
+          "old experiment is mounted by the engine just as eagerly as an intended one."
+        ],
+        "apply": false,
+        "expect": null,
+        "remove": [],
+        "stage": [],
+        "stage_dir": null
+      },
+      "report_artifact": "research/instrument-runs/2026-08-29T173642Z-runner/containers.json"
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 8524
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 8524,
+        "start_time": "2026-08-29T17:36:45Z"
+      },
+      "requested_at": "2026-08-29T17:36:42Z"
+    },
+    "teardown": {
+      "closed": [],
+      "live_before": [],
+      "probe_shutdown": null,
+      "proved_gone": {
+        "checked_at": "2026-08-29T17:36:42Z",
+        "old_pids": [],
+        "proved": true
+      }
+    }
+  },
+  "probe": null,
+  "run_id": "2026-08-29T173642Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": null,
+      "build_sha256": null,
+      "exe_path": null,
+      "image_size_bytes": null,
+      "loaded_probe_module": null,
+      "pid": null,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": null
+    },
+    "did_not_apply_because": "no session state file",
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "BLOCKED"
+}

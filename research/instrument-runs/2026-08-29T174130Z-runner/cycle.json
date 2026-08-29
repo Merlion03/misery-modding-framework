@@ -1,0 +1,52 @@
+{
+  "blocked_phase": null,
+  "blocked_reason": "runtime did not become inspectable within 300s (object count 26263 below floor 50000)",
+  "note": [
+    "--skip-restart: reusing the live process, no teardown or launch",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "BLOCKED: runtime did not become inspectable within 300s (object count 26263 below floor 50000)"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6ccb70000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 8524
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 8524
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 8524,
+        "start_time": "2026-08-29T17:36:45Z"
+      },
+      "reused": true
+    }
+  },
+  "probe": null,
+  "run_id": "2026-08-29T174130Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": null,
+      "build_sha256": null,
+      "exe_path": null,
+      "image_size_bytes": null,
+      "loaded_probe_module": null,
+      "pid": null,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": null
+    },
+    "did_not_apply_because": "no session state file",
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "BLOCKED"
+}

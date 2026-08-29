@@ -1,0 +1,69 @@
+{
+  "blocked_phase": null,
+  "blocked_reason": "unrecognised screen. No key was sent: sending input into an unclassified screen is refused by construction. Live signature (add an entry to saveentry.UI_STATES to teach the runner this screen): AN_Footstep_C, BP_AmmoCounter_C, BP_AreYouSureMenu_C, BP_AttachWeaponAttachment_C, BP_AttachmentSlot_C, BP_AudioSettings_C, BP_BatteryInput_C, BP_BatteryOutput_C, BP_BuildPartHealth_C, BP_ButtonPanel_C, BP_CableConnectionPointComponent_C, BP_CableConnectionType_C, BP_CableInfo_C, BP_ChamberWeaponAmmo_C, BP_CharacterComponent_C, BP_CharacterEquipment_C, BP_Chat_C, BP_CheckBox_C, BP_CircleStat_C, BP_ClimbLadderComponent_C, BP_CodeLockPanel_C, BP_ConsumeConsumable_C, BP_ControlFunction_C, BP_ControlSaves_C, BP_ControlsSettings_C, BP_CraftingComponent_C, BP_CraftingListing_C, BP_CraftingMenu_C, BP_CraftingQueue_C, BP_CraftingTooltipEntry_C, BP_DebuffIcon_C, BP_Debug_C, BP_DestroyAttachment_C, BP_DisableHandIks_C, BP_DistantEffectCheckerNormal_C, BP_DropBox_C, BP_DropZone_C, BP_EnableHandIks_C, BP_EndMeleeCollision_C, BP_EndWeaponReload_C, BP_EquipmentInventoryList_C, BP_EquipmentInventory_C, BP_EquipmentSlot_C, BP_ExtCharacterEquipment_C, BP_ExtCookingMenu_C, BP_ExtCraftingMenu_C, BP_FloatingMesh_C, BP_FootStep_C, BP_GameModeInitComponent_C, BP_GameSettings_C, BP_GroundCheckComponent_C, BP_GroundDetectComponent_C, BP_HostNewGameServer_C, BP_HoveredEventWidget_C, BP_InGameSettingsMenu_C, BP_InGameStartMenu_C, BP_InteractContextMenuEntry_C, BP_InteractionContextMenu_C, BP_InteractiveBuroviksourceComponent_C, BP_InteractiveCarrotResourceComponent1_C, BP_InteractiveCucumberResourceComponent_C, BP_InteractiveMuhamorsourceComponent_C, BP_InteractiveTomatoResourceComponent_C, BP_InteractiveWheatResourceComponent_C, BP_InventoryPanel_C, BP_ItemName_C, BP_Keybind_C, BP_LoadGameMenuPanel_C, BP_LoadGameMenu_C, BP_MainMenu_C, BP_MasterInventory_C, BP_MasterItemInventory_C, BP_MasterPowerComponent_C, BP_MasterSegment_C, BP_MeleeTraceSocket_C, BP_MenuButton_C, BP_MenuPlayer_C, BP_MiseryMenuWheelComponent_C, BP_MultiplayerDynamicWeatherManager_C, BP_MultiplayerMenu_C, BP_NewGame_C, BP_NotificationPanel_C, BP_NumericalTextBox_C, BP_OptionsMenuSlot_C, BP_OverlayKey_C, BP_Panel_C, BP_PlacementControlsOverlay_C, BP_PlayerAIActivator_C, BP_PlayerBuildingComponent_C, BP_PlayerInventory_C, BP_PlayerPowerComponent_C, BP_PoopItemSpawner_C, BP_PowerGameModeComponent_C, BP_PowerGenerated_C, BP_PowerInfoPanel_C, BP_PowerManagerComponent_C, BP_PowerRequired_C, BP_PowerStored_C, BP_PowerTitleBar_C, BP_ProgressStat_C, BP_QuickSlotKey_C, BP_QuickSlotsPanel_C, BP_RadiationLoadCircle_C, BP_RemoveAttachment_C, BP_ResolutionSetting_C, BP_SGKGameInstance_C, BP_SGKMenuController_C, BP_SGKMenuGameMode_C, BP_SGKSettingsSaveData_C, BP_SaveComplete_C, BP_SaveGameMenuPanel_C, BP_SaveGameMenu_C, BP_SaveNameMenu_C, BP_ScalerSetting_C, BP_SelectionGridMenu_C, BP_ServerBrowser_C, BP_ServerConnecting_C, BP_ServerListing_C, BP_SettingsMenu_C, BP_SingleplayerMenu_C, BP_SittingComponent_C, BP_SkyBox_C, BP_Slider_C, BP_SlotPool_C, BP_SmartAIComponent_C, BP_SpawnHoldable_C, BP_SpawnWeaponAttachment_C, BP_StartMeleeCollision_C, BP_StartMenu_C, BP_StatText_C, BP_SupportComponent_C, BP_ThrowChargeEnd_C, BP_ThrowRelease_C, BP_VendorComponent_C, BP_VendorMenu_C, BP_VendorTooltipEntry_C, BP_VideoSettings_C, BP_WeaponInventory_C, BP_WeaponSlot_C, BTD_Activated_C, BTD_CanStrafe_C, BTD_CanTargetInteract_C, BTD_FollowDistances_C, BTS_CanPath_C, BTS_FaceDirectionAnimations_C, BTS_FollowChecks_C, BTS_IsSearchDead_C, BTS_MeleeAttackLocation_C, BTS_PerceptionCheck_C, BTS_RangeAttackLocation_C, BTT_AIInteract_C, BTT_AtWayPoint_C, BTT_BeginFlee_C, BTT_ClimbPath_C, BTT_EndFlee_C, BTT_EndHide_C, BTT_FindAIInteract_C, BTT_FindActionPoint_C, BTT_FindRoamLocation_C, BTT_FindWayPoint_C, BTT_Interact_C, BTT_MoveToTarget_C, BTT_RangeMoveTo_C, BTT_RoamWaitAnim_C, BTT_Search_C, BTT_StartHide_C, BTT_StillAnimation_C, BTT_StrafeLocation_C, CW_Cursor_C, C_FS_ComponentPlayer_C, Chameleon_C, Notify_BlockAttack_C, Notify_EmoteProp_C, WBP_MW_MenuButton_C, WD_Clocks_C",
+  "note": [
+    "--skip-restart: reusing the live process, no teardown or launch",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "runtime inspectable: 26263 objects, settled over 3 readings (spread 0 <= 64)",
+    "object identity anchor OK: unique self-referential UClass at 0x1b564035400",
+    "live PlayerController at 0x1b51da48960 (PlayerController)",
+    "ui state THANK_YOU_SCREEN -> sending ['space'] (the screen itself prompts '\u041d\u0410\u0416\u041c\u0418\u0422\u0415 [SPACE] \u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0418\u0422\u042c'; the game exposes exactly one deterministic keyboard action here)",
+    "ui state THANK_YOU_SCREEN transitioned: +[] -['BP_PlaytestBeginPlyer_C', 'PlaytestBeginPGmaemode_C', 'WD_PlaytestNote01_C']",
+    "BLOCKED: unrecognised screen. No key was sent: sending input into an unclassified screen is refused by construction. Live signature (add an entry to saveentry.UI_STATES to teach the runner this screen): AN_Footstep_C, BP_AmmoCounter_C, BP_AreYouSureMenu_C, BP_AttachWeaponAttachment_C, BP_AttachmentSlot_C, BP_AudioSettings_C, BP_BatteryInput_C, BP_BatteryOutput_C, BP_BuildPartHealth_C, BP_ButtonPanel_C, BP_CableConnectionPointComponent_C, BP_CableConnectionType_C, BP_CableInfo_C, BP_ChamberWeaponAmmo_C, BP_CharacterComponent_C, BP_CharacterEquipment_C, BP_Chat_C, BP_CheckBox_C, BP_CircleStat_C, BP_ClimbLadderComponent_C, BP_CodeLockPanel_C, BP_ConsumeConsumable_C, BP_ControlFunction_C, BP_ControlSaves_C, BP_ControlsSettings_C, BP_CraftingComponent_C, BP_CraftingListing_C, BP_CraftingMenu_C, BP_CraftingQueue_C, BP_CraftingTooltipEntry_C, BP_DebuffIcon_C, BP_Debug_C, BP_DestroyAttachment_C, BP_DisableHandIks_C, BP_DistantEffectCheckerNormal_C, BP_DropBox_C, BP_DropZone_C, BP_EnableHandIks_C, BP_EndMeleeCollision_C, BP_EndWeaponReload_C, BP_EquipmentInventoryList_C, BP_EquipmentInventory_C, BP_EquipmentSlot_C, BP_ExtCharacterEquipment_C, BP_ExtCookingMenu_C, BP_ExtCraftingMenu_C, BP_FloatingMesh_C, BP_FootStep_C, BP_GameModeInitComponent_C, BP_GameSettings_C, BP_GroundCheckComponent_C, BP_GroundDetectComponent_C, BP_HostNewGameServer_C, BP_HoveredEventWidget_C, BP_InGameSettingsMenu_C, BP_InGameStartMenu_C, BP_InteractContextMenuEntry_C, BP_InteractionContextMenu_C, BP_InteractiveBuroviksourceComponent_C, BP_InteractiveCarrotResourceComponent1_C, BP_InteractiveCucumberResourceComponent_C, BP_InteractiveMuhamorsourceComponent_C, BP_InteractiveTomatoResourceComponent_C, BP_InteractiveWheatResourceComponent_C, BP_InventoryPanel_C, BP_ItemName_C, BP_Keybind_C, BP_LoadGameMenuPanel_C, BP_LoadGameMenu_C, BP_MainMenu_C, BP_MasterInventory_C, BP_MasterItemInventory_C, BP_MasterPowerComponent_C, BP_MasterSegment_C, BP_MeleeTraceSocket_C, BP_MenuButton_C, BP_MenuPlayer_C, BP_MiseryMenuWheelComponent_C, BP_MultiplayerDynamicWeatherManager_C, BP_MultiplayerMenu_C, BP_NewGame_C, BP_NotificationPanel_C, BP_NumericalTextBox_C, BP_OptionsMenuSlot_C, BP_OverlayKey_C, BP_Panel_C, BP_PlacementControlsOverlay_C, BP_PlayerAIActivator_C, BP_PlayerBuildingComponent_C, BP_PlayerInventory_C, BP_PlayerPowerComponent_C, BP_PoopItemSpawner_C, BP_PowerGameModeComponent_C, BP_PowerGenerated_C, BP_PowerInfoPanel_C, BP_PowerManagerComponent_C, BP_PowerRequired_C, BP_PowerStored_C, BP_PowerTitleBar_C, BP_ProgressStat_C, BP_QuickSlotKey_C, BP_QuickSlotsPanel_C, BP_RadiationLoadCircle_C, BP_RemoveAttachment_C, BP_ResolutionSetting_C, BP_SGKGameInstance_C, BP_SGKMenuController_C, BP_SGKMenuGameMode_C, BP_SGKSettingsSaveData_C, BP_SaveComplete_C, BP_SaveGameMenuPanel_C, BP_SaveGameMenu_C, BP_SaveNameMenu_C, BP_ScalerSetting_C, BP_SelectionGridMenu_C, BP_ServerBrowser_C, BP_ServerConnecting_C, BP_ServerListing_C, BP_SettingsMenu_C, BP_SingleplayerMenu_C, BP_SittingComponent_C, BP_SkyBox_C, BP_Slider_C, BP_SlotPool_C, BP_SmartAIComponent_C, BP_SpawnHoldable_C, BP_SpawnWeaponAttachment_C, BP_StartMeleeCollision_C, BP_StartMenu_C, BP_StatText_C, BP_SupportComponent_C, BP_ThrowChargeEnd_C, BP_ThrowRelease_C, BP_VendorComponent_C, BP_VendorMenu_C, BP_VendorTooltipEntry_C, BP_VideoSettings_C, BP_WeaponInventory_C, BP_WeaponSlot_C, BTD_Activated_C, BTD_CanStrafe_C, BTD_CanTargetInteract_C, BTD_FollowDistances_C, BTS_CanPath_C, BTS_FaceDirectionAnimations_C, BTS_FollowChecks_C, BTS_IsSearchDead_C, BTS_MeleeAttackLocation_C, BTS_PerceptionCheck_C, BTS_RangeAttackLocation_C, BTT_AIInteract_C, BTT_AtWayPoint_C, BTT_BeginFlee_C, BTT_ClimbPath_C, BTT_EndFlee_C, BTT_EndHide_C, BTT_FindAIInteract_C, BTT_FindActionPoint_C, BTT_FindRoamLocation_C, BTT_FindWayPoint_C, BTT_Interact_C, BTT_MoveToTarget_C, BTT_RangeMoveTo_C, BTT_RoamWaitAnim_C, BTT_Search_C, BTT_StartHide_C, BTT_StillAnimation_C, BTT_StrafeLocation_C, CW_Cursor_C, C_FS_ComponentPlayer_C, Chameleon_C, Notify_BlockAttack_C, Notify_EmoteProp_C, WBP_MW_MenuButton_C, WD_Clocks_C"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6ccb70000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 8524
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 8524
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 8524,
+        "start_time": "2026-08-29T17:36:45Z"
+      },
+      "reused": true
+    },
+    "runtime_ready": {
+      "name_pool_initialized": true,
+      "namepool_live_va": 140698100900224,
+      "num_elements": 26263,
+      "objects_ptr_live_va": 1878633744224,
+      "settle_tolerance": 64,
+      "settle_window": [
+        26263,
+        26263,
+        26263
+      ]
+    }
+  },
+  "probe": null,
+  "run_id": "2026-08-29T174812Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": null,
+      "build_sha256": null,
+      "exe_path": null,
+      "image_size_bytes": null,
+      "loaded_probe_module": null,
+      "pid": null,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": null
+    },
+    "did_not_apply_because": "no session state file",
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "BLOCKED"
+}
