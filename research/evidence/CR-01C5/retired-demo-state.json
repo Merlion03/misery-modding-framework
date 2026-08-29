@@ -1,0 +1,23 @@
+{
+  "baseline_inventory_sha256": "82c84dcf1186a58eaecb8eae65c6be0a885c5e03315e754122ace67d5d8e9e6b",
+  "baseline_item_count": 0,
+  "baseline_weight": 0.0,
+  "dll": "D:\\Dev\\MiseryFramework\\workspace\\msvc-probe\\CR01C5Probe.dll",
+  "icon_object": 2503616109568,
+  "itemlist": 2502792227072,
+  "master": 2502103622496,
+  "mesh_object": 2505448125440,
+  "objects_ptr": 2502455593088,
+  "pid": 14268,
+  "player_inv": 2503755668880,
+  "rbase": 140716534726656,
+  "retired": true,
+  "retired_reason": "game restarted to mount ArmProbe_P; pid 14268 is gone and every pointer here is stale",
+  "rio": 2503720108032,
+  "row_fname": 2241650,
+  "row_name": "mbpl__radio",
+  "rpath": 2503681310720,
+  "struct_size": 2264,
+  "table_ptr": 2503883464896,
+  "world_class": 2502099559040
+}

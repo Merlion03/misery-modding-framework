@@ -1,0 +1,285 @@
+{
+  "additem_out": {
+    "NewItemSlot": {
+      "Index": 0,
+      "InvComponent": "0x27e53af2770"
+    },
+    "RemainingItem": 0
+  },
+  "after_publish": {
+    "all_vanilla_present": true,
+    "all_vanilla_semantically_unchanged": true,
+    "itemlist_exact_unchanged": true,
+    "master_rows": 497,
+    "probe_in_master": true
+  },
+  "baseline": {
+    "CurrentWeight": 0.0,
+    "ItemCount": 0,
+    "inventory_occupied": 0,
+    "inventory_slots": 12,
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x27e51ca76e0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x27e53b8c340",
+        "0x0"
+      ]
+    }
+  },
+  "bool_semantics": {
+    "byte_offset": 0,
+    "field_mask": "0xff",
+    "is_bitfield": false
+  },
+  "cleanup": {
+    "held_for_visual_check": true
+  },
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "offset": 64,
+      "size": 1,
+      "value": 1
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "offset": 60,
+      "size": 4,
+      "value": 2
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "offset": 68,
+      "size": 4,
+      "value": 5
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "offset": 48,
+      "size": 8,
+      "value": 1.75
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "offset": 56,
+      "size": 4,
+      "value": 1
+    }
+  },
+  "icon_load": {
+    "err": 0,
+    "is_texture2d": true,
+    "object": "0x27e44d0c700",
+    "ran": 1,
+    "rooted": true,
+    "roundtrip": "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon.T_MBPL_Radio_Icon"
+  },
+  "inventory": {
+    "Amount": 1,
+    "CurrentWeight_delta": 0.5,
+    "ItemCount_delta": 1,
+    "entries_with_item": 1,
+    "only_our_slot_changed": true,
+    "slot": {
+      "blocked": 0,
+      "clump": 0,
+      "index": 0,
+      "inventory_ptr": "0x27e53af2770",
+      "item": {
+        "Amount": 1,
+        "DecayTime": 0,
+        "Durability": 100.0,
+        "ID": 2237054,
+        "ID_number": 0,
+        "InUse": 0,
+        "MasterInventory": "0x0",
+        "QuickBindIndex": -1,
+        "Rotated": 0,
+        "UseAmount": 0
+      },
+      "occupied": 1,
+      "raw": "01000000000000007027af537e02000000000000000000007e2222000000000001000000000000000000000000000000ffffffff0000000000000000000000000000c842000000000000000000000000",
+      "root_index": 0,
+      "self_index": 0
+    },
+    "slots_changed": [
+      0
+    ]
+  },
+  "mesh_load": {
+    "class": "0x27e0e48ee00",
+    "err": 0,
+    "err_step": 0,
+    "is_staticmesh": true,
+    "object": "0x27e27755880",
+    "owned_count": 3,
+    "ran": 1,
+    "rooted": true,
+    "soft_path_expected": "/Game/MBPLMatProbe/SM_MatProbe_Radio.SM_MatProbe_Radio",
+    "soft_path_matches": true,
+    "soft_path_roundtrip": "/Game/MBPLMatProbe/SM_MatProbe_Radio.SM_MatProbe_Radio"
+  },
+  "offsets": {
+    "off_inventory_icon": 224,
+    "off_itemoffsets": 2064,
+    "off_move_icon": 232,
+    "off_override_flag": 240,
+    "off_override_sizex": 248,
+    "off_override_sizey": 244,
+    "off_rot": 0,
+    "off_scale": 64,
+    "off_staticmesh": 112,
+    "off_trans": 32,
+    "off_worldclass": 192,
+    "worldclass_metaclass": "Actor",
+    "worldclass_metaclass_addr": 2740427415552
+  },
+  "pid": 21360,
+  "pre_additem": {
+    "CurrentWeight": 0.0,
+    "ItemCount": 0,
+    "occupied": 0,
+    "slots": 12
+  },
+  "resolver": {
+    "Height": 1,
+    "InventoryIcon": "0x27e44d0c700",
+    "ItemOffsets_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "OverrideImageSize": true,
+    "StaticMesh_asset_fname": 2237162,
+    "StaticMesh_pkg_fname": 2237143,
+    "Weight": 0.5,
+    "Width": 1,
+    "WorldClass": "0x27e76160780",
+    "drag_size": [
+      100,
+      100
+    ],
+    "found": 1,
+    "scale_is_not_zero": true,
+    "staticmesh_fnames_match": true,
+    "text": {
+      "Description": "Temporary channel-order probe. Slot 0 is R-hot; the rest are B-hot; the last slot probes emissive.",
+      "Name": "MBPL ARM Probe",
+      "ShortName": "ARM Probe"
+    },
+    "text_matches": true,
+    "worldclass_matches": true
+  },
+  "row": {
+    "InventoryIcon": "0x27e44d0c700",
+    "ItemOffsets_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "MoveIcon": "0x27e44d0c700",
+    "OverrideImageSize": true,
+    "StaticMesh_asset_fname": 2237162,
+    "StaticMesh_pkg_fname": 2237143,
+    "WorldClass": "0x27e76160780",
+    "drag_size": [
+      100,
+      100
+    ],
+    "icons_are_the_same_object": true,
+    "scale_is_not_zero": true,
+    "staticmesh_fnames_match": true,
+    "texts": {
+      "Description": "Temporary channel-order probe. Slot 0 is R-hot; the rest are B-hot; the last slot probes emissive.",
+      "Name": "MBPL ARM Probe",
+      "ShortName": "ARM Probe"
+    },
+    "texts_match": true,
+    "verifymesh_ran": 1,
+    "worldclass_matches": true
+  },
+  "row_name": "mbpl__armprobe",
+  "run_note": [
+    "pid=21360 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff6cdabded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff6cdac3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff6cdb1b790 byte-verified live==disk (48895c2408574883)",
+    "BP_StaticMasterItem_C super chain to Actor: BP_StaticMasterItem_C -> Actor",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 RVO=16 EG=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "LoadAsset_Blocking: flags=0x4022403 ParmsSize=48 RVO=40 EG=null",
+    "Conv_SoftObjectReferenceToString: flags=0x14422403 ParmsSize=56 RVO=40 EG=null",
+    "ProcessEvent slot 77 agrees across 3 unrelated CDOs -> 0x7ff6cde1c1f0",
+    "all 8 engine addresses byte-verified live==disk",
+    "world offsets: WorldClass@192 StaticMesh@112 ItemOffsets@2064 (Rot@0 Trans@32 Scale@64) MoveIcon@232",
+    "mesh loaded: /Game/MBPLMatProbe/SM_MatProbe_Radio.SM_MatProbe_Radio at 0x27e27755880, UStaticMesh=True, rooted=True, store owns 3",
+    "row after DestroyStruct(temp): texts=True icons_same=True worldclass=True mesh_fnames=True scale=[1.0, 1.0, 1.0]",
+    "resolver: found=1 worldclass=True mesh_fnames=True scale=[1.0, 1.0, 1.0]",
+    "INVENTORY: slot 0, Amount 1, +1 count, +0.5 weight, one slot changed",
+    "HOLDING: module, IO, table root, icon root, MESH root and publication alive"
+  ],
+  "state_file": "D:\\Dev\\MiseryFramework\\workspace\\armprobe-demo-state.json",
+  "status": "READY_FOR_WORLD_DROP_VISUAL_CHECK",
+  "text_fields": {
+    "Description": {
+      "class": "FTextProperty",
+      "name": "Description_27_39047AE74BB18D53DE9D998ABDC7090D",
+      "offset": 32,
+      "size": 16,
+      "value": "First runtime-defined MBPL item."
+    },
+    "Name": {
+      "class": "FTextProperty",
+      "name": "Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34",
+      "offset": 0,
+      "size": 16,
+      "value": "MBPL Test Item"
+    },
+    "ShortName": {
+      "class": "FTextProperty",
+      "name": "ShortName_53_3FDED9954C8DBFC313F77D9D147163D6",
+      "offset": 16,
+      "size": 16,
+      "value": "MBPL Test"
+    }
+  },
+  "texts": {
+    "Description": "Temporary channel-order probe. Slot 0 is R-hot; the rest are B-hot; the last slot probes emissive.",
+    "Name": "MBPL ARM Probe",
+    "ShortName": "ARM Probe"
+  },
+  "verdict": "HELD",
+  "world": {
+    "ItemOffsets_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "ItemOffsets_translation": [
+      0.0,
+      0.0,
+      5.0
+    ],
+    "StaticMesh_soft_path": "/Game/MBPLMatProbe/SM_MatProbe_Radio.SM_MatProbe_Radio",
+    "WorldClass": "BP_StaticMasterItem_C",
+    "WorldClass_addr": "0x27e76160780",
+    "WorldClass_metaclass": "Actor",
+    "WorldClass_super_chain": [
+      "BP_StaticMasterItem_C",
+      "Actor"
+    ]
+  }
+}

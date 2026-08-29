@@ -924,8 +924,25 @@ def main(argv=None):
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--arm", action="store_true",
                     help="materialize the world item, AddItem one, and HOLD")
+    ap.add_argument("--probe", action="store_true",
+                    help="materialize the TEMPORARY ARM/emissive probe item instead of the "
+                         "production radio: a separate row, the probe mesh whose slots carry "
+                         "the asymmetric ARM MICs, and its own state file")
     ap.add_argument("--run-dir", default=None)
     a = ap.parse_args(argv)
+    if a.probe:
+        # A distinct row and state file, so the probe can never be confused with
+        # the production item or clean it up by accident.
+        g = globals()
+        g["ROW_NAME"] = "mbpl__armprobe"
+        g["TRIGGER_NAME"] = "mbpl__armprobe_neutral_trigger"
+        g["STATE_PATH"] = os.path.join(REPO, "workspace", "armprobe-demo-state.json")
+        g["MESH_PACKAGE"] = "/Game/MBPLMatProbe/SM_MatProbe_Radio"
+        g["MESH_ASSET"] = "SM_MatProbe_Radio"
+        g["TEXTS"] = {"Name": "MBPL ARM Probe",
+                      "ShortName": "ARM Probe",
+                      "Description": "Temporary channel-order probe. Slot 0 is R-hot; "
+                                     "the rest are B-hot; the last slot probes emissive."}
     arguments = list(argv) if argv is not None else list(sys.argv[1:])
     rid = (a.run_dir and os.path.basename(a.run_dir)) or time.strftime("%Y-%m-%dT%H%M%SZ",
                                                                       time.gmtime())
