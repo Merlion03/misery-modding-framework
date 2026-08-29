@@ -658,6 +658,21 @@ class ScreenClassificationTests(unittest.TestCase):
         self.assertEqual(self._name(["WD_PlaytestNote01_C"], ["PlaytestHub"]),
                          "THANK_YOU_SCREEN")
 
+    def test_death_screen_is_recognised_and_halts(self):
+        """Found by leaving the acceptance session idle for an hour: the
+        character starved. A survival game's unattended loop meets this screen,
+        and the runner must recognise it rather than call it unknown -- and must
+        refuse to press respawn, which would change the save."""
+        state = saveentry.classify_state(
+            _screen(["BP_DeathScreen_C", "BP_AIManager_C"], ["NewMapGENTEST"]))
+        self.assertEqual(state["name"], "DEATH_SCREEN")
+        self.assertTrue(state["halt"])
+        self.assertIsNone(state["action"])
+
+    def test_death_screen_wins_over_the_loading_fallback(self):
+        self.assertEqual(self._name(["BP_DeathScreen_C"], ["NewMapGENTEST"]),
+                         "DEATH_SCREEN")
+
     def test_an_unrecognised_screen_classifies_as_nothing(self):
         """And nothing is what makes the machine stop instead of guessing a key."""
         self.assertIsNone(self._name(["BP_SomeUnknownScreen_C"], ["L_MenuMap03"]))

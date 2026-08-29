@@ -127,8 +127,19 @@ of the table.
 |---|---|---|
 | `THANK_YOU_SCREEN` | `WD_PlaytestNote01_C` live | one `Space` — the screen's own prompt |
 | `LOAD_GAME_MENU` | `BP_SGKSaveGameMetaData_C` live + a `L_MenuMap*` world | click the configured save's row |
+| `DEATH_SCREEN` | `BP_DeathScreen_C` live | **stops, by name** — see below |
 | `MAIN_MENU` | `BP_MainMenu_C` + `BP_SGKMenuGameMode_C`, no note widget, no save metadata, `L_MenuMap*` world | ОДИНОЧНАЯ ИГРА, then ЗАГРУЗИТЬ ИГРУ |
 | `WORLD_LOADING` | fallback: no `L_MenuMap*` world and no note widget | **nothing** — wait and watch the runtime |
+
+`DEATH_SCREEN` was found the hard way: the acceptance session was left idle for
+an hour and the character starved. MISERY is a survival game, so an unattended
+loop **will** meet this screen. The runtime reported it precisely —
+`BP_SGKMasterCharacter_C` dropped to zero live instances while the controller
+survived, which is the gate's "the PlayerController possesses no pawn". The
+screen offers *ВОЗРОДИТЬСЯ В БУНКЕРЕ* on Space and the runner **does not press
+it**: respawning moves the character and changes what the next autosave records.
+That is a gameplay decision, not a navigation step. The cycle stops with the
+state named, and a human reloads or respawns.
 
 Facts behind that table, each of which cost a wrong first draft:
 

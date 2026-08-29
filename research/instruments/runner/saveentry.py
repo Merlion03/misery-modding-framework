@@ -459,6 +459,27 @@ UI_STATES = [
         },
     },
     {
+        # Found the hard way: the acceptance run's session was left idle for an
+        # hour and the character starved. MISERY is a survival game, so an
+        # unattended loop WILL meet this screen, and the runtime says so exactly
+        # -- BP_SGKMasterCharacter_C drops to zero live instances while the
+        # controller survives, which is the gate's "possesses no pawn".
+        #
+        # Recognised, and deliberately not acted on. The screen offers
+        # "ВОЗРОДИТЬСЯ В БУНКЕРЕ" on Space, but respawning is a GAMEPLAY
+        # DECISION that moves the character and changes what the next autosave
+        # records. Navigating a menu is the runner's business; deciding to
+        # respawn someone's save is not.
+        "name": "DEATH_SCREEN",
+        "require": ["BP_DeathScreen_C"],
+        "action": None,
+        "halt": True,
+        "why": "the player character is dead. The runner will not press "
+               "'ВОЗРОДИТЬСЯ В БУНКЕРЕ' for you: respawning is a gameplay decision "
+               "that changes the save, not a navigation step. Reload the save or "
+               "respawn by hand, then run the cycle again.",
+    },
+    {
         # LAST, deliberately: this is the fallback for "not on the note screen
         # and not in the menu map", i.e. a world transition is in flight or the
         # game world is up but the player is not ready yet.
@@ -538,6 +559,20 @@ def classify_state(objects, states=None):
             continue
         return state
     return None
+
+
+class HaltingScreen(SaveEntryError):
+    """A screen the runner RECOGNISES and deliberately refuses to act on.
+
+    Distinct from UnknownScreen: there is nothing to learn here and no table
+    entry to add. The runner knows exactly what this is and stops because
+    advancing past it would be a gameplay decision, not navigation.
+    """
+
+    def __init__(self, state):
+        self.state = state["name"]
+        super().__init__("%s: %s" % (state["name"], state.get("why") or "the runner "
+                                     "does not act on this screen"))
 
 
 class UnknownScreen(SaveEntryError):
@@ -717,6 +752,9 @@ class UiStateMachine(Strategy):
             if state is None:
                 raise UnknownScreen(screen_signature(objects))
 
+            if state.get("halt"):
+                raise HaltingScreen(state)
+
             action = state.get("action")
 
             # A state with no action is a WAIT state, not a dead end -- e.g.
@@ -783,6 +821,8 @@ class UiStateMachine(Strategy):
             if context["is_gameplay"](objects):
                 return True, "GAMEPLAY"
             other = classify_state(objects, self.states)
+            if other is not None and other.get("halt"):
+                raise HaltingScreen(other)
             if other is not None and other["name"] != state["name"]:
                 return False, other["name"]
             if other is None:
