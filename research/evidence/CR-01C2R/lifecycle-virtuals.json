@@ -1,0 +1,139 @@
+{
+  "record": "CR-01C2R -- identity of UScriptStruct::InitializeStruct / DestroyStruct in the current Shipping build",
+  "verdict": "RESOLVED. The earlier conflict was a misattribution: slots 88/89 belong to the UDataTable vtable, not the UScriptStruct vtable.",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "read_only": true,
+  "nothing_performed": ["no live call", "no allocation", "no write"],
+
+  "method_1_register_provenance": {
+    "source": "full disassembly of UDataTable::AddRow (RVA 0x3548190) and of UDataTable::RemoveRowInternal (RVA reached through the table vtable slot 89)",
+    "registers_established_in_AddRow": {
+      "r14": "UDataTable* this (from RCX)",
+      "rbx": "FName RowName (from RDX)",
+      "rbp": "const FTableRowBase* RowData (from R8)",
+      "rsi": "UScriptStruct* RowStruct -- produced by the GetEmptyUsingStruct resolution chain at +0bd and cached to a global at +0c5"
+    },
+    "call_site_attribution": {
+      "+0d5 call [rax+0x2c8] slot 89": "rax = [r14] -> the UDATATABLE vtable; args rcx=table, rdx=RowName => UDataTable::RemoveRowInternal. Corroborated because UDataTable::RemoveRow calls the SAME slot, and source shows RemoveRow does exactly RemoveRowInternal.",
+      "+0ee call 0xfab790": "FMemory::Malloc (already proven independently)",
+      "+105 call [r10+0x300] slot 96": "r10 = [rsi] -> the USCRIPTSTRUCT vtable; args rcx=RowStruct(this), rdx=the Malloc result (Dest), r8d=1 (ArrayDim) => UScriptStruct::InitializeStruct(void* Dest, int32 ArrayDim=1)",
+      "+11b call 0x1198fc0": "direct, non-virtual, args rcx=RowStruct, rdx=new row, r8=RowData, r9d=1 => UScriptStruct::CopyScriptStruct -- consistent with its QEBA (non-virtual) mangling",
+      "+12c call [r9+0x2c0] slot 88": "r9 = [r14] -> the UDATATABLE vtable; args table, RowName, RowData => UDataTable::AddRowInternal"
+    },
+    "RemoveRowInternal_call_sites": {
+      "rdi": "UScriptStruct* RowStruct (same GetEmptyUsingStruct chain, cached to a global)",
+      "rbx": "uint8* RowData taken out of the RowMap",
+      "+0a8 call [rax+0x308] slot 97": "rax = [rdi] -> the USCRIPTSTRUCT vtable; args rcx=RowStruct(this), rdx=RowData(Dest), r8d=1 (ArrayDim) => UScriptStruct::DestroyStruct(void* Dest, int32 ArrayDim=1)",
+      "+0b1 call 0xfa0090": "args rcx=RowData, immediately after DestroyStruct => FMemory::Free, exactly matching the source sequence DestroyStruct(RowData); FMemory::Free(RowData);"
+    },
+    "why_the_earlier_reading_was_wrong": "Slots 88, 89 and 96 were compared as if they lived in one vtable. They do not: 88 and 89 dereference [r14] (the table) while 96 dereferences [rsi] (the struct). The apparent adjacency of 88/89 was therefore meaningless for Initialize/Destroy, and the call-order argument was the correct one."
+  },
+
+  "method_2_editor_corroboration": {
+    "claim": "In the same-version symbolized editor build, UScriptStruct's vtable holds InitializeStruct and DestroyStruct ADJACENT, Initialize first -- the same relative pattern the Shipping pair 96/97 shows.",
+    "oracle_used": "same-version UnrealEditor-CoreUObject.dll, used only for relative shape, never for slot transfer",
+    "editor_positions": "InitializeStruct at slot 132, DestroyStruct at slot 133",
+    "shipping_positions": "InitializeStruct slot 96, DestroyStruct slot 97",
+    "conclusion": "The relative pattern matches exactly, independently of the absolute indices, which differ because WITH_EDITOR adds virtuals. This is the second line and it agrees with method 1.",
+    "evidence_level": "OBSERVED",
+    "confidence": 0.9,
+    "claim_class": "I",
+    "claim_type": "layout-observation",
+    "oracle": ["binary-analysis"],
+    "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "sources": [
+      {
+        "method": "vtable read of the symbolized same-version editor module",
+        "locator": "UnrealEditor-CoreUObject.dll, UScriptStruct vtable, slots 132/133",
+        "artifact": null,
+        "note": "Only the RELATIVE order was used. Absolute editor indices are not transferable to Shipping because WITH_EDITOR adds virtuals; the transfer of an absolute slot is exactly the error this record exists to avoid."
+      },
+      {
+        "method": "Shipping vtable slot displacements taken from the observed call sites",
+        "locator": "MISERY-Win64-Shipping.exe, disp 0x300 / 0x308 -> slots 96/97",
+        "artifact": "research/evidence/CR-01C2R/acceptance.json",
+        "note": "Read from the LIVE RowStruct vtable at run time, not hardcoded."
+      }
+    ],
+    "note": "Class I: this names what the slots ARE, so under plan.md 10.3 v2.4 a binary-analysis claim that identifies bytes rather than merely locating them cannot be class P."
+  },
+
+  "resolved_identities": {
+    "UScriptStruct::InitializeStruct": {
+      "vtable": "UScriptStruct (the RowStruct object), slot 96, displacement 0x300",
+      "abi": "void __fastcall f(UScriptStruct* this /*RCX*/, void* Dest /*RDX*/, int32 ArrayDim /*R8D, engine passes 1*/) const",
+      "provenance": "register provenance in AddRow (r10 = [rsi] = struct vtable, Dest = the FMemory::Malloc result) + editor adjacency corroboration",
+      "live_rva_observed": "0x3cb1d50, byte-verified live==disk immediately before use",
+      "evidence_level": "INFERRED",
+      "confidence": 0.9,
+      "claim_class": "I",
+      "claim_type": "function-behavior",
+      "oracle": ["binary-analysis", "runtime-reflection"],
+      "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "sources": [
+        {
+          "method": "register-provenance disassembly of UDataTable::AddRow",
+          "locator": "RVA 0x3548190 +105, call [r10+0x300] where r10 = [rsi] = RowStruct vtable",
+          "artifact": null,
+          "note": "Dest is the result of the already-proven FMemory::Malloc and ArrayDim is the literal 1, which is exactly the source call AddRow makes."
+        },
+        {
+          "method": "same-version editor vtable adjacency corroboration",
+          "locator": "UnrealEditor-CoreUObject.dll UScriptStruct slots 132/133",
+          "artifact": null,
+          "note": "Relative pattern only; see method_2_editor_corroboration."
+        },
+        {
+          "method": "live call executed through the proven GameThread dispatcher",
+          "locator": "research/instrument-runs/2026-08-29T083407Z-c2r-armed",
+          "artifact": "research/evidence/CR-01C2R/acceptance.json",
+          "note": "The constructed struct survived AddRow's deep copy and DestroyStruct, and all 496 vanilla rows stayed hash-identical -- behaviour consistent with the identification and not with an arbitrary other virtual."
+        }
+      ],
+      "refutation_attempt": "If the slot attribution were wrong, calling slot 96 with (RowStruct, a raw 2264-byte buffer, 1) would have run an arbitrary virtual over uninitialized memory, and calling slot 97 would have either leaked the row's owned containers or corrupted the heap. The expected observables were: an access violation or hang, a target row whose read-back values did not equal what was written, damaged or missing vanilla rows, or a process that did not shut the dispatcher down cleanly. All four were looked for: every one of the 496 vanilla rows was sha256-hashed over its full 2264 raw bytes before the add, after the add and after the remove and all matched; the target row was read back AFTER the temporary was destroyed and freed and returned exactly the five written values; the row count moved 496 -> 497 -> 496; the dispatcher reached Stopped with wait_stopped_ok=1 and the DLL unloaded; verify_install was MATCH before and after. None of the refuting observables appeared.",
+      "note": "INFERRED rather than OBSERVED: the call sites and the displacement are observed, but the ATTRIBUTION of the slot to this named function is a derivation from two agreeing lines. Class I follows from the evidence level under plan.md 10.3 v2.3."
+    },
+    "UScriptStruct::DestroyStruct": {
+      "vtable": "UScriptStruct (the RowStruct object), slot 97, displacement 0x308",
+      "abi": "void __fastcall f(UScriptStruct* this /*RCX*/, void* Dest /*RDX*/, int32 ArrayDim /*R8D, engine passes 1*/) const",
+      "provenance": "register provenance in RemoveRowInternal (rax = [rdi] = struct vtable, Dest = the row pointer, followed immediately by FMemory::Free on the same pointer, matching source) + editor adjacency corroboration",
+      "live_rva_observed": "0x1199d50, byte-verified live==disk immediately before use",
+      "evidence_level": "INFERRED",
+      "confidence": 0.9,
+      "claim_class": "I",
+      "claim_type": "function-behavior",
+      "oracle": ["binary-analysis", "runtime-reflection"],
+      "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "sources": [
+        {
+          "method": "register-provenance disassembly of UDataTable::RemoveRowInternal",
+          "locator": "+0a8 call [rax+0x308] where rax = [rdi] = RowStruct vtable, immediately followed by +0b1 call 0xfa0090 on the same pointer",
+          "artifact": null,
+          "note": "DataTable.cpp does exactly DestroyStruct(RowData); FMemory::Free(RowData); -- the observed pair matches that sequence on the same operand."
+        },
+        {
+          "method": "same-version editor vtable adjacency corroboration",
+          "locator": "UnrealEditor-CoreUObject.dll UScriptStruct slots 132/133",
+          "artifact": null,
+          "note": "Relative pattern only; see method_2_editor_corroboration."
+        },
+        {
+          "method": "live call executed through the proven GameThread dispatcher",
+          "locator": "research/instrument-runs/2026-08-29T083407Z-c2r-armed",
+          "artifact": "research/evidence/CR-01C2R/acceptance.json",
+          "note": "The temporary was destroyed and freed while the added row stayed valid and readable, and the process stayed healthy -- behaviour consistent with the identification."
+        }
+      ],
+      "refutation_attempt": "If the slot attribution were wrong, calling slot 96 with (RowStruct, a raw 2264-byte buffer, 1) would have run an arbitrary virtual over uninitialized memory, and calling slot 97 would have either leaked the row's owned containers or corrupted the heap. The expected observables were: an access violation or hang, a target row whose read-back values did not equal what was written, damaged or missing vanilla rows, or a process that did not shut the dispatcher down cleanly. All four were looked for: every one of the 496 vanilla rows was sha256-hashed over its full 2264 raw bytes before the add, after the add and after the remove and all matched; the target row was read back AFTER the temporary was destroyed and freed and returned exactly the five written values; the row count moved 496 -> 497 -> 496; the dispatcher reached Stopped with wait_stopped_ok=1 and the DLL unloaded; verify_install was MATCH before and after. None of the refuting observables appeared.",
+      "note": "INFERRED for the same reason as InitializeStruct: displacement observed, attribution derived."
+    }
+  },
+
+  "bonus_finding_FMemory_Free": {
+    "rva": "0xfa0090",
+    "provenance": "called in RemoveRowInternal with rcx = the row pointer immediately after DestroyStruct on that same pointer, which is exactly the source sequence. This is an out-of-line FMemory::Free with a clean call-site derivation, and is preferable to the earlier GMalloc-vtable-slot-9 route for freeing our own temporary buffer.",
+    "note": "This does not contradict the earlier finding that Free is inlined at many sites; it shows an out-of-line copy also exists and is reachable."
+  },
+
+  "not_derived_on_purpose": "No unrelated UScriptStruct virtuals were identified. The scope was limited to the two lifecycle functions plus the Free that the same call site handed over."
+}

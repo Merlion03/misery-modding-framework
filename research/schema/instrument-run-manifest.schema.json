@@ -219,7 +219,8 @@
         "GT-01",
         "CARRIER-FTS",
         "CR-01A",
-        "CR-01C1"
+        "CR-01C1",
+        "CR-01C2R"
       ]
     },
     "verify_install_state": {

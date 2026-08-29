@@ -1,0 +1,72 @@
+{
+  "addresses": {
+    "AddRow": "0x3548190",
+    "DestroyStruct": "0x1199d50",
+    "FMemory::Free": "0xfa0090",
+    "InitializeStruct": "0x3cb1d50",
+    "RemoveRow": "0x355e170"
+  },
+  "armed": false,
+  "baseline_rows": 496,
+  "fields": {
+    "FuelTime": {
+      "class": "FDoubleProperty",
+      "classification": "trivially assignable value type",
+      "name": "FuelTime_87_FA2864E1445BEDCA473E40A9E167C9B5",
+      "offset": 2048,
+      "size": 8,
+      "value": 77.5
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "classification": "trivially assignable value type",
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "offset": 60,
+      "size": 4,
+      "value": 3
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "classification": "trivially assignable value type",
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "offset": 68,
+      "size": 4,
+      "value": 7
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "classification": "trivially assignable value type",
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "offset": 48,
+      "size": 8,
+      "value": 3.25
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "classification": "trivially assignable value type",
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "offset": 56,
+      "size": 4,
+      "value": 2
+    }
+  },
+  "outcome": "DRY RUN: all fail-closed checks passed, nothing written.",
+  "pid": 15784,
+  "row_struct_hex": "0x25b333ba180",
+  "run_note": [
+    "pid=15784 fingerprint confirmed",
+    "add_ticker: VA 0x7ff630e5ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff630e63370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff630ebb790 byte-verified live==disk (48895c2408574883)",
+    "ProcessEvent: RVA 0x12ac1f0 byte-verified live==disk",
+    "AddRow: RVA 0x3548190 byte-verified live==disk",
+    "RemoveRow: RVA 0x355e170 byte-verified live==disk",
+    "InitializeStruct: RVA 0x3cb1d50 byte-verified live==disk",
+    "DestroyStruct: RVA 0x1199d50 byte-verified live==disk",
+    "FMemory::Free: RVA 0xfa0090 byte-verified live==disk",
+    "fail-closed field verification passed for ['FuelTime', 'Height', 'MaxStack', 'Weight', 'Width']",
+    "baseline rows=496, target absent"
+  ],
+  "struct_size": 2264,
+  "target_row": "misery__runtime_materialized_probe"
+}

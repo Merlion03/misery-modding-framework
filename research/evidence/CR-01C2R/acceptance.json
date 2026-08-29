@@ -1,0 +1,67 @@
+{
+  "record": "CR-01C2R acceptance -- Route C: Runtime materialization of a real S_ItemDetails row",
+  "verdict": "PASS",
+  "source_run": "research/instrument-runs/2026-08-29T083407Z-c2r-armed",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "supersedes": "research/evidence/CR-01C2R/slot-ambiguity.json (AMBIGUOUS) -- resolved by research/evidence/CR-01C2R/lifecycle-virtuals.json",
+
+  "what_route_C_proves": "A row of the REAL game RowStruct can be constructed at Runtime from nothing but a game-allocator buffer plus the struct's own engine lifecycle virtuals -- no vanilla row is cloned, no mod-owned cooked S_ItemDetails asset is required, and D-10 is not weakened. This is the piece CR-01C2 was blocked on.",
+
+  "sequence_executed_in_order": [
+    "FMemory::Malloc(struct_size = RowStruct->PropertiesSize = 2264) -- game allocator, NOT the probe's CRT",
+    "UScriptStruct::InitializeStruct(RowStruct, temp, 1) -- struct vtable slot 96, RVA 0x3cb1d50",
+    "populate ONLY verified trivially-assignable value types by reflected offset",
+    "UDataTable::AddRow(ItemList, runtimeName, temp) -- engine deep-copies into a row it owns",
+    "UScriptStruct::DestroyStruct(RowStruct, temp, 1) -- struct vtable slot 97, RVA 0x1199d50",
+    "FMemory::Free(temp) -- RVA 0xfa0090",
+    "read-only verification that the target row is STILL valid after the temp was destroyed and freed",
+    "UDataTable::RemoveRow(ItemList, runtimeName)"
+  ],
+
+  "lifecycle_identity": {
+    "InitializeStruct": "UScriptStruct vtable slot 96 (disp 0x300), live RVA 0x3cb1d50, byte-verified live==disk before use",
+    "DestroyStruct": "UScriptStruct vtable slot 97 (disp 0x308), live RVA 0x1199d50, byte-verified live==disk before use",
+    "FMemory::Free": "RVA 0xfa0090, byte-verified live==disk before use",
+    "derivation": "see lifecycle-virtuals.json -- register provenance inside AddRow / RemoveRowInternal, corroborated by same-version editor vtable adjacency. NO guessed RVA; the two slot VAs were read out of the LIVE RowStruct vtable at run time, not hardcoded.",
+    "abi": "void __fastcall f(UScriptStruct* this /*RCX*/, void* Dest /*RDX*/, int32 ArrayDim /*R8D = 1*/) const"
+  },
+
+  "fail_closed_field_policy": {
+    "rule": "raw writes by reflected offset are NOT universally safe. A field was written only if it matched, exactly: (a) exactly one name whose prefix equals the expected field, (b) the expected FProperty class, (c) the expected offset, (d) the expected size. Any mismatch raises Blocked before the DLL is even built.",
+    "written": {
+      "Weight": {"property": "FDoubleProperty", "offset": 48, "size": 8, "value": 3.25},
+      "Width": {"property": "FIntProperty", "offset": 56, "size": 4, "value": 2},
+      "Height": {"property": "FIntProperty", "offset": 60, "size": 4, "value": 3},
+      "MaxStack": {"property": "FIntProperty", "offset": 68, "size": 4, "value": 7},
+      "FuelTime": {"property": "FDoubleProperty", "offset": 2048, "size": 8, "value": 77.5}
+    },
+    "deliberately_NOT_written": {
+      "AllowStacking": "FBoolProperty. A bool property may be a bitfield with a FieldMask/ByteOffset, and that mask was not verified. Writing a whole byte over a bitfield would corrupt neighbouring flags, so it was skipped -- fail closed.",
+      "FString / FText / TArray / nested structs / object and soft references": "left exactly in the state InitializeStruct produced. Never memcpy'd, never pointer-poked. The engine's own CopyScriptStruct inside AddRow then deep-copied them correctly."
+    }
+  },
+
+  "observed_results": {
+    "row_count": "496 -> 497 -> 496",
+    "target_row": "misery__runtime_materialized_probe",
+    "target_row_ptr": "0x25c571aa4c0",
+    "temp_ptr": "0x25bd46a64e0",
+    "target_ptr_differs_from_temp": true,
+    "temp_destroyed_and_freed": true,
+    "target_valid_after_temp_destroyed": true,
+    "values_read_back": {"Weight": 3.25, "Width": 2, "Height": 3, "MaxStack": 7, "FuelTime": 77.5},
+    "values_match": true,
+    "vanilla_unchanged": "all 496 vanilla rows sha256-identical over their full 2264 raw bytes, before / after add / after remove",
+    "vanilla_all_present": true,
+    "target_absent_after_remove": true,
+    "thread": "every mutation ran on the proven GameThread dispatcher (tid 15796); dispatcher state Running -> Stopped, wait_stopped_ok=1",
+    "cleanup": "probe DLL unloaded; verify_install MATCH before and after",
+    "key_interning": "the engine minted the FName -- reflected KismetStringLibrary::Conv_StringToName via ProcessEvent (FName 2273543)"
+  },
+
+  "why_this_is_stronger_than_the_CR-01C1_clone": "CR-01C1 seeded AddRow from an existing vanilla row, so a mod could only ever produce variations of shipped items. Route C constructs the row from InitializeStruct defaults, which means the non-populated fields are the struct's OWN defaults rather than some donor item's values, and there is no donor row at all.",
+
+  "ownership_invariant_reconfirmed": "The Runtime allocated exactly one buffer and freed exactly that same buffer. The engine allocated, constructed, copied into, destroyed and freed the ROW. The two allocations are distinct (target_ptr != temp_ptr), so neither side can double-free or dangle. No raw RowMap mutation, no pointer aliasing between DataTables.",
+
+  "scope_not_performed": ["Inventory.AddItem", "spawn", "equip/use", "crafting", "gameplay Blueprint execution", "any write to a vanilla row", "any write to the MISERY installation"]
+}
