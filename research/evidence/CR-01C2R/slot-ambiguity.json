@@ -1,0 +1,35 @@
+{
+  "record": "CR-01C2R -- InitializeStruct / DestroyStruct vtable slot derivation",
+  "verdict": "AMBIGUOUS -- STOPPED before any live write, per the fail-closed rule",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "read_only": true,
+  "nothing_performed": ["no allocation in the target", "no InitializeStruct call", "no AddRow", "no write of any kind"],
+
+  "what_is_settled_OBSERVED": {
+    "both_are_virtual": "UStruct declares virtual void InitializeStruct(void*, int32) const (Class.h:561) and virtual void DestroyStruct(void*, int32) const (Class.h:570); UScriptStruct overrides both (editor exports ?InitializeStruct@UScriptStruct@@UEBAXPEAXH@Z and ?DestroyStruct@UScriptStruct@@UEBAXPEAXH@Z).",
+    "CopyScriptStruct_is_not_virtual": "?CopyScriptStruct@UScriptStruct@@QEBAXPEAXPEBXH@Z is QEBA (non-virtual), so it cannot be reached through a vtable -- but it is not needed, because AddRow performs the copy itself.",
+    "editor_vtable_positions": "In the symbolized same-version UnrealEditor-CoreUObject.dll, UScriptStruct's vtable holds InitializeStruct at slot 132 and DestroyStruct at slot 133 -- ADJACENT, Initialize first."
+  },
+
+  "the_conflict": {
+    "shipping_indirect_calls_observed": {
+      "AddRow (RVA 0x3548190)": "in order: direct 0x3540fc0 (GetEmptyUsingStruct); call [rax+0x2c8] = slot 89; direct 0xfab790 (FMemory::Malloc, already proven); call [r10+0x300] = slot 96; direct 0x1198fc0; call [r9+0x2c0] = slot 88; direct 0x3543d50",
+      "RemoveRow (RVA 0x355e170)": "direct 0x3540fc0 (GetEmptyUsingStruct); call [rax+0x2c8] = slot 89; direct 0x3543d50"
+    },
+    "reading_1_by_call_order": "Source order in AddRow is Malloc -> InitializeStruct -> CopyScriptStruct. The first struct virtual AFTER the proven Malloc is slot 96, so slot 96 would be InitializeStruct.",
+    "reading_2_by_editor_adjacency": "The editor shows Initialize and Destroy ADJACENT (132/133). In Shipping the only adjacent observed pair is 88/89, which would make InitializeStruct 88 and DestroyStruct 89 -- and slot 96 something else entirely.",
+    "why_unresolved": "The two readings disagree, and the three indirect calls use DIFFERENT base registers (rax, r9, r10). Nothing observed proves all three dereference the same UScriptStruct vtable rather than, say, the table's vtable or another object's. Slot 89 does appear in BOTH AddRow and RemoveRow, which is consistent with DestroyStruct on the shared RemoveRowInternal path, but that alone does not fix InitializeStruct."
+  },
+
+  "why_this_matters": "Calling a wrong vtable slot with a raw 2264-byte buffer would invoke an arbitrary virtual on live game memory. That is a crash or corruption class failure, not a clean error. The standing rule is that ambiguity in function identity or ABI means STOP before the live write, so no call was made.",
+
+  "safer_variant_that_avoids_the_question_entirely": {
+    "idea": "Never call InitializeStruct or DestroyStruct ourselves. Let AddRow construct the row (it already does Malloc + InitializeStruct + CopyScriptStruct internally, all proven in CR-01C1), then populate ONLY verified trivially-assignable scalar fields in the row we now own, and let RemoveRow destroy it.",
+    "sequence": "AddRow(ItemList, runtimeRowName, <valid source row>) -> read back our row pointer -> write only verified POD scalars at reflected offsets -> read-only verify -> RemoveRow",
+    "advantages": ["zero new function derivations", "no temp buffer and no manual struct construction or destruction", "engine keeps full ownership of row memory exactly as proven in CR-01C1", "writes confined to scalar fields of a row we added ourselves, never to vanilla rows"],
+    "deviation_from_spec": "There is no separately allocated temporary source that is destroyed independently, so the 'temp source destroyed while target stays valid' check cannot be demonstrated in this form. Non-populated fields also inherit the source row's values rather than InitializeStruct defaults, so the source choice matters and must be documented.",
+    "still_needs_a_decision": "Which source row seeds the clone, given that CR-01C2 established a mod-owned S_ItemDetails source is not obtainable under D-10."
+  },
+
+  "route_to_resolve_the_ambiguity_properly": "Determine which register holds the UScriptStruct at each call site by tracing register provenance through AddRow, or by comparing the live vtables of a UUserDefinedStruct (S_ItemDetails) against a plain native UScriptStruct to see which slots are overridden. Both are read-only and would settle it, but neither was attempted yet because the safer variant above may make the whole question unnecessary."
+}
