@@ -1,0 +1,1708 @@
+{
+  "BP_CraftingComponent_C": {
+    "address_hex": "0x25b3f34b680",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "UberGraphFrame",
+        "offset": 704,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "PointerToUberGraphFrame",
+        "type": "struct PointerToUberGraphFrame"
+      },
+      {
+        "class_name": null,
+        "name": "NumberOfFuelSlots",
+        "offset": 712,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AutoSwitchOn",
+        "offset": 716,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RequireFuel",
+        "offset": 717,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "FuelItems",
+        "offset": 720,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct DataTableRowHandle>"
+      },
+      {
+        "class_name": null,
+        "name": "FuelTimer",
+        "offset": 736,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "ConvertTimer",
+        "offset": 744,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "DummySlots",
+        "offset": 752,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "SwitchedOn",
+        "offset": 756,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ReturnFuelItem",
+        "offset": 760,
+        "property_class": "FStructProperty",
+        "size": 48,
+        "struct_name": "S_InvItem",
+        "type": "struct S_InvItem"
+      },
+      {
+        "class_name": null,
+        "name": "AllowTurnOn",
+        "offset": 808,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      }
+    ],
+    "kind": "BlueprintGeneratedClass",
+    "object_path": "/Game/SurvivalGameKitV2/Components/BP_CraftingComponent.BP_CraftingComponent_C"
+  },
+  "BP_PlayerInventory_C": {
+    "address_hex": "0x25b36c4d600",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "UberGraphFrame",
+        "offset": 2184,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "PointerToUberGraphFrame",
+        "type": "struct PointerToUberGraphFrame"
+      },
+      {
+        "class_name": "CameraComponent",
+        "name": "CurrentCamera",
+        "offset": 2192,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(CameraComponent)"
+      },
+      {
+        "class_name": null,
+        "name": "ClientInteractHitResult",
+        "offset": 2200,
+        "property_class": "FStructProperty",
+        "size": 248,
+        "struct_name": "HitResult",
+        "type": "struct HitResult"
+      },
+      {
+        "class_name": "BP_MasterInventory_C",
+        "name": "ExtCookingComponent",
+        "offset": 2448,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterInventory_C)"
+      },
+      {
+        "class_name": "BP_WeaponInventory_C",
+        "name": "NewAttachmentWeaponInventory",
+        "offset": 2456,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_WeaponInventory_C)"
+      },
+      {
+        "class_name": "BP_MasterInventory_C",
+        "name": "ExtCraftingComponent",
+        "offset": 2464,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterInventory_C)"
+      },
+      {
+        "class_name": "BP_CharacterComponent_C",
+        "name": "CharacterComponent",
+        "offset": 2472,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_CharacterComponent_C)"
+      },
+      {
+        "class_name": "BP_PlayerBuildingComponent_C",
+        "name": "PlayerBuildingComponent",
+        "offset": 2480,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_PlayerBuildingComponent_C)"
+      },
+      {
+        "class_name": null,
+        "name": "DisableCharMovement",
+        "offset": 2488,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "BP_MasterInventory_C",
+        "name": "VenderComponent",
+        "offset": 2496,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterInventory_C)"
+      },
+      {
+        "class_name": "BP_MasterInventory_C",
+        "name": "ExtInventoryComponent",
+        "offset": 2504,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterInventory_C)"
+      },
+      {
+        "class_name": null,
+        "name": "InventoryOpen",
+        "offset": 2512,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "Actor",
+        "name": "InteractedActor",
+        "offset": 2520,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Actor)"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentHealth",
+        "offset": 2528,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentHunger",
+        "offset": 2536,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentThirst",
+        "offset": 2544,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentRadiation",
+        "offset": 2552,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentStamina",
+        "offset": 2560,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentInsanity",
+        "offset": 2568,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentCharacterState",
+        "offset": 2576,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "IsMoving",
+        "offset": 2577,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "SprintKeyDown",
+        "offset": 2578,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseStaminaTimer",
+        "offset": 2584,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "RechargeStaminaTimer",
+        "offset": 2592,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "BlockInput",
+        "offset": 2600,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StarvationTimer",
+        "offset": 2608,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "DehydrationTimer",
+        "offset": 2616,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": "BP_MasterHoldable_C",
+        "name": "NewHoldingItem",
+        "offset": 2624,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterHoldable_C)"
+      },
+      {
+        "class_name": "Character",
+        "name": "SGKCharacter",
+        "offset": 2632,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Character)"
+      },
+      {
+        "class_name": null,
+        "name": "HoldingInvSlot",
+        "offset": 2640,
+        "property_class": "FStructProperty",
+        "size": 80,
+        "struct_name": "S_InvSlot",
+        "type": "struct S_InvSlot"
+      },
+      {
+        "class_name": null,
+        "name": "NewHoldingInvSlot",
+        "offset": 2720,
+        "property_class": "FStructProperty",
+        "size": 80,
+        "struct_name": "S_InvSlot",
+        "type": "struct S_InvSlot"
+      },
+      {
+        "class_name": null,
+        "name": "NewHoldingWeaponSlot",
+        "offset": 2800,
+        "property_class": "FStructProperty",
+        "size": 80,
+        "struct_name": "S_WeaponSlot",
+        "type": "struct S_WeaponSlot"
+      },
+      {
+        "class_name": null,
+        "name": "CurrentHoldingType",
+        "offset": 2880,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "NewHoldingType",
+        "offset": 2881,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "InAttack",
+        "offset": 2882,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "IsSplitKeyDown",
+        "offset": 2883,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "HoldingWeaponSlot",
+        "offset": 2888,
+        "property_class": "FStructProperty",
+        "size": 80,
+        "struct_name": "S_WeaponSlot",
+        "type": "struct S_WeaponSlot"
+      },
+      {
+        "class_name": null,
+        "name": "Equipping",
+        "offset": 2968,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RemoveAttachmentSlot",
+        "offset": 2976,
+        "property_class": "FStructProperty",
+        "size": 72,
+        "struct_name": "S_AttachmentSlot",
+        "type": "struct S_AttachmentSlot"
+      },
+      {
+        "class_name": null,
+        "name": "DropRemoveAttachent",
+        "offset": 3048,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RemoveSlotTarget",
+        "offset": 3056,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "S_InvSlotID",
+        "type": "struct S_InvSlotID"
+      },
+      {
+        "class_name": null,
+        "name": "RotatedAttachTarget",
+        "offset": 3072,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "NewAttachmentID",
+        "offset": 3080,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "S_InvSlotID",
+        "type": "struct S_InvSlotID"
+      },
+      {
+        "class_name": "BP_MasterAttachment_C",
+        "name": "NewAttachment",
+        "offset": 3096,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterAttachment_C)"
+      },
+      {
+        "class_name": "Controller",
+        "name": "DeathController",
+        "offset": 3104,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Controller)"
+      },
+      {
+        "class_name": null,
+        "name": "SwapAttachment",
+        "offset": 3112,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AttachingItem",
+        "offset": 3120,
+        "property_class": "FStructProperty",
+        "size": 48,
+        "struct_name": "S_InvItem",
+        "type": "struct S_InvItem"
+      },
+      {
+        "class_name": "Character",
+        "name": "RespawnedCharacter",
+        "offset": 3168,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Character)"
+      },
+      {
+        "class_name": null,
+        "name": "DeadBodyTimer",
+        "offset": 3176,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "playerName",
+        "offset": 3184,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": "Character",
+        "name": "DeadCharacter",
+        "offset": 3200,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Character)"
+      },
+      {
+        "class_name": null,
+        "name": "CraftingRecipes",
+        "offset": 3208,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct DataTableRowHandle>"
+      },
+      {
+        "class_name": null,
+        "name": "Respawned",
+        "offset": 3224,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "Class",
+        "name": "DeadCharacterClass",
+        "offset": 3232,
+        "property_class": "FClassProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FClassProperty(Class)"
+      },
+      {
+        "class_name": null,
+        "name": "SprintCheckTimer",
+        "offset": 3240,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "ServerHitResult",
+        "offset": 3248,
+        "property_class": "FStructProperty",
+        "size": 248,
+        "struct_name": "HitResult",
+        "type": "struct HitResult"
+      },
+      {
+        "class_name": null,
+        "name": "BuildMode",
+        "offset": 3496,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Bleeding",
+        "offset": 3497,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UIOpen",
+        "offset": 3498,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Tick Damage",
+        "offset": 3500,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "QuickMoveKeyDown",
+        "offset": 3504,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "BleedDamageTimer",
+        "offset": 3512,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": "BP_DeathScreen_C",
+        "name": "RespawnHUD",
+        "offset": 3520,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_DeathScreen_C)"
+      },
+      {
+        "class_name": null,
+        "name": "RespawnPointName",
+        "offset": 3528,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CameraLean",
+        "offset": 3544,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CharacterLean",
+        "offset": 3552,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": "BP_InventoryHUD_C",
+        "name": "PlayerHUD",
+        "offset": 3560,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_InventoryHUD_C)"
+      },
+      {
+        "class_name": "SpringArmComponent",
+        "name": "CurrentSpringArm",
+        "offset": 3568,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(SpringArmComponent)"
+      },
+      {
+        "class_name": null,
+        "name": "InteractionDistance",
+        "offset": 3576,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "InteractionTraceChannel",
+        "offset": 3584,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "QuickSlots",
+        "offset": 3588,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxQuickSlots",
+        "offset": 3592,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxHealth",
+        "offset": 3596,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingHealth",
+        "offset": 3600,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxStamina",
+        "offset": 3608,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingStamina",
+        "offset": 3616,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StaminaReduction",
+        "offset": 3624,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FDoubleProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "StaminaReductionTime",
+        "offset": 3704,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FDoubleProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "StaminaRecharge",
+        "offset": 3784,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FDoubleProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "StaminaMovementStates",
+        "offset": 3864,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FBoolProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "UseThirst",
+        "offset": 3944,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ThirstReduction",
+        "offset": 3952,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_StatReduction>"
+      },
+      {
+        "class_name": null,
+        "name": "MaxThirst",
+        "offset": 3968,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingThirst",
+        "offset": 3976,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ThirstReductionTime",
+        "offset": 3984,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DehydrationDamage",
+        "offset": 3992,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DehydrationDamageTime",
+        "offset": 4000,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseHunger",
+        "offset": 4008,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "HungerReduction",
+        "offset": 4016,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_StatReduction>"
+      },
+      {
+        "class_name": null,
+        "name": "MaxHunger",
+        "offset": 4032,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingHunger",
+        "offset": 4040,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StarvationDamageTime",
+        "offset": 4048,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StarvationDamage",
+        "offset": 4056,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "HungerReductionTime",
+        "offset": 4064,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MovementSpeeds",
+        "offset": 4072,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FDoubleProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "RotateMoveWidget",
+        "offset": 4152,
+        "property_class": "FMulticastInlineDelegateProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FMulticastInlineDelegateProperty"
+      },
+      {
+        "class_name": null,
+        "name": "InventoryToggled",
+        "offset": 4168,
+        "property_class": "FMulticastInlineDelegateProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FMulticastInlineDelegateProperty"
+      },
+      {
+        "class_name": null,
+        "name": "InventorySlotSize",
+        "offset": 4184,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "Vector2D",
+        "type": "struct Vector2D"
+      },
+      {
+        "class_name": null,
+        "name": "AllowDroppingHeldItem",
+        "offset": 4200,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseNotificationSounds",
+        "offset": 4201,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "SoundBase",
+        "name": "WarningNotifySound",
+        "offset": 4208,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(SoundBase)"
+      },
+      {
+        "class_name": null,
+        "name": "ClearInventoryOnDeath",
+        "offset": 4216,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "SoundBase",
+        "name": "DeathSound",
+        "offset": 4224,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(SoundBase)"
+      },
+      {
+        "class_name": null,
+        "name": "ClearLearnRecipesOnDeath",
+        "offset": 4232,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DeletePlayerSaveOnDeath",
+        "offset": 4233,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DeadBodyDespawnTime",
+        "offset": 4240,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "InteractionTraceDebug",
+        "offset": 4248,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": "SoundBase",
+        "name": "TakeDamageSound",
+        "offset": 4256,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(SoundBase)"
+      },
+      {
+        "class_name": null,
+        "name": "UseHealthRegeneration",
+        "offset": 4264,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "HealthRegenerationTickAmount",
+        "offset": 4268,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MinHealthRegenerationHunger",
+        "offset": 4272,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MinHealthRegenerationThirst",
+        "offset": 4280,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RegenerationTickTime",
+        "offset": 4288,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseFallDamage",
+        "offset": 4296,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "FallDamage",
+        "offset": 4304,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartFallDamageTime",
+        "offset": 4312,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "FallDamageIncreeseTime",
+        "offset": 4320,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "FallDamageVelocity",
+        "offset": 4328,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ResourceHarvestAmount",
+        "offset": 4336,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseLearnableRecipes",
+        "offset": 4340,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingCraftingRecipes",
+        "offset": 4344,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct DataTableRowHandle>"
+      },
+      {
+        "class_name": null,
+        "name": "DefaultStance",
+        "offset": 4360,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AllowStanceChange",
+        "offset": 4361,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AllowLeaningInCombatStance",
+        "offset": 4362,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AllowLeaningInStandardStance",
+        "offset": 4363,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ThirdPersonCameraOffset",
+        "offset": 4368,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RepairActorRange",
+        "offset": 4376,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StaminaRechargeTime",
+        "offset": 4384,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,FDoubleProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "AllowInteractionWhileInAction",
+        "offset": 4464,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "QuickEquipItems",
+        "offset": 4465,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DebugInteractionTrace",
+        "offset": 4466,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "Actor",
+        "name": "IgnoreInteractActor",
+        "offset": 4472,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Actor)"
+      },
+      {
+        "class_name": null,
+        "name": "LastCharacterRotation",
+        "offset": 4480,
+        "property_class": "FStructProperty",
+        "size": 24,
+        "struct_name": "Rotator",
+        "type": "struct Rotator"
+      },
+      {
+        "class_name": null,
+        "name": "LastCharacterLocation",
+        "offset": 4504,
+        "property_class": "FStructProperty",
+        "size": 24,
+        "struct_name": "Vector",
+        "type": "struct Vector"
+      },
+      {
+        "class_name": null,
+        "name": "UseLearnableExternalRecipes",
+        "offset": 4528,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "SoundBase",
+        "name": "CloseInventorySound",
+        "offset": 4536,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(SoundBase)"
+      },
+      {
+        "class_name": "SoundBase",
+        "name": "OpenInventorySound",
+        "offset": 4544,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(SoundBase)"
+      },
+      {
+        "class_name": null,
+        "name": "SaveFound",
+        "offset": 4552,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "PlayerCraftingType",
+        "offset": 4553,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "PlayerInventoryDetails",
+        "offset": 4560,
+        "property_class": "FStructProperty",
+        "size": 104,
+        "struct_name": "S_ContainerDetails",
+        "type": "struct S_ContainerDetails"
+      },
+      {
+        "class_name": null,
+        "name": "LoadHighestAmmoMagazine",
+        "offset": 4664,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DeMuffleSound",
+        "offset": 4672,
+        "property_class": "FMulticastInlineDelegateProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FMulticastInlineDelegateProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RadiationDamageTime",
+        "offset": 4688,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RadiationDamage",
+        "offset": 4696,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RadiationReductionTime",
+        "offset": 4704,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingRadiation",
+        "offset": 4712,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxRadiation",
+        "offset": 4720,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RadiationReduction",
+        "offset": 4728,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "PlayerStartStatsArray",
+        "offset": 4736,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<FNameProperty>"
+      },
+      {
+        "class_name": null,
+        "name": "PlayerStartStatsArray",
+        "offset": 4752,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<FNameProperty>"
+      },
+      {
+        "class_name": "AudioComponent",
+        "name": "GeigerSound_Cue",
+        "offset": 4768,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(AudioComponent)"
+      },
+      {
+        "class_name": null,
+        "name": "DeathInventory",
+        "offset": 4776,
+        "property_class": "FMulticastInlineDelegateProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FMulticastInlineDelegateProperty"
+      },
+      {
+        "class_name": "Actor",
+        "name": "AttackedActor",
+        "offset": 4792,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Actor)"
+      },
+      {
+        "class_name": null,
+        "name": "InteractStart",
+        "offset": 4800,
+        "property_class": "FStructProperty",
+        "size": 24,
+        "struct_name": "Vector",
+        "type": "struct Vector"
+      },
+      {
+        "class_name": null,
+        "name": "InteractEnd",
+        "offset": 4824,
+        "property_class": "FStructProperty",
+        "size": 24,
+        "struct_name": "Vector",
+        "type": "struct Vector"
+      },
+      {
+        "class_name": null,
+        "name": "MinStaminaRegenerationThirst",
+        "offset": 4848,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MinStamiaRegenerationHunger",
+        "offset": 4856,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StartingInsanity",
+        "offset": 4864,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxInsanity",
+        "offset": 4872,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "QuickDropKeyDown",
+        "offset": 4880,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "BP_AreYouSureMenu_C",
+        "name": "ConfirmationMenu",
+        "offset": 4888,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_AreYouSureMenu_C)"
+      },
+      {
+        "class_name": "Actor",
+        "name": "PickupActor",
+        "offset": 4896,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Actor)"
+      },
+      {
+        "class_name": null,
+        "name": "CheckPickupActorTimerHandle",
+        "offset": 4904,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "RandomRespawn",
+        "offset": 4912,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Permadeath",
+        "offset": 4913,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RespawnOnEmission",
+        "offset": 4914,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "TempStatsAmount",
+        "offset": 4916,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "LastHungerSoundTime",
+        "offset": 4920,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "SoundInterval",
+        "offset": 4928,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "LastThirstSoundTime",
+        "offset": 4936,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "CheckCodeLockReachableTimerHandle",
+        "offset": 4944,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "Collision Between Players",
+        "offset": 4952,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "BlockEnableTimerHandler",
+        "offset": 4960,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "BlockAlfa",
+        "offset": 4968,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "BlockDisableTimerHandler",
+        "offset": 4976,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "TimerHandle",
+        "type": "struct TimerHandle"
+      },
+      {
+        "class_name": null,
+        "name": "StaminaBlockMultiplier",
+        "offset": 4984,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "IsIntertactEnabled",
+        "offset": 4992,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      }
+    ],
+    "kind": "BlueprintGeneratedClass",
+    "object_path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C"
+  }
+}

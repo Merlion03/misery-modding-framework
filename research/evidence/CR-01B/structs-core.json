@@ -1,0 +1,203 @@
+{
+  "S_CraftingQueue": {
+    "address_hex": "0x25b1116fee0",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "Recipe_12_26D30F3E4E2DEAB1BFA3438107097946",
+        "offset": 0,
+        "property_class": "FNameProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FNameProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Amount_5_54B01B1348A36D7FD798C0B15BED6E0A",
+        "offset": 8,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Index_8_B514FA2C445EDCE549169A87BFB07212",
+        "offset": 12,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Time_11_9993BFEA402CAC099D6A0699AF2D4479",
+        "offset": 16,
+        "property_class": "FFloatProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FFloatProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_CraftingQueue.S_CraftingQueue"
+  },
+  "S_InvItem": {
+    "address_hex": "0x25b333b9f40",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "ID_2_84C2CB8945979246059C568DCD463423",
+        "offset": 0,
+        "property_class": "FNameProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FNameProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Amount_5_62DB2267439500D86A52E0B2266494D2",
+        "offset": 8,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": "BP_MasterInventory_C",
+        "name": "MasterInventory_8_17FFB7D341FAF2689C1BABA12E3BA9F5",
+        "offset": 16,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterInventory_C)"
+      },
+      {
+        "class_name": null,
+        "name": "QuickBindIndex_16_7A1D8FC742EA4742106A33A874F67F34",
+        "offset": 24,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Rotated_18_66B00C8648A7E3BEB56C4282929D015D",
+        "offset": 28,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "UseAmount_21_73BF7A6447A384E099761EA48F7DB753",
+        "offset": 32,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "InUse_23_430FC3BE41900570FBD4AA881817E89F",
+        "offset": 36,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Durability_30_E9AF67CA4E71F502EF4B18A440FA0385",
+        "offset": 40,
+        "property_class": "FFloatProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FFloatProperty"
+      },
+      {
+        "class_name": null,
+        "name": "DecayTime_33_E35E189B4E5F129EEECA28AE05E99A93",
+        "offset": 44,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvItem.S_InvItem"
+  },
+  "S_InvSlot": {
+    "address_hex": "0x25b333b9d00",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "Occupied_7_0F396F8C4E8A3B8E24C3BF9D4E366AAC",
+        "offset": 0,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": "BP_MasterInventory_C",
+        "name": "Inventory_13_75D853E34C33E03489A41A94465989CA",
+        "offset": 8,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(BP_MasterInventory_C)"
+      },
+      {
+        "class_name": null,
+        "name": "RootIndex_4_31C49987405FF01267287D9E3381FC5E",
+        "offset": 16,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "SelfIndex_2_277281E743D41F5A7B4963B58ABB6819",
+        "offset": 20,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Item_10_95D912F14C7740665FD844AF7EA87327",
+        "offset": 24,
+        "property_class": "FStructProperty",
+        "size": 48,
+        "struct_name": "S_InvItem",
+        "type": "struct S_InvItem"
+      },
+      {
+        "class_name": null,
+        "name": "Clump_20_922CE17A46021E681A570DA71995DFBE",
+        "offset": 72,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Blocked_22_0B9BF07643B17CAA9644048ED6E763D9",
+        "offset": 76,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_InvSlot.S_InvSlot"
+  }
+}

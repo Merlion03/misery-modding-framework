@@ -1,0 +1,52 @@
+{
+  "S_CraftingCost": {
+    "address_hex": "0x25b7d730880",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "Item_2_75DA1F3645FDA366094190A853658F2B",
+        "offset": 0,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "DataTableRowHandle",
+        "type": "struct DataTableRowHandle"
+      },
+      {
+        "class_name": null,
+        "name": "Amount_5_9BB6E2444CD3AA340121BA986DA11205",
+        "offset": 16,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_CraftingCost.S_CraftingCost"
+  },
+  "S_RecipeDetails": {
+    "address_hex": "0x25b41390e20",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "LearnedRecipes_4_1331C3D54B72FBD4DF23078F46F693B5",
+        "offset": 0,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct DataTableRowHandle>"
+      },
+      {
+        "class_name": null,
+        "name": "DestroyItemWhenLearnt_6_691566574CFE133DD707E5A0169D1780",
+        "offset": 16,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_RecipeDetails.S_RecipeDetails"
+  }
+}

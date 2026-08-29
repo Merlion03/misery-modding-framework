@@ -1,0 +1,419 @@
+{
+  "BP_GlobalInventoryManager_C": {
+    "address_hex": "0x25b45505480",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "UberGraphFrame",
+        "offset": 656,
+        "property_class": "FStructProperty",
+        "size": 8,
+        "struct_name": "PointerToUberGraphFrame",
+        "type": "struct PointerToUberGraphFrame"
+      },
+      {
+        "class_name": "SceneComponent",
+        "name": "DefaultSceneRoot",
+        "offset": 664,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(SceneComponent)"
+      },
+      {
+        "class_name": null,
+        "name": "ContainerInventories",
+        "offset": 672,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<BP_MasterInventory_C>"
+      }
+    ],
+    "kind": "BlueprintGeneratedClass",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/BP_GlobalInventoryManager.BP_GlobalInventoryManager_C"
+  },
+  "S_CraftingRecipe": {
+    "address_hex": "0x25b7d737ea0",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "RecipeName_20_C66C5D3646F1470291D4CA8A5CBE8FC0",
+        "offset": 0,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RecipeDescription_30_DBD66BB34360497AA619659F9979733D",
+        "offset": 16,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ItemCost_21_27A61614462A4CE9010DEEBFACCDD122",
+        "offset": 32,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_CraftingCost>"
+      },
+      {
+        "class_name": null,
+        "name": "CraftedItems_22_E469062542D1554151AC9391C992A01E",
+        "offset": 48,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_CraftingCost>"
+      },
+      {
+        "class_name": null,
+        "name": "TimeSeconds_8_E99A53A849E6FCCEA89B0597F5CB2E8B",
+        "offset": 64,
+        "property_class": "FFloatProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FFloatProperty"
+      },
+      {
+        "class_name": null,
+        "name": "RecipeType_12_54E6CD6E4161429421EBAFB6E192E328",
+        "offset": 72,
+        "property_class": "FSetProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TSet<None>"
+      },
+      {
+        "class_name": null,
+        "name": "RecipeCategory_27_68163FBE43F2AAABB83ECFAD466E3BDE",
+        "offset": 152,
+        "property_class": "FSetProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TSet<None>"
+      },
+      {
+        "class_name": null,
+        "name": "RequiredActors_38_258EED594BF8A925C52BC0ABE396D080",
+        "offset": 232,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<Class>"
+      },
+      {
+        "class_name": "Texture2D",
+        "name": "RecipeIcon_26_B76A82F445123F7435003FB1B33EE666",
+        "offset": 248,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(Texture2D)"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_CraftingRecipe.S_CraftingRecipe"
+  },
+  "S_ItemDetails": {
+    "address_hex": "0x25b333ba180",
+    "fields": [
+      {
+        "class_name": null,
+        "name": "Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34",
+        "offset": 0,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ShortName_53_3FDED9954C8DBFC313F77D9D147163D6",
+        "offset": 16,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Description_27_39047AE74BB18D53DE9D998ABDC7090D",
+        "offset": 32,
+        "property_class": "FTextProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "FTextProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+        "offset": 48,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+        "offset": 56,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+        "offset": 60,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+        "offset": 64,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AllowQuickBind_65_ABE4ABEB4EC0B8EC89B4A9A18E208874",
+        "offset": 65,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "AllowDroppingItem_67_10BDCFBC4E21AD7EE24CE79692B3342C",
+        "offset": 66,
+        "property_class": "FBoolProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FBoolProperty"
+      },
+      {
+        "class_name": null,
+        "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+        "offset": 68,
+        "property_class": "FIntProperty",
+        "size": 4,
+        "struct_name": null,
+        "type": "FIntProperty"
+      },
+      {
+        "class_name": null,
+        "name": "InventoryActions_112_685EE89C49954FBB235025AD602B3208",
+        "offset": 72,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_InventoryAction>"
+      },
+      {
+        "class_name": null,
+        "name": "WorldActions_116_B4CAF39A421B065A46DEACBC5DBD40EE",
+        "offset": 88,
+        "property_class": "FArrayProperty",
+        "size": 16,
+        "struct_name": null,
+        "type": "TArray<struct S_WorldAction>"
+      },
+      {
+        "class_name": null,
+        "name": "QuickUseAction_74_8B10470848EA26CF6644E1BB82F4B516",
+        "offset": 104,
+        "property_class": "FByteProperty",
+        "size": 1,
+        "struct_name": null,
+        "type": "FByteProperty"
+      },
+      {
+        "class_name": null,
+        "name": "StaticMesh_123_DB8565E8487831578F6D18823B88B876",
+        "offset": 112,
+        "property_class": "FSoftObjectProperty",
+        "size": 40,
+        "struct_name": null,
+        "type": "FSoftObjectProperty(None)"
+      },
+      {
+        "class_name": null,
+        "name": "SkeletalMesh_124_983FF1EB4798AEEFCA843F981AEC9BF6",
+        "offset": 152,
+        "property_class": "FSoftObjectProperty",
+        "size": 40,
+        "struct_name": null,
+        "type": "FSoftObjectProperty(None)"
+      },
+      {
+        "class_name": "Class",
+        "name": "WorldClass_45_6718387F4F5D57BE9909639A237E57A3",
+        "offset": 192,
+        "property_class": "FClassProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FClassProperty(Class)"
+      },
+      {
+        "class_name": "AnimMontage",
+        "name": "PickupAnimation_119_0B5E9F0B4C814F6522050FB1A71E95A6",
+        "offset": 200,
+        "property_class": "FObjectProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FObjectProperty(AnimMontage)"
+      },
+      {
+        "class_name": null,
+        "name": "IconBackroundColor_50_40C7AE2A48A835A274DB4CB563DFA34C",
+        "offset": 208,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "LinearColor",
+        "type": "struct LinearColor"
+      },
+      {
+        "class_name": null,
+        "name": "UIDetails_63_DCA69CE34B9042F4D9EA6C862C26A705",
+        "offset": 224,
+        "property_class": "FStructProperty",
+        "size": 64,
+        "struct_name": "S_UIDetails",
+        "type": "struct S_UIDetails"
+      },
+      {
+        "class_name": null,
+        "name": "EquipmentDetails_56_1E20C13B455D79552E44429F0E68CA79",
+        "offset": 288,
+        "property_class": "FStructProperty",
+        "size": 384,
+        "struct_name": "S_EquipmentDetails",
+        "type": "struct S_EquipmentDetails"
+      },
+      {
+        "class_name": null,
+        "name": "ContainerDetails_59_DA2434FE4D9CB983040BE3B6CDDD8852",
+        "offset": 672,
+        "property_class": "FStructProperty",
+        "size": 104,
+        "struct_name": "S_ContainerDetails",
+        "type": "struct S_ContainerDetails"
+      },
+      {
+        "class_name": null,
+        "name": "HoldableDetails_71_199B05A6441AA3B385D577B58EE4A1DB",
+        "offset": 776,
+        "property_class": "FStructProperty",
+        "size": 336,
+        "struct_name": "S_HoldableDetails",
+        "type": "struct S_HoldableDetails"
+      },
+      {
+        "class_name": null,
+        "name": "ConsumableDetails_77_3E970B0D497E2A71D3B074A210E6F3F1",
+        "offset": 1112,
+        "property_class": "FStructProperty",
+        "size": 104,
+        "struct_name": "S_ConsumableDetails",
+        "type": "struct S_ConsumableDetails"
+      },
+      {
+        "class_name": null,
+        "name": "AttachmentDetails_80_218697824814D06EE30E6BA8584BAA18",
+        "offset": 1216,
+        "property_class": "FStructProperty",
+        "size": 672,
+        "struct_name": "S_AttachmentDetails",
+        "type": "struct S_AttachmentDetails"
+      },
+      {
+        "class_name": null,
+        "name": "AmmoDetails_83_41493C4144BBB33F238D1CA11921F0E9",
+        "offset": 1888,
+        "property_class": "FStructProperty",
+        "size": 40,
+        "struct_name": "S_AmmoDetails",
+        "type": "struct S_AmmoDetails"
+      },
+      {
+        "class_name": null,
+        "name": "DurabilityDetails_90_B75E4B1C4EDEECACC047149CE7D922F6",
+        "offset": 1928,
+        "property_class": "FStructProperty",
+        "size": 80,
+        "struct_name": "S_DurabilityDetails",
+        "type": "struct S_DurabilityDetails"
+      },
+      {
+        "class_name": null,
+        "name": "RecipeDetails_106_D99355E845F52FD673BFE9A15047FDFF",
+        "offset": 2008,
+        "property_class": "FStructProperty",
+        "size": 24,
+        "struct_name": "S_RecipeDetails",
+        "type": "struct S_RecipeDetails"
+      },
+      {
+        "class_name": null,
+        "name": "BuildPartDetails_111_17D3336D4A6E6601AF1D7495EDA5B60B",
+        "offset": 2032,
+        "property_class": "FStructProperty",
+        "size": 16,
+        "struct_name": "DataTableRowHandle",
+        "type": "struct DataTableRowHandle"
+      },
+      {
+        "class_name": null,
+        "name": "FuelTime_87_FA2864E1445BEDCA473E40A9E167C9B5",
+        "offset": 2048,
+        "property_class": "FDoubleProperty",
+        "size": 8,
+        "struct_name": null,
+        "type": "FDoubleProperty"
+      },
+      {
+        "class_name": null,
+        "name": "ItemOffsets_94_00D968744A67B380EF0ADAB62D803A4C",
+        "offset": 2064,
+        "property_class": "FStructProperty",
+        "size": 96,
+        "struct_name": "Transform",
+        "type": "struct Transform"
+      },
+      {
+        "class_name": null,
+        "name": "ItemSounds_103_4BD8E03A4D601B11AF665B946B56EEFA",
+        "offset": 2160,
+        "property_class": "FMapProperty",
+        "size": 80,
+        "struct_name": null,
+        "type": "TMap<FByteProperty,SoundBase>"
+      },
+      {
+        "class_name": null,
+        "name": "BurntFuelItem_122_493C2AD746BE583A20B6C3B181A28639",
+        "offset": 2240,
+        "property_class": "FStructProperty",
+        "size": 24,
+        "struct_name": "S_CraftingCost",
+        "type": "struct S_CraftingCost"
+      }
+    ],
+    "kind": "UserDefinedStruct",
+    "object_path": "/Game/SurvivalGameKitV2/Blueprints/Other/Structs/S_ItemDetails.S_ItemDetails"
+  }
+}

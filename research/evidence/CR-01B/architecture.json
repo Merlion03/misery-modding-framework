@@ -1,0 +1,63 @@
+{
+  "record": "CR-01B blind read-only reconstruction of MISERY item architecture",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "blind": "Reconstructed only from the current build: runtime reflection, live objects, the existing research corpus, and UE 5.4.4 source for engine semantics. No external, historical or third-party mod implementation was consulted.",
+  "read_only": true,
+  "framework": "MISERY is built on a licensed SurvivalGameKitV2 Blueprint framework (/Game/SurvivalGameKitV2/...).",
+  "identity": {
+    "canonical_reference_type": "FDataTableRowHandle = { UDataTable* DataTable; FName RowName; } (16 bytes)",
+    "evidence_OBSERVED": [
+      "BP_StaticMasterItem_C::Item      struct DataTableRowHandle @672",
+      "S_CraftingCost::Item             struct DataTableRowHandle @0",
+      "S_RecipeDetails::LearnedRecipes  TArray<DataTableRowHandle>",
+      "BP_MasterWeapon_C::DefaultAttachments TArray<DataTableRowHandle>",
+      "BP_CraftingComponent_C::FuelItems TArray<DataTableRowHandle>",
+      "BP_PlayerInventory_C::CraftingRecipes / StartingCraftingRecipes TArray<DataTableRowHandle>",
+      "S_ItemDetails::BuildPartDetails  struct DataTableRowHandle (cross-table reference into BuildPartList)"
+    ],
+    "inventory_identity_is_DIFFERENT": "S_InvItem::ID is a BARE FName (offset 0, 8 bytes) -- the row name only, with NO table pointer. OBSERVED.",
+    "consequence_DERIVED": "The canonical key is the row FName inside ItemList. Most systems carry (table,row) explicitly; the inventory drops the table and keeps the row name alone, so at inventory level row names must be unique across every table in play. That is the real collision surface."
+  },
+  "registries_OBSERVED": {
+    "method": "enumerated every live UDataTable in the running process and read RowStruct + RowMap row count with the proven read-only TMap reader",
+    "live_datatables": 13,
+    "item_definitions": "/Game/SurvivalGameKitV2/Blueprints/Items/ItemList.ItemList -- RowStruct S_ItemDetails, 496 rows",
+    "crafting": "/Game/SurvivalGameKitV2/Blueprints/Items/CraftingRecipesList -- RowStruct S_CraftingRecipe, 104 rows",
+    "cooking": "CookingList -- S_CookingRecipe, 15 rows",
+    "build_parts": "BuildPartList -- S_BuildPartDetails, 210 rows",
+    "spawners": "ItemSpawnerList -- S_SpawnerList, 251 rows",
+    "others": "DT_Artifacts(12), DT_PlayerStatDescr(24), DT_Weather(4), DeviceList(18), LOOK_Presets(150), DifficultyList(4), InventoryGridLayout(1)"
+  },
+  "definition_schema_OBSERVED": {
+    "S_ItemDetails": "2264 bytes. Name/ShortName/Description (FText), Weight, Width, Height, AllowStacking, MaxStack, InventoryActions[], WorldActions[], QuickUseAction, StaticMesh + SkeletalMesh (FSoftObjectProperty, 40B each -> SOFT content references), WorldClass (FClassProperty -> world representation), PickupAnimation, UIDetails, EquipmentDetails, ContainerDetails, HoldableDetails, ConsumableDetails, AttachmentDetails, AmmoDetails, DurabilityDetails, RecipeDetails, BuildPartDetails (DataTableRowHandle), FuelTime, ItemOffsets, ItemSounds, BurntFuelItem",
+    "note": "Content is referenced SOFTLY (meshes) and by hard class (WorldClass), so a definition row is the single place that binds identity to content."
+  },
+  "inventory_OBSERVED": {
+    "container": "BP_MasterInventory_C::Inventory = TArray<S_InvSlot> @336",
+    "S_InvSlot": "Occupied(bool), Inventory(BP_MasterInventory_C*), RootIndex(int), SelfIndex(int), Item(S_InvItem, 48B), Clump(int), Blocked(bool)",
+    "S_InvItem": "ID(FName)@0, Amount(int)@8, MasterInventory(ptr)@16, QuickBindIndex@24, Rotated@28, UseAmount@32, InUse@36, Durability(float)@40, DecayTime(int)@44",
+    "separation_DERIVED": "Inventory stores IDENTITY (FName) + MUTABLE PER-INSTANCE STATE (Amount, Durability, UseAmount, InUse, DecayTime, QuickBindIndex, Rotated). It does NOT copy the definition. Therefore the definition must be resolved from ItemList at use time."
+  },
+  "lookup_owner": {
+    "OBSERVED": "BP_MasterInventory_C carries 116 functions covering both inventory and crafting (AddItem, AttemptToAddItemAmount, ChangeItemCount, CloneItem, DecreaseItemDurability, CraftItem, CheckRecipeCost, CheckCraftingRequirements, FindCraftingListing, CreateNewCraftingListing, CancelCraftingRecipe, ...). BP_GlobalInventoryManager_C holds ONLY ContainerInventories (TArray<BP_MasterInventory_C>) and is therefore NOT an item registry.",
+    "OBSERVED_negative": "No UDataTable-typed object property and no TMap<FName,S_ItemDetails>-style cache was found on any class examined (BP_MasterInventory_C, BP_PlayerInventory_C, BP_CraftingComponent_C, BP_GlobalInventoryManager_C, BP_StaticMasterItem_C, BP_MasterItemSpawner_C, BP_MasterHoldable_C, BP_MasterWeapon_C, BP_MasterConsumable_C). No accessor named GetItemDetails exists on them either.",
+    "DERIVED": "Definitions are resolved by DataTable row lookup at use time, with the table reference carried either inside the FDataTableRowHandle value itself or compiled into the Blueprint graph as a constant.",
+    "HYPOTHESIS": "The bare-FName inventory path resolves against ItemList specifically, via a table reference baked into the BP bytecode.",
+    "UNKNOWN": "Exact lookup call sites and their timing (AddItem vs UI render vs use vs equip) were not traced, because that requires reading compiled BP bytecode, which was out of scope for this read-only pass."
+  },
+  "cache_model": {
+    "classification": "A -- DataTable queried at use time (no runtime item registry/cache observed)",
+    "evidence_basis": "DERIVED, not OBSERVED end-to-end: supported by (a) inventory storing no definition data, (b) absence of any cache structure or DataTable property on the examined owners, (c) FDataTableRowHandle carrying the table pointer inline so no separate registry is needed. Not proven by tracing an actual lookup call."
+  },
+  "world_and_holdable_OBSERVED": {
+    "world": "S_ItemDetails::WorldClass (FClassProperty) is the world representation; BP_StaticMasterItem_C is the world item actor and holds Item(DataTableRowHandle) + InvItem(S_InvItem) + Mesh(FSoftObjectProperty).",
+    "holdable": "S_ItemDetails::HoldableDetails (336B) plus the BP_MasterHoldable_C hierarchy (BP_MasterWeapon_C, BP_MasterConsumable_C).",
+    "spawning": "BP_MasterItemSpawner_C::ItemSpawnList = TArray<S_SpawnerList>, driven by ItemSpawnerList table."
+  },
+  "crafting_OBSERVED": {
+    "recipe_identity": "Recipes are addressed by FName in the inventory/crafting runtime state (BP_MasterInventory_C::CurrentCraftingRecipe / NewRecipe / NewCraftingRecipe are FName), and by FDataTableRowHandle where a recipe is referenced as data (S_RecipeDetails::LearnedRecipes, BP_PlayerInventory_C::CraftingRecipes).",
+    "ingredients_outputs": "S_CraftingRecipe::ItemCost and ::CraftedItems are TArray<S_CraftingCost>, and S_CraftingCost::Item is a DataTableRowHandle -- so crafting refers to items by the SAME canonical (table,row) identity.",
+    "same_identity_as_inventory": "PARTIALLY -- crafting uses the full (table,row) handle; inventory uses the row FName alone. They meet at the row name."
+  },
+  "multiplayer_UNKNOWN": "No replication analysis was performed in this pass. Item-related replication, inventory authority, world-pickup creation authority and client-side definition resolution are UNKNOWN -- requires a controlled multiplayer experiment under a separate gate."
+}
