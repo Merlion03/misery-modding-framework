@@ -1,0 +1,76 @@
+{
+  "pid": 20500,
+  "row": "mbpl__armprobe2",
+  "FStaticMaterial_size_reflected": 48,
+  "spawned_actors_carrying_row": 1,
+  "actor": {
+    "object": "0x2237ea2ee80",
+    "name": "BP_StaticMasterItem_C"
+  },
+  "static_mesh_components": 1,
+  "components": [
+    {
+      "component": "0x223d667d360",
+      "name": "StaticMesh",
+      "class": "StaticMeshComponent",
+      "StaticMesh": {
+        "object": "0x2234d73d580",
+        "name": "SM_ArmProbe2",
+        "path": "/Game/MBPLArmProbe2/SM_ArmProbe2.SM_ArmProbe2"
+      },
+      "OverrideMaterials_count": 0,
+      "OverrideMaterials": [],
+      "mesh_asset_slots": [
+        {
+          "slot": 0,
+          "MaterialSlotName": "M_Probe_REF",
+          "mesh_asset_material": null
+        },
+        {
+          "slot": 1,
+          "MaterialSlotName": "M_Probe_A",
+          "mesh_asset_material": null
+        },
+        {
+          "slot": 2,
+          "MaterialSlotName": "M_Probe_B",
+          "mesh_asset_material": null
+        },
+        {
+          "slot": 3,
+          "MaterialSlotName": "M_Probe_EM",
+          "mesh_asset_material": null
+        }
+      ],
+      "effective_per_slot": [
+        {
+          "slot": 0,
+          "effective_source": "mesh asset",
+          "effective_material": null
+        },
+        {
+          "slot": 1,
+          "effective_source": "mesh asset",
+          "effective_material": null
+        },
+        {
+          "slot": 2,
+          "effective_source": "mesh asset",
+          "effective_material": null
+        },
+        {
+          "slot": 3,
+          "effective_source": "mesh asset",
+          "effective_material": null
+        }
+      ]
+    }
+  ],
+  "M_BasicMaterial_objects_live": [
+    {
+      "object": "0x22318d24c00",
+      "class": "Material",
+      "path": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial"
+    }
+  ]
+}

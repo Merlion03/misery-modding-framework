@@ -1,0 +1,40 @@
+{
+  "question": "why did the intended saturated-red probe render as a grey checker?",
+  "verdict": "the material assignment never persisted into the mesh asset; the container then legitimately excluded the fallback materials, leaving null slots",
+  "live_evidence": {
+    "SM_ArmProbe2": "LOADED at /Game/MBPLArmProbe2/SM_ArmProbe2.SM_ArmProbe2",
+    "MI_P2_REF/A/B/EM": "NOT LOADED -- a hard reference from the mesh would have pulled them in with it, so the cooked mesh holds no reference to them",
+    "T2_* textures": "NOT LOADED, same reason",
+    "component OverrideMaterials": 0,
+    "mesh StaticMaterials[0..3].MaterialInterface": "null on every slot",
+    "slot names": [
+      "M_Probe_REF",
+      "M_Probe_A",
+      "M_Probe_B",
+      "M_Probe_EM"
+    ],
+    "M_BasicMaterial": "the real vanilla material IS live at /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "FStaticMaterial_size": "48, read from the reflected ScriptStruct rather than counted"
+  },
+  "offline_evidence": {
+    "editor SM_ArmProbe2.uasset": {
+      "MI_P2": 0,
+      "M_Probe": 12
+    },
+    "cooked SM_ArmProbe2.uasset": {
+      "MI_P2": 0,
+      "M_Probe": 8
+    },
+    "editor SM_MatProbe_Radio.uasset (probe 1)": {
+      "MI_ARM": 0,
+      "M_Radio_": 21
+    },
+    "editor SM_MBPL_Radio.uasset (production, verified at the time)": {
+      "WorldGridMaterial": 2
+    }
+  },
+  "why_probe1_is_also_invalid": "SM_MatProbe_Radio carries zero MI_ARM references, so probe 1 rendered fallback materials too. Its 'shimmer' was never the ARM test. Neither probe produced an observation about ARM or emissive.",
+  "what_is_still_untested": "whether a cooked MIC's Parent import resolves to the real vanilla M_BasicMaterial. The MICs never loaded, so that question has not been exercised even once.",
+  "root_cause": "arm_probe.py and arm_probe2.py read mesh.static_materials, mutated the elements in place and passed the SAME array object back to set_editor_property. That write did not take. fixup_mesh.py, which built a NEW list and then re-read the asset to confirm, did take -- SM_MBPL_Radio really does carry WorldGridMaterial. The difference between the two is the verification step I skipped: I reported the assignment I intended rather than the assignment that stuck, twice.",
+  "smallest_fix": "build a fresh list of unreal.StaticMaterial values, assign, save, then RELOAD the asset and assert every slot's material_interface path equals the intended MIC, failing loudly if not. No container or parent change is implicated: excluding the GLB-generated M_Probe_* materials was correct, and the real vanilla parent is present and live."
+}
