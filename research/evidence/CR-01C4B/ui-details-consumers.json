@@ -1,0 +1,1123 @@
+{
+  "S_SizeOverride_members": [
+    {
+      "class": "FBoolProperty",
+      "fproperty": 2646354145536,
+      "name": "OverrideImageSize",
+      "offset": 0,
+      "raw_name": "OverrideImageSize_1_3FD52DE84830BA228B5BA28A3FF92423",
+      "size": 1
+    },
+    {
+      "class": "FIntProperty",
+      "fproperty": 2646354145664,
+      "name": "SizeY",
+      "offset": 4,
+      "raw_name": "SizeY_8_01883A1A401C308E61EFF6A94D358B59",
+      "size": 4
+    },
+    {
+      "class": "FIntProperty",
+      "fproperty": 2646354145792,
+      "name": "SizeX",
+      "offset": 8,
+      "raw_name": "SizeX_9_E25C29884CA102EB62832386F25E268A",
+      "size": 4
+    }
+  ],
+  "S_UIDetails_members": [
+    {
+      "class": "FObjectProperty",
+      "fproperty": 2646354145920,
+      "name": "InventoryIcon",
+      "offset": 0,
+      "property_class_of": "Texture2D",
+      "raw_name": "InventoryIcon_2_C039CC7E488FA97F155FACB8819728B2",
+      "size": 8
+    },
+    {
+      "class": "FObjectProperty",
+      "fproperty": 2646354146176,
+      "name": "MoveIcon",
+      "offset": 8,
+      "property_class_of": "Texture2D",
+      "raw_name": "MoveIcon_4_C94DCDCB483133516E681CB0DC320AAD",
+      "size": 8
+    },
+    {
+      "class": "FStructProperty",
+      "fproperty": 2646354146048,
+      "name": "MoveIconSizeOverride",
+      "offset": 16,
+      "raw_name": "MoveIconSizeOverride_18_9F53D02742BD0DF632AF9BB28120B52B",
+      "size": 12,
+      "struct": "S_SizeOverride"
+    },
+    {
+      "class": "FObjectProperty",
+      "fproperty": 2646354115456,
+      "name": "QuickSlotIcon",
+      "offset": 32,
+      "property_class_of": "Texture2D",
+      "raw_name": "QuickSlotIcon_6_8F55469A4AFC1173708BB6B10A469E4B",
+      "size": 8
+    },
+    {
+      "class": "FObjectProperty",
+      "fproperty": 2646354113792,
+      "name": "VenderIcon",
+      "offset": 40,
+      "property_class_of": "Texture2D",
+      "raw_name": "VenderIcon_9_336F489E4954AEB6B14670A8EB50F67F",
+      "size": 8
+    },
+    {
+      "class": "FObjectProperty",
+      "fproperty": 2646354115200,
+      "name": "EquipmentSlotIcon",
+      "offset": 48,
+      "property_class_of": "Texture2D",
+      "raw_name": "EquipmentSlotIcon_14_B138564E45BE1CF1369E82A785AA536C",
+      "size": 8
+    },
+    {
+      "class": "FObjectProperty",
+      "fproperty": 2646354115712,
+      "name": "WeaponSlotIcon",
+      "offset": 56,
+      "property_class_of": "Texture2D",
+      "raw_name": "WeaponSlotIcon_15_B266BEA74595773FE417A1B73F9C274C",
+      "size": 8
+    }
+  ],
+  "consumers": {
+    "S_ItemDetails.Height": [
+      {
+        "address": "0x26827c61f20",
+        "at_bytecode_offset": 2222,
+        "function": "AttemptToAddItemToSlot",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 3530
+      },
+      {
+        "address": "0x26827c61f20",
+        "at_bytecode_offset": 2357,
+        "function": "AttemptToAddItemToSlot",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 3530
+      },
+      {
+        "address": "0x26827c644c0",
+        "at_bytecode_offset": 5956,
+        "function": "RemoveAttachment",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 10333
+      },
+      {
+        "address": "0x26827c644c0",
+        "at_bytecode_offset": 9131,
+        "function": "RemoveAttachment",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 10333
+      },
+      {
+        "address": "0x26827c61200",
+        "at_bytecode_offset": 3625,
+        "function": "UnequipWeapon",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 8635
+      },
+      {
+        "address": "0x2683e68cb80",
+        "at_bytecode_offset": 330,
+        "function": "UpdateNameText",
+        "owner": "BP_InventoryItemIcon_C",
+        "script_len": 834
+      },
+      {
+        "address": "0x2683e68cb80",
+        "at_bytecode_offset": 702,
+        "function": "UpdateNameText",
+        "owner": "BP_InventoryItemIcon_C",
+        "script_len": 834
+      },
+      {
+        "address": "0x26831f445a0",
+        "at_bytecode_offset": 841,
+        "function": "SpawnDestructionBag",
+        "owner": "BP_CookingComponent_C",
+        "script_len": 2372
+      },
+      {
+        "address": "0x26831f48e40",
+        "at_bytecode_offset": 1445,
+        "function": "AddStartingFuelItems",
+        "owner": "BP_CookingComponent_C",
+        "script_len": 1797
+      },
+      {
+        "address": "0x26829352d20",
+        "at_bytecode_offset": 69,
+        "function": "SGK ItemSize",
+        "owner": "BP_SGKFunctions_C",
+        "script_len": 125
+      }
+    ],
+    "S_ItemDetails.IconBackroundColor": [
+      {
+        "address": "0x2683e68fe40",
+        "at_bytecode_offset": 619,
+        "function": "UpdateCurrentItem",
+        "owner": "BP_InventoryItemIcon_C",
+        "script_len": 1171
+      },
+      {
+        "address": "0x268380f4ca0",
+        "at_bytecode_offset": 2438,
+        "function": "UpdateWeaponItem",
+        "owner": "BP_WeaponSlot_C",
+        "script_len": 3713
+      },
+      {
+        "address": "0x268380f3260",
+        "at_bytecode_offset": 454,
+        "function": "UpdateEquipmentItem",
+        "owner": "BP_EquipmentSlot_C",
+        "script_len": 1001
+      },
+      {
+        "address": "0x268380f9c40",
+        "at_bytecode_offset": 2583,
+        "function": "UpdateAttachmentItem",
+        "owner": "BP_AttachmentSlot_C",
+        "script_len": 2937
+      }
+    ],
+    "S_ItemDetails.ItemOffsets": [
+      {
+        "address": "0x2682bd4d7c0",
+        "at_bytecode_offset": 2075,
+        "function": "ItemOffsets",
+        "owner": "BP_StaticMasterItem_C",
+        "script_len": 2552
+      },
+      {
+        "address": "0x2682bd4d7c0",
+        "at_bytecode_offset": 2305,
+        "function": "ItemOffsets",
+        "owner": "BP_StaticMasterItem_C",
+        "script_len": 2552
+      },
+      {
+        "address": "0x2682bd4d7c0",
+        "at_bytecode_offset": 2390,
+        "function": "ItemOffsets",
+        "owner": "BP_StaticMasterItem_C",
+        "script_len": 2552
+      },
+      {
+        "address": "0x268280d30a0",
+        "at_bytecode_offset": 2385,
+        "function": "ItemOffsets",
+        "owner": "BP_SkeletalMasterItem_C",
+        "script_len": 2688
+      },
+      {
+        "address": "0x268280d30a0",
+        "at_bytecode_offset": 2441,
+        "function": "ItemOffsets",
+        "owner": "BP_SkeletalMasterItem_C",
+        "script_len": 2688
+      },
+      {
+        "address": "0x268280d30a0",
+        "at_bytecode_offset": 2526,
+        "function": "ItemOffsets",
+        "owner": "BP_SkeletalMasterItem_C",
+        "script_len": 2688
+      }
+    ],
+    "S_ItemDetails.UIDetails": [
+      {
+        "address": "0x2683e68a420",
+        "at_bytecode_offset": 811,
+        "function": "UpdateItemIcon",
+        "owner": "BP_QuickSlot_C",
+        "script_len": 2648
+      },
+      {
+        "address": "0x2683e68a420",
+        "at_bytecode_offset": 2026,
+        "function": "UpdateItemIcon",
+        "owner": "BP_QuickSlot_C",
+        "script_len": 2648
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 158,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 205,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 251,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 297,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 365,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 485,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 593,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 866,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 912,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 958,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1026,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1146,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1254,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e68ff20",
+        "at_bytecode_offset": 200,
+        "function": "UpdateIcon",
+        "owner": "BP_InventoryItemIcon_C",
+        "script_len": 1217
+      },
+      {
+        "address": "0x2683e68e320",
+        "at_bytecode_offset": 489,
+        "function": "EntryCost",
+        "owner": "BP_CraftingTooltipEntry_C",
+        "script_len": 509
+      },
+      {
+        "address": "0x268380f4ca0",
+        "at_bytecode_offset": 2300,
+        "function": "UpdateWeaponItem",
+        "owner": "BP_WeaponSlot_C",
+        "script_len": 3713
+      },
+      {
+        "address": "0x268380f3260",
+        "at_bytecode_offset": 237,
+        "function": "UpdateEquipmentItem",
+        "owner": "BP_EquipmentSlot_C",
+        "script_len": 1001
+      },
+      {
+        "address": "0x268380f6600",
+        "at_bytecode_offset": 379,
+        "function": "UpdateListingIcon",
+        "owner": "BP_CraftingQueueListing_C",
+        "script_len": 401
+      },
+      {
+        "address": "0x268380faf80",
+        "at_bytecode_offset": 2668,
+        "function": "InitializeVenderSellListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2969
+      },
+      {
+        "address": "0x268380faf80",
+        "at_bytecode_offset": 2780,
+        "function": "InitializeVenderSellListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2969
+      },
+      {
+        "address": "0x268380faf80",
+        "at_bytecode_offset": 2812,
+        "function": "InitializeVenderSellListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2969
+      },
+      {
+        "address": "0x268380faea0",
+        "at_bytecode_offset": 2657,
+        "function": "InitializeVenderBuyListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2886
+      },
+      {
+        "address": "0x268380faea0",
+        "at_bytecode_offset": 2769,
+        "function": "InitializeVenderBuyListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2886
+      },
+      {
+        "address": "0x268380faea0",
+        "at_bytecode_offset": 2801,
+        "function": "InitializeVenderBuyListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2886
+      },
+      {
+        "address": "0x268380fcb80",
+        "at_bytecode_offset": 379,
+        "function": "UpdateListingIcon",
+        "owner": "BP_CraftingListing_C",
+        "script_len": 401
+      },
+      {
+        "address": "0x26831f427e0",
+        "at_bytecode_offset": 425,
+        "function": "UpdateCookingItem",
+        "owner": "BP_CookingSlot_C",
+        "script_len": 685
+      },
+      {
+        "address": "0x268293512e0",
+        "at_bytecode_offset": 122,
+        "function": "SGK ItemUIDetails",
+        "owner": "BP_SGKFunctions_C",
+        "script_len": 269
+      }
+    ],
+    "S_ItemDetails.Width": [
+      {
+        "address": "0x26827c61f20",
+        "at_bytecode_offset": 2240,
+        "function": "AttemptToAddItemToSlot",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 3530
+      },
+      {
+        "address": "0x26827c61f20",
+        "at_bytecode_offset": 2375,
+        "function": "AttemptToAddItemToSlot",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 3530
+      },
+      {
+        "address": "0x26827c644c0",
+        "at_bytecode_offset": 5974,
+        "function": "RemoveAttachment",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 10333
+      },
+      {
+        "address": "0x26827c644c0",
+        "at_bytecode_offset": 9149,
+        "function": "RemoveAttachment",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 10333
+      },
+      {
+        "address": "0x26827c61200",
+        "at_bytecode_offset": 3643,
+        "function": "UnequipWeapon",
+        "owner": "BP_PlayerInventory_C",
+        "script_len": 8635
+      },
+      {
+        "address": "0x2683e68cb80",
+        "at_bytecode_offset": 235,
+        "function": "UpdateNameText",
+        "owner": "BP_InventoryItemIcon_C",
+        "script_len": 834
+      },
+      {
+        "address": "0x268380f89e0",
+        "at_bytecode_offset": 398,
+        "function": "GetItemName",
+        "owner": "BP_EquipmentSlot_C",
+        "script_len": 680
+      },
+      {
+        "address": "0x26831f44d80",
+        "at_bytecode_offset": 582,
+        "function": "GetItemName",
+        "owner": "BP_CookingSlot_C",
+        "script_len": 864
+      },
+      {
+        "address": "0x26831f445a0",
+        "at_bytecode_offset": 823,
+        "function": "SpawnDestructionBag",
+        "owner": "BP_CookingComponent_C",
+        "script_len": 2372
+      },
+      {
+        "address": "0x26831f48e40",
+        "at_bytecode_offset": 1463,
+        "function": "AddStartingFuelItems",
+        "owner": "BP_CookingComponent_C",
+        "script_len": 1797
+      },
+      {
+        "address": "0x26829352d20",
+        "at_bytecode_offset": 105,
+        "function": "SGK ItemSize",
+        "owner": "BP_SGKFunctions_C",
+        "script_len": 125
+      }
+    ],
+    "S_SizeOverride.OverrideImageSize": [
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 187,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 233,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 848,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 894,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      }
+    ],
+    "S_SizeOverride.SizeX": [
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 575,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1236,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      }
+    ],
+    "S_SizeOverride.SizeY": [
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 467,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1128,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      }
+    ],
+    "S_UIDetails.EquipmentSlotIcon": [
+      {
+        "address": "0x268380f3260",
+        "at_bytecode_offset": 228,
+        "function": "UpdateEquipmentItem",
+        "owner": "BP_EquipmentSlot_C",
+        "script_len": 1001
+      }
+    ],
+    "S_UIDetails.InventoryIcon": [
+      {
+        "address": "0x2683e68ff20",
+        "at_bytecode_offset": 191,
+        "function": "UpdateIcon",
+        "owner": "BP_InventoryItemIcon_C",
+        "script_len": 1217
+      },
+      {
+        "address": "0x268380faea0",
+        "at_bytecode_offset": 2792,
+        "function": "InitializeVenderBuyListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2886
+      }
+    ],
+    "S_UIDetails.MoveIcon": [
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 149,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 288,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 356,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 949,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1017,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      }
+    ],
+    "S_UIDetails.MoveIconSizeOverride": [
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 196,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 242,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 476,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 584,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 857,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 903,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1137,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      },
+      {
+        "address": "0x2683e689a80",
+        "at_bytecode_offset": 1245,
+        "function": "SetMoveIcon",
+        "owner": "BP_MoveIcon_C",
+        "script_len": 1639
+      }
+    ],
+    "S_UIDetails.QuickSlotIcon": [
+      {
+        "address": "0x2683e68a420",
+        "at_bytecode_offset": 802,
+        "function": "UpdateItemIcon",
+        "owner": "BP_QuickSlot_C",
+        "script_len": 2648
+      },
+      {
+        "address": "0x2683e68a420",
+        "at_bytecode_offset": 2017,
+        "function": "UpdateItemIcon",
+        "owner": "BP_QuickSlot_C",
+        "script_len": 2648
+      },
+      {
+        "address": "0x2683e68e320",
+        "at_bytecode_offset": 480,
+        "function": "EntryCost",
+        "owner": "BP_CraftingTooltipEntry_C",
+        "script_len": 509
+      },
+      {
+        "address": "0x268380f6600",
+        "at_bytecode_offset": 370,
+        "function": "UpdateListingIcon",
+        "owner": "BP_CraftingQueueListing_C",
+        "script_len": 401
+      },
+      {
+        "address": "0x268380faf80",
+        "at_bytecode_offset": 2803,
+        "function": "InitializeVenderSellListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2969
+      },
+      {
+        "address": "0x268380fcb80",
+        "at_bytecode_offset": 370,
+        "function": "UpdateListingIcon",
+        "owner": "BP_CraftingListing_C",
+        "script_len": 401
+      },
+      {
+        "address": "0x26831f427e0",
+        "at_bytecode_offset": 416,
+        "function": "UpdateCookingItem",
+        "owner": "BP_CookingSlot_C",
+        "script_len": 685
+      }
+    ],
+    "S_UIDetails.VenderIcon": [
+      {
+        "address": "0x268380faf80",
+        "at_bytecode_offset": 2659,
+        "function": "InitializeVenderSellListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2969
+      },
+      {
+        "address": "0x268380faf80",
+        "at_bytecode_offset": 2771,
+        "function": "InitializeVenderSellListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2969
+      },
+      {
+        "address": "0x268380faea0",
+        "at_bytecode_offset": 2648,
+        "function": "InitializeVenderBuyListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2886
+      },
+      {
+        "address": "0x268380faea0",
+        "at_bytecode_offset": 2760,
+        "function": "InitializeVenderBuyListing",
+        "owner": "BP_VendorListing_C",
+        "script_len": 2886
+      }
+    ],
+    "S_UIDetails.WeaponSlotIcon": [
+      {
+        "address": "0x268380f4ca0",
+        "at_bytecode_offset": 2291,
+        "function": "UpdateWeaponItem",
+        "owner": "BP_WeaponSlot_C",
+        "script_len": 3713
+      }
+    ]
+  },
+  "functions_scanned": 17058,
+  "our_row_found": false,
+  "pid": 16288,
+  "rows": {},
+  "structs": {
+    "S_ItemDetails": "0x2682e251cc0",
+    "S_SizeOverride": "0x26829ba87a0",
+    "S_UIDetails": "0x26829ba8b00"
+  },
+  "vanilla_1x1_sample": {
+    "1625011": {
+      "scalars": {
+        "Height": 1,
+        "IconBackroundColor": [
+          0.010417000390589237,
+          0.010417000390589237,
+          0.010417000390589237,
+          0.6000000238418579
+        ],
+        "ItemOffsets": "000000000000000000000000000000800000000000000000000000000000f03f000000000000000000000000000000000000000000000c400000000000000000000000000000f03f000000000000f03f000000000000f03f0000000000000000",
+        "Width": 1
+      },
+      "ui": {
+        "EquipmentSlotIcon": {
+          "name": "T_Calculator_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Calculator_InvIcon.T_Calculator_InvIcon",
+          "ptr": "0x268299f2200"
+        },
+        "InventoryIcon": {
+          "name": "T_Calculator_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Calculator_InvIcon.T_Calculator_InvIcon",
+          "ptr": "0x268299f2200"
+        },
+        "MoveIcon": {
+          "name": "T_Calculator_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Calculator_InvIcon.T_Calculator_InvIcon",
+          "ptr": "0x268299f2200"
+        },
+        "MoveIconSizeOverride": {
+          "OverrideImageSize": 1,
+          "SizeX": 128,
+          "SizeY": 128
+        },
+        "QuickSlotIcon": {
+          "name": "T_Calculator_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Calculator_InvIcon.T_Calculator_InvIcon",
+          "ptr": "0x268299f2200"
+        },
+        "VenderIcon": {
+          "name": "T_Calculator_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Calculator_InvIcon.T_Calculator_InvIcon",
+          "ptr": "0x268299f2200"
+        },
+        "WeaponSlotIcon": {
+          "name": "T_Calculator_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Calculator_InvIcon.T_Calculator_InvIcon",
+          "ptr": "0x268299f2200"
+        },
+        "_raw": "00229f296802000000229f29680200000100000080000000800000000000000000229f296802000000229f296802000000229f296802000000229f2968020000"
+      }
+    },
+    "1625022": {
+      "scalars": {
+        "Height": 1,
+        "IconBackroundColor": [
+          0.010417000390589237,
+          0.010417000390589237,
+          0.010417000390589237,
+          0.6000000238418579
+        ],
+        "ItemOffsets": "000000000000000000000000000000800000000000000000000000000000f03f000000000000000000000000000000000000000000000c400000000000000000000000000000f03f000000000000f03f000000000000f03f0000000000000000",
+        "Width": 1
+      },
+      "ui": {
+        "EquipmentSlotIcon": {
+          "name": "T_Clocks_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Clocks_InvIcon.T_Clocks_InvIcon",
+          "ptr": "0x2682781af00"
+        },
+        "InventoryIcon": {
+          "name": "T_Clocks_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Clocks_InvIcon.T_Clocks_InvIcon",
+          "ptr": "0x2682781af00"
+        },
+        "MoveIcon": {
+          "name": "T_Clocks_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Clocks_InvIcon.T_Clocks_InvIcon",
+          "ptr": "0x2682781af00"
+        },
+        "MoveIconSizeOverride": {
+          "OverrideImageSize": 1,
+          "SizeX": 128,
+          "SizeY": 128
+        },
+        "QuickSlotIcon": {
+          "name": "T_Clocks_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Clocks_InvIcon.T_Clocks_InvIcon",
+          "ptr": "0x2682781af00"
+        },
+        "VenderIcon": {
+          "name": "T_Clocks_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Clocks_InvIcon.T_Clocks_InvIcon",
+          "ptr": "0x2682781af00"
+        },
+        "WeaponSlotIcon": {
+          "name": "T_Clocks_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Clocks_InvIcon.T_Clocks_InvIcon",
+          "ptr": "0x2682781af00"
+        },
+        "_raw": "00af81276802000000af8127680200000100000080000000800000000000000000af81276802000000af81276802000000af81276802000000af812768020000"
+      }
+    },
+    "1625031": {
+      "scalars": {
+        "Height": 1,
+        "IconBackroundColor": [
+          0.010417000390589237,
+          0.010417000390589237,
+          0.010417000390589237,
+          0.6000000238418579
+        ],
+        "ItemOffsets": "000000000000000000000000000000800000000000000000000000000000f03f000000000000000000000000000000000000000000000c400000000000000000000000000000f03f000000000000f03f000000000000f03f0000000000000000",
+        "Width": 1
+      },
+      "ui": {
+        "EquipmentSlotIcon": {
+          "name": "T_Dosimetr_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Dosimetr_InvIcon.T_Dosimetr_InvIcon",
+          "ptr": "0x26827409100"
+        },
+        "InventoryIcon": {
+          "name": "T_Dosimetr_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Dosimetr_InvIcon.T_Dosimetr_InvIcon",
+          "ptr": "0x26827409100"
+        },
+        "MoveIcon": {
+          "name": "T_Dosimetr_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Dosimetr_InvIcon.T_Dosimetr_InvIcon",
+          "ptr": "0x26827409100"
+        },
+        "MoveIconSizeOverride": {
+          "OverrideImageSize": 1,
+          "SizeX": 128,
+          "SizeY": 128
+        },
+        "QuickSlotIcon": {
+          "name": "T_Dosimetr_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Dosimetr_InvIcon.T_Dosimetr_InvIcon",
+          "ptr": "0x26827409100"
+        },
+        "VenderIcon": {
+          "name": "T_Dosimetr_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Dosimetr_InvIcon.T_Dosimetr_InvIcon",
+          "ptr": "0x26827409100"
+        },
+        "WeaponSlotIcon": {
+          "name": "T_Dosimetr_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Dosimetr_InvIcon.T_Dosimetr_InvIcon",
+          "ptr": "0x26827409100"
+        },
+        "_raw": "00914027680200000091402768020000010000008000000080000000000000000091402768020000009140276802000000914027680200000091402768020000"
+      }
+    },
+    "1625041": {
+      "scalars": {
+        "Height": 1,
+        "IconBackroundColor": [
+          0.010417000390589237,
+          0.010417000390589237,
+          0.010417000390589237,
+          0.6000000238418579
+        ],
+        "ItemOffsets": "000000000000000000000000000000800000000000000000000000000000f03f000000000000000000000000000000000000000000000c400000000000000000000000000000f03f000000000000f03f000000000000f03f0000000000000000",
+        "Width": 1
+      },
+      "ui": {
+        "EquipmentSlotIcon": {
+          "name": "T_GP5Filter_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_GP5Filter_InvIcon.T_GP5Filter_InvIcon",
+          "ptr": "0x2685ec8f400"
+        },
+        "InventoryIcon": {
+          "name": "T_GP5Filter_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_GP5Filter_InvIcon.T_GP5Filter_InvIcon",
+          "ptr": "0x2685ec8f400"
+        },
+        "MoveIcon": {
+          "name": "T_GP5Filter_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_GP5Filter_InvIcon.T_GP5Filter_InvIcon",
+          "ptr": "0x2685ec8f400"
+        },
+        "MoveIconSizeOverride": {
+          "OverrideImageSize": 1,
+          "SizeX": 128,
+          "SizeY": 128
+        },
+        "QuickSlotIcon": {
+          "name": "T_GP5Filter_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_GP5Filter_InvIcon.T_GP5Filter_InvIcon",
+          "ptr": "0x2685ec8f400"
+        },
+        "VenderIcon": {
+          "name": "T_GP5Filter_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_GP5Filter_InvIcon.T_GP5Filter_InvIcon",
+          "ptr": "0x2685ec8f400"
+        },
+        "WeaponSlotIcon": {
+          "name": "T_GP5Filter_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_GP5Filter_InvIcon.T_GP5Filter_InvIcon",
+          "ptr": "0x2685ec8f400"
+        },
+        "_raw": "00f4c85e6802000000f4c85e680200000100000080000000800000000000000000f4c85e6802000000f4c85e6802000000f4c85e6802000000f4c85e68020000"
+      }
+    },
+    "1625051": {
+      "scalars": {
+        "Height": 1,
+        "IconBackroundColor": [
+          0.010417000390589237,
+          0.010417000390589237,
+          0.010417000390589237,
+          0.6000000238418579
+        ],
+        "ItemOffsets": "000000000000000000000000000000800000000000000000000000000000f03f000000000000000000000000000000000000000000000c400000000000000000000000000000f03f000000000000f03f000000000000f03f0000000000000000",
+        "Width": 1
+      },
+      "ui": {
+        "EquipmentSlotIcon": {
+          "name": "T_Iron_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Iron_InvIcon.T_Iron_InvIcon",
+          "ptr": "0x2682ee81a80"
+        },
+        "InventoryIcon": {
+          "name": "T_Iron_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Iron_InvIcon.T_Iron_InvIcon",
+          "ptr": "0x2682ee81a80"
+        },
+        "MoveIcon": {
+          "name": "T_Iron_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Iron_InvIcon.T_Iron_InvIcon",
+          "ptr": "0x2682ee81a80"
+        },
+        "MoveIconSizeOverride": {
+          "OverrideImageSize": 0,
+          "SizeX": 128,
+          "SizeY": 128
+        },
+        "QuickSlotIcon": {
+          "name": "T_Iron_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Iron_InvIcon.T_Iron_InvIcon",
+          "ptr": "0x2682ee81a80"
+        },
+        "VenderIcon": {
+          "name": "T_Iron_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Iron_InvIcon.T_Iron_InvIcon",
+          "ptr": "0x2682ee81a80"
+        },
+        "WeaponSlotIcon": {
+          "name": "T_Iron_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Iron_InvIcon.T_Iron_InvIcon",
+          "ptr": "0x2682ee81a80"
+        },
+        "_raw": "801ae82e68020000801ae82e6802000000000000800000008000000000000000801ae82e68020000801ae82e68020000801ae82e68020000801ae82e68020000"
+      }
+    },
+    "1625070": {
+      "scalars": {
+        "Height": 1,
+        "IconBackroundColor": [
+          0.010417000390589237,
+          0.010417000390589237,
+          0.010417000390589237,
+          0.6000000238418579
+        ],
+        "ItemOffsets": "000000000000000000000000000000800000000000000000000000000000f03f000000000000000000000000000000000000000000000c400000000000000000000000000000f03f000000000000f03f000000000000f03f0000000000000000",
+        "Width": 1
+      },
+      "ui": {
+        "EquipmentSlotIcon": {
+          "name": "T_Cubik_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Cubik_InvIcon.T_Cubik_InvIcon",
+          "ptr": "0x2682d45be00"
+        },
+        "InventoryIcon": {
+          "name": "T_Cubik_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Cubik_InvIcon.T_Cubik_InvIcon",
+          "ptr": "0x2682d45be00"
+        },
+        "MoveIcon": {
+          "name": "T_Cubik_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Cubik_InvIcon.T_Cubik_InvIcon",
+          "ptr": "0x2682d45be00"
+        },
+        "MoveIconSizeOverride": {
+          "OverrideImageSize": 1,
+          "SizeX": 128,
+          "SizeY": 128
+        },
+        "QuickSlotIcon": {
+          "name": "T_Cubik_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Cubik_InvIcon.T_Cubik_InvIcon",
+          "ptr": "0x2682d45be00"
+        },
+        "VenderIcon": {
+          "name": "T_Cubik_InvIcon",
+          "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Cubik_InvIcon.T_Cubik_InvIcon",
+          "ptr": "0x2682d45be00"
+        },
+        "WeaponSlotIcon": {
+          "name": "T_Flashlight_256x256",
+          "path": "/Game/Icons/Survival/256x256/T_Flashlight_256x256.T_Flashlight_256x256",
+          "ptr": "0x2682f301480"
+        },
+        "_raw": "00be452d6802000000be452d680200000100000080000000800000000000000000be452d6802000000be452d6802000000be452d680200008014302f68020000"
+      }
+    }
+  },
+  "vanilla_moveicon_stats": {
+    "moveicon_eq_inventoryicon": 460,
+    "moveicon_null": 0,
+    "override_on": 61,
+    "total": 460,
+    "with_moveicon": 460
+  },
+  "widget_class": "BP_InventoryItemIcon_C",
+  "widget_found": false
+}

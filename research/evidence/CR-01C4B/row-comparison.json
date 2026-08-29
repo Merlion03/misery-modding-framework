@@ -1,0 +1,503 @@
+{
+  "inventory_icon_cdo_IconSize": {
+    "offset": 824,
+    "type": "Vector2D",
+    "value": [
+      64.0,
+      64.0
+    ]
+  },
+  "move_icon_cdo": {
+    "ImageScale": {
+      "class": "FDoubleProperty",
+      "offset": 3160,
+      "value": 0.8999999761581421
+    },
+    "PendingKill": {
+      "class": "FBoolProperty",
+      "offset": 3152,
+      "value": "00"
+    },
+    "Rotate": {
+      "class": "FBoolProperty",
+      "offset": 864,
+      "value": "00"
+    }
+  },
+  "move_icon_class": "0x2682bb62f50",
+  "our_row": {
+    "EquipmentSlotIcon": null,
+    "Height": 1,
+    "InventoryIcon": "0x2682324fe80",
+    "MoveIcon": null,
+    "MoveIconSizeOverride": {
+      "OverrideImageSize": false,
+      "SizeX": 0,
+      "SizeY": 0
+    },
+    "QuickSlotIcon": null,
+    "VenderIcon": null,
+    "WeaponSlotIcon": null,
+    "Width": 1
+  },
+  "our_row_found": true,
+  "pid": 16288,
+  "vanilla_1x1_samples": {
+    "Ammo_7.62": {
+      "EquipmentSlotIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_7_62_InvIcon",
+        "path": "/Game/Textures/Icons/Ammo/T_7_62_InvIcon.T_7_62_InvIcon"
+      },
+      "Height": 1,
+      "InventoryIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_7_62_InvIcon",
+        "path": "/Game/Textures/Icons/Ammo/T_7_62_InvIcon.T_7_62_InvIcon"
+      },
+      "MoveIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_7_62_InvIcon",
+        "path": "/Game/Textures/Icons/Ammo/T_7_62_InvIcon.T_7_62_InvIcon"
+      },
+      "MoveIconSizeOverride": {
+        "OverrideImageSize": false,
+        "SizeX": 0,
+        "SizeY": 0
+      },
+      "QuickSlotIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_7_62_InvIcon",
+        "path": "/Game/Textures/Icons/Ammo/T_7_62_InvIcon.T_7_62_InvIcon"
+      },
+      "VenderIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_7_62_InvIcon",
+        "path": "/Game/Textures/Icons/Ammo/T_7_62_InvIcon.T_7_62_InvIcon"
+      },
+      "WeaponSlotIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_7_62_InvIcon",
+        "path": "/Game/Textures/Icons/Ammo/T_7_62_InvIcon.T_7_62_InvIcon"
+      },
+      "Width": 1
+    },
+    "Holdable_RGD5": {
+      "EquipmentSlotIcon": {
+        "ImportedSize": [
+          100,
+          100
+        ],
+        "name": "T_RGD5_InvIcon",
+        "path": "/Game/Textures/Icons/Holdable/T_RGD5_InvIcon.T_RGD5_InvIcon"
+      },
+      "Height": 1,
+      "InventoryIcon": {
+        "ImportedSize": [
+          100,
+          100
+        ],
+        "name": "T_RGD5_InvIcon",
+        "path": "/Game/Textures/Icons/Holdable/T_RGD5_InvIcon.T_RGD5_InvIcon"
+      },
+      "MoveIcon": {
+        "ImportedSize": [
+          100,
+          100
+        ],
+        "name": "T_RGD5_InvIcon",
+        "path": "/Game/Textures/Icons/Holdable/T_RGD5_InvIcon.T_RGD5_InvIcon"
+      },
+      "MoveIconSizeOverride": {
+        "OverrideImageSize": false,
+        "SizeX": 128,
+        "SizeY": 128
+      },
+      "QuickSlotIcon": {
+        "ImportedSize": [
+          100,
+          100
+        ],
+        "name": "T_RGD5_InvIcon",
+        "path": "/Game/Textures/Icons/Holdable/T_RGD5_InvIcon.T_RGD5_InvIcon"
+      },
+      "VenderIcon": {
+        "ImportedSize": [
+          100,
+          100
+        ],
+        "name": "T_RGD5_InvIcon",
+        "path": "/Game/Textures/Icons/Holdable/T_RGD5_InvIcon.T_RGD5_InvIcon"
+      },
+      "WeaponSlotIcon": {
+        "ImportedSize": [
+          100,
+          100
+        ],
+        "name": "T_RGD5_InvIcon",
+        "path": "/Game/Textures/Icons/Holdable/T_RGD5_InvIcon.T_RGD5_InvIcon"
+      },
+      "Width": 1
+    },
+    "Misc_Key": {
+      "EquipmentSlotIcon": {
+        "ImportedSize": [
+          128,
+          128
+        ],
+        "name": "T_Key_Icon",
+        "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Key_Icon.T_Key_Icon"
+      },
+      "Height": 1,
+      "InventoryIcon": {
+        "ImportedSize": [
+          128,
+          128
+        ],
+        "name": "T_Key_Icon",
+        "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Key_Icon.T_Key_Icon"
+      },
+      "MoveIcon": {
+        "ImportedSize": [
+          128,
+          128
+        ],
+        "name": "T_Key_Icon",
+        "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Key_Icon.T_Key_Icon"
+      },
+      "MoveIconSizeOverride": {
+        "OverrideImageSize": true,
+        "SizeX": 64,
+        "SizeY": 64
+      },
+      "QuickSlotIcon": {
+        "ImportedSize": [
+          128,
+          128
+        ],
+        "name": "T_Key_Icon",
+        "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Key_Icon.T_Key_Icon"
+      },
+      "VenderIcon": {
+        "ImportedSize": [
+          128,
+          128
+        ],
+        "name": "T_Key_Icon",
+        "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Key_Icon.T_Key_Icon"
+      },
+      "WeaponSlotIcon": {
+        "ImportedSize": [
+          128,
+          128
+        ],
+        "name": "T_Key_Icon",
+        "path": "/Game/SurvivalGameKitV2/Textures/Icons/T_Key_Icon.T_Key_Icon"
+      },
+      "Width": 1
+    },
+    "Resource_Glass": {
+      "EquipmentSlotIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_Glass_InvIcon",
+        "path": "/Game/Textures/Icons/Resource/T_Glass_InvIcon.T_Glass_InvIcon"
+      },
+      "Height": 1,
+      "InventoryIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_Glass_InvIcon",
+        "path": "/Game/Textures/Icons/Resource/T_Glass_InvIcon.T_Glass_InvIcon"
+      },
+      "MoveIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_Glass_InvIcon",
+        "path": "/Game/Textures/Icons/Resource/T_Glass_InvIcon.T_Glass_InvIcon"
+      },
+      "MoveIconSizeOverride": {
+        "OverrideImageSize": true,
+        "SizeX": 100,
+        "SizeY": 100
+      },
+      "QuickSlotIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_Glass_InvIcon",
+        "path": "/Game/Textures/Icons/Resource/T_Glass_InvIcon.T_Glass_InvIcon"
+      },
+      "VenderIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_Glass_InvIcon",
+        "path": "/Game/Textures/Icons/Resource/T_Glass_InvIcon.T_Glass_InvIcon"
+      },
+      "WeaponSlotIcon": {
+        "ImportedSize": [
+          200,
+          200
+        ],
+        "name": "T_Glass_InvIcon",
+        "path": "/Game/Textures/Icons/Resource/T_Glass_InvIcon.T_Glass_InvIcon"
+      },
+      "Width": 1
+    }
+  },
+  "vanilla_by_grid_size": {
+    "0x0": {
+      "moveicon_eq_inv": 1,
+      "moveicon_set": 1,
+      "n": 1,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "1x1": {
+      "moveicon_eq_inv": 86,
+      "moveicon_set": 86,
+      "n": 86,
+      "override_on": 27,
+      "override_sizes": {
+        "100x100": 14,
+        "128x128": 12,
+        "64x64": 1
+      }
+    },
+    "1x2": {
+      "moveicon_eq_inv": 29,
+      "moveicon_set": 29,
+      "n": 29,
+      "override_on": 2,
+      "override_sizes": {
+        "100x100": 2
+      }
+    },
+    "1x3": {
+      "moveicon_eq_inv": 3,
+      "moveicon_set": 3,
+      "n": 3,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "1x4": {
+      "moveicon_eq_inv": 4,
+      "moveicon_set": 4,
+      "n": 4,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "1x5": {
+      "moveicon_eq_inv": 1,
+      "moveicon_set": 1,
+      "n": 1,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "2x1": {
+      "moveicon_eq_inv": 32,
+      "moveicon_set": 32,
+      "n": 32,
+      "override_on": 4,
+      "override_sizes": {
+        "100x100": 4
+      }
+    },
+    "2x2": {
+      "moveicon_eq_inv": 77,
+      "moveicon_set": 77,
+      "n": 77,
+      "override_on": 17,
+      "override_sizes": {
+        "100x100": 7,
+        "128x128": 2,
+        "200x200": 8
+      }
+    },
+    "2x3": {
+      "moveicon_eq_inv": 48,
+      "moveicon_set": 48,
+      "n": 48,
+      "override_on": 3,
+      "override_sizes": {
+        "100x100": 3
+      }
+    },
+    "2x4": {
+      "moveicon_eq_inv": 25,
+      "moveicon_set": 25,
+      "n": 25,
+      "override_on": 1,
+      "override_sizes": {
+        "100x100": 1
+      }
+    },
+    "2x5": {
+      "moveicon_eq_inv": 4,
+      "moveicon_set": 4,
+      "n": 4,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "2x6": {
+      "moveicon_eq_inv": 1,
+      "moveicon_set": 1,
+      "n": 1,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "3x1": {
+      "moveicon_eq_inv": 5,
+      "moveicon_set": 5,
+      "n": 5,
+      "override_on": 2,
+      "override_sizes": {
+        "100x100": 2
+      }
+    },
+    "3x2": {
+      "moveicon_eq_inv": 19,
+      "moveicon_set": 19,
+      "n": 19,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "3x3": {
+      "moveicon_eq_inv": 33,
+      "moveicon_set": 33,
+      "n": 33,
+      "override_on": 5,
+      "override_sizes": {
+        "100x100": 2,
+        "300x300": 3
+      }
+    },
+    "3x4": {
+      "moveicon_eq_inv": 30,
+      "moveicon_set": 30,
+      "n": 30,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "3x5": {
+      "moveicon_eq_inv": 9,
+      "moveicon_set": 9,
+      "n": 9,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "4x1": {
+      "moveicon_eq_inv": 3,
+      "moveicon_set": 3,
+      "n": 3,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "4x2": {
+      "moveicon_eq_inv": 23,
+      "moveicon_set": 23,
+      "n": 23,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "4x3": {
+      "moveicon_eq_inv": 27,
+      "moveicon_set": 27,
+      "n": 27,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "4x4": {
+      "moveicon_eq_inv": 15,
+      "moveicon_set": 15,
+      "n": 15,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "5x1": {
+      "moveicon_eq_inv": 2,
+      "moveicon_set": 2,
+      "n": 2,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "5x2": {
+      "moveicon_eq_inv": 16,
+      "moveicon_set": 16,
+      "n": 16,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "5x3": {
+      "moveicon_eq_inv": 1,
+      "moveicon_set": 1,
+      "n": 1,
+      "override_on": 0,
+      "override_sizes": {}
+    },
+    "6x2": {
+      "moveicon_eq_inv": 2,
+      "moveicon_set": 2,
+      "n": 2,
+      "override_on": 0,
+      "override_sizes": {}
+    }
+  },
+  "vanilla_inventory_icon_ImportedSize_histogram": {
+    "100x100": 42,
+    "100x200": 28,
+    "100x300": 3,
+    "100x400": 4,
+    "100x500": 1,
+    "124x124": 1,
+    "1280x1280": 1,
+    "128x128": 33,
+    "200x100": 32,
+    "200x200": 81,
+    "200x300": 47,
+    "200x400": 25,
+    "200x500": 8,
+    "200x600": 1,
+    "300x100": 5,
+    "300x200": 16,
+    "300x300": 35,
+    "300x400": 32,
+    "300x402": 1,
+    "300x500": 10,
+    "400x100": 3,
+    "400x200": 23,
+    "400x300": 28,
+    "400x400": 15,
+    "500x100": 2,
+    "500x200": 16,
+    "500x300": 1,
+    "600x200": 2
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "additem_out": {
+    "NewItemSlot": {
+      "Index": 0,
+      "InvComponent": "0x26828939d90"
+    },
+    "RemainingItem": 0
+  },
+  "after_publish": {
+    "all_vanilla_present": true,
+    "all_vanilla_semantically_unchanged": true,
+    "itemlist_exact_unchanged": true,
+    "master_rows": 497,
+    "probe_in_master": true
+  },
+  "baseline": {
+    "current_weight": 0.0,
+    "inventory_occupied": 0,
+    "inventory_slots": 12,
+    "item_count": 0,
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x268389de880",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x268292debc0",
+        "0x0"
+      ]
+    }
+  },
+  "cleanup": {
+    "held_for_visual_check": true
+  },
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "offset": 64,
+      "size": 1,
+      "value": 0
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "offset": 60,
+      "size": 4,
+      "value": 1
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "offset": 68,
+      "size": 4,
+      "value": 1
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "offset": 48,
+      "size": 8,
+      "value": 0.5
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "offset": 56,
+      "size": 4,
+      "value": 1
+    }
+  },
+  "icon_field": {
+    "absolute_offset": 224,
+    "inventoryicon_offset_in_uidetails": 0,
+    "property_class": "FObjectProperty",
+    "reference": "hard TObjectPtr<UTexture2D>",
+    "size": 8,
+    "uidetails_offset": 224
+  },
+  "icon_load": {
+    "class": "0x2685d68ca00",
+    "class_is_texture2d": true,
+    "err": 0,
+    "err_step": 0,
+    "loadicon_ran": 1,
+    "object": "0x2682324fe80",
+    "owned_count": 2,
+    "rooted": true,
+    "soft_path_expected": "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon.T_MBPL_Radio_Icon",
+    "soft_path_matches": true,
+    "soft_path_roundtrip": "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon.T_MBPL_Radio_Icon"
+  },
+  "icon_package": "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon",
+  "inventory": {
+    "current_weight": 0.5,
+    "entries_with_item": 1,
+    "item_count": 1,
+    "slot": {
+      "blocked": 0,
+      "clump": 0,
+      "index": 0,
+      "inventory_ptr": "0x26828939d90",
+      "item": {
+        "Amount": 1,
+        "DecayTime": 0,
+        "Durability": 100.0,
+        "ID": 2236760,
+        "ID_number": 0,
+        "InUse": 0,
+        "MasterInventory": "0x0",
+        "QuickBindIndex": -1,
+        "Rotated": 0,
+        "UseAmount": 0
+      },
+      "occupied": 1,
+      "raw": "0100000000000000909d9328680200000000000000000000582122000000000001000000000000000000000000000000ffffffff0000000000000000000000000000c842000000000000000000000000",
+      "root_index": 0,
+      "self_index": 0
+    }
+  },
+  "mode": "demo",
+  "pid": 16288,
+  "resolver": {
+    "found": 1,
+    "height": 1,
+    "icon_matches": true,
+    "icon_ptr": "0x2682324fe80",
+    "text": {
+      "Description": "A runtime-defined MBPL test radio.",
+      "Name": "MBPL Radio",
+      "ShortName": "Radio"
+    },
+    "text_matches": true,
+    "weight": 0.5,
+    "width": 1
+  },
+  "row": {
+    "icon_ptr": "0x2682324fe80",
+    "icon_survived_temp_destroy": true,
+    "texts": {
+      "Description": "A runtime-defined MBPL test radio.",
+      "Name": "MBPL Radio",
+      "ShortName": "Radio"
+    },
+    "texts_match": true,
+    "verifyicon_ran": 1
+  },
+  "row_name": "mbpl__radio",
+  "run_note": [
+    "pid=16288 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff7b5ccded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff7b5cd3370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff7b5d2b790 byte-verified live==disk (48895c2408574883)",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 RVO=16 EG=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "LoadAsset_Blocking: flags=0x4022403 ParmsSize=48 RVO=40 EG=null",
+    "Conv_SoftObjectReferenceToString: flags=0x14422403 ParmsSize=56 RVO=40 EG=null",
+    "soft-object parameter shape verified for both loader functions",
+    "all 8 engine addresses byte-verified live==disk",
+    "icon field: UIDetails@224 + InventoryIcon@0 = absolute 224 (hard TObjectPtr<UTexture2D>)",
+    "icon loaded: /Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon.T_MBPL_Radio_Icon at 0x2682324fe80, Texture2D=True, rooted=True",
+    "row after DestroyStruct(temp): texts=True icon_ptr=0x2682324fe80 (matches=True)",
+    "resolver: found=1 text_ok=True icon=0x2682324fe80 icon_ok=True",
+    "INVENTORY: slot 0, weight 0.0 -> 0.5, count 0 -> 1",
+    "HOLDING: module, IO, table root, ICON root and publication alive"
+  ],
+  "state_file": "D:\\Dev\\MiseryFramework\\workspace\\c4b-demo-state.json",
+  "status": "READY_FOR_VISUAL_CHECK",
+  "text_fields": {
+    "Description": {
+      "class": "FTextProperty",
+      "name": "Description_27_39047AE74BB18D53DE9D998ABDC7090D",
+      "offset": 32,
+      "size": 16,
+      "value": "A runtime-defined MBPL test radio."
+    },
+    "Name": {
+      "class": "FTextProperty",
+      "name": "Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34",
+      "offset": 0,
+      "size": 16,
+      "value": "MBPL Radio"
+    },
+    "ShortName": {
+      "class": "FTextProperty",
+      "name": "ShortName_53_3FDED9954C8DBFC313F77D9D147163D6",
+      "offset": 16,
+      "size": 16,
+      "value": "Radio"
+    }
+  },
+  "texts": {
+    "Description": "A runtime-defined MBPL test radio.",
+    "Name": "MBPL Radio",
+    "ShortName": "Radio"
+  },
+  "verdict": "HELD"
+}

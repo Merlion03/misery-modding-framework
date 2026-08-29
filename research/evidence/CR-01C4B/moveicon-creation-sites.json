@@ -1,0 +1,93 @@
+{
+  "functions_embedding_BP_MoveIcon_C": [
+    {
+      "at": 33,
+      "function": "OnDrop",
+      "owner": "BP_InventoryCell_C"
+    },
+    {
+      "at": 19,
+      "function": "ItemDragOver",
+      "owner": "BP_InventoryCell_C"
+    },
+    {
+      "at": 489,
+      "function": "ExecuteUbergraph_BP_InventoryCell",
+      "owner": "BP_InventoryCell_C"
+    },
+    {
+      "at": 38,
+      "function": "OnDrop",
+      "owner": "BP_QuickSlot_C"
+    },
+    {
+      "at": 243,
+      "function": "OnDragDetected",
+      "owner": "BP_QuickSlot_C"
+    },
+    {
+      "at": 413,
+      "function": "OnDragDetected",
+      "owner": "BP_InventoryItemIcon_C"
+    },
+    {
+      "at": 38,
+      "function": "OnDrop",
+      "owner": "BP_WeaponSlot_C"
+    },
+    {
+      "at": 104,
+      "function": "OnDragDetected",
+      "owner": "BP_WeaponSlot_C"
+    },
+    {
+      "at": 38,
+      "function": "OnDrop",
+      "owner": "BP_EquipmentSlot_C"
+    },
+    {
+      "at": 104,
+      "function": "OnDragDetected",
+      "owner": "BP_EquipmentSlot_C"
+    },
+    {
+      "at": 19,
+      "function": "OnDrop",
+      "owner": "BP_DropZone_C"
+    },
+    {
+      "at": 19,
+      "function": "OnDrop",
+      "owner": "BP_AttachmentSlot_C"
+    },
+    {
+      "at": 105,
+      "function": "OnDragDetected",
+      "owner": "BP_AttachmentSlot_C"
+    },
+    {
+      "at": 33,
+      "function": "OnDrop",
+      "owner": "BP_CookingSlot_C"
+    },
+    {
+      "at": 104,
+      "function": "OnDragDetected",
+      "owner": "BP_CookingSlot_C"
+    }
+  ],
+  "move_icon_class_candidates": [
+    "0x2682bb62f50"
+  ],
+  "our_texture": {
+    "ImportedSize": [
+      1182,
+      846
+    ],
+    "address": "0x2682324fe80",
+    "class": "Texture2D",
+    "in_universe_snapshot": false,
+    "path": null
+  },
+  "pid": 16288
+}
