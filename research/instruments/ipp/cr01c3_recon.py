@@ -78,19 +78,39 @@ def decode_func_flags(flags):
 
 
 def universe(api, h, base, size):
+    """Walk the WHOLE GUObjectArray, and prove it.
+
+    eri.DEFAULT_I02_MAX_SCAN_INDICES is 200_000, which was comfortably above the
+    object count when it was chosen. It no longer is: a loaded MISERY session
+    reaches ~263_000 objects, and everything spawned late -- the player pawn,
+    the player controller, its inventory component, anything created after a
+    save reload -- lands at the HIGH indices that the cap silently dropped. A
+    truncated universe does not fail loudly; it just answers "not found", which
+    reads exactly like "does not exist". That cost one wrong conclusion already.
+
+    So the cap is derived from NumElements rather than from a constant, and the
+    walker's own coverage is checked afterwards: if it looked at fewer indices
+    than the array holds, that is an error, not a footnote.
+    """
     i02 = eri.run_i02(api, h, base, size, guobjectarray_rva=eri.DEFAULT_GUOBJECTARRAY_RVA,
                       sample_size=eri.DEFAULT_I02_SAMPLE_SIZE, poll_interval_seconds=0,
                       max_scan_indices=eri.DEFAULT_I02_MAX_SCAN_INDICES)
+    num = int(i02["num_elements"])
     i03 = eri.run_i03(api, h, base, size, namepool_rva=eri.DEFAULT_NAMEPOOL_RVA,
                       name_pool_initialized_rva=eri.DEFAULT_NAME_POOL_INITIALIZED_RVA,
                       name_entry_id=0)
     np = i03["namepool_live_va"]
-    w = eri.walk_object_universe(api, h, i02["objects_ptr_live_va"], i02["num_elements"],
+    w = eri.walk_object_universe(api, h, i02["objects_ptr_live_va"], num,
                                  base, size, np,
                                  class_private_offset=eri.DEFAULT_CLASS_PRIVATE_OFFSET,
                                  name_private_offset=eri.DEFAULT_NAME_PRIVATE_OFFSET,
                                  outer_private_offset=eri.DEFAULT_OUTER_PRIVATE_OFFSET,
-                                 max_scan_indices=eri.DEFAULT_I02_MAX_SCAN_INDICES)
+                                 max_scan_indices=num)
+    scanned = w.get("scanned_indices", w.get("indices_scanned"))
+    if scanned is not None and int(scanned) < num:
+        raise Blocked("object universe truncated: walked %d of %d indices; every "
+                      "'not found' from this snapshot would be unsound"
+                      % (int(scanned), num))
     return np, w["objects_by_address"]
 
 

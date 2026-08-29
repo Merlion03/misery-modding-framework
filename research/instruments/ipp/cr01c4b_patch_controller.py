@@ -591,6 +591,14 @@ def run(api, args, run_note):
         tf, _ = text_fields(api, h, r["np"], r["row_struct"])
         dt_offs = dict(vf)
         dt_offs.update(tf)
+        # The recorded player-inventory pointer does NOT survive a death and save
+        # reload -- the component is destroyed and a new one spawned. Always use
+        # the one just resolved from the live universe, never the recorded one.
+        if r["player_inv"] != st.get("player_inv"):
+            run_note.append("player inventory changed since the state was written: "
+                            "0x%x -> 0x%x (death/reload); using the live object"
+                            % (st.get("player_inv") or 0, r["player_inv"]))
+        st = dict(st, player_inv=r["player_inv"])
         safety, runtime_row, inv0 = safety_check(api, h, r["np"], r["objs"], st, offs, run_note)
     finally:
         api.close_handle(h)
