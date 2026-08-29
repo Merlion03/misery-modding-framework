@@ -928,9 +928,24 @@ def main(argv=None):
                     help="materialize the TEMPORARY ARM/emissive probe item instead of the "
                          "production radio: a separate row, the probe mesh whose slots carry "
                          "the asymmetric ARM MICs, and its own state file")
+    ap.add_argument("--probe2", action="store_true",
+                    help="the SECOND ARM/emissive probe: four large separated boxes with a "
+                         "known-metallic reference box, mirror-low roughness and a saturated "
+                         "red base, after the first probe proved visually ambiguous")
     ap.add_argument("--run-dir", default=None)
     a = ap.parse_args(argv)
-    if a.probe:
+    if a.probe2:
+        g = globals()
+        g["ROW_NAME"] = "mbpl__armprobe2"
+        g["TRIGGER_NAME"] = "mbpl__armprobe2_neutral_trigger"
+        g["STATE_PATH"] = os.path.join(REPO, "workspace", "armprobe2-demo-state.json")
+        g["MESH_PACKAGE"] = "/Game/MBPLArmProbe2/SM_ArmProbe2"
+        g["MESH_ASSET"] = "SM_ArmProbe2"
+        g["TEXTS"] = {"Name": "MBPL ARM Probe 2",
+                      "ShortName": "ARM Probe 2",
+                      "Description": "Four boxes, left to right: REFERENCE (metallic under "
+                                     "either reading), A (R-hot), B (B-hot), EMISSIVE probe."}
+    elif a.probe:
         # A distinct row and state file, so the probe can never be confused with
         # the production item or clean it up by accident.
         g = globals()

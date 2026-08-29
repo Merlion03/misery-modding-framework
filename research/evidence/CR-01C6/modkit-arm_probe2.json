@@ -1,0 +1,62 @@
+{
+  "assets": [
+    "/Game/MBPLArmProbe2/M_Probe_A.M_Probe_A",
+    "/Game/MBPLArmProbe2/M_Probe_B.M_Probe_B",
+    "/Game/MBPLArmProbe2/M_Probe_EM.M_Probe_EM",
+    "/Game/MBPLArmProbe2/M_Probe_REF.M_Probe_REF",
+    "/Game/MBPLArmProbe2/MI_P2_A.MI_P2_A",
+    "/Game/MBPLArmProbe2/MI_P2_B.MI_P2_B",
+    "/Game/MBPLArmProbe2/MI_P2_EM.MI_P2_EM",
+    "/Game/MBPLArmProbe2/MI_P2_REF.MI_P2_REF",
+    "/Game/MBPLArmProbe2/SM_ArmProbe2.SM_ArmProbe2",
+    "/Game/MBPLArmProbe2/T2_ARM_A.T2_ARM_A",
+    "/Game/MBPLArmProbe2/T2_ARM_B.T2_ARM_B",
+    "/Game/MBPLArmProbe2/T2_ARM_EM.T2_ARM_EM",
+    "/Game/MBPLArmProbe2/T2_ARM_REF.T2_ARM_REF",
+    "/Game/MBPLArmProbe2/T2_BC_Grey.T2_BC_Grey",
+    "/Game/MBPLArmProbe2/T2_BC_Red.T2_BC_Red",
+    "/Game/MBPLArmProbe2/T2_N.T2_N"
+  ],
+  "errors": [],
+  "mesh": {
+    "bounds_extent_cm": [
+      110.0,
+      20.0,
+      20.0
+    ],
+    "path": "/Game/MBPLArmProbe2/SM_ArmProbe2",
+    "slots": 4,
+    "triangles_lod0": 48
+  },
+  "notes": [
+    "stand-in parent carries the emissive probe parameters",
+    "mesh {'path': '/Game/MBPLArmProbe2/SM_ArmProbe2', 'slots': 4, 'triangles_lod0': 48, 'bounds_extent_cm': [110.0, 20.0, 20.0]} | slots [(0, 'M_Probe_REF', 'REF', '/Game/MBPLArmProbe2/MI_P2_REF'), (1, 'M_Probe_A', 'A', '/Game/MBPLArmProbe2/MI_P2_A'), (2, 'M_Probe_B', 'B', '/Game/MBPLArmProbe2/MI_P2_B'), (3, 'M_Probe_EM', 'EM', '/Game/MBPLArmProbe2/MI_P2_EM')]"
+  ],
+  "ok": true,
+  "slot_assignment": [
+    [
+      0,
+      "M_Probe_REF",
+      "REF",
+      "/Game/MBPLArmProbe2/MI_P2_REF"
+    ],
+    [
+      1,
+      "M_Probe_A",
+      "A",
+      "/Game/MBPLArmProbe2/MI_P2_A"
+    ],
+    [
+      2,
+      "M_Probe_B",
+      "B",
+      "/Game/MBPLArmProbe2/MI_P2_B"
+    ],
+    [
+      3,
+      "M_Probe_EM",
+      "EM",
+      "/Game/MBPLArmProbe2/MI_P2_EM"
+    ]
+  ]
+}
