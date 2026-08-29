@@ -16,17 +16,32 @@
   },
   "containers": {
     "_comment": [
-      "apply=false means the runner verifies what is staged but changes nothing.",
-      "Set apply=true and fill remove/stage to make the runner own the staging.",
-      "expect=null accepts whatever is there; a list makes any other container a",
-      "hard failure -- which is the point, because a leftover container from an",
-      "old experiment is mounted by the engine just as eagerly as an intended one."
+      "apply=true: the runner now owns staging for the production-radio cycle.",
+      "remove clears the four accumulated material probes -- their assets and",
+      "package paths are superseded and the engine would mount them as eagerly as",
+      "the intended container.",
+      "expect is an exact allow-list, so a forgotten experiment fails the gate.",
+      "MiseryModKit_P and CT03Probe20260828_P predate this gate and are left alone."
     ],
     "stage_dir": null,
-    "apply": false,
-    "remove": [],
-    "stage": [],
-    "expect": null
+    "apply": true,
+    "remove": [
+      "ArmProbe_P",
+      "ArmProbe2_P",
+      "ArmProbe3_P",
+      "Probe4_P"
+    ],
+    "stage": [
+      {
+        "src": "D:/UEScratch/MBPLKit/out/prod",
+        "stem": "MBPLRadio_P"
+      }
+    ],
+    "expect": [
+      "MBPLRadio_P",
+      "MiseryModKit_P",
+      "CT03Probe20260828_P"
+    ]
   },
   "save_entry": {
     "_comment": [

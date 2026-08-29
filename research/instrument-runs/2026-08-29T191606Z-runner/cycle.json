@@ -1,0 +1,42 @@
+{
+  "blocked_phase": "containers",
+  "blocked_reason": "containers: staged containers are not consistent: {\"unexpected\": [\"ArmProbe2_P\", \"ArmProbe3_P\", \"ArmProbe_P\", \"Probe4_P\"], \"missing\": [], \"unmountable\": []}",
+  "note": [
+    "proved gone: no MISERY-Win64-Shipping.exe process, old pids [] are dead",
+    "verify_install before: match (0 serious, 0 benign)",
+    "staging applied: 0 removed, 0 staged",
+    "BLOCKED: containers: staged containers are not consistent: {\"unexpected\": [\"ArmProbe2_P\", \"ArmProbe3_P\", \"ArmProbe_P\", \"Probe4_P\"], \"missing\": [], \"unmountable\": []}"
+  ],
+  "phases": {
+    "teardown": {
+      "closed": [],
+      "live_before": [],
+      "probe_shutdown": null,
+      "proved_gone": {
+        "checked_at": "2026-08-29T19:16:06Z",
+        "old_pids": [],
+        "proved": true
+      }
+    }
+  },
+  "probe": "recon",
+  "run_id": "2026-08-29T191606Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": 140697973227520,
+      "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+      "image_size_bytes": 138403840,
+      "loaded_probe_module": null,
+      "pid": 14792,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": "2026-08-29T18:22:59Z"
+    },
+    "did_not_apply_because": null,
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "BLOCKED"
+}

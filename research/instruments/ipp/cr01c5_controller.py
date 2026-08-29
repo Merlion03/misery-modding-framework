@@ -544,7 +544,24 @@ def pack_io(carrier, sigs, r, offs, toffs, woffs):
         0, 0)
 
 
-EXPECT_MATERIALS = None
+# The PRODUCTION radio's material state, asserted against the live process before
+# any mutation. This is on by default rather than behind a flag: the mesh now
+# carries seven MaterialInstanceConstants, and two invalid probes came from
+# reporting an assignment that had not actually taken. The mesh not carrying them
+# should stop the run, not produce another grey object.
+_RD = "/Game/MBPLTest/Items/Radio"
+_N = _RD + "/T_Radio_Neutral_N.T_Radio_Neutral_N"
+EXPECT_MATERIALS = {
+    "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "slots": [
+        {"slot_name": "M_Radio_%s" % k,
+         "mic": "%s/MI_Radio_%s.MI_Radio_%s" % (_RD, k, k),
+         "textures": {"BaseColor": "%s/T_Radio_%s_BC.T_Radio_%s_BC" % (_RD, k, k),
+                      "ARM": "%s/T_Radio_%s_ARM.T_Radio_%s_ARM" % (_RD, k, k),
+                      "Normal": _N}}
+        for k in ("Body", "Battery", "Metal", "Rubber", "Screen", "Emissive", "Tape")
+    ],
+}
 
 SMC_STATICMESH = 1376
 SM_STATICMATERIALS = 344

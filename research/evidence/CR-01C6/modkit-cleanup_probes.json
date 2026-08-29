@@ -1,0 +1,63 @@
+{
+  "deleted": [
+    {
+      "assets": 7,
+      "dir": "/Game/MBPLArmProbe"
+    },
+    {
+      "assets": 16,
+      "dir": "/Game/MBPLArmProbe2"
+    },
+    {
+      "assets": 16,
+      "dir": "/Game/MBPLArmProbe3"
+    },
+    {
+      "assets": 18,
+      "dir": "/Game/MBPLProbe4"
+    },
+    {
+      "assets": 8,
+      "dir": "/Game/MBPLMatProbe"
+    },
+    {
+      "assets": 4,
+      "dir": "/Game/MBPLA2Probe"
+    }
+  ],
+  "errors": [],
+  "kept": [
+    {
+      "asset": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial",
+      "still_exists": true,
+      "why": "the stand-in parent: it lets the kit author MICs against the vanilla parameter names, is never shipped, and the production materials cannot be rebuilt without it"
+    }
+  ],
+  "ok": true,
+  "radio_dir_after": [
+    "/Game/MBPLTest/Items/Radio/MI_Radio_Battery.MI_Radio_Battery",
+    "/Game/MBPLTest/Items/Radio/MI_Radio_Body.MI_Radio_Body",
+    "/Game/MBPLTest/Items/Radio/MI_Radio_Emissive.MI_Radio_Emissive",
+    "/Game/MBPLTest/Items/Radio/MI_Radio_Metal.MI_Radio_Metal",
+    "/Game/MBPLTest/Items/Radio/MI_Radio_Rubber.MI_Radio_Rubber",
+    "/Game/MBPLTest/Items/Radio/MI_Radio_Screen.MI_Radio_Screen",
+    "/Game/MBPLTest/Items/Radio/MI_Radio_Tape.MI_Radio_Tape",
+    "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio",
+    "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon.T_MBPL_Radio_Icon",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Battery_ARM.T_Radio_Battery_ARM",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Battery_BC.T_Radio_Battery_BC",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Body_ARM.T_Radio_Body_ARM",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Body_BC.T_Radio_Body_BC",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_ARM.T_Radio_Emissive_ARM",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_BC.T_Radio_Emissive_BC",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Metal_ARM.T_Radio_Metal_ARM",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Metal_BC.T_Radio_Metal_BC",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_ARM.T_Radio_Rubber_ARM",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_BC.T_Radio_Rubber_BC",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Screen_ARM.T_Radio_Screen_ARM",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Screen_BC.T_Radio_Screen_BC",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Tape_ARM.T_Radio_Tape_ARM",
+    "/Game/MBPLTest/Items/Radio/T_Radio_Tape_BC.T_Radio_Tape_BC"
+  ]
+}

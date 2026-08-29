@@ -1,0 +1,98 @@
+{
+  "_channel_order": "ARM = R:AO, G:Roughness, B:Metallic  (PROVEN, LOG-0094)",
+  "_basecolor": "authored LINEAR values encoded through the sRGB transfer function so the sampler decodes back to the authored linear value",
+  "slots": {
+    "Body": {
+      "BaseColor_linear": [
+        0.048,
+        0.056,
+        0.036
+      ],
+      "AO": 1.0,
+      "Roughness": 0.62,
+      "Metallic": 0.25,
+      "BC_png": "T_Radio_Body_BC.png",
+      "ARM_png": "T_Radio_Body_ARM.png",
+      "approximation": null
+    },
+    "Battery": {
+      "BaseColor_linear": [
+        0.026,
+        0.027,
+        0.023
+      ],
+      "AO": 1.0,
+      "Roughness": 0.76,
+      "Metallic": 0.1,
+      "BC_png": "T_Radio_Battery_BC.png",
+      "ARM_png": "T_Radio_Battery_ARM.png",
+      "approximation": null
+    },
+    "Metal": {
+      "BaseColor_linear": [
+        0.115,
+        0.115,
+        0.105
+      ],
+      "AO": 1.0,
+      "Roughness": 0.44,
+      "Metallic": 0.85,
+      "BC_png": "T_Radio_Metal_BC.png",
+      "ARM_png": "T_Radio_Metal_ARM.png",
+      "approximation": null
+    },
+    "Rubber": {
+      "BaseColor_linear": [
+        0.018,
+        0.018,
+        0.017
+      ],
+      "AO": 1.0,
+      "Roughness": 0.72,
+      "Metallic": 0.0,
+      "BC_png": "T_Radio_Rubber_BC.png",
+      "ARM_png": "T_Radio_Rubber_ARM.png",
+      "approximation": null
+    },
+    "Screen": {
+      "BaseColor_linear": [
+        0.085,
+        0.155,
+        0.08
+      ],
+      "AO": 1.0,
+      "Roughness": 0.22,
+      "Metallic": 0.0,
+      "BC_png": "T_Radio_Screen_BC.png",
+      "ARM_png": "T_Radio_Screen_ARM.png",
+      "approximation": null
+    },
+    "Emissive": {
+      "BaseColor_linear": [
+        1.0,
+        0.111,
+        0.044
+      ],
+      "AO": 1.0,
+      "Roughness": 0.45,
+      "Metallic": 0.0,
+      "BC_png": "T_Radio_Emissive_BC.png",
+      "ARM_png": "T_Radio_Emissive_ARM.png",
+      "approximation": "BaseColor is the authored EMISSIVE colour (1.000, 0.111, 0.044), not the authored base colour (0.520, 0.070, 0.030). This is an APPROXIMATION of a lamp; emissive is not supported on this route."
+    },
+    "Tape": {
+      "BaseColor_linear": [
+        0.095,
+        0.091,
+        0.078
+      ],
+      "AO": 1.0,
+      "Roughness": 0.95,
+      "Metallic": 0.0,
+      "BC_png": "T_Radio_Tape_BC.png",
+      "ARM_png": "T_Radio_Tape_ARM.png",
+      "approximation": null
+    }
+  },
+  "shared_normal": "T_Radio_Neutral_N.png"
+}
