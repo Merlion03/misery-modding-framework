@@ -1,0 +1,159 @@
+{
+  "record": "CR-01C4B acceptance -- custom inventory icon from a mod-owned PNG",
+  "verdict": "PASS",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "closed_at_pid": 16680,
+  "runs": {
+    "primitive": "research/instrument-runs/2026-08-29T125059Z/report.json",
+    "demo": "research/instrument-runs/2026-08-29T125139Z/report.json",
+    "ui_patch": "research/instrument-runs/2026-08-29T133256Z/report.json",
+    "post_reload_readd": "research/instrument-runs/2026-08-29T142022Z/report.json",
+    "close_verify": "research/instrument-runs/_c4b-close-verify/verify_install_close.json"
+  },
+  "1_icon_field_derived_not_named": {
+    "target": "S_ItemDetails.UIDetails (FStructProperty @224) -> S_UIDetails.InventoryIcon (FObjectProperty @0) = absolute offset 224",
+    "type": "hard TObjectPtr<UTexture2D>; PropertyClass resolved to UTexture2D BEFORE any store, so this was never an opaque blob copied because its size was known",
+    "how_it_was_identified": "BP_InventoryItemIcon_C::UpdateIcon embeds the FProperty pointer of S_UIDetails::InventoryIcon and no other member of that struct; the negative control is BP_QuickSlot_C::UpdateItemIcon, which embeds QuickSlotIcon and no other. The control landing on a DIFFERENT field is what makes this an identification rather than a guess.",
+    "consumers_enumerated_over_all_live_UFunctions": 17058,
+    "sole_consumers_of_InventoryIcon": [
+      "BP_InventoryItemIcon_C::UpdateIcon",
+      "BP_VendorListing_C::InitializeVenderBuyListing"
+    ],
+    "how_the_widget_uses_it": "IconMaterial (a MaterialInstanceDynamic) gets SetTextureParameterValue(\"Image\", UIDetails.InventoryIcon); the grid box comes from SetIconSize(Width, Height, Rotated) x IconSize(64,64) and never from the texture's own dimensions",
+    "fail_closed": "struct identity, property class, size and PropertyClass are each checked; any mismatch raises Blocked before a byte is written"
+  },
+  "2_asset_pipeline_no_vanilla_content": {
+    "source_png": "D:/UEScratch/MBPLKit/Source_PNG/MBPL_Radio_Icon.png",
+    "imported_asset": "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon",
+    "ImportedSize": [
+      1182,
+      846
+    ],
+    "import_settings": "TEXTUREGROUP_UI, TC_EditorIcon, NoMipmaps, NeverStream, sRGB -- chosen so the cooked export carries its pixel data inline",
+    "cook_and_container": "cooked in an isolated UE 5.4.4 mod-kit project outside the MISERY install, packed into a minimal IoStore container (MBPLTest_P.pak/.utoc/.ucas) and staged to %LOCALAPPDATA%/MISERY/Saved/Paks",
+    "D-10_compliance": "no vanilla MISERY package or asset was copied into the mod kit; no extracted keys and no decrypted original containers were used; the Steam install stayed read-only. Engine content AND the shader archives were pruned from the container, because at a higher mount priority the latter would have shadowed the game's own shader libraries.",
+    "mount_proof": "read_order 101, mount point ../../../MISERY/Content/MBPLTest/, has_io_container_header: true"
+  },
+  "3_load_and_ownership": {
+    "loader": "reflected UKismetSystemLibrary::LoadAsset_Blocking(TSoftObjectPtr) -> UObject*",
+    "abi_gate": "flags=0x4022403 ParmsSize=48 ReturnValueOffset=40 EventGraphFunction=null; the soft parameter is exactly one FSoftObjectProperty at offset 0 size 40",
+    "why_not_the_native_route": "P-04's LoadPackage RVA was never confirmed, and guessed RVAs are out of bounds for this project",
+    "layout_self_check": "TSoftObjectPtr is 40 bytes with FSoftObjectPath at offset 8 (FWeakObjectPtr is exactly 8, so the arithmetic is forced). That arithmetic was still not trusted: the constructed soft reference was round-tripped back to a string through Conv_SoftObjectReferenceToString and compared with the intended path BEFORE it was used, so a wrong layout would fail loudly instead of loading something unintended",
+    "round_trip_result": "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon.T_MBPL_Radio_Icon -- exact match",
+    "class_check": "the loaded object's UClass was compared against the reflected UTexture2D UClass, not against its name",
+    "ownership": "rooted through the SAME RuntimeAssetStore and the same engine SetRootFlags path as every other runtime-owned object; no second lifetime mechanism was introduced",
+    "identity_confirmed_independently_of_the_walker": "Texture2D'T_MBPL_Radio_Icon' inside Package'/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon', read straight down the Outer chain"
+  },
+  "4_assignment_and_lifecycle": {
+    "store": "a single 8-byte pointer store into a row struct we own",
+    "survives_temp_destruction": "read back FROM THE ROW after DestroyStruct(temp) and FMemory::Free: icon pointer intact, all three FTexts intact",
+    "primitive_first": "the whole icon primitive ran on the detached Runtime table with ZERO vanilla writes before any publication was attempted; the row was then removed cleanly and the module torn down"
+  },
+  "5_publication_and_resolver": {
+    "publication": "MasterItemList.ParentTables Num 1->2 with element[1] = our runtime table, then the data-neutral trigger UDataTable::RemoveRow(ItemList, <a name it does not contain>)",
+    "vanilla_untouched_at_publication": {
+      "master_rows": "496 -> 497",
+      "all_vanilla_rows_present": true,
+      "all_vanilla_rows_semantically_unchanged": true,
+      "itemlist_byte_identical": true
+    },
+    "resolver": "the game's own BP_SGKFunctions_C::\"SGK ItemDetails\" returned ItemFound=1 with our texts, Weight 0.5, 1x1, and our texture in InventoryIcon"
+  },
+  "6_inventory_and_visual_confirmation": {
+    "add_item": "the proven BP_MasterInventory_C::AddItem path",
+    "observed": "exactly one inventory entry carrying the row FName, Amount 1, ItemCount +1, CurrentWeight +0.5, no other slot changed",
+    "owner_visual_check": "PASS -- InventoryIcon rendered, MoveIcon rendered, and the drag ghost followed the cursor. This is the one claim instrumentation cannot make for itself: 'resolves and sits in the array' and 'is drawn in the grid' are different claims."
+  },
+  "7_the_second_ui_field_MoveIcon": {
+    "why_it_came_up": "the owner observed that the drag ghost did not appear for our item while it did for vanilla items",
+    "root_cause_traced_not_guessed": "BP_MoveIcon_C::SetMoveIcon is the SOLE consumer of S_UIDetails.MoveIcon and MoveIconSizeOverride across all 17058 live UFunctions. Our row left MoveIcon null; SetTextureParameterValue got null, and Blueprint_GetSizeX/Y run through EX_Context with null_skip so on a null context they are skipped and the size zeroes -- 0 x ImageScale(0.9) = a 0x0 drag ghost",
+    "population_evidence": "496 of 496 vanilla rows set MoveIcon, and in every one of them it equals InventoryIcon; 61 of 496 also enable MoveIconSizeOverride",
+    "fix": "MoveIcon set to the SAME already-rooted texture (no second load, no second root) plus OverrideImageSize=true, 100x100 -- matching the vanilla ~100px-per-grid-cell convention",
+    "verified_through_the_resolver": "SGK ItemDetails returned InventoryIcon == MoveIcon == the same object, OverrideImageSize true, 100x100"
+  },
+  "8_drag_pivot_investigated_and_cleared": {
+    "observation": "the cursor snaps to the drag visual's top-left, on our item AND on vanilla items",
+    "verdict": "VANILLA BEHAVIOUR, not a regression introduced by this gate",
+    "evidence": "all six drag sources (BP_InventoryItemIcon_C, BP_QuickSlot_C, BP_WeaponSlot_C, BP_EquipmentSlot_C, BP_AttachmentSlot_C, BP_CookingSlot_C) set Pivot from EX_ByteConst 1 inside MakeLiteralByte -- a compile-time literal in cooked bytecode. 1 == EDragPivot::TopLeft, whose engine branch is literally 'Position is already Top Left' with no correction (UMGDragDropOp.cpp:84-86). MouseDownOffset, which would preserve the grab point, is computed on every drag but added ONLY under EDragPivot::MouseDown.",
+    "shared_state_proven_untouched": "Default__DragDropOperation still holds Pivot = CenterCenter, the engine C++ constructor default, with Offset (0,0) and a null DefaultDragVisual; no handler sets 'Offset' anywhere; zero live BP_MoveIcon_C and zero live DragDropOperation instances; BP_MoveIcon_C CDO ImageScale still 0.9",
+    "independently_reproduced_by_the_owner": "after a full MISERY restart the same TopLeft behaviour appeared with vanilla items"
+  },
+  "9_total_write_surface": {
+    "sites": 10,
+    "enumerated": [
+      "RowStruct of the runtime UDataTable we spawned",
+      "MasterItemList.ParentTables Num (1<->2) and element[1]",
+      "RootSet flag on our two objects, via the engine's own SetRootFlags",
+      "engine AddRow / RemoveRow on OUR table only",
+      "UDataTable::RemoveRow(ItemList, <a name it does not contain>) as a data-neutral publication trigger",
+      "five stores inside our own row: InventoryIcon, MoveIcon, OverrideImageSize, SizeX, SizeY"
+    ],
+    "never_touched": [
+      "BP_MoveIcon_C",
+      "the drag operation object",
+      "DefaultDragVisual",
+      "any material",
+      "any CDO",
+      "any UFunction bytecode",
+      "any vanilla row",
+      "the Steam installation"
+    ]
+  },
+  "10_post_run_integrity": {
+    "how_the_demo_ended": "the owner fully restarted MISERY, so the in-memory demo state died with the process. No stale pointer was dereferenced and no cleanup was attempted through one.",
+    "demo_process_terminated": true,
+    "pids": {
+      "demo": 16288,
+      "fresh": 16680
+    },
+    "no_probe_module_in_fresh_process": true,
+    "registry_at_baseline": {
+      "ParentTables": {
+        "max": 2,
+        "num": 1,
+        "single_vanilla_parent": true,
+        "slots": [
+          "0x22c1f00d6c0"
+        ]
+      },
+      "holds": true,
+      "itemlist_rows": 496,
+      "master_equals_itemlist": true,
+      "master_rows": 496,
+      "row_absent_from_itemlist": true,
+      "row_absent_from_master": true
+    },
+    "objects_named_row_in_fresh_process": 0,
+    "mod_texture_loaded_in_fresh_process": 0,
+    "verify_install": {
+      "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "benign_count": 0,
+      "mode": "full",
+      "report_artifact": "research/instrument-runs/_c4b-close-verify/verify_install_close.json",
+      "result": "match",
+      "serious_count": 0,
+      "strict": false
+    },
+    "save_scan": {
+      "files_carrying_row_name": [],
+      "files_scanned": 172,
+      "holds": true,
+      "note": "ASCII and UTF-16LE forms of the row name were both searched; the mod container directory is excluded because it is our own content, not a save"
+    },
+    "why_the_save_scan_matters": "a purely in-memory experiment can still bite later in exactly one way: if a save persisted the runtime row's FName, loading it without our runtime would reference a definition that does not exist. The session did autosave (123_Auto.sav). Both the ASCII and UTF-16LE forms of the name were searched across 172 files and it appears in none of them."
+  },
+  "11_residual_risks_and_named_debt": [
+    "the source PNG is the wrong image (1182x846, an input mistake, not a pipeline failure); it also does not follow the vanilla ~100px-per-grid-cell convention, so the grid icon is stretched to the 64x64 box",
+    "FText refcount imbalance from CR-01C4A remains named technical debt: overwriting the three text fields discards the references InitializeStruct placed there, and ITextData::Release has not been derived",
+    "ItemCount's exact semantics were deliberately NOT derived -- reported, never asserted beyond its delta",
+    "the other four icon fields (QuickSlotIcon, VenderIcon, EquipmentSlotIcon, WeaponSlotIcon) and IconBackroundColor are still unset and untested",
+    "save/load persistence of a runtime-defined item is untested and remains BLOCKED ON M4 LIFECYCLE EVIDENCE",
+    "multi-mod arbitration and multiplayer are untouched"
+  ],
+  "12_defects_found_in_my_own_tooling_during_this_gate": [
+    "recon.universe capped its walk at 200_000 indices while a loaded session holds ~263_000 objects, so everything spawned late was invisible. This produced one WRONG statement to the owner ('there is no live player'). Fixed by deriving the bound from NumElements and verifying coverage after the pass, so silent truncation now raises.",
+    "a hardcoded ProcessEvent vtable slot (65 instead of the derived PE_SLOT = 77) broke this project's own 'no guessed offsets' rule. The probe called the wrong virtual; the fail-closed design meant nothing was written. Fixed by requiring the slot to yield the same address through three unrelated CDOs.",
+    "two scripts keyed DataTable rows by FName comparison-index alone, which is not unique when the Number part differs, collapsing 36 of 496 rows and understating denominators. The ratios were never wrong; the counts were.",
+    "dry-run manifests declared the gate capability where the schema's eri-level enum applies, and one aborted run left verify_install_after null. Both records were completed rather than deleted."
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "baseline_inventory_sha256": "9b1649c7751f12dd9ccc410a75d83200fd6a2fd3a1e4dfb2e19c132b85396509",
+  "baseline_item_count": 0,
+  "baseline_weight": 0.0,
+  "dll": "D:\\Dev\\MiseryFramework\\workspace\\msvc-probe\\CR01C4BProbe.dll",
+  "drag_size_override": [
+    100,
+    100
+  ],
+  "icon_object": 2646289481344,
+  "itemlist": 2646390729664,
+  "master": 2646377873216,
+  "move_icon": 2646289481344,
+  "objects_ptr": 2647292250240,
+  "patched": true,
+  "pid": 16288,
+  "player_inv": 2652232064400,
+  "rbase": 140716335366144,
+  "retired": true,
+  "retired_reason": "the owner fully restarted MISERY; pid 16288 is gone and every pointer in this record is stale. Kept as a record of what the demo held, NEVER as something to dereference.",
+  "rio": 2647342710784,
+  "row_fname": 2236760,
+  "row_name": "mbpl__radio",
+  "rpath": 2647709646848,
+  "runtime_row": 2649407188480,
+  "struct_size": 2264,
+  "table_ptr": 2646052286400
+}

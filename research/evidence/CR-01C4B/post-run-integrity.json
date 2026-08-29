@@ -1,0 +1,114 @@
+{
+  "all_checks_hold": true,
+  "build_fingerprint_matches": true,
+  "current_pid": 16680,
+  "demo_process_terminated": true,
+  "held_state_file": "D:/Dev/MiseryFramework\\workspace\\c4b-demo-state.json",
+  "held_state_pid": 16288,
+  "itemlist": "0x22c1f00d6c0",
+  "master_item_list": "0x22c55f027e0",
+  "mod_texture_loaded_in_fresh_process": 0,
+  "no_probe_module_loaded": true,
+  "objects_named_row_in_fresh_process": 0,
+  "probe_modules_in_fresh_process": {
+    "CR01C3BProbe.dll": null,
+    "CR01C3CProbe.dll": null,
+    "CR01C3DProbe.dll": null,
+    "CR01C4AProbe.dll": null,
+    "CR01C4BPatchProbe.dll": null,
+    "CR01C4BProbe.dll": null
+  },
+  "registry_baseline": {
+    "ParentTables": {
+      "max": 2,
+      "num": 1,
+      "single_vanilla_parent": true,
+      "slots": [
+        "0x22c1f00d6c0"
+      ]
+    },
+    "holds": true,
+    "itemlist_rows": 496,
+    "master_equals_itemlist": true,
+    "master_rows": 496,
+    "row_absent_from_itemlist": true,
+    "row_absent_from_master": true
+  },
+  "save_files": [
+    {
+      "bytes": 2608,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\SaveGames\\SettingsSave.sav",
+      "mtime": 1788014210
+    },
+    {
+      "bytes": 1150,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Config\\Windows\\GameUserSettings.ini",
+      "mtime": 1788014210
+    },
+    {
+      "bytes": 71,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Config\\Windows\\Engine.ini",
+      "mtime": 1788014203
+    },
+    {
+      "bytes": 160,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Config\\CrashReportClient\\UECC-Windows-E82BB34A4DC7C0B96E656D8865F53787\\CrashReportClient.ini",
+      "mtime": 1788014202
+    },
+    {
+      "bytes": 52,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\SaveGames\\steam_autocloud.vdf",
+      "mtime": 1788014201
+    },
+    {
+      "bytes": 931,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Config\\Windows\\Input.ini",
+      "mtime": 1788014192
+    },
+    {
+      "bytes": 850450,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\SaveGames\\123_Auto.sav",
+      "mtime": 1788013961
+    },
+    {
+      "bytes": 3150,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\SaveGames\\SaveGameMetaData.sav",
+      "mtime": 1788013961
+    },
+    {
+      "bytes": 846741,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\SaveGames\\123.sav",
+      "mtime": 1788009907
+    },
+    {
+      "bytes": 810867,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\SaveGames\\\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435\u00a01_Auto.sav",
+      "mtime": 1788009367
+    },
+    {
+      "bytes": 160,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Config\\CrashReportClient\\UECC-Windows-106D390B461E7AA0517060896F68A43F\\CrashReportClient.ini",
+      "mtime": 1788006819
+    },
+    {
+      "bytes": 160,
+      "file": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Config\\CrashReportClient\\UECC-Windows-63A897F5459C629A00A3E3B14C4E3108\\CrashReportClient.ini",
+      "mtime": 1788001875
+    }
+  ],
+  "save_scan": {
+    "files_carrying_row_name": [],
+    "files_scanned": 172,
+    "holds": true,
+    "note": "ASCII and UTF-16LE forms of the row name were both searched; the mod container directory is excluded because it is our own content, not a save"
+  },
+  "verify_install": {
+    "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "benign_count": 0,
+    "mode": "full",
+    "report_artifact": "research/instrument-runs/_c4b-close-verify/verify_install_close.json",
+    "result": "match",
+    "serious_count": 0,
+    "strict": false
+  }
+}
