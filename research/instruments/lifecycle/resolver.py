@@ -86,6 +86,43 @@ class Anchor(dict):
     independent routes to it agreed."""
 
 
+def _agree(answers, label):
+    """Decide one anchor from several route answers.
+
+    *answers* is a list of ``(evidence, value)``. ``evidence["resolved"]`` says
+    whether that route could be READ at all, which is a different thing from
+    what it read. That distinction is the whole point of this function.
+
+    THE BUG THIS EXISTS TO PREVENT, found live on MISERY's death screen:
+    the previous code did ``[x for x in (a, b) if x]`` and then asked whether
+    the surviving candidates were all equal. On the death screen
+    ``AController::Pawn`` is null while ``AcknowledgedPawn`` still names the
+    corpse, so the null was FILTERED OUT and the single survivor trivially
+    "agreed" with itself. The resolver then reported a possessed pawn for a
+    controller that had already un-possessed it -- while its own cross-check
+    said the pawn did not point back. Two routes cannot agree if one of them
+    was thrown away.
+
+    A route that resolved and returned null has given a real answer -- null --
+    and null disagrees with a pointer. So nulls are kept and compared.
+    """
+    answered = [(ev, v) for ev, v in answers if (ev or {}).get("resolved")]
+    if not answered:
+        return None, False, ("no route to %s could be read on this class" % label)
+    values = {v for _ev, v in answered}
+    if len(values) != 1:
+        detail = ", ".join("%s=%s" % ((ev or {}).get("property", "?"),
+                                      ("0x%x" % v) if v else "null")
+                           for ev, v in answered)
+        return None, False, ("the routes to %s disagree (%s) -- refusing to pick one; a null "
+                             "from a route that WAS readable is an answer, not an absence"
+                             % (label, detail))
+    only = values.pop()
+    if not only:
+        return None, False, ("every route that could be read returned null for %s" % label)
+    return only, True, None
+
+
 def _anchor(address, objects, eri_mod, *, routes, agreed, why=None, extra=None):
     record = objects.get(address) or {}
     class_ptr = record.get("class_ptr")
@@ -313,17 +350,47 @@ class Resolver(object):
                                           "ULevel::OwningWorld",
                                  "why": "no unique live PlayerController"})
 
-        # -- route D: the only World with an AuthorityGameMode ---------------
-        with_gm = []
+        # -- route E: the engine's OWN test for a streaming sub-world --------
+        # UWorld::IsStreamingSubWorld is written in the engine as
+        #     PersistentLevel && PersistentLevel->OwningWorld != this
+        # (World.cpp:5357). Both members are reflected, so the same test can be
+        # run from outside. This is the discriminator that separates a real
+        # top-level world from the vestigial worlds that streamed sub-levels
+        # leave in the object graph -- of which this game has many.
+        top_level = []
         for w in worlds:
+            pl, _ev = self.read_object_prop(w, "PersistentLevel")
+            if not pl:
+                continue
+            ow, _ev2 = self.read_object_prop(pl, "OwningWorld")
+            if ow == w:
+                top_level.append(w)
+        world_routes.append({
+            "route": "the engine's own streaming-sub-world test: "
+                     "PersistentLevel->OwningWorld == self  (UWorld::IsStreamingSubWorld)",
+            "top_level_worlds": len(top_level),
+            "of_worlds_live": len(worlds),
+            "note": "used as a FILTER, not as a sole route: more than one top-level world "
+                    "can exist, so this narrows the field rather than naming the answer"})
+
+        # -- route D: the only World with an AuthorityGameMode ---------------
+        # Restricted to top-level worlds on purpose. It also disarms a trap the
+        # engine sets for us: UGameInstance::InitializeStandalone builds a dummy
+        # EWorldType::Game world BEFORE any map is loaded (GameInstance.cpp:189)
+        # -- one with no GameMode and an empty PersistentLevel. Requiring an
+        # AuthorityGameMode is exactly what filters that world out.
+        with_gm = []
+        for w in (top_level or worlds):
             gm, _ev = self.read_object_prop(w, "AuthorityGameMode")
             if gm:
                 with_gm.append(w)
         world_d = with_gm[0] if len(with_gm) == 1 else None
         world_routes.append({
-            "route": "the unique UWorld whose AuthorityGameMode is non-null",
+            "route": "the unique top-level UWorld whose AuthorityGameMode is non-null",
             "worlds_with_authority_game_mode": len(with_gm),
-            "world": ("0x%x" % world_d) if world_d else None})
+            "world": ("0x%x" % world_d) if world_d else None,
+            "also_rules_out": "the dummy standalone world the engine creates before any map "
+                              "load, which has no GameMode"})
 
         candidates = [w for w in (world_a, world_b, world_c, world_d) if w]
         agreed = bool(candidates) and len(set(candidates)) == 1
@@ -337,88 +404,94 @@ class Resolver(object):
                    "world_names": sorted({self.name_of(w) for w in worlds})})
 
         # -- GameInstance ----------------------------------------------------
-        gi_routes = []
-        gi_a = gi_b = None
+        gi_routes, gi_answers = [], []
         if world:
-            gi_a, ev = self.read_object_prop(world, "OwningGameInstance")
+            v, ev = self.read_object_prop(world, "OwningGameInstance")
             gi_routes.append({"route": "UWorld::OwningGameInstance", "evidence": ev})
+            gi_answers.append((ev, v))
         if viewport:
-            gi_b, ev = self.read_object_prop(viewport, "GameInstance")
+            v, ev = self.read_object_prop(viewport, "GameInstance")
             gi_routes.append({"route": "UGameViewportClient::GameInstance", "evidence": ev})
+            gi_answers.append((ev, v))
         live_gis = self.instances_of(PATH_GAME_INSTANCE)
         gi_routes.append({"route": "live UGameInstance instances", "count": len(live_gis),
                           "objects": ["0x%x" % a for a in live_gis]})
-        gi_cands = [g for g in (gi_a, gi_b) if g]
-        gi_agreed = bool(gi_cands) and len(set(gi_cands)) == 1 and len(live_gis) == 1 \
-            and gi_cands[0] == live_gis[0]
-        game_instance = gi_cands[0] if gi_agreed else None
+        game_instance, gi_agreed, gi_why = _agree(gi_answers, "the GameInstance")
+        if gi_agreed and not (len(live_gis) == 1 and game_instance == live_gis[0]):
+            game_instance, gi_agreed, gi_why = None, False, (
+                "the agreed GameInstance is not the single live UGameInstance (%d live)"
+                % len(live_gis))
         snap["anchors"]["game_instance"] = _anchor(
-            game_instance, self.objects, eri, routes=gi_routes, agreed=gi_agreed,
-            why=None if gi_agreed else
-                "the GameInstance routes disagree, or there is not exactly one live instance")
+            game_instance, self.objects, eri, routes=gi_routes, agreed=gi_agreed, why=gi_why)
 
         # -- LocalPlayer -----------------------------------------------------
-        lp_routes = []
-        lp_a = lp_b = None
+        lp_routes, lp_answers = [], []
         if game_instance:
             players, ev = self.read_array_prop(game_instance, "LocalPlayers")
             lp_routes.append({"route": "UGameInstance::LocalPlayers", "evidence": ev})
             if len(players) == 1:
-                lp_a = players[0]
+                lp_answers.append((ev, players[0]))
             else:
                 lp_routes[-1]["why"] = ("expected exactly one local player, found %d -- "
                                         "splitscreen is not handled and is not guessed at"
                                         % len(players))
         if controller:
-            lp_b, ev = self.read_object_prop(controller, "Player")
+            v, ev = self.read_object_prop(controller, "Player")
             lp_routes.append({"route": "APlayerController::Player", "evidence": ev})
+            lp_answers.append((ev, v))
         live_lps = self.instances_of(PATH_LOCAL_PLAYER)
         lp_routes.append({"route": "live ULocalPlayer instances", "count": len(live_lps)})
-        lp_cands = [x for x in (lp_a, lp_b) if x]
-        lp_agreed = bool(lp_cands) and len(set(lp_cands)) == 1
-        local_player = lp_cands[0] if lp_agreed else None
+        local_player, lp_agreed, lp_why = _agree(lp_answers, "the LocalPlayer")
         snap["anchors"]["local_player"] = _anchor(
-            local_player, self.objects, eri, routes=lp_routes, agreed=lp_agreed,
-            why=None if lp_agreed else "the LocalPlayer routes disagree or are unavailable")
+            local_player, self.objects, eri, routes=lp_routes, agreed=lp_agreed, why=lp_why)
 
         # -- PlayerController ------------------------------------------------
         pc_routes = [{"route": "live APlayerController instances", "count": len(controllers),
                       "objects": ["0x%x" % a for a in controllers]}]
-        pc_b = None
+        pc_b, pc_ev = None, None
         if local_player:
             # The reverse edge. UPlayer::PlayerController is reflected, so the
             # LocalPlayer can be asked who its controller is instead of us
             # assuming the single live controller is the right one.
-            pc_b, ev = self.read_object_prop(local_player, "PlayerController")
-            pc_routes.append({"route": "UPlayer::PlayerController", "evidence": ev})
-        pc_cands = [x for x in (controller, pc_b) if x]
-        pc_agreed = bool(pc_cands) and len(set(pc_cands)) == 1
-        player_controller = pc_cands[0] if pc_agreed else None
+            pc_b, pc_ev = self.read_object_prop(local_player, "PlayerController")
+            pc_routes.append({"route": "UPlayer::PlayerController", "evidence": pc_ev})
+        if controller:
+            # A reflected boolean that says the controller is the LOCAL one.
+            # Recorded rather than gated on: MISERY runs standalone, so it is
+            # expected true, and an unexpected value should be visible in the
+            # evidence instead of silently failing a resolution that is
+            # otherwise cross-checked from both directions.
+            flag = self.prop(controller, "bIsLocalPlayerController")
+            pc_routes.append({"route": "APlayerController::bIsLocalPlayerController",
+                              "resolved": bool(flag),
+                              "offset": (flag or {}).get("offset")})
+        pc_answers = []
+        if controller:
+            pc_answers.append(({"resolved": True,
+                                "property": "the single live APlayerController"}, controller))
+        if pc_ev is not None:
+            pc_answers.append((pc_ev, pc_b))
+        player_controller, pc_agreed, pc_why = _agree(pc_answers, "the PlayerController")
         snap["anchors"]["player_controller"] = _anchor(
-            player_controller, self.objects, eri, routes=pc_routes, agreed=pc_agreed,
-            why=None if pc_agreed else
-                "the PlayerController routes disagree, or there is not exactly one live one")
+            player_controller, self.objects, eri, routes=pc_routes, agreed=pc_agreed, why=pc_why)
 
         # -- Pawn -------------------------------------------------------------
-        pawn_routes = []
-        pawn_a = pawn_b = None
+        pawn_routes, pawn_answers = [], []
         if player_controller:
-            pawn_a, ev = self.read_object_prop(player_controller, "Pawn")
-            pawn_routes.append({"route": "AController::Pawn", "evidence": ev})
-            pawn_b, ev = self.read_object_prop(player_controller, "AcknowledgedPawn")
-            pawn_routes.append({"route": "APlayerController::AcknowledgedPawn", "evidence": ev})
-        pawn_cands = [x for x in (pawn_a, pawn_b) if x]
-        # Disagreement here is meaningful, not pedantic: it means possession has
-        # not settled and the player is half-built.
-        pawn_agreed = (bool(pawn_cands) and len(set(pawn_cands)) == 1
-                       and self.derives_from(pawn_cands[0], PATH_PAWN)
-                       and not self.is_cdo(pawn_cands[0]))
-        pawn = pawn_cands[0] if pawn_agreed else None
+            for field, label in (("Pawn", "AController::Pawn"),
+                                 ("AcknowledgedPawn", "APlayerController::AcknowledgedPawn")):
+                v, ev = self.read_object_prop(player_controller, field)
+                pawn_routes.append({"route": label, "evidence": ev})
+                pawn_answers.append((ev, v))
+        # Disagreement here is meaningful, not pedantic: it means the player is
+        # dead, or possession has not settled. MISERY's death screen is exactly
+        # this state -- Pawn null, AcknowledgedPawn still naming the corpse.
+        pawn, pawn_agreed, pawn_why = _agree(pawn_answers, "the possessed Pawn")
+        if pawn_agreed and not (self.derives_from(pawn, PATH_PAWN) and not self.is_cdo(pawn)):
+            pawn, pawn_agreed, pawn_why = None, False, (
+                "the agreed pawn pointer does not name a live non-CDO Pawn")
         snap["anchors"]["pawn"] = _anchor(
-            pawn, self.objects, eri, routes=pawn_routes, agreed=pawn_agreed,
-            why=None if pawn_agreed else
-                ("Pawn and AcknowledgedPawn disagree, are null, or do not name a live Pawn -- "
-                 "possession has not settled"))
+            pawn, self.objects, eri, routes=pawn_routes, agreed=pawn_agreed, why=pawn_why)
 
         # -- the player-owned runtime state anchor ----------------------------
         inv_routes = []

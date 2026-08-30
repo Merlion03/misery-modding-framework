@@ -1,0 +1,150 @@
+{
+  "pid": 1184,
+  "instances": {
+    "Engine": [
+      {
+        "address": "0x244f8de3340",
+        "class": "GameEngine",
+        "class_path": "/Script/Engine.GameEngine",
+        "path": "/Engine/Transient.GameEngine"
+      }
+    ],
+    "GameInstance": [
+      {
+        "address": "0x244f9109100",
+        "class": "BP_SGKGameInstance_C",
+        "class_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKGameInstance.BP_SGKGameInstance_C",
+        "path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+      }
+    ],
+    "GameModeBase": [
+      {
+        "address": "0x2449acedc90",
+        "class": "BP_SGKGameMode_C",
+        "class_path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKGameMode.BP_SGKGameMode_C",
+        "path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKGameMode_C"
+      }
+    ],
+    "PlayerController": [
+      {
+        "address": "0x244b10e9ba0",
+        "class": "BP_SGKController_C",
+        "class_path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C",
+        "path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+      }
+    ],
+    "LocalPlayer": [
+      {
+        "address": "0x244f911d400",
+        "class": "LocalPlayer",
+        "class_path": "/Script/Engine.LocalPlayer",
+        "path": "/Engine/Transient.GameEngine:LocalPlayer"
+      }
+    ],
+    "GameViewportClient": [
+      {
+        "address": "0x244f9eca4c0",
+        "class": "MiseryGameViewportClient",
+        "class_path": "/Script/MISERY.MiseryGameViewportClient",
+        "path": "/Engine/Transient.GameEngine:MiseryGameViewportClient"
+      }
+    ]
+  },
+  "worlds": {
+    "total": 12,
+    "top_level": [
+      {
+        "world": "NewMapGENTEST",
+        "address": "0x244e4a3db80",
+        "persistent_level": "0x2449fceaf80",
+        "owning_world": "0x244e4a3db80"
+      }
+    ],
+    "streaming_sub_worlds": 11,
+    "streaming_sub_world_names": [
+      "L_Bunker_Conservatory",
+      "L_Bunker_ServerRoom_Electric",
+      "L_MainTerrain",
+      "L_NuclearBunker01",
+      "L_NuclearBunker02",
+      "L_NuclearBunker04",
+      "L_NuclearBunker05",
+      "L_NuclearBunker06",
+      "L_SafeHub"
+    ],
+    "engine_test": "UWorld::IsStreamingSubWorld == (PersistentLevel && PersistentLevel->OwningWorld != this)  [World.cpp:5357]"
+  },
+  "seamless_travel": {
+    "game_modes_live": 1,
+    "readings": [
+      {
+        "game_mode": "BP_SGKGameMode_C",
+        "address": "0x2449acedc90",
+        "resolved": true,
+        "offset": 784,
+        "property_class": "FBoolProperty",
+        "declared_on": "GameModeBase",
+        "raw_byte": 5,
+        "nonzero": true
+      }
+    ]
+  },
+  "gamemode_overrides": [
+    {
+      "game_mode": "BP_SGKGameMode_C",
+      "super_chain": [
+        {
+          "class": "BP_SGKGameMode_C",
+          "path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKGameMode.BP_SGKGameMode_C",
+          "declares_RestartPlayer": false,
+          "declares_HandleSeamlessTravelPlayer": false,
+          "declares_RestartPlayerAtPlayerStart": false,
+          "function_count": 19
+        },
+        {
+          "class": "GameModeBase",
+          "path": "/Script/Engine.GameModeBase",
+          "declares_RestartPlayer": true,
+          "declares_HandleSeamlessTravelPlayer": false,
+          "declares_RestartPlayerAtPlayerStart": true,
+          "function_count": 29
+        },
+        {
+          "class": "Info",
+          "path": "/Script/Engine.Info",
+          "declares_RestartPlayer": false,
+          "declares_HandleSeamlessTravelPlayer": false,
+          "declares_RestartPlayerAtPlayerStart": false,
+          "function_count": 0
+        },
+        {
+          "class": "Actor",
+          "path": "/Script/Engine.Actor",
+          "declares_RestartPlayer": false,
+          "declares_HandleSeamlessTravelPlayer": false,
+          "declares_RestartPlayerAtPlayerStart": false,
+          "function_count": 140
+        },
+        {
+          "class": "Object",
+          "path": "/Script/CoreUObject.Object",
+          "declares_RestartPlayer": false,
+          "declares_HandleSeamlessTravelPlayer": false,
+          "declares_RestartPlayerAtPlayerStart": false,
+          "function_count": 1
+        }
+      ]
+    }
+  ],
+  "bUseSeamlessTravel_DECODED": {
+    "value": true,
+    "how": "byte at GameMode+784 is 0x05; the FBoolProperty for bUseSeamlessTravel carries FieldMask 0x01, so the bool is (0x05 & 0x01) = True",
+    "other_bools_in_that_byte": {
+      "bStartPlayersAsSpectators": "mask 0x02 -> False",
+      "bPauseable": "mask 0x04 -> True"
+    },
+    "why_the_raw_byte_was_not_the_answer": "three bools share offset 784. Reporting the byte as nonzero would have been reporting the wrong thing entirely: it is only true of this bool because mask 0x01 happens to be set.",
+    "consequence": "seamless travel is ENABLED. Per GameModeBase.cpp:597-632 and :566-569 the authority side spawns a replacement PlayerController and destroys the old one, so a PlayerController pointer must be assumed NOT to survive a level change. This is exactly why the resolver re-resolves every query and caches no object.",
+    "limit_of_this_claim": "this proves the flag is enabled, NOT that MISERY performs a seamless travel during normal play. The one world change observed here (menu -> game) recreated the World and the PlayerController, which is consistent with either path."
+  }
+}

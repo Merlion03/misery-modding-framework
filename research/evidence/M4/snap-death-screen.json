@@ -190,13 +190,13 @@
       "routes_agreed": true
     },
     "pawn": {
-      "resolved": true,
-      "address": "0x244bb2620e0",
-      "name": "BP_SGKMasterCharacter_C",
-      "class": "BP_SGKMasterCharacter_C",
+      "resolved": false,
+      "address": null,
+      "name": null,
+      "class": null,
       "identity": {
-        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C",
-        "class_path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKMasterCharacter.BP_SGKMasterCharacter_C"
+        "object_path": null,
+        "class_path": null
       },
       "routes": [
         {
@@ -206,8 +206,8 @@
             "resolved": true,
             "offset": 720,
             "declared_on": "Controller",
-            "value": "0x244bb2620e0",
-            "value_name": "BP_SGKMasterCharacter_C"
+            "value": null,
+            "value_name": null
           }
         },
         {
@@ -217,12 +217,13 @@
             "resolved": true,
             "offset": 824,
             "declared_on": "PlayerController",
-            "value": "0x244bb2620e0",
-            "value_name": "BP_SGKMasterCharacter_C"
+            "value": null,
+            "value_name": null
           }
         }
       ],
-      "routes_agreed": true
+      "routes_agreed": false,
+      "why": "every route that could be read returned null for the possessed Pawn"
     },
     "player_inventory": {
       "resolved": true,
@@ -247,21 +248,6 @@
   },
   "cross_checks": [
     {
-      "check": "APawn::Controller points back at the resolved PlayerController",
-      "pass": true,
-      "detail": {
-        "pawn_controller": "0x244b10e9ba0",
-        "evidence": {
-          "property": "Controller",
-          "resolved": true,
-          "offset": 712,
-          "declared_on": "Pawn",
-          "value": "0x244b10e9ba0",
-          "value_name": "BP_SGKController_C"
-        }
-      }
-    },
-    {
       "check": "APlayerController::Player and UPlayer::PlayerController are inverses",
       "pass": true,
       "detail": "both routes were required to agree above"
@@ -284,10 +270,10 @@
     "live GameViewportClient instances: 1"
   ],
   "object_graph_trusted": true,
-  "objects_total": 169843,
-  "complete": true,
+  "objects_total": 169976,
+  "complete": false,
   "cross_checks_all_pass": true,
   "pid": 1184,
   "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
-  "label": "launch2-gameplay-after-save-load"
+  "label": "DEATH_SCREEN after the fix"
 }
