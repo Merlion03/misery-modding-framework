@@ -39,7 +39,17 @@ responsible, ``local_id`` says which of that mod's items this is. The row name
 the game sees is derived, never authored -- a mod cannot choose a bare name and
 therefore cannot collide with, or shadow, a vanilla row by construction.
 """
+import os
 import re
+import sys
+
+_PLATFORM = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))))),
+    "tools", "modplatform")
+if _PLATFORM not in sys.path:
+    sys.path.insert(0, _PLATFORM)
+import modid as _modid                                             # noqa: E402
 
 # --------------------------------------------------------------------------
 # Structured errors. Never a bare string, never a silent failure.
@@ -61,14 +71,14 @@ ERR_UNSUPPORTED = "unsupported"
 # separator, so neither half may contain one -- otherwise two different ItemIds
 # could derive the same row name, which would silently turn a collision into an
 # overwrite.
-ID_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
-SEPARATOR = "__"
+ID_PATTERN = _modid.PATTERN
+SEPARATOR = _modid.SEPARATOR
 
 # A mod may not claim these. They are how vanilla and the framework itself are
 # recognisable, and a mod that could take them could impersonate either.
-RESERVED_MOD_IDS = frozenset({"misery", "sgk", "engine", "core", "game", "vanilla"})
+RESERVED_MOD_IDS = _modid.RESERVED
 
-MAX_ID_LEN = 48
+MAX_ID_LEN = _modid.MAX_LENGTH
 MAX_TEXT_LEN = 127          # the probe's text buffers are 128 UTF-16 units incl. NUL
 
 # The one field whose write is conditional on live semantics: AllowStacking is
@@ -108,29 +118,20 @@ class ItemId(object):
     __slots__ = ("mod_id", "local_id")
 
     def __init__(self, mod_id, local_id):
-        for value, field, code in ((mod_id, "mod_id", ERR_INVALID_MOD_ID),
-                                   (local_id, "local_id", ERR_INVALID_LOCAL_ID)):
-            if not isinstance(value, str) or not value:
-                raise DefinitionError(code, field, "must be a non-empty string")
-            if len(value) > MAX_ID_LEN:
-                raise DefinitionError(code, field,
-                                      "longer than %d characters" % MAX_ID_LEN)
-            if SEPARATOR in value:
-                raise DefinitionError(
-                    code, field,
-                    "must not contain %r: it is the namespace separator, and allowing it "
-                    "would let two different ItemIds derive one row name" % SEPARATOR)
-            if not ID_PATTERN.match(value):
-                raise DefinitionError(
-                    code, field,
-                    "must match %s -- lowercase, starting with a letter. FName comparison "
-                    "is case-insensitive, so allowing mixed case would make two ids that "
-                    "look different collide in the game" % ID_PATTERN.pattern)
-        if mod_id in RESERVED_MOD_IDS:
-            raise DefinitionError(
-                ERR_RESERVED_NAMESPACE, "mod_id",
-                "%r is reserved; a mod using it could impersonate vanilla or the "
-                "framework" % mod_id)
+        # Both halves are checked by the canonical ModId contract rather than
+        # by a copy of the rule kept here. The two copies had already drifted
+        # from Stage 3's by the time Stage 4 needed one answer.
+        try:
+            _modid.check(mod_id)
+        except _modid.ModIdError as error:
+            code = (ERR_RESERVED_NAMESPACE if error.code == _modid.ERR_RESERVED
+                    else ERR_INVALID_MOD_ID)
+            raise DefinitionError(code, "mod_id", error.detail) from error
+        try:
+            _modid.check_local_id(local_id)
+        except _modid.ModIdError as error:
+            raise DefinitionError(ERR_INVALID_LOCAL_ID, "local_id",
+                                  error.detail) from error
         self.mod_id = mod_id
         self.local_id = local_id
 

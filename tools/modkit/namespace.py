@@ -31,7 +31,15 @@ machine and every run, or the ItemDefinition references a mod ships would stop
 resolving after a rebuild. There is no hashing, no timestamp and no ordering
 dependence here: the mapping is a pure function of (mod_id, category, name).
 """
+import os
 import re
+import sys
+
+_PLATFORM = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                         "modplatform")
+if _PLATFORM not in sys.path:
+    sys.path.insert(0, _PLATFORM)
+import modid as _modid                                             # noqa: E402
 
 ROOT = "/Game/Mods"
 
@@ -47,18 +55,17 @@ CATEGORIES = {
 # Same rule as the runtime ItemId: lowercase, starts with a letter. FName
 # comparison is case-insensitive, so allowing mixed case would let two ids that
 # look different collide inside the game.
-MOD_ID_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
+MOD_ID_PATTERN = _modid.PATTERN
 # Asset names keep their authored case -- they become Unreal object names, where
 # CamelCase is the convention -- but must still be a safe identifier.
 ASSET_NAME_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 
-MAX_MOD_ID = 48
+MAX_MOD_ID = _modid.MAX_LENGTH
 MAX_ASSET_NAME = 64
 
 # A mod may not claim these: they are how vanilla and the framework are
 # recognisable, and a mod that could take one could impersonate either.
-RESERVED_MOD_IDS = frozenset({"misery", "sgk", "engine", "core", "game", "vanilla",
-                              "mods", "temp", "script"})
+RESERVED_MOD_IDS = _modid.RESERVED
 
 # Roots a generated path must never fall under, checked as a belt-and-braces
 # second line even though the derivation makes it structurally impossible.
@@ -79,22 +86,22 @@ class NamespaceError(Exception):
 
 
 def check_mod_id(mod_id):
-    if not isinstance(mod_id, str) or not mod_id:
-        raise NamespaceError("invalid_mod_id", "must be a non-empty string")
-    if len(mod_id) > MAX_MOD_ID:
-        raise NamespaceError("invalid_mod_id", "longer than %d characters" % MAX_MOD_ID)
-    if not MOD_ID_PATTERN.match(mod_id):
-        raise NamespaceError(
-            "invalid_mod_id",
-            "%r must match %s -- lowercase, starting with a letter, because FName "
-            "comparison is case-insensitive and two ids differing only in case would "
-            "collide inside the game while looking distinct here"
-            % (mod_id, MOD_ID_PATTERN.pattern))
-    if mod_id in RESERVED_MOD_IDS:
-        raise NamespaceError("reserved_mod_id",
-                             "%r is reserved; a mod using it could impersonate vanilla "
-                             "or the framework" % mod_id)
-    return mod_id
+    """Delegates to the canonical ModId contract.
+
+    This function used to carry its own copy of the rule, and that copy had
+    drifted: it accepted an id containing ``__``, which Stage 2 refuses because
+    it makes ``<mod_id>__<local_id>`` ambiguous to decompose. The rule now lives
+    in exactly one place (tools/modplatform/modid.py) and every stage asks it.
+
+    The NamespaceError wrapper is kept because callers catch it by type; only
+    the source of the answer changed, not the shape of the failure.
+    """
+    try:
+        return _modid.check(mod_id)
+    except _modid.ModIdError as error:
+        code = ("reserved_mod_id" if error.code == _modid.ERR_RESERVED
+                else "invalid_mod_id")
+        raise NamespaceError(code, "%r: %s" % (mod_id, error.detail)) from error
 
 
 def check_asset_name(name):

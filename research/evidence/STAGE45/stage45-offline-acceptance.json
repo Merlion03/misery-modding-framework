@@ -1,0 +1,850 @@
+{
+  "root": "D:/UEScratch/ModsRoot",
+  "started_at": "2026-08-30T20:37:36Z",
+  "api_version": "0.5.0",
+  "load_order": [
+    "alphamod",
+    "betamod"
+  ],
+  "module_problems": [],
+  "load_outcomes": [
+    {
+      "mod_id": "alphamod",
+      "ok": true,
+      "granted": [
+        "core.console",
+        "core.events",
+        "core.input_registry",
+        "core.items",
+        "core.log",
+        "core.services",
+        "core.settings"
+      ]
+    },
+    {
+      "mod_id": "betamod",
+      "ok": true,
+      "granted": [
+        "core.console",
+        "core.events",
+        "core.input_registry",
+        "core.items",
+        "core.log",
+        "core.services",
+        "core.settings"
+      ]
+    }
+  ],
+  "item_outcomes": [
+    {
+      "mod_id": "alphamod",
+      "ok": true,
+      "rows": [
+        "alphamod__shape"
+      ]
+    },
+    {
+      "mod_id": "betamod",
+      "ok": true,
+      "rows": [
+        "betamod__shape"
+      ]
+    }
+  ],
+  "rows": [
+    "alphamod__shape",
+    "betamod__shape"
+  ],
+  "console": {
+    "dependency/conflict failure": {
+      "subject": null,
+      "diagnostics": [],
+      "excluded": {}
+    },
+    "discovered mods": {
+      "mods": [
+        {
+          "mod_id": "alphamod",
+          "state": "loaded",
+          "order": 0,
+          "error": null
+        },
+        {
+          "mod_id": "betamod",
+          "state": "loaded",
+          "order": 1,
+          "error": null
+        }
+      ],
+      "folders_examined": [
+        "ZZ_AlphaMod_v1",
+        "aa-beta-mod"
+      ]
+    },
+    "mod state": {
+      "mods": [
+        {
+          "mod_id": "alphamod",
+          "state": "loaded",
+          "order": 0,
+          "error": null
+        },
+        {
+          "mod_id": "betamod",
+          "state": "loaded",
+          "order": 1,
+          "error": null
+        }
+      ],
+      "folders_examined": [
+        "ZZ_AlphaMod_v1",
+        "aa-beta-mod"
+      ]
+    },
+    "owned assets/resources": {
+      "mods": [
+        {
+          "mod_id": "alphamod",
+          "state": "loaded",
+          "owned": {
+            "mod_id": "alphamod",
+            "disposed": false,
+            "resources": {
+              "event_declaration": {
+                "held": [
+                  "alphamod:ready"
+                ],
+                "released": []
+              },
+              "event_handler": {
+                "held": [
+                  "platform:mod_loaded"
+                ],
+                "released": []
+              },
+              "input_action": {
+                "held": [
+                  "alphamod:toggle"
+                ],
+                "released": []
+              },
+              "item": {
+                "held": [
+                  "alphamod__shape"
+                ],
+                "released": []
+              },
+              "service": {
+                "held": [
+                  "alphamod:info"
+                ],
+                "released": []
+              },
+              "settings_schema": {
+                "held": [
+                  "alphamod"
+                ],
+                "released": []
+              }
+            },
+            "live_tokens": [
+              "alphamod:info.local_id",
+              "alphamod:info.scale",
+              "platform:mod_loaded"
+            ],
+            "revoked_tokens": []
+          },
+          "teardown": null
+        },
+        {
+          "mod_id": "betamod",
+          "state": "loaded",
+          "owned": {
+            "mod_id": "betamod",
+            "disposed": false,
+            "resources": {
+              "event_declaration": {
+                "held": [
+                  "betamod:ready"
+                ],
+                "released": []
+              },
+              "event_handler": {
+                "held": [
+                  "platform:mod_loaded"
+                ],
+                "released": []
+              },
+              "input_action": {
+                "held": [
+                  "betamod:toggle"
+                ],
+                "released": []
+              },
+              "item": {
+                "held": [
+                  "betamod__shape"
+                ],
+                "released": []
+              },
+              "service": {
+                "held": [
+                  "betamod:info"
+                ],
+                "released": []
+              },
+              "settings_schema": {
+                "held": [
+                  "betamod"
+                ],
+                "released": []
+              }
+            },
+            "live_tokens": [
+              "betamod:info.local_id",
+              "betamod:info.scale",
+              "platform:mod_loaded"
+            ],
+            "revoked_tokens": []
+          },
+          "teardown": null
+        }
+      ]
+    },
+    "registered items": {
+      "items": [
+        {
+          "mod_id": "alphamod",
+          "held": [
+            "alphamod__shape"
+          ],
+          "released": []
+        },
+        {
+          "mod_id": "betamod",
+          "held": [
+            "betamod__shape"
+          ],
+          "released": []
+        }
+      ],
+      "backend_attached": true
+    },
+    "resolved load order": {
+      "load_order": [
+        "alphamod",
+        "betamod"
+      ],
+      "excluded": {},
+      "source": "Stage 4 load plan"
+    },
+    "structured subsystem errors": {
+      "errors": []
+    }
+  },
+  "services": {
+    "alphamod:info": {
+      "version": "1.0.0",
+      "provider": "alphamod",
+      "methods": [
+        "local_id",
+        "scale"
+      ]
+    },
+    "betamod:info": {
+      "version": "1.0.0",
+      "provider": "betamod",
+      "methods": [
+        "local_id",
+        "scale"
+      ]
+    }
+  },
+  "teardown": {
+    "mod_id": "alphamod",
+    "revoked_callbacks": 3,
+    "released": [
+      {
+        "kind": "item",
+        "key": "alphamod__shape"
+      },
+      {
+        "kind": "service",
+        "key": "alphamod:info"
+      },
+      {
+        "kind": "input_action",
+        "key": "alphamod:toggle"
+      },
+      {
+        "kind": "event_handler",
+        "key": "platform:mod_loaded"
+      },
+      {
+        "kind": "event_declaration",
+        "key": "alphamod:ready"
+      },
+      {
+        "kind": "settings_schema",
+        "key": "alphamod"
+      }
+    ],
+    "faults": [],
+    "resources_total": 6
+  },
+  "reclaimable": {
+    "reclaimable": true,
+    "unreleased": [],
+    "live_tokens": [],
+    "disposed": true
+  },
+  "shutdown": [
+    {
+      "mod_id": "betamod",
+      "revoked_callbacks": 3,
+      "released": [
+        {
+          "kind": "service_binding",
+          "key": "alphamod:info"
+        },
+        {
+          "kind": "item",
+          "key": "betamod__shape"
+        },
+        {
+          "kind": "service",
+          "key": "betamod:info"
+        },
+        {
+          "kind": "input_action",
+          "key": "betamod:toggle"
+        },
+        {
+          "kind": "event_handler",
+          "key": "platform:mod_loaded"
+        },
+        {
+          "kind": "event_declaration",
+          "key": "betamod:ready"
+        },
+        {
+          "kind": "settings_schema",
+          "key": "betamod"
+        }
+      ],
+      "faults": [],
+      "resources_total": 7
+    }
+  ],
+  "diagnostics": {
+    "api_version": "0.5.0",
+    "capabilities": {
+      "core.console": {
+        "version": "1.0.0",
+        "detail": "contribute commands to the developer console"
+      },
+      "core.diagnostics": {
+        "version": "1.0.0",
+        "detail": "read the platform's own diagnostic state"
+      },
+      "core.events": {
+        "version": "1.0.0",
+        "detail": "declare, subscribe to and publish namespaced events; platform lifecycle events only, no gameplay events"
+      },
+      "core.input_registry": {
+        "version": "0.1.0",
+        "detail": "DECLARATION and ownership of named input actions. This stage does not deliver engine input to them: the engine input path is unresearched, so a mod needing real key events must not rely on this"
+      },
+      "core.items": {
+        "version": "1.0.0",
+        "detail": "register item definitions under the mod's own namespace"
+      },
+      "core.log": {
+        "version": "1.0.0",
+        "detail": "per-mod structured logging with rate limiting"
+      },
+      "core.services": {
+        "version": "1.0.0",
+        "detail": "publish and consume versioned inter-mod services"
+      },
+      "core.settings": {
+        "version": "1.0.0",
+        "detail": "declared, typed, persisted per-mod settings"
+      }
+    },
+    "mods": [
+      {
+        "mod_id": "alphamod",
+        "state": "unloaded",
+        "load_order_index": 0,
+        "error": null,
+        "capabilities": {
+          "mod_id": "alphamod",
+          "api_version": "0.5.0",
+          "granted": {
+            "core.console": "1.0.0",
+            "core.events": "1.0.0",
+            "core.input_registry": "0.1.0",
+            "core.items": "1.0.0",
+            "core.log": "1.0.0",
+            "core.services": "1.0.0",
+            "core.settings": "1.0.0"
+          },
+          "declined": {}
+        },
+        "owned": {
+          "mod_id": "alphamod",
+          "disposed": true,
+          "resources": {
+            "event_declaration": {
+              "held": [],
+              "released": [
+                "alphamod:ready"
+              ]
+            },
+            "event_handler": {
+              "held": [],
+              "released": [
+                "platform:mod_loaded"
+              ]
+            },
+            "input_action": {
+              "held": [],
+              "released": [
+                "alphamod:toggle"
+              ]
+            },
+            "item": {
+              "held": [],
+              "released": [
+                "alphamod__shape"
+              ]
+            },
+            "service": {
+              "held": [],
+              "released": [
+                "alphamod:info"
+              ]
+            },
+            "settings_schema": {
+              "held": [],
+              "released": [
+                "alphamod"
+              ]
+            }
+          },
+          "live_tokens": [],
+          "revoked_tokens": [
+            "alphamod:info.local_id",
+            "alphamod:info.scale",
+            "platform:mod_loaded"
+          ]
+        },
+        "teardown": {
+          "mod_id": "alphamod",
+          "revoked_callbacks": 3,
+          "released": [
+            {
+              "kind": "item",
+              "key": "alphamod__shape"
+            },
+            {
+              "kind": "service",
+              "key": "alphamod:info"
+            },
+            {
+              "kind": "input_action",
+              "key": "alphamod:toggle"
+            },
+            {
+              "kind": "event_handler",
+              "key": "platform:mod_loaded"
+            },
+            {
+              "kind": "event_declaration",
+              "key": "alphamod:ready"
+            },
+            {
+              "kind": "settings_schema",
+              "key": "alphamod"
+            }
+          ],
+          "faults": [],
+          "resources_total": 6
+        }
+      },
+      {
+        "mod_id": "betamod",
+        "state": "unloaded",
+        "load_order_index": 1,
+        "error": null,
+        "capabilities": {
+          "mod_id": "betamod",
+          "api_version": "0.5.0",
+          "granted": {
+            "core.console": "1.0.0",
+            "core.events": "1.0.0",
+            "core.input_registry": "0.1.0",
+            "core.items": "1.0.0",
+            "core.log": "1.0.0",
+            "core.services": "1.0.0",
+            "core.settings": "1.0.0"
+          },
+          "declined": {}
+        },
+        "owned": {
+          "mod_id": "betamod",
+          "disposed": true,
+          "resources": {
+            "event_declaration": {
+              "held": [],
+              "released": [
+                "betamod:ready"
+              ]
+            },
+            "event_handler": {
+              "held": [],
+              "released": [
+                "platform:mod_loaded"
+              ]
+            },
+            "input_action": {
+              "held": [],
+              "released": [
+                "betamod:toggle"
+              ]
+            },
+            "item": {
+              "held": [],
+              "released": [
+                "betamod__shape"
+              ]
+            },
+            "service": {
+              "held": [],
+              "released": [
+                "betamod:info"
+              ]
+            },
+            "service_binding": {
+              "held": [],
+              "released": [
+                "alphamod:info"
+              ]
+            },
+            "settings_schema": {
+              "held": [],
+              "released": [
+                "betamod"
+              ]
+            }
+          },
+          "live_tokens": [],
+          "revoked_tokens": [
+            "betamod:info.local_id",
+            "betamod:info.scale",
+            "platform:mod_loaded"
+          ]
+        },
+        "teardown": {
+          "mod_id": "betamod",
+          "revoked_callbacks": 3,
+          "released": [
+            {
+              "kind": "service_binding",
+              "key": "alphamod:info"
+            },
+            {
+              "kind": "item",
+              "key": "betamod__shape"
+            },
+            {
+              "kind": "service",
+              "key": "betamod:info"
+            },
+            {
+              "kind": "input_action",
+              "key": "betamod:toggle"
+            },
+            {
+              "kind": "event_handler",
+              "key": "platform:mod_loaded"
+            },
+            {
+              "kind": "event_declaration",
+              "key": "betamod:ready"
+            },
+            {
+              "kind": "settings_schema",
+              "key": "betamod"
+            }
+          ],
+          "faults": [],
+          "resources_total": 7
+        }
+      }
+    ],
+    "states": {
+      "discovered": 0,
+      "loading": 0,
+      "loaded": 0,
+      "unloading": 0,
+      "unloaded": 2,
+      "failed": 0
+    },
+    "events": {
+      "declared": 4,
+      "events": {
+        "platform:mod_failed": {
+          "owner": null,
+          "subscribers": 0
+        },
+        "platform:mod_loaded": {
+          "owner": null,
+          "subscribers": 0
+        },
+        "platform:mod_unloaded": {
+          "owner": null,
+          "subscribers": 0
+        },
+        "platform:mod_unloading": {
+          "owner": null,
+          "subscribers": 0
+        }
+      },
+      "dispatches": 9,
+      "handler_faults": 0
+    },
+    "input": {
+      "actions": [],
+      "handlers": {},
+      "delivered": 0,
+      "handler_faults": 0,
+      "engine_input_wired": false,
+      "note": "declaration and ownership only; the engine input path is unresearched, so nothing in the game delivers these yet"
+    },
+    "services": {
+      "published": {},
+      "bindings": []
+    },
+    "settings": {
+      "mods": {},
+      "substitutions": []
+    },
+    "log": {
+      "buffered": 10,
+      "dropped": 0
+    },
+    "items_backend_attached": true
+  },
+  "checks": [
+    {
+      "check": "the Stage 4 plan resolved with no exclusions",
+      "pass": true,
+      "detail": "{}"
+    },
+    {
+      "check": "at least two independently namespaced mods are planned",
+      "pass": true,
+      "detail": "['alphamod', 'betamod']"
+    },
+    {
+      "check": "every planned mod's code imported",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "every mod declared the capabilities it needs",
+      "pass": true,
+      "detail": "[('alphamod', ('core.log', 'core.events', 'core.settings', 'core.items')), ('betamod', ('core.log', 'core.events', 'core.settings', 'core.items'))]"
+    },
+    {
+      "check": "every planned mod loaded",
+      "pass": true,
+      "detail": "[{'mod_id': 'alphamod', 'ok': True, 'granted': ['core.console', 'core.events', 'core.input_registry', 'core.items', 'core.log', 'core.services', 'core.settings']}, {'mod_id': 'betamod', 'ok': True, 'granted': ['core.console', 'core.events', 'core.input_registry', 'core.items', 'core.log', 'core.services', 'core.settings']}]"
+    },
+    {
+      "check": "every mod is in the LOADED state",
+      "pass": true,
+      "detail": "{'alphamod': 'loaded', 'betamod': 'loaded'}"
+    },
+    {
+      "check": "alphamod owns resources across 5 subsystem kind(s)",
+      "pass": true,
+      "detail": "['event_declaration', 'event_handler', 'input_action', 'service', 'settings_schema']"
+    },
+    {
+      "check": "alphamod owns nothing in another mod's namespace",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "betamod owns resources across 5 subsystem kind(s)",
+      "pass": true,
+      "detail": "['event_declaration', 'event_handler', 'input_action', 'service', 'settings_schema']"
+    },
+    {
+      "check": "betamod owns nothing in another mod's namespace",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "every mod registered its declared items",
+      "pass": true,
+      "detail": "[{'mod_id': 'alphamod', 'ok': True, 'rows': ['alphamod__shape']}, {'mod_id': 'betamod', 'ok': True, 'rows': ['betamod__shape']}]"
+    },
+    {
+      "check": "every row name decomposes to the mod that declared it",
+      "pass": true,
+      "detail": "['alphamod__shape', 'betamod__shape']"
+    },
+    {
+      "check": "two mods with the same local id produced distinct rows",
+      "pass": true,
+      "detail": "['alphamod__shape', 'betamod__shape']"
+    },
+    {
+      "check": "console can explain dependency/conflict failure ('why')",
+      "pass": true,
+      "detail": "None"
+    },
+    {
+      "check": "console can explain discovered mods ('mods')",
+      "pass": true,
+      "detail": "None"
+    },
+    {
+      "check": "console can explain mod state ('mods')",
+      "pass": true,
+      "detail": "None"
+    },
+    {
+      "check": "console can explain owned assets/resources ('owned')",
+      "pass": true,
+      "detail": "None"
+    },
+    {
+      "check": "console can explain registered items ('items')",
+      "pass": true,
+      "detail": "None"
+    },
+    {
+      "check": "console can explain resolved load order ('loadorder')",
+      "pass": true,
+      "detail": "None"
+    },
+    {
+      "check": "console can explain structured subsystem errors ('errors')",
+      "pass": true,
+      "detail": "None"
+    },
+    {
+      "check": "the console lists items per mod",
+      "pass": true,
+      "detail": "[{'mod_id': 'alphamod', 'held': ['alphamod__shape'], 'released': []}, {'mod_id': 'betamod', 'held': ['betamod__shape'], 'released': []}]"
+    },
+    {
+      "check": "each mod published its own service",
+      "pass": true,
+      "detail": "['alphamod:info', 'betamod:info']"
+    },
+    {
+      "check": "betamod could call alphamod's service",
+      "pass": true,
+      "detail": "alphamod:info"
+    },
+    {
+      "check": "unload reported a teardown for alphamod",
+      "pass": true,
+      "detail": "{'mod_id': 'alphamod', 'revoked_callbacks': 3, 'released': [{'kind': 'item', 'key': 'alphamod__shape'}, {'kind': 'service', 'key': 'alphamod:info'}, {'kind': 'input_action', 'key': 'alphamod:toggle'}, {'kind': 'event_handler', 'key': 'platform:mod_loaded'}, {'kind': 'event_declaration', 'key': 'alphamod:ready'}, {'kind': 'settings_schema', 'key': 'alphamod'}], 'faults': [], 'resources_total': 6}"
+    },
+    {
+      "check": "no resource of alphamod was left unreleased",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "no live callback of alphamod remains",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "alphamod's item rows were unregistered",
+      "pass": true,
+      "detail": "['alphamod__shape']"
+    },
+    {
+      "check": "betamod's item rows survived",
+      "pass": true,
+      "detail": "['betamod__shape']"
+    },
+    {
+      "check": "a service handle held past its provider's unload stops working",
+      "pass": true,
+      "detail": "{'name': 'alphamod:info', 'version': '1.0.0', 'provider': 'alphamod', 'consumer': 'betamod', 'available': False, 'methods': []}"
+    },
+    {
+      "check": "calling a dead service handle raises a structured error",
+      "pass": true,
+      "detail": "services.not_found"
+    },
+    {
+      "check": "betamod is still LOADED",
+      "pass": true,
+      "detail": "loaded"
+    },
+    {
+      "check": "betamod still owns its resources",
+      "pass": true,
+      "detail": "{'mod_id': 'betamod', 'disposed': False, 'resources': {'event_declaration': {'held': ['betamod:ready'], 'released': []}, 'event_handler': {'held': ['platform:mod_loaded'], 'released': []}, 'input_action': {'held': ['betamod:toggle'], 'released': []}, 'item': {'held': ['betamod__shape'], 'released': []}, 'service': {'held': ['betamod:info'], 'released': []}, 'service_binding': {'held': ['alphamod:info'], 'released': []}, 'settings_schema': {'held': ['betamod'], 'released': []}}, 'live_tokens': ['betamod:info.local_id', 'betamod:info.scale', 'platform:mod_loaded'], 'revoked_tokens': []}"
+    },
+    {
+      "check": "betamod's events still dispatch",
+      "pass": true,
+      "detail": "a fault means a dead handler was still reachable"
+    },
+    {
+      "check": "alphamod is reclaimable: nothing unreleased, no live token",
+      "pass": true,
+      "detail": "{'reclaimable': True, 'unreleased': [], 'live_tokens': [], 'disposed': True}"
+    },
+    {
+      "check": "betamod is NOT reclaimable while it is still loaded",
+      "pass": true,
+      "detail": "{'reclaimable': False, 'reason': 'state is loaded'}"
+    },
+    {
+      "check": "shutdown unloaded the remaining mods",
+      "pass": true,
+      "detail": "{'alphamod': 'unloaded', 'betamod': 'unloaded'}"
+    },
+    {
+      "check": "no mod item row is left registered",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "no input action is left registered",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "no service is left published",
+      "pass": true,
+      "detail": "{}"
+    },
+    {
+      "check": "alphamod is reclaimable after shutdown",
+      "pass": true,
+      "detail": "{'reclaimable': True, 'unreleased': [], 'live_tokens': [], 'disposed': True}"
+    },
+    {
+      "check": "betamod is reclaimable after shutdown",
+      "pass": true,
+      "detail": "{'reclaimable': True, 'unreleased': [], 'live_tokens': [], 'disposed': True}"
+    }
+  ],
+  "passed": 41,
+  "failed": 0,
+  "verdict": "PASS"
+}

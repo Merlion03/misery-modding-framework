@@ -37,17 +37,17 @@ if HERE not in sys.path:
 
 import diagnostics as D                                            # noqa: E402
 
-_MODKIT = os.path.join(os.path.dirname(HERE), "modkit")
-if _MODKIT not in sys.path:
-    sys.path.insert(0, _MODKIT)
-import namespace as ns                                             # noqa: E402
+_PLATFORM = os.path.join(os.path.dirname(HERE), "modplatform")
+if _PLATFORM not in sys.path:
+    sys.path.insert(0, _PLATFORM)
+import modid                                                       # noqa: E402
 
 # The function a mod's code module exposes. One convention, checked by name, so
 # a mod that misspells it is told rather than silently contributing nothing.
 DECLARATION_ENTRY_POINT = "item_definitions"
 
-# Kept in step with manifest.ROW_NAME_SEPARATOR; a test pins them together.
-ROW_NAME_SEPARATOR = "__"
+# The canonical separator, not a copy of it.
+ROW_NAME_SEPARATOR = modid.SEPARATOR
 
 # Keys a declaration may carry. `mod_id` is deliberately absent: see above.
 DECLARATION_FIELDS = frozenset({
@@ -132,20 +132,16 @@ def _validate_declaration(mod_id, raw, where, out):
     # contained the separator, a name that decomposes to a DIFFERENT mod. The
     # rule is the mod_id rule, because both halves of the row name are subject
     # to the same FName constraints.
-    local_id = raw.get("local_id")
+    # check_local_id, not check(): a LOCAL id is already namespaced by the mod
+    # that declared it, so the reserved-name rule does not apply to it. An item
+    # called "core" inside alphamod impersonates nothing -- its row name is
+    # alphamod__core.
     try:
-        ns.check_mod_id(local_id)
-    except ns.NamespaceError as error:
+        modid.check_local_id(raw.get("local_id"))
+    except modid.ModIdError as error:
         out.append(D.Diagnostic(
             D.MALFORMED_MANIFEST, mod_id,
-            "%s has an unusable local_id %r: %s" % (where, local_id, error)))
-        return None
-    if ROW_NAME_SEPARATOR in local_id:
-        out.append(D.Diagnostic(
-            D.MALFORMED_MANIFEST, mod_id,
-            "%s local_id %r contains %r, which separates a mod_id from a local "
-            "id; the resulting row name would decompose ambiguously"
-            % (where, local_id, ROW_NAME_SEPARATOR)))
+            "%s has an unusable local_id: %s" % (where, error.detail)))
         return None
     declaration = dict(raw)
     # The authoritative namespace, attached HERE, from the manifest.

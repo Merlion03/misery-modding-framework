@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Misery.ModAPI - the public contract third-party C# mods compile against.
+
+    CONTRACTS ONLY. There is no implementation in this assembly and no P/Invoke:
+    a mod references this and nothing else, so the native bridge can be
+    reshaped, replaced or hosted differently without a mod being rebuilt. The
+    binding layer that actually talks to MiseryBridge.h is a SEPARATE assembly
+    that Stage 5 owns.
+
+    netstandard2.0 on purpose: it is loadable by every .NET runtime a future
+    host might use, so the choice of CoreCLR version stays Stage 5's to make.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>Misery.ModAPI</AssemblyName>
+    <RootNamespace>Misery.ModAPI</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.5.0</Version>
+    <Description>Public mod API contracts for the MBPL MISERY modding framework.</Description>
+  </PropertyGroup>
+
+</Project>

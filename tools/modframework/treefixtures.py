@@ -33,11 +33,28 @@ CONTAINER_SUFFIXES = (".pak", ".utoc", ".ucas")
 # manifest. A mod that could name its own namespace in code could register rows
 # in another mod's namespace, and the manifest's authority over identity would
 # be advisory rather than real.
-ITEMS_MODULE_TEMPLATE = '''"""Item declarations for %(mod_id)s.
+ITEMS_MODULE_TEMPLATE = '''"""Mod code for %(mod_id)s.
 
-Returned as plain data. The framework supplies the mod_id from the manifest --
-this module cannot name a namespace, and therefore cannot claim another mod's.
+Item declarations are returned as plain DATA and this module never names a
+namespace: the framework supplies the mod_id from the manifest, so this file
+cannot claim another mod's. That is Stage 4's rule and it still holds.
+
+Stage 4.5 adds two things, both read by the reference host BEFORE initialize()
+runs, so capability negotiation happens before the mod initialises anything:
+
+    REQUIRED_CAPABILITIES  absent means this mod does not load
+    OPTIONAL_CAPABILITIES  absent means this mod adapts
+
+The C# equivalent is an attribute on the mod class, read by reflection before
+the class is instantiated -- the same ordering, so mods written against this
+shape do not need rewriting when the host becomes CoreCLR.
 """
+
+FRAMEWORK_API = "^0.5.0"
+REQUIRED_CAPABILITIES = ("core.log", "core.events", "core.settings",
+                         "core.items")
+OPTIONAL_CAPABILITIES = ("core.input_registry", "core.services",
+                         "core.console")
 
 
 def item_definitions():
@@ -54,6 +71,29 @@ def item_definitions():
             "icon": %(icon)r,
         },
     ]
+
+
+def initialize(ctx):
+    """Everything this mod acquires becomes owned by its ModId."""
+    ctx.log.info("initialising", local_id=%(local_id)r)
+    ctx.settings.declare([
+        {"key": "enabled", "type": "bool", "default": True,
+         "description": "whether this fixture is active"},
+        {"key": "scale", "type": "float", "default": 1.0,
+         "description": "a numeric setting, to exercise typing"},
+    ])
+    ctx.events.declare("%(mod_id)s:ready", "raised once initialise completes")
+    ctx.events.subscribe("platform:mod_loaded",
+                         lambda payload: ctx.log.debug(
+                             "saw a mod load", other=payload.get("mod_id")))
+    if ctx.grant.has("core.input_registry"):
+        ctx.input.register("%(mod_id)s:toggle", "Toggle %(mod_id)s", "F5")
+    if ctx.grant.has("core.services"):
+        ctx.services.publish("%(mod_id)s:info", "1.0.0", {
+            "local_id": lambda: %(local_id)r,
+            "scale": lambda: ctx.settings.get("scale"),
+        })
+    ctx.events.publish("%(mod_id)s:ready", {"mod_id": ctx.mod_id})
 '''
 
 
