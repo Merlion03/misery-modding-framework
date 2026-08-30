@@ -81,6 +81,30 @@ PATH_ACTOR = "/Script/Engine.Actor"
 # and then proved to be OWNED BY the controller rather than merely present.
 DEFAULT_INVENTORY_CLASS = "BP_PlayerInventory_C"
 
+# --- object liveness and identity, both read from the engine's own fields ---
+#
+# UObjectBase::ObjectFlags sits at +0x08 (eri's own layout note, cross-confirmed
+# there by disassembly). RF_MirroredGarbage is documented in the engine as
+# "Garbage from logical point of view and should not be referenced. This flag is
+# mirrored in EInternalObjectFlags as Garbage for performance"
+# (ObjectMacros.h:576, :583). So garbage can be detected with a direct read on an
+# address we already hold -- no GUObjectArray arithmetic required.
+#
+# This matters because DestroyActor does NOT remove anything from GUObjectArray;
+# it marks the object and the slot survives until the next GC. Counting those as
+# live is what let "exactly one live PlayerController" be true of a graph holding
+# two, one of them destroyed.
+UOBJECT_OBJECTFLAGS_OFFSET = 0x08
+UOBJECT_INTERNALINDEX_OFFSET = 0x0C          # eri's layout note, +0x0C, twice confirmed
+RF_MIRRORED_GARBAGE = 0x40000000             # ObjectMacros.h:576
+
+# FUObjectItem, UObjectArray.h:42-50 -- Object, Flags, ClusterRootIndex,
+# SerialNumber, in that order, stride 0x18 (eri.SIZEOF_FUOBJECTITEM).
+FUOBJECTITEM_FLAGS_OFFSET = 0x08
+FUOBJECTITEM_SERIALNUMBER_OFFSET = 0x10
+EINTERNAL_GARBAGE = 1 << 21                  # ObjectMacros.h:616
+EINTERNAL_UNREACHABLE = 1 << 28              # ObjectMacros.h:643
+
 
 class Anchor(dict):
     """One resolved object: what it is, how it was reached, and whether the
@@ -124,7 +148,8 @@ def _agree(answers, label):
     return only, True, None
 
 
-def _anchor(address, objects, eri_mod, *, routes, agreed, why=None, extra=None):
+def _anchor(address, objects, eri_mod, *, routes, agreed, why=None, extra=None,
+            identity=None):
     record = objects.get(address) or {}
     class_ptr = record.get("class_ptr")
     class_record = objects.get(class_ptr or 0) or {}
@@ -159,7 +184,8 @@ def _anchor(address, objects, eri_mod, *, routes, agreed, why=None, extra=None):
         "name": record.get("name_text"),
         "class": class_record.get("name_text"),
         # identity is what survives comparison across a restart; address is not
-        "identity": {"object_path": path_of(address), "class_path": path_of(class_ptr)},
+        "identity": {"object_path": path_of(address), "class_path": path_of(class_ptr),
+                     "engine_identity": identity},
         "routes": routes,
         "routes_agreed": agreed,
     })
@@ -183,7 +209,10 @@ class Resolver(object):
         self.api = api
         self.handle = handle
         self.inventory_class = inventory_class
-        self.namepool, self.objects = recon.universe(api, handle, base_address, image_size)
+        self.namepool, self.objects, meta = recon.universe(
+            api, handle, base_address, image_size, with_meta=True)
+        self.objects_ptr = meta["objects_ptr"]
+        self._identity_cache = {}
         self._ancestor_cache = {}
         self._prop_cache = {}
 
@@ -220,15 +249,26 @@ class Resolver(object):
         return wanted_path in readiness.ancestor_paths(
             eri, self.api, self.handle, cls, self.objects, self._ancestor_cache)
 
-    def instances_of(self, wanted_path):
+    def instances_of(self, wanted_path, _excluded=None):
+        """Live, non-CDO, NON-GARBAGE instances deriving from *wanted_path*.
+
+        The garbage exclusion is the point. Without it this counted objects the
+        engine had already destroyed, which is how "exactly one live
+        PlayerController" could be true of a graph containing two.
+        """
         out = []
         for address, record in self.objects.items():
             if not record.get("valid") or not record.get("class_ptr"):
                 continue
             if self.is_cdo(address):
                 continue
-            if self.derives_from(address, wanted_path):
-                out.append(address)
+            if not self.derives_from(address, wanted_path):
+                continue
+            if self.is_garbage(address):
+                if _excluded is not None:
+                    _excluded.append(address)
+                continue
+            out.append(address)
         return out
 
     def prop(self, address, name, *, expect_class=None, expect_size=None):
@@ -291,6 +331,67 @@ class Resolver(object):
                           "elements": ["0x%x" % e for e in elements]}
 
     # ---- the chain -------------------------------------------------------
+    def is_garbage(self, address):
+        """Has this object been destroyed but not yet collected?
+
+        DestroyActor only marks; the object stays in GUObjectArray until the
+        next GC. Read via RF_MirroredGarbage on UObjectBase::ObjectFlags, which
+        the engine keeps mirrored from the internal flag precisely so it can be
+        tested without touching FUObjectItem (ObjectMacros.h:576).
+        """
+        if not address:
+            return False
+        try:
+            flags = eri._read_u32(self.api, self.handle,
+                                  address + UOBJECT_OBJECTFLAGS_OFFSET)
+        except Exception:                                      # noqa: BLE001
+            return False
+        return bool(flags & RF_MIRRORED_GARBAGE)
+
+    def identity_of(self, address):
+        """(InternalIndex, SerialNumber) -- the engine's own object identity.
+
+        This is what FWeakObjectPtr uses to answer "is this still the same
+        object?", and it is the honest replacement for comparing addresses: an
+        address can be handed back by the allocator for a different object of
+        the same size class, and then a recreated object is indistinguishable
+        from a survivor.
+
+        SELF-CHECKED, not assumed. InternalIndex is read from the object, used
+        to locate its FUObjectItem, and the item's Object pointer must point
+        back at the object we started from. If that round trip does not close,
+        the offsets are wrong for this build and this returns None rather than a
+        number that looks like an answer.
+        """
+        if not address:
+            return None
+        if address in self._identity_cache:
+            return self._identity_cache[address]
+        result = None
+        try:
+            index = eri._read_i32(self.api, self.handle,
+                                  address + UOBJECT_INTERNALINDEX_OFFSET)
+            if index is not None and 0 <= index < (1 << 26):
+                chunk = eri._read_u64(self.api, self.handle,
+                                      self.objects_ptr + (index >> 16) * 8)
+                if chunk:
+                    item = chunk + (index & 0xFFFF) * eri.SIZEOF_FUOBJECTITEM
+                    back = eri._read_u64(self.api, self.handle,
+                                         item + eri.FUOBJECTITEM_OFFSET_OBJECT)
+                    if back == address:                        # the round trip closed
+                        result = {
+                            "internal_index": index,
+                            "serial_number": eri._read_i32(
+                                self.api, self.handle,
+                                item + FUOBJECTITEM_SERIALNUMBER_OFFSET),
+                            "internal_flags": "0x%x" % eri._read_u32(
+                                self.api, self.handle, item + FUOBJECTITEM_FLAGS_OFFSET),
+                            "round_trip_verified": True}
+        except Exception:                                      # noqa: BLE001
+            result = None
+        self._identity_cache[address] = result
+        return result
+
     def _object_properties_pointing_at(self, owner, target):
         """Which reflected FObjectProperties of *owner* currently hold *target*.
 
@@ -380,8 +481,14 @@ class Resolver(object):
                 % (len(selfref), anchor_path, eri.UCLASS_SELF_REFERENCE_OBJECT_PATH))
             return snap
 
+        # Garbage exclusions are REPORTED, not silently applied: "I ignored two
+        # destroyed controllers" is a materially different statement from "there
+        # was one controller", and only one of them is true.
+        garbage_excluded = []
+        snap["garbage_excluded"] = garbage_excluded
+
         # -- the viewport client: the engine's own opinion -------------------
-        viewports = self.instances_of(PATH_VIEWPORT_CLIENT)
+        viewports = self.instances_of(PATH_VIEWPORT_CLIENT, garbage_excluded)
         viewport = viewports[0] if len(viewports) == 1 else None
         snap["notes"].append("live GameViewportClient instances: %d" % len(viewports))
 
@@ -400,7 +507,7 @@ class Resolver(object):
         # WorldType is not reflected in this build, so "the world the engine is
         # actually running" has to come from a reflected edge instead. A world
         # that is merely loaded for streaming has OwningGameInstance null.
-        worlds = self.instances_of(PATH_WORLD)
+        worlds = self.instances_of(PATH_WORLD, garbage_excluded)
         owning = []
         for w in worlds:
             gi, _ev = self.read_object_prop(w, "OwningGameInstance")
@@ -416,7 +523,7 @@ class Resolver(object):
                    ("expected exactly one world owning a GameInstance, found %d" % len(owning))})
 
         # -- route C: up from the PlayerController through its Level ---------
-        controllers = self.instances_of(PATH_PLAYER_CONTROLLER)
+        controllers = self.instances_of(PATH_PLAYER_CONTROLLER, garbage_excluded)
         controller = controllers[0] if len(controllers) == 1 else None
         world_c = world_c_ev = None
         if controller:
@@ -512,7 +619,7 @@ class Resolver(object):
                 "the agreed world pointer does not name a live UWorld")
         candidates = [w for w in (world_a, world_b, world_c, world_d) if w]
         snap["anchors"]["world"] = _anchor(
-            world, self.objects, eri, routes=world_routes, agreed=agreed, why=world_why,
+            world, self.objects, eri, identity=self.identity_of(world), routes=world_routes, agreed=agreed, why=world_why,
             extra={"worlds_live": len(worlds),
                    "top_level_worlds": len(top_level),
                    "world_names": sorted({self.name_of(w) for w in worlds})})
@@ -527,7 +634,7 @@ class Resolver(object):
             v, ev = self.read_object_prop(viewport, "GameInstance")
             gi_routes.append({"route": "UGameViewportClient::GameInstance", "evidence": ev})
             gi_answers.append((ev, v))
-        live_gis = self.instances_of(PATH_GAME_INSTANCE)
+        live_gis = self.instances_of(PATH_GAME_INSTANCE, garbage_excluded)
         gi_routes.append({"route": "live UGameInstance instances", "count": len(live_gis),
                           "objects": ["0x%x" % a for a in live_gis]})
         game_instance, gi_agreed, gi_why = _agree(gi_answers, "the GameInstance")
@@ -536,7 +643,7 @@ class Resolver(object):
                 "the agreed GameInstance is not the single live UGameInstance (%d live)"
                 % len(live_gis))
         snap["anchors"]["game_instance"] = _anchor(
-            game_instance, self.objects, eri, routes=gi_routes, agreed=gi_agreed, why=gi_why)
+            game_instance, self.objects, eri, identity=self.identity_of(game_instance), routes=gi_routes, agreed=gi_agreed, why=gi_why)
 
         # -- LocalPlayer -----------------------------------------------------
         lp_routes, lp_answers = [], []
@@ -560,14 +667,14 @@ class Resolver(object):
             v, ev = self.read_object_prop(controller, "Player")
             lp_routes.append({"route": "APlayerController::Player", "evidence": ev})
             lp_answers.append((ev, v))
-        live_lps = self.instances_of(PATH_LOCAL_PLAYER)
+        live_lps = self.instances_of(PATH_LOCAL_PLAYER, garbage_excluded)
         lp_routes.append({"route": "live ULocalPlayer instances", "count": len(live_lps)})
         local_player, lp_agreed, lp_why = _agree(lp_answers, "the LocalPlayer")
         if lp_agreed and not self.derives_from(local_player, PATH_LOCAL_PLAYER):
             local_player, lp_agreed, lp_why = None, False, (
                 "the agreed pointer does not name a live ULocalPlayer")
         snap["anchors"]["local_player"] = _anchor(
-            local_player, self.objects, eri, routes=lp_routes, agreed=lp_agreed, why=lp_why)
+            local_player, self.objects, eri, identity=self.identity_of(local_player), routes=lp_routes, agreed=lp_agreed, why=lp_why)
 
         # -- PlayerController ------------------------------------------------
         pc_routes = [{"route": "live APlayerController instances", "count": len(controllers),
@@ -605,7 +712,7 @@ class Resolver(object):
             player_controller, pc_agreed, pc_why = None, False, (
                 "the agreed pointer does not name a live APlayerController")
         snap["anchors"]["player_controller"] = _anchor(
-            player_controller, self.objects, eri, routes=pc_routes, agreed=pc_agreed, why=pc_why)
+            player_controller, self.objects, eri, identity=self.identity_of(player_controller), routes=pc_routes, agreed=pc_agreed, why=pc_why)
 
         # -- Pawn -------------------------------------------------------------
         pawn_routes, pawn_answers = [], []
@@ -623,7 +730,7 @@ class Resolver(object):
             pawn, pawn_agreed, pawn_why = None, False, (
                 "the agreed pawn pointer does not name a live non-CDO Pawn")
         snap["anchors"]["pawn"] = _anchor(
-            pawn, self.objects, eri, routes=pawn_routes, agreed=pawn_agreed, why=pawn_why)
+            pawn, self.objects, eri, identity=self.identity_of(pawn), routes=pawn_routes, agreed=pawn_agreed, why=pawn_why)
 
         # -- the player-owned runtime state anchor ----------------------------
         inv_routes = []
@@ -665,7 +772,7 @@ class Resolver(object):
                                          "cannot confirm itself")
         inv_agreed = inventory is not None
         snap["anchors"]["player_inventory"] = _anchor(
-            inventory, self.objects, eri, routes=inv_routes, agreed=inv_agreed,
+            inventory, self.objects, eri, identity=self.identity_of(inventory), routes=inv_routes, agreed=inv_agreed,
             why=None if inv_agreed else
                 "no unique player inventory owned by the resolved PlayerController")
 
@@ -748,6 +855,10 @@ class Resolver(object):
         # "complete" now REQUIRES the cross-checks, because the alternative was
         # observed in the wild: a run that reported complete=True beside
         # cross_checks_all_pass=False and still exited 0.
+        snap["garbage_excluded"] = [
+            {"address": "0x%x" % a, "name": self.name_of(a), "class": self.class_name_of(a)}
+            for a in garbage_excluded]
+        snap["garbage_excluded_count"] = len(garbage_excluded)
         snap["complete"] = snap["all_anchors_resolved"] and snap["cross_checks_all_pass"]
         if world:
             snap["tarray_layout_self_check"] = self.verify_tarray_layout(world)

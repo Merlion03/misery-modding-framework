@@ -77,7 +77,7 @@ def decode_func_flags(flags):
     return sorted(n for n, b in FUNC.items() if flags & b)
 
 
-def universe(api, h, base, size):
+def universe(api, h, base, size, with_meta=False):
     """Walk the WHOLE GUObjectArray, and prove it.
 
     eri.DEFAULT_I02_MAX_SCAN_INDICES is 200_000, which was comfortably above the
@@ -111,6 +111,14 @@ def universe(api, h, base, size):
         raise Blocked("object universe truncated: walked %d of %d indices; every "
                       "'not found' from this snapshot would be unsound"
                       % (int(scanned), num))
+    if with_meta:
+        # The GUObjectArray base, so a caller can reach FUObjectItem for the
+        # things that live there and nowhere else: the internal object flags
+        # (is this object garbage?) and SerialNumber (is this the SAME object,
+        # or a different one at a reused address?). Opt-in, so every existing
+        # caller keeps the two-value contract it was written against.
+        return np, w["objects_by_address"], {"objects_ptr": i02["objects_ptr_live_va"],
+                                             "num_elements": num}
     return np, w["objects_by_address"]
 
 
