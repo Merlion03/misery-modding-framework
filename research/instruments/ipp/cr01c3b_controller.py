@@ -171,8 +171,19 @@ def verify_carrier_addresses(api, pid, base, image, run_note):
     return out
 
 
-def verify_fields(api, h, np, row_struct):
-    """FAIL CLOSED: name, FProperty class, offset and size must all match."""
+def verify_fields(api, h, np, row_struct, values=None):
+    """FAIL CLOSED: name, FProperty class, offset and size must all match.
+
+    *values* is what the CALLER intends to write. It used to be read from this
+    module's own VALUES, which meant a later gate reusing this function
+    published THIS gate's constants as though they were its own -- CR-01C5's
+    reports recorded Weight 1.75 and MaxStack 5, values that gate never wrote.
+    The offsets and classes were right; the `value` field was fiction. It is
+    now supplied by the caller and named for what it is: an INTENTION, not a
+    measurement. What was actually written is read back separately from the
+    live row and from the resolver.
+    """
+    values = VALUES if values is None else values
     fields = rdr.struct_fields(api, h, np, row_struct)
     resolved, report = {}, {}
     for prefix, (cls, off, size) in FIELDS.items():
@@ -187,7 +198,9 @@ def verify_fields(api, h, np, row_struct):
                               % (prefix, meta["offset"], meta["size"], off, size))
         resolved[prefix] = off
         report[prefix] = {"name": name, "class": cls, "offset": off, "size": size,
-                          "value": VALUES[prefix]}
+                          "intended_value": values.get(prefix),
+                          "note": "INTENDED, not measured -- the written value is read back "
+                                  "from the live row and from the resolver"}
     return resolved, report
 
 

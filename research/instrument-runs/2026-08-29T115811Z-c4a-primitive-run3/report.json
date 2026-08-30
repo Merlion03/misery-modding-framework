@@ -1,4 +1,10 @@
 {
+  "CORRECTION_stale_intended_values": {
+    "cause": "verify_fields()/text_fields() read VALUES/TEXTS from the module that first defined them (cr01c3b / cr01c4a) instead of from the calling gate, so a later gate published the earlier gate's constants as its own",
+    "defect": "the `value` entries in fields{} and text_fields{} of this report are STALE and were never written by this run",
+    "fixed_in": "the field is now named intended_value, is supplied by the calling gate, and carries a note saying it is an intention rather than a measurement",
+    "what_is_still_correct": "the offsets, FProperty classes and sizes in those blocks are reflected from the live struct and are correct; and the values ACTUALLY written are recorded elsewhere in this same report, read back from the live row (row.texts) and from the game's own resolver (resolver.*). No conclusion drawn from this run depended on the stale field."
+  },
   "baseline": {
     "current_weight": 0.0,
     "inventory_occupied": 0,

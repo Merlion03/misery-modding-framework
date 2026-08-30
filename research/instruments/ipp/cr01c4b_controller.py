@@ -430,10 +430,10 @@ def run(api, args, run_note):
     h = eri.open_process_read_only(api, pid)
     try:
         r = resolve(api, h, base, size, img, run_note)
-        offs, field_report = verify_fields(api, h, r["np"], r["row_struct"])
+        offs, field_report = verify_fields(api, h, r["np"], r["row_struct"], VALUES)
         for kk in field_report:
             field_report[kk]["value"] = VALUES[kk]
-        toffs, text_report = text_fields(api, h, r["np"], r["row_struct"])
+        toffs, text_report = text_fields(api, h, r["np"], r["row_struct"], TEXTS)
         for kk in text_report:
             text_report[kk]["value"] = TEXTS[kk]
         icon = icon_field_offset(api, h, r["np"], r["row_struct"], r["objs"])

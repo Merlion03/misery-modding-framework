@@ -117,7 +117,7 @@ def build_dll():
     return out
 
 
-def text_fields(api, h, np, row_struct):
+def text_fields(api, h, np, row_struct, texts=None):
     """FAIL CLOSED: the three metadata fields must be FTextProperty, 16 bytes,
     at the offsets we are about to write."""
     cp = eri._read_u64(api, h, row_struct + eri.USTRUCT_CHILD_PROPERTIES_OFFSET)
@@ -136,7 +136,10 @@ def text_fields(api, h, np, row_struct):
             raise ipp.Blocked("field %s size %r != 16" % (prefix, meta.get("size")))
         found[prefix] = meta.get("offset")
         report[prefix] = {"name": meta.get("raw_name"), "class": "FTextProperty",
-                          "offset": meta.get("offset"), "size": 16, "value": TEXTS[prefix]}
+                          "offset": meta.get("offset"), "size": 16,
+                          "intended_value": (texts or TEXTS).get(prefix),
+                          "note": "INTENDED, not measured -- what was written is read back "
+                                  "from the live row and from the resolver"}
     missing = [k for k in TEXTS if k not in found]
     if missing:
         raise ipp.Blocked("metadata fields not found on the row struct: %s" % missing)

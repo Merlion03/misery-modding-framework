@@ -929,8 +929,11 @@ def run(api, args, run_note):
     h = eri.open_process_read_only(api, pid)
     try:
         r = resolve(api, h, base, size, img, run_note)
-        offs, field_report = verify_fields(api, h, r["np"], r["row_struct"])
-        toffs, text_report = text_fields(api, h, r["np"], r["row_struct"])
+        # Pass THIS gate's own values and texts. Reading them from the earlier
+        # gates' module globals is what made these reports state numbers this
+        # gate never wrote.
+        offs, field_report = verify_fields(api, h, r["np"], r["row_struct"], VALUES)
+        toffs, text_report = text_fields(api, h, r["np"], r["row_struct"], TEXTS)
         woffs = world_offsets(api, h, r["np"], r["row_struct"], r["objs"])
         run_note.append("world offsets: WorldClass@%d StaticMesh@%d ItemOffsets@%d "
                         "(Rot@%d Trans@%d Scale@%d) MoveIcon@%d"
