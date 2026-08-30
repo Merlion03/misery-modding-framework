@@ -16,12 +16,18 @@
   },
   "containers": {
     "_comment": [
-      "apply=true: the runner now owns staging for the production-radio cycle.",
-      "remove clears the four accumulated material probes -- their assets and",
-      "package paths are superseded and the engine would mount them as eagerly as",
-      "the intended container.",
+      "apply=true: the runner owns staging.",
+      "Mod_alphamod_P is the Stage 3 generic fixture, built by tools/modkit/build.py",
+      "Mod_betamod_P is the SAME source filenames as alphamod (shape.glb, icon.png)",
+      "built under a different ModId: staging both is the live proof that two mods",
+      "with identical source names do not collide.",
+      "from ordinary source assets. MBPLRadio_P stays as regression coverage: the",
+      "complex asset that passed the world/pickup gate must keep working while the",
+      "generic pipeline is proven.",
       "expect is an exact allow-list, so a forgotten experiment fails the gate.",
-      "MiseryModKit_P and CT03Probe20260828_P predate this gate and are left alone."
+      "MiseryModKit_P and CT03Probe20260828_P predate this gate and are left alone;",
+      "CT03Probe20260828_P is a bare .pak with no .utoc and serves as the control",
+      "that 'packages registered' discriminates rather than being always true."
     ],
     "stage_dir": null,
     "apply": true,
@@ -35,10 +41,20 @@
       {
         "src": "D:/UEScratch/MBPLKit/out/prod",
         "stem": "MBPLRadio_P"
+      },
+      {
+        "src": "D:/UEScratch/ModKitBuild/alphamod/container",
+        "stem": "Mod_alphamod_P"
+      },
+      {
+        "src": "D:/UEScratch/ModKitBuild/betamod/container",
+        "stem": "Mod_betamod_P"
       }
     ],
     "expect": [
       "MBPLRadio_P",
+      "Mod_alphamod_P",
+      "Mod_betamod_P",
       "MiseryModKit_P",
       "CT03Probe20260828_P"
     ]
