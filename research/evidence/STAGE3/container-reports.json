@@ -1,0 +1,78 @@
+[
+  {
+    "utoc": "D:/UEScratch/ModKitBuild/alphamod/container/Mod_alphamod_P.utoc",
+    "utoc_bytes": 1313,
+    "ucas_bytes": 11552,
+    "toc_version": 6,
+    "entry_count": 10,
+    "chunk_types": {
+      "1": 9,
+      "6": 1
+    },
+    "chunk_ids": [
+      "3b670706d51ef47100000001",
+      "85e2b0573babb90100000001",
+      "9edefc7735f98ceb00000001",
+      "06d24a4dcd37d8b100000001",
+      "2eb89756169edc8000000001",
+      "5524a131a5f0d7c800000001",
+      "2e7490953db8e3aa00000001",
+      "987743e26fe766cb00000001",
+      "d32c157d485e0f9300000006",
+      "c712a80105f203e300000001"
+    ],
+    "container_id": "0x930f5e487d152cd3",
+    "mount_point": "../../../MISERY/Content/Mods/alphamod/",
+    "package_paths": [
+      "/Game/Mods/alphamod/Materials/MI_ShapeA",
+      "/Game/Mods/alphamod/Materials/MI_ShapeB",
+      "/Game/Mods/alphamod/Meshes/SM_Shape",
+      "/Game/Mods/alphamod/Textures/T_Icon",
+      "/Game/Mods/alphamod/Textures/T_NeutralNormal",
+      "/Game/Mods/alphamod/Textures/T_ShapeAMask",
+      "/Game/Mods/alphamod/Textures/T_ShapeBBase",
+      "/Game/Mods/alphamod/Textures/T_ShapeBMask",
+      "/Game/Mods/alphamod/Textures/T_ShapeBase"
+    ],
+    "non_package_files": [],
+    "warnings": []
+  },
+  {
+    "utoc": "D:/UEScratch/ModKitBuild/betamod/container/Mod_betamod_P.utoc",
+    "utoc_bytes": 1308,
+    "ucas_bytes": 11552,
+    "toc_version": 6,
+    "entry_count": 10,
+    "chunk_types": {
+      "1": 9,
+      "6": 1
+    },
+    "chunk_ids": [
+      "23ce57b13a2dcf7500000001",
+      "fa15a78a224c296300000001",
+      "442d390eea9cff4a00000001",
+      "161acb00ec0df63800000001",
+      "68d67a4316b986e100000006",
+      "35790f491ddbd97200000001",
+      "e1d9087aa0846e2300000001",
+      "e964c0266f48c36e00000001",
+      "b16255b1163e936000000001",
+      "e4833da6ca868ac500000001"
+    ],
+    "container_id": "0xe186b916437ad668",
+    "mount_point": "../../../MISERY/Content/Mods/betamod/",
+    "package_paths": [
+      "/Game/Mods/betamod/Materials/MI_ShapeA",
+      "/Game/Mods/betamod/Materials/MI_ShapeB",
+      "/Game/Mods/betamod/Meshes/SM_Shape",
+      "/Game/Mods/betamod/Textures/T_Icon",
+      "/Game/Mods/betamod/Textures/T_NeutralNormal",
+      "/Game/Mods/betamod/Textures/T_ShapeAMask",
+      "/Game/Mods/betamod/Textures/T_ShapeBBase",
+      "/Game/Mods/betamod/Textures/T_ShapeBMask",
+      "/Game/Mods/betamod/Textures/T_ShapeBase"
+    ],
+    "non_package_files": [],
+    "warnings": []
+  }
+]

@@ -31,6 +31,7 @@ expected packages are DERIVED from the same namespace rules the build used, so
 this also checks that the build and the runtime agree about where things live.
 """
 import argparse
+import copy
 import json
 import os
 import sys
@@ -53,6 +54,13 @@ import namespace as ns                            # noqa: E402
 import modspec                                    # noqa: E402
 import examples                                   # noqa: E402
 from aggregate_acceptance import world_state      # noqa: E402
+
+# Captured HERE, at import, before anything calls bind_item.
+# cr01c5_controller.EXPECT_MATERIALS is a module GLOBAL that bind_item rebinds on
+# every item, so reading it later returns whichever item was bound last -- which
+# is how a run asked for the radio's 7 slots and got betamod's 2. The radio's own
+# literal is only trustworthy before the first bind.
+RADIO_EXPECT_MATERIALS = copy.deepcopy(c5.EXPECT_MATERIALS)
 
 WORLD_ITEM_CLASS = "BP_StaticMasterItem_C"
 VANILLA_PARENT = "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial"
@@ -327,7 +335,7 @@ def main(argv=None):
             print("\n=== 5b. regression: the production radio ===")
             radio = examples.production_radio()
             radio_flat = materializer.flatten(radio)
-            radio_flat["expect_materials"] = c5.EXPECT_MATERIALS
+            radio_flat["expect_materials"] = RADIO_EXPECT_MATERIALS
             radio_result = session.register(radio_flat)
             check("the production radio still registers through the same API",
                   radio_result.get("ok"), radio_result.get("detail"))
@@ -336,7 +344,7 @@ def main(argv=None):
                 radio_note = []
                 radio_materials = c5.verify_live_materials(
                     api, state["pid"], int(radio_held["mesh_object"], 16),
-                    c5.EXPECT_MATERIALS, radio_note)
+                    RADIO_EXPECT_MATERIALS, radio_note)
                 check("the radio's 7 material slots still resolve",
                       len(radio_materials) == 7, len(radio_materials))
                 report["radio_materials"] = radio_materials

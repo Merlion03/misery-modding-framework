@@ -1,0 +1,140 @@
+{
+  "mod_id": "alphamod",
+  "spec": "D:/UEScratch/ModKitSources/alphamod/modkit.json",
+  "started": "2026-08-30T183949Z",
+  "validation": {
+    "total": 0,
+    "fatal": 0,
+    "findings": []
+  },
+  "toolchain": {
+    "unreal": "5.4.4",
+    "changelist": 35576357,
+    "branch": "++UE5+Release-5.4"
+  },
+  "plan": {
+    "path": "D:\\UEScratch\\ModKitBuild\\alphamod\\plan.json",
+    "textures": 6,
+    "materials": 2,
+    "meshes": 1,
+    "generated_textures": [
+      "ShapeAMask",
+      "NeutralNormal",
+      "ShapeBBase",
+      "ShapeBMask"
+    ],
+    "expected_object_paths": [
+      "/Game/Mods/alphamod/Materials/MI_ShapeA.MI_ShapeA",
+      "/Game/Mods/alphamod/Materials/MI_ShapeB.MI_ShapeB",
+      "/Game/Mods/alphamod/Meshes/SM_Shape.SM_Shape",
+      "/Game/Mods/alphamod/Textures/T_Icon.T_Icon",
+      "/Game/Mods/alphamod/Textures/T_NeutralNormal.T_NeutralNormal",
+      "/Game/Mods/alphamod/Textures/T_ShapeAMask.T_ShapeAMask",
+      "/Game/Mods/alphamod/Textures/T_ShapeBBase.T_ShapeBBase",
+      "/Game/Mods/alphamod/Textures/T_ShapeBMask.T_ShapeBMask",
+      "/Game/Mods/alphamod/Textures/T_ShapeBase.T_ShapeBase"
+    ]
+  },
+  "package": {
+    "exit": 0,
+    "out_dir": "D:\\UEScratch\\ModKitBuild\\alphamod\\container",
+    "entries": 9,
+    "produced": [
+      "Mod_alphamod_P.pak",
+      "Mod_alphamod_P.ucas",
+      "Mod_alphamod_P.utoc",
+      "global.ucas",
+      "global.utoc"
+    ],
+    "response": "D:\\UEScratch\\ModKitBuild\\alphamod\\response.txt",
+    "commands": "D:\\UEScratch\\ModKitBuild\\alphamod\\commands.txt",
+    "unresolved": [],
+    "implicit_files": 9
+  },
+  "anchor": {
+    "exit": 0,
+    "pak": "D:\\UEScratch\\ModKitBuild\\alphamod\\container\\Mod_alphamod_P.pak",
+    "bytes": 1331,
+    "modinfo": "D:\\UEScratch\\ModKitBuild\\alphamod\\anchor\\alphamod.modinfo"
+  },
+  "container": {
+    "utoc": "D:\\UEScratch\\ModKitBuild\\alphamod\\container\\Mod_alphamod_P.utoc",
+    "utoc_bytes": 1313,
+    "ucas_bytes": 11552,
+    "toc_version": 6,
+    "entry_count": 10,
+    "chunk_types": {
+      "1": 9,
+      "6": 1
+    },
+    "chunk_ids": [
+      "3b670706d51ef47100000001",
+      "85e2b0573babb90100000001",
+      "9edefc7735f98ceb00000001",
+      "06d24a4dcd37d8b100000001",
+      "2eb89756169edc8000000001",
+      "5524a131a5f0d7c800000001",
+      "2e7490953db8e3aa00000001",
+      "987743e26fe766cb00000001",
+      "d32c157d485e0f9300000006",
+      "c712a80105f203e300000001"
+    ],
+    "container_id": "0x930f5e487d152cd3",
+    "mount_point": "../../../MISERY/Content/Mods/alphamod/",
+    "package_paths": [
+      "/Game/Mods/alphamod/Materials/MI_ShapeA",
+      "/Game/Mods/alphamod/Materials/MI_ShapeB",
+      "/Game/Mods/alphamod/Meshes/SM_Shape",
+      "/Game/Mods/alphamod/Textures/T_Icon",
+      "/Game/Mods/alphamod/Textures/T_NeutralNormal",
+      "/Game/Mods/alphamod/Textures/T_ShapeAMask",
+      "/Game/Mods/alphamod/Textures/T_ShapeBBase",
+      "/Game/Mods/alphamod/Textures/T_ShapeBMask",
+      "/Game/Mods/alphamod/Textures/T_ShapeBase"
+    ],
+    "non_package_files": [],
+    "warnings": []
+  },
+  "container_validation": {
+    "total": 0,
+    "fatal": 0,
+    "findings": []
+  },
+  "ok": true,
+  "stopped_at": null,
+  "staging": {
+    "dir": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks",
+    "staged": [
+      {
+        "src": "D:\\UEScratch\\ModKitBuild\\alphamod\\container\\Mod_alphamod_P.utoc",
+        "dst": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_alphamod_P.utoc",
+        "bytes": 1313,
+        "sha256": "b690af5009e01f7d6182cb23016e8b1f11a881961d9244d48825481d52320776"
+      },
+      {
+        "src": "D:\\UEScratch\\ModKitBuild\\alphamod\\container\\Mod_alphamod_P.ucas",
+        "dst": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_alphamod_P.ucas",
+        "bytes": 11552,
+        "sha256": "e36a7dc7de3d2adc707e71a12b26f18043d8074b8976c8547d847e90f09a0120"
+      },
+      {
+        "src": "D:\\UEScratch\\ModKitBuild\\alphamod\\container\\Mod_alphamod_P.pak",
+        "dst": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_alphamod_P.pak",
+        "bytes": 1331,
+        "sha256": "ea9ef8e882115e9018aa888d1b0c065a0120bd9855c269706bb59a27bd0f27dc"
+      }
+    ],
+    "directory_now": [
+      "CT03Probe20260828_P.pak",
+      "MBPLRadio_P.pak",
+      "MBPLRadio_P.ucas",
+      "MBPLRadio_P.utoc",
+      "MiseryModKit_P.pak",
+      "MiseryModKit_P.ucas",
+      "MiseryModKit_P.utoc",
+      "Mod_alphamod_P.pak",
+      "Mod_alphamod_P.ucas",
+      "Mod_alphamod_P.utoc"
+    ]
+  }
+}
