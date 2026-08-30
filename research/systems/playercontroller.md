@@ -1,34 +1,9 @@
-# PlayerController — заглушка (файл пуст)
+# PlayerController
 
-> **СТАТУС: ПУСТО. НИ ОДНОГО ФАКТА ОБ ИГРЕ ЗДЕСЬ НЕТ.**
-> Отсутствие содержания — текущая правда: подсистема не исследовалась. Файл создан задачей
-> R-02 (plan.md §1.4) ради exit criterion «все файлы из §9.2 существуют, пусть и с
-> заголовками-заглушками». Он не является ни выводом, ни гипотезой, и на него нельзя
-> ссылаться как на источник. Пока стоит эта пометка, единственный корректный ответ на любой
-> вопрос ниже — «не исследовано».
+> Заполнен в **M4**. Живое наблюдение (read-only). Каждый офсет ниже получен из живого
+> `FProperty` при `build_key` ниже и является **подтверждением**, а не интерфейсом.
 
-## Что здесь будет
-
-Игровой `APlayerController` этой сборки: класс и его иерархия, ключевые свойства и функции,
-устройство input-стека. Через этот файл будущий SDK получает ввод, HUD, камеру и команды.
-
-Формулировка строки 4 в plan.md §11.1 упоминает Enhanced Input как присутствующий в сборке, и
-поэтому в собираемые данные включены input mapping contexts. Осторожность при заполнении: имя
-`EnhancedInput` встречается в Приложении A плана только в клетке **A-09b** — в списке имён
-`*.uplugin`, найденных в индексе пакета, — и та же клетка прямо говорит, что наличие `.uplugin`
-среди staged-файлов **не доказывает**, что модуль включён в сборку. То есть «Enhanced Input
-используется игровым PlayerController» на сегодня не установлено, а является тем, что этот файл
-обязан проверить. Не переносить формулировку §11.1 в заполненный файл как готовый факт.
-
-## Кто и когда заполняет
-
-- Подсистема: **4** (plan.md §11.1)
-- Milestone: **M4** (plan.md §18.2, критерий (2))
-- Инструмент: External Read-Only Inspector, возможность **I-09** (plan.md §8.2)
-- Предпосылки: заполненные подсистемы 1..3, и M3
-- Порядок: четвёртая подсистема цепочки 1→2→3→4→5
-
-## Вопросы, на которые обязан ответить этот файл
+## Questions to answer
 
 Из plan.md §11.1, строка 4:
 
@@ -36,40 +11,112 @@
 2. Какие у него ключевые свойства и функции?
 3. Как устроен input-стек?
 
-## Что нужно собрать
-
-Из plan.md §11.1, колонка «Данные»: класс, иерархия, список `UFunction`, input mapping contexts.
-
-## Что означает «достаточно»
-
-Из plan.md §11.1, колонка «Достаточно =»: найден локальный PlayerController и прочитано не менее
-пяти осмысленных свойств.
-
-plan.md §18.2 дополнительно требует для M4, чтобы способ доступа был описан как структурное
-отношение, а не как сырой офсет.
-
-Формальные пороги заполненности заданы в plan.md §11.1 «Exit criteria» и §18.2, критерий (2)
-выхода из M4, и здесь намеренно не воспроизводятся ни словом-уровнем, ни числом — см.
-`research/systems/README.md`.
-
-## Что это даст будущему SDK
-
-Из plan.md §11.1: ввод, HUD, камера, команды.
-
-## Каркас будущего документа (обязательный шаблон plan.md §11)
-
-```markdown
-# PlayerController
-## Questions to answer
 ## Data to collect
+
+Класс, иерархия, список `UFunction`, input mapping contexts.
+
 ## Method
+
+Перечисление живых экземпляров по классу-предку `/Script/Engine.PlayerController`; обход цепочки
+`SuperStruct`; перечисление `UFunction` через `cr01c3_recon.class_functions`; разрешение свойств по
+имени через живую reflection; перечисление живых `InputMappingContext` и подсистем ввода.
+
 ## Findings (evidence level, confidence, build_key)
-## What is "enough" (definition of done)
-## Implications for future SDK
-## Open unknowns
+
+**build_key:** `sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331`
+**Evidence level:** OBSERVED · **Confidence:** 0.85
+
+### 1. Класс и иерархия
+
+Живых экземпляров — **ровно 1** в геймплее.
+
+```
+BP_SGKController_C
+  /Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C
+    → /Script/Engine.PlayerController
+      → /Script/Engine.Controller
+        → /Script/Engine.Actor
+          → /Script/CoreUObject.Object
 ```
 
-## Правила заполнения
+Собственного C++-класса между Blueprint и движковым `APlayerController` нет.
 
-Общие для всего каталога — см. `research/systems/README.md`, раздел «Правила, действующие при
-заполнении».
+В меню контроллер **другой** — `BP_SGKMenuController_C`; при загрузке сейва он уничтожается и
+создаётся `BP_SGKController_C`. Это измерено по смене адреса внутри одного процесса, а не выведено.
+
+### 2. Ключевые свойства (≥5 требуется; приведено 8)
+
+| Свойство | Офсет | Тип | Объявлено на | Значение в геймплее |
+|---|---|---|---|---|
+| `Player` | `+816` | `FObjectProperty` | `PlayerController` | `LocalPlayer` |
+| `AcknowledgedPawn` | `+824` | `FObjectProperty` | `PlayerController` | `BP_SGKMasterCharacter_C` |
+| `Pawn` | `+720` | `FObjectProperty` | `Controller` | `BP_SGKMasterCharacter_C` |
+| `PlayerState` | `+664` | `FObjectProperty` | `Controller` | `PlayerState` |
+| `PlayerCameraManager` | `+840` | `FObjectProperty` | `PlayerController` | `PlayerCameraManager` |
+| `MyHUD` | `+832` | `FObjectProperty` | `PlayerController` | `HUD` |
+| `bIsLocalPlayerController` | `+1724` | `FBoolProperty` | `PlayerController` | — |
+| `NetConnection` | `+1304` | `FObjectProperty` | `PlayerController` | **null** (standalone) |
+| `BP_PlayerInventory` | `+2176` | `FObjectProperty` | `BP_SGKController_C` | `BP_PlayerInventory` |
+
+Последняя строка — собственное свойство игры: контроллер сам объявляет ссылку на компонент
+инвентаря. Это используется как **второй независимый маршрут** к якорю инвентаря: первый ищет
+компонент по `Outer == контроллер`, второй спрашивает контроллер, какое из его отражённых свойств
+на него указывает. Один маршрут не может подтвердить сам себя.
+
+### 3. Функции
+
+`BP_SGKController_C` объявляет **51** `UFunction`. Среди них — сетевые обёртки
+(`ClientInitialize`, `ClientPossess`, `ClientInGameLoad`, `Client_KickPlayer`), меню-колёса
+(`InitWheelMenus`, `IsWheelInputAllowed`, `InterruptWheelInput`) и именованные входные обработчики
+(`Misery Game Input`, `Misery Inventory Input`, `Misery UI Input`, `Misery In Game Menu Input`,
+`MiseryDeathScreenInput`).
+
+**`ClientRespawn` и `MiseryDeathScreenInput` объявлены на контроллере** — то есть путь возрождения
+проходит через него, а не через `AGameModeBase::RestartPlayer` (см. «Open unknowns» и
+`playercharacter.md`).
+
+### 4. Input-стек — Enhanced Input
+
+- Живых `EnhancedInputLocalPlayerSubsystem` — **1**, `Outer` — `LocalPlayer` (не контроллер).
+- Живых `InputMappingContext` — **5**:
+  - `/Game/SurvivalGameKitV2/Blueprints/Controls/SGKCharacterInputs`
+  - `/Game/SurvivalGameKitV2/Blueprints/Controls/SGKCharacterInputs_Backup`
+  - `/Game/SurvivalGameKitV2/Blueprints/Controls/Inventory/SGKCharacterInventoryInputs`
+  - `/Game/SmartAI/Blueprints/Controls/SmartAICharacterInputs`
+  - `/Game/Blueprints/WheelMenu/IMC_WheelMenu`
+- В списке функций контроллера присутствуют обработчики вида
+  `InpActEvt_<Action>_K2Node_EnhancedInputActionEvent`, что подтверждает Enhanced Input, а не
+  legacy input bindings.
+
+### 5. Способ доступа — структурное отношение, а не офсет
+
+Требование plan.md §18.2 выполняется так: контроллер получают **не** по адресу и **не** по
+офсету, а по согласию двух отношений — перечисление живых `APlayerController` (счёт является
+ответом: 0 или 2 — это расхождение, а не молчание) и обратное ребро
+`UPlayer::PlayerController`. Офсеты в таблице выше — подтверждение при данном `build_key`, и
+переносить их между сборками нельзя.
+
+## What is "enough" (definition of done)
+
+Критерий подсистемы: найден локальный PlayerController и прочитано **не менее пяти** осмысленных
+свойств — выполнено: найден в обоих запусках, прочитано девять свойств.
+
+Требование M4 «способ доступа описан как структурное отношение» — выполнено (§5).
+
+## Implications for future SDK
+
+- Ввод, HUD и камера достижимы от контроллера, но сам контроллер **пересоздаётся** при смене
+  карты — держать на него ссылку нельзя.
+- Собственное свойство `BP_PlayerInventory` показывает, что игровые классы объявляют свои
+  компоненты как отражённые свойства: у фреймворка есть законный способ находить их по имени, не
+  прибегая к офсетам.
+- Enhanced Input привязан к `LocalPlayer`, не к контроллеру, — модам, добавляющим ввод, работать
+  нужно с подсистемой локального игрока.
+
+## Open unknowns
+
+- Полная семантика 51 функции не разбиралась; здесь перечислены только те, что относятся к M4.
+- Путь возрождения: `ClientRespawn` на контроллере и (по независимому обзору) семейство
+  `ServerRespawnPlayer` / `FindSpawnPoint` на `BP_PlayerInventory_C`. Разбор — в M6
+  (`inventory.md`), сам факт зафиксирован здесь, чтобы не выводиться заново.
+- Поведение в co-op и роль `NetConnection` — не наблюдалось.

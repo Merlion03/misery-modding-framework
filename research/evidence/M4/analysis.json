@@ -83,12 +83,12 @@
     },
     {
       "order": 8,
-      "source": "snap-launch2-gameplay.json",
+      "source": "snap-death-screen.json",
       "pid": 1184,
       "screen": null,
       "at": null,
       "t": null,
-      "complete": true,
+      "complete": false,
       "why": null
     }
   ],
@@ -117,9 +117,9 @@
       "verdict": "COMPLETE",
       "correct": true,
       "cross_checks_all_pass": true,
-      "proven_gameplay": true,
+      "proven_gameplay": false,
       "unresolved": [],
-      "reason": "full self-consistent chain in independently-proven gameplay"
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
     },
     {
       "order": 1,
@@ -247,19 +247,21 @@
     },
     {
       "order": 8,
-      "source": "snap-launch2-gameplay.json",
+      "source": "snap-death-screen.json",
       "pid": 1184,
       "screen": null,
       "at": null,
       "t": null,
-      "complete": true,
+      "complete": false,
       "why": null,
-      "verdict": "COMPLETE",
+      "verdict": "PARTIAL",
       "correct": true,
       "cross_checks_all_pass": true,
-      "proven_gameplay": true,
-      "unresolved": [],
-      "reason": "full self-consistent chain in independently-proven gameplay"
+      "proven_gameplay": false,
+      "unresolved": [
+        "pawn"
+      ],
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
     }
   ],
   "behaviour_all_correct": true,
@@ -286,6 +288,7 @@
         "why": null
       },
       "same_process": false,
+      "same_process_unverifiable": true,
       "anchors": {
         "world": {
           "verdict": "GONE",
@@ -383,6 +386,7 @@
         "why": null
       },
       "same_process": false,
+      "same_process_unverifiable": false,
       "anchors": {
         "world": {
           "verdict": "APPEARED",
@@ -480,6 +484,7 @@
         "why": null
       },
       "same_process": true,
+      "same_process_unverifiable": false,
       "anchors": {
         "world": {
           "verdict": "RECREATED",
@@ -494,8 +499,8 @@
           }
         },
         "game_instance": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f9109100",
             "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
@@ -506,8 +511,8 @@
           }
         },
         "local_player": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f911d400",
             "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
@@ -577,10 +582,11 @@
         "why": null
       },
       "same_process": true,
+      "same_process_unverifiable": false,
       "anchors": {
         "world": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244a89a5bc0",
             "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04"
@@ -591,8 +597,8 @@
           }
         },
         "game_instance": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f9109100",
             "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
@@ -603,8 +609,8 @@
           }
         },
         "local_player": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f911d400",
             "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
@@ -615,8 +621,8 @@
           }
         },
         "player_controller": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244c5299ba0",
             "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:BP_SGKMenuController_C"
@@ -627,8 +633,8 @@
           }
         },
         "pawn": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244a8a96600",
             "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:TestMenuPlayer_C"
@@ -674,6 +680,7 @@
         "why": null
       },
       "same_process": true,
+      "same_process_unverifiable": false,
       "anchors": {
         "world": {
           "verdict": "RECREATED",
@@ -688,8 +695,8 @@
           }
         },
         "game_instance": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f9109100",
             "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
@@ -700,8 +707,8 @@
           }
         },
         "local_player": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f911d400",
             "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
@@ -771,10 +778,11 @@
         "why": null
       },
       "same_process": true,
+      "same_process_unverifiable": false,
       "anchors": {
         "world": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244e4a3db80",
             "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
@@ -785,8 +793,8 @@
           }
         },
         "game_instance": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f9109100",
             "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
@@ -797,8 +805,8 @@
           }
         },
         "local_player": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f911d400",
             "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
@@ -809,8 +817,8 @@
           }
         },
         "player_controller": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244b10e9ba0",
             "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
@@ -833,8 +841,8 @@
           }
         },
         "player_inventory": {
-          "verdict": "SURVIVED",
-          "why": "same process, same address, same object",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244a90f89e0",
             "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
@@ -859,19 +867,20 @@
       },
       "to": {
         "order": 8,
-        "source": "snap-launch2-gameplay.json",
+        "source": "snap-death-screen.json",
         "pid": 1184,
         "screen": null,
         "at": null,
         "t": null,
-        "complete": true,
+        "complete": false,
         "why": null
       },
-      "same_process": false,
+      "same_process": true,
+      "same_process_unverifiable": false,
       "anchors": {
         "world": {
-          "verdict": "RECREATED (new process)",
-          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244e4a3db80",
             "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
@@ -882,8 +891,8 @@
           }
         },
         "game_instance": {
-          "verdict": "RECREATED (new process)",
-          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f9109100",
             "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
@@ -894,8 +903,8 @@
           }
         },
         "local_player": {
-          "verdict": "RECREATED (new process)",
-          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244f911d400",
             "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
@@ -906,8 +915,8 @@
           }
         },
         "player_controller": {
-          "verdict": "RECREATED (new process)",
-          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244b10e9ba0",
             "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
@@ -918,20 +927,20 @@
           }
         },
         "pawn": {
-          "verdict": "RECREATED (new process)",
-          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
           "before": {
             "address": "0x244bb2620e0",
             "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
           },
           "after": {
-            "address": "0x244bb2620e0",
-            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+            "address": null,
+            "object_path": null
           }
         },
         "player_inventory": {
-          "verdict": "RECREATED (new process)",
-          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "verdict": "SURVIVED (address+path, serial unverified)",
+          "why": "same process, same address, same object path. Not proven against FUObjectItem::SerialNumber, so allocator reuse of the same size class is not formally excluded.",
           "before": {
             "address": "0x244a90f89e0",
             "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
@@ -950,41 +959,50 @@
         "RECREATED"
       ],
       "MAIN_MENU -> LOAD_GAME_MENU": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ],
       "THANK_YOU_SCREEN -> MAIN_MENU": [
         "RECREATED"
       ],
+      "WORLD_LOADING -> ?": [
+        "SURVIVED (address+path, serial unverified)"
+      ],
       "WORLD_LOADING -> WORLD_LOADING": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ]
     },
     "game_instance": {
       "LOAD_GAME_MENU -> WORLD_LOADING": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ],
       "MAIN_MENU -> LOAD_GAME_MENU": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ],
       "THANK_YOU_SCREEN -> MAIN_MENU": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
+      ],
+      "WORLD_LOADING -> ?": [
+        "SURVIVED (address+path, serial unverified)"
       ],
       "WORLD_LOADING -> WORLD_LOADING": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ]
     },
     "local_player": {
       "LOAD_GAME_MENU -> WORLD_LOADING": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ],
       "MAIN_MENU -> LOAD_GAME_MENU": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ],
       "THANK_YOU_SCREEN -> MAIN_MENU": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
+      ],
+      "WORLD_LOADING -> ?": [
+        "SURVIVED (address+path, serial unverified)"
       ],
       "WORLD_LOADING -> WORLD_LOADING": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ]
     },
     "player_controller": {
@@ -992,13 +1010,16 @@
         "RECREATED"
       ],
       "MAIN_MENU -> LOAD_GAME_MENU": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ],
       "THANK_YOU_SCREEN -> MAIN_MENU": [
         "RECREATED"
       ],
+      "WORLD_LOADING -> ?": [
+        "SURVIVED (address+path, serial unverified)"
+      ],
       "WORLD_LOADING -> WORLD_LOADING": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ]
     },
     "pawn": {
@@ -1006,10 +1027,13 @@
         "GONE"
       ],
       "MAIN_MENU -> LOAD_GAME_MENU": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ],
       "THANK_YOU_SCREEN -> MAIN_MENU": [
         "RECREATED"
+      ],
+      "WORLD_LOADING -> ?": [
+        "GONE"
       ],
       "WORLD_LOADING -> WORLD_LOADING": [
         "APPEARED"
@@ -1025,23 +1049,23 @@
       "THANK_YOU_SCREEN -> MAIN_MENU": [
         "ABSENT-BOTH"
       ],
+      "WORLD_LOADING -> ?": [
+        "SURVIVED (address+path, serial unverified)"
+      ],
       "WORLD_LOADING -> WORLD_LOADING": [
-        "SURVIVED"
+        "SURVIVED (address+path, serial unverified)"
       ]
     }
   },
   "acceptance": {
     "launches_observed": 2,
-    "launches_with_independently_proven_gameplay_and_complete_chain": [
-      1184,
-      16948
-    ],
+    "launches_with_independently_proven_gameplay_and_complete_chain": [],
     "launches_required": 2,
-    "launches_ok": true,
+    "launches_ok": false,
     "distinct_states_observed": 8,
     "states_required": 3,
     "states_ok": true,
     "resolver_behaved_correctly_everywhere": true,
-    "m4_core_met": true
+    "m4_core_met": false
   }
 }
