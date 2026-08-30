@@ -1,0 +1,57 @@
+{
+  "load_order": [
+    "alphamod",
+    "betamod"
+  ],
+  "excluded": {},
+  "ok": true,
+  "diagnostics": {
+    "total": 0,
+    "fatal": 0,
+    "diagnostics": []
+  },
+  "manifests": {
+    "alphamod": {
+      "mod_id": "alphamod",
+      "name": "alphamod (Stage 4 fixture)",
+      "version": "1.0.0",
+      "framework_api": "^0.4.0",
+      "manifest_version": 1,
+      "dependencies": [],
+      "optional_dependencies": [],
+      "conflicts": [],
+      "content": [
+        "Mod_alphamod_P"
+      ],
+      "code": [
+        "items.py"
+      ],
+      "root": "D:\\UEScratch\\ModsRoot\\ZZ_AlphaMod_v1",
+      "manifest_path": "D:\\UEScratch\\ModsRoot\\ZZ_AlphaMod_v1\\mod.json"
+    },
+    "betamod": {
+      "mod_id": "betamod",
+      "name": "betamod (Stage 4 fixture)",
+      "version": "1.0.0",
+      "framework_api": "^0.4.0",
+      "manifest_version": 1,
+      "dependencies": [
+        {
+          "mod_id": "alphamod",
+          "version": "^1.0.0",
+          "optional": false
+        }
+      ],
+      "optional_dependencies": [],
+      "conflicts": [],
+      "content": [
+        "Mod_betamod_P"
+      ],
+      "code": [
+        "items.py"
+      ],
+      "root": "D:\\UEScratch\\ModsRoot\\aa-beta-mod",
+      "manifest_path": "D:\\UEScratch\\ModsRoot\\aa-beta-mod\\mod.json"
+    }
+  }
+}

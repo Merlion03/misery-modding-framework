@@ -1,0 +1,534 @@
+{
+  "root": "D:/UEScratch/ModsRoot",
+  "started_at": "2026-08-30T19:55:49Z",
+  "scan": {
+    "root": "D:\\UEScratch\\ModsRoot",
+    "folders_examined": [
+      "ZZ_AlphaMod_v1",
+      "aa-beta-mod"
+    ],
+    "discovered": [
+      {
+        "folder": "ZZ_AlphaMod_v1",
+        "root": "D:/UEScratch/ModsRoot\\ZZ_AlphaMod_v1",
+        "mod_id": "alphamod",
+        "declared_mod_id": "alphamod",
+        "manifest": {
+          "mod_id": "alphamod",
+          "name": "alphamod (Stage 4 fixture)",
+          "version": "1.0.0",
+          "framework_api": "^0.4.0",
+          "manifest_version": 1,
+          "dependencies": [],
+          "optional_dependencies": [],
+          "conflicts": [],
+          "content": [
+            "Mod_alphamod_P"
+          ],
+          "code": [
+            "items.py"
+          ],
+          "root": "D:/UEScratch/ModsRoot\\ZZ_AlphaMod_v1",
+          "manifest_path": "D:/UEScratch/ModsRoot\\ZZ_AlphaMod_v1\\mod.json"
+        },
+        "diagnostics": []
+      },
+      {
+        "folder": "aa-beta-mod",
+        "root": "D:/UEScratch/ModsRoot\\aa-beta-mod",
+        "mod_id": "betamod",
+        "declared_mod_id": "betamod",
+        "manifest": {
+          "mod_id": "betamod",
+          "name": "betamod (Stage 4 fixture)",
+          "version": "1.0.0",
+          "framework_api": "^0.4.0",
+          "manifest_version": 1,
+          "dependencies": [
+            {
+              "mod_id": "alphamod",
+              "version": "^1.0.0",
+              "optional": false
+            }
+          ],
+          "optional_dependencies": [],
+          "conflicts": [],
+          "content": [
+            "Mod_betamod_P"
+          ],
+          "code": [
+            "items.py"
+          ],
+          "root": "D:/UEScratch/ModsRoot\\aa-beta-mod",
+          "manifest_path": "D:/UEScratch/ModsRoot\\aa-beta-mod\\mod.json"
+        },
+        "diagnostics": []
+      }
+    ],
+    "diagnostics": {
+      "total": 0,
+      "fatal": 0,
+      "diagnostics": []
+    }
+  },
+  "plan": {
+    "load_order": [
+      "alphamod",
+      "betamod"
+    ],
+    "excluded": {},
+    "ok": true,
+    "diagnostics": {
+      "total": 0,
+      "fatal": 0,
+      "diagnostics": []
+    },
+    "manifests": {
+      "alphamod": {
+        "mod_id": "alphamod",
+        "name": "alphamod (Stage 4 fixture)",
+        "version": "1.0.0",
+        "framework_api": "^0.4.0",
+        "manifest_version": 1,
+        "dependencies": [],
+        "optional_dependencies": [],
+        "conflicts": [],
+        "content": [
+          "Mod_alphamod_P"
+        ],
+        "code": [
+          "items.py"
+        ],
+        "root": "D:/UEScratch/ModsRoot\\ZZ_AlphaMod_v1",
+        "manifest_path": "D:/UEScratch/ModsRoot\\ZZ_AlphaMod_v1\\mod.json"
+      },
+      "betamod": {
+        "mod_id": "betamod",
+        "name": "betamod (Stage 4 fixture)",
+        "version": "1.0.0",
+        "framework_api": "^0.4.0",
+        "manifest_version": 1,
+        "dependencies": [
+          {
+            "mod_id": "alphamod",
+            "version": "^1.0.0",
+            "optional": false
+          }
+        ],
+        "optional_dependencies": [],
+        "conflicts": [],
+        "content": [
+          "Mod_betamod_P"
+        ],
+        "code": [
+          "items.py"
+        ],
+        "root": "D:/UEScratch/ModsRoot\\aa-beta-mod",
+        "manifest_path": "D:/UEScratch/ModsRoot\\aa-beta-mod\\mod.json"
+      }
+    }
+  },
+  "determinism": {
+    "permutations": 1,
+    "shuffled_enumerations": 1
+  },
+  "negative_plan": {
+    "load_order": [
+      "healthymod",
+      "provider"
+    ],
+    "excluded": {
+      "C:\\Temp\\stage4-negative-35nuco9t\\BrokenJson": [
+        "malformed_manifest"
+      ],
+      "C:\\Temp\\stage4-negative-35nuco9t\\FromTheFuture": [
+        "unsupported_manifest_version"
+      ],
+      "C:\\Temp\\stage4-negative-35nuco9t\\ShoutyId": [
+        "invalid_mod_id"
+      ],
+      "claimscontent": [
+        "missing_artifact"
+      ],
+      "consumer": [
+        "incompatible_dependency_version"
+      ],
+      "cyclea": [
+        "dependency_cycle"
+      ],
+      "cycleb": [
+        "dependency_cycle"
+      ],
+      "cyclec": [
+        "dependency_cycle"
+      ],
+      "dupemod": [
+        "duplicate_mod_id"
+      ],
+      "fighter": [
+        "explicit_conflict"
+      ],
+      "needsghost": [
+        "missing_dependency"
+      ],
+      "needsnewer": [
+        "unsupported_framework_api"
+      ],
+      "rival": [
+        "explicit_conflict"
+      ]
+    },
+    "ok": false,
+    "diagnostics": {
+      "total": 13,
+      "fatal": 13,
+      "diagnostics": [
+        {
+          "code": "malformed_manifest",
+          "subject": "C:\\Temp\\stage4-negative-35nuco9t\\BrokenJson",
+          "detail": "mod.json is not valid JSON: Expecting property name enclosed in double quotes: line 2 column 1 (char 44)",
+          "fatal": true,
+          "related": []
+        },
+        {
+          "code": "unsupported_manifest_version",
+          "subject": "C:\\Temp\\stage4-negative-35nuco9t\\FromTheFuture",
+          "detail": "manifest_version 99 is not one this framework can read ([1]). Refusing rather than guessing: a newer layout may give an existing field a new meaning.",
+          "fatal": true,
+          "related": []
+        },
+        {
+          "code": "invalid_mod_id",
+          "subject": "C:\\Temp\\stage4-negative-35nuco9t\\ShoutyId",
+          "detail": "'NotLowercase': invalid_mod_id: 'NotLowercase' must match ^[a-z][a-z0-9_]*$ -- lowercase, starting with a letter, because FName comparison is case-insensitive and two ids differing only in case would collide inside the game while looking distinct here",
+          "fatal": true,
+          "related": []
+        },
+        {
+          "code": "missing_artifact",
+          "subject": "claimscontent",
+          "detail": "declared content 'Mod_claimscontent_P' is missing ['Mod_claimscontent_P.pak', 'Mod_claimscontent_P.utoc', 'Mod_claimscontent_P.ucas']",
+          "fatal": true,
+          "related": []
+        },
+        {
+          "code": "incompatible_dependency_version",
+          "subject": "consumer",
+          "detail": "requires 'provider' ^2.0.0 but the installed 'provider' is 1.0.0",
+          "fatal": true,
+          "related": [
+            "provider"
+          ]
+        },
+        {
+          "code": "dependency_cycle",
+          "subject": "cyclea",
+          "detail": "is part of a dependency cycle among {cyclea, cycleb, cyclec}. The edges between them are: cyclea -> cycleb; cycleb -> cyclec; cyclec -> cyclea. No order satisfies 'dependencies load first' for any member, so every member is refused.",
+          "fatal": true,
+          "related": [
+            "cycleb",
+            "cyclec"
+          ]
+        },
+        {
+          "code": "dependency_cycle",
+          "subject": "cycleb",
+          "detail": "is part of a dependency cycle among {cyclea, cycleb, cyclec}. The edges between them are: cyclea -> cycleb; cycleb -> cyclec; cyclec -> cyclea. No order satisfies 'dependencies load first' for any member, so every member is refused.",
+          "fatal": true,
+          "related": [
+            "cyclea",
+            "cyclec"
+          ]
+        },
+        {
+          "code": "dependency_cycle",
+          "subject": "cyclec",
+          "detail": "is part of a dependency cycle among {cyclea, cycleb, cyclec}. The edges between them are: cyclea -> cycleb; cycleb -> cyclec; cyclec -> cyclea. No order satisfies 'dependencies load first' for any member, so every member is refused.",
+          "fatal": true,
+          "related": [
+            "cyclea",
+            "cycleb"
+          ]
+        },
+        {
+          "code": "duplicate_mod_id",
+          "subject": "dupemod",
+          "detail": "declared by 2 folders (['FirstCopy', 'SecondCopy']). mod_id is the authoritative identity, so this is one mod claiming to be two -- or two mods claiming one identity. EVERY claimant is refused: keeping whichever the filesystem returned first would make the outcome depend on folder order. This holds even when only one of them would otherwise have validated, because a folder that names an id has claimed it.",
+          "fatal": true,
+          "related": []
+        },
+        {
+          "code": "explicit_conflict",
+          "subject": "fighter",
+          "detail": "declared incompatible with 'rival' (or vice versa). Both are refused: only the user can decide which of two mods that say they cannot coexist should be the one that loads.",
+          "fatal": true,
+          "related": [
+            "rival"
+          ]
+        },
+        {
+          "code": "missing_dependency",
+          "subject": "needsghost",
+          "detail": "requires 'ghostmod' ^1.0.0, which is not present in the load set",
+          "fatal": true,
+          "related": [
+            "ghostmod"
+          ]
+        },
+        {
+          "code": "unsupported_framework_api",
+          "subject": "needsnewer",
+          "detail": "the mod requires framework API ^9.0.0 and this framework is 0.4.0",
+          "fatal": true,
+          "related": []
+        },
+        {
+          "code": "explicit_conflict",
+          "subject": "rival",
+          "detail": "declared incompatible with 'fighter' (or vice versa). Both are refused: only the user can decide which of two mods that say they cannot coexist should be the one that loads.",
+          "fatal": true,
+          "related": [
+            "fighter"
+          ]
+        }
+      ]
+    },
+    "manifests": {
+      "healthymod": {
+        "mod_id": "healthymod",
+        "name": "healthymod display name",
+        "version": "1.0.0",
+        "framework_api": "^0.4.0",
+        "manifest_version": 1,
+        "dependencies": [],
+        "optional_dependencies": [],
+        "conflicts": [],
+        "content": [],
+        "code": [],
+        "root": "C:\\Temp\\stage4-negative-35nuco9t\\AHealthyMod",
+        "manifest_path": "C:\\Temp\\stage4-negative-35nuco9t\\AHealthyMod\\mod.json"
+      },
+      "provider": {
+        "mod_id": "provider",
+        "name": "provider display name",
+        "version": "1.0.0",
+        "framework_api": "^0.4.0",
+        "manifest_version": 1,
+        "dependencies": [],
+        "optional_dependencies": [],
+        "conflicts": [],
+        "content": [],
+        "code": [],
+        "root": "C:\\Temp\\stage4-negative-35nuco9t\\Provider",
+        "manifest_path": "C:\\Temp\\stage4-negative-35nuco9t\\Provider\\mod.json"
+      }
+    }
+  },
+  "declarations": [
+    {
+      "local_id": "shape",
+      "display_name": "alphamod shape",
+      "short_name": "shape",
+      "description": "A Stage 4 fixture item from alphamod.",
+      "weight": 0.25,
+      "width": 1,
+      "height": 1,
+      "mesh": "/Game/Mods/alphamod/Meshes/SM_Shape",
+      "icon": "/Game/Mods/alphamod/Textures/T_Icon",
+      "mod_id": "alphamod"
+    },
+    {
+      "local_id": "shape",
+      "display_name": "betamod shape",
+      "short_name": "shape",
+      "description": "A Stage 4 fixture item from betamod.",
+      "weight": 0.25,
+      "width": 1,
+      "height": 1,
+      "mesh": "/Game/Mods/betamod/Meshes/SM_Shape",
+      "icon": "/Game/Mods/betamod/Textures/T_Icon",
+      "mod_id": "betamod"
+    }
+  ],
+  "declaration_diagnostics": [],
+  "checks": [
+    {
+      "check": "every folder in the tree was examined",
+      "pass": true,
+      "detail": "['ZZ_AlphaMod_v1', 'aa-beta-mod']"
+    },
+    {
+      "check": "every discovered mod validated with no fatal diagnostic",
+      "pass": true,
+      "detail": "{}"
+    },
+    {
+      "check": "at least two independently namespaced mods were discovered",
+      "pass": true,
+      "detail": "['alphamod', 'betamod']"
+    },
+    {
+      "check": "no folder name equals the mod_id it holds, so identity cannot be coming from the folder",
+      "pass": true,
+      "detail": "['ZZ_AlphaMod_v1', 'aa-beta-mod']"
+    },
+    {
+      "check": "resolution is identical under every permutation of its input",
+      "pass": true,
+      "detail": "1 distinct results"
+    },
+    {
+      "check": "the plan is identical under 8 shuffled filesystem enumerations",
+      "pass": true,
+      "detail": "1 distinct results"
+    },
+    {
+      "check": "the load order honours the declared dependency graph",
+      "pass": true,
+      "detail": "['alphamod', 'betamod']"
+    },
+    {
+      "check": "the healthy mod still loads despite 10 broken neighbours",
+      "pass": true,
+      "detail": "['healthymod', 'provider']"
+    },
+    {
+      "check": "no mod from any negative fixture reached the load plan",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "the plan reports duplicate_mod_id",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports missing_dependency",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports incompatible_dependency_version",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports dependency_cycle",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports explicit_conflict",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports malformed_manifest",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports unsupported_manifest_version",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports unsupported_framework_api",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports missing_artifact",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the plan reports invalid_mod_id",
+      "pass": true,
+      "detail": "['malformed_manifest', 'unsupported_manifest_version', 'invalid_mod_id', 'missing_artifact', 'incompatible_dependency_version', 'dependency_cycle', 'dependency_cycle', 'dependency_cycle', 'duplicate_mod_id', 'explicit_conflict', 'missing_dependency', 'unsupported_framework_api', 'explicit_conflict']"
+    },
+    {
+      "check": "the execution layer produced declarations only for planned mods",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "excluded 'C:\\\\Temp\\\\stage4-negative-35nuco9t\\\\BrokenJson' carries no manifest in the plan",
+      "pass": true,
+      "detail": "C:\\Temp\\stage4-negative-35nuco9t\\BrokenJson"
+    },
+    {
+      "check": "excluded 'C:\\\\Temp\\\\stage4-negative-35nuco9t\\\\FromTheFuture' carries no manifest in the plan",
+      "pass": true,
+      "detail": "C:\\Temp\\stage4-negative-35nuco9t\\FromTheFuture"
+    },
+    {
+      "check": "excluded 'C:\\\\Temp\\\\stage4-negative-35nuco9t\\\\ShoutyId' carries no manifest in the plan",
+      "pass": true,
+      "detail": "C:\\Temp\\stage4-negative-35nuco9t\\ShoutyId"
+    },
+    {
+      "check": "excluded 'claimscontent' carries no manifest in the plan",
+      "pass": true,
+      "detail": "claimscontent"
+    },
+    {
+      "check": "excluded 'dupemod' carries no manifest in the plan",
+      "pass": true,
+      "detail": "dupemod"
+    },
+    {
+      "check": "excluded 'needsnewer' carries no manifest in the plan",
+      "pass": true,
+      "detail": "needsnewer"
+    },
+    {
+      "check": "excluded 'consumer' carries no manifest in the plan",
+      "pass": true,
+      "detail": "consumer"
+    },
+    {
+      "check": "excluded 'needsghost' carries no manifest in the plan",
+      "pass": true,
+      "detail": "needsghost"
+    },
+    {
+      "check": "excluded 'fighter' carries no manifest in the plan",
+      "pass": true,
+      "detail": "fighter"
+    },
+    {
+      "check": "excluded 'rival' carries no manifest in the plan",
+      "pass": true,
+      "detail": "rival"
+    },
+    {
+      "check": "excluded 'cyclea' carries no manifest in the plan",
+      "pass": true,
+      "detail": "cyclea"
+    },
+    {
+      "check": "excluded 'cycleb' carries no manifest in the plan",
+      "pass": true,
+      "detail": "cycleb"
+    },
+    {
+      "check": "excluded 'cyclec' carries no manifest in the plan",
+      "pass": true,
+      "detail": "cyclec"
+    },
+    {
+      "check": "every planned mod contributed item declarations",
+      "pass": true,
+      "detail": "['alphamod', 'betamod']"
+    },
+    {
+      "check": "no declaration was allowed to name its own namespace",
+      "pass": true,
+      "detail": "[]"
+    }
+  ],
+  "passed": 35,
+  "failed": 0,
+  "verdict": "PASS"
+}

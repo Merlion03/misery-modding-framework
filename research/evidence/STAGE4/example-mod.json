@@ -1,0 +1,13 @@
+{
+  "manifest_version": 1,
+  "mod_id": "alphamod",
+  "name": "alphamod (Stage 4 fixture)",
+  "version": "1.0.0",
+  "framework_api": "^0.4.0",
+  "content": [
+    "Mod_alphamod_P"
+  ],
+  "code": [
+    "items.py"
+  ]
+}

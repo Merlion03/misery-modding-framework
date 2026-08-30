@@ -16,18 +16,13 @@
   },
   "containers": {
     "_comment": [
-      "apply=true: the runner owns staging.",
-      "Mod_alphamod_P is the Stage 3 generic fixture, built by tools/modkit/build.py",
-      "Mod_betamod_P is the SAME source filenames as alphamod (shape.glb, icon.png)",
-      "built under a different ModId: staging both is the live proof that two mods",
-      "with identical source names do not collide.",
-      "from ordinary source assets. MBPLRadio_P stays as regression coverage: the",
-      "complex asset that passed the world/pickup gate must keep working while the",
-      "generic pipeline is proven.",
-      "expect is an exact allow-list, so a forgotten experiment fails the gate.",
-      "MiseryModKit_P and CT03Probe20260828_P predate this gate and are left alone;",
-      "CT03Probe20260828_P is a bare .pak with no .utoc and serves as the control",
-      "that 'packages registered' discriminates rather than being always true."
+      "COMPUTED by research/instruments/mods/stage_from_plan.py from the Stage 4",
+      "load plan -- do not hand-edit the stage list. The mods under the",
+      "discovery root declare their own content; this file only records what",
+      "that resolved to for the next runner cycle.",
+      "load_order at generation time: alphamod, betamod",
+      "Entries not produced by a mod are listed in that script's LEGACY_*",
+      "constants, each with a reason."
     ],
     "stage_dir": null,
     "apply": true,
@@ -43,20 +38,20 @@
         "stem": "MBPLRadio_P"
       },
       {
-        "src": "D:/UEScratch/ModKitBuild/alphamod/container",
+        "src": "D:/UEScratch/ModsRoot\\ZZ_AlphaMod_v1\\Content",
         "stem": "Mod_alphamod_P"
       },
       {
-        "src": "D:/UEScratch/ModKitBuild/betamod/container",
+        "src": "D:/UEScratch/ModsRoot\\aa-beta-mod\\Content",
         "stem": "Mod_betamod_P"
       }
     ],
     "expect": [
+      "CT03Probe20260828_P",
       "MBPLRadio_P",
-      "Mod_alphamod_P",
-      "Mod_betamod_P",
       "MiseryModKit_P",
-      "CT03Probe20260828_P"
+      "Mod_alphamod_P",
+      "Mod_betamod_P"
     ]
   },
   "save_entry": {
