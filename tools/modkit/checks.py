@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 """Validation, before anything is built and again after it is packaged.
 
+NAMED ``checks`` AND NOT ``validate`` ON PURPOSE. The test suite puts several
+tool directories on sys.path at once, so a module here called ``validate`` shadows
+``tools/kb/validate.py`` for every test that runs after it -- which is exactly
+what happened: the knowledge-base schema test started failing with
+``module 'validate' has no attribute 'validate_against_schema'``, in a file this
+work never touched. A generic module name in a directory that shares sys.path is
+a landmine for whoever imports next.
+
 Two halves, and they answer different questions.
 
 ``validate_spec``  -- can this be built at all? Namespaces, duplicate object

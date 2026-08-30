@@ -37,7 +37,7 @@ import fixtures                    # noqa: E402
 import modspec                     # noqa: E402
 import namespace as ns             # noqa: E402
 import profiles                    # noqa: E402
-import validate as V               # noqa: E402
+import checks as V                  # noqa: E402
 
 # The one toolchain this pipeline is proven against. Anything else fails closed:
 # content whose cook provenance cannot be stated is worse than no content.

@@ -27,7 +27,7 @@ import fixtures                # noqa: E402
 import modspec                 # noqa: E402
 import namespace as ns         # noqa: E402
 import profiles                # noqa: E402
-import validate as V           # noqa: E402
+import checks as V             # noqa: E402
 
 
 class Namespacing(unittest.TestCase):
