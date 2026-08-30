@@ -154,7 +154,7 @@ struct C5Io {
     uint32_t rooted_after_release, owned_count, item_flags, table_addrow_matches;
     uint32_t table_removerow_matches, resolve_found, use_item_decay, use_durability;
     uint32_t parent_num_before, parent_max, parent_num_after_attach, parent_num_after_detach;
-    uint32_t verifytext_ran, resolvetext_ran, text_fields_written, pad4;
+    uint32_t verifytext_ran, resolvetext_ran, text_fields_written, internrow_ran;
     uint64_t table_ptr, table_item_ptr, table_class, table_outer, table_vtable;
     uint64_t table_rowstruct_after, row_fname, trigger_fname, temp_ptr, store_handle;
     uint64_t parent_data, parent_elem0, parent_elem1_before, parent_elem1_after;
@@ -732,6 +732,32 @@ void JobZeroSlot(void*) {
     io->zero_ran = (RD64(data + 8) == 0) ? 1u : 2u;
 }
 
+void JobInternRow(void*) {
+    C5Io* io = g_io;
+    JOB_ENTER();
+    // THE AGGREGATE'S ONE NEW OPERATION.
+    //
+    // CreateAndRoot interns the row name once, as part of building a table.
+    // An aggregate table is built ONCE and then holds many rows, so the row
+    // name has to be re-interned per registration WITHOUT touching the table.
+    // Everything else already works per row: AddRow and RemoveRow both key on
+    // (io->table_ptr, io->row_fname), so re-pointing row_fname is the whole of
+    // what a second, third or tenth item needs.
+    if (!io->table_ptr || io->create_ran != 1) {
+        io->err = MERR(SUB_CREATE, 20); io->internrow_ran = 2; return;
+    }
+    const uint64_t interned = InternName(io->row_name);
+    if (!interned) { io->err = MERR(SUB_CREATE, 10); io->internrow_ran = 2; return; }
+    // The neutral trigger must never be a real row name: it is removed from
+    // ItemList to force the composite to rebuild, and if it collided with a row
+    // that removal would delete data.
+    if (interned == io->trigger_fname) {
+        io->err = MERR(SUB_CREATE, 11); io->internrow_ran = 2; return;
+    }
+    io->row_fname = interned;
+    io->internrow_ran = 1;
+}
+
 void JobRemoveRow(void*) {
     C5Io* io = g_io;
     JOB_ENTER();
@@ -850,6 +876,7 @@ EXPORT_JOB(RunAttach, JobAttach)
 EXPORT_JOB(RunResolve, JobResolve)
 EXPORT_JOB(RunAddItem, JobAddItem)
 EXPORT_JOB(RunRemoveItem, JobRemoveItem)
+EXPORT_JOB(RunInternRow, JobInternRow)
 EXPORT_JOB(RunRemoveRow, JobRemoveRow)
 EXPORT_JOB(RunDetach, JobDetach)
 EXPORT_JOB(RunZeroSlot, JobZeroSlot)

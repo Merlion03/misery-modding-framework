@@ -308,7 +308,7 @@ def unpack_io(raw):
             "table_removerow_matches", "resolve_found", "use_item_decay", "use_durability",
             "parent_num_before", "parent_max", "parent_num_after_attach",
             "parent_num_after_detach",
-            "verifytext_ran", "resolvetext_ran", "text_fields_written", "pad4",
+            "verifytext_ran", "resolvetext_ran", "text_fields_written", "internrow_ran",
             "table_ptr", "table_item_ptr", "table_class", "table_outer", "table_vtable",
             "table_rowstruct_after", "row_fname", "trigger_fname", "temp_ptr", "store_handle",
             "parent_data", "parent_elem0", "parent_elem1_before", "parent_elem1_after",
