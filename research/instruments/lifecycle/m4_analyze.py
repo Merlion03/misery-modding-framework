@@ -169,6 +169,14 @@ def main(argv=None):
             pid_addr, cur_addr = pa.get("address"), ca.get("address")
             ppath = (pa.get("identity") or {}).get("object_path")
             cpath = (ca.get("identity") or {}).get("object_path")
+
+            def _serial(anchor):
+                ident = ((anchor.get("identity") or {}).get("engine_identity") or {})
+                if not ident.get("round_trip_verified"):
+                    return None
+                return (ident.get("internal_index"), ident.get("serial_number"))
+
+            pserial, cserial = _serial(pa), _serial(ca)
             if not pa.get("resolved") and not ca.get("resolved"):
                 verdict, why = "ABSENT-BOTH", "not resolvable on either side"
             elif not pa.get("resolved"):
@@ -185,6 +193,21 @@ def main(argv=None):
                 why = ("a different process: identity cannot survive a restart, so this is "
                        "recorded as recreation even though the object paths match"
                        if ppath == cpath else "a different process, and the paths differ too")
+            elif pserial and cserial:
+                # The engine's own answer. FUObjectItem::SerialNumber is bumped
+                # when an index is reused, which is exactly what distinguishes
+                # "the same object is still here" from "a new object was built
+                # where the old one was". This is what FWeakObjectPtr uses, and
+                # it makes the address comparison below unnecessary rather than
+                # merely suspicious.
+                if pserial == cserial:
+                    verdict = "SURVIVED"
+                    why = ("same process, same (InternalIndex, SerialNumber): the engine's own "
+                           "object identity says this is the same object")
+                else:
+                    verdict = "RECREATED"
+                    why = ("same process, but (InternalIndex, SerialNumber) changed %r -> %r: "
+                           "a different object" % (pserial, cserial))
             elif pid_addr == cur_addr and ppath == cpath:
                 # Address equality alone cannot distinguish survival from the
                 # allocator handing the same block back for a new object of the
@@ -202,9 +225,12 @@ def main(argv=None):
                        "allocator reuse, not survival")
             else:
                 verdict, why = "RECREATED", "same process, different address: a new object"
-            entry["anchors"][key] = {"verdict": verdict, "why": why,
-                                     "before": {"address": pid_addr, "object_path": ppath},
-                                     "after": {"address": cur_addr, "object_path": cpath}}
+            entry["anchors"][key] = {
+                "verdict": verdict, "why": why,
+                "identity_source": "FUObjectItem::SerialNumber" if (pserial and cserial)
+                                   else "address + object path (serial unavailable)",
+                "before": {"address": pid_addr, "object_path": ppath, "engine_identity": pserial},
+                "after": {"address": cur_addr, "object_path": cpath, "engine_identity": cserial}}
         transitions.append(entry)
     report["transitions"] = transitions
 
