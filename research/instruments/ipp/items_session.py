@@ -136,6 +136,7 @@ class AggregateSession(object):
         self.table_ptr = None
         self._buf = None
         self._rd = None
+        self._sigs = self._carrier = None
 
     # ---- plumbing ----------------------------------------------------------
     def _read_raw(self):
@@ -199,6 +200,8 @@ class AggregateSession(object):
         carrier = {"add_ticker": addrs["add_ticker"],
                    "get_core_ticker": addrs["get_core_ticker"],
                    "fmemory_malloc": addrs["fmemory_malloc"]}
+        # Held for the life of the session; see _bind_item_bytes.
+        self._sigs, self._carrier = sigs, carrier
 
         self.hp = self.k.OpenProcess(ipp.IPP_ACCESS_RIGHTS, False, self.pid)
         if not self.hp:
@@ -260,20 +263,18 @@ class AggregateSession(object):
         copied back verbatim from the live IO, because that block IS the
         aggregate -- table_ptr, its store handle, the interned trigger, and the
         attach bookkeeping.
+
+        The signature bytes and carrier addresses are captured ONCE at init.
+        The first version re-opened and re-hashed the ~100 MB game executable on
+        every single register and unregister, which turned a fifteen-check
+        acceptance run into an hour. Nothing about them can change while the
+        session is live: the build fingerprint was verified at init and the
+        process has not restarted, or the session would be invalid anyway.
         """
         c5.bind_item(spec)
-        img = c5.DiskImage(eri.run_i01(self.api, eri.DEFAULT_PROCESS_NAME)["exe_path"])
-        sigs = {"add": img.bytes_at(c5.fts.RVA_ADD_TICKER, 16),
-                "get": img.bytes_at(c5.fts.RVA_GET_CORE_TICKER, 16),
-                "malloc": img.bytes_at(c5.fts.RVA_FMEMORY_MALLOC, 16)}
-        # Rebuild with the SAME carrier values the session was initialised with,
-        # read straight back out of the live IO so they cannot drift.
         live = self._read_raw()
-        fresh = bytearray(c5.pack_io(
-            {"add_ticker": struct.unpack_from("<Q", live, _ELEMENT_OFFSETS[3])[0],
-             "get_core_ticker": struct.unpack_from("<Q", live, _ELEMENT_OFFSETS[4])[0],
-             "fmemory_malloc": struct.unpack_from("<Q", live, _ELEMENT_OFFSETS[5])[0]},
-            sigs, self.resolved, self.offs, self.toffs, self.woffs))
+        fresh = bytearray(c5.pack_io(self._carrier, self._sigs, self.resolved,
+                                     self.offs, self.toffs, self.woffs))
         fresh[OUTPUT_BLOCK_BYTE:] = live[OUTPUT_BLOCK_BYTE:]
         self._write_raw(fresh)
 

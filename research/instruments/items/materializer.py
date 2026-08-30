@@ -175,3 +175,68 @@ def _spec_path(spec):
         json.dump(spec, f, indent=2, sort_keys=True, default=str)
         f.write("\n")
     return path
+
+
+class AggregateMaterializer(Materializer):
+    """The Materializer the subsystem actually uses: one shared aggregate table.
+
+    Where C5Materializer ran a whole load/register/unload cycle per item -- and
+    could therefore only ever hold ONE item, because each cycle claimed the
+    composite's single spare parent slot -- this holds a live session with one
+    aggregate table and adds a row per registration.
+
+    The registry above it does not change at all. That is the point of the
+    protocol: the policy layer was already correct, and it was the mechanism
+    underneath that could not count past one.
+    """
+
+    def __init__(self, session=None, note=None):
+        import items_session
+        self._session_module = items_session
+        self.session = session
+        self.note = note if note is not None else []
+        os.makedirs(WORKSPACE, exist_ok=True)
+
+    # ---- subsystem lifecycle ----------------------------------------------
+    def init(self, attach=True):
+        if self.session is not None and self.session.initialised:
+            raise RuntimeError("the items session is already initialised; creating a "
+                               "second aggregate table while one is live is exactly what "
+                               "this design exists to prevent")
+        self.session = self._session_module.AggregateSession(note=self.note)
+        return self.session.init(attach=attach)
+
+    def shutdown(self):
+        if self.session is None or not self.session.initialised:
+            return {"ok": True, "detail": "not initialised"}
+        return self.session.shutdown()
+
+    # ---- the protocol ------------------------------------------------------
+    def existing_row_names(self):
+        # The authoritative oracle stays the canonical row list read from the
+        # live composite, by FULL FName identity. The "__" namespace convention
+        # is true of this build and useful by construction, but it is not the
+        # guarantee -- this is.
+        return C5Materializer.existing_row_names(self)
+
+    def materialize(self, definition):
+        if self.session is None or not self.session.initialised:
+            return {"ok": False, "detail": "the items session is not initialised"}
+        outcome = self.session.register(flatten(definition))
+        if not outcome.get("ok"):
+            return {"ok": False, "detail": "%s: %s" % (outcome.get("code"),
+                                                       outcome.get("detail"))}
+        return {"ok": True, "handle": outcome.get("handles"),
+                "content_handles": {r.object_path: outcome["handles"]
+                                    for r in definition.content_refs()},
+                "detail": "row added to the aggregate"}
+
+    def dematerialize(self, registration):
+        if self.session is None or not self.session.initialised:
+            return {"ok": False, "detail": "the items session is not initialised"}
+        outcome = self.session.unregister(flatten(registration.definition))
+        if not outcome.get("ok"):
+            return {"ok": False, "detail": "%s: %s" % (outcome.get("code"),
+                                                       outcome.get("detail"))}
+        return {"ok": True, "detail": "row removed from the aggregate",
+                "released": outcome.get("released")}
