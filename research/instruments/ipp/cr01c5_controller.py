@@ -114,6 +114,48 @@ def err_text(err):
     return "%s/%d (0x%x)" % (name, code, err)
 
 
+def bind_item(spec):
+    """Point this controller at ONE item, described build-independently.
+
+    This replaces the four hardcoded --probeN blocks that used to rebind these
+    globals: one block of module-global mutation per experiment was the crudest
+    possible parameterisation, and the Items subsystem exists so that a caller
+    supplies the values instead of the file carrying them.
+
+    *spec* is a plain dict, deliberately NOT an ItemDefinition. This module is
+    the build-specific layer; importing the stable schema would run the
+    dependency the wrong way and the schema would start acquiring build
+    concerns. The Items materializer flattens a definition into this.
+    """
+    required = ("row_name", "trigger_name", "state_path", "icon_package", "icon_asset",
+                "mesh_package", "mesh_asset", "world_class", "texts", "values",
+                "drag_size", "scale", "translation")
+    missing = [k for k in required if k not in spec]
+    if missing:
+        raise ipp.Blocked("bind_item: missing %r" % missing)
+    if set(spec["texts"]) != {"Name", "ShortName", "Description"}:
+        raise ipp.Blocked("bind_item: texts must be exactly Name/ShortName/Description")
+    if set(spec["values"]) != {"Weight", "Width", "Height", "MaxStack", "AllowStacking"}:
+        raise ipp.Blocked("bind_item: values keys do not match the proven field set")
+    g = globals()
+    g["ROW_NAME"] = spec["row_name"]
+    g["TRIGGER_NAME"] = spec["trigger_name"]
+    g["STATE_PATH"] = spec["state_path"]
+    g["ICON_PACKAGE"], g["ICON_ASSET"] = spec["icon_package"], spec["icon_asset"]
+    g["MESH_PACKAGE"], g["MESH_ASSET"] = spec["mesh_package"], spec["mesh_asset"]
+    g["WORLD_CLASS"] = spec["world_class"]
+    g["TEXTS"] = dict(spec["texts"])
+    g["VALUES"] = dict(spec["values"])
+    g["DRAG_SIZE"] = tuple(spec["drag_size"])
+    g["WANT_SCALE"] = tuple(float(v) for v in spec["scale"])
+    g["WANT_TRANS"] = tuple(float(v) for v in spec["translation"])
+    # Material verification is an item-specific ASSERTION suite, not part of
+    # registration. Cleared unless a caller deliberately sets it, so binding a
+    # new item cannot inherit another item's expectations.
+    g["EXPECT_MATERIALS"] = spec.get("expect_materials")
+    return {k: g[k] for k in ("ROW_NAME", "TRIGGER_NAME", "STATE_PATH", "WORLD_CLASS")}
+
+
 class RollbackNeeded(Exception):
     pass
 
@@ -1220,37 +1262,52 @@ def run(api, args, run_note):
                                  "CurrentWeight": inv0["current_weight"],
                                  "occupied": sum(1 for s in inv0["slots"] if s["occupied"]),
                                  "slots": inv0["num"]}
-        st = call("RunAddItem", "additem_ran")
-        if st["additem_ran"] != 1:
-            raise RollbackNeeded("AddItem did not run err=%s" % err_text(st["err"]))
-        report["additem_out"] = {"RemainingItem": st["out_remaining_item"],
-                                 "NewItemSlot": st["out_newitemslot"]}
-        h = eri.open_process_read_only(api, pid)
-        try:
-            inv1 = c3d.read_inventory(api, h, r["player_inv"])
-        finally:
-            api.close_handle(h)
-        ours = c3d.occupied_with(inv1, row_fname & 0xFFFFFFFF)
-        changed = c3d.slot_diff(inv0, inv1)
-        report["inventory"] = {
-            "entries_with_item": len(ours), "slot": ours[0] if ours else None,
-            "Amount": ours[0]["item"]["Amount"] if ours else None,
-            "ItemCount_delta": inv1["item_count"] - inv0["item_count"],
-            "CurrentWeight_delta": round(inv1["current_weight"] - inv0["current_weight"], 6),
-            "slots_changed": [c["index"] for c in changed],
-            "only_our_slot_changed": (len(changed) == 1 and bool(ours)
-                                      and changed[0]["index"] == ours[0]["index"])}
-        if len(ours) != 1:
-            raise RollbackNeeded("expected one inventory entry, found %d" % len(ours))
-        if ours[0]["item"]["Amount"] != 1:
-            raise RollbackNeeded("Amount is %r" % ours[0]["item"]["Amount"])
-        if report["inventory"]["ItemCount_delta"] != 1:
-            raise RollbackNeeded("ItemCount delta %r" % report["inventory"]["ItemCount_delta"])
-        if abs(report["inventory"]["CurrentWeight_delta"] - 0.5) > 1e-9:
-            raise RollbackNeeded("CurrentWeight delta %r"
-                                 % report["inventory"]["CurrentWeight_delta"])
-        run_note.append("INVENTORY: slot %d, Amount 1, +1 count, +0.5 weight, one slot changed"
-                        % ours[0]["index"])
+        # REGISTRATION IS NOT A GRANT. The arm path historically ended by
+        # putting one of the item into the player's inventory, because that is
+        # how a gate demonstrated the row worked. For the Items subsystem those
+        # are different operations -- Register publishes a definition, it does
+        # not hand anyone an item -- so the grant is opt-out, and the Items
+        # materializer opts out.
+        report["granted"] = not getattr(args, "no_grant", False)
+        if not report["granted"]:
+            run_note.append("registration only (--no-grant): no item was granted")
+        else:
+            st = call("RunAddItem", "additem_ran")
+            if st["additem_ran"] != 1:
+                raise RollbackNeeded("AddItem did not run err=%s" % err_text(st["err"]))
+            report["additem_out"] = {"RemainingItem": st["out_remaining_item"],
+                                     "NewItemSlot": st["out_newitemslot"]}
+            h = eri.open_process_read_only(api, pid)
+            try:
+                inv1 = c3d.read_inventory(api, h, r["player_inv"])
+            finally:
+                api.close_handle(h)
+            ours = c3d.occupied_with(inv1, row_fname & 0xFFFFFFFF)
+            changed = c3d.slot_diff(inv0, inv1)
+            report["inventory"] = {
+                "entries_with_item": len(ours), "slot": ours[0] if ours else None,
+                "Amount": ours[0]["item"]["Amount"] if ours else None,
+                "ItemCount_delta": inv1["item_count"] - inv0["item_count"],
+                "CurrentWeight_delta": round(inv1["current_weight"] - inv0["current_weight"], 6),
+                "slots_changed": [c["index"] for c in changed],
+                "only_our_slot_changed": (len(changed) == 1 and bool(ours)
+                                          and changed[0]["index"] == ours[0]["index"])}
+            if len(ours) != 1:
+                raise RollbackNeeded("expected one inventory entry, found %d" % len(ours))
+            if ours[0]["item"]["Amount"] != 1:
+                raise RollbackNeeded("Amount is %r" % ours[0]["item"]["Amount"])
+            if report["inventory"]["ItemCount_delta"] != 1:
+                raise RollbackNeeded("ItemCount delta %r" % report["inventory"]["ItemCount_delta"])
+            # The expected delta is the BOUND item's weight, not a constant. This
+            # read 0.5 -- the radio's weight -- so any other item registered through
+            # this controller would have failed a check that had nothing to do with
+            # it.
+            want_weight = float(VALUES["Weight"])
+            if abs(report["inventory"]["CurrentWeight_delta"] - want_weight) > 1e-9:
+                raise RollbackNeeded("CurrentWeight delta %r, expected %r"
+                                     % (report["inventory"]["CurrentWeight_delta"], want_weight))
+            run_note.append("INVENTORY: slot %d, Amount 1, +1 count, +%g weight, one slot "
+                            "changed" % (ours[0]["index"], want_weight))
         hold = True
         report["status"] = "READY_FOR_WORLD_DROP_VISUAL_CHECK"
         with open(STATE_PATH, "w", encoding="utf-8", newline="\n") as f:
@@ -1351,8 +1408,18 @@ def main(argv=None):
                     help="the SECOND ARM/emissive probe: four large separated boxes with a "
                          "known-metallic reference box, mirror-low roughness and a saturated "
                          "red base, after the first probe proved visually ambiguous")
+    ap.add_argument("--item-spec", default=None,
+                    help="JSON file describing ONE item, build-independently. This is how "
+                         "the Items subsystem drives this controller: the values come from "
+                         "an ItemDefinition instead of from this module's constants.")
+    ap.add_argument("--no-grant", action="store_true",
+                    help="register only; do not put an item in the player's inventory")
     ap.add_argument("--run-dir", default=None)
     a = ap.parse_args(argv)
+    if a.item_spec:
+        with open(a.item_spec, encoding="utf-8") as _spec_file:
+            _bound = bind_item(json.load(_spec_file))
+        print("bound to %s" % _bound["ROW_NAME"], file=sys.stderr)
     if a.probe4:
         g = globals()
         g["ROW_NAME"] = "mbpl__probe4"

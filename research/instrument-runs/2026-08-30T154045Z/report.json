@@ -1,0 +1,9 @@
+{
+  "blocked": true,
+  "reason": "CurrentWeight delta -0.1, expected -0.5",
+  "run_note": [
+    "pid=15800 build confirmed; probe module still at its recorded base",
+    "RemoveItem ran on slot 0",
+    "run aborted; verify_install after-check still performed"
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "before_cleanup": {
+    "CurrentWeight": 0.0,
+    "ItemCount": 0,
+    "entries_with_item": 0,
+    "occupied": 0,
+    "slots": 12
+  },
+  "detach": {
+    "err": 0,
+    "parent_num_after": 1,
+    "ran": 1
+  },
+  "dll_unloaded": true,
+  "final_tables": {
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x26270c7e8c0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x2621d324c00",
+        "0x0"
+      ]
+    }
+  },
+  "inventory_after_remove": {
+    "CurrentWeight": 0.0,
+    "CurrentWeight_delta": 0.0,
+    "ItemCount": 0,
+    "ItemCount_delta": 0,
+    "entries_with_item": 0,
+    "only_our_slot_changed": false,
+    "slots_changed": []
+  },
+  "mode": "cleanup",
+  "pid": 15800,
+  "release_icon": {
+    "err": 0,
+    "owned_count": 1,
+    "ran": 1,
+    "rooted_after": 0
+  },
+  "release_mesh": {
+    "err": 0,
+    "owned_count": 2,
+    "ran": 1,
+    "rooted_after": 0
+  },
+  "release_table": {
+    "err": 0,
+    "owned_count": 0,
+    "ran": 1,
+    "rooted_after": 0
+  },
+  "remote_memory_freed": true,
+  "removeitem": {
+    "ran": null,
+    "why": "no inventory slot carried the row; nothing to remove"
+  },
+  "removerow": {
+    "row_in_table_after": false,
+    "row_in_table_before": true
+  },
+  "row_name": "mbpl__simple_probe",
+  "run_note": [
+    "pid=15800 build confirmed; probe module still at its recorded base",
+    "no inventory entry carried the row; RemoveItem skipped",
+    "RemoveRow confirmed by reading the table's RowMap",
+    "all three roots released; the store owns nothing",
+    "teardown: stop handshake confirmed (wait_stopped_ok=1), module unloaded"
+  ],
+  "stale_baseline_note": {
+    "matches_now": true,
+    "recorded_CurrentWeight": 0.0,
+    "recorded_ItemCount": 0,
+    "recorded_slots_sha256": "bf0a780939aba7398f1cd924381bb47bcd1fc41c35e99691edb85eeb7b43c540",
+    "why_it_is_not_the_criterion": "the owner played after the item was issued, so this hash describes an inventory that no longer exists. Success is the DIFFERENCE across the removal, above."
+  },
+  "state_file_removed": "D:\\Dev\\MiseryFramework\\workspace\\items\\mbpl__simple_probe.json",
+  "teardown": {
+    "attempted": true,
+    "left_loaded_reason": null,
+    "safe_to_free_remote_memory": true,
+    "shutdown_rc": 0,
+    "state": 3,
+    "unloaded": true,
+    "wait_stopped_ok": 1
+  },
+  "verdict": "CLEAN",
+  "zero_slot": {
+    "err": 0,
+    "ran": 1
+  }
+}
