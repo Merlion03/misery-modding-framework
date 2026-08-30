@@ -472,6 +472,18 @@ UI_STATES = [
         # respawn someone's save is not.
         "name": "DEATH_SCREEN",
         "require": ["BP_DeathScreen_C"],
+        # MEASURED, and it cost a wrong classification: BP_DeathScreen_C is
+        # STILL LIVE after a successful respawn -- ObjectFlags 0x8, so not
+        # garbage; Outer is the GameInstance, so it outlives level transitions;
+        # and it survived a GC that freed the dead pawn's slot. Widget presence
+        # is therefore not a death predicate, and on its own this entry matched
+        # a healthy possessed player.
+        #
+        # The discriminator is the one this project has already proven: a
+        # controller that possesses NOTHING. Both Pawn and AcknowledgedPawn must
+        # be null, read by reflection via readiness.prove_gameplay, which both
+        # call sites already invoke.
+        "require_unpossessed": True,
         "action": None,
         "halt": True,
         "why": "the player character is dead. The runner will not press "
@@ -523,7 +535,46 @@ def live_world_names(objects):
     return names
 
 
-def classify_state(objects, states=None):
+def possession_from_proof(proof):
+    """Reduce a readiness verdict to the possession facts the classifier needs.
+
+    Returns ``{"measured": False}`` when the verdict cannot supply them -- and
+    that is the fail-closed case: an unmeasured possession must not be read as
+    "the player is alive", because the whole point of the death state is to stop
+    rather than guess.
+    """
+    if not isinstance(proof, dict):
+        return {"measured": False, "why": "no readiness verdict supplied"}
+    facts = proof.get("facts") or {}
+    controllers = facts.get("player_controllers")
+    possession = facts.get("possession")
+    if controllers is None or possession is None:
+        return {"measured": False,
+                "why": "the readiness verdict carries no player_controllers/possession facts"}
+    if len(controllers) != 1:
+        return {"measured": False,
+                "why": "expected exactly one live PlayerController, found %d -- possession is "
+                       "not determinable" % len(controllers)}
+    if "Pawn" not in possession or "AcknowledgedPawn" not in possession:
+        return {"measured": False,
+                "why": "Pawn and/or AcknowledgedPawn could not be resolved by reflection"}
+    return {"measured": True,
+            "pawn": possession["Pawn"].get("raw") or None,
+            "acknowledged_pawn": possession["AcknowledgedPawn"].get("raw") or None}
+
+
+def is_unpossessed(possession):
+    """True only when it was MEASURED that the controller possesses nothing.
+
+    Unmeasured is not True. A state that halts must not halt on an absence of
+    information.
+    """
+    if not isinstance(possession, dict) or not possession.get("measured"):
+        return None                      # unknown, deliberately not False
+    return possession.get("pawn") is None and possession.get("acknowledged_pawn") is None
+
+
+def classify_state(objects, states=None, possession=None):
     """Name the current screen, or return None.
 
     A state matches when every class in ``require`` is live, no class in
@@ -535,6 +586,13 @@ def classify_state(objects, states=None):
 
     Order matters and is part of the table: the first match wins, so a state
     that overlaps another must be listed before it.
+
+    *possession* is the reduced readiness facts from ``possession_from_proof``.
+    A state carrying ``require_unpossessed`` matches only when it was MEASURED
+    that the resolved controller possesses nothing. When possession was not
+    measured the requirement is treated as unknown and the state still matches
+    -- fail-closed, because the only state using this flag is one that HALTS,
+    and refusing to halt on missing information is the dangerous direction.
     """
     signature = screen_signature(objects)
     worlds = live_world_names(objects)
@@ -557,6 +615,11 @@ def classify_state(objects, states=None):
             continue
         if prefix_out and any(n.startswith(prefix_out) for n in worlds):
             continue
+        if state.get("require_unpossessed"):
+            unpossessed = is_unpossessed(possession)
+            # None means "not measured" -> fail closed, keep matching.
+            if unpossessed is False:
+                continue
         return state
     return None
 
@@ -743,12 +806,13 @@ class UiStateMachine(Strategy):
         last_acted = None
         for step in range(self.max_steps):
             objects = context["snapshot"]()
-            if context["is_gameplay"](objects):
+            proof = (context.get("gameplay_proof") or (lambda _o: None))(objects)
+            if proof["ready"] if isinstance(proof, dict) else context["is_gameplay"](objects):
                 note.append("ui state machine: gameplay reached after %d step(s)" % step)
                 return {"strategy": self.name, "acted": bool(performed), "steps": performed,
                         "final_state": "GAMEPLAY"}
 
-            state = classify_state(objects, self.states)
+            state = classify_state(objects, self.states, possession_from_proof(proof))
             if state is None:
                 raise UnknownScreen(screen_signature(objects))
 
@@ -818,9 +882,10 @@ class UiStateMachine(Strategy):
         while time.time() < deadline:
             time.sleep(2.0)
             objects = context["snapshot"]()
-            if context["is_gameplay"](objects):
+            proof = (context.get("gameplay_proof") or (lambda _o: None))(objects)
+            if proof["ready"] if isinstance(proof, dict) else context["is_gameplay"](objects):
                 return True, "GAMEPLAY"
-            other = classify_state(objects, self.states)
+            other = classify_state(objects, self.states, possession_from_proof(proof))
             if other is not None and other.get("halt"):
                 raise HaltingScreen(other)
             if other is not None and other["name"] != state["name"]:

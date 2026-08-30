@@ -302,10 +302,21 @@ def phase_save_entry_and_proof(config, api, handle, base, size, pid, note):
         census["namepool"], objects = recon.universe(api, handle, base, size)
         return objects
 
-    def is_gameplay(objects):
+    def gameplay_proof(objects):
+        """The full readiness verdict, not just its boolean.
+
+        The state machine needs the possession FACTS as well as the verdict:
+        BP_DeathScreen_C staying live after a respawn means widget presence
+        alone cannot decide the death state, and the thing that can is whether
+        the controller possesses anything. That is already computed here, so it
+        is exposed rather than measured a second time.
+        """
         return readiness.prove_gameplay(eri, api, handle, objects,
                                         namepool=census["namepool"],
-                                        expect=config.get("expect", {}))["ready"]
+                                        expect=config.get("expect", {}))
+
+    def is_gameplay(objects):
+        return gameplay_proof(objects)["ready"]
 
     expect = config.get("expect", {})
     context = {
@@ -313,6 +324,7 @@ def phase_save_entry_and_proof(config, api, handle, base, size, pid, note):
         "hwnd": window[0] if window else None,
         "snapshot": snapshot,
         "is_gameplay": is_gameplay,
+        "gameplay_proof": gameplay_proof,
         "save_slot": expect.get("save_slot"),
         "save_dir": expect.get("save_dir"),
         "save_row_geometry": entry_config.get("save_row_geometry"),

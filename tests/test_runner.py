@@ -673,6 +673,7 @@ class ScreenClassificationTests(unittest.TestCase):
         self.assertEqual(self._name(["BP_DeathScreen_C"], ["NewMapGENTEST"]),
                          "DEATH_SCREEN")
 
+
     def test_an_unrecognised_screen_classifies_as_nothing(self):
         """And nothing is what makes the machine stop instead of guessing a key."""
         self.assertIsNone(self._name(["BP_SomeUnknownScreen_C"], ["L_MenuMap03"]))
@@ -851,3 +852,116 @@ class RegistryTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+def _proof(*, controllers=1, pawn=None, acknowledged=None, facts=True, ready=False):
+    """A readiness verdict shaped like readiness.prove_gameplay's own.
+
+    Built here from the field names rather than by calling prove_gameplay, so a
+    change that renamed those fields would fail this test instead of silently
+    turning every possession check into "unmeasured".
+    """
+    if not facts:
+        return {"ready": ready, "reasons": [], "facts": {}}
+    possession = {}
+    if pawn is not None or acknowledged is not None or controllers == 1:
+        possession["Pawn"] = {"raw": pawn or 0, "offset": 720, "declared_on": "Controller"}
+        possession["AcknowledgedPawn"] = {"raw": acknowledged or 0, "offset": 824,
+                                          "declared_on": "PlayerController"}
+    return {"ready": ready, "reasons": [],
+            "facts": {"player_controllers": [{"address": "0x1"}] * controllers,
+                      "possession": possession}}
+
+
+class DeathScreenRequiresUnpossession(unittest.TestCase):
+    """BP_DeathScreen_C being live is NOT a death state.
+
+    Measured on the real game after a successful respawn: the widget is still a
+    live object -- ObjectFlags 0x8, so not garbage; its Outer is the
+    GameInstance, so it outlives level transitions; and it survived a GC that
+    freed the dead pawn's slot. `require: ["BP_DeathScreen_C"]` alone therefore
+    matched a healthy possessed player, and that state HALTS the runner.
+    Evidence: research/evidence/M4/KNOWN-DEFECT-runner-death-screen-classifier.md
+    """
+
+    def _state(self, proof):
+        objects = _screen(["BP_DeathScreen_C", "BP_AIManager_C"], ["NewMapGENTEST"])
+        return saveentry.classify_state(objects, None,
+                                        saveentry.possession_from_proof(proof))
+
+    def test_widget_live_and_nothing_possessed_is_the_death_screen(self):
+        """The real death state: the controller survives, both possession
+        pointers are null. This is what was measured at the actual death."""
+        state = self._state(_proof(pawn=None, acknowledged=None))
+        self.assertEqual(state["name"], "DEATH_SCREEN")
+        self.assertTrue(state["halt"])
+        self.assertIsNone(state["action"])
+
+    def test_widget_live_but_a_pawn_is_possessed_is_NOT_the_death_screen(self):
+        """The defect, as a test. A possessed player must never be called dead
+        because a leftover widget object exists."""
+        state = self._state(_proof(pawn=0x200ae25d580, acknowledged=0x200ae25d580))
+        self.assertNotEqual(state["name"], "DEATH_SCREEN")
+        self.assertFalse(state.get("halt"))
+
+    def test_stale_widget_after_respawn_leaves_the_reload_path_open(self):
+        """The consequence that matters: after a respawn in the same process the
+        widget persists, and the machine must be free to keep going -- above all
+        through a world load, which is exactly the recovery the death state's own
+        message recommends."""
+        state = self._state(_proof(pawn=0x1234, acknowledged=0x1234))
+        self.assertEqual(state["name"], "WORLD_LOADING")
+        self.assertFalse(state.get("halt"))
+        self.assertIsNone(state.get("action"))
+
+    def test_half_possessed_is_not_the_death_screen_but_does_not_act(self):
+        """Pawn set, AcknowledgedPawn still null: possession is settling, which
+        is a respawn in progress, not a death. The rule is BOTH pointers null,
+        so this is not the death state -- and the state it does reach is a WAIT
+        state that takes no action, which is the safe place for an in-between
+        moment to land."""
+        state = self._state(_proof(pawn=0x1234, acknowledged=None))
+        self.assertNotEqual(state["name"], "DEATH_SCREEN")
+        self.assertFalse(state.get("halt"))
+        self.assertIsNone(state.get("action"))
+
+    def test_unmeasured_possession_fails_closed(self):
+        """No possession supplied at all -- the pre-existing call shape. Unknown
+        must not be read as "alive": the state halts, and refusing to halt on
+        missing information is the dangerous direction."""
+        objects = _screen(["BP_DeathScreen_C"], ["NewMapGENTEST"])
+        self.assertEqual(saveentry.classify_state(objects)["name"], "DEATH_SCREEN")
+        self.assertEqual(saveentry.classify_state(objects, None, None)["name"], "DEATH_SCREEN")
+        self.assertEqual(saveentry.classify_state(objects, None, {"measured": False})["name"],
+                         "DEATH_SCREEN")
+
+    def test_two_controllers_is_unmeasured_not_alive(self):
+        """SwapPlayerControllers destroys the old controller but it lingers in
+        GUObjectArray until the next GC, so two can be live. Possession is then
+        not determinable -- which is unknown, not alive."""
+        reduced = saveentry.possession_from_proof(_proof(controllers=2))
+        self.assertFalse(reduced["measured"])
+        self.assertIsNone(saveentry.is_unpossessed(reduced))
+        self.assertEqual(self._state(_proof(controllers=2))["name"], "DEATH_SCREEN")
+
+    def test_missing_reflection_facts_are_unmeasured(self):
+        reduced = saveentry.possession_from_proof(_proof(facts=False))
+        self.assertFalse(reduced["measured"])
+        self.assertIsNone(saveentry.is_unpossessed(reduced))
+
+    def test_is_unpossessed_distinguishes_unknown_from_false(self):
+        """None and False are different answers and must not collapse: one means
+        "we could not tell", the other means "a pawn is possessed"."""
+        self.assertIsNone(saveentry.is_unpossessed(None))
+        self.assertIsNone(saveentry.is_unpossessed({"measured": False}))
+        self.assertTrue(saveentry.is_unpossessed(
+            {"measured": True, "pawn": None, "acknowledged_pawn": None}))
+        self.assertFalse(saveentry.is_unpossessed(
+            {"measured": True, "pawn": 0x10, "acknowledged_pawn": 0x10}))
+
+    def test_other_states_are_untouched_by_the_flag(self):
+        """Only the death state carries require_unpossessed; a possessed player
+        must still classify normally everywhere else."""
+        objects = _screen(["BP_MainMenu_C", "BP_SGKMenuGameMode_C"], ["L_MenuMap03"])
+        possession = saveentry.possession_from_proof(_proof(pawn=0x1, acknowledged=0x1))
+        self.assertEqual(saveentry.classify_state(objects, None, possession)["name"],
+                         "MAIN_MENU")
