@@ -1,0 +1,132 @@
+{
+  "pid": 15800,
+  "pointers": [
+    "0x2620c143680",
+    "0x2620c1437c0",
+    "0x2620c143840"
+  ],
+  "interval_s": 0.15,
+  "verified": {
+    "entries": [
+      {
+        "pointer": "0x2620c143680",
+        "vptr": "0x7ff671e05e58",
+        "refcount": 1308,
+        "revisions_raw": 4,
+        "source_string": {
+          "data": "0x2621ee5ae90",
+          "num": 5,
+          "max": 8,
+          "text": "Name"
+        },
+        "localized_string": "0x262431b4ac0",
+        "is_localized": true,
+        "gates": {
+          "array_num_le_max": true,
+          "refcount_nonzero": true,
+          "refcount_plausible": true,
+          "revisions_consistent": true
+        },
+        "trustworthy": true
+      },
+      {
+        "pointer": "0x2620c1437c0",
+        "vptr": "0x7ff671e05e58",
+        "refcount": 1308,
+        "revisions_raw": 4,
+        "source_string": {
+          "data": "0x2620c24f900",
+          "num": 11,
+          "max": 16,
+          "text": "Short Name"
+        },
+        "localized_string": "0x262431b0440",
+        "is_localized": true,
+        "gates": {
+          "array_num_le_max": true,
+          "refcount_nonzero": true,
+          "refcount_plausible": true,
+          "revisions_consistent": true
+        },
+        "trustworthy": true
+      },
+      {
+        "pointer": "0x2620c143840",
+        "vptr": "0x7ff671e05e58",
+        "refcount": 1308,
+        "revisions_raw": 4,
+        "source_string": {
+          "data": "0x2620c24f2e0",
+          "num": 13,
+          "max": 16,
+          "text": "Descriptions"
+        },
+        "localized_string": "0x262431ba420",
+        "is_localized": true,
+        "gates": {
+          "array_num_le_max": true,
+          "refcount_nonzero": true,
+          "refcount_plausible": true,
+          "revisions_consistent": true
+        },
+        "trustworthy": true
+      }
+    ],
+    "vptrs": [
+      "0x7ff671e05e58"
+    ],
+    "all_same_concrete_type": true,
+    "all_trustworthy": true,
+    "refcounts": [
+      1308,
+      1308,
+      1308
+    ]
+  },
+  "timeline": [
+    {
+      "t": 0.0,
+      "at": "18:18:03",
+      "counts": [
+        1308,
+        1308,
+        1308
+      ],
+      "delta": null,
+      "all_three_moved_together": false
+    },
+    {
+      "t": 26.625,
+      "at": "18:18:30",
+      "counts": [
+        1309,
+        1309,
+        1309
+      ],
+      "delta": [
+        1,
+        1,
+        1
+      ],
+      "all_three_moved_together": true
+    }
+  ],
+  "summary": {
+    "distinct_states": 2,
+    "simultaneous_moves": 1,
+    "simultaneous_deltas": [
+      1
+    ],
+    "first_counts": [
+      1308,
+      1308,
+      1308
+    ],
+    "last_counts": [
+      1309,
+      1309,
+      1309
+    ],
+    "any_decrease": false
+  }
+}

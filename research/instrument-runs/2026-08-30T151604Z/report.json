@@ -1,0 +1,7 @@
+{
+  "blocked": true,
+  "reason": "no held state at D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json -- nothing to clean up",
+  "run_note": [
+    "run aborted; verify_install after-check still performed"
+  ]
+}

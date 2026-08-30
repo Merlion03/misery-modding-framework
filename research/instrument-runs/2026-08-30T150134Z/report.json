@@ -1,0 +1,155 @@
+{
+  "armed": false,
+  "baseline": {
+    "CurrentWeight": 0.0,
+    "ItemCount": 0,
+    "inventory_occupied": 0,
+    "inventory_slots": 12,
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x200b171f2f0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x200982b40c0",
+        "0x0"
+      ]
+    }
+  },
+  "bool_semantics": {
+    "byte_offset": 0,
+    "field_mask": "0xff",
+    "is_bitfield": false
+  },
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "intended_value": 0,
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 64,
+      "size": 1
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "intended_value": 1,
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 60,
+      "size": 4
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "intended_value": 1,
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 68,
+      "size": 4
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "intended_value": 0.5,
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 48,
+      "size": 8
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "intended_value": 1,
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 56,
+      "size": 4
+    }
+  },
+  "offsets": {
+    "off_inventory_icon": 224,
+    "off_itemoffsets": 2064,
+    "off_move_icon": 232,
+    "off_override_flag": 240,
+    "off_override_sizex": 248,
+    "off_override_sizey": 244,
+    "off_rot": 0,
+    "off_scale": 64,
+    "off_staticmesh": 112,
+    "off_trans": 32,
+    "off_worldclass": 192,
+    "worldclass_metaclass": "Actor",
+    "worldclass_metaclass_addr": 2202519330816
+  },
+  "outcome": "all fail-closed checks passed and every world offset resolved; nothing was written.",
+  "pid": 8676,
+  "row_name": "mbpl__radio",
+  "run_note": [
+    "pid=8676 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff66cf3ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff66cf43370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff66cf9b790 byte-verified live==disk (48895c2408574883)",
+    "BP_StaticMasterItem_C super chain to Actor: BP_StaticMasterItem_C -> Actor",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 RVO=16 EG=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "LoadAsset_Blocking: flags=0x4022403 ParmsSize=48 RVO=40 EG=null",
+    "Conv_SoftObjectReferenceToString: flags=0x14422403 ParmsSize=56 RVO=40 EG=null",
+    "ProcessEvent slot 77 agrees across 3 unrelated CDOs -> 0x7ff66d29c1f0",
+    "all 8 engine addresses byte-verified live==disk",
+    "world offsets: WorldClass@192 StaticMesh@112 ItemOffsets@2064 (Rot@0 Trans@32 Scale@64) MoveIcon@232"
+  ],
+  "text_fields": {
+    "Description": {
+      "class": "FTextProperty",
+      "intended_value": "A runtime-defined MBPL test radio.",
+      "name": "Description_27_39047AE74BB18D53DE9D998ABDC7090D",
+      "note": "INTENDED, not measured -- what was written is read back from the live row and from the resolver",
+      "offset": 32,
+      "size": 16
+    },
+    "Name": {
+      "class": "FTextProperty",
+      "intended_value": "MBPL Radio",
+      "name": "Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34",
+      "note": "INTENDED, not measured -- what was written is read back from the live row and from the resolver",
+      "offset": 0,
+      "size": 16
+    },
+    "ShortName": {
+      "class": "FTextProperty",
+      "intended_value": "Radio",
+      "name": "ShortName_53_3FDED9954C8DBFC313F77D9D147163D6",
+      "note": "INTENDED, not measured -- what was written is read back from the live row and from the resolver",
+      "offset": 16,
+      "size": 16
+    }
+  },
+  "texts": {
+    "Description": "A runtime-defined MBPL test radio.",
+    "Name": "MBPL Radio",
+    "ShortName": "Radio"
+  },
+  "verdict": "DRY-RUN",
+  "world": {
+    "ItemOffsets_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "ItemOffsets_translation": [
+      0.0,
+      0.0,
+      5.0
+    ],
+    "StaticMesh_soft_path": "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio",
+    "WorldClass": "BP_StaticMasterItem_C",
+    "WorldClass_addr": "0x200a97a9000",
+    "WorldClass_metaclass": "Actor",
+    "WorldClass_super_chain": [
+      "BP_StaticMasterItem_C",
+      "Actor"
+    ]
+  }
+}

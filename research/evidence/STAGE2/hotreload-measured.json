@@ -1,0 +1,1959 @@
+{
+  "cycles_requested": 4,
+  "started_at": "2026-08-30T150942Z",
+  "cycles": [
+    {
+      "index": 0,
+      "arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 0,
+        "seconds": 28.3,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    ]",
+          "  }",
+          "}"
+        ]
+      },
+      "arm_report": {
+        "verdict": "HELD",
+        "empty_textdata": null,
+        "our_textdata": null,
+        "row_textdata": null,
+        "owned_count": 3,
+        "master_rows": 497,
+        "itemlist_exact_unchanged": true
+      },
+      "our_textdata_this_cycle": [
+        "0x2625df8b280",
+        "0x2629ab4a900",
+        "0x26278c70a80"
+      ],
+      "after_arm": {
+        "pid": 15800,
+        "at": "2026-08-30T151018Z",
+        "objects_total": 160869,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x2627ce7e2c0"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x2627ce7e2c0",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26278dc0700",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262490d0d80",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1304,
+            1304,
+            1304
+          ]
+        }
+      },
+      "duplicate_arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 2,
+        "seconds": 20.5,
+        "stderr_tail": [
+          "BLOCKED: ParentTables is not the vanilla baseline: {'data': '0x26270c7e8c0', 'num': 2, 'max': 2, 'slots': ['0x2621d324c00', '0x2627ce7e2c0']}"
+        ],
+        "stdout_tail": []
+      },
+      "after_duplicate": {
+        "pid": 15800,
+        "at": "2026-08-30T151046Z",
+        "objects_total": 160561,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x2627ce7e2c0"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x2627ce7e2c0",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26278dc0700",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262490d0d80",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1304,
+            1304,
+            1304
+          ]
+        }
+      },
+      "cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 0,
+        "seconds": 13.5,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    \"ran\": 1",
+          "  }",
+          "}"
+        ]
+      },
+      "cleanup_report": {
+        "verdict": "CLEAN",
+        "release_table": {
+          "err": 0,
+          "owned_count": 0,
+          "ran": 1,
+          "rooted_after": 0
+        },
+        "final_tables": {
+          "itemlist_rows": 496,
+          "master_rows": 496,
+          "parent_raw": {
+            "data": "0x26270c7e8c0",
+            "max": 2,
+            "num": 1,
+            "slots": [
+              "0x2621d324c00",
+              "0x0"
+            ]
+          }
+        },
+        "teardown": {
+          "attempted": true,
+          "left_loaded_reason": null,
+          "safe_to_free_remote_memory": true,
+          "shutdown_rc": 0,
+          "state": 3,
+          "unloaded": true,
+          "wait_stopped_ok": 1
+        },
+        "dll_unloaded": true
+      },
+      "after_cleanup": {
+        "pid": 15800,
+        "at": "2026-08-30T151107Z",
+        "objects_total": 160770,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "ParentTables": {
+          "num": 1,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x0"
+          ],
+          "names": [
+            "ItemList",
+            null
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x2627ce7e2c0",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26278dc0700",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262490d0d80",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": null,
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1304,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1304,
+            1304,
+            1304
+          ]
+        }
+      },
+      "idempotent_cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 2,
+        "seconds": 13.0,
+        "stderr_tail": [
+          "BLOCKED: no held state at D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json -- nothing to clean up"
+        ],
+        "stdout_tail": []
+      }
+    },
+    {
+      "index": 1,
+      "arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 0,
+        "seconds": 28.4,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    ]",
+          "  }",
+          "}"
+        ]
+      },
+      "arm_report": {
+        "verdict": "HELD",
+        "empty_textdata": null,
+        "our_textdata": null,
+        "row_textdata": null,
+        "owned_count": 3,
+        "master_rows": 497,
+        "itemlist_exact_unchanged": true
+      },
+      "our_textdata_this_cycle": [
+        "0x262b3e9fc40",
+        "0x2620b702a00",
+        "0x26278a0a8c0"
+      ],
+      "after_arm": {
+        "pid": 15800,
+        "at": "2026-08-30T151157Z",
+        "objects_total": 160653,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x26271703700"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x26271703700",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26275c0b980",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x2627e12e480",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1305,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1305,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1305,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1305,
+            1305,
+            1305
+          ]
+        }
+      },
+      "duplicate_arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 2,
+        "seconds": 20.2,
+        "stderr_tail": [
+          "BLOCKED: ParentTables is not the vanilla baseline: {'data': '0x26270c7e8c0', 'num': 2, 'max': 2, 'slots': ['0x2621d324c00', '0x26271703700']}"
+        ],
+        "stdout_tail": []
+      },
+      "after_duplicate": {
+        "pid": 15800,
+        "at": "2026-08-30T151225Z",
+        "objects_total": 161065,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x26271703700"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x26271703700",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26275c0b980",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x2627e12e480",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1307,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1307,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1307,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1307,
+            1307,
+            1307
+          ]
+        }
+      },
+      "cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 0,
+        "seconds": 13.0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    \"ran\": 1",
+          "  }",
+          "}"
+        ]
+      },
+      "cleanup_report": {
+        "verdict": "CLEAN",
+        "release_table": {
+          "err": 0,
+          "owned_count": 0,
+          "ran": 1,
+          "rooted_after": 0
+        },
+        "final_tables": {
+          "itemlist_rows": 496,
+          "master_rows": 496,
+          "parent_raw": {
+            "data": "0x26270c7e8c0",
+            "max": 2,
+            "num": 1,
+            "slots": [
+              "0x2621d324c00",
+              "0x0"
+            ]
+          }
+        },
+        "teardown": {
+          "attempted": true,
+          "left_loaded_reason": null,
+          "safe_to_free_remote_memory": true,
+          "shutdown_rc": 0,
+          "state": 3,
+          "unloaded": true,
+          "wait_stopped_ok": 1
+        },
+        "dll_unloaded": true
+      },
+      "after_cleanup": {
+        "pid": 15800,
+        "at": "2026-08-30T151245Z",
+        "objects_total": 160638,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "ParentTables": {
+          "num": 1,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x0"
+          ],
+          "names": [
+            "ItemList",
+            null
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x26271703700",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26275c0b980",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x2627e12e480",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": null,
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1307,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1307,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1307,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1307,
+            1307,
+            1307
+          ]
+        }
+      },
+      "idempotent_cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 2,
+        "seconds": 12.6,
+        "stderr_tail": [
+          "BLOCKED: no held state at D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json -- nothing to clean up"
+        ],
+        "stdout_tail": []
+      }
+    },
+    {
+      "index": 2,
+      "arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 0,
+        "seconds": 27.4,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    ]",
+          "  }",
+          "}"
+        ]
+      },
+      "arm_report": {
+        "verdict": "HELD",
+        "empty_textdata": null,
+        "our_textdata": null,
+        "row_textdata": null,
+        "owned_count": 3,
+        "master_rows": 497,
+        "itemlist_exact_unchanged": true
+      },
+      "our_textdata_this_cycle": [
+        "0x262761f4740",
+        "0x263341100c0",
+        "0x26200395d40"
+      ],
+      "after_arm": {
+        "pid": 15800,
+        "at": "2026-08-30T151333Z",
+        "objects_total": 160499,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x262a141acc0"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x262a141acc0",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26275c0b980",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x2627e12e480",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1308,
+            1308,
+            1308
+          ]
+        }
+      },
+      "duplicate_arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 2,
+        "seconds": 19.9,
+        "stderr_tail": [
+          "BLOCKED: ParentTables is not the vanilla baseline: {'data': '0x26270c7e8c0', 'num': 2, 'max': 2, 'slots': ['0x2621d324c00', '0x262a141acc0']}"
+        ],
+        "stdout_tail": []
+      },
+      "after_duplicate": {
+        "pid": 15800,
+        "at": "2026-08-30T151400Z",
+        "objects_total": 160772,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x262a141acc0"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x262a141acc0",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26275c0b980",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x2627e12e480",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1308,
+            1308,
+            1308
+          ]
+        }
+      },
+      "cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 0,
+        "seconds": 13.1,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    \"ran\": 1",
+          "  }",
+          "}"
+        ]
+      },
+      "cleanup_report": {
+        "verdict": "CLEAN",
+        "release_table": {
+          "err": 0,
+          "owned_count": 0,
+          "ran": 1,
+          "rooted_after": 0
+        },
+        "final_tables": {
+          "itemlist_rows": 496,
+          "master_rows": 496,
+          "parent_raw": {
+            "data": "0x26270c7e8c0",
+            "max": 2,
+            "num": 1,
+            "slots": [
+              "0x2621d324c00",
+              "0x0"
+            ]
+          }
+        },
+        "teardown": {
+          "attempted": true,
+          "left_loaded_reason": null,
+          "safe_to_free_remote_memory": true,
+          "shutdown_rc": 0,
+          "state": 3,
+          "unloaded": true,
+          "wait_stopped_ok": 1
+        },
+        "dll_unloaded": true
+      },
+      "after_cleanup": {
+        "pid": 15800,
+        "at": "2026-08-30T151421Z",
+        "objects_total": 160962,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "ParentTables": {
+          "num": 1,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x0"
+          ],
+          "names": [
+            "ItemList",
+            null
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x262a141acc0",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x26275c0b980",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x2627e12e480",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": null,
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1308,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1308,
+            1308,
+            1308
+          ]
+        }
+      },
+      "idempotent_cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 2,
+        "seconds": 12.6,
+        "stderr_tail": [
+          "BLOCKED: no held state at D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json -- nothing to clean up"
+        ],
+        "stdout_tail": []
+      }
+    },
+    {
+      "index": 3,
+      "arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 0,
+        "seconds": 27.3,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    ]",
+          "  }",
+          "}"
+        ]
+      },
+      "arm_report": {
+        "verdict": "HELD",
+        "empty_textdata": null,
+        "our_textdata": null,
+        "row_textdata": null,
+        "owned_count": 3,
+        "master_rows": 497,
+        "itemlist_exact_unchanged": true
+      },
+      "our_textdata_this_cycle": [
+        "0x262bc5d3180",
+        "0x26276630dc0",
+        "0x262932de440"
+      ],
+      "after_arm": {
+        "pid": 15800,
+        "at": "2026-08-30T151508Z",
+        "objects_total": 160839,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x262b32eff40"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x262b32eff40",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x2627ba5eb00",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262021bfb00",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1309,
+            1309,
+            1309
+          ]
+        }
+      },
+      "duplicate_arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 2,
+        "seconds": 19.9,
+        "stderr_tail": [
+          "BLOCKED: ParentTables is not the vanilla baseline: {'data': '0x26270c7e8c0', 'num': 2, 'max': 2, 'slots': ['0x2621d324c00', '0x262b32eff40']}"
+        ],
+        "stdout_tail": []
+      },
+      "after_duplicate": {
+        "pid": 15800,
+        "at": "2026-08-30T151536Z",
+        "objects_total": 160507,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x262b32eff40"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x262b32eff40",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x2627ba5eb00",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262021bfb00",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000",
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1309,
+            1309,
+            1309
+          ]
+        }
+      },
+      "cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 0,
+        "seconds": 13.1,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    \"ran\": 1",
+          "  }",
+          "}"
+        ]
+      },
+      "cleanup_report": {
+        "verdict": "CLEAN",
+        "release_table": {
+          "err": 0,
+          "owned_count": 0,
+          "ran": 1,
+          "rooted_after": 0
+        },
+        "final_tables": {
+          "itemlist_rows": 496,
+          "master_rows": 496,
+          "parent_raw": {
+            "data": "0x26270c7e8c0",
+            "max": 2,
+            "num": 1,
+            "slots": [
+              "0x2621d324c00",
+              "0x0"
+            ]
+          }
+        },
+        "teardown": {
+          "attempted": true,
+          "left_loaded_reason": null,
+          "safe_to_free_remote_memory": true,
+          "shutdown_rc": 0,
+          "state": 3,
+          "unloaded": true,
+          "wait_stopped_ok": 1
+        },
+        "dll_unloaded": true
+      },
+      "after_cleanup": {
+        "pid": 15800,
+        "at": "2026-08-30T151556Z",
+        "objects_total": 160716,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "ParentTables": {
+          "num": 1,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x0"
+          ],
+          "names": [
+            "ItemList",
+            null
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x262b32eff40",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x2627ba5eb00",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262021bfb00",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": null,
+        "textdata": {
+          "entries": [
+            {
+              "pointer": "0x2620c143680",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2621ee5ae90",
+                "num": 5,
+                "max": 8,
+                "text": "Name"
+              },
+              "localized_string": "0x262431b4ac0",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c1437c0",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f900",
+                "num": 11,
+                "max": 16,
+                "text": "Short Name"
+              },
+              "localized_string": "0x262431b0440",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            },
+            {
+              "pointer": "0x2620c143840",
+              "vptr": "0x7ff671e05e58",
+              "refcount": 1309,
+              "revisions_raw": 4,
+              "source_string": {
+                "data": "0x2620c24f2e0",
+                "num": 13,
+                "max": 16,
+                "text": "Descriptions"
+              },
+              "localized_string": "0x262431ba420",
+              "gates": {
+                "revisions_are_zero": false,
+                "array_num_le_max": true,
+                "refcount_nonzero": true,
+                "refcount_plausible": true
+              },
+              "trustworthy": false,
+              "why": "structural gates failed: ['revisions_are_zero']"
+            }
+          ],
+          "vptrs": [
+            "0x7ff671e05e58"
+          ],
+          "all_same_concrete_type": true,
+          "all_trustworthy": false,
+          "refcounts": [
+            1309,
+            1309,
+            1309
+          ]
+        }
+      },
+      "idempotent_cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 2,
+        "seconds": 12.6,
+        "stderr_tail": [
+          "BLOCKED: no held state at D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json -- nothing to clean up"
+        ],
+        "stdout_tail": []
+      }
+    }
+  ],
+  "baseline": {
+    "pid": 15800,
+    "at": "2026-08-30T150942Z",
+    "objects_total": 160468,
+    "ItemList": {
+      "rows": 496,
+      "contains_our_row": false
+    },
+    "MasterItemList": {
+      "rows": 496,
+      "contains_our_row": false
+    },
+    "ParentTables": {
+      "num": 1,
+      "max": 2,
+      "slots": [
+        "0x2621d324c00",
+        "0x0"
+      ],
+      "names": [
+        "ItemList",
+        null
+      ]
+    },
+    "itemlist_change_delegate": {
+      "data": "0x2620b702040",
+      "num": 1
+    },
+    "transient_datatables": [],
+    "content": {
+      "T_MBPL_Radio_Icon": [],
+      "SM_MBPL_Radio": []
+    },
+    "probe_module_loaded": null
+  },
+  "textdata_defaults": [
+    "0x2620c143680",
+    "0x2620c1437c0",
+    "0x2620c143840"
+  ],
+  "textdata_defaults_note": "S_ItemDetails is a UUserDefinedStruct, whose InitializeStruct copies from a persistent per-struct DefaultStructInstance (UserDefinedStruct.cpp:297-321). Each FText field with a non-empty default therefore owns its own FTextHistory_Base, created once at package load and shared by EVERY live S_ItemDetails in the process. Overwriting the field without destructing it drops one reference on that shared object."
+}

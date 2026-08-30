@@ -1,0 +1,421 @@
+{
+  "additem_out": {
+    "NewItemSlot": {
+      "Index": 0,
+      "InvComponent": "0x2620604b140"
+    },
+    "RemainingItem": 0
+  },
+  "after_publish": {
+    "all_vanilla_present": true,
+    "all_vanilla_semantically_unchanged": true,
+    "itemlist_exact_unchanged": true,
+    "master_rows": 497,
+    "probe_in_master": true
+  },
+  "baseline": {
+    "CurrentWeight": 0.0,
+    "ItemCount": 0,
+    "inventory_occupied": 0,
+    "inventory_slots": 12,
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x26270c7e8c0",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x2621d324c00",
+        "0x0"
+      ]
+    }
+  },
+  "bool_semantics": {
+    "byte_offset": 0,
+    "field_mask": "0xff",
+    "is_bitfield": false
+  },
+  "cleanup": {
+    "held_for_visual_check": true
+  },
+  "fields": {
+    "AllowStacking": {
+      "class": "FBoolProperty",
+      "intended_value": 0,
+      "name": "AllowStacking_48_02CFD0D74B05709E8E432E824709C714",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 64,
+      "size": 1
+    },
+    "Height": {
+      "class": "FIntProperty",
+      "intended_value": 1,
+      "name": "Height_10_E54E86E64E73A3ACD86E358532FC6061",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 60,
+      "size": 4
+    },
+    "MaxStack": {
+      "class": "FIntProperty",
+      "intended_value": 1,
+      "name": "MaxStack_18_C57243124FFDE0AB28797AA6F2C1E5F5",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 68,
+      "size": 4
+    },
+    "Weight": {
+      "class": "FDoubleProperty",
+      "intended_value": 0.5,
+      "name": "Weight_7_794436A247BB7BC85C7BF3BC8B1D13BA",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 48,
+      "size": 8
+    },
+    "Width": {
+      "class": "FIntProperty",
+      "intended_value": 1,
+      "name": "Width_12_AF2CA71343924568731BA285FA9ABEA0",
+      "note": "INTENDED, not measured -- the written value is read back from the live row and from the resolver",
+      "offset": 56,
+      "size": 4
+    }
+  },
+  "icon_load": {
+    "err": 0,
+    "is_texture2d": true,
+    "object": "0x262eff7e680",
+    "ran": 1,
+    "rooted": true,
+    "roundtrip": "/Game/MBPLTest/Items/Radio/T_MBPL_Radio_Icon.T_MBPL_Radio_Icon"
+  },
+  "inventory": {
+    "Amount": 1,
+    "CurrentWeight_delta": 0.5,
+    "ItemCount_delta": 1,
+    "entries_with_item": 1,
+    "only_our_slot_changed": true,
+    "slot": {
+      "blocked": 0,
+      "clump": 0,
+      "index": 0,
+      "inventory_ptr": "0x2620604b140",
+      "item": {
+        "Amount": 1,
+        "DecayTime": 0,
+        "Durability": 100.0,
+        "ID": 2227286,
+        "ID_number": 0,
+        "InUse": 0,
+        "MasterInventory": "0x0",
+        "QuickBindIndex": -1,
+        "Rotated": 0,
+        "UseAmount": 0
+      },
+      "occupied": 1,
+      "raw": "010000000000000040b1040662020000000000000000000056fc21000000000001000000000000000000000000000000ffffffff0000000000000000000000000000c842000000000000000000000000",
+      "root_index": 0,
+      "self_index": 0
+    },
+    "slots_changed": [
+      0
+    ]
+  },
+  "live_material_verification": [
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Body.MI_Radio_Body",
+      "mic_object": "0x2625ac67900",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x2627bac3340",
+      "slot": 0,
+      "slot_name": "M_Radio_Body",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Body_ARM.T_Radio_Body_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Body_BC.T_Radio_Body_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Battery.MI_Radio_Battery",
+      "mic_object": "0x2633819d800",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x2627bac3340",
+      "slot": 1,
+      "slot_name": "M_Radio_Battery",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_ARM.T_Radio_Battery_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_BC.T_Radio_Battery_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Metal.MI_Radio_Metal",
+      "mic_object": "0x26313673f80",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x2627bac3340",
+      "slot": 2,
+      "slot_name": "M_Radio_Metal",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_ARM.T_Radio_Metal_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_BC.T_Radio_Metal_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Rubber.MI_Radio_Rubber",
+      "mic_object": "0x262a0955d80",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x2627bac3340",
+      "slot": 3,
+      "slot_name": "M_Radio_Rubber",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_ARM.T_Radio_Rubber_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_BC.T_Radio_Rubber_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Screen.MI_Radio_Screen",
+      "mic_object": "0x2626663a880",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x2627bac3340",
+      "slot": 4,
+      "slot_name": "M_Radio_Screen",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_ARM.T_Radio_Screen_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_BC.T_Radio_Screen_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Emissive.MI_Radio_Emissive",
+      "mic_object": "0x26333e98580",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x2627bac3340",
+      "slot": 5,
+      "slot_name": "M_Radio_Emissive",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_ARM.T_Radio_Emissive_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_BC.T_Radio_Emissive_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Tape.MI_Radio_Tape",
+      "mic_object": "0x262a1385100",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x2627bac3340",
+      "slot": 6,
+      "slot_name": "M_Radio_Tape",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_ARM.T_Radio_Tape_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_BC.T_Radio_Tape_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    }
+  ],
+  "mesh_load": {
+    "class": "0x2622fd8ee00",
+    "err": 0,
+    "err_step": 0,
+    "is_staticmesh": true,
+    "object": "0x262021be980",
+    "owned_count": 3,
+    "ran": 1,
+    "rooted": true,
+    "soft_path_expected": "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio",
+    "soft_path_matches": true,
+    "soft_path_roundtrip": "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio"
+  },
+  "offsets": {
+    "off_inventory_icon": 224,
+    "off_itemoffsets": 2064,
+    "off_move_icon": 232,
+    "off_override_flag": 240,
+    "off_override_sizex": 248,
+    "off_override_sizey": 244,
+    "off_rot": 0,
+    "off_scale": 64,
+    "off_staticmesh": 112,
+    "off_trans": 32,
+    "off_worldclass": 192,
+    "worldclass_metaclass": "Actor",
+    "worldclass_metaclass_addr": 2620731416576
+  },
+  "pid": 15800,
+  "pre_additem": {
+    "CurrentWeight": 0.0,
+    "ItemCount": 0,
+    "occupied": 0,
+    "slots": 12
+  },
+  "resolver": {
+    "Height": 1,
+    "InventoryIcon": "0x262eff7e680",
+    "ItemOffsets_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "OverrideImageSize": true,
+    "StaticMesh_asset_fname": 2227392,
+    "StaticMesh_pkg_fname": 2227371,
+    "Weight": 0.5,
+    "Width": 1,
+    "WorldClass": "0x2621eb23880",
+    "drag_size": [
+      100,
+      100
+    ],
+    "found": 1,
+    "scale_is_not_zero": true,
+    "staticmesh_fnames_match": true,
+    "text": {
+      "Description": "A runtime-defined MBPL test radio.",
+      "Name": "MBPL Radio",
+      "ShortName": "Radio"
+    },
+    "text_matches": true,
+    "worldclass_matches": true
+  },
+  "row": {
+    "InventoryIcon": "0x262eff7e680",
+    "ItemOffsets_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "MoveIcon": "0x262eff7e680",
+    "OverrideImageSize": true,
+    "StaticMesh_asset_fname": 2227392,
+    "StaticMesh_pkg_fname": 2227371,
+    "WorldClass": "0x2621eb23880",
+    "drag_size": [
+      100,
+      100
+    ],
+    "icons_are_the_same_object": true,
+    "scale_is_not_zero": true,
+    "staticmesh_fnames_match": true,
+    "texts": {
+      "Description": "A runtime-defined MBPL test radio.",
+      "Name": "MBPL Radio",
+      "ShortName": "Radio"
+    },
+    "texts_match": true,
+    "verifymesh_ran": 1,
+    "worldclass_matches": true
+  },
+  "row_name": "mbpl__radio",
+  "run_note": [
+    "pid=15800 build fingerprint confirmed",
+    "add_ticker: VA 0x7ff66cf3ded0 byte-verified live==disk (488bc45556415648)",
+    "get_core_ticker: VA 0x7ff66cf43370 byte-verified live==disk (4883ec288b0d46a7)",
+    "fmemory_malloc: VA 0x7ff66cf9b790 byte-verified live==disk (48895c2408574883)",
+    "BP_StaticMasterItem_C super chain to Actor: BP_StaticMasterItem_C -> Actor",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 RVO=16 EG=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "LoadAsset_Blocking: flags=0x4022403 ParmsSize=48 RVO=40 EG=null",
+    "Conv_SoftObjectReferenceToString: flags=0x14422403 ParmsSize=56 RVO=40 EG=null",
+    "ProcessEvent slot 77 agrees across 3 unrelated CDOs -> 0x7ff66d29c1f0",
+    "all 8 engine addresses byte-verified live==disk",
+    "world offsets: WorldClass@192 StaticMesh@112 ItemOffsets@2064 (Rot@0 Trans@32 Scale@64) MoveIcon@232",
+    "mesh loaded: /Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio at 0x262021be980, UStaticMesh=True, rooted=True, store owns 3",
+    "slot 0 OK: M_Radio_Body -> parent /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "slot 1 OK: M_Radio_Battery -> parent /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "slot 2 OK: M_Radio_Metal -> parent /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "slot 3 OK: M_Radio_Rubber -> parent /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "slot 4 OK: M_Radio_Screen -> parent /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "slot 5 OK: M_Radio_Emissive -> parent /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "slot 6 OK: M_Radio_Tape -> parent /Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+    "live material verification PASSED for all 7 slots",
+    "row after DestroyStruct(temp): texts=True icons_same=True worldclass=True mesh_fnames=True scale=[1.0, 1.0, 1.0]",
+    "resolver: found=1 worldclass=True mesh_fnames=True scale=[1.0, 1.0, 1.0]",
+    "INVENTORY: slot 0, Amount 1, +1 count, +0.5 weight, one slot changed",
+    "HOLDING: module, IO, table root, icon root, MESH root and publication alive"
+  ],
+  "state_file": "D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json",
+  "status": "READY_FOR_WORLD_DROP_VISUAL_CHECK",
+  "text_fields": {
+    "Description": {
+      "class": "FTextProperty",
+      "intended_value": "A runtime-defined MBPL test radio.",
+      "name": "Description_27_39047AE74BB18D53DE9D998ABDC7090D",
+      "note": "INTENDED, not measured -- what was written is read back from the live row and from the resolver",
+      "offset": 32,
+      "size": 16
+    },
+    "Name": {
+      "class": "FTextProperty",
+      "intended_value": "MBPL Radio",
+      "name": "Name_126_D03100674B3BD75EEF9FD9A1E4F9CC34",
+      "note": "INTENDED, not measured -- what was written is read back from the live row and from the resolver",
+      "offset": 0,
+      "size": 16
+    },
+    "ShortName": {
+      "class": "FTextProperty",
+      "intended_value": "Radio",
+      "name": "ShortName_53_3FDED9954C8DBFC313F77D9D147163D6",
+      "note": "INTENDED, not measured -- what was written is read back from the live row and from the resolver",
+      "offset": 16,
+      "size": 16
+    }
+  },
+  "textdata": {
+    "defaults_are_distinct": true,
+    "in_row_after_addrow": [
+      "0x0",
+      "0x0",
+      "0x0"
+    ],
+    "initializestruct_defaults": [
+      "0x2620c143680",
+      "0x2620c1437c0",
+      "0x2620c143840"
+    ],
+    "ours": [
+      "0x262b7085dc0",
+      "0x26200193ec0",
+      "0x2626571ab80"
+    ],
+    "row_shares_ours": false,
+    "what_the_defaults_are": "S_ItemDetails is a UUserDefinedStruct, whose InitializeStruct copies from a persistent per-struct DefaultStructInstance (UserDefinedStruct.cpp:297-321). Each FText field with a non-empty default therefore owns its own FTextHistory_Base, created once at package load and shared by EVERY live S_ItemDetails in the process. Overwriting the field without destructing it drops one reference on that shared object."
+  },
+  "texts": {
+    "Description": "A runtime-defined MBPL test radio.",
+    "Name": "MBPL Radio",
+    "ShortName": "Radio"
+  },
+  "verdict": "HELD",
+  "world": {
+    "ItemOffsets_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "ItemOffsets_translation": [
+      0.0,
+      0.0,
+      5.0
+    ],
+    "StaticMesh_soft_path": "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio",
+    "WorldClass": "BP_StaticMasterItem_C",
+    "WorldClass_addr": "0x2621eb23880",
+    "WorldClass_metaclass": "Actor",
+    "WorldClass_super_chain": [
+      "BP_StaticMasterItem_C",
+      "Actor"
+    ]
+  }
+}

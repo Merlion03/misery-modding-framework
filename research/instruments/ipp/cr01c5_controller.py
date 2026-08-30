@@ -1108,6 +1108,23 @@ def run(api, args, run_note):
         if st["populate_ran"] != 1:
             raise ipp.Blocked("populate failed err=%s step=%d"
                               % (err_text(st["err"]), st["err_step"]))
+        # The three ITextData pointers. C4A recorded these and C5 did not, which
+        # is why the FText refcount question had to be answered from C4A-era
+        # evidence about a materially simpler row. They are the input to the
+        # refcount measurement, so they belong in the report.
+        report["textdata"] = {
+            "initializestruct_defaults": st["empty_textdata"],
+            "ours": st["our_textdata"],
+            "in_row_after_addrow": st["row_textdata"],
+            "defaults_are_distinct": len(set(st["empty_textdata"])) == 3,
+            "row_shares_ours": list(st["row_textdata"]) == list(st["our_textdata"]),
+            "what_the_defaults_are":
+                "S_ItemDetails is a UUserDefinedStruct, whose InitializeStruct copies from a "
+                "persistent per-struct DefaultStructInstance (UserDefinedStruct.cpp:297-321). "
+                "Each FText field with a non-empty default therefore owns its own "
+                "FTextHistory_Base, created once at package load and shared by EVERY live "
+                "S_ItemDetails in the process. Overwriting the field without destructing it "
+                "drops one reference on that shared object."}
         row_ptr, row_key = our_row(api, pid, table_ptr)
         if not row_ptr:
             raise ipp.Blocked("no row after AddRow")

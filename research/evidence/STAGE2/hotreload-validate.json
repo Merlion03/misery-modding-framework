@@ -1,0 +1,283 @@
+{
+  "cycles_requested": 1,
+  "started_at": "2026-08-30T150549Z",
+  "cycles": [
+    {
+      "index": 0,
+      "arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 0,
+        "seconds": 28.5,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    ]",
+          "  }",
+          "}"
+        ]
+      },
+      "arm_report": {
+        "verdict": "HELD",
+        "empty_textdata": null,
+        "our_textdata": null,
+        "row_textdata": null,
+        "owned_count": 3,
+        "master_rows": 497,
+        "itemlist_exact_unchanged": true
+      },
+      "after_arm": {
+        "pid": 15800,
+        "at": "2026-08-30T150626Z",
+        "objects_total": 160393,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x26247842500"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x26247842500",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x262b418aa80",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262490d8d00",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000"
+      },
+      "duplicate_arm": {
+        "args": [
+          "--arm"
+        ],
+        "exit": 2,
+        "seconds": 20.5,
+        "stderr_tail": [
+          "BLOCKED: ParentTables is not the vanilla baseline: {'data': '0x26270c7e8c0', 'num': 2, 'max': 2, 'slots': ['0x2621d324c00', '0x26247842500']}"
+        ],
+        "stdout_tail": []
+      },
+      "after_duplicate": {
+        "pid": 15800,
+        "at": "2026-08-30T150654Z",
+        "objects_total": 160677,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 497,
+          "contains_our_row": true
+        },
+        "ParentTables": {
+          "num": 2,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x26247842500"
+          ],
+          "names": [
+            "ItemList",
+            "DataTable"
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x26247842500",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x262b418aa80",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262490d8d00",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": "0x7fffe88e0000"
+      },
+      "cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 0,
+        "seconds": 13.5,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "    \"ran\": 1",
+          "  }",
+          "}"
+        ]
+      },
+      "cleanup_report": {
+        "verdict": "CLEAN",
+        "release_table": {
+          "err": 0,
+          "owned_count": 0,
+          "ran": 1,
+          "rooted_after": 0
+        },
+        "final_tables": {
+          "itemlist_rows": 496,
+          "master_rows": 496,
+          "parent_raw": {
+            "data": "0x26270c7e8c0",
+            "max": 2,
+            "num": 1,
+            "slots": [
+              "0x2621d324c00",
+              "0x0"
+            ]
+          }
+        },
+        "teardown": {
+          "attempted": true,
+          "left_loaded_reason": null,
+          "safe_to_free_remote_memory": true,
+          "shutdown_rc": 0,
+          "state": 3,
+          "unloaded": true,
+          "wait_stopped_ok": 1
+        },
+        "dll_unloaded": true
+      },
+      "after_cleanup": {
+        "pid": 15800,
+        "at": "2026-08-30T150715Z",
+        "objects_total": 160873,
+        "ItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "MasterItemList": {
+          "rows": 496,
+          "contains_our_row": false
+        },
+        "ParentTables": {
+          "num": 1,
+          "max": 2,
+          "slots": [
+            "0x2621d324c00",
+            "0x0"
+          ],
+          "names": [
+            "ItemList",
+            null
+          ]
+        },
+        "itemlist_change_delegate": {
+          "data": "0x2620b702040",
+          "num": 1
+        },
+        "transient_datatables": [
+          {
+            "object": "0x26247842500",
+            "path": "/Engine/Transient.DataTable"
+          }
+        ],
+        "content": {
+          "T_MBPL_Radio_Icon": [
+            {
+              "object": "0x262b418aa80",
+              "rooted": null
+            }
+          ],
+          "SM_MBPL_Radio": [
+            {
+              "object": "0x262490d8d00",
+              "rooted": null
+            }
+          ]
+        },
+        "probe_module_loaded": null
+      },
+      "idempotent_cleanup": {
+        "args": [
+          "--cleanup"
+        ],
+        "exit": 2,
+        "seconds": 12.9,
+        "stderr_tail": [
+          "BLOCKED: no held state at D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json -- nothing to clean up"
+        ],
+        "stdout_tail": []
+      }
+    }
+  ],
+  "baseline": {
+    "pid": 15800,
+    "at": "2026-08-30T150549Z",
+    "objects_total": 160338,
+    "ItemList": {
+      "rows": 496,
+      "contains_our_row": false
+    },
+    "MasterItemList": {
+      "rows": 496,
+      "contains_our_row": false
+    },
+    "ParentTables": {
+      "num": 1,
+      "max": 2,
+      "slots": [
+        "0x2621d324c00",
+        "0x0"
+      ],
+      "names": [
+        "ItemList",
+        null
+      ]
+    },
+    "itemlist_change_delegate": {
+      "data": "0x2620b702040",
+      "num": 1
+    },
+    "transient_datatables": [],
+    "content": {
+      "T_MBPL_Radio_Icon": [],
+      "SM_MBPL_Radio": []
+    },
+    "probe_module_loaded": null
+  }
+}
