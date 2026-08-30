@@ -95,6 +95,25 @@ _MESH_PREFIX = _PRE + "QQQQIIIIIIIIIIIIdddddd"
 _MESH_TXT_INDEX = len(struct.unpack(_MESH_PREFIX, bytes(struct.calcsize(_MESH_PREFIX))))
 
 
+# The probe's `err` is now (subsystem << 8) | code -- see CR01C5ProbeDll.cpp.
+# Decoding it here keeps the messages readable; printing the raw number would
+# turn a clear "populate/24" into an opaque 1304.
+ERR_SUBSYSTEMS = {0x01: "init", 0x02: "create", 0x03: "loadicon", 0x04: "loadmesh",
+                  0x05: "populate", 0x06: "verifyrow", 0x07: "attach", 0x08: "resolve",
+                  0x09: "removeitem", 0x0A: "detach", 0x0B: "zeroslot", 0x0C: "release"}
+
+
+def err_text(err):
+    """Render a structured probe error. 0 is no error."""
+    if not err:
+        return "0 (none)"
+    sub, code = (int(err) >> 8) & 0xFF, int(err) & 0xFF
+    name = ERR_SUBSYSTEMS.get(sub)
+    if name is None:
+        return "0x%x (UNRECOGNISED subsystem 0x%02x, code %d)" % (err, sub, code)
+    return "%s/%d (0x%x)" % (name, code, err)
+
+
 class RollbackNeeded(Exception):
     pass
 
@@ -786,8 +805,8 @@ def run_cleanup(api, run_note):
         st = call("RunRemoveItem", "removeitem_ran")
         report["removeitem"] = {"ran": st["removeitem_ran"], "err": st["err"]}
         if st["removeitem_ran"] != 1:
-            raise ipp.Blocked("RemoveItem refused ran=%d err=%d"
-                              % (st["removeitem_ran"], st["err"]))
+            raise ipp.Blocked("RemoveItem refused ran=%d err=%s"
+                              % (st["removeitem_ran"], err_text(st["err"])))
         run_note.append("RemoveItem ran on slot %d" % mine[0]["index"])
     else:
         report["removeitem"] = {"ran": None,
@@ -844,11 +863,13 @@ def run_cleanup(api, run_note):
     report["detach"] = {"ran": st["detach_ran"], "err": st["err"],
                         "parent_num_after": st["parent_num_after_detach"]}
     if st["detach_ran"] != 1:
-        raise ipp.Blocked("Detach refused ran=%d err=%d" % (st["detach_ran"], st["err"]))
+        raise ipp.Blocked("Detach refused ran=%d err=%s"
+                              % (st["detach_ran"], err_text(st["err"])))
     st = call("RunZeroSlot", "zero_ran")
     report["zero_slot"] = {"ran": st["zero_ran"], "err": st["err"]}
     if st["zero_ran"] != 1:
-        raise ipp.Blocked("ZeroSlot refused ran=%d err=%d" % (st["zero_ran"], st["err"]))
+        raise ipp.Blocked("ZeroSlot refused ran=%d err=%s"
+                              % (st["zero_ran"], err_text(st["err"])))
 
     # ---- 3. the roots, mesh and icon first ---------------------------------
     st = call("RunReleaseMesh", "releasemesh_ran")
@@ -865,8 +886,9 @@ def run_cleanup(api, run_note):
                                "owned_count": st["owned_count"], "err": st["err"]}
     for label in ("release_mesh", "release_icon", "release_table"):
         if report[label]["ran"] != 1:
-            raise ipp.Blocked("%s refused ran=%r err=%r"
-                              % (label, report[label]["ran"], report[label]["err"]))
+            raise ipp.Blocked("%s refused ran=%r err=%s"
+                              % (label, report[label]["ran"],
+                                 err_text(report[label]["err"])))
         if report[label]["rooted_after"] != 0:
             raise ipp.Blocked("%s left the object rooted" % label)
     if report["release_table"]["owned_count"] != 0:
@@ -1042,7 +1064,7 @@ def run(api, args, run_note):
             raise ipp.Blocked("Init failed")
         st = call("RunCreate", "create_ran")
         if st["create_ran"] != 1:
-            raise ipp.Blocked("create failed err=%d step=%d" % (st["err"], st["err_step"]))
+            raise ipp.Blocked("create failed err=%s step=%d" % (err_text(st["err"]), st["err_step"]))
         table_ptr, row_fname = st["table_ptr"], st["row_fname"]
 
         st = call("RunLoadIcon", "loadicon_ran")
@@ -1052,7 +1074,8 @@ def run(api, args, run_note):
                                "is_texture2d": st["icon_class"] == r["tex_class"],
                                "rooted": st["icon_rooted_after_acquire"] == 1}
         if st["loadicon_ran"] != 1:
-            raise ipp.Blocked("icon load failed err=%d step=%d" % (st["err"], st["err_step"]))
+            raise ipp.Blocked("icon load failed err=%s step=%d"
+                              % (err_text(st["err"]), st["err_step"]))
 
         st = call("RunLoadMesh", "loadmesh_ran")
         report["mesh_load"] = {
@@ -1065,7 +1088,8 @@ def run(api, args, run_note):
             "rooted": st["mesh_rooted_after_acquire"] == 1,
             "owned_count": st["owned_count"]}
         if st["loadmesh_ran"] != 1:
-            raise ipp.Blocked("mesh load failed err=%d step=%d" % (st["err"], st["err_step"]))
+            raise ipp.Blocked("mesh load failed err=%s step=%d"
+                              % (err_text(st["err"]), st["err_step"]))
         if not report["mesh_load"]["soft_path_matches"]:
             raise ipp.Blocked("mesh soft round trip returned %r" % st["mesh_path_roundtrip"])
         mesh_obj, icon_obj = st["mesh_object"], st["icon_object"]
@@ -1082,7 +1106,8 @@ def run(api, args, run_note):
 
         st = call("RunPopulate", "populate_ran")
         if st["populate_ran"] != 1:
-            raise ipp.Blocked("populate failed err=%d step=%d" % (st["err"], st["err_step"]))
+            raise ipp.Blocked("populate failed err=%s step=%d"
+                              % (err_text(st["err"]), st["err_step"]))
         row_ptr, row_key = our_row(api, pid, table_ptr)
         if not row_ptr:
             raise ipp.Blocked("no row after AddRow")
@@ -1123,7 +1148,8 @@ def run(api, args, run_note):
 
         st = call("RunAttach", "attach_ran")
         if st["attach_ran"] != 1:
-            raise ipp.Blocked("attach refused err=%d step=%d" % (st["err"], st["err_step"]))
+            raise ipp.Blocked("attach refused err=%s step=%d"
+                              % (err_text(st["err"]), st["err_step"]))
         after_pub = observe(api, pid, r, mask)
         report["after_publish"] = {
             "master_rows": after_pub["master_rows"],
@@ -1179,7 +1205,7 @@ def run(api, args, run_note):
                                  "slots": inv0["num"]}
         st = call("RunAddItem", "additem_ran")
         if st["additem_ran"] != 1:
-            raise RollbackNeeded("AddItem did not run err=%d" % st["err"])
+            raise RollbackNeeded("AddItem did not run err=%s" % err_text(st["err"]))
         report["additem_out"] = {"RemainingItem": st["out_remaining_item"],
                                  "NewItemSlot": st["out_newitemslot"]}
         h = eri.open_process_read_only(api, pid)

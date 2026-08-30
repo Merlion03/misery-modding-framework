@@ -290,7 +290,39 @@ void BuildInvItem(uint8_t* dst) {
     *reinterpret_cast<int32_t*>(dst + IV_DECAYTIME) = io->inv_decaytime;
 }
 
-#define FAILC(step, code) do { io->err_step = (step); io->err = (code); return false; } while (0)
+// STRUCTURED ERRORS.  `err` used to be a bare number, and the numbers collided:
+// 30/31 meant "composite vtable/class mismatch" in Attach AND "temp not freed /
+// null row" in JobVerifyRow; 60/61 meant "icon FName intern failed / round-trip
+// empty" in LoadIcon AND "ParentTables Data moved / Num != 1" in JobZeroSlot.
+// The value alone was ambiguous -- it could only be disambiguated by noticing
+// which *_ran field happened to be 2.
+//
+// So an error is now (subsystem << 8) | code. The low byte keeps its historical
+// meaning, so every code recorded in past evidence still reads the same; the
+// high byte says which job produced it. 0 stays "no error".
+enum : uint32_t {
+    SUB_INIT       = 0x01,
+    SUB_CREATE     = 0x02,
+    SUB_LOADICON   = 0x03,
+    SUB_LOADMESH   = 0x04,
+    SUB_POPULATE   = 0x05,
+    SUB_VERIFYROW  = 0x06,
+    SUB_ATTACH     = 0x07,
+    SUB_RESOLVE    = 0x08,
+    SUB_REMOVEITEM = 0x09,
+    SUB_DETACH     = 0x0A,
+    SUB_ZEROSLOT   = 0x0B,
+    SUB_RELEASE    = 0x0C,
+};
+#define MERR(sub, code) ((static_cast<uint32_t>(sub) << 8) | static_cast<uint32_t>(code))
+
+// Every job clears both error fields on entry. Without this a job that succeeds
+// still reports whatever `err` the previous job left behind, which is how a
+// clean release could be reported next to a stale failure code.
+#define JOB_ENTER() do { io->err = 0u; io->err_step = 0u; } while (0)
+
+#define FAILC(sub, step, code) \
+    do { io->err_step = (step); io->err = MERR((sub), (code)); return false; } while (0)
 
 bool CreateAndRoot() {
     C5Io* io = g_io;
@@ -299,41 +331,42 @@ bool CreateAndRoot() {
     *reinterpret_cast<uint64_t*>(parms + 8) = io->transient_package;
     PE(io->cdo_gameplaystatics, io->fn_spawn_object, parms);
     const uint64_t obj = *reinterpret_cast<uint64_t*>(parms + 16);
-    if (!obj) FAILC(1, 1);
+    if (!obj) FAILC(SUB_CREATE, 1, 1);
     io->table_ptr = obj;
     io->table_class = RD64(obj + OFF_CLASS_PRIVATE);
     io->table_outer = RD64(obj + OFF_OUTER_PRIVATE);
     io->table_vtable = RD64(obj);
-    if (io->table_class != io->datatable_class) FAILC(2, 2);
-    if (io->table_outer != io->transient_package) FAILC(2, 3);
-    if (io->table_vtable != io->expected_plain_vtable) FAILC(2, 4);
+    if (io->table_class != io->datatable_class) FAILC(SUB_CREATE, 2, 2);
+    if (io->table_outer != io->transient_package) FAILC(SUB_CREATE, 2, 3);
+    if (io->table_vtable != io->expected_plain_vtable) FAILC(SUB_CREATE, 2, 4);
     const uint64_t item = ItemForObject(obj, &io->internal_index);
-    if (!item) FAILC(3, 5);
+    if (!item) FAILC(SUB_CREATE, 3, 5);
     io->table_item_ptr = item;
     io->store_handle = g_store->Acquire(reinterpret_cast<void*>(static_cast<uintptr_t>(obj)),
                                         reinterpret_cast<void*>(static_cast<uintptr_t>(item)));
-    if (!io->store_handle) FAILC(4, 6);
+    if (!io->store_handle) FAILC(SUB_CREATE, 4, 6);
     io->item_flags = static_cast<uint32_t>(RD32(item + 8));
     io->rooted_after_acquire =
         g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(obj))) ? 1u : 0u;
     io->owned_count = g_store->OwnedCount();
-    if (!io->rooted_after_acquire) FAILC(4, 7);
+    if (!io->rooted_after_acquire) FAILC(SUB_CREATE, 4, 7);
     WR64(obj + io->off_rowstruct, io->row_struct);
-    if (RD64(obj + io->off_rowstruct) != io->row_struct) FAILC(5, 8);
+    if (RD64(obj + io->off_rowstruct) != io->row_struct) FAILC(SUB_CREATE, 5, 8);
     io->table_rowstruct_after = io->row_struct;
     const uint64_t vt = io->table_vtable;
     io->table_addrow_matches = (RD64(vt + 95 * 8) == io->add_row) ? 1u : 0u;
     io->table_removerow_matches = (RD64(vt + 94 * 8) == io->remove_row) ? 1u : 0u;
-    if (!io->table_addrow_matches || !io->table_removerow_matches) FAILC(6, 9);
+    if (!io->table_addrow_matches || !io->table_removerow_matches) FAILC(SUB_CREATE, 6, 9);
     io->row_fname = InternName(io->row_name);
-    if (!io->row_fname) FAILC(7, 10);
+    if (!io->row_fname) FAILC(SUB_CREATE, 7, 10);
     io->trigger_fname = InternName(io->trigger_name);
-    if (!io->trigger_fname || io->trigger_fname == io->row_fname) FAILC(7, 11);
+    if (!io->trigger_fname || io->trigger_fname == io->row_fname) FAILC(SUB_CREATE, 7, 11);
     return true;
 }
 
 void JobCreate(void*) {
     C5Io* io = g_io;
+    JOB_ENTER();
     io->gt_tid = static_cast<uint32_t>(FPlatformTLS::GetCurrentThreadId());
     io->create_ran = CreateAndRoot() ? 1u : 2u;
 }
@@ -344,7 +377,7 @@ bool LoadIcon() {
     C5Io* io = g_io;
     const uint64_t pkg = InternName(io->icon_pkg_in);
     const uint64_t asset = InternName(io->icon_asset_in);
-    if (!pkg || !asset) FAILC(20, 60);
+    if (!pkg || !asset) FAILC(SUB_LOADICON, 20, 60);
 
     alignas(8) uint8_t soft[SOFTPTR_SIZE] = {};
     *reinterpret_cast<uint64_t*>(soft + SOFTPTR_PATH + SOFTPATH_PKG) = pkg;
@@ -361,32 +394,36 @@ bool LoadIcon() {
         CharsFromFString(p + S2S_RET, io->icon_path_roundtrip, TXT_CAP);
         FreeFStringData(p + S2S_RET);
     }
-    if (io->icon_path_roundtrip[0] == 0) FAILC(21, 61);
+    if (io->icon_path_roundtrip[0] == 0) FAILC(SUB_LOADICON, 21, 61);
 
     alignas(8) uint8_t lp[LOAD_PARMS] = {};
     for (int i = 0; i < SOFTPTR_SIZE; ++i) lp[LOAD_IN + i] = soft[i];
     PE(io->cdo_syslib, io->fn_load_asset_blocking, lp);
     const uint64_t obj = *reinterpret_cast<uint64_t*>(lp + LOAD_RET);
-    if (!obj) FAILC(22, 62);
+    if (!obj) FAILC(SUB_LOADICON, 22, 62);
     io->icon_object = obj;
     io->icon_class = RD64(obj + OFF_CLASS_PRIVATE);
     io->icon_outer = RD64(obj + OFF_OUTER_PRIVATE);
-    if (io->icon_class != io->texture2d_class) FAILC(23, 63);
+    if (io->icon_class != io->texture2d_class) FAILC(SUB_LOADICON, 23, 63);
 
     const uint64_t item = ItemForObject(obj, nullptr);
-    if (!item) FAILC(24, 64);
+    if (!item) FAILC(SUB_LOADICON, 24, 64);
     io->icon_item_ptr = item;
     io->icon_store_handle = g_store->Acquire(reinterpret_cast<void*>(static_cast<uintptr_t>(obj)),
                                              reinterpret_cast<void*>(static_cast<uintptr_t>(item)));
-    if (!io->icon_store_handle) FAILC(25, 65);
+    if (!io->icon_store_handle) FAILC(SUB_LOADICON, 25, 65);
     io->icon_rooted_after_acquire =
         g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(obj))) ? 1u : 0u;
     io->owned_count = g_store->OwnedCount();
-    if (!io->icon_rooted_after_acquire) FAILC(25, 66);
+    if (!io->icon_rooted_after_acquire) FAILC(SUB_LOADICON, 25, 66);
     return true;
 }
 
-void JobLoadIcon(void*) { C5Io* io = g_io; io->loadicon_ran = LoadIcon() ? 1u : 2u; }
+void JobLoadIcon(void*) {
+    C5Io* io = g_io;
+    JOB_ENTER();
+    io->loadicon_ran = LoadIcon() ? 1u : 2u;
+}
 
 // Same proven loader as the icon, with the class check pointed at UStaticMesh.
 // The soft reference is round-tripped back to a string through the engine before
@@ -395,7 +432,7 @@ bool LoadMesh() {
     C5Io* io = g_io;
     const uint64_t pkg = InternName(io->mesh_pkg_in);
     const uint64_t asset = InternName(io->mesh_asset_in);
-    if (!pkg || !asset) FAILC(40, 80);
+    if (!pkg || !asset) FAILC(SUB_LOADMESH, 40, 80);
     io->mesh_pkg_name = pkg;
     io->mesh_asset_name = asset;
     alignas(8) uint8_t soft[SOFTPTR_SIZE] = {};
@@ -406,43 +443,48 @@ bool LoadMesh() {
       PE(io->cdo_syslib, io->fn_soft_to_string, p);
       CharsFromFString(p + S2S_RET, io->mesh_path_roundtrip, TXT_CAP);
       FreeFStringData(p + S2S_RET); }
-    if (io->mesh_path_roundtrip[0] == 0) FAILC(41, 81);
+    if (io->mesh_path_roundtrip[0] == 0) FAILC(SUB_LOADMESH, 41, 81);
     io->mesh_soft_roundtrip_ok = 1;
     alignas(8) uint8_t lp[LOAD_PARMS] = {};
     for (int i = 0; i < SOFTPTR_SIZE; ++i) lp[LOAD_IN + i] = soft[i];
     PE(io->cdo_syslib, io->fn_load_asset_blocking, lp);
     const uint64_t obj = *reinterpret_cast<uint64_t*>(lp + LOAD_RET);
-    if (!obj) FAILC(42, 82);
+    if (!obj) FAILC(SUB_LOADMESH, 42, 82);
     io->mesh_object = obj;
     io->mesh_class = RD64(obj + OFF_CLASS_PRIVATE);
-    if (io->mesh_class != io->staticmesh_class) FAILC(43, 83);
+    if (io->mesh_class != io->staticmesh_class) FAILC(SUB_LOADMESH, 43, 83);
     const uint64_t item = ItemForObject(obj, nullptr);
-    if (!item) FAILC(44, 84);
+    if (!item) FAILC(SUB_LOADMESH, 44, 84);
     io->mesh_item_ptr = item;
     io->mesh_store_handle = g_store->Acquire(
         reinterpret_cast<void*>(static_cast<uintptr_t>(obj)),
         reinterpret_cast<void*>(static_cast<uintptr_t>(item)));
-    if (!io->mesh_store_handle) FAILC(45, 85);
+    if (!io->mesh_store_handle) FAILC(SUB_LOADMESH, 45, 85);
     io->mesh_rooted_after_acquire =
         g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(obj))) ? 1u : 0u;
     io->owned_count = g_store->OwnedCount();
-    if (!io->mesh_rooted_after_acquire) FAILC(46, 86);
+    if (!io->mesh_rooted_after_acquire) FAILC(SUB_LOADMESH, 46, 86);
     return true;
 }
 
-void JobLoadMesh(void*) { C5Io* io = g_io; io->loadmesh_ran = LoadMesh() ? 1u : 2u; }
+void JobLoadMesh(void*) {
+    C5Io* io = g_io;
+    JOB_ENTER();
+    io->loadmesh_ran = LoadMesh() ? 1u : 2u;
+}
 
 void JobPopulate(void*) {
     C5Io* io = g_io;
-    if (!io->table_ptr || io->create_ran != 1) { io->err = 20; io->populate_ran = 2; return; }
-    if (!io->icon_object || io->loadicon_ran != 1) { io->err = 21; io->populate_ran = 2; return; }
-    if (!io->mesh_object || io->loadmesh_ran != 1) { io->err = 22; io->populate_ran = 2; return; }
-    if (!io->world_class) { io->err = 25; io->populate_ran = 2; return; }
+    JOB_ENTER();
+    if (!io->table_ptr || io->create_ran != 1) { io->err = MERR(SUB_POPULATE, 20); io->populate_ran = 2; return; }
+    if (!io->icon_object || io->loadicon_ran != 1) { io->err = MERR(SUB_POPULATE, 21); io->populate_ran = 2; return; }
+    if (!io->mesh_object || io->loadmesh_ran != 1) { io->err = MERR(SUB_POPULATE, 22); io->populate_ran = 2; return; }
+    if (!io->world_class) { io->err = MERR(SUB_POPULATE, 25); io->populate_ran = 2; return; }
     void* rs = reinterpret_cast<void*>(static_cast<uintptr_t>(io->row_struct));
     auto init = reinterpret_cast<StructLifecycleFn>(static_cast<uintptr_t>(io->initialize_struct));
     auto destroy = reinterpret_cast<StructLifecycleFn>(static_cast<uintptr_t>(io->destroy_struct));
     uint8_t* temp = static_cast<uint8_t*>(g_malloc(io->struct_size, 0u));
-    if (!temp) { io->err = 23; io->populate_ran = 2; return; }
+    if (!temp) { io->err = MERR(SUB_POPULATE, 23); io->populate_ran = 2; return; }
     io->temp_ptr = reinterpret_cast<uint64_t>(temp);
     init(rs, temp, 1);
     io->use_durability = temp[SD_USE_DURABILITY];
@@ -454,7 +496,20 @@ void JobPopulate(void*) {
     uint32_t written = 0;
     for (int i = 0; i < 3; ++i) {
         alignas(8) unsigned char t[FTEXT_SIZE] = {};
-        if (!MakeText(t, tin[i])) { io->err = 24; io->populate_ran = 2; g_free(temp); return; }
+        if (!MakeText(t, tin[i])) {
+            // DESTROY BEFORE FREE. `temp` has been through InitializeStruct, so
+            // its nested FStrings, TArrays and FTexts own heap allocations and
+            // refcounts; and any text already moved in on an earlier iteration
+            // is owned here too. Freeing the bytes without destructing leaked
+            // all of it. This path had never fired, so it was untested as well
+            // as wrong.
+            io->err = MERR(SUB_POPULATE, 24);
+            io->populate_ran = 2;
+            destroy(rs, temp, 1);
+            g_free(temp);
+            io->temp_freed = 1;
+            return;
+        }
         for (int b = 0; b < FTEXT_SIZE; ++b) temp[toff[i] + b] = t[b];
         io->our_textdata[i] = RD64(io->temp_ptr + toff[i]);
         ++written;
@@ -512,9 +567,10 @@ void JobPopulate(void*) {
 
 void JobVerifyRow(void*) {
     C5Io* io = g_io;
-    if (!io->temp_freed) { io->err = 30; io->verifytext_ran = 2; return; }
+    JOB_ENTER();
+    if (!io->temp_freed) { io->err = MERR(SUB_VERIFYROW, 30); io->verifytext_ran = 2; return; }
     const uint64_t row = *reinterpret_cast<uint64_t*>(io->slot_in);
-    if (!row) { io->err = 31; io->verifytext_ran = 2; return; }
+    if (!row) { io->err = MERR(SUB_VERIFYROW, 31); io->verifytext_ran = 2; return; }
     const uint32_t toff[3] = {io->off_name, io->off_shortname, io->off_description};
     uint16_t* outs[3] = {io->name_row, io->shortname_row, io->desc_row};
     for (int i = 0; i < 3; ++i) {
@@ -546,42 +602,47 @@ void JobVerifyRow(void*) {
 bool Attach() {
     C5Io* io = g_io;
     const uint64_t master = io->master_item_list;
-    if (RD64(master) != io->expected_composite_vtable) FAILC(10, 30);
-    if (RD64(master + OFF_CLASS_PRIVATE) != io->master_class) FAILC(10, 31);
-    if (RD64(master + io->off_rowstruct) != io->row_struct) FAILC(10, 32);
+    if (RD64(master) != io->expected_composite_vtable) FAILC(SUB_ATTACH, 10, 30);
+    if (RD64(master + OFF_CLASS_PRIVATE) != io->master_class) FAILC(SUB_ATTACH, 10, 31);
+    if (RD64(master + io->off_rowstruct) != io->row_struct) FAILC(SUB_ATTACH, 10, 32);
     const uint64_t pt = master + io->off_parent_tables;
     const uint64_t data = RD64(pt + OFF_DATA);
     const int32_t num = RD32(pt + OFF_NUM), maxn = RD32(pt + OFF_MAX);
     io->parent_data = data; io->parent_num_before = static_cast<uint32_t>(num);
     io->parent_max = static_cast<uint32_t>(maxn);
-    if (!data) FAILC(11, 33);
-    if (num != 1) FAILC(11, 34);
-    if (maxn - num < 1) FAILC(11, 35);
+    if (!data) FAILC(SUB_ATTACH, 11, 33);
+    if (num != 1) FAILC(SUB_ATTACH, 11, 34);
+    if (maxn - num < 1) FAILC(SUB_ATTACH, 11, 35);
     io->parent_elem0 = RD64(data + 0);
     io->parent_elem1_before = RD64(data + 8);
-    if (io->parent_elem0 != io->item_list) FAILC(11, 36);
-    if (io->parent_elem1_before != 0) FAILC(11, 37);
-    if (!g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(io->table_ptr)))) FAILC(12, 39);
-    if (RD64(io->table_ptr + io->off_rowstruct) != io->row_struct) FAILC(12, 40);
-    if (RD64(io->table_ptr) != io->expected_plain_vtable) FAILC(12, 41);
+    if (io->parent_elem0 != io->item_list) FAILC(SUB_ATTACH, 11, 36);
+    if (io->parent_elem1_before != 0) FAILC(SUB_ATTACH, 11, 37);
+    if (!g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(io->table_ptr)))) FAILC(SUB_ATTACH, 12, 39);
+    if (RD64(io->table_ptr + io->off_rowstruct) != io->row_struct) FAILC(SUB_ATTACH, 12, 40);
+    if (RD64(io->table_ptr) != io->expected_plain_vtable) FAILC(SUB_ATTACH, 12, 41);
     WR64(data + 8, io->table_ptr);
     WR32(pt + OFF_NUM, 2);
     io->parent_num_after_attach = static_cast<uint32_t>(RD32(pt + OFF_NUM));
     io->parent_elem1_after = RD64(data + 8);
-    if (io->parent_num_after_attach != 2 || io->parent_elem1_after != io->table_ptr) FAILC(13, 42);
+    if (io->parent_num_after_attach != 2 || io->parent_elem1_after != io->table_ptr) FAILC(SUB_ATTACH, 13, 42);
     FireNeutralTrigger();
     return true;
 }
 
-void JobAttach(void*) { C5Io* io = g_io; io->attach_ran = Attach() ? 1u : 2u; }
+void JobAttach(void*) {
+    C5Io* io = g_io;
+    JOB_ENTER();
+    io->attach_ran = Attach() ? 1u : 2u;
+}
 
 void JobResolve(void*) {
     C5Io* io = g_io;
+    JOB_ENTER();
     auto init = reinterpret_cast<StructLifecycleFn>(static_cast<uintptr_t>(io->initialize_struct));
     auto destroy = reinterpret_cast<StructLifecycleFn>(static_cast<uintptr_t>(io->destroy_struct));
     void* rs = reinterpret_cast<void*>(static_cast<uintptr_t>(io->row_struct));
     uint8_t* parms = static_cast<uint8_t*>(g_malloc(SG_PARMS, 0u));
-    if (!parms) { io->err = 81; io->resolve_ran = 2; return; }
+    if (!parms) { io->err = MERR(SUB_RESOLVE, 81); io->resolve_ran = 2; return; }
     for (int i = 0; i < SG_PARMS; ++i) parms[i] = 0;
     BuildInvItem(parms + SG_INVITEM);
     *reinterpret_cast<uint64_t*>(parms + SG_WORLDCTX) = io->player_inventory;
@@ -619,6 +680,7 @@ void JobResolve(void*) {
 
 void JobAddItem(void*) {
     C5Io* io = g_io;
+    JOB_ENTER();
     alignas(8) uint8_t parms[AI_PARMS] = {};
     BuildInvItem(parms + AI_ITEM);
     parms[AI_STACKSEARCH] = 0;
@@ -632,9 +694,10 @@ void JobAddItem(void*) {
 
 void JobRemoveItem(void*) {
     C5Io* io = g_io;
-    if (io->slot_in[0] != 1) { io->err = 101; io->removeitem_ran = 2; return; }
+    JOB_ENTER();
+    if (io->slot_in[0] != 1) { io->err = MERR(SUB_REMOVEITEM, 101); io->removeitem_ran = 2; return; }
     if (*reinterpret_cast<uint64_t*>(io->slot_in + 24 + IV_ID) != io->row_fname) {
-        io->err = 102; io->removeitem_ran = 2; return;
+        io->err = MERR(SUB_REMOVEITEM, 102); io->removeitem_ran = 2; return;
     }
     alignas(8) uint8_t parms[RI_PARMS] = {};
     for (int i = 0; i < 80; ++i) parms[RI_SLOT + i] = io->slot_in[i];
@@ -647,10 +710,11 @@ void JobRemoveItem(void*) {
 
 void JobDetach(void*) {
     C5Io* io = g_io;
+    JOB_ENTER();
     const uint64_t pt = io->master_item_list + io->off_parent_tables;
     const uint64_t data = RD64(pt + OFF_DATA);
-    if (!data || data != io->parent_data) { io->err = 50; io->detach_ran = 2; return; }
-    if (RD32(pt + OFF_NUM) != 2) { io->err = 51; io->detach_ran = 2; return; }
+    if (!data || data != io->parent_data) { io->err = MERR(SUB_DETACH, 50); io->detach_ran = 2; return; }
+    if (RD32(pt + OFF_NUM) != 2) { io->err = MERR(SUB_DETACH, 51); io->detach_ran = 2; return; }
     WR32(pt + OFF_NUM, 1);
     io->parent_num_after_detach = static_cast<uint32_t>(RD32(pt + OFF_NUM));
     FireNeutralTrigger();
@@ -659,16 +723,18 @@ void JobDetach(void*) {
 
 void JobZeroSlot(void*) {
     C5Io* io = g_io;
+    JOB_ENTER();
     const uint64_t pt = io->master_item_list + io->off_parent_tables;
     const uint64_t data = RD64(pt + OFF_DATA);
-    if (!data || data != io->parent_data) { io->err = 60; io->zero_ran = 2; return; }
-    if (RD32(pt + OFF_NUM) != 1) { io->err = 61; io->zero_ran = 2; return; }
+    if (!data || data != io->parent_data) { io->err = MERR(SUB_ZEROSLOT, 60); io->zero_ran = 2; return; }
+    if (RD32(pt + OFF_NUM) != 1) { io->err = MERR(SUB_ZEROSLOT, 61); io->zero_ran = 2; return; }
     WR64(data + 8, 0);
     io->zero_ran = (RD64(data + 8) == 0) ? 1u : 2u;
 }
 
 void JobRemoveRow(void*) {
     C5Io* io = g_io;
+    JOB_ENTER();
     reinterpret_cast<RemoveRowFn>(static_cast<uintptr_t>(io->remove_row))(
         reinterpret_cast<void*>(static_cast<uintptr_t>(io->table_ptr)), io->row_fname);
 }
@@ -678,7 +744,8 @@ void JobRemoveRow(void*) {
 // this.
 void JobReleaseIcon(void*) {
     C5Io* io = g_io;
-    if (!io->icon_store_handle) { io->err = 70; io->releaseicon_ran = 2; return; }
+    JOB_ENTER();
+    if (!io->icon_store_handle) { io->err = MERR(SUB_RELEASE, 70); io->releaseicon_ran = 2; return; }
     const bool ok = g_store->Release(io->icon_store_handle);
     io->icon_rooted_after_release =
         g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(io->icon_object))) ? 1u : 0u;
@@ -688,7 +755,8 @@ void JobReleaseIcon(void*) {
 
 void JobReleaseMesh(void*) {
     C5Io* io = g_io;
-    if (!io->mesh_store_handle) { io->err = 72; io->releasemesh_ran = 2; return; }
+    JOB_ENTER();
+    if (!io->mesh_store_handle) { io->err = MERR(SUB_RELEASE, 72); io->releasemesh_ran = 2; return; }
     const bool ok = g_store->Release(io->mesh_store_handle);
     io->mesh_rooted_after_release =
         g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(io->mesh_object))) ? 1u : 0u;
@@ -698,7 +766,8 @@ void JobReleaseMesh(void*) {
 
 void JobRelease(void*) {
     C5Io* io = g_io;
-    if (!io->store_handle) { io->err = 71; io->release_ran = 2; return; }
+    JOB_ENTER();
+    if (!io->store_handle) { io->err = MERR(SUB_RELEASE, 71); io->release_ran = 2; return; }
     const bool ok = g_store->Release(io->store_handle);
     io->rooted_after_release =
         g_store->IsRooted(reinterpret_cast<void*>(static_cast<uintptr_t>(io->table_ptr))) ? 1u : 0u;
@@ -717,6 +786,19 @@ bool Enqueue(JobFn fn, void* ctx) { return g_disp && g_disp->Enqueue(fn, ctx); }
 extern "C" __declspec(dllexport) unsigned long Init(void* param) {
     C5Io* io = static_cast<C5Io*>(param);
     if (!io || io->magic != kMagic || io->proto != kProto) return 0xFFFFFFFFu;
+    // RE-ENTRY GUARD, fail closed and touch NOTHING.
+    //
+    // Init used to overwrite g_io and unconditionally `new` both the asset store
+    // and the dispatcher. A second Init without an intervening Shutdown would
+    // therefore orphan the previous store -- and since ReleaseAll() only ever
+    // walks the CURRENT store, every root it had set would stay set for the life
+    // of the process -- while also leaking a dispatcher that is still ticking on
+    // the game thread. Refusing is the only safe answer: there is no way to
+    // adopt the previous state, and silently replacing it loses the roots.
+    if (g_disp || g_store || g_io) {
+        io->err = MERR(SUB_INIT, 1);
+        return 0xFFFFFFFAu;
+    }
     if (!io->process_event || !io->cdo_stringlib || !io->fn_conv_str_to_name ||
         !io->cdo_gameplaystatics || !io->fn_spawn_object || !io->cdo_textlib ||
         !io->fn_str_to_text || !io->fn_text_to_str || !io->cdo_syslib ||
@@ -786,5 +868,9 @@ extern "C" __declspec(dllexport) unsigned long Shutdown(void* p) {
     delete g_disp; g_disp = nullptr;
     Misery::Internal::DestroyCarrier(g_carrier); g_carrier = nullptr;
     delete g_store; g_store = nullptr;
+    // Clear the IO binding too, so the re-entry guard above lets a LATER Init
+    // through. Without this, one Shutdown would permanently bar re-arming in
+    // the same process -- which is exactly the hot-reload cycle under test.
+    g_io = nullptr;
     return released;
 }
