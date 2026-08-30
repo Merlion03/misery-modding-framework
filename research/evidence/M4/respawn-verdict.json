@@ -1,0 +1,375 @@
+{
+  "snapshots": {
+    "alive": {
+      "label": "launch4-gameplay",
+      "observed_at": null,
+      "pid": 8676,
+      "screen": null,
+      "death_screen_live": null,
+      "complete": true,
+      "gameplay_oracle": true,
+      "gameplay_oracle_reasons": [],
+      "cross_checks": "4/4 run, 0 skipped",
+      "garbage_excluded": 0
+    },
+    "before": {
+      "label": "before-respawn",
+      "observed_at": "2026-08-30T131324Z",
+      "pid": 8676,
+      "screen": "DEATH_SCREEN",
+      "death_screen_live": 1,
+      "complete": false,
+      "gameplay_oracle": false,
+      "gameplay_oracle_reasons": [
+        "the PlayerController possesses no pawn (AController::Pawn is null): the player has not spawned yet"
+      ],
+      "cross_checks": "3/3 run, 1 skipped",
+      "garbage_excluded": 0
+    },
+    "after": {
+      "label": "after-respawn",
+      "observed_at": "2026-08-30T132151Z",
+      "pid": 8676,
+      "screen": "DEATH_SCREEN",
+      "death_screen_live": 1,
+      "complete": true,
+      "gameplay_oracle": true,
+      "gameplay_oracle_reasons": [],
+      "cross_checks": "4/4 run, 0 skipped",
+      "garbage_excluded": 0
+    }
+  },
+  "same_process": {
+    "pids_and_start_times": [
+      [
+        8676,
+        "2026-08-30T09:29:24Z"
+      ],
+      [
+        8676,
+        "2026-08-30T09:29:24Z"
+      ],
+      [
+        8676,
+        "2026-08-30T09:29:24Z"
+      ]
+    ],
+    "all_identical": true,
+    "why_it_matters": "object identity is only comparable inside one process: a new process has a new heap, and identical paths there are different objects. If this were false, every verdict below would be void."
+  },
+  "identities": {
+    "world": {
+      "alive": {
+        "internal_index": 31078,
+        "serial_number": 14729,
+        "address": "0x200e0ee12c0",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST",
+        "name": "NewMapGENTEST",
+        "class": "World"
+      },
+      "before_respawn": {
+        "internal_index": 31078,
+        "serial_number": 14729,
+        "address": "0x200e0ee12c0",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST",
+        "name": "NewMapGENTEST",
+        "class": "World"
+      },
+      "after_respawn": {
+        "internal_index": 31078,
+        "serial_number": 14729,
+        "address": "0x200e0ee12c0",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST",
+        "name": "NewMapGENTEST",
+        "class": "World"
+      }
+    },
+    "game_instance": {
+      "alive": {
+        "internal_index": 25993,
+        "serial_number": 1365,
+        "address": "0x200e5b39100",
+        "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C",
+        "name": "BP_SGKGameInstance_C",
+        "class": "BP_SGKGameInstance_C"
+      },
+      "before_respawn": {
+        "internal_index": 25993,
+        "serial_number": 1365,
+        "address": "0x200e5b39100",
+        "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C",
+        "name": "BP_SGKGameInstance_C",
+        "class": "BP_SGKGameInstance_C"
+      },
+      "after_respawn": {
+        "internal_index": 25993,
+        "serial_number": 1365,
+        "address": "0x200e5b39100",
+        "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C",
+        "name": "BP_SGKGameInstance_C",
+        "class": "BP_SGKGameInstance_C"
+      }
+    },
+    "local_player": {
+      "alive": {
+        "internal_index": 26042,
+        "serial_number": 1374,
+        "address": "0x200e5c87940",
+        "object_path": "/Engine/Transient.GameEngine:LocalPlayer",
+        "name": "LocalPlayer",
+        "class": "LocalPlayer"
+      },
+      "before_respawn": {
+        "internal_index": 26042,
+        "serial_number": 1374,
+        "address": "0x200e5c87940",
+        "object_path": "/Engine/Transient.GameEngine:LocalPlayer",
+        "name": "LocalPlayer",
+        "class": "LocalPlayer"
+      },
+      "after_respawn": {
+        "internal_index": 26042,
+        "serial_number": 1374,
+        "address": "0x200e5c87940",
+        "object_path": "/Engine/Transient.GameEngine:LocalPlayer",
+        "name": "LocalPlayer",
+        "class": "LocalPlayer"
+      }
+    },
+    "player_controller": {
+      "alive": {
+        "internal_index": 76535,
+        "serial_number": 21658,
+        "address": "0x20092403740",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C",
+        "name": "BP_SGKController_C",
+        "class": "BP_SGKController_C"
+      },
+      "before_respawn": {
+        "internal_index": 76535,
+        "serial_number": 21658,
+        "address": "0x20092403740",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C",
+        "name": "BP_SGKController_C",
+        "class": "BP_SGKController_C"
+      },
+      "after_respawn": {
+        "internal_index": 76535,
+        "serial_number": 21658,
+        "address": "0x20092403740",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C",
+        "name": "BP_SGKController_C",
+        "class": "BP_SGKController_C"
+      }
+    },
+    "pawn": {
+      "alive": {
+        "internal_index": 88824,
+        "serial_number": 32743,
+        "address": "0x200a5301640",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C",
+        "name": "BP_SGKMasterCharacter_C",
+        "class": "BP_SGKMasterCharacter_C"
+      },
+      "before_respawn": null,
+      "after_respawn": {
+        "internal_index": 237092,
+        "serial_number": 350768,
+        "address": "0x200ae25d580",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C",
+        "name": "BP_SGKMasterCharacter_C",
+        "class": "BP_SGKMasterCharacter_C"
+      }
+    },
+    "player_inventory": {
+      "alive": {
+        "internal_index": 76537,
+        "serial_number": 21659,
+        "address": "0x200afbfec50",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory",
+        "name": "BP_PlayerInventory",
+        "class": "BP_PlayerInventory_C"
+      },
+      "before_respawn": {
+        "internal_index": 76537,
+        "serial_number": 21659,
+        "address": "0x200afbfec50",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory",
+        "name": "BP_PlayerInventory",
+        "class": "BP_PlayerInventory_C"
+      },
+      "after_respawn": {
+        "internal_index": 76537,
+        "serial_number": 21659,
+        "address": "0x200afbfec50",
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory",
+        "name": "BP_PlayerInventory",
+        "class": "BP_PlayerInventory_C"
+      }
+    }
+  },
+  "classification": {
+    "world": {
+      "alive -> death": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (31078, 14729): the engine's own object identity says this is the same object"
+      },
+      "death -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (31078, 14729): the engine's own object identity says this is the same object"
+      },
+      "alive -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (31078, 14729): the engine's own object identity says this is the same object"
+      }
+    },
+    "game_instance": {
+      "alive -> death": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (25993, 1365): the engine's own object identity says this is the same object"
+      },
+      "death -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (25993, 1365): the engine's own object identity says this is the same object"
+      },
+      "alive -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (25993, 1365): the engine's own object identity says this is the same object"
+      }
+    },
+    "local_player": {
+      "alive -> death": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (26042, 1374): the engine's own object identity says this is the same object"
+      },
+      "death -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (26042, 1374): the engine's own object identity says this is the same object"
+      },
+      "alive -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (26042, 1374): the engine's own object identity says this is the same object"
+      }
+    },
+    "player_controller": {
+      "alive -> death": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (76535, 21658): the engine's own object identity says this is the same object"
+      },
+      "death -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (76535, 21658): the engine's own object identity says this is the same object"
+      },
+      "alive -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (76535, 21658): the engine's own object identity says this is the same object"
+      }
+    },
+    "pawn": {
+      "alive -> death": {
+        "verdict": "GONE",
+        "why": "resolvable before, not resolvable after"
+      },
+      "death -> respawned": {
+        "verdict": "APPEARED",
+        "why": "not resolvable before, resolvable after"
+      },
+      "alive -> respawned": {
+        "verdict": "RECREATED",
+        "why": "different slot and serial: (88824, 32743) -> (237092, 350768)"
+      }
+    },
+    "player_inventory": {
+      "alive -> death": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (76537, 21659): the engine's own object identity says this is the same object"
+      },
+      "death -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (76537, 21659): the engine's own object identity says this is the same object"
+      },
+      "alive -> respawned": {
+        "verdict": "SURVIVED",
+        "why": "same (InternalIndex, SerialNumber) (76537, 21659): the engine's own object identity says this is the same object"
+      }
+    }
+  },
+  "pawns": {
+    "old": {
+      "internal_index": 88824,
+      "serial_number": 32743,
+      "address": "0x200a5301640",
+      "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C",
+      "name": "BP_SGKMasterCharacter_C",
+      "class": "BP_SGKMasterCharacter_C"
+    },
+    "new": {
+      "internal_index": 237092,
+      "serial_number": 350768,
+      "address": "0x200ae25d580",
+      "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C",
+      "name": "BP_SGKMasterCharacter_C",
+      "class": "BP_SGKMasterCharacter_C"
+    },
+    "are_different_objects": true,
+    "slot_reused": false,
+    "address_reused": false
+  },
+  "stale_object_reuse": {
+    "same_address_different_object": [],
+    "resolved_without_a_verified_engine_identity": [],
+    "clean": true
+  },
+  "possession": {
+    "routes": {
+      "AController::Pawn": "0x200ae25d580",
+      "APlayerController::AcknowledgedPawn": "0x200ae25d580"
+    },
+    "Controller_Pawn_equals_AcknowledgedPawn": true,
+    "note": "both routes are read independently and the resolver refuses unless they agree, so a resolved pawn anchor IS the agreement",
+    "from_50ms_timeline": {
+      "first_agreement_at_s": 495.146,
+      "PlayerController": "0x20092403740",
+      "pawn": "0x200ae25d580"
+    }
+  },
+  "readiness": {
+    "gameplay_oracle_after": true,
+    "oracle": "research/instruments/runner/readiness.prove_gameplay",
+    "complete_after": true,
+    "cross_checks_all_pass_after": true,
+    "cross_checks_run_after": 4,
+    "cross_checks_skipped_after": 0
+  },
+  "transition_observability": {
+    "interval_s": 0.05,
+    "distinct_states_seen": 2,
+    "states": [
+      {
+        "t": 0.0,
+        "at": "2026-08-30T131324Z",
+        "PlayerController": "0x20092403740",
+        "Controller_Pawn": null,
+        "AcknowledgedPawn": null,
+        "possession_agrees": false
+      },
+      {
+        "t": 495.146,
+        "at": "2026-08-30T132140Z",
+        "PlayerController": "0x20092403740",
+        "Controller_Pawn": "0x200ae25d580",
+        "AcknowledgedPawn": "0x200ae25d580",
+        "possession_agrees": true
+      }
+    ],
+    "limit": "Pawn and AcknowledgedPawn became non-null AND equal within a single 50 ms sample, so any intermediate state where Pawn was set but AcknowledgedPawn was not lasted less than one sampling interval. That is a limit of this instrument, not evidence that no such state existed."
+  },
+  "verdict": {
+    "death_observed": true,
+    "respawn_observed": true,
+    "after_is_complete_and_proven": true,
+    "no_stale_reuse": true,
+    "same_process_throughout": true,
+    "all_hold": true
+  }
+}

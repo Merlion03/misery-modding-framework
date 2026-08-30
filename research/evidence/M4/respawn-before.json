@@ -1,0 +1,396 @@
+{
+  "anchors": {
+    "world": {
+      "resolved": true,
+      "address": "0x200e0ee12c0",
+      "name": "NewMapGENTEST",
+      "class": "World",
+      "identity": {
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST",
+        "class_path": "/Script/Engine.World",
+        "engine_identity": {
+          "internal_index": 31078,
+          "serial_number": 14729,
+          "internal_flags": "0x40000004",
+          "round_trip_verified": true
+        }
+      },
+      "routes": [
+        {
+          "route": "GameViewportClient::World",
+          "evidence": {
+            "property": "World",
+            "resolved": true,
+            "offset": 120,
+            "declared_on": "GameViewportClient",
+            "value": "0x200e0ee12c0",
+            "value_name": "NewMapGENTEST"
+          },
+          "world": "0x200e0ee12c0"
+        },
+        {
+          "route": "the unique UWorld whose OwningGameInstance is non-null",
+          "worlds_live": 8,
+          "worlds_with_owning_game_instance": 1,
+          "world": "0x200e0ee12c0",
+          "why": null
+        },
+        {
+          "route": "PlayerController -> Outer(Level) -> ULevel::OwningWorld",
+          "level": "0x20088fd5b80",
+          "evidence": {
+            "property": "OwningWorld",
+            "resolved": true,
+            "offset": 192,
+            "declared_on": "Level",
+            "value": "0x200e0ee12c0",
+            "value_name": "NewMapGENTEST"
+          },
+          "world": "0x200e0ee12c0"
+        },
+        {
+          "route": "the engine's own streaming-sub-world test: PersistentLevel->OwningWorld == self  (UWorld::IsStreamingSubWorld)",
+          "top_level_worlds": 1,
+          "of_worlds_live": 8,
+          "note": "used as a FILTER, not as a sole route: more than one top-level world can exist, so this narrows the field rather than naming the answer"
+        },
+        {
+          "route": "the unique top-level UWorld whose AuthorityGameMode is non-null",
+          "worlds_with_authority_game_mode": 1,
+          "world": "0x200e0ee12c0",
+          "what_this_route_can_and_cannot_do": "it CONTRIBUTES an answer; it cannot VETO one. A route that finds nothing abstains, so during UGameInstance::InitializeStandalone (GameInstance.cpp:189) the dummy pre-map world is still named by routes A and B and this route merely stays silent. An earlier comment here claimed it 'filters that world out', which was wrong -- no route in this resolver has veto power."
+        }
+      ],
+      "routes_agreed": true,
+      "worlds_live": 8,
+      "top_level_worlds": 1,
+      "world_names": [
+        "L_CementFactory_Art",
+        "L_Factory_Depo",
+        "L_Factory_Molokozavod",
+        "L_LF_ElectricFactory",
+        "L_MainTerrain",
+        "L_SafeHub",
+        "L_Store01",
+        "NewMapGENTEST"
+      ]
+    },
+    "game_instance": {
+      "resolved": true,
+      "address": "0x200e5b39100",
+      "name": "BP_SGKGameInstance_C",
+      "class": "BP_SGKGameInstance_C",
+      "identity": {
+        "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C",
+        "class_path": "/Game/SurvivalGameKitV2/Blueprints/Saving/BP_SGKGameInstance.BP_SGKGameInstance_C",
+        "engine_identity": {
+          "internal_index": 25993,
+          "serial_number": 1365,
+          "internal_flags": "0x4",
+          "round_trip_verified": true
+        }
+      },
+      "routes": [
+        {
+          "route": "UWorld::OwningGameInstance",
+          "evidence": {
+            "property": "OwningGameInstance",
+            "resolved": true,
+            "offset": 472,
+            "declared_on": "World",
+            "value": "0x200e5b39100",
+            "value_name": "BP_SGKGameInstance_C"
+          }
+        },
+        {
+          "route": "UGameViewportClient::GameInstance",
+          "evidence": {
+            "property": "GameInstance",
+            "resolved": true,
+            "offset": 128,
+            "declared_on": "GameViewportClient",
+            "value": "0x200e5b39100",
+            "value_name": "BP_SGKGameInstance_C"
+          }
+        },
+        {
+          "route": "live UGameInstance instances",
+          "count": 1,
+          "objects": [
+            "0x200e5b39100"
+          ]
+        }
+      ],
+      "routes_agreed": true
+    },
+    "local_player": {
+      "resolved": true,
+      "address": "0x200e5c87940",
+      "name": "LocalPlayer",
+      "class": "LocalPlayer",
+      "identity": {
+        "object_path": "/Engine/Transient.GameEngine:LocalPlayer",
+        "class_path": "/Script/Engine.LocalPlayer",
+        "engine_identity": {
+          "internal_index": 26042,
+          "serial_number": 1374,
+          "internal_flags": "0x4",
+          "round_trip_verified": true
+        }
+      },
+      "routes": [
+        {
+          "route": "UGameInstance::LocalPlayers",
+          "evidence": {
+            "property": "LocalPlayers",
+            "resolved": true,
+            "offset": 56,
+            "declared_on": "GameInstance",
+            "num": 1,
+            "elements": [
+              "0x200e5c87940"
+            ]
+          }
+        },
+        {
+          "route": "APlayerController::Player",
+          "evidence": {
+            "property": "Player",
+            "resolved": true,
+            "offset": 816,
+            "declared_on": "PlayerController",
+            "value": "0x200e5c87940",
+            "value_name": "LocalPlayer"
+          }
+        },
+        {
+          "route": "live ULocalPlayer instances",
+          "count": 1
+        }
+      ],
+      "routes_agreed": true
+    },
+    "player_controller": {
+      "resolved": true,
+      "address": "0x20092403740",
+      "name": "BP_SGKController_C",
+      "class": "BP_SGKController_C",
+      "identity": {
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C",
+        "class_path": "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C",
+        "engine_identity": {
+          "internal_index": 76535,
+          "serial_number": 21658,
+          "internal_flags": "0x4",
+          "round_trip_verified": true
+        }
+      },
+      "routes": [
+        {
+          "route": "live APlayerController instances",
+          "count": 1,
+          "objects": [
+            "0x20092403740"
+          ]
+        },
+        {
+          "route": "UPlayer::PlayerController",
+          "evidence": {
+            "property": "PlayerController",
+            "resolved": true,
+            "offset": 48,
+            "declared_on": "Player",
+            "value": "0x20092403740",
+            "value_name": "BP_SGKController_C"
+          }
+        },
+        {
+          "route": "APlayerController::bIsLocalPlayerController",
+          "resolved": true,
+          "offset": 1724
+        }
+      ],
+      "routes_agreed": true
+    },
+    "pawn": {
+      "resolved": false,
+      "address": null,
+      "name": null,
+      "class": null,
+      "identity": {
+        "object_path": null,
+        "class_path": null,
+        "engine_identity": null
+      },
+      "routes": [
+        {
+          "route": "AController::Pawn",
+          "evidence": {
+            "property": "Pawn",
+            "resolved": true,
+            "offset": 720,
+            "declared_on": "Controller",
+            "value": null,
+            "value_name": null
+          }
+        },
+        {
+          "route": "APlayerController::AcknowledgedPawn",
+          "evidence": {
+            "property": "AcknowledgedPawn",
+            "resolved": true,
+            "offset": 824,
+            "declared_on": "PlayerController",
+            "value": null,
+            "value_name": null
+          }
+        }
+      ],
+      "routes_agreed": false,
+      "why": "every route that could be read returned null for the possessed Pawn"
+    },
+    "player_inventory": {
+      "resolved": true,
+      "address": "0x200afbfec50",
+      "name": "BP_PlayerInventory",
+      "class": "BP_PlayerInventory_C",
+      "identity": {
+        "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory",
+        "class_path": "/Game/SurvivalGameKitV2/Components/BP_PlayerInventory.BP_PlayerInventory_C",
+        "engine_identity": {
+          "internal_index": 76537,
+          "serial_number": 21659,
+          "internal_flags": "0x4",
+          "round_trip_verified": true
+        }
+      },
+      "routes": [
+        {
+          "route": "instances of BP_PlayerInventory_C whose Outer IS the resolved PlayerController",
+          "count": 1,
+          "objects": [
+            "0x200afbfec50"
+          ]
+        },
+        {
+          "route": "reflected FObjectProperty on the PlayerController whose value IS that component",
+          "properties": [
+            {
+              "name": "BP_PlayerInventory",
+              "offset": 2176,
+              "declared_on": "BP_SGKController_C"
+            }
+          ]
+        }
+      ],
+      "routes_agreed": true
+    }
+  },
+  "cross_checks": [
+    {
+      "check": "APlayerController::Player and UPlayer::PlayerController are inverses",
+      "pass": true,
+      "detail": {
+        "pc_Player": "0x200e5c87940",
+        "lp_PlayerController": "0x20092403740",
+        "evidence": [
+          {
+            "property": "Player",
+            "resolved": true,
+            "offset": 816,
+            "declared_on": "PlayerController",
+            "value": "0x200e5c87940",
+            "value_name": "LocalPlayer"
+          },
+          {
+            "property": "PlayerController",
+            "resolved": true,
+            "offset": 48,
+            "declared_on": "Player",
+            "value": "0x20092403740",
+            "value_name": "BP_SGKController_C"
+          }
+        ]
+      }
+    },
+    {
+      "check": "the resolved World is the one the resolved GameInstance is bound to",
+      "pass": true,
+      "detail": {
+        "world_OwningGameInstance": "0x200e5b39100",
+        "evidence": {
+          "property": "OwningGameInstance",
+          "resolved": true,
+          "offset": 472,
+          "declared_on": "World",
+          "value": "0x200e5b39100",
+          "value_name": "BP_SGKGameInstance_C"
+        }
+      }
+    },
+    {
+      "check": "the PlayerController lives in a Level owned by the resolved World",
+      "pass": true,
+      "detail": {
+        "level": "0x20088fd5b80",
+        "owning_world": "0x200e0ee12c0"
+      }
+    }
+  ],
+  "notes": [
+    "live GameViewportClient instances: 1"
+  ],
+  "object_graph_trusted": true,
+  "object_graph_anchor_path": "/Script/CoreUObject.Class",
+  "objects_total": 205198,
+  "garbage_excluded": [],
+  "cross_checks_skipped": [
+    {
+      "check": "APawn::Controller points back at the resolved PlayerController",
+      "why": "no resolved pawn and/or controller to compare"
+    }
+  ],
+  "all_anchors_resolved": false,
+  "cross_checks_run": 3,
+  "cross_checks_passed": 3,
+  "cross_checks_all_pass": true,
+  "cross_checks_skipped_count": 1,
+  "cross_checks_note": "3 of 4 cross-checks ran, 3 passed, 1 were SKIPPED because an operand did not resolve. A skipped check is not a passed check, and all([]) is True -- which is why the counts are reported beside the verdict instead of the verdict alone.",
+  "garbage_excluded_count": 0,
+  "complete": false,
+  "tarray_layout_self_check": {
+    "checked": "UWorld::Levels must contain UWorld::PersistentLevel",
+    "citation": "UWorld::InitWorld, Private/World.cpp:2067",
+    "persistent_level": "0x20088fd5b80",
+    "levels_decoded": 8,
+    "persistent_level_is_among_them": true,
+    "verdict": "the TArray layout (Data@+0, ArrayNum:int32@+8) is CONFIRMED against this build"
+  },
+  "runner_gameplay_ready": false,
+  "runner_gameplay_proof": {
+    "oracle": "research/instruments/runner/readiness.prove_gameplay",
+    "independent_of": "this resolver -- shares no decision logic with it",
+    "ready": false,
+    "reasons": [
+      "the PlayerController possesses no pawn (AController::Pawn is null): the player has not spawned yet"
+    ]
+  },
+  "label": "before-respawn",
+  "observed_at": "2026-08-30T131324Z",
+  "pid": 8676,
+  "screen": "DEATH_SCREEN",
+  "death_screen_live": 1,
+  "fast_poll_wiring": {
+    "local_player": 2202878376256,
+    "off_lp_playercontroller": 48,
+    "off_pc_pawn": 720,
+    "off_pc_acknowledged": 824
+  },
+  "process_start_time": "2026-08-30T09:29:24Z",
+  "process_start_time_provenance": {
+    "added": "post-hoc",
+    "why": "the capture harness did not record it -- slow_pass built its snapshot from Resolver directly instead of through resolve_live(), where that field was set. Fixed in the harness; these two files predate the fix.",
+    "how_established": "measured directly from the still-running process: pid 8676 started 2026-08-30T09:29:24Z and is still alive. Process continuity across the capture is independently supported: the 50 ms poll ran without interruption against pid 8676 from t=0 to t=495.146, and the PlayerController pointer 0x20092403740 was identical at both ends -- a restart would have given a fresh heap and a different pointer.",
+    "limit": "this is a post-hoc stamp, not a capture-time reading. Future runs record it at capture time."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "pid": 8676,
+  "interval_s": 0.05,
+  "timeline": [
+    {
+      "t": 0.0,
+      "at": "2026-08-30T131324Z",
+      "PlayerController": "0x20092403740",
+      "Controller_Pawn": null,
+      "AcknowledgedPawn": null,
+      "possession_agrees": false
+    },
+    {
+      "t": 495.146,
+      "at": "2026-08-30T132140Z",
+      "PlayerController": "0x20092403740",
+      "Controller_Pawn": "0x200ae25d580",
+      "AcknowledgedPawn": "0x200ae25d580",
+      "possession_agrees": true
+    }
+  ],
+  "ended_because": "possession settled on a new pawn"
+}
