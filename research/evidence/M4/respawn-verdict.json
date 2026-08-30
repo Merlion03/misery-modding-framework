@@ -335,11 +335,11 @@
   },
   "readiness": {
     "gameplay_oracle_after": true,
-    "oracle": "research/instruments/runner/readiness.prove_gameplay",
     "complete_after": true,
     "cross_checks_all_pass_after": true,
     "cross_checks_run_after": 4,
-    "cross_checks_skipped_after": 0
+    "cross_checks_skipped_after": 0,
+    "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
   },
   "transition_observability": {
     "interval_s": 0.05,

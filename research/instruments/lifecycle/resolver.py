@@ -880,7 +880,7 @@ class Resolver(object):
                                              namepool=self.namepool)
             snap["runner_gameplay_ready"] = bool(proof.get("ready"))
             snap["runner_gameplay_proof"] = {
-                "oracle": "research/instruments/runner/readiness.prove_gameplay",
+                "proved_by_module": "research/instruments/runner/readiness.prove_gameplay",
                 "independent_of": "this resolver -- shares no decision logic with it",
                 "ready": proof.get("ready"), "reasons": proof.get("reasons")}
         except Exception as exc:                               # noqa: BLE001

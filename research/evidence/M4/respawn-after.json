@@ -389,10 +389,10 @@
   },
   "runner_gameplay_ready": true,
   "runner_gameplay_proof": {
-    "oracle": "research/instruments/runner/readiness.prove_gameplay",
     "independent_of": "this resolver -- shares no decision logic with it",
     "ready": true,
-    "reasons": []
+    "reasons": [],
+    "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
   },
   "label": "after-respawn",
   "observed_at": "2026-08-30T132151Z",

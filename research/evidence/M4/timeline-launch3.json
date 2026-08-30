@@ -173,13 +173,13 @@
       "complete": false,
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live non-CDO PlayerController, found 0",
           "no live GameMode: this process does not hold authority (a client sees only GameState)"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 1184,
       "process_start_time": "2026-08-30T08:18:07Z",
@@ -559,13 +559,13 @@
       },
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0",
           "the possessed pawn is a playtest-hub pawn (BP_PlaytestBeginPlyer_C): this is the intro screen, not the configured save"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 16500,
       "process_start_time": "2026-08-30T09:27:31Z",
@@ -939,12 +939,12 @@
       },
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 16500,
       "process_start_time": "2026-08-30T09:27:31Z",
@@ -1318,12 +1318,12 @@
       },
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 16500,
       "process_start_time": "2026-08-30T09:27:31Z",
@@ -1555,12 +1555,12 @@
       "complete": false,
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "no live World: the engine is not in any level"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 16500,
       "process_start_time": "2026-08-30T09:27:31Z",
@@ -1945,10 +1945,10 @@
       },
       "runner_gameplay_ready": true,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": true,
-        "reasons": []
+        "reasons": [],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 16500,
       "process_start_time": "2026-08-30T09:27:31Z",
@@ -2128,13 +2128,13 @@
       "complete": false,
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live non-CDO PlayerController, found 0",
           "no live GameMode: this process does not hold authority (a client sees only GameState)"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 16500,
       "process_start_time": "2026-08-30T09:27:31Z",
@@ -2514,13 +2514,13 @@
       },
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0",
           "the possessed pawn is a playtest-hub pawn (BP_PlaytestBeginPlyer_C): this is the intro screen, not the configured save"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 8676,
       "process_start_time": "2026-08-30T09:29:24Z",
@@ -2894,12 +2894,12 @@
       },
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 8676,
       "process_start_time": "2026-08-30T09:29:24Z",
@@ -3273,12 +3273,12 @@
       },
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 8676,
       "process_start_time": "2026-08-30T09:29:24Z",
@@ -3510,12 +3510,12 @@
       "complete": false,
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "no live World: the engine is not in any level"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 8676,
       "process_start_time": "2026-08-30T09:29:24Z",
@@ -3784,14 +3784,14 @@
       },
       "runner_gameplay_ready": false,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": false,
         "reasons": [
           "expected exactly one live non-CDO PlayerController, found 0",
           "expected exactly one live BP_PlayerInventory of class BP_PlayerInventory_C, found 0",
           "no live GameMode: this process does not hold authority (a client sees only GameState)"
-        ]
+        ],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 8676,
       "process_start_time": "2026-08-30T09:29:24Z",
@@ -4178,10 +4178,10 @@
       },
       "runner_gameplay_ready": true,
       "runner_gameplay_proof": {
-        "oracle": "research/instruments/runner/readiness.prove_gameplay",
         "independent_of": "this resolver -- shares no decision logic with it",
         "ready": true,
-        "reasons": []
+        "reasons": [],
+        "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
       },
       "pid": 8676,
       "process_start_time": "2026-08-30T09:29:24Z",

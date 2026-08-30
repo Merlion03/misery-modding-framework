@@ -172,7 +172,8 @@ def main(argv=None):
     # ---- 5. authority / readiness ------------------------------------------
     rep["readiness"] = {
         "gameplay_oracle_after": after.get("runner_gameplay_ready"),
-        "oracle": (after.get("runner_gameplay_proof") or {}).get("oracle"),
+        "proved_by_module": (after.get("runner_gameplay_proof") or {}).get(
+            "proved_by_module"),
         "complete_after": after.get("complete"),
         "cross_checks_all_pass_after": after.get("cross_checks_all_pass"),
         "cross_checks_run_after": after.get("cross_checks_run"),

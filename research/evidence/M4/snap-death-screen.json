@@ -333,12 +333,12 @@
   },
   "runner_gameplay_ready": false,
   "runner_gameplay_proof": {
-    "oracle": "research/instruments/runner/readiness.prove_gameplay",
     "independent_of": "this resolver -- shares no decision logic with it",
     "ready": false,
     "reasons": [
       "the PlayerController possesses no pawn (AController::Pawn is null): the player has not spawned yet"
-    ]
+    ],
+    "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
   },
   "pid": 1184,
   "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
