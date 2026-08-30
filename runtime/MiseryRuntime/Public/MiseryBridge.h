@@ -164,6 +164,13 @@ typedef enum MbSubsystem {
 #define MB_E_LIMIT_EXCEEDED          16
 #define MB_E_HANDLER_FAULTED         17
 
+/* Platform-subsystem codes. Mirrors errors.E_* in the Python reference; these
+ * were missing from a first draft of this header, which is exactly the drift
+ * the three-way contract test exists to catch. */
+#define MB_E_NOT_INITIALISED         1
+#define MB_E_ALREADY_INITIALISED     2
+#define MB_E_SHUTTING_DOWN           3
+
 /* Lifecycle-specific codes. */
 #define MB_E_UNKNOWN_MOD             1
 #define MB_E_MOD_ALREADY_LOADED      2
@@ -418,8 +425,15 @@ typedef struct MbRoot {
  * It is minted here, in-process, by the runtime at the moment it loads the
  * bootstrap -- there is no discovery path and nothing on disk a mod could read
  * to obtain one. */
-MbStatus MiseryBridgeAcquire(uint32_t abi_epoch, const MbRoot** out_root,
-                             MbHandle* out_host, MbError* out_error);
+#if defined(_WIN32)
+#  define MB_EXPORT __declspec(dllexport)
+#else
+#  define MB_EXPORT __attribute__((visibility("default")))
+#endif
+
+MB_EXPORT MbStatus MiseryBridgeAcquire(uint32_t abi_epoch,
+                                       const MbRoot** out_root,
+                                       MbHandle* out_host, MbError* out_error);
 
 typedef MbStatus (*MbAcquireFn)(uint32_t, const MbRoot**, MbHandle*, MbError*);
 #define MB_ACQUIRE_SYMBOL "MiseryBridgeAcquire"

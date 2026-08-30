@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A Stage 5A fixture mod. Built INDEPENDENTLY of the runtime and the host: it
+    references the public contract assembly and nothing else, which is the point
+    - if a fixture needed anything from Misery.ModHost, the public API would not
+    be sufficient to write a mod against.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>NoEntryPointMod</AssemblyName>
+    <RootNamespace>NoEntryPointMod</RootNamespace>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Misery.ModAPI\Misery.ModAPI.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

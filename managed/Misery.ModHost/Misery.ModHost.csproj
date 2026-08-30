@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Misery.ModHost - the managed side of the bridge.
+
+    ALL interop lives here and nowhere else. Misery.ModAPI, which third-party
+    mods compile against, has no P/Invoke, no IntPtr and no unsafe code; a test
+    asserts that. This assembly is where the raw boundary is allowed to exist,
+    which is the whole reason for splitting the two.
+
+    net8.0 because that is the runtime pack the native host initialises. The
+    PUBLIC contract stays netstandard2.0 so the runtime choice remains
+    changeable without rebuilding mods.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>Misery.ModHost</AssemblyName>
+    <RootNamespace>Misery.ModHost</RootNamespace>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.5.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Misery.ModAPI\Misery.ModAPI.csproj" />
+  </ItemGroup>
+
+</Project>
