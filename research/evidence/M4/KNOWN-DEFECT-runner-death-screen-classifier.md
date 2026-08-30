@@ -1,8 +1,21 @@
 # Known defect: the runner's DEATH_SCREEN classifier misfires after a death
 
-**Status:** confirmed by measurement, **not fixed**. Recorded here rather than patched,
-because the standing instruction is to extend Runner v1 only in response to a demonstrated
-workflow blocker, and this has not blocked a run yet.
+**Status: FIXED** in commit `52a7326`. This file is kept as the measurement that motivated
+the fix, and as the record of what the fix does and does not cover.
+
+The fix does **not** use the `forbid: ["BP_SGKMasterCharacter_C"]` workaround sketched at the
+bottom of this file. It uses the semantic condition instead: DEATH_SCREEN now additionally
+requires that the resolved PlayerController possesses nothing, with `Pawn` and
+`AcknowledgedPawn` both null, read by reflection through `readiness.prove_gameplay` -- which
+both call sites already invoked. Unknown possession still matches and still halts.
+
+**What the fix does not cover, stated plainly.** During a world load there may be no resolved
+PlayerController at all, which reduces to *unmeasured* and therefore still halts. So a
+same-process save reload after a death can still stop the runner mid-load. That case is left
+fail-closed on purpose: with no controller to ask, the object graph alone cannot distinguish
+"loading past a stale widget" from "dead", and a halt with a clear message is the safe answer.
+The defect that was fixed is the one that mattered: a **healthy possessed player** is no
+longer classified as dead.
 
 ## What was measured
 
