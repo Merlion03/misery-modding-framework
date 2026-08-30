@@ -685,6 +685,237 @@ def our_row(api, pid, table_ptr):
         api.close_handle(h)
 
 
+def run_cleanup(api, run_note):
+    """Roll the held demo back and unload the probe, in the order the probe
+    itself documents.
+
+    The order is not a preference. JobReleaseIcon carries the comment that
+    releasing the icon first is WRONG, because the row still references it until
+    the row is gone -- so the sequence is RemoveItem, RemoveRow, Detach,
+    ZeroSlot, and only then the three releases. JobDetach refuses unless
+    ParentTables Num is exactly 2 and JobZeroSlot refuses unless it is exactly
+    1, so a mis-ordered call fails closed rather than corrupting the array.
+
+    The recorded baseline inventory hash is NOT used as the success criterion.
+    The owner played after the item was issued, so that hash describes an
+    inventory that no longer exists; asserting against it would report a
+    failure that is really just other loot. Success is measured as a DIFFERENCE
+    across the removal -- our slot freed, ItemCount -1, CurrentWeight -0.5, and
+    no other slot touched -- and the stale baseline is reported alongside as
+    context, clearly labelled.
+    """
+    k, _ = gt._k32full()
+    if not os.path.isfile(STATE_PATH):
+        raise ipp.Blocked("no held state at %s -- nothing to clean up" % STATE_PATH)
+    state = json.load(open(STATE_PATH, encoding="utf-8"))
+    i01 = eri.run_i01(api, eri.DEFAULT_PROCESS_NAME)
+    pid = i01["pid"]
+    if pid != state["pid"]:
+        raise ipp.Blocked(
+            "the game was restarted (live pid %d, held pid %d). The demo state died with the "
+            "old process: the module, the runtime table, the roots and the publication are all "
+            "gone, and every address in %s belongs to a dead image. There is nothing to roll "
+            "back -- delete the state file instead of dereferencing it."
+            % (pid, state["pid"], STATE_PATH))
+    if ipp.sha256_of_file(i01["exe_path"]) != fts.EXPECTED_BUILD_SHA256:
+        raise ipp.Blocked("build fingerprint mismatch")
+    rbase, rio, dll = state["rbase"], state["rio"], state["dll"]
+    if ipp.find_remote_module_base(k, pid, DLL_NAME) != rbase:
+        raise ipp.Blocked("the probe module is no longer loaded at the recorded base 0x%x"
+                          % rbase)
+    run_note.append("pid=%d build confirmed; probe module still at its recorded base" % pid)
+
+    hp = k.OpenProcess(ipp.IPP_ACCESS_RIGHTS, False, pid)
+    if not hp:
+        raise ipp.Blocked("OpenProcess failed")
+    buf = ctypes.create_string_buffer(IO_SIZE)
+    rd = ctypes.c_size_t(0)
+    wr = ctypes.c_size_t(0)
+
+    def read_io():
+        k.ReadProcessMemory(hp, rio, buf, IO_SIZE, ctypes.byref(rd))
+        return unpack_io(buf.raw)
+
+    def read_io_safe():
+        k.ReadProcessMemory(hp, rio, buf, IO_SIZE, ctypes.byref(rd))
+        return {"wait_stopped_ok": struct.unpack_from("<I", buf.raw, WAIT_STOPPED_OK_OFFSET)[0],
+                "state": struct.unpack_from("<I", buf.raw, STATE_OFFSET)[0]}
+
+    def call(export, field, timeout=90.0):
+        before_v = read_io()[field]
+        p04.call_export(k, hp, rbase, dll, export, rio, ipp.WAIT_TIMEOUT_MS)
+        st = read_io()
+        dl = time.time() + timeout
+        while time.time() < dl and st[field] == before_v:
+            time.sleep(0.05)
+            st = read_io()
+        return st
+
+    fid = state["row_fname"] & 0xFFFFFFFF
+    report = {"mode": "cleanup", "pid": pid, "row_name": state["row_name"]}
+
+    def snapshot():
+        h = eri.open_process_read_only(api, pid)
+        try:
+            return c3d.read_inventory(api, h, state["player_inv"])
+        finally:
+            api.close_handle(h)
+
+    def table_has_row():
+        h = eri.open_process_read_only(api, pid)
+        try:
+            return fid in {kk[0] if isinstance(kk, tuple) else kk
+                           for kk in rows_by_key(api, h, state["table_ptr"])}
+        finally:
+            api.close_handle(h)
+
+    inv0 = snapshot()
+    mine = c3d.occupied_with(inv0, fid)
+    report["before_cleanup"] = {"entries_with_item": len(mine),
+                                "slots": inv0["num"],
+                                "occupied": sum(1 for s in inv0["slots"] if s["occupied"]),
+                                "ItemCount": inv0["item_count"],
+                                "CurrentWeight": inv0["current_weight"]}
+    if len(mine) > 1:
+        raise ipp.Blocked("expected at most one inventory entry, found %d" % len(mine))
+
+    # ---- 1. the item -------------------------------------------------------
+    if mine:
+        k.WriteProcessMemory(hp, rio + SLOT_IN_OFFSET, bytes.fromhex(mine[0]["raw"]), 80,
+                             ctypes.byref(wr))
+        st = call("RunRemoveItem", "removeitem_ran")
+        report["removeitem"] = {"ran": st["removeitem_ran"], "err": st["err"]}
+        if st["removeitem_ran"] != 1:
+            raise ipp.Blocked("RemoveItem refused ran=%d err=%d"
+                              % (st["removeitem_ran"], st["err"]))
+        run_note.append("RemoveItem ran on slot %d" % mine[0]["index"])
+    else:
+        report["removeitem"] = {"ran": None,
+                                "why": "no inventory slot carried the row; nothing to remove"}
+        run_note.append("no inventory entry carried the row; RemoveItem skipped")
+
+    inv1 = snapshot()
+    changed = c3d.slot_diff(inv0, inv1)
+    report["inventory_after_remove"] = {
+        "entries_with_item": len(c3d.occupied_with(inv1, fid)),
+        "ItemCount": inv1["item_count"], "CurrentWeight": inv1["current_weight"],
+        "ItemCount_delta": inv1["item_count"] - inv0["item_count"],
+        "CurrentWeight_delta": round(inv1["current_weight"] - inv0["current_weight"], 6),
+        "slots_changed": [c["index"] for c in changed],
+        "only_our_slot_changed": (len(changed) == 1 and bool(mine)
+                                  and changed[0]["index"] == mine[0]["index"])}
+    report["stale_baseline_note"] = {
+        "recorded_slots_sha256": state.get("baseline_inventory_sha256"),
+        "recorded_ItemCount": state.get("baseline_item_count"),
+        "recorded_CurrentWeight": state.get("baseline_weight"),
+        "matches_now": inv1["slots_sha256"] == state.get("baseline_inventory_sha256"),
+        "why_it_is_not_the_criterion":
+            "the owner played after the item was issued, so this hash describes an inventory "
+            "that no longer exists. Success is the DIFFERENCE across the removal, above."}
+    if mine:
+        if report["inventory_after_remove"]["entries_with_item"] != 0:
+            raise ipp.Blocked("the row is still in the inventory after RemoveItem")
+        if report["inventory_after_remove"]["ItemCount_delta"] != -1:
+            raise ipp.Blocked("ItemCount delta %r, expected -1"
+                              % report["inventory_after_remove"]["ItemCount_delta"])
+        if abs(report["inventory_after_remove"]["CurrentWeight_delta"] + 0.5) > 1e-9:
+            raise ipp.Blocked("CurrentWeight delta %r, expected -0.5"
+                              % report["inventory_after_remove"]["CurrentWeight_delta"])
+        if not report["inventory_after_remove"]["only_our_slot_changed"]:
+            raise ipp.Blocked("slots changed: %r"
+                              % report["inventory_after_remove"]["slots_changed"])
+        run_note.append("inventory: our slot freed, -1 count, -0.5 weight, one slot changed")
+
+    # ---- 2. the row, then the publication ----------------------------------
+    # RunRemoveRow sets no completion field, so it is confirmed by reading the
+    # table's own RowMap rather than by polling the IO block.
+    had_row = table_has_row()
+    p04.call_export(k, hp, rbase, dll, "RunRemoveRow", rio, ipp.WAIT_TIMEOUT_MS)
+    deadline = time.time() + 30.0
+    while time.time() < deadline and table_has_row():
+        time.sleep(0.05)
+    report["removerow"] = {"row_in_table_before": had_row,
+                           "row_in_table_after": table_has_row()}
+    if report["removerow"]["row_in_table_after"]:
+        raise ipp.Blocked("the row is still in the runtime table after RemoveRow")
+    run_note.append("RemoveRow confirmed by reading the table's RowMap")
+
+    st = call("RunDetach", "detach_ran")
+    report["detach"] = {"ran": st["detach_ran"], "err": st["err"],
+                        "parent_num_after": st["parent_num_after_detach"]}
+    if st["detach_ran"] != 1:
+        raise ipp.Blocked("Detach refused ran=%d err=%d" % (st["detach_ran"], st["err"]))
+    st = call("RunZeroSlot", "zero_ran")
+    report["zero_slot"] = {"ran": st["zero_ran"], "err": st["err"]}
+    if st["zero_ran"] != 1:
+        raise ipp.Blocked("ZeroSlot refused ran=%d err=%d" % (st["zero_ran"], st["err"]))
+
+    # ---- 3. the roots, mesh and icon first ---------------------------------
+    st = call("RunReleaseMesh", "releasemesh_ran")
+    report["release_mesh"] = {"ran": st["releasemesh_ran"],
+                              "rooted_after": st["mesh_rooted_after_release"],
+                              "owned_count": st["owned_count"], "err": st["err"]}
+    st = call("RunReleaseIcon", "releaseicon_ran")
+    report["release_icon"] = {"ran": st["releaseicon_ran"],
+                              "rooted_after": st["icon_rooted_after_release"],
+                              "owned_count": st["owned_count"], "err": st["err"]}
+    st = call("RunRelease", "release_ran")
+    report["release_table"] = {"ran": st["release_ran"],
+                               "rooted_after": st["rooted_after_release"],
+                               "owned_count": st["owned_count"], "err": st["err"]}
+    for label in ("release_mesh", "release_icon", "release_table"):
+        if report[label]["ran"] != 1:
+            raise ipp.Blocked("%s refused ran=%r err=%r"
+                              % (label, report[label]["ran"], report[label]["err"]))
+        if report[label]["rooted_after"] != 0:
+            raise ipp.Blocked("%s left the object rooted" % label)
+    if report["release_table"]["owned_count"] != 0:
+        raise ipp.Blocked("the asset store still owns %d objects"
+                          % report["release_table"]["owned_count"])
+    run_note.append("all three roots released; the store owns nothing")
+
+    # ---- 4. the vanilla tables, read back independently --------------------
+    h = eri.open_process_read_only(api, pid)
+    try:
+        report["final_tables"] = {
+            "itemlist_rows": len(rows_by_key(api, h, state["itemlist"])),
+            "master_rows": len(rows_by_key(api, h, state["master"])),
+            "parent_raw": parent_raw(api, h, state["master"])}
+    finally:
+        api.close_handle(h)
+    if report["final_tables"]["parent_raw"]["num"] != 1:
+        raise ipp.Blocked("ParentTables Num is %r, expected 1"
+                          % report["final_tables"]["parent_raw"]["num"])
+
+    # ---- 5. the module ------------------------------------------------------
+    td = probe_teardown.shutdown_then_unload(k, hp, rbase, dll, rio, read_io_safe, run_note)
+    report["teardown"] = td
+    if td.get("safe_to_free_remote_memory"):
+        for b2 in (state.get("rpath"), rio):
+            if b2:
+                k.VirtualFreeEx(hp, b2, 0, ipp.MEM_RELEASE)
+        report["remote_memory_freed"] = True
+    else:
+        report["remote_memory_left_allocated"] = True
+    try:
+        report["dll_unloaded"] = ipp.confirm_dll_unloaded(pid, DLL_NAME)
+    except Exception:  # noqa: BLE001
+        report["dll_unloaded"] = None
+    k.CloseHandle(hp)
+
+    if td.get("attempted") and not td.get("unloaded"):
+        # The teardown invariant: leave it loaded and say so, rather than force
+        # an unload that could unmap code a game thread is still inside.
+        report["verdict"] = "BLOCKED-TEARDOWN"
+        report["teardown_blocked"] = td.get("left_loaded_reason")
+    else:
+        report["verdict"] = "CLEAN"
+        if os.path.isfile(STATE_PATH):
+            os.remove(STATE_PATH)
+            report["state_file_removed"] = STATE_PATH
+    return report
+
+
 def run(api, args, run_note):
     k, _ = gt._k32full()
     i01 = eri.run_i01(api, eri.DEFAULT_PROCESS_NAME)
@@ -1055,6 +1286,9 @@ def main(argv=None):
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--arm", action="store_true",
                     help="materialize the world item, AddItem one, and HOLD")
+    ap.add_argument("--cleanup", action="store_true",
+                    help="roll the held demo back -- RemoveItem, RemoveRow, Detach, ZeroSlot, "
+                         "release the mesh/icon/table roots -- and unload the probe module")
     ap.add_argument("--probe", action="store_true",
                     help="materialize the TEMPORARY ARM/emissive probe item instead of the "
                          "production radio: a separate row, the probe mesh whose slots carry "
@@ -1177,15 +1411,16 @@ def main(argv=None):
     code = 0
     try:
         api = eri.Win32Api()
-        if a.arm:
+        mutating = a.arm or a.cleanup
+        if mutating:
             vb = ipp.run_verify_install(rdir, "before")
             if vb.get("report_artifact"):
                 arts.append(vb["report_artifact"])
             if vb["result"] == "mismatch":
                 raise ipp.Blocked("verify_install MISMATCH before")
-        rep = run(api, a, note)
+        rep = run_cleanup(api, note) if a.cleanup else run(api, a, note)
         rep["run_note"] = note
-        if a.arm:
+        if mutating:
             va = ipp.run_verify_install(rdir, "after")
             if va.get("report_artifact"):
                 arts.append(va["report_artifact"])
@@ -1201,7 +1436,7 @@ def main(argv=None):
                          indent=2, sort_keys=True, default=str))
     except (ipp.Blocked, eri.EriError) as e:
         rep = {"blocked": True, "reason": str(e), "run_note": note}
-        if a.arm and va is None:
+        if (a.arm or a.cleanup) and va is None:
             try:
                 va = ipp.run_verify_install(rdir, "after")
                 if va.get("report_artifact"):
@@ -1218,10 +1453,11 @@ def main(argv=None):
         code = 2
     finally:
         ipp.write_manifest(rdir, arguments=arguments,
-                           capabilities_enabled=(["CR-01C5"] if a.arm else ["I-01"]),
+                           capabilities_enabled=(["CR-01C5"] if (a.arm or a.cleanup)
+                                                 else ["I-01"]),
                            build_sha256=fts.EXPECTED_BUILD_SHA256, verify_before=vb,
                            verify_after=va, artifacts=arts,
-                           instrument_level=("ipp" if a.arm else "eri"))
+                           instrument_level=("ipp" if (a.arm or a.cleanup) else "eri"))
     return code
 
 

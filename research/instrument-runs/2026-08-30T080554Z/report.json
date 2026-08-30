@@ -1,0 +1,99 @@
+{
+  "before_cleanup": {
+    "CurrentWeight": 0.65,
+    "ItemCount": 2,
+    "entries_with_item": 1,
+    "occupied": 3,
+    "slots": 12
+  },
+  "detach": {
+    "err": 0,
+    "parent_num_after": 1,
+    "ran": 1
+  },
+  "dll_unloaded": true,
+  "final_tables": {
+    "itemlist_rows": 496,
+    "master_rows": 496,
+    "parent_raw": {
+      "data": "0x1f65268ee10",
+      "max": 2,
+      "num": 1,
+      "slots": [
+        "0x1f6140fb5c0",
+        "0x0"
+      ]
+    }
+  },
+  "inventory_after_remove": {
+    "CurrentWeight": 0.15000000000000002,
+    "CurrentWeight_delta": -0.5,
+    "ItemCount": 1,
+    "ItemCount_delta": -1,
+    "entries_with_item": 0,
+    "only_our_slot_changed": true,
+    "slots_changed": [
+      0
+    ]
+  },
+  "mode": "cleanup",
+  "pid": 16948,
+  "release_icon": {
+    "err": 0,
+    "owned_count": 1,
+    "ran": 1,
+    "rooted_after": 0
+  },
+  "release_mesh": {
+    "err": 0,
+    "owned_count": 2,
+    "ran": 1,
+    "rooted_after": 0
+  },
+  "release_table": {
+    "err": 0,
+    "owned_count": 0,
+    "ran": 1,
+    "rooted_after": 0
+  },
+  "remote_memory_freed": true,
+  "removeitem": {
+    "err": 0,
+    "ran": 1
+  },
+  "removerow": {
+    "row_in_table_after": false,
+    "row_in_table_before": true
+  },
+  "row_name": "mbpl__radio",
+  "run_note": [
+    "pid=16948 build confirmed; probe module still at its recorded base",
+    "RemoveItem ran on slot 0",
+    "inventory: our slot freed, -1 count, -0.5 weight, one slot changed",
+    "RemoveRow confirmed by reading the table's RowMap",
+    "all three roots released; the store owns nothing",
+    "teardown: stop handshake confirmed (wait_stopped_ok=1), module unloaded"
+  ],
+  "stale_baseline_note": {
+    "matches_now": false,
+    "recorded_CurrentWeight": 0.0,
+    "recorded_ItemCount": 0,
+    "recorded_slots_sha256": "42c0fbcb3ea4191cebde72056bd8c159bb334c212bb4523da44871c164044a61",
+    "why_it_is_not_the_criterion": "the owner played after the item was issued, so this hash describes an inventory that no longer exists. Success is the DIFFERENCE across the removal, above."
+  },
+  "state_file_removed": "D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json",
+  "teardown": {
+    "attempted": true,
+    "left_loaded_reason": null,
+    "safe_to_free_remote_memory": true,
+    "shutdown_rc": 0,
+    "state": 3,
+    "unloaded": true,
+    "wait_stopped_ok": 1
+  },
+  "verdict": "CLEAN",
+  "zero_slot": {
+    "err": 0,
+    "ran": 1
+  }
+}

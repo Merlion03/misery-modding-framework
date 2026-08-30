@@ -1,0 +1,55 @@
+{
+  "arguments": [
+    "--cleanup"
+  ],
+  "artifacts": [
+    "research/instrument-runs/2026-08-30T080554Z/verify_install_before.json",
+    "research/instrument-runs/2026-08-30T080554Z/verify_install_after.json",
+    "research/instrument-runs/2026-08-30T080554Z/report.json"
+  ],
+  "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "build_key_cross_checked": false,
+  "capabilities_enabled": [
+    "CR-01C5"
+  ],
+  "claim_type": "other",
+  "claim_type_note": "a manifest records that a research instrument ran, not a fact about the game (research/schema/instrument-run-manifest.schema.json claim_type_note pattern).",
+  "confidence": 0.75,
+  "evidence_level": "OBSERVED",
+  "executed_at": "2026-08-30T08:06:09Z",
+  "identity_self_established": true,
+  "instrument_level": "ipp",
+  "known_build": true,
+  "oracle": [
+    "runtime-reflection"
+  ],
+  "recorded_at": "2026-08-30T08:06:09Z",
+  "run_id": "2026-08-30T080554Z",
+  "sources": [
+    {
+      "method": "CR-01C5"
+    }
+  ],
+  "tool_version": "ipp-controller-0.1.0",
+  "verify_install_after": {
+    "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "benign_count": 0,
+    "checked_at": "2026-08-30T08:06:09Z",
+    "mode": "full",
+    "report_artifact": "research/instrument-runs/2026-08-30T080554Z/verify_install_after.json",
+    "result": "match",
+    "serious_count": 0,
+    "strict": false
+  },
+  "verify_install_before": {
+    "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "benign_count": 0,
+    "checked_at": "2026-08-30T08:06:02Z",
+    "mode": "full",
+    "report_artifact": "research/instrument-runs/2026-08-30T080554Z/verify_install_before.json",
+    "result": "match",
+    "serious_count": 0,
+    "strict": false
+  }
+}

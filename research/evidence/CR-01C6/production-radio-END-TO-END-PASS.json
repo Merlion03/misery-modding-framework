@@ -1,0 +1,324 @@
+{
+  "gate": "CR-01C6 -- production radio: mod-owned material pipeline, end to end",
+  "verdict": "PASS",
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "closed_at_pid": 16948,
+  "the_path_proven_end_to_end": [
+    "mod-owned source mesh + material data (owner-supplied, D:/Dev/Models/Radio)",
+    "UE 5.4.4 content build in the external mod kit (no vanilla asset copied)",
+    "external IoStore container MBPLRadio_P, mounted from %LOCALAPPDATA%",
+    "runtime-defined S_ItemDetails row in our OWN transient UDataTable",
+    "published by appending that table to MasterItemList.ParentTables",
+    "inventory AddItem through the vanilla BP_MasterInventory_C::AddItem",
+    "vanilla drag-drop drop path -> BP_PlayerInventory_C::SpawnDroppedItem",
+    "vanilla world class BP_StaticMasterItem_C, no custom Blueprint parent",
+    "production SM_MBPL_Radio with 7 MICs on the vanilla M_BasicMaterial",
+    "normal world interaction and vanilla pickup",
+    "mbpl__radio back in inventory, identity preserved"
+  ],
+  "owner_visual_verdict": {
+    "world_drop": "PASS -- geometry and scale correct; slot separation clearly visible; body dark olive; battery/rubber darker and distinct; metal distinct from non-metal; screen green and readable as its own material; LED a bright red patch; NO fallback/checker surface; no missing slot",
+    "pickup": "PASS -- world actor disappeared, exactly one mbpl__radio returned to inventory, Amount 1, identity preserved",
+    "observed_by": "the repository owner, from several angles in normal world lighting"
+  },
+  "documented_fidelity_loss": {
+    "what": "true emissive is not reachable through M_BasicMaterial",
+    "affected_slots": [
+      "M_Radio_Emissive (the LED)",
+      "M_Radio_Screen (a very faint glow)"
+    ],
+    "what_shipped_instead": "the LED's BaseColor is the authored EMISSIVE colour (1.000, 0.111, 0.044) rather than its authored base colour (0.520, 0.070, 0.030)",
+    "honestly_stated": "this is an APPROXIMATION accepted by the owner. It reads as a bright red patch on a lit surface: it does not glow, does not bloom and lights nothing near it. It is not emissive support.",
+    "scope_of_the_negative_claim": "proven only that M_BasicMaterial exposes no reachable emissive parameter under the three names tested; other parents were not re-examined (LOG-0094)"
+  },
+  "cost": {
+    "custom_shaders_compiled": 0,
+    "container_packages": 24,
+    "chunk_types": {
+      "1 ExportBundleData": 24,
+      "6 ContainerHeader": 1
+    },
+    "shader_library_chunks_type_8_or_9": 0,
+    "collision_with_shipped_shader_libraries": "none"
+  },
+  "materials_verified_live": [
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Body.MI_Radio_Body",
+      "mic_object": "0x1f72fe43f80",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x1f60e6d2a40",
+      "slot": 0,
+      "slot_name": "M_Radio_Body",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Body_ARM.T_Radio_Body_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Body_BC.T_Radio_Body_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Battery.MI_Radio_Battery",
+      "mic_object": "0x1f72fe44980",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x1f60e6d2a40",
+      "slot": 1,
+      "slot_name": "M_Radio_Battery",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_ARM.T_Radio_Battery_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_BC.T_Radio_Battery_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Metal.MI_Radio_Metal",
+      "mic_object": "0x1f72fe44c00",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x1f60e6d2a40",
+      "slot": 2,
+      "slot_name": "M_Radio_Metal",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_ARM.T_Radio_Metal_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_BC.T_Radio_Metal_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Rubber.MI_Radio_Rubber",
+      "mic_object": "0x1f72fe44700",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x1f60e6d2a40",
+      "slot": 3,
+      "slot_name": "M_Radio_Rubber",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_ARM.T_Radio_Rubber_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_BC.T_Radio_Rubber_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Screen.MI_Radio_Screen",
+      "mic_object": "0x1f72fe44480",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x1f60e6d2a40",
+      "slot": 4,
+      "slot_name": "M_Radio_Screen",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_ARM.T_Radio_Screen_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_BC.T_Radio_Screen_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Emissive.MI_Radio_Emissive",
+      "mic_object": "0x1f72fe44200",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x1f60e6d2a40",
+      "slot": 5,
+      "slot_name": "M_Radio_Emissive",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_ARM.T_Radio_Emissive_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_BC.T_Radio_Emissive_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Tape.MI_Radio_Tape",
+      "mic_object": "0x1f72fe44e80",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "parent_object": "0x1f60e6d2a40",
+      "slot": 6,
+      "slot_name": "M_Radio_Tape",
+      "textures": {
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_ARM.T_Radio_Tape_ARM",
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_BC.T_Radio_Tape_BC",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    }
+  ],
+  "material_build_assertions": {
+    "total": 81,
+    "failed": 0,
+    "slots_after_reload": [
+      {
+        "material": "/Game/MBPLTest/Items/Radio/MI_Radio_Body.MI_Radio_Body",
+        "slot": 0,
+        "slot_name": "M_Radio_Body"
+      },
+      {
+        "material": "/Game/MBPLTest/Items/Radio/MI_Radio_Battery.MI_Radio_Battery",
+        "slot": 1,
+        "slot_name": "M_Radio_Battery"
+      },
+      {
+        "material": "/Game/MBPLTest/Items/Radio/MI_Radio_Metal.MI_Radio_Metal",
+        "slot": 2,
+        "slot_name": "M_Radio_Metal"
+      },
+      {
+        "material": "/Game/MBPLTest/Items/Radio/MI_Radio_Rubber.MI_Radio_Rubber",
+        "slot": 3,
+        "slot_name": "M_Radio_Rubber"
+      },
+      {
+        "material": "/Game/MBPLTest/Items/Radio/MI_Radio_Screen.MI_Radio_Screen",
+        "slot": 4,
+        "slot_name": "M_Radio_Screen"
+      },
+      {
+        "material": "/Game/MBPLTest/Items/Radio/MI_Radio_Emissive.MI_Radio_Emissive",
+        "slot": 5,
+        "slot_name": "M_Radio_Emissive"
+      },
+      {
+        "material": "/Game/MBPLTest/Items/Radio/MI_Radio_Tape.MI_Radio_Tape",
+        "slot": 6,
+        "slot_name": "M_Radio_Tape"
+      }
+    ]
+  },
+  "issue_after_the_owner_died": {
+    "situation": "the Shipping process was REPLACED (17036 -> 16948), not merely respawned",
+    "stale_state_handling": "STALE -- recorded pid None is not the live pid 16948; every address and the FName id in this file belong to a dead image and are NOT used below",
+    "publication_before_reissue": {
+      "ParentTables": 1,
+      "foreign_parent_tables": 0,
+      "runtime_tables_in_transient": 0,
+      "ItemList_rows": 496,
+      "MasterItemList_rows": 496,
+      "row_present": false
+    },
+    "inventory_before_reissue": [
+      {
+        "inventory": "0x1f64cf99d90",
+        "slots": 12,
+        "occupied": 3,
+        "ItemCount": 2,
+        "CurrentWeight": 0.25
+      }
+    ],
+    "reissued_by": "the unchanged proven path: dry-run, then --arm",
+    "result": {
+      "entries_with_item": 1,
+      "Amount": 1,
+      "ItemCount_delta": 1,
+      "CurrentWeight_delta": 0.5,
+      "slots_changed": [
+        0
+      ],
+      "only_our_slot_changed": true
+    }
+  },
+  "cleanup": {
+    "verdict": "CLEAN",
+    "order": [
+      "RemoveItem",
+      "RemoveRow",
+      "Detach",
+      "ZeroSlot",
+      "ReleaseMesh",
+      "ReleaseIcon",
+      "ReleaseTable",
+      "Shutdown+unload"
+    ],
+    "why_that_order": "the probe's own JobReleaseIcon comment: releasing the icon first is wrong because the row still references it until the row is gone. JobDetach refuses unless ParentTables Num is exactly 2 and JobZeroSlot unless it is exactly 1, so a mis-ordered call fails closed.",
+    "inventory_delta": {
+      "CurrentWeight": 0.15000000000000002,
+      "CurrentWeight_delta": -0.5,
+      "ItemCount": 1,
+      "ItemCount_delta": -1,
+      "entries_with_item": 0,
+      "only_our_slot_changed": true,
+      "slots_changed": [
+        0
+      ]
+    },
+    "stale_baseline_note": {
+      "matches_now": false,
+      "recorded_CurrentWeight": 0.0,
+      "recorded_ItemCount": 0,
+      "recorded_slots_sha256": "42c0fbcb3ea4191cebde72056bd8c159bb334c212bb4523da44871c164044a61",
+      "why_it_is_not_the_criterion": "the owner played after the item was issued, so this hash describes an inventory that no longer exists. Success is the DIFFERENCE across the removal, above."
+    },
+    "removerow": {
+      "row_in_table_after": false,
+      "row_in_table_before": true
+    },
+    "releases": {
+      "release_mesh": {
+        "err": 0,
+        "owned_count": 2,
+        "ran": 1,
+        "rooted_after": 0
+      },
+      "release_icon": {
+        "err": 0,
+        "owned_count": 1,
+        "ran": 1,
+        "rooted_after": 0
+      },
+      "release_table": {
+        "err": 0,
+        "owned_count": 0,
+        "ran": 1,
+        "rooted_after": 0
+      }
+    },
+    "final_tables": {
+      "itemlist_rows": 496,
+      "master_rows": 496,
+      "parent_raw": {
+        "data": "0x1f65268ee10",
+        "max": 2,
+        "num": 1,
+        "slots": [
+          "0x1f6140fb5c0",
+          "0x0"
+        ]
+      }
+    },
+    "teardown": {
+      "attempted": true,
+      "left_loaded_reason": null,
+      "safe_to_free_remote_memory": true,
+      "shutdown_rc": 0,
+      "state": 3,
+      "unloaded": true,
+      "wait_stopped_ok": 1
+    },
+    "dll_unloaded": true,
+    "remote_memory_freed": true,
+    "state_file_removed": "D:\\Dev\\MiseryFramework\\workspace\\c5-demo-state.json"
+  },
+  "post_cleanup_independent_check": {
+    "probe_modules_loaded": 0,
+    "ParentTables": 1,
+    "foreign_parent_tables": 0,
+    "ItemList_rows": 496,
+    "MasterItemList_rows": 496,
+    "instances_carrying_the_row": 0,
+    "content_objects_still_resident": 23,
+    "why_still_resident": "the three roots were released and the store owns nothing (owned_count 0, rooted_after 0 on all three), but UE garbage collection had not yet run. The objects are unreferenced, not held. Reporting them as 'gone' would be a claim not yet measured."
+  },
+  "steam_install": {
+    "mode": "full",
+    "findings": 0,
+    "serious": 0,
+    "benign": 0,
+    "checked": "before and after the mutating run",
+    "note": "the installation stayed read-only throughout (D-01)"
+  },
+  "what_remains_staged": {
+    "container": "MBPLRadio_P in %LOCALAPPDATA%/MISERY/Saved/Paks",
+    "why": "it is the deliverable of this gate and is inert without the runtime row: no vanilla package references it and nothing loads it on its own",
+    "also_staged": [
+      "MiseryModKit_P",
+      "CT03Probe20260828_P"
+    ]
+  }
+}
