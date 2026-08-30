@@ -55,6 +55,29 @@
       ]
     ],
     "all_identical": true,
+    "post_hoc_stamped": [
+      {
+        "snapshot": "before",
+        "provenance": {
+          "added": "post-hoc",
+          "why": "the capture harness did not record it -- slow_pass built its snapshot from Resolver directly instead of through resolve_live(), where that field was set. Fixed in the harness; these two files predate the fix.",
+          "how_established": "measured directly from the still-running process: pid 8676 started 2026-08-30T09:29:24Z and is still alive. Process continuity across the capture is independently supported: the 50 ms poll ran without interruption against pid 8676 from t=0 to t=495.146, and the PlayerController pointer 0x20092403740 was identical at both ends -- a restart would have given a fresh heap and a different pointer.",
+          "limit": "this is a post-hoc stamp, not a capture-time reading. Future runs record it at capture time.",
+          "independently_established_by_verifier": "An independent verifier supplied the decisive argument, stronger than the circumstantial one first written here: pid 8676 is alive with start_time 2026-08-30T09:29:24Z. A live process has held its pid continuously since its own start time, so NO other process can have held pid 8676 between 09:29:24Z and now. Both snapshots resolved pid 8676 inside that window (13:13:24Z and 13:21:51Z), so they read THIS process. That holds without the stamp. Independently, snap-launch4-gameplay.json carries the same start time with NO provenance block -- a genuine capture-time reading through resolve_live()."
+        }
+      },
+      {
+        "snapshot": "after",
+        "provenance": {
+          "added": "post-hoc",
+          "why": "the capture harness did not record it -- slow_pass built its snapshot from Resolver directly instead of through resolve_live(), where that field was set. Fixed in the harness; these two files predate the fix.",
+          "how_established": "measured directly from the still-running process: pid 8676 started 2026-08-30T09:29:24Z and is still alive. Process continuity across the capture is independently supported: the 50 ms poll ran without interruption against pid 8676 from t=0 to t=495.146, and the PlayerController pointer 0x20092403740 was identical at both ends -- a restart would have given a fresh heap and a different pointer.",
+          "limit": "this is a post-hoc stamp, not a capture-time reading. Future runs record it at capture time.",
+          "independently_established_by_verifier": "An independent verifier supplied the decisive argument, stronger than the circumstantial one first written here: pid 8676 is alive with start_time 2026-08-30T09:29:24Z. A live process has held its pid continuously since its own start time, so NO other process can have held pid 8676 between 09:29:24Z and now. Both snapshots resolved pid 8676 inside that window (13:13:24Z and 13:21:51Z), so they read THIS process. That holds without the stamp. Independently, snap-launch4-gameplay.json carries the same start time with NO provenance block -- a genuine capture-time reading through resolve_live()."
+        }
+      }
+    ],
+    "evidence_grade": "MIXED: 2 of 3 snapshots carry a post-hoc stamp rather than a capture-time reading. The claim rests on whatever independent argument those stamps record, not on the field itself.",
     "why_it_matters": "object identity is only comparable inside one process: a new process has a new heap, and identical paths there are different objects. If this were false, every verdict below would be void."
   },
   "identities": {
@@ -335,11 +358,11 @@
   },
   "readiness": {
     "gameplay_oracle_after": true,
+    "proved_by_module": "research/instruments/runner/readiness.prove_gameplay",
     "complete_after": true,
     "cross_checks_all_pass_after": true,
     "cross_checks_run_after": 4,
-    "cross_checks_skipped_after": 0,
-    "proved_by_module": "research/instruments/runner/readiness.prove_gameplay"
+    "cross_checks_skipped_after": 0
   },
   "transition_observability": {
     "interval_s": 0.05,
@@ -363,6 +386,25 @@
       }
     ],
     "limit": "Pawn and AcknowledgedPawn became non-null AND equal within a single 50 ms sample, so any intermediate state where Pawn was set but AcknowledgedPawn was not lasted less than one sampling interval. That is a limit of this instrument, not evidence that no such state existed."
+  },
+  "death_evidence": {
+    "pawn_anchor_resolved": false,
+    "both_pawn_routes_read_and_returned_null": true,
+    "death_screen_live": 1,
+    "death_screen_live_is_not_evidence": "BP_DeathScreen_C is live in the healthy post-respawn state on this build too, so its presence does not distinguish death from life and is recorded, not relied on"
+  },
+  "respawn_evidence": {
+    "watch_started_with_no_possessed_pawn": true,
+    "first_state": {
+      "t": 0.0,
+      "at": "2026-08-30T131324Z",
+      "PlayerController": "0x20092403740",
+      "Controller_Pawn": null,
+      "AcknowledgedPawn": null,
+      "possession_agrees": false
+    },
+    "agreement_reached": true,
+    "why_both_are_required": "an agreement alone would also be produced by arming the watch during ordinary gameplay; only the pair no-pawn -> possessed-pawn is a respawn"
   },
   "verdict": {
     "death_observed": true,

@@ -391,6 +391,7 @@
     "added": "post-hoc",
     "why": "the capture harness did not record it -- slow_pass built its snapshot from Resolver directly instead of through resolve_live(), where that field was set. Fixed in the harness; these two files predate the fix.",
     "how_established": "measured directly from the still-running process: pid 8676 started 2026-08-30T09:29:24Z and is still alive. Process continuity across the capture is independently supported: the 50 ms poll ran without interruption against pid 8676 from t=0 to t=495.146, and the PlayerController pointer 0x20092403740 was identical at both ends -- a restart would have given a fresh heap and a different pointer.",
-    "limit": "this is a post-hoc stamp, not a capture-time reading. Future runs record it at capture time."
+    "limit": "this is a post-hoc stamp, not a capture-time reading. Future runs record it at capture time.",
+    "independently_established_by_verifier": "An independent verifier supplied the decisive argument, stronger than the circumstantial one first written here: pid 8676 is alive with start_time 2026-08-30T09:29:24Z. A live process has held its pid continuously since its own start time, so NO other process can have held pid 8676 between 09:29:24Z and now. Both snapshots resolved pid 8676 inside that window (13:13:24Z and 13:21:51Z), so they read THIS process. That holds without the stamp. Independently, snap-launch4-gameplay.json carries the same start time with NO provenance block -- a genuine capture-time reading through resolve_live()."
   }
 }

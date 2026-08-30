@@ -83,8 +83,24 @@ def main(argv=None):
     # ---- 0. everything below is only meaningful within ONE process ---------
     ids = [(s.get("pid"), s.get("process_start_time")) for s in (alive, before, after)]
     same_process = len(set(ids)) == 1 and all(p and t for p, t in ids)
+    # An independent verifier pointed out that this tool read process_start_time
+    # and never looked at how it got there -- so a value typed in by hand passed
+    # exactly like one measured at capture time. Provenance is now surfaced, and
+    # the same_process claim is graded by its weakest source rather than
+    # presented as uniformly measured.
+    stamped = []
+    for label, s in (("alive", alive), ("before", before), ("after", after)):
+        prov = s.get("process_start_time_provenance")
+        if prov:
+            stamped.append({"snapshot": label, "provenance": prov})
     rep["same_process"] = {
         "pids_and_start_times": ids, "all_identical": same_process,
+        "post_hoc_stamped": stamped,
+        "evidence_grade": ("MEASURED at capture time for every snapshot" if not stamped else
+                           "MIXED: %d of 3 snapshots carry a post-hoc stamp rather than a "
+                           "capture-time reading. The claim rests on whatever independent "
+                           "argument those stamps record, not on the field itself."
+                           % len(stamped)),
         "why_it_matters": ("object identity is only comparable inside one process: a new "
                            "process has a new heap, and identical paths there are different "
                            "objects. If this were false, every verdict below would be void.")}
@@ -132,20 +148,40 @@ def main(argv=None):
     #   (b) an anchor was reported resolved while absent from the walked
     #       universe -- a torn snapshot. _anchor already refuses that, so its
     #       absence here is a check that the guard held.
+    # Widened after review: this compared only before -> after, which on a death
+    # screen is just the five survivors and therefore trivially clean. All three
+    # pairs are now checked, in both directions -- same-address-different-object
+    # AND different-address-same-identity, since either would mean the identity
+    # method was lying.
     stale = []
-    for key in ANCHORS:
-        ib, ic = ident(before, key), ident(after, key)
-        if ib and ic and ib["address"] == ic["address"]:
-            if (ib["internal_index"], ib["serial_number"]) != \
-               (ic["internal_index"], ic["serial_number"]):
-                stale.append({"anchor": key, "address": ib["address"],
-                              "before": [ib["internal_index"], ib["serial_number"]],
-                              "after": [ic["internal_index"], ic["serial_number"]],
+    pairs = (("alive", alive, "before", before), ("before", before, "after", after),
+             ("alive", alive, "after", after))
+    for lname, lsnap, rname, rsnap in pairs:
+        for key in ANCHORS:
+            il, ir = ident(lsnap, key), ident(rsnap, key)
+            if not il or not ir:
+                continue
+            same_addr = il["address"] == ir["address"]
+            same_id = ((il["internal_index"], il["serial_number"])
+                       == (ir["internal_index"], ir["serial_number"]))
+            if same_addr and not same_id:
+                stale.append({"anchor": key, "pair": "%s -> %s" % (lname, rname),
+                              "address": il["address"],
+                              "left": [il["internal_index"], il["serial_number"]],
+                              "right": [ir["internal_index"], ir["serial_number"]],
                               "hazard": "same address, different object -- address comparison "
                                         "would have called this survival"})
-    unresolved_but_named = [k for k in ANCHORS
-                            if ((after.get("anchors") or {}).get(k) or {}).get("resolved")
-                            and not ident(after, k)]
+            if same_id and not same_addr:
+                stale.append({"anchor": key, "pair": "%s -> %s" % (lname, rname),
+                              "identity": [il["internal_index"], il["serial_number"]],
+                              "addresses": [il["address"], ir["address"]],
+                              "hazard": "same (InternalIndex, SerialNumber) at two different "
+                                        "addresses -- the identity method itself would be wrong"})
+    unresolved_but_named = [
+        "%s:%s" % (label, k)
+        for label, snap in (("alive", alive), ("before", before), ("after", after))
+        for k in ANCHORS
+        if ((snap.get("anchors") or {}).get(k) or {}).get("resolved") and not ident(snap, k)]
     rep["stale_object_reuse"] = {
         "same_address_different_object": stale,
         "resolved_without_a_verified_engine_identity": unresolved_but_named,
@@ -193,10 +229,40 @@ def main(argv=None):
                   "intermediate states were resolved between the death state and settled "
                   "possession; see states above")}
 
+    # death_observed used to lean on death_screen_live > 0. A verifier measured
+    # that this DOES NOT DISCRIMINATE on this build: BP_DeathScreen_C is live in
+    # the healthy post-respawn state too, outered to the GameInstance and not
+    # garbage. Half the predicate was decoration. What actually establishes
+    # death is that both pawn routes were READ and both returned null -- an
+    # unreadable route would mean "we could not tell", which is a different fact.
+    pawn_before = ((before.get("anchors") or {}).get("pawn") or {})
+    before_routes = [(r.get("evidence") or {}) for r in pawn_before.get("routes", [])]
+    both_read_null = (len(before_routes) >= 2
+                      and all(e.get("resolved") and not e.get("value") for e in before_routes))
+    rep["death_evidence"] = {
+        "pawn_anchor_resolved": pawn_before.get("resolved"),
+        "both_pawn_routes_read_and_returned_null": both_read_null,
+        "death_screen_live": before.get("death_screen_live"),
+        "death_screen_live_is_not_evidence":
+            "BP_DeathScreen_C is live in the healthy post-respawn state on this build too, so "
+            "its presence does not distinguish death from life and is recorded, not relied on"}
+
+    # respawn_observed used to be bool(settled), which any timeline armed while
+    # the player was ALREADY ALIVE would satisfy. It must be a TRANSITION: the
+    # watch has to start with no possessed pawn and end with one.
+    tl_all = trans.get("timeline", [])
+    started_without_pawn = bool(tl_all) and not tl_all[0].get("Controller_Pawn")
+    rep["respawn_evidence"] = {
+        "watch_started_with_no_possessed_pawn": started_without_pawn,
+        "first_state": tl_all[0] if tl_all else None,
+        "agreement_reached": bool(settled),
+        "why_both_are_required": ("an agreement alone would also be produced by arming the "
+                                  "watch during ordinary gameplay; only the pair no-pawn -> "
+                                  "possessed-pawn is a respawn")}
+
     rep["verdict"] = {
-        "death_observed": before.get("death_screen_live", 0) > 0
-                          and not ((before.get("anchors") or {}).get("pawn") or {}).get("resolved"),
-        "respawn_observed": bool(settled),
+        "death_observed": (not pawn_before.get("resolved")) and both_read_null,
+        "respawn_observed": bool(settled) and started_without_pawn,
         "after_is_complete_and_proven": bool(after.get("complete")
                                              and after.get("runner_gameplay_ready")),
         "no_stale_reuse": rep["stale_object_reuse"]["clean"],
@@ -222,8 +288,17 @@ def main(argv=None):
     print("\npawns: different objects=%s  slot_reused=%s  address_reused=%s"
           % (rep["pawns"].get("are_different_objects"), rep["pawns"].get("slot_reused"),
              rep["pawns"].get("address_reused")))
-    print("stale object reuse: %s" % ("NONE" if rep["stale_object_reuse"]["clean"]
-                                      else rep["stale_object_reuse"]))
+    print("stale object reuse over all 3 pairs, both directions: %s"
+          % ("NONE" if rep["stale_object_reuse"]["clean"] else rep["stale_object_reuse"]))
+    print("same-process evidence grade: %s" % rep["same_process"]["evidence_grade"])
+    print("death evidence: pawn unresolved=%s, both routes read null=%s (death_screen_live=%s "
+          "is NOT used -- it does not discriminate on this build)"
+          % (not rep["death_evidence"]["pawn_anchor_resolved"],
+             rep["death_evidence"]["both_pawn_routes_read_and_returned_null"],
+             rep["death_evidence"]["death_screen_live"]))
+    print("respawn evidence: started with no pawn=%s, reached agreement=%s"
+          % (rep["respawn_evidence"]["watch_started_with_no_possessed_pawn"],
+             rep["respawn_evidence"]["agreement_reached"]))
     print("possession agrees after: %s (first seen at %ss by the 50ms poll)"
           % (rep["possession"]["Controller_Pawn_equals_AcknowledgedPawn"],
              rep["possession"]["from_50ms_timeline"]["first_agreement_at_s"]))
