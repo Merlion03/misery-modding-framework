@@ -1,0 +1,371 @@
+{
+  "pid": 16948,
+  "build_sha256": null,
+  "base_address": "0x7ff66bff0000",
+  "stale_state": {
+    "file": "D:/Dev/MiseryFramework\\workspace\\c5-demo-state.json",
+    "recorded_pid": 16948,
+    "recorded_pid_is_the_live_pid": true,
+    "recorded_row_fname": 2258704,
+    "verdict": "STALE -- recorded pid 16948 is not the live pid 16948; every address and the FName id in this file belong to a dead image and are NOT used below"
+  },
+  "universe_objects": 178237,
+  "publication": {
+    "MasterItemList": "0x1f6491e12e0",
+    "ItemList": "0x1f6140fb5c0",
+    "ParentTables_count": 2,
+    "ParentTables": [
+      {
+        "table": "0x1f6140fb5c0",
+        "name": "ItemList",
+        "path": "/Game/SurvivalGameKitV2/Blueprints/Items/ItemList.ItemList"
+      },
+      {
+        "table": "0x1f6555dbc80",
+        "name": "DataTable",
+        "path": "/Engine/Transient.DataTable"
+      }
+    ],
+    "foreign_parent_tables": [
+      {
+        "table": "0x1f6555dbc80",
+        "name": "DataTable",
+        "path": "/Engine/Transient.DataTable"
+      }
+    ]
+  },
+  "runtime_tables_in_transient": [
+    {
+      "object": "0x1f6555dbc80",
+      "name": "DataTable",
+      "path": "/Engine/Transient.DataTable"
+    }
+  ],
+  "ItemList_rows": {
+    "count": 496,
+    "diag": {
+      "data_ptr_hex": "0x1f65221ccd0",
+      "array_num": 496,
+      "num_bits": 496,
+      "bit_storage": "secondary",
+      "allocated_rows": 496
+    },
+    "contains_our_row": false
+  },
+  "MasterItemList_own_rows": {
+    "count": 497,
+    "diag": {
+      "data_ptr_hex": "0x1f6564f4030",
+      "array_num": 497,
+      "num_bits": 497,
+      "bit_storage": "secondary",
+      "allocated_rows": 497
+    },
+    "contains_our_row": true
+  },
+  "row_present_anywhere": true,
+  "live_player_inventories": [
+    "0x1f64cf99d90"
+  ],
+  "inventory_summary": [
+    {
+      "inventory": "0x1f64cf99d90",
+      "slots": 12,
+      "occupied": 1,
+      "ItemCount": 1,
+      "CurrentWeight": 0.5
+    }
+  ],
+  "world_item_actors_live": 36,
+  "instances_carrying_our_row": [
+    {
+      "where": "inventory 0x1f64cf99d90",
+      "slot": 0,
+      "Amount": 1
+    }
+  ],
+  "no_instance_carries_our_row": false,
+  "content_currently_loaded": {
+    "SM_MBPL_Radio": [
+      {
+        "object": "0x1f72fe43d00",
+        "class": "StaticMesh",
+        "path": "/Game/MBPLTest/Items/Radio/SM_MBPL_Radio.SM_MBPL_Radio"
+      }
+    ],
+    "MI_Radio_Body": [
+      {
+        "object": "0x1f72fe43f80",
+        "class": "MaterialInstanceConstant",
+        "path": "/Game/MBPLTest/Items/Radio/MI_Radio_Body.MI_Radio_Body"
+      }
+    ],
+    "T_Radio_Body_BC": [
+      {
+        "object": "0x1f6c3927180",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Body_BC.T_Radio_Body_BC"
+      }
+    ],
+    "T_Radio_Body_ARM": [
+      {
+        "object": "0x1f6d977a780",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Body_ARM.T_Radio_Body_ARM"
+      }
+    ],
+    "MI_Radio_Battery": [
+      {
+        "object": "0x1f72fe44980",
+        "class": "MaterialInstanceConstant",
+        "path": "/Game/MBPLTest/Items/Radio/MI_Radio_Battery.MI_Radio_Battery"
+      }
+    ],
+    "T_Radio_Battery_BC": [
+      {
+        "object": "0x1f71a96fe80",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_BC.T_Radio_Battery_BC"
+      }
+    ],
+    "T_Radio_Battery_ARM": [
+      {
+        "object": "0x1f71a96fb80",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_ARM.T_Radio_Battery_ARM"
+      }
+    ],
+    "MI_Radio_Metal": [
+      {
+        "object": "0x1f72fe44c00",
+        "class": "MaterialInstanceConstant",
+        "path": "/Game/MBPLTest/Items/Radio/MI_Radio_Metal.MI_Radio_Metal"
+      }
+    ],
+    "T_Radio_Metal_BC": [
+      {
+        "object": "0x1f71a96fa00",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_BC.T_Radio_Metal_BC"
+      }
+    ],
+    "T_Radio_Metal_ARM": [
+      {
+        "object": "0x1f71a96f880",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_ARM.T_Radio_Metal_ARM"
+      }
+    ],
+    "MI_Radio_Rubber": [
+      {
+        "object": "0x1f72fe44700",
+        "class": "MaterialInstanceConstant",
+        "path": "/Game/MBPLTest/Items/Radio/MI_Radio_Rubber.MI_Radio_Rubber"
+      }
+    ],
+    "T_Radio_Rubber_BC": [
+      {
+        "object": "0x1f640632380",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_BC.T_Radio_Rubber_BC"
+      }
+    ],
+    "T_Radio_Rubber_ARM": [
+      {
+        "object": "0x1f646e75c80",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_ARM.T_Radio_Rubber_ARM"
+      }
+    ],
+    "MI_Radio_Screen": [
+      {
+        "object": "0x1f72fe44480",
+        "class": "MaterialInstanceConstant",
+        "path": "/Game/MBPLTest/Items/Radio/MI_Radio_Screen.MI_Radio_Screen"
+      }
+    ],
+    "T_Radio_Screen_BC": [
+      {
+        "object": "0x1f662b51d80",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_BC.T_Radio_Screen_BC"
+      }
+    ],
+    "T_Radio_Screen_ARM": [
+      {
+        "object": "0x1f667ca1600",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_ARM.T_Radio_Screen_ARM"
+      }
+    ],
+    "MI_Radio_Emissive": [
+      {
+        "object": "0x1f72fe44200",
+        "class": "MaterialInstanceConstant",
+        "path": "/Game/MBPLTest/Items/Radio/MI_Radio_Emissive.MI_Radio_Emissive"
+      }
+    ],
+    "T_Radio_Emissive_BC": [
+      {
+        "object": "0x1f6596fd600",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_BC.T_Radio_Emissive_BC"
+      }
+    ],
+    "T_Radio_Emissive_ARM": [
+      {
+        "object": "0x1f62c796580",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_ARM.T_Radio_Emissive_ARM"
+      }
+    ],
+    "MI_Radio_Tape": [
+      {
+        "object": "0x1f72fe44e80",
+        "class": "MaterialInstanceConstant",
+        "path": "/Game/MBPLTest/Items/Radio/MI_Radio_Tape.MI_Radio_Tape"
+      }
+    ],
+    "T_Radio_Tape_BC": [
+      {
+        "object": "0x1f6592fb500",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_BC.T_Radio_Tape_BC"
+      }
+    ],
+    "T_Radio_Tape_ARM": [
+      {
+        "object": "0x1f62c79e380",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_ARM.T_Radio_Tape_ARM"
+      }
+    ],
+    "T_Radio_Neutral_N": [
+      {
+        "object": "0x1f72f4f3100",
+        "class": "Texture2D",
+        "path": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    ],
+    "M_BasicMaterial": [
+      {
+        "object": "0x1f60e6d2a40",
+        "class": "Material",
+        "path": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial"
+      }
+    ]
+  },
+  "content_loaded_counts": {
+    "SM_MBPL_Radio": 1,
+    "MI_Radio_Body": 1,
+    "T_Radio_Body_BC": 1,
+    "T_Radio_Body_ARM": 1,
+    "MI_Radio_Battery": 1,
+    "T_Radio_Battery_BC": 1,
+    "T_Radio_Battery_ARM": 1,
+    "MI_Radio_Metal": 1,
+    "T_Radio_Metal_BC": 1,
+    "T_Radio_Metal_ARM": 1,
+    "MI_Radio_Rubber": 1,
+    "T_Radio_Rubber_BC": 1,
+    "T_Radio_Rubber_ARM": 1,
+    "MI_Radio_Screen": 1,
+    "T_Radio_Screen_BC": 1,
+    "T_Radio_Screen_ARM": 1,
+    "MI_Radio_Emissive": 1,
+    "T_Radio_Emissive_BC": 1,
+    "T_Radio_Emissive_ARM": 1,
+    "MI_Radio_Tape": 1,
+    "T_Radio_Tape_BC": 1,
+    "T_Radio_Tape_ARM": 1,
+    "T_Radio_Neutral_N": 1,
+    "M_BasicMaterial": 1
+  },
+  "mesh_slots_now": [
+    {
+      "slot": 0,
+      "slot_name": "M_Radio_Body",
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Body.MI_Radio_Body",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "textures": {
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Body_BC.T_Radio_Body_BC",
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Body_ARM.T_Radio_Body_ARM",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "slot": 1,
+      "slot_name": "M_Radio_Battery",
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Battery.MI_Radio_Battery",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "textures": {
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_BC.T_Radio_Battery_BC",
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Battery_ARM.T_Radio_Battery_ARM",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "slot": 2,
+      "slot_name": "M_Radio_Metal",
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Metal.MI_Radio_Metal",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "textures": {
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_BC.T_Radio_Metal_BC",
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Metal_ARM.T_Radio_Metal_ARM",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "slot": 3,
+      "slot_name": "M_Radio_Rubber",
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Rubber.MI_Radio_Rubber",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "textures": {
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_BC.T_Radio_Rubber_BC",
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Rubber_ARM.T_Radio_Rubber_ARM",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "slot": 4,
+      "slot_name": "M_Radio_Screen",
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Screen.MI_Radio_Screen",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "textures": {
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_BC.T_Radio_Screen_BC",
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Screen_ARM.T_Radio_Screen_ARM",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "slot": 5,
+      "slot_name": "M_Radio_Emissive",
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Emissive.MI_Radio_Emissive",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "textures": {
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_BC.T_Radio_Emissive_BC",
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Emissive_ARM.T_Radio_Emissive_ARM",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    },
+    {
+      "slot": 6,
+      "slot_name": "M_Radio_Tape",
+      "mic": "/Game/MBPLTest/Items/Radio/MI_Radio_Tape.MI_Radio_Tape",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial.M_BasicMaterial",
+      "parent_class": "Material",
+      "textures": {
+        "BaseColor": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_BC.T_Radio_Tape_BC",
+        "ARM": "/Game/MBPLTest/Items/Radio/T_Radio_Tape_ARM.T_Radio_Tape_ARM",
+        "Normal": "/Game/MBPLTest/Items/Radio/T_Radio_Neutral_N.T_Radio_Neutral_N"
+      }
+    }
+  ],
+  "mesh_slots_all_correct": true
+}
