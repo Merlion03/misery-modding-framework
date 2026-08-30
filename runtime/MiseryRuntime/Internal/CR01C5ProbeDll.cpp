@@ -43,6 +43,9 @@
 #define C5IO_EXPECTED_SIZE 5648
 #include <atomic>
 #include <cstdint>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "GameThreadDispatcher.h"
 #include "UE54TickerCarrier.h"
 #include "RuntimeAssetStore.h"
@@ -883,6 +886,236 @@ EXPORT_JOB(RunZeroSlot, JobZeroSlot)
 EXPORT_JOB(RunReleaseMesh, JobReleaseMesh)
 EXPORT_JOB(RunReleaseIcon, JobReleaseIcon)
 EXPORT_JOB(RunRelease, JobRelease)
+
+// ---------------------------------------------------------------------------
+// Stage 5A: the items backend the native bridge installs.
+//
+// Everything below is INPUT MARSHALLING plus a call to the same four jobs the
+// proven path runs. No new mechanism, no second way to write a row.
+// ---------------------------------------------------------------------------
+namespace {
+
+// UTF-8 -> the UTF-16 buffers the IO block uses. Truncation is refused rather
+// than silently applied: a half-written package path resolves to nothing, and
+// finding out why costs far more than being told.
+bool PutUtf16(uint16_t* dst, int capacity, const char* text) {
+    if (dst == nullptr || capacity <= 0) return false;
+    const char* src = text ? text : "";
+    int i = 0;
+    while (src[i] != '\0') {
+        if (i >= capacity - 1) return false;   // no room for the NUL
+        // The framework's own identifiers and package paths are ASCII by
+        // construction (ModId, local id, /Game/... paths), so a byte-wise widen
+        // is exact here rather than approximate.
+        unsigned char c = static_cast<unsigned char>(src[i]);
+        if (c > 0x7F) return false;
+        dst[i] = static_cast<uint16_t>(c);
+        ++i;
+    }
+    dst[i] = 0;
+    return true;
+}
+
+// A deliberately small JSON reader. The declaration crossing the bridge is
+// produced by our own managed host, so this parses exactly the shape that host
+// emits and refuses anything else rather than growing into a real parser.
+bool JsonString(const char* json, const char* key, char* out, int capacity) {
+    if (!json || !key || !out || capacity <= 0) return false;
+    char needle[64];
+    int n = 0;
+    needle[n++] = '"';
+    for (const char* k = key; *k && n < 60; ++k) needle[n++] = *k;
+    needle[n++] = '"'; needle[n++] = ':'; needle[n++] = '"'; needle[n] = '\0';
+    const char* at = strstr(json, needle);
+    if (at == nullptr) return false;
+    at += strlen(needle);
+    int i = 0;
+    while (*at != '"' && *at != '\0') {
+        if (i >= capacity - 1) return false;
+        out[i++] = *at++;
+    }
+    out[i] = '\0';
+    return *at == '"';
+}
+
+bool JsonNumber(const char* json, const char* key, double* out) {
+    if (!json || !key || !out) return false;
+    char needle[64];
+    int n = 0;
+    needle[n++] = '"';
+    for (const char* k = key; *k && n < 60; ++k) needle[n++] = *k;
+    needle[n++] = '"'; needle[n++] = ':'; needle[n] = '\0';
+    const char* at = strstr(json, needle);
+    if (at == nullptr) return false;
+    *out = atof(at + strlen(needle));
+    return true;
+}
+
+// "/Game/Mods/alphamod/Meshes/SM_Shape" -> (package, asset).
+//
+// The PACKAGE is the WHOLE path, not the directory containing it, and the asset
+// is the last element -- which is also the object's name inside that package.
+// That is Unreal's convention and it is exactly what Stage 2's AssetRef
+// produces. A first version stripped the last element off the package, which
+// named a package that does not exist; the icon load then failed with step 31
+// and the row never got written.
+bool SplitPackage(const char* path, char* package, int pcap, char* asset, int acap) {
+    if (!path) return false;
+    const char* slash = strrchr(path, '/');
+    if (slash == nullptr || slash == path) return false;
+    int plen = static_cast<int>(strlen(path));
+    if (plen == 0 || plen >= pcap) return false;
+    memcpy(package, path, static_cast<size_t>(plen) + 1);
+    int alen = static_cast<int>(strlen(slash + 1));
+    if (alen == 0 || alen >= acap) return false;
+    memcpy(asset, slash + 1, static_cast<size_t>(alen) + 1);
+    return true;
+}
+
+}  // namespace
+
+// How often the game's own SGK ItemDetails was asked about a row a C# mod had
+// just registered, and how often it found one. Counters rather than a hard
+// failure, so a run outside gameplay reports honestly instead of refusing a
+// registration that in fact succeeded.
+static unsigned long g_stage5_resolve_attempts = 0;
+static unsigned long g_stage5_resolve_found = 0;
+
+// Returns 0 on success. Non-zero is a refusal the bridge turns into a
+// structured error; the IO block's own err/err_step carry the detail.
+extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
+                                                        const char* declaration_json,
+                                                        char* out_row_name,
+                                                        int out_capacity) {
+    C5Io* io = g_io;
+    if (io == nullptr || g_disp == nullptr) return 1;   // Init has not run
+    if (mod_id == nullptr || declaration_json == nullptr) return 2;
+
+    char local[96], display[256], shortname[256], description[512];
+    char mesh_path[256], icon_path[256];
+    if (!JsonString(declaration_json, "local_id", local, sizeof(local))) return 3;
+    if (!JsonString(declaration_json, "display_name", display, sizeof(display)))
+        return 4;
+    if (!JsonString(declaration_json, "short_name", shortname, sizeof(shortname)))
+        return 5;
+    if (!JsonString(declaration_json, "description", description,
+                    sizeof(description))) return 6;
+    if (!JsonString(declaration_json, "mesh", mesh_path, sizeof(mesh_path)))
+        return 7;
+    if (!JsonString(declaration_json, "icon", icon_path, sizeof(icon_path)))
+        return 8;
+
+    // The row name is DERIVED here, from the mod_id the bridge passed
+    // separately. The declaration cannot name a namespace, so a mod cannot
+    // register into another's.
+    char row[192];
+    int written = _snprintf_s(row, sizeof(row), _TRUNCATE, "%s__%s", mod_id, local);
+    if (written < 0) return 9;
+    char trigger[224];
+    if (_snprintf_s(trigger, sizeof(trigger), _TRUNCATE, "%s__neutral_trigger",
+                    row) < 0) return 10;
+
+    char mesh_pkg[224], mesh_asset[96], icon_pkg[224], icon_asset[96];
+    if (!SplitPackage(mesh_path, mesh_pkg, sizeof(mesh_pkg), mesh_asset,
+                      sizeof(mesh_asset))) return 11;
+    if (!SplitPackage(icon_path, icon_pkg, sizeof(icon_pkg), icon_asset,
+                      sizeof(icon_asset))) return 12;
+
+    double weight = 0.0, width = 1.0, height = 1.0;
+    JsonNumber(declaration_json, "weight", &weight);
+    JsonNumber(declaration_json, "width", &width);
+    JsonNumber(declaration_json, "height", &height);
+
+    if (!PutUtf16(io->row_name, kNameMax, row)) return 13;
+    if (!PutUtf16(io->trigger_name, kNameMax, trigger)) return 14;
+    if (!PutUtf16(io->name_in, TXT_CAP, display)) return 15;
+    if (!PutUtf16(io->shortname_in, TXT_CAP, shortname)) return 16;
+    if (!PutUtf16(io->desc_in, TXT_CAP, description)) return 17;
+    if (!PutUtf16(io->mesh_pkg_in, TXT_CAP, mesh_pkg)) return 18;
+    if (!PutUtf16(io->mesh_asset_in, TXT_CAP, mesh_asset)) return 19;
+    if (!PutUtf16(io->icon_pkg_in, TXT_CAP, icon_pkg)) return 20;
+    if (!PutUtf16(io->icon_asset_in, TXT_CAP, icon_asset)) return 21;
+
+    io->val_weight = weight;
+    io->val_width = static_cast<int32_t>(width);
+    io->val_height = static_cast<int32_t>(height);
+    io->val_maxstack = 1;
+    io->val_allowstacking = 0;
+
+    // The same four jobs, in the same order, that the proven path runs. Called
+    // directly because this already IS the game thread.
+    io->internrow_ran = 0; io->loadicon_ran = 0;
+    io->loadmesh_ran = 0; io->populate_ran = 0;
+
+    JobInternRow(nullptr);
+    if (io->internrow_ran != 1u) return 30;
+    JobLoadIcon(nullptr);
+    if (io->loadicon_ran != 1u) return 31;
+    JobLoadMesh(nullptr);
+    if (io->loadmesh_ran != 1u) return 32;
+    JobPopulate(nullptr);
+    if (io->populate_ran != 1u) return 33;
+
+    // The GAME's own lookup, asked whether it can find what C# just registered.
+    //
+    // populate_ran == 1 already means the row was written through engine AddRow
+    // into the aggregate attached to MasterItemList, and Stage 2 proved that
+    // makes a row visible. This asks the question directly anyway, by calling
+    // BP_SGKFunctions::"SGK ItemDetails" -- the same function the game itself
+    // uses -- because "the engine accepted our write" and "the game can find the
+    // item" are different claims and only one of them is the one that matters.
+    //
+    // NOT fatal to the registration: it needs a live player inventory, so a
+    // failure here means the game is not at gameplay rather than that the row is
+    // absent. The counts are exported instead, so the acceptance can assert on
+    // them without this refusing a registration that actually succeeded.
+    ++g_stage5_resolve_attempts;
+    io->resolve_ran = 0;
+    io->resolve_found = 0;
+    JobResolve(nullptr);
+    if (io->resolve_ran == 1u && io->resolve_found == 1u) {
+        ++g_stage5_resolve_found;
+    }
+
+    if (out_row_name != nullptr) {
+        if (static_cast<int>(strlen(row)) + 1 > out_capacity) return 34;
+        memcpy(out_row_name, row, strlen(row) + 1);
+    }
+    return 0;
+}
+
+extern "C" __declspec(dllexport) int Stage5UnregisterItem(const char* mod_id,
+                                                          const char* row_name) {
+    (void)mod_id;
+    C5Io* io = g_io;
+    if (io == nullptr || g_disp == nullptr) return 1;
+    if (row_name == nullptr) return 2;
+
+    char trigger[224];
+    if (_snprintf_s(trigger, sizeof(trigger), _TRUNCATE, "%s__neutral_trigger",
+                    row_name) < 0) return 3;
+    if (!PutUtf16(io->row_name, kNameMax, row_name)) return 4;
+    if (!PutUtf16(io->trigger_name, kNameMax, trigger)) return 5;
+
+    io->internrow_ran = 0; io->removeitem_ran = 0;
+    JobInternRow(nullptr);
+    if (io->internrow_ran != 1u) return 30;
+    JobRemoveRow(nullptr);
+    // Releasing the assets is what makes an unloaded mod stop owning them.
+    JobReleaseIcon(nullptr);
+    JobReleaseMesh(nullptr);
+    return 0;
+}
+
+// The IO block, so a caller in this DLL can report what the last job recorded.
+extern "C" __declspec(dllexport) void* Stage5IoPointer() { return g_io; }
+
+// (found << 16) | attempts -- one DWORD, because that is what the remote-call
+// helper returns and a second export for a second number is not worth it.
+extern "C" __declspec(dllexport) unsigned long Stage5ResolveStats(void) {
+    return (g_stage5_resolve_found << 16) |
+           (g_stage5_resolve_attempts & 0xFFFFu);
+}
 
 extern "C" __declspec(dllexport) unsigned long Shutdown(void* p) {
     C5Io* io = static_cast<C5Io*>(p);
