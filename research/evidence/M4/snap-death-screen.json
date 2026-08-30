@@ -24,7 +24,7 @@
         },
         {
           "route": "the unique UWorld whose OwningGameInstance is non-null",
-          "worlds_live": 12,
+          "worlds_live": 7,
           "worlds_with_owning_game_instance": 1,
           "world": "0x244e4a3db80",
           "why": null
@@ -45,28 +45,24 @@
         {
           "route": "the engine's own streaming-sub-world test: PersistentLevel->OwningWorld == self  (UWorld::IsStreamingSubWorld)",
           "top_level_worlds": 1,
-          "of_worlds_live": 12,
+          "of_worlds_live": 7,
           "note": "used as a FILTER, not as a sole route: more than one top-level world can exist, so this narrows the field rather than naming the answer"
         },
         {
           "route": "the unique top-level UWorld whose AuthorityGameMode is non-null",
           "worlds_with_authority_game_mode": 1,
           "world": "0x244e4a3db80",
-          "also_rules_out": "the dummy standalone world the engine creates before any map load, which has no GameMode"
+          "what_this_route_can_and_cannot_do": "it CONTRIBUTES an answer; it cannot VETO one. A route that finds nothing abstains, so during UGameInstance::InitializeStandalone (GameInstance.cpp:189) the dummy pre-map world is still named by routes A and B and this route merely stays silent. An earlier comment here claimed it 'filters that world out', which was wrong -- no route in this resolver has veto power."
         }
       ],
       "routes_agreed": true,
-      "worlds_live": 12,
+      "worlds_live": 7,
       "top_level_worlds": 1,
       "world_names": [
-        "L_Bunker_Conservatory",
-        "L_Bunker_ServerRoom_Electric",
+        "L_Factory_Kotelnya_Railways",
+        "L_LF_CoolingTower_B",
+        "L_LF_ElectricFactory",
         "L_MainTerrain",
-        "L_NuclearBunker01",
-        "L_NuclearBunker02",
-        "L_NuclearBunker04",
-        "L_NuclearBunker05",
-        "L_NuclearBunker06",
         "L_SafeHub",
         "NewMapGENTEST"
       ]
@@ -261,12 +257,43 @@
     {
       "check": "APlayerController::Player and UPlayer::PlayerController are inverses",
       "pass": true,
-      "detail": "both routes were required to agree above"
+      "detail": {
+        "pc_Player": "0x244f911d400",
+        "lp_PlayerController": "0x244b10e9ba0",
+        "evidence": [
+          {
+            "property": "Player",
+            "resolved": true,
+            "offset": 816,
+            "declared_on": "PlayerController",
+            "value": "0x244f911d400",
+            "value_name": "LocalPlayer"
+          },
+          {
+            "property": "PlayerController",
+            "resolved": true,
+            "offset": 48,
+            "declared_on": "Player",
+            "value": "0x244b10e9ba0",
+            "value_name": "BP_SGKController_C"
+          }
+        ]
+      }
     },
     {
       "check": "the resolved World is the one the resolved GameInstance is bound to",
       "pass": true,
-      "detail": "UWorld::OwningGameInstance was one of the agreeing routes"
+      "detail": {
+        "world_OwningGameInstance": "0x244f9109100",
+        "evidence": {
+          "property": "OwningGameInstance",
+          "resolved": true,
+          "offset": 472,
+          "declared_on": "World",
+          "value": "0x244f9109100",
+          "value_name": "BP_SGKGameInstance_C"
+        }
+      }
     },
     {
       "check": "the PlayerController lives in a Level owned by the resolved World",
@@ -281,22 +308,40 @@
     "live GameViewportClient instances: 1"
   ],
   "object_graph_trusted": true,
-  "objects_total": 169963,
+  "object_graph_anchor_path": "/Script/CoreUObject.Class",
+  "objects_total": 179259,
+  "cross_checks_skipped": [
+    {
+      "check": "APawn::Controller points back at the resolved PlayerController",
+      "why": "no resolved pawn and/or controller to compare"
+    }
+  ],
   "all_anchors_resolved": false,
   "cross_checks_run": 3,
   "cross_checks_passed": 3,
   "cross_checks_all_pass": true,
-  "cross_checks_note": "3 of the 4 possible cross-checks ran; the rest were skipped because an operand did not resolve, and a skipped check is not a passed check",
+  "cross_checks_skipped_count": 1,
+  "cross_checks_note": "3 of 4 cross-checks ran, 3 passed, 1 were SKIPPED because an operand did not resolve. A skipped check is not a passed check, and all([]) is True -- which is why the counts are reported beside the verdict instead of the verdict alone.",
   "complete": false,
   "tarray_layout_self_check": {
     "checked": "UWorld::Levels must contain UWorld::PersistentLevel",
     "citation": "UWorld::InitWorld, Private/World.cpp:2067",
     "persistent_level": "0x2449fceaf80",
-    "levels_decoded": 12,
+    "levels_decoded": 7,
     "persistent_level_is_among_them": true,
     "verdict": "the TArray layout (Data@+0, ArrayNum:int32@+8) is CONFIRMED against this build"
   },
+  "runner_gameplay_ready": false,
+  "runner_gameplay_proof": {
+    "oracle": "research/instruments/runner/readiness.prove_gameplay",
+    "independent_of": "this resolver -- shares no decision logic with it",
+    "ready": false,
+    "reasons": [
+      "the PlayerController possesses no pawn (AController::Pawn is null): the player has not spawned yet"
+    ]
+  },
   "pid": 1184,
   "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
-  "label": "post-verifier-fixes, death screen"
+  "process_start_time": "2026-08-30T08:18:07Z",
+  "label": "post-redteam-2, death screen"
 }

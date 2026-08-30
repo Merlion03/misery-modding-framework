@@ -277,6 +277,9 @@
   "pid": 16948,
   "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
   "label": "launch1-normal-gameplay",
-  "runner_gameplay_ready": true,
-  "runner_gameplay_oracle": "research/instruments/runner/readiness.prove_gameplay via `runner.py ready`, exit 0 -- an oracle independent of this resolver"
+  "gameplay_oracle_status": {
+    "auto_derived": false,
+    "why": "this snapshot predates the automatic oracle. Its gameplay state was asserted by a hand-inserted flag, which an independent red team correctly refused to accept -- and which a later re-run of the resolver silently overwrote in the launch-2 file, proving the point. The flag has been REMOVED rather than left to support an acceptance number nobody can re-derive.",
+    "what_would_fix_it": "resolver.py now runs readiness.prove_gameplay itself on every resolve and records the verdict with its reasons. Any snapshot taken from now on carries its own independent proof. This process (pid 16948) no longer exists, so this particular snapshot cannot be regenerated: a fresh launch is required instead."
+  }
 }

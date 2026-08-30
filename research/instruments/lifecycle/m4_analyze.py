@@ -151,10 +151,19 @@ def main(argv=None):
     transitions = []
     real = [o for o in obs if "anchors" in o]
     for prev, cur in zip(real, real[1:]):
-        same_process = (prev.get("pid") == cur.get("pid")
-                        and prev.get("process_start_time") == cur.get("process_start_time"))
+        # F6, from the red team: `None == None` made a MISSING start time count
+        # as a match, degenerating the guard to bare PID equality -- and Windows
+        # recycles PIDs. An unknown start time is now "not comparable", not
+        # "the same".
+        prev_start, cur_start = prev.get("process_start_time"), cur.get("process_start_time")
+        start_known = bool(prev_start) and bool(cur_start)
+        same_process = (prev.get("pid") == cur.get("pid") and start_known
+                        and prev_start == cur_start)
+        start_unknown = prev.get("pid") == cur.get("pid") and not start_known
         entry = {"from": describe(prev), "to": describe(cur),
-                 "same_process": same_process, "anchors": {}}
+                 "same_process": same_process,
+                 "same_process_unverifiable": start_unknown,
+                 "anchors": {}}
         for key in ANCHORS:
             pa, ca = anchor_of(prev, key), anchor_of(cur, key)
             pid_addr, cur_addr = pa.get("address"), ca.get("address")
@@ -166,13 +175,31 @@ def main(argv=None):
                 verdict, why = "APPEARED", "not resolvable before, resolvable after"
             elif not ca.get("resolved"):
                 verdict, why = "GONE", "resolvable before, not resolvable after"
+            elif start_unknown:
+                verdict = "NOT-COMPARABLE"
+                why = ("the same pid, but at least one observation carries no process start "
+                       "time, so 'same process' cannot be established -- and Windows recycles "
+                       "pids. No survival claim is made.")
             elif not same_process:
                 verdict = "RECREATED (new process)"
                 why = ("a different process: identity cannot survive a restart, so this is "
                        "recorded as recreation even though the object paths match"
                        if ppath == cpath else "a different process, and the paths differ too")
+            elif pid_addr == cur_addr and ppath == cpath:
+                # Address equality alone cannot distinguish survival from the
+                # allocator handing the same block back for a new object of the
+                # same size class. The object path is compared too, and the
+                # verdict is still labelled as what it is: unverified by serial
+                # number. FUObjectItem::SerialNumber at +0x10 is the sound test
+                # and is recorded as the known upgrade.
+                verdict = "SURVIVED (address+path, serial unverified)"
+                why = ("same process, same address, same object path. Not proven against "
+                       "FUObjectItem::SerialNumber, so allocator reuse of the same size class "
+                       "is not formally excluded.")
             elif pid_addr == cur_addr:
-                verdict, why = "SURVIVED", "same process, same address, same object"
+                verdict = "AMBIGUOUS"
+                why = ("same process and same address, but the object path CHANGED -- that is "
+                       "allocator reuse, not survival")
             else:
                 verdict, why = "RECREATED", "same process, different address: a new object"
             entry["anchors"][key] = {"verdict": verdict, "why": why,

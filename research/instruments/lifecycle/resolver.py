@@ -138,6 +138,21 @@ def _anchor(address, objects, eri_mod, *, routes, agreed, why=None, extra=None):
         except Exception:                                      # noqa: BLE001
             return None
 
+    # F2, from the red team: the object graph is walked over ~10 seconds and is
+    # NOT atomic, while the property reads that follow happen after it. An
+    # object created during or after the walk is simply absent from `objects`,
+    # and the previous code happily reported it as resolved with a null name,
+    # null class and null object_path -- which the survival table then consumed
+    # as an identity. An address the walk never saw is not a resolution; it is
+    # proof the snapshot is torn.
+    record_missing = bool(address) and not (objects.get(address) or {}).get("valid")
+    if record_missing:
+        agreed = False
+        why = ("the agreed pointer 0x%x names an object that is absent from (or invalid in) "
+               "the walked universe: this snapshot is torn -- the graph walk and the property "
+               "reads did not see the same moment" % address)
+        address = None
+
     out = Anchor({
         "resolved": bool(address) and agreed,
         "address": ("0x%x" % address) if address else None,
@@ -344,12 +359,25 @@ class Resolver(object):
         selfref = [a for a, r in self.objects.items()
                    if r.get("valid") and r.get("name_text") == eri.UCLASS_SELF_REFERENCE_NAME
                    and r.get("class_ptr") == a]
-        snap["object_graph_trusted"] = len(selfref) == 1
+        # F10, from the red team: this test exercised ClassPrivate and
+        # NamePrivate only. ERI's own version additionally requires the object
+        # PATH to be /Script/CoreUObject.Class, and the path is built by walking
+        # OuterPrivate -- which makes it the one live check that would fail loudly
+        # if UE_STORE_OBJECT_LIST_INTERNAL_INDEX were compiled on and shifted
+        # OuterPrivate from 0x20 to 0x28. Without it, this file's whole
+        # Outer-based reasoning rested on an unverified constant.
+        anchor_path = self.path_of(selfref[0]) if len(selfref) == 1 else None
+        snap["object_graph_trusted"] = (len(selfref) == 1
+                                        and anchor_path == eri.UCLASS_SELF_REFERENCE_OBJECT_PATH)
+        snap["object_graph_anchor_path"] = anchor_path
         snap["objects_total"] = len(self.objects)
         if not snap["object_graph_trusted"]:
-            snap["why_not"] = ("the self-referential UClass is not unique (%d found): this is "
-                               "not a trustworthy UE object graph, so nothing below would mean "
-                               "anything" % len(selfref))
+            snap["why_not"] = (
+                "the object-identity anchor did not hold: %d self-referential UClass objects, "
+                "and its object path resolved to %r rather than %r. Either the graph is not a "
+                "UE object graph, or OuterPrivate is not where this build puts it -- and every "
+                "Outer-based conclusion below would be unsound. Refusing."
+                % (len(selfref), anchor_path, eri.UCLASS_SELF_REFERENCE_OBJECT_PATH))
             return snap
 
         # -- the viewport client: the engine's own opinion -------------------
@@ -450,8 +478,12 @@ class Resolver(object):
             "route": "the unique top-level UWorld whose AuthorityGameMode is non-null",
             "worlds_with_authority_game_mode": len(with_gm),
             "world": ("0x%x" % world_d) if world_d else None,
-            "also_rules_out": "the dummy standalone world the engine creates before any map "
-                              "load, which has no GameMode"})
+            "what_this_route_can_and_cannot_do":
+                "it CONTRIBUTES an answer; it cannot VETO one. A route that finds nothing "
+                "abstains, so during UGameInstance::InitializeStandalone (GameInstance.cpp:189) "
+                "the dummy pre-map world is still named by routes A and B and this route merely "
+                "stays silent. An earlier comment here claimed it 'filters that world out', "
+                "which was wrong -- no route in this resolver has veto power."})
 
         # A DIRECT READ and a SEARCH are different kinds of answer, and the
         # earlier code conflated them by filtering every falsy value out.
@@ -475,6 +507,9 @@ class Resolver(object):
             if value:
                 world_answers.append(({"resolved": True, "property": label}, value))
         world, agreed, world_why = _agree(world_answers, "the active World")
+        if agreed and not self.derives_from(world, PATH_WORLD):
+            world, agreed, world_why = None, False, (
+                "the agreed world pointer does not name a live UWorld")
         candidates = [w for w in (world_a, world_b, world_c, world_d) if w]
         snap["anchors"]["world"] = _anchor(
             world, self.objects, eri, routes=world_routes, agreed=agreed, why=world_why,
@@ -528,6 +563,9 @@ class Resolver(object):
         live_lps = self.instances_of(PATH_LOCAL_PLAYER)
         lp_routes.append({"route": "live ULocalPlayer instances", "count": len(live_lps)})
         local_player, lp_agreed, lp_why = _agree(lp_answers, "the LocalPlayer")
+        if lp_agreed and not self.derives_from(local_player, PATH_LOCAL_PLAYER):
+            local_player, lp_agreed, lp_why = None, False, (
+                "the agreed pointer does not name a live ULocalPlayer")
         snap["anchors"]["local_player"] = _anchor(
             local_player, self.objects, eri, routes=lp_routes, agreed=lp_agreed, why=lp_why)
 
@@ -551,13 +589,21 @@ class Resolver(object):
             pc_routes.append({"route": "APlayerController::bIsLocalPlayerController",
                               "resolved": bool(flag),
                               "offset": (flag or {}).get("offset")})
-        pc_answers = []
-        if controller:
-            pc_answers.append(({"resolved": True,
-                                "property": "the single live APlayerController"}, controller))
+        # F4a, from the red team: `controllers[0] if len(controllers) == 1 else None`
+        # made a count of 0 or 2 vanish silently, leaving UPlayer::PlayerController
+        # to agree with itself. A count IS an answer about the object graph. Two
+        # live PlayerControllers is not hypothetical -- SwapPlayerControllers
+        # destroys the old one (GameModeBase.cpp:566-568) and it stays in
+        # GUObjectArray until the next GC.
+        pc_answers = [({"resolved": True,
+                        "property": "live APlayerController count = %d" % len(controllers)},
+                       controllers[0] if len(controllers) == 1 else None)]
         if pc_ev is not None:
             pc_answers.append((pc_ev, pc_b))
         player_controller, pc_agreed, pc_why = _agree(pc_answers, "the PlayerController")
+        if pc_agreed and not self.derives_from(player_controller, PATH_PLAYER_CONTROLLER):
+            player_controller, pc_agreed, pc_why = None, False, (
+                "the agreed pointer does not name a live APlayerController")
         snap["anchors"]["player_controller"] = _anchor(
             player_controller, self.objects, eri, routes=pc_routes, agreed=pc_agreed, why=pc_why)
 
@@ -624,26 +670,62 @@ class Resolver(object):
                 "no unique player inventory owned by the resolved PlayerController")
 
         # -- cross-checks that must hold if the chain is really a chain -------
+        # F5, from the red team: two of these were the literal constant True.
+        # One of them -- "Player and PlayerController are inverses" -- was
+        # reporting PASS for a comparison that had not been performed. A check
+        # that does not read anything is not a check. Every check below now
+        # performs its own read, and a check whose operands are missing is
+        # recorded as SKIPPED rather than silently omitted, because
+        # all([]) is True and "all cross-checks passed" over nothing is a claim
+        # about tests that never ran.
         def check(label, ok, detail):
             snap["cross_checks"].append({"check": label, "pass": bool(ok), "detail": detail})
+
+        def skip(label, why):
+            snap["cross_checks_skipped"].append({"check": label, "why": why})
+
+        snap["cross_checks_skipped"] = []
 
         if pawn and player_controller:
             back, ev = self.read_object_prop(pawn, "Controller")
             check("APawn::Controller points back at the resolved PlayerController",
                   back == player_controller,
                   {"pawn_controller": ("0x%x" % back) if back else None, "evidence": ev})
+        else:
+            skip("APawn::Controller points back at the resolved PlayerController",
+                 "no resolved pawn and/or controller to compare")
+
         if player_controller and local_player:
+            fwd, ev1 = self.read_object_prop(player_controller, "Player")
+            back, ev2 = self.read_object_prop(local_player, "PlayerController")
             check("APlayerController::Player and UPlayer::PlayerController are inverses",
-                  True, "both routes were required to agree above")
+                  fwd == local_player and back == player_controller,
+                  {"pc_Player": ("0x%x" % fwd) if fwd else None,
+                   "lp_PlayerController": ("0x%x" % back) if back else None,
+                   "evidence": [ev1, ev2]})
+        else:
+            skip("APlayerController::Player and UPlayer::PlayerController are inverses",
+                 "no resolved controller and/or local player to compare")
+
         if world and game_instance:
+            owning, ev = self.read_object_prop(world, "OwningGameInstance")
             check("the resolved World is the one the resolved GameInstance is bound to",
-                  True, "UWorld::OwningGameInstance was one of the agreeing routes")
+                  owning == game_instance,
+                  {"world_OwningGameInstance": ("0x%x" % owning) if owning else None,
+                   "evidence": ev})
+        else:
+            skip("the resolved World is the one the resolved GameInstance is bound to",
+                 "no resolved world and/or game instance to compare")
+
         if player_controller and world:
             lvl = self.outer_of(player_controller)
             ow, _ev = self.read_object_prop(lvl, "OwningWorld") if lvl else (None, None)
             check("the PlayerController lives in a Level owned by the resolved World",
                   ow == world, {"level": ("0x%x" % lvl) if lvl else None,
                                 "owning_world": ("0x%x" % ow) if ow else None})
+        else:
+            skip("the PlayerController lives in a Level owned by the resolved World",
+                 "no resolved controller and/or world to compare")
 
         snap["all_anchors_resolved"] = all(snap["anchors"][k]["resolved"] for k in
                                             ("world", "game_instance", "local_player",
@@ -656,16 +738,43 @@ class Resolver(object):
         # passed" over an empty or short list is a claim about checks that never
         # happened. The count is reported beside the verdict for exactly that
         # reason -- the reader can see how much "all" covered.
+        snap["cross_checks_skipped_count"] = len(snap["cross_checks_skipped"])
         snap["cross_checks_note"] = (
-            "%d of the 4 possible cross-checks ran; the rest were skipped because an operand "
-            "did not resolve, and a skipped check is not a passed check"
-            % snap["cross_checks_run"])
+            "%d of 4 cross-checks ran, %d passed, %d were SKIPPED because an operand did not "
+            "resolve. A skipped check is not a passed check, and all([]) is True -- which is "
+            "why the counts are reported beside the verdict instead of the verdict alone."
+            % (snap["cross_checks_run"], snap["cross_checks_passed"],
+               snap["cross_checks_skipped_count"]))
         # "complete" now REQUIRES the cross-checks, because the alternative was
         # observed in the wild: a run that reported complete=True beside
         # cross_checks_all_pass=False and still exited 0.
         snap["complete"] = snap["all_anchors_resolved"] and snap["cross_checks_all_pass"]
         if world:
             snap["tarray_layout_self_check"] = self.verify_tarray_layout(world)
+
+        # F3, from the red team, and it was right: the "gameplay was
+        # independently proven" flag used to be hand-inserted into the JSON
+        # afterwards -- and a later re-run of this very script silently
+        # overwrote the file and erased it, leaving the acceptance verdict
+        # underivable from the committed evidence. A verdict nobody can
+        # re-derive is not evidence.
+        #
+        # So the independent oracle is now RUN HERE, every time, and recorded
+        # with its reasons. It is still independent: readiness.prove_gameplay
+        # belongs to the runner, resolves its own properties, and reaches its
+        # verdict by class-name enumeration plus ownership -- it shares no
+        # decision logic with this file.
+        try:
+            proof = readiness.prove_gameplay(eri, self.api, self.handle, self.objects,
+                                             namepool=self.namepool)
+            snap["runner_gameplay_ready"] = bool(proof.get("ready"))
+            snap["runner_gameplay_proof"] = {
+                "oracle": "research/instruments/runner/readiness.prove_gameplay",
+                "independent_of": "this resolver -- shares no decision logic with it",
+                "ready": proof.get("ready"), "reasons": proof.get("reasons")}
+        except Exception as exc:                               # noqa: BLE001
+            snap["runner_gameplay_ready"] = False
+            snap["runner_gameplay_proof"] = {"error": repr(exc)}
         return snap
 
 
@@ -680,6 +789,16 @@ def resolve_live(api=None, *, process_name=None, inventory_class=DEFAULT_INVENTO
         snap = r.resolve()
         snap["pid"] = i01["pid"]
         snap["exe_path"] = i01["exe_path"]
+        # F6, from the red team: m4_analyze compares process_start_time to decide
+        # whether two observations are the same process, but this path never set
+        # it -- so every snapshot-vs-timeline pair failed the test and one
+        # same-process transition was published as "RECREATED (new process)".
+        try:
+            import lifecycle as _lc
+            live = [p for p in _lc.find_processes() if p.get("pid") == i01["pid"]]
+            snap["process_start_time"] = live[0].get("start_time") if live else None
+        except Exception:                                      # noqa: BLE001
+            snap["process_start_time"] = None
         return snap
     finally:
         api.close_handle(handle)
