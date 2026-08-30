@@ -93,6 +93,34 @@ def build_dll(sources, out_name, extra="", libs=""):
     return out
 
 
+def build_proxy(boot_dir, out_name, sources, def_file, asm_file, libs=""):
+    """The bootstrap proxy: assembled thunks plus C++, linked with a .def.
+
+    Separate from build_dll because it needs ml64 and an explicit export
+    definition file -- the ordinals have to match the DLL being stood in front
+    of, and only a .def can pin them.
+    """
+    out = os.path.join(BUILD_DIR, out_name)
+    if os.path.isfile(out):
+        os.remove(out)
+    obj = os.path.join(BUILD_DIR, "proxy_thunks.obj")
+    quoted = " ".join('"%s"' % s for s in sources)
+    lines = [
+        "@echo off",
+        'call "%s" -vcvars_ver=%s >nul 2>&1' % (VCVARS, VCVARS_VER),
+        'ml64 /nologo /c /Fo"%s" "%s"' % (obj, asm_file),
+        'if errorlevel 1 exit /b 1',
+        'cl /nologo /LD /MT /EHsc /std:c++17 /I"%s" %s "%s" /Fe:"%s" '
+        '/link /INCREMENTAL:NO /DEF:"%s" %s'
+        % (boot_dir, quoted, obj, out, def_file, libs),
+    ]
+    result = _run_batch("_build_%s.bat" % out_name.replace(".", "_"), lines)
+    if not os.path.isfile(out) or os.path.getsize(out) == 0:
+        raise BuildError("%s did not build:\n%s\n%s"
+                         % (out_name, result.stdout[-6000:], result.stderr[-2000:]))
+    return out
+
+
 def run(path, timeout=300):
     return subprocess.run([path], capture_output=True, text=True, timeout=timeout,
                           cwd=BUILD_DIR)
