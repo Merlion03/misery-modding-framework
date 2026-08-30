@@ -71,6 +71,13 @@ OUTPUT_BLOCK_BYTE = _ELEMENT_OFFSETS[c5.OUT_INDEX]
 _INDEX_OF = {}
 
 
+# The icon run, by offset from icon_object -- the same label order unpack_io
+# uses. r = q + 8, and the labels start at icon_size_x.
+_ICON_BLOCK = {"icon_size_x": 8, "icon_size_y": 9, "icon_rooted_after_acquire": 10,
+               "icon_rooted_after_release": 11, "loadicon_ran": 12, "verifyicon_ran": 13,
+               "releaseicon_ran": 14, "soft_roundtrip_ok": 15}
+
+
 def _locate_u64(raw, value):
     """Element indices whose 8-byte read equals *value*."""
     hits = []
@@ -137,6 +144,8 @@ class AggregateSession(object):
         self._buf = None
         self._rd = None
         self._sigs = self._carrier = None
+        self._completion_offsets = {}
+        self._icon_block_base = None
 
     # ---- plumbing ----------------------------------------------------------
     def _read_raw(self):
@@ -152,14 +161,66 @@ class AggregateSession(object):
     def _read_io(self):
         return c5.unpack_io(bytes(self._read_raw()))
 
+    def _completion_offset(self, field):
+        """Byte offset of a job's completion field, PROVED before use.
+
+        Located by name through the controller's own output key order rather
+        than a hand-counted index, then checked by reading it back and comparing
+        against what unpack_io says. A wrong offset here would zero something
+        else in the live IO.
+        """
+        if field in self._completion_offsets:
+            return self._completion_offsets[field]
+        # Two different blocks hold completion fields. Most are in the output
+        # key order; the icon ones live in their own labelled run, which is why
+        # the first version of this raised ValueError on loadicon_ran. A field
+        # in neither returns None and the caller falls back to change-detection
+        # -- slower, but never a guess at where to write.
+        if field in c5.OUTPUT_KEYS:
+            index = c5.OUT_INDEX + c5.OUTPUT_KEYS.index(field)
+        elif field in _ICON_BLOCK and self._icon_block_base is not None:
+            index = self._icon_block_base + _ICON_BLOCK[field]
+        else:
+            self._completion_offsets[field] = None
+            return None
+        offset = _ELEMENT_OFFSETS[index]
+        raw = self._read_raw()
+        got = struct.unpack_from("<I", raw, offset)[0]
+        want = self._read_io()[field]
+        if got != want:
+            raise SessionError(
+                "completion field %r: offset %d reads %r but the working decoder says %r; "
+                "refusing to write into the live IO on an unproved offset"
+                % (field, offset, got, want))
+        self._completion_offsets[field] = offset
+        return offset
+
     def _call(self, export, field, timeout=120.0):
-        before = self._read_io()[field]
+        """Run one job and wait for it to report.
+
+        The completion field is ZEROED first and the wait is for it to become
+        non-zero. Waiting for it to CHANGE was wrong: several of these fields
+        live in the preserved output block, so on a second registration
+        internrow_ran already held 1, never changed, and every intern burned the
+        full timeout -- which is what turned a 21-check acceptance into 33
+        minutes. It would also have masked a genuine failure behind a stale
+        success for the length of the timeout.
+        """
+        offset = self._completion_offset(field)
+        before = None
+        if offset is None:
+            before = self._read_io()[field]
+        else:
+            raw = self._read_raw()
+            struct.pack_into("<I", raw, offset, 0)
+            self._write_raw(raw)
         p04.call_export(self.k, self.hp, self.rbase, self.dll, export, self.rio,
                         ipp.WAIT_TIMEOUT_MS)
-        state = self._read_io()
         deadline = time.time() + timeout
-        while time.time() < deadline and state[field] == before:
-            time.sleep(0.05)
+        state = self._read_io()
+        done = (lambda st: st[field] != before) if offset is None else (lambda st: st[field])
+        while time.time() < deadline and not done(state):
+            time.sleep(0.02)
             state = self._read_io()
         return state
 
@@ -308,6 +369,7 @@ class AggregateSession(object):
             raw, decoded = bytes(self._read_raw()), self._read_io()
             self.layout = io_layout.IoLayout(c5.IO_FMT, raw, decoded,
                                              build_index_map(raw, decoded))
+            self._icon_block_base = self.layout.verified["icon_object"]["offset"] and                 build_index_map(raw, decoded)["icon_object"]
             self._say("IO field offsets proved against the working decoder: %s"
                       % sorted(self.layout.verified))
         state = self._call("RunPopulate", "populate_ran")

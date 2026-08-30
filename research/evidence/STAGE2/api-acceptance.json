@@ -1,0 +1,154 @@
+{
+  "baseline_rows": 496,
+  "init": {
+    "table_ptr": "0x244b0e72ec0",
+    "attached": true,
+    "pid": 16412
+  },
+  "shutdown": {
+    "rows_at_shutdown": [
+      "othermod__api_a"
+    ],
+    "removed": [
+      {
+        "row": "othermod__api_a",
+        "ok": true,
+        "code": null
+      }
+    ],
+    "detach": {
+      "ran": 1,
+      "parent_num_after": 1
+    },
+    "zero_slot": {
+      "ran": 1
+    },
+    "release_table": {
+      "ran": 1,
+      "rooted_after": 0,
+      "owned_count": 0
+    },
+    "teardown": {
+      "attempted": true,
+      "shutdown_rc": 0,
+      "wait_stopped_ok": 1,
+      "state": 3,
+      "unloaded": true,
+      "safe_to_free_remote_memory": true,
+      "left_loaded_reason": null
+    },
+    "remote_memory_freed": true,
+    "dll_unloaded": true,
+    "ok": true
+  },
+  "checks": [
+    {
+      "check": "Register(A) through the public API",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Register(B) through the public API",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Find(A) by ItemId",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Find(B) by derived row name",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Find of an unknown id returns None",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "duplicate id -> already_registered",
+      "pass": true,
+      "detail": "already_registered"
+    },
+    {
+      "check": "the original definition is untouched",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "two mods, same local_id, both register",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "all three semantic ids resolve live",
+      "pass": true,
+      "detail": "499 rows"
+    },
+    {
+      "check": "MasterItemList = baseline + 3",
+      "pass": true,
+      "detail": "499"
+    },
+    {
+      "check": "a registry that does not own a live row still refuses it",
+      "pass": true,
+      "detail": "collides_with_mod"
+    },
+    {
+      "check": "unregister unknown -> not_registered",
+      "pass": true,
+      "detail": "not_registered"
+    },
+    {
+      "check": "Unregister(A)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "A gone from the live composite",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "B and othermod__api_a survive",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "B's shared icon still valid after A's release",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "unregister A twice -> not_registered",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Register(A) again after unregister",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "back to baseline + 3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "unregister_all(mod) is scoped and deterministic",
+      "pass": true,
+      "detail": "['ok', 'ok']"
+    },
+    {
+      "check": "final state is the vanilla baseline",
+      "pass": true,
+      "detail": "496"
+    }
+  ],
+  "passed": 21,
+  "failed": 0,
+  "elapsed_s": 72.1
+}

@@ -297,39 +297,50 @@ def world_offsets(api, h, np, row_struct, objs):
     return out
 
 
+# The output block's key order, hoisted out of unpack_io so other modules can
+# locate a field by NAME instead of by a hand-counted index. items_session needs
+# this to zero a job's completion field before calling it.
+def _output_keys():
+    return list(OUTPUT_KEYS)
+
+
+OUTPUT_KEYS = ["activated", "initialized", "state", "wait_stopped_ok",
+        "create_ran", "populate_ran", "attach_ran", "detach_ran",
+        "zero_ran", "release_ran", "resolve_ran", "additem_ran",
+        "removeitem_ran", "gt_tid", "fstring_ok", "err",
+        "err_step", "internal_index", "temp_freed", "rooted_after_acquire",
+        "rooted_after_release", "owned_count", "item_flags", "table_addrow_matches",
+        "table_removerow_matches", "resolve_found", "use_item_decay", "use_durability",
+        "parent_num_before", "parent_max", "parent_num_after_attach",
+        "parent_num_after_detach",
+        "verifytext_ran", "resolvetext_ran", "text_fields_written", "internrow_ran",
+        "table_ptr", "table_item_ptr", "table_class", "table_outer", "table_vtable",
+        "table_rowstruct_after", "row_fname", "trigger_fname", "temp_ptr", "store_handle",
+        "parent_data", "parent_elem0", "parent_elem1_before", "parent_elem1_after",
+        "out_remaining_invitem", "out_newitemslot",
+        "out_remaining_item", "resolve_width", "resolve_height", "resolve_maxstack",
+        "resolve_weight", "resolve_allowstacking",
+        # C4B's own key list stopped here, so its trailing pad3 never needed a
+        # name. The C5 outputs continue in the SAME list, so it does: leaving
+        # it out shifts every C5 key by one item.
+        "resolve_pad3",
+        # --- C5 outputs ---
+        "mesh_object", "mesh_item_ptr", "mesh_class", "mesh_store_handle",
+        "mesh_pkg_name", "mesh_asset_name",
+        "row_move_icon", "row_worldclass", "resolve_worldclass", "c5_pad1",
+        "loadmesh_ran", "verifymesh_ran", "releasemesh_ran", "mesh_soft_roundtrip_ok",
+        "mesh_rooted_after_acquire", "mesh_rooted_after_release", "row_override",
+        "row_sizex", "row_sizey", "resolve_override", "resolve_sizex", "resolve_sizey",
+        "row_scale_x", "row_scale_y", "row_scale_z",
+        "resolve_scale_x", "resolve_scale_y", "resolve_scale_z",
+        "row_staticmesh_pkg", "row_staticmesh_asset",
+        "resolve_staticmesh_pkg", "resolve_staticmesh_asset"]
+
+
 def unpack_io(raw):
     f = struct.unpack(IO_FMT, raw)
-    keys = ["activated", "initialized", "state", "wait_stopped_ok",
-            "create_ran", "populate_ran", "attach_ran", "detach_ran",
-            "zero_ran", "release_ran", "resolve_ran", "additem_ran",
-            "removeitem_ran", "gt_tid", "fstring_ok", "err",
-            "err_step", "internal_index", "temp_freed", "rooted_after_acquire",
-            "rooted_after_release", "owned_count", "item_flags", "table_addrow_matches",
-            "table_removerow_matches", "resolve_found", "use_item_decay", "use_durability",
-            "parent_num_before", "parent_max", "parent_num_after_attach",
-            "parent_num_after_detach",
-            "verifytext_ran", "resolvetext_ran", "text_fields_written", "internrow_ran",
-            "table_ptr", "table_item_ptr", "table_class", "table_outer", "table_vtable",
-            "table_rowstruct_after", "row_fname", "trigger_fname", "temp_ptr", "store_handle",
-            "parent_data", "parent_elem0", "parent_elem1_before", "parent_elem1_after",
-            "out_remaining_invitem", "out_newitemslot",
-            "out_remaining_item", "resolve_width", "resolve_height", "resolve_maxstack",
-            "resolve_weight", "resolve_allowstacking",
-            # C4B's own key list stopped here, so its trailing pad3 never needed a
-            # name. The C5 outputs continue in the SAME list, so it does: leaving
-            # it out shifts every C5 key by one item.
-            "resolve_pad3",
-            # --- C5 outputs ---
-            "mesh_object", "mesh_item_ptr", "mesh_class", "mesh_store_handle",
-            "mesh_pkg_name", "mesh_asset_name",
-            "row_move_icon", "row_worldclass", "resolve_worldclass", "c5_pad1",
-            "loadmesh_ran", "verifymesh_ran", "releasemesh_ran", "mesh_soft_roundtrip_ok",
-            "mesh_rooted_after_acquire", "mesh_rooted_after_release", "row_override",
-            "row_sizex", "row_sizey", "resolve_override", "resolve_sizex", "resolve_sizey",
-            "row_scale_x", "row_scale_y", "row_scale_z",
-            "resolve_scale_x", "resolve_scale_y", "resolve_scale_z",
-            "row_staticmesh_pkg", "row_staticmesh_asset",
-            "resolve_staticmesh_pkg", "resolve_staticmesh_asset"]
+    keys = OUTPUT_KEYS
+
     out = {k: f[OUT_INDEX + n] for n, k in enumerate(keys)}
     t = _TXT_INDEX
     labels = ["name_in", "shortname_in", "desc_in", "name_row", "shortname_row", "desc_row",
