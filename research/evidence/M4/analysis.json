@@ -1,0 +1,1047 @@
+{
+  "observations": 9,
+  "states": [
+    {
+      "order": 0,
+      "source": "snap-launch1-normal-gameplay.json",
+      "pid": 16948,
+      "screen": null,
+      "at": null,
+      "t": null,
+      "complete": true,
+      "why": null
+    },
+    {
+      "order": 1,
+      "source": "timeline-launch2.json",
+      "pid": 16948,
+      "screen": "WORLD_LOADING",
+      "at": "2026-08-30T081804Z",
+      "t": 0.0,
+      "complete": false,
+      "why": null
+    },
+    {
+      "order": 2,
+      "source": "timeline-launch2.json",
+      "pid": null,
+      "screen": null,
+      "at": "2026-08-30T081804Z",
+      "t": 6.0,
+      "complete": null,
+      "why": "expected exactly one live MISERY process, found 0"
+    },
+    {
+      "order": 3,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "THANK_YOU_SCREEN",
+      "at": "2026-08-30T081811Z",
+      "t": 12.0,
+      "complete": false,
+      "why": null
+    },
+    {
+      "order": 4,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "MAIN_MENU",
+      "at": "2026-08-30T081825Z",
+      "t": 24.0,
+      "complete": false,
+      "why": null
+    },
+    {
+      "order": 5,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "LOAD_GAME_MENU",
+      "at": "2026-08-30T081831Z",
+      "t": 30.0,
+      "complete": false,
+      "why": null
+    },
+    {
+      "order": 6,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "WORLD_LOADING",
+      "at": "2026-08-30T081838Z",
+      "t": 36.0,
+      "complete": false,
+      "why": null
+    },
+    {
+      "order": 7,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "WORLD_LOADING",
+      "at": "2026-08-30T081850Z",
+      "t": 42.0,
+      "complete": true,
+      "why": null
+    },
+    {
+      "order": 8,
+      "source": "snap-launch2-gameplay.json",
+      "pid": 1184,
+      "screen": null,
+      "at": null,
+      "t": null,
+      "complete": true,
+      "why": null
+    }
+  ],
+  "distinct_pids": [
+    1184,
+    16948
+  ],
+  "launches_observed": 2,
+  "distinct_screens": [
+    "LOAD_GAME_MENU",
+    "MAIN_MENU",
+    "THANK_YOU_SCREEN",
+    "WORLD_LOADING",
+    "<unclassified>"
+  ],
+  "behaviour": [
+    {
+      "order": 0,
+      "source": "snap-launch1-normal-gameplay.json",
+      "pid": 16948,
+      "screen": null,
+      "at": null,
+      "t": null,
+      "complete": true,
+      "why": null,
+      "verdict": "COMPLETE",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": true,
+      "unresolved": [],
+      "reason": "full self-consistent chain in independently-proven gameplay"
+    },
+    {
+      "order": 1,
+      "source": "timeline-launch2.json",
+      "pid": 16948,
+      "screen": "WORLD_LOADING",
+      "at": "2026-08-30T081804Z",
+      "t": 0.0,
+      "complete": false,
+      "why": null,
+      "verdict": "PARTIAL",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": false,
+      "unresolved": [
+        "world",
+        "game_instance",
+        "local_player",
+        "player_controller",
+        "pawn",
+        "player_inventory"
+      ],
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
+    },
+    {
+      "order": 2,
+      "source": "timeline-launch2.json",
+      "pid": null,
+      "screen": null,
+      "at": "2026-08-30T081804Z",
+      "t": 6.0,
+      "complete": null,
+      "why": "expected exactly one live MISERY process, found 0",
+      "verdict": "NO-PROCESS",
+      "correct": true,
+      "reason": "no live process to resolve against; recorded, not guessed at"
+    },
+    {
+      "order": 3,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "THANK_YOU_SCREEN",
+      "at": "2026-08-30T081811Z",
+      "t": 12.0,
+      "complete": false,
+      "why": null,
+      "verdict": "PARTIAL",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": false,
+      "unresolved": [
+        "player_inventory"
+      ],
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
+    },
+    {
+      "order": 4,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "MAIN_MENU",
+      "at": "2026-08-30T081825Z",
+      "t": 24.0,
+      "complete": false,
+      "why": null,
+      "verdict": "PARTIAL",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": false,
+      "unresolved": [
+        "player_inventory"
+      ],
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
+    },
+    {
+      "order": 5,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "LOAD_GAME_MENU",
+      "at": "2026-08-30T081831Z",
+      "t": 30.0,
+      "complete": false,
+      "why": null,
+      "verdict": "PARTIAL",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": false,
+      "unresolved": [
+        "player_inventory"
+      ],
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
+    },
+    {
+      "order": 6,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "WORLD_LOADING",
+      "at": "2026-08-30T081838Z",
+      "t": 36.0,
+      "complete": false,
+      "why": null,
+      "verdict": "PARTIAL",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": false,
+      "unresolved": [
+        "pawn"
+      ],
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
+    },
+    {
+      "order": 7,
+      "source": "timeline-launch2.json",
+      "pid": 1184,
+      "screen": "WORLD_LOADING",
+      "at": "2026-08-30T081850Z",
+      "t": 42.0,
+      "complete": true,
+      "why": null,
+      "verdict": "COMPLETE",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": false,
+      "unresolved": [],
+      "reason": "what exists in this state resolved, and every absence was explained (gameplay not independently proven here, so completeness is reported, not required)"
+    },
+    {
+      "order": 8,
+      "source": "snap-launch2-gameplay.json",
+      "pid": 1184,
+      "screen": null,
+      "at": null,
+      "t": null,
+      "complete": true,
+      "why": null,
+      "verdict": "COMPLETE",
+      "correct": true,
+      "cross_checks_all_pass": true,
+      "proven_gameplay": true,
+      "unresolved": [],
+      "reason": "full self-consistent chain in independently-proven gameplay"
+    }
+  ],
+  "behaviour_all_correct": true,
+  "transitions": [
+    {
+      "from": {
+        "order": 0,
+        "source": "snap-launch1-normal-gameplay.json",
+        "pid": 16948,
+        "screen": null,
+        "at": null,
+        "t": null,
+        "complete": true,
+        "why": null
+      },
+      "to": {
+        "order": 1,
+        "source": "timeline-launch2.json",
+        "pid": 16948,
+        "screen": "WORLD_LOADING",
+        "at": "2026-08-30T081804Z",
+        "t": 0.0,
+        "complete": false,
+        "why": null
+      },
+      "same_process": false,
+      "anchors": {
+        "world": {
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
+          "before": {
+            "address": "0x1f612abc940",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        },
+        "game_instance": {
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
+          "before": {
+            "address": "0x1f6140b2e00",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        },
+        "local_player": {
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
+          "before": {
+            "address": "0x1f613e87940",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        },
+        "player_controller": {
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
+          "before": {
+            "address": "0x1f648842e20",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        },
+        "pawn": {
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
+          "before": {
+            "address": "0x1f654191640",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        },
+        "player_inventory": {
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
+          "before": {
+            "address": "0x1f64cf99d90",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        }
+      }
+    },
+    {
+      "from": {
+        "order": 1,
+        "source": "timeline-launch2.json",
+        "pid": 16948,
+        "screen": "WORLD_LOADING",
+        "at": "2026-08-30T081804Z",
+        "t": 0.0,
+        "complete": false,
+        "why": null
+      },
+      "to": {
+        "order": 3,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "THANK_YOU_SCREEN",
+        "at": "2026-08-30T081811Z",
+        "t": 12.0,
+        "complete": false,
+        "why": null
+      },
+      "same_process": false,
+      "anchors": {
+        "world": {
+          "verdict": "APPEARED",
+          "why": "not resolvable before, resolvable after",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": "0x244f9b0c020",
+            "object_path": "/Game/Blueprints/Playtest/L_PlaytestStart.L_PlaytestStart"
+          }
+        },
+        "game_instance": {
+          "verdict": "APPEARED",
+          "why": "not resolvable before, resolvable after",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          }
+        },
+        "local_player": {
+          "verdict": "APPEARED",
+          "why": "not resolvable before, resolvable after",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          }
+        },
+        "player_controller": {
+          "verdict": "APPEARED",
+          "why": "not resolvable before, resolvable after",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": "0x244fa5dade0",
+            "object_path": "/Game/Blueprints/Playtest/L_PlaytestStart.L_PlaytestStart:PersistentLevel:PlayerController"
+          }
+        },
+        "pawn": {
+          "verdict": "APPEARED",
+          "why": "not resolvable before, resolvable after",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": "0x244fa4a1c80",
+            "object_path": "/Game/Blueprints/Playtest/L_PlaytestStart.L_PlaytestStart:PersistentLevel:BP_PlaytestBeginPlyer_C"
+          }
+        },
+        "player_inventory": {
+          "verdict": "ABSENT-BOTH",
+          "why": "not resolvable on either side",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        }
+      }
+    },
+    {
+      "from": {
+        "order": 3,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "THANK_YOU_SCREEN",
+        "at": "2026-08-30T081811Z",
+        "t": 12.0,
+        "complete": false,
+        "why": null
+      },
+      "to": {
+        "order": 4,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "MAIN_MENU",
+        "at": "2026-08-30T081825Z",
+        "t": 24.0,
+        "complete": false,
+        "why": null
+      },
+      "same_process": true,
+      "anchors": {
+        "world": {
+          "verdict": "RECREATED",
+          "why": "same process, different address: a new object",
+          "before": {
+            "address": "0x244f9b0c020",
+            "object_path": "/Game/Blueprints/Playtest/L_PlaytestStart.L_PlaytestStart"
+          },
+          "after": {
+            "address": "0x244a89a5bc0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04"
+          }
+        },
+        "game_instance": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          },
+          "after": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          }
+        },
+        "local_player": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          },
+          "after": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          }
+        },
+        "player_controller": {
+          "verdict": "RECREATED",
+          "why": "same process, different address: a new object",
+          "before": {
+            "address": "0x244fa5dade0",
+            "object_path": "/Game/Blueprints/Playtest/L_PlaytestStart.L_PlaytestStart:PersistentLevel:PlayerController"
+          },
+          "after": {
+            "address": "0x244c5299ba0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:BP_SGKMenuController_C"
+          }
+        },
+        "pawn": {
+          "verdict": "RECREATED",
+          "why": "same process, different address: a new object",
+          "before": {
+            "address": "0x244fa4a1c80",
+            "object_path": "/Game/Blueprints/Playtest/L_PlaytestStart.L_PlaytestStart:PersistentLevel:BP_PlaytestBeginPlyer_C"
+          },
+          "after": {
+            "address": "0x244a8a96600",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:TestMenuPlayer_C"
+          }
+        },
+        "player_inventory": {
+          "verdict": "ABSENT-BOTH",
+          "why": "not resolvable on either side",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        }
+      }
+    },
+    {
+      "from": {
+        "order": 4,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "MAIN_MENU",
+        "at": "2026-08-30T081825Z",
+        "t": 24.0,
+        "complete": false,
+        "why": null
+      },
+      "to": {
+        "order": 5,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "LOAD_GAME_MENU",
+        "at": "2026-08-30T081831Z",
+        "t": 30.0,
+        "complete": false,
+        "why": null
+      },
+      "same_process": true,
+      "anchors": {
+        "world": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244a89a5bc0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04"
+          },
+          "after": {
+            "address": "0x244a89a5bc0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04"
+          }
+        },
+        "game_instance": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          },
+          "after": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          }
+        },
+        "local_player": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          },
+          "after": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          }
+        },
+        "player_controller": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244c5299ba0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:BP_SGKMenuController_C"
+          },
+          "after": {
+            "address": "0x244c5299ba0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:BP_SGKMenuController_C"
+          }
+        },
+        "pawn": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244a8a96600",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:TestMenuPlayer_C"
+          },
+          "after": {
+            "address": "0x244a8a96600",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:TestMenuPlayer_C"
+          }
+        },
+        "player_inventory": {
+          "verdict": "ABSENT-BOTH",
+          "why": "not resolvable on either side",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        }
+      }
+    },
+    {
+      "from": {
+        "order": 5,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "LOAD_GAME_MENU",
+        "at": "2026-08-30T081831Z",
+        "t": 30.0,
+        "complete": false,
+        "why": null
+      },
+      "to": {
+        "order": 6,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "WORLD_LOADING",
+        "at": "2026-08-30T081838Z",
+        "t": 36.0,
+        "complete": false,
+        "why": null
+      },
+      "same_process": true,
+      "anchors": {
+        "world": {
+          "verdict": "RECREATED",
+          "why": "same process, different address: a new object",
+          "before": {
+            "address": "0x244a89a5bc0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04"
+          },
+          "after": {
+            "address": "0x244e4a3db80",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
+          }
+        },
+        "game_instance": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          },
+          "after": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          }
+        },
+        "local_player": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          },
+          "after": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          }
+        },
+        "player_controller": {
+          "verdict": "RECREATED",
+          "why": "same process, different address: a new object",
+          "before": {
+            "address": "0x244c5299ba0",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:BP_SGKMenuController_C"
+          },
+          "after": {
+            "address": "0x244b10e9ba0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          }
+        },
+        "pawn": {
+          "verdict": "GONE",
+          "why": "resolvable before, not resolvable after",
+          "before": {
+            "address": "0x244a8a96600",
+            "object_path": "/Game/Blueprints/WorldGeneration/WorldPresets/MenuMaps/L_MenuMap04.L_MenuMap04:PersistentLevel:TestMenuPlayer_C"
+          },
+          "after": {
+            "address": null,
+            "object_path": null
+          }
+        },
+        "player_inventory": {
+          "verdict": "APPEARED",
+          "why": "not resolvable before, resolvable after",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": "0x244a90f89e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          }
+        }
+      }
+    },
+    {
+      "from": {
+        "order": 6,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "WORLD_LOADING",
+        "at": "2026-08-30T081838Z",
+        "t": 36.0,
+        "complete": false,
+        "why": null
+      },
+      "to": {
+        "order": 7,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "WORLD_LOADING",
+        "at": "2026-08-30T081850Z",
+        "t": 42.0,
+        "complete": true,
+        "why": null
+      },
+      "same_process": true,
+      "anchors": {
+        "world": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244e4a3db80",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
+          },
+          "after": {
+            "address": "0x244e4a3db80",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
+          }
+        },
+        "game_instance": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          },
+          "after": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          }
+        },
+        "local_player": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          },
+          "after": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          }
+        },
+        "player_controller": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244b10e9ba0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          },
+          "after": {
+            "address": "0x244b10e9ba0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          }
+        },
+        "pawn": {
+          "verdict": "APPEARED",
+          "why": "not resolvable before, resolvable after",
+          "before": {
+            "address": null,
+            "object_path": null
+          },
+          "after": {
+            "address": "0x244bb2620e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+          }
+        },
+        "player_inventory": {
+          "verdict": "SURVIVED",
+          "why": "same process, same address, same object",
+          "before": {
+            "address": "0x244a90f89e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          },
+          "after": {
+            "address": "0x244a90f89e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          }
+        }
+      }
+    },
+    {
+      "from": {
+        "order": 7,
+        "source": "timeline-launch2.json",
+        "pid": 1184,
+        "screen": "WORLD_LOADING",
+        "at": "2026-08-30T081850Z",
+        "t": 42.0,
+        "complete": true,
+        "why": null
+      },
+      "to": {
+        "order": 8,
+        "source": "snap-launch2-gameplay.json",
+        "pid": 1184,
+        "screen": null,
+        "at": null,
+        "t": null,
+        "complete": true,
+        "why": null
+      },
+      "same_process": false,
+      "anchors": {
+        "world": {
+          "verdict": "RECREATED (new process)",
+          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "before": {
+            "address": "0x244e4a3db80",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
+          },
+          "after": {
+            "address": "0x244e4a3db80",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST"
+          }
+        },
+        "game_instance": {
+          "verdict": "RECREATED (new process)",
+          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "before": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          },
+          "after": {
+            "address": "0x244f9109100",
+            "object_path": "/Engine/Transient.GameEngine:BP_SGKGameInstance_C"
+          }
+        },
+        "local_player": {
+          "verdict": "RECREATED (new process)",
+          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "before": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          },
+          "after": {
+            "address": "0x244f911d400",
+            "object_path": "/Engine/Transient.GameEngine:LocalPlayer"
+          }
+        },
+        "player_controller": {
+          "verdict": "RECREATED (new process)",
+          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "before": {
+            "address": "0x244b10e9ba0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          },
+          "after": {
+            "address": "0x244b10e9ba0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          }
+        },
+        "pawn": {
+          "verdict": "RECREATED (new process)",
+          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "before": {
+            "address": "0x244bb2620e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+          },
+          "after": {
+            "address": "0x244bb2620e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+          }
+        },
+        "player_inventory": {
+          "verdict": "RECREATED (new process)",
+          "why": "a different process: identity cannot survive a restart, so this is recorded as recreation even though the object paths match",
+          "before": {
+            "address": "0x244a90f89e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          },
+          "after": {
+            "address": "0x244a90f89e0",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          }
+        }
+      }
+    }
+  ],
+  "survival_table_in_process": {
+    "world": {
+      "LOAD_GAME_MENU -> WORLD_LOADING": [
+        "RECREATED"
+      ],
+      "MAIN_MENU -> LOAD_GAME_MENU": [
+        "SURVIVED"
+      ],
+      "THANK_YOU_SCREEN -> MAIN_MENU": [
+        "RECREATED"
+      ],
+      "WORLD_LOADING -> WORLD_LOADING": [
+        "SURVIVED"
+      ]
+    },
+    "game_instance": {
+      "LOAD_GAME_MENU -> WORLD_LOADING": [
+        "SURVIVED"
+      ],
+      "MAIN_MENU -> LOAD_GAME_MENU": [
+        "SURVIVED"
+      ],
+      "THANK_YOU_SCREEN -> MAIN_MENU": [
+        "SURVIVED"
+      ],
+      "WORLD_LOADING -> WORLD_LOADING": [
+        "SURVIVED"
+      ]
+    },
+    "local_player": {
+      "LOAD_GAME_MENU -> WORLD_LOADING": [
+        "SURVIVED"
+      ],
+      "MAIN_MENU -> LOAD_GAME_MENU": [
+        "SURVIVED"
+      ],
+      "THANK_YOU_SCREEN -> MAIN_MENU": [
+        "SURVIVED"
+      ],
+      "WORLD_LOADING -> WORLD_LOADING": [
+        "SURVIVED"
+      ]
+    },
+    "player_controller": {
+      "LOAD_GAME_MENU -> WORLD_LOADING": [
+        "RECREATED"
+      ],
+      "MAIN_MENU -> LOAD_GAME_MENU": [
+        "SURVIVED"
+      ],
+      "THANK_YOU_SCREEN -> MAIN_MENU": [
+        "RECREATED"
+      ],
+      "WORLD_LOADING -> WORLD_LOADING": [
+        "SURVIVED"
+      ]
+    },
+    "pawn": {
+      "LOAD_GAME_MENU -> WORLD_LOADING": [
+        "GONE"
+      ],
+      "MAIN_MENU -> LOAD_GAME_MENU": [
+        "SURVIVED"
+      ],
+      "THANK_YOU_SCREEN -> MAIN_MENU": [
+        "RECREATED"
+      ],
+      "WORLD_LOADING -> WORLD_LOADING": [
+        "APPEARED"
+      ]
+    },
+    "player_inventory": {
+      "LOAD_GAME_MENU -> WORLD_LOADING": [
+        "APPEARED"
+      ],
+      "MAIN_MENU -> LOAD_GAME_MENU": [
+        "ABSENT-BOTH"
+      ],
+      "THANK_YOU_SCREEN -> MAIN_MENU": [
+        "ABSENT-BOTH"
+      ],
+      "WORLD_LOADING -> WORLD_LOADING": [
+        "SURVIVED"
+      ]
+    }
+  },
+  "acceptance": {
+    "launches_observed": 2,
+    "launches_with_independently_proven_gameplay_and_complete_chain": [
+      1184,
+      16948
+    ],
+    "launches_required": 2,
+    "launches_ok": true,
+    "distinct_states_observed": 8,
+    "states_required": 3,
+    "states_ok": true,
+    "resolver_behaved_correctly_everywhere": true,
+    "m4_core_met": true
+  }
+}
