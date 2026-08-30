@@ -57,6 +57,7 @@
       ],
       "routes_agreed": true,
       "worlds_live": 12,
+      "top_level_worlds": 1,
       "world_names": [
         "L_Bunker_Conservatory",
         "L_Bunker_ServerRoom_Electric",
@@ -241,6 +242,16 @@
           "objects": [
             "0x244a90f89e0"
           ]
+        },
+        {
+          "route": "reflected FObjectProperty on the PlayerController whose value IS that component",
+          "properties": [
+            {
+              "name": "BP_PlayerInventory",
+              "offset": 2176,
+              "declared_on": "BP_SGKController_C"
+            }
+          ]
         }
       ],
       "routes_agreed": true
@@ -270,10 +281,22 @@
     "live GameViewportClient instances: 1"
   ],
   "object_graph_trusted": true,
-  "objects_total": 169976,
-  "complete": false,
+  "objects_total": 169963,
+  "all_anchors_resolved": false,
+  "cross_checks_run": 3,
+  "cross_checks_passed": 3,
   "cross_checks_all_pass": true,
+  "cross_checks_note": "3 of the 4 possible cross-checks ran; the rest were skipped because an operand did not resolve, and a skipped check is not a passed check",
+  "complete": false,
+  "tarray_layout_self_check": {
+    "checked": "UWorld::Levels must contain UWorld::PersistentLevel",
+    "citation": "UWorld::InitWorld, Private/World.cpp:2067",
+    "persistent_level": "0x2449fceaf80",
+    "levels_decoded": 12,
+    "persistent_level_is_among_them": true,
+    "verdict": "the TArray layout (Data@+0, ArrayNum:int32@+8) is CONFIRMED against this build"
+  },
   "pid": 1184,
   "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
-  "label": "DEATH_SCREEN after the fix"
+  "label": "post-verifier-fixes, death screen"
 }

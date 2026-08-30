@@ -38,7 +38,8 @@ failure this project has already been bitten by.
 AGREEMENT, NOT PREFERENCE
 -------------------------
 Each anchor is reached by at least two independent routes and the routes must
-agree. A single route that happens to be right is indistinguishable from one
+agree. (The player-inventory anchor gained its second route only after an
+independent verifier pointed out that one route cannot confirm itself.) A single route that happens to be right is indistinguishable from one
 that happens to be wrong, and this resolver is supposed to be trustworthy after
 a transition -- exactly the moment when a stale or half-built graph looks most
 like a healthy one. Disagreement produces ``resolved=False`` with a stated
@@ -275,6 +276,66 @@ class Resolver(object):
                           "elements": ["0x%x" % e for e in elements]}
 
     # ---- the chain -------------------------------------------------------
+    def _object_properties_pointing_at(self, owner, target):
+        """Which reflected FObjectProperties of *owner* currently hold *target*.
+
+        Used as a genuinely independent second route: the first route finds a
+        component by scanning for Outer == owner, this one asks the owner's own
+        class what it declares and what those declarations currently point at.
+        """
+        if not owner or not target:
+            return []
+        out, cursor, depth = [], self.class_of(owner), 0
+        while cursor and depth < 32:
+            try:
+                child = eri._read_u64(self.api, self.handle,
+                                      cursor + eri.USTRUCT_CHILD_PROPERTIES_OFFSET)
+                walked = eri.walk_property_chain(
+                    self.api, self.handle, child, namepool_live_va=self.namepool,
+                    owner_address=cursor, objects_by_address=self.objects)
+            except Exception:                                  # noqa: BLE001
+                walked = {"accepted": []}
+            for prop in walked.get("accepted", []):
+                if prop.get("property_class") != "FObjectProperty" or prop.get("size") != 8:
+                    continue
+                try:
+                    if eri._read_u64(self.api, self.handle,
+                                     owner + int(prop["offset"])) == target:
+                        out.append({"name": prop.get("raw_name"),
+                                    "offset": prop.get("offset"),
+                                    "declared_on": self.name_of(cursor)})
+                except Exception:                              # noqa: BLE001
+                    continue
+            cursor = eri._read_u64(self.api, self.handle,
+                                   cursor + readiness.USTRUCT_SUPER_STRUCT_OFFSET)
+            depth += 1
+        return out
+
+    def verify_tarray_layout(self, world):
+        """Self-check the ONE container-layout constant this file relies on.
+
+        Reading a TArray uses Data at +0 and ArrayNum as int32 at +8. That is
+        engine container layout, not a reflected offset and not a UObjectBase
+        field -- so it is the single structural assumption here that reflection
+        cannot derive. Rather than assert it, prove it against this build:
+        UWorld::Levels is an FArrayProperty that must contain UWorld's own
+        PersistentLevel (UWorld::InitWorld, World.cpp:2067). If the layout were
+        wrong, the count would be nonsense and PersistentLevel would not be in
+        the decoded elements.
+        """
+        pl, _ev = self.read_object_prop(world, "PersistentLevel")
+        levels, ev = self.read_array_prop(world, "Levels")
+        ok = bool(pl) and bool(levels) and pl in levels
+        return {"checked": "UWorld::Levels must contain UWorld::PersistentLevel",
+                "citation": "UWorld::InitWorld, Private/World.cpp:2067",
+                "persistent_level": ("0x%x" % pl) if pl else None,
+                "levels_decoded": ev.get("num"),
+                "persistent_level_is_among_them": ok,
+                "verdict": "the TArray layout (Data@+0, ArrayNum:int32@+8) is CONFIRMED against "
+                           "this build" if ok else
+                           "the TArray layout could NOT be confirmed -- array reads are not "
+                           "trustworthy on this build"}
+
     def resolve(self):
         """Resolve the whole chain. Never raises; every failure is explained."""
         snap = {"anchors": {}, "cross_checks": [], "notes": []}
@@ -298,10 +359,10 @@ class Resolver(object):
 
         # -- route A to the World: the viewport client -----------------------
         world_routes = []
-        world_a = None
+        world_a = world_a_ev = None
         if viewport:
-            world_a, ev = self.read_object_prop(viewport, "World")
-            world_routes.append({"route": "GameViewportClient::World", "evidence": ev,
+            world_a, world_a_ev = self.read_object_prop(viewport, "World")
+            world_routes.append({"route": "GameViewportClient::World", "evidence": world_a_ev,
                                  "world": ("0x%x" % world_a) if world_a else None})
         else:
             world_routes.append({"route": "GameViewportClient::World", "evidence": None,
@@ -329,17 +390,17 @@ class Resolver(object):
         # -- route C: up from the PlayerController through its Level ---------
         controllers = self.instances_of(PATH_PLAYER_CONTROLLER)
         controller = controllers[0] if len(controllers) == 1 else None
-        world_c = None
+        world_c = world_c_ev = None
         if controller:
             # An AActor's Outer is its ULevel; ULevel::OwningWorld is reflected.
             # This never touches an unreflected member: the Outer pointer is a
             # UObjectBase field ERI already resolves structurally.
             level = self.outer_of(controller)
             if level and self.derives_from(level, PATH_LEVEL):
-                world_c, ev = self.read_object_prop(level, "OwningWorld")
+                world_c, world_c_ev = self.read_object_prop(level, "OwningWorld")
                 world_routes.append({"route": "PlayerController -> Outer(Level) -> "
                                               "ULevel::OwningWorld",
-                                     "level": "0x%x" % level, "evidence": ev,
+                                     "level": "0x%x" % level, "evidence": world_c_ev,
                                      "world": ("0x%x" % world_c) if world_c else None})
             else:
                 world_routes.append({"route": "PlayerController -> Outer(Level) -> "
@@ -392,15 +453,33 @@ class Resolver(object):
             "also_rules_out": "the dummy standalone world the engine creates before any map "
                               "load, which has no GameMode"})
 
+        # A DIRECT READ and a SEARCH are different kinds of answer, and the
+        # earlier code conflated them by filtering every falsy value out.
+        #
+        #   Routes A and C are direct FProperty reads. A read that succeeds and
+        #   yields null has ANSWERED -- "there is no world here" -- and that
+        #   answer disagrees with a pointer. Dropping it is the exact bug the
+        #   death screen exposed on the Pawn, left sitting in the anchor every
+        #   other anchor hangs off.
+        #
+        #   Routes B, D and E are searches over the object graph. A search that
+        #   finds nothing has NOT answered; it has failed to find. Those are
+        #   correctly contributed only when they identify exactly one world.
+        world_answers = []
+        for ev, value, label in ((world_a_ev, world_a, "GameViewportClient::World"),
+                                 (world_c_ev, world_c, "ULevel::OwningWorld")):
+            if ev is not None:
+                world_answers.append((ev, value))
+        for value, label in ((world_b, "the unique world owning a GameInstance"),
+                             (world_d, "the unique top-level world with an AuthorityGameMode")):
+            if value:
+                world_answers.append(({"resolved": True, "property": label}, value))
+        world, agreed, world_why = _agree(world_answers, "the active World")
         candidates = [w for w in (world_a, world_b, world_c, world_d) if w]
-        agreed = bool(candidates) and len(set(candidates)) == 1
-        world = candidates[0] if agreed else None
         snap["anchors"]["world"] = _anchor(
-            world, self.objects, eri, routes=world_routes, agreed=agreed,
-            why=None if agreed else
-                ("the independent routes to the World disagree or are unavailable: %r -- "
-                 "refusing to pick one" % [("0x%x" % c) for c in candidates]),
+            world, self.objects, eri, routes=world_routes, agreed=agreed, why=world_why,
             extra={"worlds_live": len(worlds),
+                   "top_level_worlds": len(top_level),
                    "world_names": sorted({self.name_of(w) for w in worlds})})
 
         # -- GameInstance ----------------------------------------------------
@@ -431,6 +510,13 @@ class Resolver(object):
             lp_routes.append({"route": "UGameInstance::LocalPlayers", "evidence": ev})
             if len(players) == 1:
                 lp_answers.append((ev, players[0]))
+            elif ev.get("resolved") and len(players) == 0:
+                # An array that WAS readable and is empty has answered: there is
+                # no local player. That is not the same as being unable to read
+                # it, and dropping it let the one remaining route agree with
+                # itself.
+                lp_answers.append((ev, None))
+                lp_routes[-1]["why"] = "LocalPlayers is readable and EMPTY: there is no local player"
             else:
                 lp_routes[-1]["why"] = ("expected exactly one local player, found %d -- "
                                         "splitscreen is not handled and is not guessed at"
@@ -516,6 +602,21 @@ class Resolver(object):
             else:
                 inv_routes[-1]["why"] = ("expected exactly one player inventory owned by the "
                                          "controller, found %d" % len(owned))
+            # Second, independent route: ask the controller's own reflected
+            # object properties which one points at that component. The first
+            # route is an ownership scan; this one is the controller's own
+            # declaration. Added because the verifier correctly pointed out that
+            # a single route contradicts this module's stated contract.
+            named = self._object_properties_pointing_at(controller, inventory) if inventory \
+                else []
+            inv_routes.append({"route": "reflected FObjectProperty on the PlayerController "
+                                        "whose value IS that component",
+                               "properties": named})
+            if inventory and not named:
+                inventory = None
+                inv_routes[-1]["why"] = ("no reflected property on the controller points at the "
+                                         "component found by the ownership scan -- one route "
+                                         "cannot confirm itself")
         inv_agreed = inventory is not None
         snap["anchors"]["player_inventory"] = _anchor(
             inventory, self.objects, eri, routes=inv_routes, agreed=inv_agreed,
@@ -544,10 +645,27 @@ class Resolver(object):
                   ow == world, {"level": ("0x%x" % lvl) if lvl else None,
                                 "owning_world": ("0x%x" % ow) if ow else None})
 
-        snap["complete"] = all(snap["anchors"][k]["resolved"] for k in
-                               ("world", "game_instance", "local_player",
-                                "player_controller", "pawn", "player_inventory"))
-        snap["cross_checks_all_pass"] = all(c["pass"] for c in snap["cross_checks"])
+        snap["all_anchors_resolved"] = all(snap["anchors"][k]["resolved"] for k in
+                                            ("world", "game_instance", "local_player",
+                                             "player_controller", "pawn", "player_inventory"))
+        run = snap["cross_checks"]
+        snap["cross_checks_run"] = len(run)
+        snap["cross_checks_passed"] = sum(1 for c in run if c["pass"])
+        snap["cross_checks_all_pass"] = all(c["pass"] for c in run)
+        # A cross-check is only RUN when both its operands resolved, so "all
+        # passed" over an empty or short list is a claim about checks that never
+        # happened. The count is reported beside the verdict for exactly that
+        # reason -- the reader can see how much "all" covered.
+        snap["cross_checks_note"] = (
+            "%d of the 4 possible cross-checks ran; the rest were skipped because an operand "
+            "did not resolve, and a skipped check is not a passed check"
+            % snap["cross_checks_run"])
+        # "complete" now REQUIRES the cross-checks, because the alternative was
+        # observed in the wild: a run that reported complete=True beside
+        # cross_checks_all_pass=False and still exited 0.
+        snap["complete"] = snap["all_anchors_resolved"] and snap["cross_checks_all_pass"]
+        if world:
+            snap["tarray_layout_self_check"] = self.verify_tarray_layout(world)
         return snap
 
 
