@@ -160,7 +160,7 @@ static MbStatus LogWrite(MbHandle mod_handle, int32_t level, MbStr message,
   if (P().log_tail.size() > 512) {
     P().log_tail.erase(P().log_tail.begin());
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -225,7 +225,7 @@ static MbStatus EventsDeclare(MbHandle mod_handle, MbStr name, MbStr detail,
   *out_declaration = P().core.Acquire(*mod, kKindEventDeclaration, full,
                                       ReleaseDeclaration,
                                       new std::string(full), 0);
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -257,7 +257,7 @@ static MbStatus EventsSubscribe(MbHandle mod_handle, MbStr name,
   }
   it->second.subscribers.push_back(handle);
   *out_subscription = handle;
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -268,7 +268,7 @@ static MbStatus EventsUnsubscribe(MbHandle subscription, MbError* out_error) {
     return Fail(out_error, MB_SUB_EVENTS, MB_E_NOT_FOUND,
                 "the subscription is not live");
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -336,7 +336,7 @@ static MbStatus EventsPublish(MbHandle mod_handle, MbStr name, MbStr payload,
   if (out_ran != nullptr) {
     *out_ran = ran;
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -390,7 +390,7 @@ static MbStatus ItemsRegister(MbHandle mod_handle, MbStr declaration_json,
   if (out_row_name != nullptr) {
     *out_row_name = ThreadArena().Put(body->row_name);
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -401,7 +401,7 @@ static MbStatus ItemsUnregister(MbHandle item, MbError* out_error) {
     return Fail(out_error, MB_SUB_ITEMS, MB_E_NOT_FOUND,
                 "the item handle is not live");
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -445,7 +445,7 @@ static MbStatus ServicesPublish(MbHandle mod_handle, MbStr name, MbStr version,
   P().services[full] = record;
   *out_service = P().core.Acquire(*mod, kKindService, full, ReleaseService,
                                   new std::string(full), 0);
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -469,7 +469,7 @@ static MbStatus ServicesBind(MbHandle mod_handle, MbStr name, MbStr requirement,
   // holding a reference into the provider.
   *out_binding = P().core.Acquire(*mod, kKindServiceBinding, full,
                                   ReleaseBinding, new std::string(full), 0);
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -481,7 +481,7 @@ static MbStatus ServicesIsAvailable(MbHandle binding, int32_t* out_available,
   if (slot == nullptr) {
     // The CONSUMER unloaded, or the binding was released.
     if (out_available != nullptr) *out_available = 0;
-    return MB_OK;
+    return MB_STATUS_OK;
   }
   // A binding is available only while the PROVIDER's service is still
   // published -- which its own teardown removes.
@@ -489,7 +489,7 @@ static MbStatus ServicesIsAvailable(MbHandle binding, int32_t* out_available,
   if (out_available != nullptr) {
     *out_available = P().services.count(*name) != 0 ? 1 : 0;
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -511,7 +511,7 @@ static MbStatus SettingsDeclare(MbHandle mod_handle, MbStr schema_json,
   P().settings[mod->mod_id + "/__schema"] = ToStd(schema_json);
   P().core.Acquire(*mod, kKindSettingsSchema, mod->mod_id, ReleaseSettings,
                    new std::string(mod->mod_id), 0);
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -564,7 +564,7 @@ static MbStatus DiagSnapshot(MbStr* out_json, MbError* out_error) {
   if (out_json != nullptr) {
     *out_json = ThreadArena().Put(json);
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -578,7 +578,7 @@ static MbStatus DiagModState(MbStr mod_id, int32_t* out_state,
                 "no such mod", ToStd(mod_id));
   }
   if (out_state != nullptr) *out_state = mod->state;
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -597,7 +597,7 @@ static MbStatus DiagReclaimable(MbStr mod_id, int32_t* out_reclaimable,
   if (out_reason != nullptr) {
     *out_reason = ThreadArena().Put("{\"reason\":\"" + Escape(reason) + "\"}");
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -616,7 +616,7 @@ static MbStatus HostSetTrampoline(MbTrampoline trampoline, MbError* out_error) {
                 "a trampoline is already registered");
   }
   P().trampoline = trampoline;
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -649,7 +649,7 @@ static MbStatus HostModBegin(MbStr mod_id, MbStr api_requirement,
     *out_grant = ThreadArena().Put("{\"granted\":\"" +
                                    Escape(ToStd(required_caps)) + "\"}");
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -662,7 +662,7 @@ static MbStatus HostModLoaded(MbHandle mod_handle, MbError* out_error) {
                 "the mod handle is not live");
   }
   mod->state = MB_MODSTATE_LOADED;
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -680,7 +680,7 @@ static MbStatus HostModFailed(MbHandle mod_handle, MbStr reason,
   // tested cleanup path.
   Core::TeardownReport report = P().core.Dispose(*mod);
   mod->state = report.faults > 0 ? MB_MODSTATE_LEAKED : MB_MODSTATE_FAILED;
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -708,7 +708,7 @@ static MbStatus HostModUnload(MbHandle mod_handle, MbStr* out_teardown,
                        (report.reentered ? "true" : "false") + "}";
     *out_teardown = ThreadArena().Put(json);
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -730,7 +730,7 @@ static MbStatus HostShutdown(MbStr* out_report, MbError* out_error) {
                                     std::to_string(P().core.LiveSlotCount()) +
                                     "}");
   }
-  return MB_OK;
+  return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
 
@@ -757,7 +757,7 @@ static MbStatus QueryCapability(const char* name, int32_t name_len,
       wanted == MB_CAP_HOST) {
     if (out_major) *out_major = 1;
     if (out_minor) *out_minor = 0;
-    return MB_OK;
+    return MB_STATUS_OK;
   }
   return static_cast<MbStatus>(MB_E_CAPABILITY_NOT_GRANTED);
 }
@@ -789,21 +789,21 @@ static MbStatus AcquireCapability(MbHandle owner, const char* name,
                   "core.host is reachable only by the managed host");
     }
     *out_table = &g_host;
-    return MB_OK;
+    return MB_STATUS_OK;
   }
-  if (wanted == MB_CAP_LOG) { *out_table = &g_log; return MB_OK; }
-  if (wanted == MB_CAP_EVENTS) { *out_table = &g_events; return MB_OK; }
-  if (wanted == MB_CAP_ITEMS) { *out_table = &g_items; return MB_OK; }
-  if (wanted == MB_CAP_SERVICES) { *out_table = &g_services; return MB_OK; }
-  if (wanted == MB_CAP_SETTINGS) { *out_table = &g_settings; return MB_OK; }
-  if (wanted == MB_CAP_DIAGNOSTICS) { *out_table = &g_diag; return MB_OK; }
+  if (wanted == MB_CAP_LOG) { *out_table = &g_log; return MB_STATUS_OK; }
+  if (wanted == MB_CAP_EVENTS) { *out_table = &g_events; return MB_STATUS_OK; }
+  if (wanted == MB_CAP_ITEMS) { *out_table = &g_items; return MB_STATUS_OK; }
+  if (wanted == MB_CAP_SERVICES) { *out_table = &g_services; return MB_STATUS_OK; }
+  if (wanted == MB_CAP_SETTINGS) { *out_table = &g_settings; return MB_STATUS_OK; }
+  if (wanted == MB_CAP_DIAGNOSTICS) { *out_table = &g_diag; return MB_STATUS_OK; }
   return Fail(out_error, MB_SUB_CAPABILITIES, MB_E_CAPABILITY_NOT_GRANTED,
               "this framework does not provide '" + wanted + "'");
 }
 
 static MbStatus LastError(MbError* out_error) {
   ClearError(out_error);
-  return MB_OK;
+  return MB_STATUS_OK;
 }
 
 static const MbRoot g_root = {sizeof(MbRoot), MB_ABI_EPOCH, MB_API_MAJOR,
@@ -839,7 +839,7 @@ extern "C" MB_EXPORT MbStatus MiseryBridgeAcquire(
   }
   *out_root = &misery::bridge::g_root;
   *out_host = misery::bridge::P().host_handle;
-  return MB_OK;
+  return MB_STATUS_OK;
 }
 
 // Installed by whoever owns the real item path: the in-game runtime installs

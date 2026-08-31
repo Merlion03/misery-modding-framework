@@ -134,7 +134,17 @@ typedef struct MbStr {
 } MbStr;
 
 typedef int32_t MbStatus;
-#define MB_OK ((MbStatus)0)
+
+/* Success. Named MB_STATUS_OK because <windows.h> already defines MB_OK, for
+ * MessageBox, and a public header that cannot be included beside windows.h is
+ * unusable on the only platform this ships on. The two happen to have the same
+ * value today, which is exactly why the collision is worth removing now rather
+ * than after something depends on the coincidence. MB_OK is kept as an alias
+ * for existing callers, and only when windows.h has not already claimed it. */
+#define MB_STATUS_OK ((MbStatus)0)
+#ifndef MB_OK
+#  define MB_OK MB_STATUS_OK
+#endif
 
 /* ---- structured errors ------------------------------------------------ */
 /* These integers are shared with tools/modplatform/errors.py and with

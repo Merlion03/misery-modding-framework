@@ -1,0 +1,144 @@
+{
+  "stage": "5B",
+  "phase": "gameplay",
+  "at": "2026-08-30T22:45:14Z",
+  "roots": {
+    "guobjectarray": 140696478977744,
+    "namepool": 140696478228864
+  },
+  "oracle": {
+    "item_list": 1595692282496,
+    "master_item_list": 1595616447360,
+    "row_struct": 1595706514624,
+    "transient_package": 1596585555072,
+    "datatable_class": 1596615333888,
+    "composite_class": 1596615410688,
+    "texture2d_class": 1596614756864,
+    "staticmesh_class": 1596617256448,
+    "actor_class": 1596614303744,
+    "world_class": 1595614565760,
+    "cdo_gameplaystatics": 1596944901024,
+    "cdo_stringlib": 1596944908176,
+    "cdo_textlib": 1596944916864,
+    "cdo_syslib": 1596944908272,
+    "cdo_sgkfunctions": 1596002231536,
+    "fn_spawn_object": 1596961111424,
+    "fn_conv_str_to_name": 1596961997120,
+    "fn_str_to_text": 1596959420256,
+    "fn_text_to_str": 1596959420032,
+    "fn_load_asset_blocking": 1596950214528,
+    "fn_soft_to_string": 1596950190560,
+    "fn_sgk_itemdetails": 1596087159968,
+    "fn_additem": 1596087163328,
+    "fn_removeitem": 1596087157504,
+    "player_inventory": 1595721661216,
+    "plain_vtable": 140696457457992,
+    "composite_vtable": 140696458119096,
+    "row_struct_size": 2264
+  },
+  "cpp": {
+    "done": 1,
+    "rc": 0,
+    "object_count": 161129,
+    "error": "",
+    "json": "{\"object_count\":161129,\"item_list\":1595692282496,\"master_item_list\":1595616447360,\"row_struct\":1595706514624,\"row_struct_size\":2264,\"transient_package\":1596585555072,\"datatable_class\":1596615333888,\"composite_class\":1596615410688,\"texture2d_class\":1596614756864,\"staticmesh_class\":1596617256448,\"actor_class\":1596614303744,\"world_class\":1595614565760,\"cdo_gameplaystatics\":1596944901024,\"cdo_stringlib\":1596944908176,\"cdo_textlib\":1596944916864,\"cdo_syslib\":1596944908272,\"cdo_sgkfunctions\":1596002231536,\"fn_spawn_object\":1596961111424,\"fn_conv_str_to_name\":1596961997120,\"fn_str_to_text\":1596959420256,\"fn_text_to_str\":1596959420032,\"fn_load_asset_blocking\":1596950214528,\"fn_soft_to_string\":1596950190560,\"fn_sgk_itemdetails\":1596087159968,\"fn_additem\":1596087163328,\"fn_removeitem\":1596087157504,\"player_inventory\":1595721661216,\"player_inventory_present\":1,\"plain_vtable\":140696457457992,\"composite_vtable\":140696458119096,\"struct_vtable\":140696457137608}"
+  },
+  "cpp_answers": {
+    "object_count": 161129,
+    "item_list": 1595692282496,
+    "master_item_list": 1595616447360,
+    "row_struct": 1595706514624,
+    "row_struct_size": 2264,
+    "transient_package": 1596585555072,
+    "datatable_class": 1596615333888,
+    "composite_class": 1596615410688,
+    "texture2d_class": 1596614756864,
+    "staticmesh_class": 1596617256448,
+    "actor_class": 1596614303744,
+    "world_class": 1595614565760,
+    "cdo_gameplaystatics": 1596944901024,
+    "cdo_stringlib": 1596944908176,
+    "cdo_textlib": 1596944916864,
+    "cdo_syslib": 1596944908272,
+    "cdo_sgkfunctions": 1596002231536,
+    "fn_spawn_object": 1596961111424,
+    "fn_conv_str_to_name": 1596961997120,
+    "fn_str_to_text": 1596959420256,
+    "fn_text_to_str": 1596959420032,
+    "fn_load_asset_blocking": 1596950214528,
+    "fn_soft_to_string": 1596950190560,
+    "fn_sgk_itemdetails": 1596087159968,
+    "fn_additem": 1596087163328,
+    "fn_removeitem": 1596087157504,
+    "player_inventory": 1595721661216,
+    "player_inventory_present": 1,
+    "plain_vtable": 140696457457992,
+    "composite_vtable": 140696458119096,
+    "struct_vtable": 140696457137608
+  },
+  "player_inventory_present": true,
+  "ambiguity_probe": {
+    "done": 1,
+    "rc": 2,
+    "object_count": 161125,
+    "error": "world item class: no object named 'Object' of class 'BlueprintGeneratedClass' exists in this process",
+    "json": ""
+  },
+  "bad_root_probe": {
+    "done": 1,
+    "rc": 1,
+    "object_count": 0,
+    "error": "GUObjectArray::NumElements is out of range",
+    "json": ""
+  },
+  "checks": [
+    {
+      "check": "the runtime is loaded in the live process",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the C++ resolver completed",
+      "pass": true,
+      "detail": "{'done': 1, 'rc': 0, 'object_count': 161129, 'error': '', 'json': '{\"object_count\":161129,\"item_list\":1595692282496,\"master_item_list\":1595616447360,\"row_struct\":1595706514624,\"row_struct_size\":2264,\"transient_package\":1596585555072,\"datatable_class\":1596615333888,\"composite_class\":1596615410688,\"te"
+    },
+    {
+      "check": "the C++ resolver succeeded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the C++ resolver saw a full object universe",
+      "pass": true,
+      "detail": "161129"
+    },
+    {
+      "check": "all 27 anchors agree between the two resolvers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the live player inventory resolved",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "both resolvers found the SAME player inventory",
+      "pass": true,
+      "detail": "python=0x173886c3b20 cpp=0x173886c3b20"
+    },
+    {
+      "check": "an ambiguous class name is refused, not first-matched",
+      "pass": true,
+      "detail": "world item class: no object named 'Object' of class 'BlueprintGeneratedClass' exists in this process"
+    },
+    {
+      "check": "a wrong GUObjectArray address fails closed",
+      "pass": true,
+      "detail": "GUObjectArray::NumElements is out of range"
+    }
+  ],
+  "passed": 9,
+  "failed": 0,
+  "verdict": "PASS"
+}

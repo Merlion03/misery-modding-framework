@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
   MbHandle host_handle = MB_INVALID_HANDLE;
   MbError error = {};
   MbStatus status = acquire(MB_ABI_EPOCH, &root, &host_handle, &error);
-  if (status != MB_OK || root == nullptr) {
+  if (status != MB_STATUS_OK || root == nullptr) {
     printf("{\"ok\":false,\"error\":\"MiseryBridgeAcquire failed: %.*s\"}\n",
            error.detail.length, error.detail.data ? error.detail.data : "");
     return 5;

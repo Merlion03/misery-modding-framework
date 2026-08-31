@@ -1,0 +1,232 @@
+{
+  "consistent": true,
+  "containers": [
+    {
+      "mountable": true,
+      "name": "MBPLRadio_P",
+      "pak_present": true,
+      "reasons": [],
+      "toc": {
+        "all_blocks_inside_ucas": true,
+        "blocks_monotonic": true,
+        "blocks_parsed": 91,
+        "bytes": 3708,
+        "chunks_without_perfect_hash": 0,
+        "compressed_block_entry_count": 91,
+        "compressed_block_entry_size": 12,
+        "compressed_block_table_offset": 746,
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "compression_method_name_length": 32,
+        "compression_methods_used": [
+          0
+        ],
+        "container_flags": 8,
+        "container_flags_decoded": {
+          "Compressed": false,
+          "Encrypted": false,
+          "Indexed": true,
+          "OnDemand": false,
+          "Signed": false
+        },
+        "container_id": "0x53f676387b67a0dd",
+        "directory_index_size": 1045,
+        "encryption_key_guid_is_zero": true,
+        "entry_count": 25,
+        "file": "MBPLRadio_P.utoc",
+        "magic_ok": true,
+        "max_block_end": 4460724,
+        "partition_count": 1,
+        "partition_size": 18446744073709551615,
+        "perfect_hash_seeds_count": 13,
+        "slack_bytes": 12,
+        "sum_compressed": 4400274,
+        "sum_uncompressed": 4400274,
+        "toc_header_size": 144,
+        "ucas_bytes": 4460736,
+        "version": 6
+      },
+      "ucas_present": true,
+      "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MBPLRadio_P.utoc"
+    },
+    {
+      "mountable": true,
+      "name": "MiseryModKit_P",
+      "pak_present": true,
+      "reasons": [],
+      "toc": {
+        "all_blocks_inside_ucas": true,
+        "blocks_monotonic": true,
+        "blocks_parsed": 2,
+        "bytes": 387,
+        "chunks_without_perfect_hash": 2,
+        "compressed_block_entry_count": 2,
+        "compressed_block_entry_size": 12,
+        "compressed_block_table_offset": 200,
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "compression_method_name_length": 32,
+        "compression_methods_used": [
+          0
+        ],
+        "container_flags": 8,
+        "container_flags_decoded": {
+          "Compressed": false,
+          "Encrypted": false,
+          "Indexed": true,
+          "OnDemand": false,
+          "Signed": false
+        },
+        "container_id": "0x7c42f5212bf72656",
+        "directory_index_size": 97,
+        "encryption_key_guid_is_zero": true,
+        "entry_count": 2,
+        "file": "MiseryModKit_P.utoc",
+        "magic_ok": true,
+        "max_block_end": 468,
+        "partition_count": 1,
+        "partition_size": 18446744073709551615,
+        "perfect_hash_seeds_count": 1,
+        "slack_bytes": 12,
+        "sum_compressed": 461,
+        "sum_uncompressed": 461,
+        "toc_header_size": 144,
+        "ucas_bytes": 480,
+        "version": 6
+      },
+      "ucas_present": true,
+      "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\MiseryModKit_P.utoc"
+    },
+    {
+      "mountable": true,
+      "name": "Mod_alphamod_P",
+      "pak_present": true,
+      "reasons": [],
+      "toc": {
+        "all_blocks_inside_ucas": true,
+        "blocks_monotonic": true,
+        "blocks_parsed": 10,
+        "bytes": 1313,
+        "chunks_without_perfect_hash": 3,
+        "compressed_block_entry_count": 10,
+        "compressed_block_entry_size": 12,
+        "compressed_block_table_offset": 396,
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "compression_method_name_length": 32,
+        "compression_methods_used": [
+          0
+        ],
+        "container_flags": 8,
+        "container_flags_decoded": {
+          "Compressed": false,
+          "Encrypted": false,
+          "Indexed": true,
+          "OnDemand": false,
+          "Signed": false
+        },
+        "container_id": "0x930f5e487d152cd3",
+        "directory_index_size": 467,
+        "encryption_key_guid_is_zero": true,
+        "entry_count": 10,
+        "file": "Mod_alphamod_P.utoc",
+        "magic_ok": true,
+        "max_block_end": 11540,
+        "partition_count": 1,
+        "partition_size": 18446744073709551615,
+        "perfect_hash_seeds_count": 5,
+        "slack_bytes": 12,
+        "sum_compressed": 11459,
+        "sum_uncompressed": 11459,
+        "toc_header_size": 144,
+        "ucas_bytes": 11552,
+        "version": 6
+      },
+      "ucas_present": true,
+      "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_alphamod_P.utoc"
+    },
+    {
+      "mountable": true,
+      "name": "Mod_betamod_P",
+      "pak_present": true,
+      "reasons": [],
+      "toc": {
+        "all_blocks_inside_ucas": true,
+        "blocks_monotonic": true,
+        "blocks_parsed": 10,
+        "bytes": 1308,
+        "chunks_without_perfect_hash": 2,
+        "compressed_block_entry_count": 10,
+        "compressed_block_entry_size": 12,
+        "compressed_block_table_offset": 392,
+        "compression_block_size": 65536,
+        "compression_method_name_count": 0,
+        "compression_method_name_length": 32,
+        "compression_methods_used": [
+          0
+        ],
+        "container_flags": 8,
+        "container_flags_decoded": {
+          "Compressed": false,
+          "Encrypted": false,
+          "Indexed": true,
+          "OnDemand": false,
+          "Signed": false
+        },
+        "container_id": "0xe186b916437ad668",
+        "directory_index_size": 466,
+        "encryption_key_guid_is_zero": true,
+        "entry_count": 10,
+        "file": "Mod_betamod_P.utoc",
+        "magic_ok": true,
+        "max_block_end": 11540,
+        "partition_count": 1,
+        "partition_size": 18446744073709551615,
+        "perfect_hash_seeds_count": 5,
+        "slack_bytes": 12,
+        "sum_compressed": 11443,
+        "sum_uncompressed": 11443,
+        "toc_header_size": 144,
+        "ucas_bytes": 11552,
+        "version": 6
+      },
+      "ucas_present": true,
+      "utoc": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_betamod_P.utoc"
+    }
+  ],
+  "expected_containers": [
+    "CT03Probe20260828_P",
+    "MBPLRadio_P",
+    "MiseryModKit_P",
+    "Mod_alphamod_P",
+    "Mod_betamod_P"
+  ],
+  "listing": [
+    "CT03Probe20260828_P.pak",
+    "MBPLRadio_P.pak",
+    "MBPLRadio_P.ucas",
+    "MBPLRadio_P.utoc",
+    "MiseryModKit_P.pak",
+    "MiseryModKit_P.ucas",
+    "MiseryModKit_P.utoc",
+    "Mod_alphamod_P.pak",
+    "Mod_alphamod_P.ucas",
+    "Mod_alphamod_P.utoc",
+    "Mod_betamod_P.pak",
+    "Mod_betamod_P.ucas",
+    "Mod_betamod_P.utoc"
+  ],
+  "missing_containers": [],
+  "pak_only_containers": [
+    "CT03Probe20260828_P"
+  ],
+  "present_containers": [
+    "CT03Probe20260828_P",
+    "MBPLRadio_P",
+    "MiseryModKit_P",
+    "Mod_alphamod_P",
+    "Mod_betamod_P"
+  ],
+  "stage_dir": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks",
+  "unexpected_containers": []
+}

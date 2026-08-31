@@ -1,0 +1,2 @@
+stdout was byte-identical to recon.json, which this probe wrote itself.
+Not duplicated here; read that file.

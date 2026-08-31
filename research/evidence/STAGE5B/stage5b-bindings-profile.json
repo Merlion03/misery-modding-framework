@@ -1,0 +1,159 @@
+{
+  "addresses": {
+    "add_ticker": {
+      "bytes": "488bc455564156488d68a94881ec9000",
+      "kind": "code",
+      "rva": 16047824,
+      "source": "research/instruments/ipp/fts_controller.py"
+    },
+    "clear_root_flags": {
+      "bytes": "48895c24084889742410574883ec2048",
+      "kind": "code",
+      "rva": 18592576,
+      "source": "research/evidence/CR-01C5 resolve()"
+    },
+    "fmemory_free": {
+      "bytes": "4885c9742e534883ec20488bd9488b0d",
+      "kind": "code",
+      "rva": 16384144,
+      "source": "research/evidence/CR-01C5 resolve()"
+    },
+    "fmemory_malloc": {
+      "bytes": "48895c2408574883ec20488bf98bda48",
+      "kind": "code",
+      "rva": 16430992,
+      "source": "research/instruments/ipp/fts_controller.py"
+    },
+    "get_core_ticker": {
+      "bytes": "4883ec288b0d46a7d70665488b042558",
+      "kind": "code",
+      "rva": 16069488,
+      "source": "research/instruments/ipp/fts_controller.py"
+    },
+    "guobjectarray": {
+      "kind": "data",
+      "rva": 128421584,
+      "source": "research/instruments/eri/eri.py"
+    },
+    "name_pool_initialized": {
+      "kind": "data",
+      "rva": 127491678,
+      "source": "research/instruments/eri/eri.py"
+    },
+    "namepool": {
+      "kind": "data",
+      "rva": 127672704,
+      "source": "research/instruments/eri/eri.py"
+    },
+    "set_root_flags": {
+      "bytes": "4053564883ec48488bd948897c247048",
+      "kind": "code",
+      "rva": 18943584,
+      "source": "research/evidence/CR-01C5 resolve()"
+    }
+  },
+  "bindings_version": 1,
+  "build": {
+    "build_configuration": "Shipping",
+    "build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+    "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "engine_cl": 35576357,
+    "engine_version": "5.4.4",
+    "file_size_bytes": 134658048,
+    "image_size_bytes": 138403840
+  },
+  "functions": {
+    "forbid_flags": 20496580,
+    "gates": {
+      "BP_MasterInventory_C::AddItem": {
+        "parms_size": 120,
+        "require_flags": 0,
+        "return_value_offset": null
+      },
+      "BP_MasterInventory_C::RemoveItem": {
+        "parms_size": 83,
+        "require_flags": 0,
+        "return_value_offset": null
+      },
+      "BP_SGKFunctions_C::SGK ItemDetails": {
+        "parms_size": 2336,
+        "require_flags": 0,
+        "return_value_offset": null
+      },
+      "GameplayStatics::SpawnObject": {
+        "parms_size": 24,
+        "require_flags": 9216,
+        "return_value_offset": null
+      },
+      "KismetSystemLibrary::Conv_SoftObjectReferenceToString": {
+        "parms_size": 56,
+        "require_flags": 9216,
+        "return_value_offset": 40
+      },
+      "KismetSystemLibrary::LoadAsset_Blocking": {
+        "parms_size": 48,
+        "require_flags": 9216,
+        "return_value_offset": 40
+      },
+      "KismetTextLibrary::Conv_StringToText": {
+        "parms_size": 32,
+        "require_flags": 9216,
+        "return_value_offset": 16
+      },
+      "KismetTextLibrary::Conv_TextToString": {
+        "parms_size": 32,
+        "require_flags": 9216,
+        "return_value_offset": 16
+      }
+    }
+  },
+  "generated_at": "2026-08-30T23:11:03Z",
+  "generated_by": "tools/modplatform/bindings.py 1.0.0",
+  "object_layout": {
+    "datatable_parent_tables": 176,
+    "datatable_rowstruct": 40,
+    "ustruct_properties_size": 88
+  },
+  "row_struct": {
+    "fields": {
+      "AllowStacking": 64,
+      "Description": 32,
+      "Height": 60,
+      "ItemOffsets": 2064,
+      "MaxStack": 68,
+      "Name": 0,
+      "ShortName": 16,
+      "StaticMesh": 112,
+      "UIDetails": 224,
+      "Weight": 48,
+      "Width": 56,
+      "WorldClass": 192
+    },
+    "name": "S_ItemDetails",
+    "size": 2264,
+    "size_source": "research/evidence/CR-01C5/retired-demo-state.json",
+    "source": "research/evidence/CR-01B/structs-defs.json"
+  },
+  "vtable_slots": {
+    "datatable_add_row": {
+      "slot": 95,
+      "source": "research/evidence/CR-01C4B"
+    },
+    "datatable_remove_row": {
+      "slot": 94,
+      "source": "research/evidence/CR-01C4B"
+    },
+    "process_event": {
+      "slot": 77,
+      "source": "research/instruments/ipp/cr01c1_controller.py"
+    },
+    "scriptstruct_destroy": {
+      "slot": 97,
+      "source": "research/evidence/CR-01C4B"
+    },
+    "scriptstruct_initialize": {
+      "slot": 96,
+      "source": "research/evidence/CR-01C4B"
+    }
+  }
+}

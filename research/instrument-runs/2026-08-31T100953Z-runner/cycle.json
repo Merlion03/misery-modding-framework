@@ -1,0 +1,72 @@
+{
+  "blocked_phase": null,
+  "blocked_reason": "ReadProcessMemory(address=0x7ff64c7a8ef4, size=4) failed (GetLastError=299)",
+  "note": [
+    "--skip-restart: reusing the live process, no teardown or launch",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "runtime inspectable: 63975 objects, settled over 3 readings (spread 40 <= 64)",
+    "object identity anchor OK: unique self-referential UClass at 0x1f37ba75400",
+    "live PlayerController at 0x1f30e62a4c0 (BP_SGKMenuController_C)",
+    "possessed pawn 0x1f31608f200 (BP_MenuPlayer_C), via AController::Pawn@+720",
+    "AcknowledgedPawn agrees with Pawn -- possession has settled",
+    "game window 0x3082a is foreground (after 1 attempt(s))",
+    "ui state LOAD_GAME_MENU -> click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded",
+    "clicking save '123' at row 1 (2026-08-29T16:25:07Z)",
+    "BLOCKED: ReadProcessMemory(address=0x7ff64c7a8ef4, size=4) failed (GetLastError=299)"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff644d30000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 14300
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 14300
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 14300,
+        "start_time": "2026-08-31T10:09:00Z"
+      },
+      "reused": true
+    },
+    "runtime_ready": {
+      "name_pool_initialized": true,
+      "namepool_live_va": 140695821033856,
+      "num_elements": 63975,
+      "objects_ptr_live_va": 2145318013056,
+      "settle_tolerance": 64,
+      "settle_window": [
+        63935,
+        63955,
+        63975
+      ]
+    }
+  },
+  "probe": "recon",
+  "run_id": "2026-08-31T100953Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": 140695693361152,
+      "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+      "image_size_bytes": 138403840,
+      "loaded_probe_module": null,
+      "pid": 13884,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": "2026-08-31T10:06:55Z"
+    },
+    "did_not_apply_because": null,
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "BLOCKED"
+}

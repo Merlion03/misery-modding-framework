@@ -124,7 +124,7 @@ void StartJob(void*) {
   const MbRoot* root = nullptr;
   MbHandle host_handle = MB_INVALID_HANDLE;
   MbError error = {};
-  if (acquire(MB_ABI_EPOCH, &root, &host_handle, &error) != MB_OK ||
+  if (acquire(MB_ABI_EPOCH, &root, &host_handle, &error) != MB_STATUS_OK ||
       root == nullptr) {
     Say(io, "MiseryBridgeAcquire refused");
     io->rc = 12;

@@ -186,7 +186,10 @@ class ErrorCodeTests(unittest.TestCase):
     def test_zero_means_success_on_all_three(self):
         self.assertEqual(0, E.OK)
         self.assertEqual(0, cs_const_ints(read(CS_ERRORS), "ModErrorCode")["Ok"])
-        self.assertIn("#define MB_OK ((MbStatus)0)", read(HEADER))
+        # Renamed from MB_OK, which collides with windows.h's MessageBox
+        # constant; the alias is kept only when windows.h has not
+        # already claimed the name.
+        self.assertIn("#define MB_STATUS_OK ((MbStatus)0)", read(HEADER))
 
 
 class EnumMirrorTests(unittest.TestCase):
