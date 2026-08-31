@@ -374,7 +374,7 @@ bool Universe::StillIs(uint64_t address, const std::string& name,
   return DecodeName(class_name_id) == class_name;
 }
 
-const char* Universe::LivenessName(Liveness state) {
+const char* LivenessName(Liveness state) {
   switch (state) {
     case Liveness::kAlive: return "alive";
     case Liveness::kIndexUnreadable: return "its InternalIndex is unreadable";
@@ -388,6 +388,13 @@ const char* Universe::LivenessName(Liveness state) {
 }
 
 Universe::Liveness Universe::CheckSlot(const AnchorIdentity& identity) const {
+  return CheckSlotIdentity(objects_ptr_, layout_, identity);
+}
+
+Liveness CheckSlotIdentity(uint64_t objects_ptr, const Layout& layout,
+                           const AnchorIdentity& identity) {
+  const Layout& layout_ = layout;
+  const uint64_t objects_ptr_ = objects_ptr;
   if (identity.address == 0) {
     return Liveness::kIndexUnreadable;
   }

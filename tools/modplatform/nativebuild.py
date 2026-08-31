@@ -93,6 +93,33 @@ def build_dll(sources, out_name, extra="", libs=""):
     return out
 
 
+# WHAT MiseryRuntime.dll IS MADE OF -- stated ONCE.
+#
+# This list drifted three times between an ad-hoc build and the acceptance
+# script that ships the artifact, and each time the symptom was an unresolved
+# external minutes into a run that had already launched the game. A list that
+# lives in two places is a list that will disagree with itself.
+#
+# Anything that builds the production runtime imports this. Adding a translation
+# unit means adding it here, and nothing else.
+MISERY_RUNTIME_SOURCES = (
+    "RuntimeBootstrap.cpp",     # the proxy's entry point and the lifecycle
+    "ContentGeneration.cpp",    # published/revoked content anchors
+    "BridgeTables.cpp",         # the frozen mod-facing bridge
+    "Json.cpp",                 # the binding profile reader
+    "Bindings.cpp",             # and its validation
+    "Resolver.cpp",             # the object walk
+    "ResolveOnGameThread.cpp",  # which runs it in bounded game-thread slices
+    "UE54TickerCarrier.cpp",    # the build-specific way onto that thread
+)
+
+
+def runtime_sources(repo_root):
+    """Absolute paths for MISERY_RUNTIME_SOURCES."""
+    internal = os.path.join(repo_root, "runtime", "MiseryRuntime", "Internal")
+    return [os.path.join(internal, name) for name in MISERY_RUNTIME_SOURCES]
+
+
 def build_proxy(boot_dir, out_name, sources, def_file, asm_file, libs=""):
     """The bootstrap proxy: assembled thunks plus C++, linked with a .def.
 

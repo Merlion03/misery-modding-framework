@@ -55,6 +55,7 @@
 
 #include "../Public/MiseryBridge.h"
 #include "Bindings.h"
+#include "ContentGeneration.h"
 #include "ResolveOnGameThread.h"
 #include "Resolver.h"
 
@@ -189,52 +190,78 @@ bool WaitForEngine(std::string* why) {
   return false;
 }
 
-// Ask, on a slow cadence, until content resolves or the attempts run out.
+// Resolve content, publish it as a generation, and keep it honest for as long
+// as the process lives.
 //
-// ASKING rather than inferring. Content presence could be guessed from the live
-// object count -- measured, the menu sits at ~26k and content at ~63k -- but a
-// threshold between two measurements is a tuned constant standing in for the
-// answer the resolver already gives authoritatively.
+// THE LIFECYCLE, AND WHERE EACH STEP HAPPENS
+// ------------------------------------------
+//   resolve + publish      here, once content exists
+//   revoked                in content::Acquire, the moment a consumer asks and
+//                          an anchor no longer passes the slot check
+//   consumers fail/defer   also in Acquire: they get a refusal, never a pointer
+//   re-resolve + republish here, when the poll below sees nothing published
 //
-// A failure here is NOT fail-closed. There is nothing wrong with a process that
-// never leaves the main menu, and the framework must not refuse to run on one.
-bool WaitForContent(uint64_t guobjectarray, uint64_t namepool) {
-  for (int attempt = 1; attempt <= kContentAttempts; ++attempt) {
+// Note what is NOT in that list: detecting the load. Nothing here watches for a
+// transition. Revocation happens because an anchor is dead, which is the fact
+// that actually matters, and it is noticed by whoever tries to use it -- so the
+// window between "the world was replaced" and "consumers stopped being able to
+// use the old world" is zero by construction rather than small by luck.
+//
+// This loop's own Acquire is what drives revocation when nothing else is asking,
+// so a generation cannot sit stale-but-unnoticed while no mods are loaded.
+void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
+  int consecutive_failures = 0;
+  while (true) {
+    std::string why;
+    misery::content::Snapshot snapshot;
+    if (misery::content::Acquire(&snapshot, &why)) {
+      // Still good. Nothing to do but check again later.
+      consecutive_failures = 0;
+      Sleep(kContentPollMs);
+      continue;
+    }
+    if (misery::content::CurrentGeneration() == 0 &&
+        misery::content::RevokeCount() > 0) {
+      Log("runtime: %s", why.c_str());
+    }
+
     misery::resolve::Request request;
     request.require = misery::resolve::Phase::kContent;
     misery::resolve::Anchors anchors;
     misery::resolve::Failure failure;
     misery::gamethread::Cost cost;
     std::string error;
-    if (misery::gamethread::Resolve(guobjectarray, namepool, request, &anchors,
-                                    &failure, kResolveTimeoutMs, &cost,
-                                    &error)) {
-      Log("runtime: content resolved on attempt %d -- reached %s over %u "
-          "slice(s), longest %uus, %u objects, %u restart(s)",
-          attempt, misery::resolve::PhaseName(anchors.reached), cost.slices,
-          cost.max_slice_us, cost.objects, cost.restarts);
-      Log("runtime: ItemList 0x%llx, MasterItemList 0x%llx, RowStruct 0x%llx "
-          "(%u bytes)",
-          static_cast<unsigned long long>(anchors.item_list),
-          static_cast<unsigned long long>(anchors.master_item_list),
-          static_cast<unsigned long long>(anchors.row_struct),
-          anchors.row_struct_size);
-      // Held for the next step, and deliberately NOT cached beyond it: measured
-      // on this build, every one of these is destroyed and recreated when the
-      // world is replaced, so whatever consumes them must re-resolve after a
-      // load rather than keep these.
-      return true;
+    if (!misery::gamethread::Resolve(guobjectarray, namepool, request, &anchors,
+                                     &failure, kResolveTimeoutMs, &cost,
+                                     &error)) {
+      // Absent content is ordinary -- a player at a main menu. Only log the
+      // first of a run of identical refusals, or a menu visit fills the log.
+      if (consecutive_failures == 0) {
+        Log("runtime: content not available: %s",
+            failure.failed ? failure.what.c_str() : error.c_str());
+      }
+      ++consecutive_failures;
+      Sleep(kContentPollMs);
+      continue;
     }
-    Log("runtime: content not available yet (attempt %d/%d): %s", attempt,
-        kContentAttempts, failure.failed ? failure.what.c_str() : error.c_str());
-    Sleep(kContentPollMs);
+    consecutive_failures = 0;
+
+    const uint64_t generation = misery::content::Publish(
+        cost.objects_ptr, misery::resolve::Layout(), anchors);
+    Log("runtime: content generation %llu published -- %s, %u objects, %u "
+        "slice(s), longest %uus, %u anchor identities",
+        static_cast<unsigned long long>(generation),
+        misery::resolve::PhaseName(anchors.reached), cost.objects, cost.slices,
+        cost.max_slice_us,
+        static_cast<unsigned>(anchors.identities.size()));
+    Log("runtime: generation %llu: ItemList 0x%llx, MasterItemList 0x%llx, "
+        "RowStruct 0x%llx (%u bytes)",
+        static_cast<unsigned long long>(generation),
+        static_cast<unsigned long long>(anchors.item_list),
+        static_cast<unsigned long long>(anchors.master_item_list),
+        static_cast<unsigned long long>(anchors.row_struct),
+        anchors.row_struct_size);
   }
-  // Not a refusal. A player who never loads a save is a perfectly ordinary
-  // process, and the framework stays loaded and harmless on one.
-  Log("runtime: content never became available in %d attempts; the process "
-      "stayed out of gameplay. Nothing is wrong and nothing is loaded.",
-      kContentAttempts);
-  return false;
 }
 
 DWORD WINAPI RuntimeThread(LPVOID) {
@@ -380,10 +407,8 @@ DWORD WINAPI RuntimeThread(LPVOID) {
   // a third of a second of game thread spread over a few hundred slices, so
   // polling hard would be a permanent background drain for the whole time a
   // player sits in a menu.
-  WaitForContent(guobjectarray, namepool);
-
-  Log("runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are "
-      "the next step");
+  Log("runtime: native subsystems ready; entering the content lifecycle");
+  ContentLifecycle(guobjectarray, namepool);
   return 0;
 }
 

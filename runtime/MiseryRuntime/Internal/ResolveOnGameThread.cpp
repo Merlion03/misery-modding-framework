@@ -267,6 +267,7 @@ anchors:
                                                 &candidate, &work->failure);
   work->cost.resolve_us = Micros(anchors_from, Ticks());
   work->cost.objects = static_cast<uint32_t>(work->universe->Count());
+  work->cost.objects_ptr = work->universe->ObjectsPointer();
   work->cost.completed_phase = static_cast<uint32_t>(candidate.reached);
 
   if (!resolved) {

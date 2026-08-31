@@ -163,6 +163,27 @@ struct AnchorIdentity {
   int32_t serial_number = 0;
 };
 
+// Liveness, asked WITHOUT a Universe.
+//
+// A resolved generation outlives the walk that produced it -- that is the whole
+// point of publishing one -- so the check that keeps it honest cannot depend on
+// the Universe still existing. It needs only the chunk table the walk was built
+// against and the measured layout, both of which are cheap to keep.
+enum class Liveness {
+  kAlive,
+  kIndexUnreadable,
+  kIndexChanged,      // the object no longer claims the slot it was found in
+  kSlotRecycled,      // the slot holds a different object now
+  kSerialChanged,     // same address, different generation of the slot
+  kGarbage,           // marked destroyed; the slot outlives it until GC
+  kUnreachable,
+};
+
+const char* LivenessName(Liveness state);
+
+Liveness CheckSlotIdentity(uint64_t objects_ptr, const Layout& layout,
+                           const AnchorIdentity& identity);
+
 class Universe {
  public:
   Universe(uint64_t guobjectarray, uint64_t namepool, const Layout& layout)
@@ -218,6 +239,9 @@ class Universe {
   Step StepBuild(uint32_t budget_us, uint32_t max_objects, Failure* failure);
 
   uint32_t Cursor() const { return cursor_; }
+  // The chunk table this walk was built against, so a published
+  // generation can keep validating after the walk is gone.
+  uint64_t ObjectsPointer() const { return objects_ptr_; }
   uint32_t NumElements() const { return num_elements_; }
 
   // Does *address* STILL hold an object with this name, whose class has this
@@ -226,19 +250,12 @@ class Universe {
   bool StillIs(uint64_t address, const std::string& name,
                const std::string& class_name) const;
 
-  // Why an anchor is not publishable. Ordered so the caller can say which of
-  // several independent checks refused it.
-  enum class Liveness {
-    kAlive,
-    kIndexUnreadable,
-    kIndexChanged,      // the object no longer claims the slot it was found in
-    kSlotRecycled,      // the slot holds a different object now
-    kSerialChanged,     // same address, different generation of the slot
-    kGarbage,           // marked destroyed; the slot outlives it until GC
-    kUnreachable,
-  };
-
-  static const char* LivenessName(Liveness state);
+  // Kept as the name the existing call sites use; the work is the free function
+  // above, so a published generation can run the same check without a Universe.
+  using Liveness = misery::resolve::Liveness;
+  static const char* LivenessName(Liveness state) {
+    return misery::resolve::LivenessName(state);
+  }
 
   // Is this anchor still LIVE, by the engine's own bookkeeping?
   //

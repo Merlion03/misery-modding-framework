@@ -165,6 +165,11 @@ struct Cost {
   // resolution in a process means the work really is serialised onto one
   // engine-owned thread rather than onto whichever caller asked.
   uint32_t thread_id = 0;
+
+  // The chunk table this resolution was built against. Carried out because a
+  // PUBLISHED generation has to keep validating its anchors long after the
+  // Universe that found them is gone, and the slot lookup needs this table.
+  uint64_t objects_ptr = 0;
 };
 
 // Activate the carrier and dispatcher, once per process. Idempotent: a second

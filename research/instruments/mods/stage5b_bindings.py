@@ -99,17 +99,9 @@ def build_everything():
     stale DLL from an earlier experiment -- which has already happened once in
     this project and cost an afternoon.
     """
-    internal = os.path.join(REPO, "runtime", "MiseryRuntime", "Internal")
-    # ResolveOnGameThread + the carrier are not optional extras: RuntimeBootstrap
-    # no longer walks the object array itself, it hands the walk to the game
-    # thread, so the module that does that and the build-specific carrier behind
-    # it are part of the runtime.
-    runtime = nb.build_dll(
-        [os.path.join(internal, name) for name in
-         ("RuntimeBootstrap.cpp", "BridgeTables.cpp", "Json.cpp",
-          "Bindings.cpp", "Resolver.cpp", "ResolveOnGameThread.cpp",
-          "UE54TickerCarrier.cpp")],
-        "MiseryRuntime.dll")
+    # One list, in nativebuild. See MISERY_RUNTIME_SOURCES for why it is not
+    # written out here.
+    runtime = nb.build_dll(nb.runtime_sources(REPO), "MiseryRuntime.dll")
     proxy_dir = os.path.join(REPO, "runtime", "MiseryBootstrap")
     # advapi32 for the CryptoAPI hash. The proxy fingerprints the executable
     # itself, which is the whole basis of the fail-closed gate, so this is not an

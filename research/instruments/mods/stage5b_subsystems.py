@@ -100,9 +100,11 @@ def main(argv=None):
     # a game that only just entered the world.
     print("\n=== waiting for the runtime's content poll ===")
     deadline_log = ""
-    for _ in range(24):
+    # Wait for the full cycle: publish, revoke, republish. The runtime polls on
+    # a slow cadence, so this has to outlast a couple of its intervals.
+    for _ in range(48):
         deadline_log = read_runtime_log(a.install_root)
-        if "content resolved on attempt" in deadline_log:
+        if len(re.findall(r"content generation \d+ published", deadline_log)) >= 2:
             break
         time.sleep(5)
     log = deadline_log
@@ -130,23 +132,52 @@ def main(argv=None):
           "bridge acquired" in log,
           [ln for ln in log.splitlines() if "bridge" in ln][-1:])
 
-    content = re.search(r"content resolved on attempt (\d+)", log)
-    check("the CONTENT phase resolved -- not skipped, not assumed",
-          bool(content), log[-500:])
-    tables = re.search(r"ItemList 0x([0-9a-f]+), MasterItemList 0x([0-9a-f]+), "
-                       r"RowStruct 0x([0-9a-f]+) \((\d+) bytes\)", log)
-    check("it published the item tables and the row struct", bool(tables),
-          log[-400:])
+    published = re.findall(r"content generation (\d+) published -- (\w+), "
+                           r"(\d+) objects", log)
+    revoked = re.findall(r"generation (\d+) is revoked: '([^']+)' (.+)", log)
+    report["published"] = published
+    report["revoked"] = revoked
+    check("a content generation was PUBLISHED", bool(published), log[-500:])
+
+    # THE LIFECYCLE, as its own checks. A run that published once and never
+    # cycled would pass a "content resolved" check while proving nothing about
+    # what happens when the world is replaced.
+    check("a published generation was later REVOKED -- the world was replaced "
+          "and the old anchors stopped being usable", bool(revoked),
+          "no revocation seen in this run")
+    check("a NEW generation was published after the revocation",
+          len(published) >= 2,
+          "%d generation(s) published" % len(published))
+    if len(published) >= 2 and revoked:
+        first, second = published[0], published[-1]
+        check("the new generation is a different, larger world -- not the same "
+              "anchors republished",
+              int(second[2]) != int(first[2]),
+              "first=%s objects, last=%s objects" % (first[2], second[2]))
+        check("the revocation named the anchor and how it died",
+              all(r[1] and r[2] for r in revoked), revoked[:2])
+
+    tables = re.findall(r"generation (\d+): ItemList 0x([0-9a-f]+), "
+                        r"MasterItemList 0x([0-9a-f]+), "
+                        r"RowStruct 0x([0-9a-f]+) \((\d+) bytes\)", log)
+    check("each generation published its item tables and row struct",
+          len(tables) == len(published), "%d tables, %d generations"
+          % (len(tables), len(published)))
+    if len(tables) >= 2:
+        check("the item tables of the two generations are DIFFERENT objects -- "
+              "which is why the old ones had to be revoked",
+              tables[0][1] != tables[-1][1],
+              "gen%s ItemList 0x%s vs gen%s 0x%s"
+              % (tables[0][0], tables[0][1], tables[-1][0], tables[-1][1]))
     if tables:
-        report["item_list"] = "0x" + tables.group(1)
-        report["master_item_list"] = "0x" + tables.group(2)
-        report["row_struct"] = "0x" + tables.group(3)
-        report["row_struct_size"] = int(tables.group(4))
-        # The width is a measured build fact the profile also carries; the two
-        # must agree or one of them is describing a different build.
-        check("the live row struct is the width the binding profile records",
-              report["row_struct_size"] == profile["row_struct"]["size"],
-              "live=%s profile=%s" % (report["row_struct_size"],
+        report["generations"] = [
+            {"generation": int(g), "item_list": "0x" + il,
+             "master_item_list": "0x" + ml, "row_struct": "0x" + rs,
+             "row_struct_size": int(sz)} for g, il, ml, rs, sz in tables]
+        widths = {int(sz) for _g, _il, _ml, _rs, sz in tables}
+        check("every generation's row struct is the width the binding profile "
+              "records", widths == {profile["row_struct"]["size"]},
+              "live=%s profile=%s" % (sorted(widths),
                                       profile["row_struct"]["size"]))
     check("nothing failed closed", "FAIL CLOSED" not in log, log[-400:])
     alive = True
