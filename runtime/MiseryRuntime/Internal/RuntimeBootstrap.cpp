@@ -65,10 +65,15 @@ namespace {
 // framework that fails on somebody else's slower disk.
 constexpr DWORD kEngineReadyTimeoutMs = 180000;
 constexpr DWORD kEnginePollMs = 250;
-// One resolution, waited on from this thread. Long enough to survive a slow
-// frame during a load; short enough that a pump that never runs is reported
-// rather than waited on forever.
-constexpr uint32_t kResolveTimeoutMs = 30000;
+// One resolution, waited on from this thread.
+//
+// Sized for the CHUNKED walk, not the old whole-walk form: ~130 slices at one
+// slice per tick is ~2.2s at 60fps, but a level load runs far below 60fps and a
+// restart starts the count again. Four restarts at 15fps is on the order of a
+// minute, so the timeout has to be minutes rather than seconds -- while still
+// being finite, because a pump that never runs must be reported rather than
+// waited on forever.
+constexpr uint32_t kResolveTimeoutMs = 180000;
 
 char g_log_path[MAX_PATH] = {0};
 std::string g_framework_dir;
@@ -245,10 +250,20 @@ DWORD WINAPI RuntimeThread(LPVOID) {
   // Kept in the log because it is the number that decides whether a whole walk
   // can stay whole. If it grows, the walk gets chunked across ticks -- it does
   // not move back off the game thread.
-  Log("runtime: resolved on thread %u (this thread is %u) -- cost %uus queued "
-      "+ %uus walk + %uus anchors; %u reads, %u VirtualQuery, %u cached",
-      cost.thread_id, GetCurrentThreadId(), cost.queued_us, cost.build_us,
-      cost.resolve_us, cost.reads, cost.vqueries, cost.cache_hits);
+  Log("runtime: resolved on thread %u (this thread is %u) over %u slice(s); "
+      "LONGEST SLICE %uus (slice #%u) -- walk %uus + anchors %uus + validate %uus, %u "
+      "queued; %u objects processed, %u restart(s), %u revalidation failure(s)",
+      cost.thread_id, GetCurrentThreadId(), cost.slices, cost.max_slice_us,
+      cost.max_slice_index, cost.build_us, cost.resolve_us, cost.validate_us,
+      cost.queued_us,
+      cost.objects_processed, cost.restarts, cost.revalidation_failures);
+  Log("runtime: %u reads, %u VirtualQuery, %u cached; phase requested %s, "
+      "completed %s",
+      cost.reads, cost.vqueries, cost.cache_hits,
+      misery::resolve::PhaseName(
+          static_cast<misery::resolve::Phase>(cost.requested_phase)),
+      misery::resolve::PhaseName(
+          static_cast<misery::resolve::Phase>(cost.completed_phase)));
 
   // ---- the seam ---------------------------------------------------------
   // Next: the game-thread carrier, then the items backend, then CoreCLR and the

@@ -2,36 +2,36 @@
   "stage": "5B",
   "cases": {
     "no bindings at all": {
-      "pid": 13888,
-      "log": "[17:58:23.079] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:58:23.174] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:58:23.174] FAIL CLOSED: no bindings file at D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\bindings.json\n",
+      "pid": 16332,
+      "log": "[18:55:41.071] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:55:41.165] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:55:41.165] FAIL CLOSED: no bindings file at D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\bindings.json\n",
       "alive": true,
       "runtime_loaded": false,
       "proxy_loaded": true
     },
     "bindings for a DIFFERENT build": {
-      "pid": 15664,
-      "log": "[17:58:51.098] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:58:51.193] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:58:51.193] FAIL CLOSED: the bindings present do not describe this build (sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331). The game runs vanilla rather than using bindings measured against a different executable.\n",
+      "pid": 19516,
+      "log": "[18:56:08.726] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:56:08.821] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:56:08.821] FAIL CLOSED: the bindings present do not describe this build (sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331). The game runs vanilla rather than using bindings measured against a different executable.\n",
       "alive": true,
       "runtime_loaded": false,
       "proxy_loaded": true
     },
     "bindings match but the runtime is missing": {
-      "pid": 1248,
-      "log": "[17:59:18.290] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:59:18.385] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:59:18.385] bootstrap: bindings match this build\n[17:59:18.386] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n",
+      "pid": 14316,
+      "log": "[18:56:36.342] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:56:36.440] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:56:36.440] bootstrap: bindings match this build\n[18:56:36.440] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n",
       "alive": true,
       "runtime_loaded": false,
       "proxy_loaded": true
     },
     "consecutive launch 1": {
-      "pid": 19580,
-      "log": "[17:59:45.947] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:59:46.043] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:59:46.043] bootstrap: bindings match this build\n[17:59:46.043] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n",
+      "pid": 17604,
+      "log": "[18:57:03.953] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:57:04.051] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:57:04.051] bootstrap: bindings match this build\n[18:57:04.052] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n",
       "alive": true,
       "runtime_loaded": false,
       "proxy_loaded": true
     },
     "consecutive launch 2": {
-      "pid": 19228,
-      "log": "[18:00:08.621] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:00:08.716] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:00:08.716] bootstrap: bindings match this build\n[18:00:08.717] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n",
+      "pid": 3804,
+      "log": "[18:57:26.744] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:57:26.838] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:57:26.838] bootstrap: bindings match this build\n[18:57:26.838] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n",
       "alive": true,
       "runtime_loaded": false,
       "proxy_loaded": true
@@ -41,7 +41,7 @@
     {
       "check": "[no bindings at all] the game launched",
       "pass": true,
-      "detail": "13888"
+      "detail": "16332"
     },
     {
       "check": "[no bindings at all] the bootstrap ran and wrote a decision",
@@ -51,12 +51,12 @@
     {
       "check": "[no bindings at all] it computed this build's fingerprint",
       "pass": true,
-      "detail": "[17:58:23.079] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:58:23.174] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c"
+      "detail": "[18:55:41.071] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:55:41.165] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c"
     },
     {
       "check": "[no bindings at all] it FAILED CLOSED, naming the rule",
       "pass": true,
-      "detail": "RY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:58:23.174] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:58:23.174] FAIL CLOSED: no bindings file at D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\bindings.json\n"
+      "detail": "RY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:55:41.165] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:55:41.165] FAIL CLOSED: no bindings file at D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\bindings.json\n"
     },
     {
       "check": "[no bindings at all] the runtime was NOT loaded",
@@ -71,7 +71,7 @@
     {
       "check": "[bindings for a DIFFERENT build] the game launched",
       "pass": true,
-      "detail": "15664"
+      "detail": "19516"
     },
     {
       "check": "[bindings for a DIFFERENT build] the bootstrap ran and wrote a decision",
@@ -81,12 +81,12 @@
     {
       "check": "[bindings for a DIFFERENT build] it computed this build's fingerprint",
       "pass": true,
-      "detail": "[17:58:51.098] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:58:51.193] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c"
+      "detail": "[18:56:08.726] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:56:08.821] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c"
     },
     {
       "check": "[bindings for a DIFFERENT build] it FAILED CLOSED, naming the rule",
       "pass": true,
-      "detail": "f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:58:51.193] FAIL CLOSED: the bindings present do not describe this build (sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331). The game runs vanilla rather than using bindings measured against a different executable.\n"
+      "detail": "f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:56:08.821] FAIL CLOSED: the bindings present do not describe this build (sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331). The game runs vanilla rather than using bindings measured against a different executable.\n"
     },
     {
       "check": "[bindings for a DIFFERENT build] the runtime was NOT loaded",
@@ -101,7 +101,7 @@
     {
       "check": "[bindings match but the runtime is missing] the game launched",
       "pass": true,
-      "detail": "1248"
+      "detail": "14316"
     },
     {
       "check": "[bindings match but the runtime is missing] the bootstrap ran and wrote a decision",
@@ -111,12 +111,12 @@
     {
       "check": "[bindings match but the runtime is missing] it computed this build's fingerprint",
       "pass": true,
-      "detail": "[17:59:18.290] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:59:18.385] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c"
+      "detail": "[18:56:36.342] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:56:36.440] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c"
     },
     {
       "check": "[bindings match but the runtime is missing] it FAILED CLOSED, naming the rule",
       "pass": true,
-      "detail": "85] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:59:18.385] bootstrap: bindings match this build\n[17:59:18.386] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n"
+      "detail": "40] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:56:36.440] bootstrap: bindings match this build\n[18:56:36.440] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n"
     },
     {
       "check": "[bindings match but the runtime is missing] the runtime was NOT loaded",
@@ -131,7 +131,7 @@
     {
       "check": "consecutive launch 1 started",
       "pass": true,
-      "detail": "19580"
+      "detail": "17604"
     },
     {
       "check": "consecutive launch 1 is still running",
@@ -141,12 +141,12 @@
     {
       "check": "consecutive launch 1 still refuses",
       "pass": true,
-      "detail": "17:59:46.043] bootstrap: bindings match this build\n[17:59:46.043] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n"
+      "detail": "18:57:04.051] bootstrap: bindings match this build\n[18:57:04.052] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n"
     },
     {
       "check": "consecutive launch 2 started",
       "pass": true,
-      "detail": "19228"
+      "detail": "3804"
     },
     {
       "check": "consecutive launch 2 is still running",
@@ -156,7 +156,7 @@
     {
       "check": "consecutive launch 2 still refuses",
       "pass": true,
-      "detail": "18:00:08.716] bootstrap: bindings match this build\n[18:00:08.717] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n"
+      "detail": "18:57:26.838] bootstrap: bindings match this build\n[18:57:26.838] FAIL CLOSED: D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\MiseryRuntime.dll could not be loaded (126)\n"
     }
   ],
   "passed": 24,

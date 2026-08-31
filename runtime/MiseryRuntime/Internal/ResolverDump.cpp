@@ -22,11 +22,11 @@
 #include <string>
 
 #define RESOLVE_IO_MAGIC 0x4D42504C52535600ULL   // "MBPLRSV\0"
-// Proto 2: resolution moved onto the game thread, so the carrier bindings are
-// inputs and the frame cost is an output. Proto 1 callers are refused rather
-// than reinterpreted -- a struct read at the wrong layout is worse than a
-// rejection.
-#define RESOLVE_IO_PROTO 2u
+// Proto 3: the walk is chunked across ticks, so the per-slice numbers -- how
+// many slices, and the longest one -- are what the caller actually needs to see.
+// Older protos are refused rather than reinterpreted: a struct read at the wrong
+// layout is worse than a rejection.
+#define RESOLVE_IO_PROTO 4u
 
 #pragma pack(push, 1)
 struct ResolveIo {
@@ -63,6 +63,18 @@ struct ResolveIo {
   uint32_t vqueries;
   uint32_t cache_hits;
   uint32_t game_thread_id;
+  // The chunking evidence. max_slice_us is the one that decides whether this
+  // approach worked: total work finishing is not the property, no single frame
+  // being visibly stalled is.
+  uint32_t slices;
+  uint32_t max_slice_us;
+  uint32_t max_slice_index;
+  uint32_t objects_processed;
+  uint32_t restarts;
+  uint32_t revalidation_failures;
+  uint32_t validate_us;
+  uint32_t requested_phase;
+  uint32_t completed_phase;
   char world_item_class[128];
   char error[1024];
   char json[8192];
@@ -140,6 +152,15 @@ extern "C" __declspec(dllexport) unsigned long Stage5ResolveDump(void* p) {
   io->vqueries = cost.vqueries;
   io->cache_hits = cost.cache_hits;
   io->game_thread_id = cost.thread_id;
+  io->slices = cost.slices;
+  io->max_slice_us = cost.max_slice_us;
+  io->max_slice_index = cost.max_slice_index;
+  io->objects_processed = cost.objects_processed;
+  io->restarts = cost.restarts;
+  io->revalidation_failures = cost.revalidation_failures;
+  io->validate_us = cost.validate_us;
+  io->requested_phase = cost.requested_phase;
+  io->completed_phase = cost.completed_phase;
 
   if (!ok) {
     strncpy_s(io->error, sizeof(io->error),
@@ -193,6 +214,15 @@ extern "C" __declspec(dllexport) unsigned long Stage5ResolveDump(void* p) {
   Append(&json, "vqueries", cost.vqueries);
   Append(&json, "cache_hits", cost.cache_hits);
   Append(&json, "game_thread_id", cost.thread_id);
+  Append(&json, "slices", cost.slices);
+  Append(&json, "max_slice_us", cost.max_slice_us);
+  Append(&json, "max_slice_index", cost.max_slice_index);
+  Append(&json, "objects_processed", cost.objects_processed);
+  Append(&json, "restarts", cost.restarts);
+  Append(&json, "revalidation_failures", cost.revalidation_failures);
+  Append(&json, "validate_us", cost.validate_us);
+  Append(&json, "requested_phase", cost.requested_phase);
+  Append(&json, "completed_phase", cost.completed_phase);
   json.append(",\"missing\":[");
   for (size_t i = 0; i < anchors.missing.size(); ++i) {
     if (i != 0) json.append(",");

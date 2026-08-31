@@ -3,68 +3,68 @@
   "step": "bindings",
   "cases": {
     "good launch 1": {
-      "pid": 19748,
-      "log": "[17:52:23.875] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:52:23.972] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:52:23.972] bootstrap: bindings match this build\n[17:52:23.973] bootstrap: handing over to the runtime\n[17:52:23.975] bootstrap: runtime returned 0\n",
+      "pid": 8004,
+      "log": "[18:49:52.076] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:49:52.186] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:49:52.187] bootstrap: bindings match this build\n[18:49:52.188] bootstrap: handing over to the runtime\n[18:49:52.189] bootstrap: runtime returned 0\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:52:23.974] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:52:23.975] runtime: every code address in the profile matches live memory\n[17:52:23.975] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:52:23.976] runtime: the game-thread carrier is active\n[17:52:24.010] runtime: 26263 live objects\n[17:52:24.010] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:52:24.010] runtime: resolved on thread 20828 (this thread is 17960) -- cost 4443us queued + 19703us walk + 9912us anchors; 210975 reads, 3616 VirtualQuery, 207359 cached\n[17:52:24.010] runtime: bindings consumed; subsystem start is the next step\n"
+      "runtime_log": "[18:49:52.189] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:49:52.189] runtime: every code address in the profile matches live memory\n[18:49:52.190] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:49:52.190] runtime: the game-thread carrier is active\n[18:49:52.423] runtime: 26263 live objects\n[18:49:52.423] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[18:49:52.423] runtime: resolved on thread 13540 (this thread is 20968) over 27 slice(s); LONGEST SLICE 2018us (slice #21) -- walk 49232us + anchors 423us + validate 85us, 7840 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:49:52.423] runtime: 211205 reads, 1458 VirtualQuery, 209747 cached; phase requested startup, completed startup\n[18:49:52.423] runtime: bindings consumed; subsystem start is the next step\n"
     },
     "good launch 2": {
-      "pid": 21000,
-      "log": "[17:53:14.591] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:53:14.691] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:53:14.691] bootstrap: bindings match this build\n[17:53:14.693] bootstrap: handing over to the runtime\n[17:53:14.694] bootstrap: runtime returned 0\n",
+      "pid": 15308,
+      "log": "[18:50:43.167] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:50:43.271] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:50:43.271] bootstrap: bindings match this build\n[18:50:43.273] bootstrap: handing over to the runtime\n[18:50:43.274] bootstrap: runtime returned 0\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:53:14.693] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:53:14.694] runtime: every code address in the profile matches live memory\n[17:53:14.694] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:53:14.695] runtime: the game-thread carrier is active\n[17:53:14.732] runtime: 26263 live objects\n[17:53:14.732] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:53:14.732] runtime: resolved on thread 13888 (this thread is 18844) -- cost 6691us queued + 19102us walk + 10525us anchors; 210975 reads, 3596 VirtualQuery, 207379 cached\n[17:53:14.732] runtime: bindings consumed; subsystem start is the next step\n"
+      "runtime_log": "[18:50:43.273] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:50:43.274] runtime: every code address in the profile matches live memory\n[18:50:43.274] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:50:43.274] runtime: the game-thread carrier is active\n[18:50:43.488] runtime: 26263 live objects\n[18:50:43.488] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[18:50:43.488] runtime: resolved on thread 16332 (this thread is 12408) over 25 slice(s); LONGEST SLICE 2034us (slice #13) -- walk 45164us + anchors 299us + validate 42us, 6866 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:50:43.488] runtime: 211201 reads, 1422 VirtualQuery, 209779 cached; phase requested startup, completed startup\n[18:50:43.488] runtime: bindings consumed; subsystem start is the next step\n"
     },
     "good launch 3": {
-      "pid": 19784,
-      "log": "[17:54:05.063] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:54:05.159] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:54:05.159] bootstrap: bindings match this build\n[17:54:05.160] bootstrap: handing over to the runtime\n[17:54:05.161] bootstrap: runtime returned 0\n",
+      "pid": 16336,
+      "log": "[18:51:33.880] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:51:33.973] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:51:33.973] bootstrap: bindings match this build\n[18:51:33.975] bootstrap: handing over to the runtime\n[18:51:33.976] bootstrap: runtime returned 0\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:54:05.161] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:54:05.161] runtime: every code address in the profile matches live memory\n[17:54:05.162] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:54:05.162] runtime: the game-thread carrier is active\n[17:54:05.195] runtime: 26263 live objects\n[17:54:05.195] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:54:05.195] runtime: resolved on thread 15896 (this thread is 12272) -- cost 2822us queued + 19159us walk + 10271us anchors; 210975 reads, 3576 VirtualQuery, 207399 cached\n[17:54:05.195] runtime: bindings consumed; subsystem start is the next step\n"
+      "runtime_log": "[18:51:33.975] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:51:33.976] runtime: every code address in the profile matches live memory\n[18:51:33.976] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:51:33.976] runtime: the game-thread carrier is active\n[18:51:34.182] runtime: 26263 live objects\n[18:51:34.182] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[18:51:34.182] runtime: resolved on thread 21184 (this thread is 13752) over 24 slice(s); LONGEST SLICE 2110us (slice #17) -- walk 42541us + anchors 357us + validate 43us, 7067 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:51:34.182] runtime: 211199 reads, 1469 VirtualQuery, 209730 cached; phase requested startup, completed startup\n[18:51:34.182] runtime: bindings consumed; subsystem start is the next step\n"
     },
     "one recorded code byte is wrong": {
-      "pid": 20692,
-      "log": "[17:54:54.729] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:54:54.836] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:54:54.836] bootstrap: bindings match this build\n[17:54:54.837] bootstrap: handing over to the runtime\n[17:54:54.838] bootstrap: runtime returned 4\n",
+      "pid": 17404,
+      "log": "[18:52:23.598] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:52:23.695] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:52:23.695] bootstrap: bindings match this build\n[18:52:23.697] bootstrap: handing over to the runtime\n[18:52:23.698] bootstrap: runtime returned 4\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:54:54.838] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:54:54.838] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
+      "runtime_log": "[18:52:23.697] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:52:23.698] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
     },
     "the profile describes another build": {
-      "pid": 20300,
-      "log": "[17:55:30.971] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:55:31.068] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:55:31.068] bootstrap: bindings match this build\n[17:55:31.069] bootstrap: handing over to the runtime\n[17:55:31.070] bootstrap: runtime returned 3\n",
+      "pid": 6176,
+      "log": "[18:52:59.345] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:52:59.443] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:52:59.443] bootstrap: bindings match this build\n[18:52:59.444] bootstrap: handing over to the runtime\n[18:52:59.445] bootstrap: runtime returned 3\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:55:31.070] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
+      "runtime_log": "[18:52:59.444] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
     },
     "an unknown bindings_version": {
-      "pid": 18116,
-      "log": "[17:56:05.744] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:56:05.841] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:56:05.841] bootstrap: bindings match this build\n[17:56:05.842] bootstrap: handing over to the runtime\n[17:56:05.843] bootstrap: runtime returned 3\n",
+      "pid": 20768,
+      "log": "[18:53:34.078] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:53:34.171] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:53:34.171] bootstrap: bindings match this build\n[18:53:34.173] bootstrap: handing over to the runtime\n[18:53:34.174] bootstrap: runtime returned 3\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:56:05.843] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
+      "runtime_log": "[18:53:34.174] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
     },
     "an address outside the image": {
-      "pid": 20504,
-      "log": "[17:56:41.264] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:56:41.360] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:56:41.360] bootstrap: bindings match this build\n[17:56:41.361] bootstrap: handing over to the runtime\n[17:56:41.362] bootstrap: runtime returned 3\n",
+      "pid": 18008,
+      "log": "[18:54:09.857] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:54:09.951] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:54:09.951] bootstrap: bindings match this build\n[18:54:09.953] bootstrap: handing over to the runtime\n[18:54:09.953] bootstrap: runtime returned 3\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:56:41.362] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
+      "runtime_log": "[18:54:09.953] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
     },
     "a profile for another engine": {
-      "pid": 16880,
-      "log": "[17:57:16.196] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[17:57:16.294] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:57:16.294] bootstrap: bindings match this build\n[17:57:16.295] bootstrap: handing over to the runtime\n[17:57:16.295] bootstrap: runtime returned 3\n",
+      "pid": 1216,
+      "log": "[18:54:44.765] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[18:54:44.859] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:54:44.859] bootstrap: bindings match this build\n[18:54:44.861] bootstrap: handing over to the runtime\n[18:54:44.861] bootstrap: runtime returned 3\n",
       "alive": true,
       "runtime_loaded": true,
       "proxy_loaded": true,
-      "runtime_log": "[17:57:16.295] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
+      "runtime_log": "[18:54:44.861] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
     }
   },
   "built": {
@@ -76,10 +76,10 @@
     "baseline_build_id": "misery-24953925-ue5.4.4-bace50f7185d",
     "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
     "benign_count": 0,
-    "checked_at": "2026-08-31T14:57:45Z",
+    "checked_at": "2026-08-31T15:55:14Z",
     "findings": [
       {
-        "actual_size": 342528,
+        "actual_size": 375808,
         "kind": "added",
         "path": "MISERY/Binaries/Win64/MiseryFramework/MiseryRuntime.dll",
         "severity": "serious"
@@ -131,12 +131,12 @@
     {
       "check": "[good launch 1] the game launched",
       "pass": true,
-      "detail": "19748"
+      "detail": "8004"
     },
     {
       "check": "[good launch 1] the proxy handed over instead of refusing",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:52:23.972] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:52:23.972] bootstrap: bindings match this build\n[17:52:23.973] bootstrap: handing over to the runtime\n[17:52:23.975] bootstrap: runtime returned 0\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:49:52.186] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:49:52.187] bootstrap: bindings match this build\n[18:49:52.188] bootstrap: handing over to the runtime\n[18:49:52.189] bootstrap: runtime returned 0\n"
     },
     {
       "check": "[good launch 1] the runtime was loaded into the process",
@@ -146,32 +146,32 @@
     {
       "check": "[good launch 1] the runtime read the profile for THIS build",
       "pass": true,
-      "detail": "[17:52:23.974] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:52:23.975] runtime: every code address in the profile matches live memory\n[17:52:23.975] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:52:23.976] runtime"
+      "detail": "[18:49:52.189] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:49:52.189] runtime: every code address in the profile matches live memory\n[18:49:52.190] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:49:52.190] runtime"
     },
     {
       "check": "[good launch 1] every recorded code address matched live memory",
       "pass": true,
-      "detail": "2:24.010] runtime: 26263 live objects\n[17:52:24.010] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:52:24.010] runtime: resolved on thread 20828 (this thread is 17960) -- cost 4443us queued + 19703us walk + 9912us anchors; 210975 reads, 3616 VirtualQuery, 207359 cached\n[17:52:24.010] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 13540 (this thread is 20968) over 27 slice(s); LONGEST SLICE 2018us (slice #21) -- walk 49232us + anchors 423us + validate 85us, 7840 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:49:52.423] runtime: 211205 reads, 1458 VirtualQuery, 209747 cached; phase requested startup, completed startup\n[18:49:52.423] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 1] it waited for the engine and said so, rather than sleeping at it",
       "pass": true,
-      "detail": "2:24.010] runtime: 26263 live objects\n[17:52:24.010] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:52:24.010] runtime: resolved on thread 20828 (this thread is 17960) -- cost 4443us queued + 19703us walk + 9912us anchors; 210975 reads, 3616 VirtualQuery, 207359 cached\n[17:52:24.010] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 13540 (this thread is 20968) over 27 slice(s); LONGEST SLICE 2018us (slice #21) -- walk 49232us + anchors 423us + validate 85us, 7840 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:49:52.423] runtime: 211205 reads, 1458 VirtualQuery, 209747 cached; phase requested startup, completed startup\n[18:49:52.423] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 1] the object universe built",
       "pass": true,
-      "detail": "2:24.010] runtime: 26263 live objects\n[17:52:24.010] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:52:24.010] runtime: resolved on thread 20828 (this thread is 17960) -- cost 4443us queued + 19703us walk + 9912us anchors; 210975 reads, 3616 VirtualQuery, 207359 cached\n[17:52:24.010] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 13540 (this thread is 20968) over 27 slice(s); LONGEST SLICE 2018us (slice #21) -- walk 49232us + anchors 423us + validate 85us, 7840 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:49:52.423] runtime: 211205 reads, 1458 VirtualQuery, 209747 cached; phase requested startup, completed startup\n[18:49:52.423] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 1] the startup anchors resolved",
       "pass": true,
-      "detail": "2:24.010] runtime: 26263 live objects\n[17:52:24.010] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:52:24.010] runtime: resolved on thread 20828 (this thread is 17960) -- cost 4443us queued + 19703us walk + 9912us anchors; 210975 reads, 3616 VirtualQuery, 207359 cached\n[17:52:24.010] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 13540 (this thread is 20968) over 27 slice(s); LONGEST SLICE 2018us (slice #21) -- walk 49232us + anchors 423us + validate 85us, 7840 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:49:52.423] runtime: 211205 reads, 1458 VirtualQuery, 209747 cached; phase requested startup, completed startup\n[18:49:52.423] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 1] nothing failed closed",
       "pass": true,
-      "detail": "2:24.010] runtime: 26263 live objects\n[17:52:24.010] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:52:24.010] runtime: resolved on thread 20828 (this thread is 17960) -- cost 4443us queued + 19703us walk + 9912us anchors; 210975 reads, 3616 VirtualQuery, 207359 cached\n[17:52:24.010] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 13540 (this thread is 20968) over 27 slice(s); LONGEST SLICE 2018us (slice #21) -- walk 49232us + anchors 423us + validate 85us, 7840 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:49:52.423] runtime: 211205 reads, 1458 VirtualQuery, 209747 cached; phase requested startup, completed startup\n[18:49:52.423] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 1] the game is still running",
@@ -181,12 +181,12 @@
     {
       "check": "[good launch 2] the game launched",
       "pass": true,
-      "detail": "21000"
+      "detail": "15308"
     },
     {
       "check": "[good launch 2] the proxy handed over instead of refusing",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:53:14.691] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:53:14.691] bootstrap: bindings match this build\n[17:53:14.693] bootstrap: handing over to the runtime\n[17:53:14.694] bootstrap: runtime returned 0\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:50:43.271] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:50:43.271] bootstrap: bindings match this build\n[18:50:43.273] bootstrap: handing over to the runtime\n[18:50:43.274] bootstrap: runtime returned 0\n"
     },
     {
       "check": "[good launch 2] the runtime was loaded into the process",
@@ -196,32 +196,32 @@
     {
       "check": "[good launch 2] the runtime read the profile for THIS build",
       "pass": true,
-      "detail": "[17:53:14.693] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:53:14.694] runtime: every code address in the profile matches live memory\n[17:53:14.694] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:53:14.695] runtime"
+      "detail": "[18:50:43.273] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:50:43.274] runtime: every code address in the profile matches live memory\n[18:50:43.274] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:50:43.274] runtime"
     },
     {
       "check": "[good launch 2] every recorded code address matched live memory",
       "pass": true,
-      "detail": ":14.732] runtime: 26263 live objects\n[17:53:14.732] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:53:14.732] runtime: resolved on thread 13888 (this thread is 18844) -- cost 6691us queued + 19102us walk + 10525us anchors; 210975 reads, 3596 VirtualQuery, 207379 cached\n[17:53:14.732] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 16332 (this thread is 12408) over 25 slice(s); LONGEST SLICE 2034us (slice #13) -- walk 45164us + anchors 299us + validate 42us, 6866 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:50:43.488] runtime: 211201 reads, 1422 VirtualQuery, 209779 cached; phase requested startup, completed startup\n[18:50:43.488] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 2] it waited for the engine and said so, rather than sleeping at it",
       "pass": true,
-      "detail": ":14.732] runtime: 26263 live objects\n[17:53:14.732] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:53:14.732] runtime: resolved on thread 13888 (this thread is 18844) -- cost 6691us queued + 19102us walk + 10525us anchors; 210975 reads, 3596 VirtualQuery, 207379 cached\n[17:53:14.732] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 16332 (this thread is 12408) over 25 slice(s); LONGEST SLICE 2034us (slice #13) -- walk 45164us + anchors 299us + validate 42us, 6866 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:50:43.488] runtime: 211201 reads, 1422 VirtualQuery, 209779 cached; phase requested startup, completed startup\n[18:50:43.488] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 2] the object universe built",
       "pass": true,
-      "detail": ":14.732] runtime: 26263 live objects\n[17:53:14.732] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:53:14.732] runtime: resolved on thread 13888 (this thread is 18844) -- cost 6691us queued + 19102us walk + 10525us anchors; 210975 reads, 3596 VirtualQuery, 207379 cached\n[17:53:14.732] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 16332 (this thread is 12408) over 25 slice(s); LONGEST SLICE 2034us (slice #13) -- walk 45164us + anchors 299us + validate 42us, 6866 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:50:43.488] runtime: 211201 reads, 1422 VirtualQuery, 209779 cached; phase requested startup, completed startup\n[18:50:43.488] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 2] the startup anchors resolved",
       "pass": true,
-      "detail": ":14.732] runtime: 26263 live objects\n[17:53:14.732] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:53:14.732] runtime: resolved on thread 13888 (this thread is 18844) -- cost 6691us queued + 19102us walk + 10525us anchors; 210975 reads, 3596 VirtualQuery, 207379 cached\n[17:53:14.732] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 16332 (this thread is 12408) over 25 slice(s); LONGEST SLICE 2034us (slice #13) -- walk 45164us + anchors 299us + validate 42us, 6866 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:50:43.488] runtime: 211201 reads, 1422 VirtualQuery, 209779 cached; phase requested startup, completed startup\n[18:50:43.488] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 2] nothing failed closed",
       "pass": true,
-      "detail": ":14.732] runtime: 26263 live objects\n[17:53:14.732] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:53:14.732] runtime: resolved on thread 13888 (this thread is 18844) -- cost 6691us queued + 19102us walk + 10525us anchors; 210975 reads, 3596 VirtualQuery, 207379 cached\n[17:53:14.732] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 16332 (this thread is 12408) over 25 slice(s); LONGEST SLICE 2034us (slice #13) -- walk 45164us + anchors 299us + validate 42us, 6866 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:50:43.488] runtime: 211201 reads, 1422 VirtualQuery, 209779 cached; phase requested startup, completed startup\n[18:50:43.488] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 2] the game is still running",
@@ -231,12 +231,12 @@
     {
       "check": "[good launch 3] the game launched",
       "pass": true,
-      "detail": "19784"
+      "detail": "16336"
     },
     {
       "check": "[good launch 3] the proxy handed over instead of refusing",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:54:05.159] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:54:05.159] bootstrap: bindings match this build\n[17:54:05.160] bootstrap: handing over to the runtime\n[17:54:05.161] bootstrap: runtime returned 0\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:51:33.973] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:51:33.973] bootstrap: bindings match this build\n[18:51:33.975] bootstrap: handing over to the runtime\n[18:51:33.976] bootstrap: runtime returned 0\n"
     },
     {
       "check": "[good launch 3] the runtime was loaded into the process",
@@ -246,32 +246,32 @@
     {
       "check": "[good launch 3] the runtime read the profile for THIS build",
       "pass": true,
-      "detail": "[17:54:05.161] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:54:05.161] runtime: every code address in the profile matches live memory\n[17:54:05.162] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:54:05.162] runtime"
+      "detail": "[18:51:33.975] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:51:33.976] runtime: every code address in the profile matches live memory\n[18:51:33.976] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:51:33.976] runtime"
     },
     {
       "check": "[good launch 3] every recorded code address matched live memory",
       "pass": true,
-      "detail": ":05.195] runtime: 26263 live objects\n[17:54:05.195] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:54:05.195] runtime: resolved on thread 15896 (this thread is 12272) -- cost 2822us queued + 19159us walk + 10271us anchors; 210975 reads, 3576 VirtualQuery, 207399 cached\n[17:54:05.195] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 21184 (this thread is 13752) over 24 slice(s); LONGEST SLICE 2110us (slice #17) -- walk 42541us + anchors 357us + validate 43us, 7067 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:51:34.182] runtime: 211199 reads, 1469 VirtualQuery, 209730 cached; phase requested startup, completed startup\n[18:51:34.182] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 3] it waited for the engine and said so, rather than sleeping at it",
       "pass": true,
-      "detail": ":05.195] runtime: 26263 live objects\n[17:54:05.195] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:54:05.195] runtime: resolved on thread 15896 (this thread is 12272) -- cost 2822us queued + 19159us walk + 10271us anchors; 210975 reads, 3576 VirtualQuery, 207399 cached\n[17:54:05.195] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 21184 (this thread is 13752) over 24 slice(s); LONGEST SLICE 2110us (slice #17) -- walk 42541us + anchors 357us + validate 43us, 7067 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:51:34.182] runtime: 211199 reads, 1469 VirtualQuery, 209730 cached; phase requested startup, completed startup\n[18:51:34.182] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 3] the object universe built",
       "pass": true,
-      "detail": ":05.195] runtime: 26263 live objects\n[17:54:05.195] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:54:05.195] runtime: resolved on thread 15896 (this thread is 12272) -- cost 2822us queued + 19159us walk + 10271us anchors; 210975 reads, 3576 VirtualQuery, 207399 cached\n[17:54:05.195] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 21184 (this thread is 13752) over 24 slice(s); LONGEST SLICE 2110us (slice #17) -- walk 42541us + anchors 357us + validate 43us, 7067 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:51:34.182] runtime: 211199 reads, 1469 VirtualQuery, 209730 cached; phase requested startup, completed startup\n[18:51:34.182] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 3] the startup anchors resolved",
       "pass": true,
-      "detail": ":05.195] runtime: 26263 live objects\n[17:54:05.195] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:54:05.195] runtime: resolved on thread 15896 (this thread is 12272) -- cost 2822us queued + 19159us walk + 10271us anchors; 210975 reads, 3576 VirtualQuery, 207399 cached\n[17:54:05.195] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 21184 (this thread is 13752) over 24 slice(s); LONGEST SLICE 2110us (slice #17) -- walk 42541us + anchors 357us + validate 43us, 7067 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:51:34.182] runtime: 211199 reads, 1469 VirtualQuery, 209730 cached; phase requested startup, completed startup\n[18:51:34.182] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 3] nothing failed closed",
       "pass": true,
-      "detail": ":05.195] runtime: 26263 live objects\n[17:54:05.195] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:54:05.195] runtime: resolved on thread 15896 (this thread is 12272) -- cost 2822us queued + 19159us walk + 10271us anchors; 210975 reads, 3576 VirtualQuery, 207399 cached\n[17:54:05.195] runtime: bindings consumed; subsystem start is the next step\n"
+      "detail": "d 21184 (this thread is 13752) over 24 slice(s); LONGEST SLICE 2110us (slice #17) -- walk 42541us + anchors 357us + validate 43us, 7067 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:51:34.182] runtime: 211199 reads, 1469 VirtualQuery, 209730 cached; phase requested startup, completed startup\n[18:51:34.182] runtime: bindings consumed; subsystem start is the next step\n"
     },
     {
       "check": "[good launch 3] the game is still running",
@@ -281,27 +281,27 @@
     {
       "check": "[one recorded code byte is wrong] the game launched",
       "pass": true,
-      "detail": "20692"
+      "detail": "17404"
     },
     {
       "check": "[one recorded code byte is wrong] the proxy let it through, so the runtime's own check is what is being tested",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:54:54.836] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:54:54.836] bootstrap: bindings match this build\n[17:54:54.837] bootstrap: handing over to the runtime\n[17:54:54.838] bootstrap: runtime returned 4\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:52:23.695] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:52:23.695] bootstrap: bindings match this build\n[18:52:23.697] bootstrap: handing over to the runtime\n[18:52:23.698] bootstrap: runtime returned 4\n"
     },
     {
       "check": "[one recorded code byte is wrong] the runtime FAILED CLOSED",
       "pass": true,
-      "detail": "[17:54:54.838] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:54:54.838] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
+      "detail": "[18:52:23.697] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:52:23.698] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
     },
     {
       "check": "[one recorded code byte is wrong] it named the actual reason",
       "pass": true,
-      "detail": "[17:54:54.838] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:54:54.838] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
+      "detail": "[18:52:23.697] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:52:23.698] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
     },
     {
       "check": "[one recorded code byte is wrong] it did not go on to resolve anything",
       "pass": true,
-      "detail": "[17:54:54.838] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:54:54.838] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
+      "detail": "[18:52:23.697] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:52:23.698] FAIL CLOSED: addresses.add_ticker does not hold the code the profile recorded. This build is not the one these bindings describe; the framework refuses rather than call an address that has moved.\n"
     },
     {
       "check": "[one recorded code byte is wrong] the game is still running, vanilla",
@@ -311,27 +311,27 @@
     {
       "check": "[the profile describes another build] the game launched",
       "pass": true,
-      "detail": "20300"
+      "detail": "6176"
     },
     {
       "check": "[the profile describes another build] the proxy let it through, so the runtime's own check is what is being tested",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:55:31.068] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:55:31.068] bootstrap: bindings match this build\n[17:55:31.069] bootstrap: handing over to the runtime\n[17:55:31.070] bootstrap: runtime returned 3\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:52:59.443] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:52:59.443] bootstrap: bindings match this build\n[18:52:59.444] bootstrap: handing over to the runtime\n[18:52:59.445] bootstrap: runtime returned 3\n"
     },
     {
       "check": "[the profile describes another build] the runtime FAILED CLOSED",
       "pass": true,
-      "detail": "[17:55:31.070] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
+      "detail": "[18:52:59.444] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
     },
     {
       "check": "[the profile describes another build] it named the actual reason",
       "pass": true,
-      "detail": "[17:55:31.070] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
+      "detail": "[18:52:59.444] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
     },
     {
       "check": "[the profile describes another build] it did not go on to resolve anything",
       "pass": true,
-      "detail": "[17:55:31.070] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
+      "detail": "[18:52:59.444] FAIL CLOSED: the profile describes sha256:0000000000000000000000000000000000000000000000000000000000000000, but this executable hashes to sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n"
     },
     {
       "check": "[the profile describes another build] the game is still running, vanilla",
@@ -341,27 +341,27 @@
     {
       "check": "[an unknown bindings_version] the game launched",
       "pass": true,
-      "detail": "18116"
+      "detail": "20768"
     },
     {
       "check": "[an unknown bindings_version] the proxy let it through, so the runtime's own check is what is being tested",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:56:05.841] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:56:05.841] bootstrap: bindings match this build\n[17:56:05.842] bootstrap: handing over to the runtime\n[17:56:05.843] bootstrap: runtime returned 3\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:53:34.171] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:53:34.171] bootstrap: bindings match this build\n[18:53:34.173] bootstrap: handing over to the runtime\n[18:53:34.174] bootstrap: runtime returned 3\n"
     },
     {
       "check": "[an unknown bindings_version] the runtime FAILED CLOSED",
       "pass": true,
-      "detail": "[17:56:05.843] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
+      "detail": "[18:53:34.174] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
     },
     {
       "check": "[an unknown bindings_version] it named the actual reason",
       "pass": true,
-      "detail": "[17:56:05.843] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
+      "detail": "[18:53:34.174] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
     },
     {
       "check": "[an unknown bindings_version] it did not go on to resolve anything",
       "pass": true,
-      "detail": "[17:56:05.843] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
+      "detail": "[18:53:34.174] FAIL CLOSED: the profile states bindings_version 2; this runtime understands 1 and will not read another version leniently\n"
     },
     {
       "check": "[an unknown bindings_version] the game is still running, vanilla",
@@ -371,27 +371,27 @@
     {
       "check": "[an address outside the image] the game launched",
       "pass": true,
-      "detail": "20504"
+      "detail": "18008"
     },
     {
       "check": "[an address outside the image] the proxy let it through, so the runtime's own check is what is being tested",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:56:41.360] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:56:41.360] bootstrap: bindings match this build\n[17:56:41.361] bootstrap: handing over to the runtime\n[17:56:41.362] bootstrap: runtime returned 3\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:54:09.951] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:54:09.951] bootstrap: bindings match this build\n[18:54:09.953] bootstrap: handing over to the runtime\n[18:54:09.953] bootstrap: runtime returned 3\n"
     },
     {
       "check": "[an address outside the image] the runtime FAILED CLOSED",
       "pass": true,
-      "detail": "[17:56:41.362] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
+      "detail": "[18:54:09.953] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
     },
     {
       "check": "[an address outside the image] it named the actual reason",
       "pass": true,
-      "detail": "[17:56:41.362] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
+      "detail": "[18:54:09.953] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
     },
     {
       "check": "[an address outside the image] it did not go on to resolve anything",
       "pass": true,
-      "detail": "[17:56:41.362] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
+      "detail": "[18:54:09.953] FAIL CLOSED: addresses.fmemory_malloc has an rva outside the image\n"
     },
     {
       "check": "[an address outside the image] the game is still running, vanilla",
@@ -401,27 +401,27 @@
     {
       "check": "[a profile for another engine] the game launched",
       "pass": true,
-      "detail": "16880"
+      "detail": "1216"
     },
     {
       "check": "[a profile for another engine] the proxy let it through, so the runtime's own check is what is being tested",
       "pass": true,
-      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[17:57:16.294] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[17:57:16.294] bootstrap: bindings match this build\n[17:57:16.295] bootstrap: handing over to the runtime\n[17:57:16.295] bootstrap: runtime returned 3\n"
+      "detail": "naries\\Win64\\MISERY-Win64-Shipping.exe\n[18:54:44.859] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[18:54:44.859] bootstrap: bindings match this build\n[18:54:44.861] bootstrap: handing over to the runtime\n[18:54:44.861] bootstrap: runtime returned 3\n"
     },
     {
       "check": "[a profile for another engine] the runtime FAILED CLOSED",
       "pass": true,
-      "detail": "[17:57:16.295] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
+      "detail": "[18:54:44.861] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
     },
     {
       "check": "[a profile for another engine] it named the actual reason",
       "pass": true,
-      "detail": "[17:57:16.295] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
+      "detail": "[18:54:44.861] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
     },
     {
       "check": "[a profile for another engine] it did not go on to resolve anything",
       "pass": true,
-      "detail": "[17:57:16.295] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
+      "detail": "[18:54:44.861] FAIL CLOSED: the profile is for engine 5.5.0; this runtime's compiled-in type layout describes 5.4.4 and the profile cannot correct it\n"
     },
     {
       "check": "[a profile for another engine] the game is still running, vanilla",

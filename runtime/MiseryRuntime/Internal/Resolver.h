@@ -124,7 +124,65 @@ class Universe {
 
   // Walk every allocated slot once and decode every name. One pass, because the
   // array is large and the alternative is re-walking it per lookup.
+  //
+  // This is the WHOLE walk in one call, and on the game thread that is a frame
+  // hitch proportional to the object count. Kept for callers that are not on a
+  // frame budget (the off-game harness); the game-thread path uses the chunked
+  // form below.
   bool Build(Failure* failure);
+
+  // ---- the chunked walk -------------------------------------------------
+  //
+  // WHY THE WALK IS SPLIT AT ALL
+  // ----------------------------
+  // Measured on this build, a complete walk costs tens of milliseconds -- more
+  // than a frame. Resolution has to happen on the game thread (see
+  // ResolveOnGameThread.h), so the only remaining way to keep it off the frame
+  // budget is to do it a slice at a time.
+  //
+  // WHAT SPLITTING COSTS, AND WHAT PAYS FOR IT
+  // ------------------------------------------
+  // A walk spread over many ticks is a walk during which the object graph
+  // changes. An object seen in slice 1 can be destroyed before slice 40, so the
+  // accumulated map is a set of observations of DIFFERENT moments, not a
+  // snapshot. That is the price, and it is paid in two places:
+  //
+  //   * StepBuild watches the array itself and asks for a restart when it sees
+  //     evidence the graph moved under it -- the element count shrinking, or a
+  //     chunk pointer changing beneath a region already scanned;
+  //   * every anchor finally selected is RE-VALIDATED against live memory in
+  //     one uninterrupted game-thread slice before the result is published, so
+  //     nothing is published on the strength of an old observation alone.
+  //
+  // Identity, not the address, is what survives a slice boundary: an anchor is
+  // remembered as "the object called X whose class is called Y", and the
+  // address is only accepted if it still answers to that at validation time.
+  enum class Step {
+    kMore,             // budget spent, more slots remain
+    kDone,             // every slot scanned
+    kRestartNeeded,    // the array moved under the walk; start over
+  };
+
+  // Read the array's roots and reset the cursor. Cheap; call once per attempt.
+  bool BeginBuild(Failure* failure);
+
+  // Scan until *budget_us* has elapsed or *max_objects* slots were examined,
+  // whichever comes first. The object cap is a backstop: a clock that misbehaves
+  // must not turn one slice into the whole walk.
+  Step StepBuild(uint32_t budget_us, uint32_t max_objects, Failure* failure);
+
+  uint32_t Cursor() const { return cursor_; }
+  uint32_t NumElements() const { return num_elements_; }
+
+  // Does *address* STILL hold an object with this name, whose class has this
+  // name? Read live, now -- not from the accumulated map. This is the check
+  // that makes a multi-tick result publishable.
+  bool StillIs(uint64_t address, const std::string& name,
+               const std::string& class_name) const;
+
+  // The class name of *address*'s Outer, read live. Used to re-validate the one
+  // anchor whose identity depends on its owner.
+  std::string LiveOuterClassName(uint64_t address) const;
 
   size_t Count() const { return objects_.size(); }
 
@@ -178,6 +236,32 @@ class Universe {
   uint64_t namepool_;
   Layout layout_;
   std::unordered_map<uint64_t, ObjectInfo> objects_;
+
+  // name -> the objects carrying it.
+  //
+  // MEASURED, and the reason this exists: One() used to scan every object for
+  // every anchor. At the main menu that cost 10ms; in gameplay, with 195k
+  // objects and ~28 anchors, it cost 216ms -- 45% of the whole resolution, and
+  // a hitch that would have sat immediately before publish no matter how finely
+  // the WALK was sliced. Indexing by name during the walk turns each lookup
+  // into one hash probe plus a filter over a handful of candidates, which
+  // removes the work rather than spreading it over more frames.
+  std::unordered_map<std::string, std::vector<uint64_t>> by_name_;
+
+  // class pointer -> its instances.
+  //
+  // MEASURED, second round: indexing by name cut anchor resolution from 215.7ms
+  // to 12.6ms, and the 12.6ms that remained was ONE call -- AllOfClass, which
+  // still scanned every object to find instances of BP_PlayerInventory_C. At
+  // 200k objects that single scan was the whole residual cost, and it landed in
+  // the same slice as the end of the walk, producing a 14.1ms hitch. Indexed
+  // here for the same reason as by_name_: remove the scan, do not budget it.
+  std::unordered_map<uint64_t, std::vector<uint64_t>> by_class_;
+
+  // Chunked-walk state. See BeginBuild/StepBuild.
+  uint64_t objects_ptr_ = 0;
+  uint32_t num_elements_ = 0;
+  uint32_t cursor_ = 0;
 };
 
 // When an anchor comes into existence. Measured, not assumed: survey mode below
@@ -259,6 +343,28 @@ struct Anchors {
   uint64_t composite_vtable = 0;
   uint64_t struct_vtable = 0;
   uint32_t row_struct_size = 0;
+
+  // WHAT EACH SELECTED ANCHOR MUST STILL BE.
+  //
+  // A chunked walk accumulates observations from many different moments, so an
+  // address it selected is a claim about the past. These records carry the
+  // IDENTITY the address was selected for -- the object's own name and its
+  // class's name -- so the address can be re-checked against live memory before
+  // anything is published. An address that no longer answers to its identity is
+  // a destroyed object, and publishing it would hand the Items backend a
+  // dangling pointer that looked resolved.
+  //
+  // Populated for every anchor found by name+class. `check_outer_class` is set
+  // for the one anchor whose identity depends on its owner rather than only on
+  // itself: the live player inventory, discriminated by its controller.
+  struct Identity {
+    uint64_t address = 0;
+    std::string name;
+    std::string class_name;
+    std::string label;
+    std::string check_outer_class;   // empty when the Outer is not part of it
+  };
+  std::vector<Identity> identities;
 };
 
 // What the caller wants resolved.

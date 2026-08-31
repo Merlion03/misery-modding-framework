@@ -78,6 +78,34 @@ STEAM_RUN = "steam://run/2119830"
 TRANSITION_TIMEOUT_S = 1500
 TRANSITION_POLL_S = 4.0
 RUNTIME_DLL = "MiseryRuntimeStage5.dll"
+
+COST_KEYS = ("object_count", "build_us", "resolve_us", "validate_us", "reads",
+             "vqueries", "cache_hits", "queued_us", "game_thread_id",
+             "slices", "max_slice_us", "max_slice_index", "objects_processed",
+             "restarts",
+             "revalidation_failures", "requested_phase", "completed_phase")
+
+# The acceptance bar for one game-thread slice. The budget is 2ms; the final
+# slice additionally does anchor resolution and the live re-validation, so it is
+# legitimately the longest. 8ms is under half a 60fps frame and still far below
+# the 481ms the unchunked walk cost -- if a slice ever approaches this, the
+# budget or the final step needs splitting further.
+MAX_SLICE_US = 8000
+
+
+def cost_of(sample):
+    """What one resolution cost, or None if it never ran.
+
+    Every resolve in this file goes through here. The first version recorded
+    cost only at the menu, which meant the EXPENSIVE phase -- gameplay, with an
+    order of magnitude more objects -- was the one phase with no measurement,
+    and a budget was nearly sized off an extrapolation instead.
+    """
+    if sample.get("rc") != 0:
+        return None
+    return {k: sample.get(k) for k in COST_KEYS}
+
+
 BUILD_KEY = ("sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21e"
              "a57a81f013331")
 
@@ -351,11 +379,16 @@ def main(argv=None):
         check("%s [menu]: the survey completed" % label, survey["rc"] == 0,
               survey["error"][:200])
         if survey["rc"] == 0:
-            print("      (game thread: build %dus + resolve %dus over %d objects; "
-                  "%d reads, %d VirtualQuery, %d cached)"
-                  % (survey["build_us"], survey["resolve_us"],
-                     survey["object_count"], survey["reads"],
-                     survey["vqueries"], survey["cache_hits"]))
+            print("      (game thread: %d slices, LONGEST %dus at slice #%d | "
+                  "walk %dus + "
+                  "anchors %dus + validate %dus over %d objects; %d reads, "
+                  "%d vq, %d cached, %d restart(s))"
+                  % (survey["slices"], survey["max_slice_us"],
+                     survey["max_slice_index"], survey["build_us"],
+                     survey["resolve_us"],
+                     survey["validate_us"], survey["object_count"],
+                     survey["reads"], survey["vqueries"], survey["cache_hits"],
+                     survey["restarts"]))
             report["phases"][-1]["cost"] = {
                 k: survey[k] for k in ("queued_us", "build_us", "resolve_us",
                                        "reads", "vqueries", "cache_hits")}
@@ -445,6 +478,7 @@ def main(argv=None):
                 row["reached_phase"] = int(seen["reached_phase"])
                 row["anchors"] = {k: int(seen[k]) for k in ALL_ANCHORS}
                 row["game_thread_id"] = sample["game_thread_id"]
+                row["cost"] = cost_of(sample)
             samples.append(row)
             if entry.poll() is not None:
                 break
@@ -557,7 +591,18 @@ def main(argv=None):
         # ---- gameplay, in the SAME process the menu was measured in --------
         play = injected.resolve(check_mod.PHASE_GAMEPLAY)
         report["phases"].append({"launch": launch, "phase": "gameplay",
-                                 "result": play})
+                                 "result": play, "cost": cost_of(play)})
+        if play["rc"] == 0:
+            print("      (GAMEPLAY: %d slices, LONGEST %dus at slice #%d | "
+                  "walk %dus + "
+                  "anchors %dus + validate %dus over %d objects; %d reads, "
+                  "%d vq, %d cached, %d restart(s), %d revalidation failure(s))"
+                  % (play["slices"], play["max_slice_us"],
+                     play["max_slice_index"], play["build_us"],
+                     play["resolve_us"], play["validate_us"],
+                     play["object_count"], play["reads"], play["vqueries"],
+                     play["cache_hits"], play["restarts"],
+                     play["revalidation_failures"]))
         check("%s [gameplay]: the resolver succeeded" % label, play["rc"] == 0,
               play["error"][:200])
         if play["rc"] == 0:
@@ -569,6 +614,30 @@ def main(argv=None):
                   [k for k in ALL_ANCHORS if int(answers[k]) == 0])
             check("%s [gameplay]: the resolver reports phase=gameplay" % label,
                   int(answers["reached_phase"]) == 2, answers["reached_phase"])
+
+            # THE point of chunking. Not "the work finished" -- an unchunked walk
+            # also finishes -- but that no single game-thread slice was long
+            # enough for a player to see. The unchunked form cost 481ms here.
+            check("%s [gameplay]: no single game-thread slice exceeded %dus"
+                  % (label, MAX_SLICE_US),
+                  0 < play["max_slice_us"] <= MAX_SLICE_US,
+                  "longest slice %dus" % play["max_slice_us"])
+            # And that it really was sliced. A budget silently ignored would show
+            # up here as one enormous slice that still passed everything else.
+            check("%s [gameplay]: the walk really was spread over many ticks"
+                  % label, play["slices"] >= 10,
+                  "%d slice(s)" % play["slices"])
+            check("%s [gameplay]: every slot was examined at least once" % label,
+                  play["objects_processed"] >= play["object_count"],
+                  "processed %d, universe %d"
+                  % (play["objects_processed"], play["object_count"]))
+            check("%s [gameplay]: the phase did not move under the walk" % label,
+                  play["completed_phase"] >= play["requested_phase"],
+                  "requested %d, completed %d"
+                  % (play["requested_phase"], play["completed_phase"]))
+            check("%s [gameplay]: nothing published failed live re-validation"
+                  % label, play["revalidation_failures"] == 0,
+                  play["revalidation_failures"])
 
             # DEATH/RESPAWN, structurally. The runner will not kill the player
             # to reach the death screen -- saveentry.UI_STATES records that

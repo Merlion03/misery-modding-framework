@@ -18,22 +18,47 @@ namespace resolve {
 // path.
 namespace {
 
-// Regions already validated during THIS walk. Small and thread-local: the walk
-// runs on one thread, and a handful of entries covers the object array's chunks
-// plus .data, which is where essentially every read lands.
-constexpr int kRegionCacheSize = 16;
+// Regions already validated during THIS walk. Thread-local: the walk runs on one
+// thread.
+//
+// SIZED FROM MEASUREMENT, not from taste. With 16 entries the hit rate was
+// 98.3% at the main menu (26k objects) but fell to 93.1% in gameplay (195k
+// objects, 106 802 syscalls) -- more distinct regions in play than the table
+// could hold. 64 entries plus the hot slot below fixed that.
+constexpr int kRegionCacheSize = 64;
 struct CachedRegion {
   uint64_t begin = 0;
   uint64_t end = 0;
 };
 thread_local CachedRegion tls_regions[kRegionCacheSize];
+thread_local int tls_region_count = 0;
 thread_local int tls_region_next = 0;
+// The region the previous read hit. Checked before the table, updated by
+// assignment, never by shifting.
+thread_local CachedRegion tls_hot;
 thread_local ReadStats tls_stats;
 
+// ONE HOT ENTRY, THEN A FLAT TABLE. Measured, and the second design here.
+//
+// The first version kept the table in move-to-front order. That did raise the
+// hit rate -- 98.3% to 99.5% at the menu, syscalls 3 552 down to 1 090 -- but it
+// shifted the array on every non-leading hit, and the walk's CPU went from
+// 20.4ms to 52.0ms at the menu and 265ms to 426ms in gameplay. VirtualQuery was
+// never the dominant cost; the shifting was pure loss on 1.6 million reads.
+//
+// Reads cluster hard -- consecutive fields of one object, then its class, then
+// its name entry -- so a single remembered region captures nearly all of the
+// locality for one comparison and no writes. The table behind it stays in plain
+// round-robin order, which costs nothing to maintain.
 bool InCachedRegion(uint64_t address, size_t size) {
-  for (const CachedRegion& region : tls_regions) {
-    if (region.end != 0 && address >= region.begin &&
-        address + size <= region.end) {
+  if (tls_hot.end != 0 && address >= tls_hot.begin &&
+      address + size <= tls_hot.end) {
+    return true;
+  }
+  for (int i = 0; i < tls_region_count; ++i) {
+    const CachedRegion& region = tls_regions[i];
+    if (address >= region.begin && address + size <= region.end) {
+      tls_hot = region;   // one assignment, not a shift
       return true;
     }
   }
@@ -41,8 +66,32 @@ bool InCachedRegion(uint64_t address, size_t size) {
 }
 
 void RememberRegion(uint64_t begin, uint64_t end) {
-  tls_regions[tls_region_next] = CachedRegion{begin, end};
+  const CachedRegion fresh{begin, end};
+  tls_regions[tls_region_next] = fresh;
   tls_region_next = (tls_region_next + 1) % kRegionCacheSize;
+  if (tls_region_count < kRegionCacheSize) {
+    ++tls_region_count;
+  }
+  tls_hot = fresh;
+}
+
+// A monotonic microsecond clock for the slice budget. QueryPerformanceCounter
+// rather than GetTickCount: a 2ms budget cannot be measured with a 15ms timer.
+uint64_t QpcTicks() {
+  LARGE_INTEGER now;
+  QueryPerformanceCounter(&now);
+  return static_cast<uint64_t>(now.QuadPart);
+}
+
+uint64_t QpcMicros(uint64_t from, uint64_t to) {
+  static double scale = 0.0;
+  if (scale == 0.0) {
+    LARGE_INTEGER frequency;
+    QueryPerformanceFrequency(&frequency);
+    scale = 1000000.0 / static_cast<double>(frequency.QuadPart);
+  }
+  return to <= from ? 0
+                    : static_cast<uint64_t>(static_cast<double>(to - from) * scale);
 }
 
 }  // namespace
@@ -50,10 +99,9 @@ void RememberRegion(uint64_t begin, uint64_t end) {
 ReadStats ReadStatsSnapshot() { return tls_stats; }
 
 void ResetReadCache() {
-  for (CachedRegion& region : tls_regions) {
-    region = CachedRegion{};
-  }
+  tls_region_count = 0;
   tls_region_next = 0;
+  tls_hot = CachedRegion{};
   tls_stats = ReadStats{};
 }
 
@@ -152,10 +200,16 @@ std::string Universe::DecodeName(uint32_t name_id) const {
 }
 
 // --------------------------------------------------------------- the walk ----
-bool Universe::Build(Failure* failure) {
+bool Universe::BeginBuild(Failure* failure) {
   objects_.clear();
+  by_name_.clear();
+  by_class_.clear();
+  cursor_ = 0;
+  objects_ptr_ = 0;
+  num_elements_ = 0;
   // One walk, one cache. See ResetReadCache's note on why it does not persist.
   ResetReadCache();
+
   uint64_t objects_ptr = 0;
   int32_t num_elements = 0;
   if (!ReadU64(guobjectarray_ + layout_.guobjectarray_objects, &objects_ptr) ||
@@ -169,21 +223,81 @@ bool Universe::Build(Failure* failure) {
     failure->Set("GUObjectArray::NumElements is out of range");
     return false;
   }
+  objects_ptr_ = objects_ptr;
+  num_elements_ = static_cast<uint32_t>(num_elements);
 
+  // Reserve all three maps, not just objects_.
+  //
+  // MEASURED, and found by instrumentation rather than by reasoning: the longest
+  // slice of a chunked walk was consistently in the MIDDLE of it -- slice #14 of
+  // 24 at the menu, #52 of 198 in gameplay -- not in the first slice as
+  // guessed. A mid-walk spike with no other explanation is an unordered_map
+  // rehash: crossing a load-factor boundary re-buckets every element already
+  // inserted, and that lands in whichever slice happens to reach the boundary.
+  //
+  // objects_ was already reserved; by_name_ and by_class_ were not, and they are
+  // the two the anchor indexes added. So the index that removed a 215.7 ms
+  // anchor step was itself spiking the walk it was supposed to fit inside.
+  //
+  // The bucket counts are upper bounds, deliberately loose: distinct names are
+  // fewer than objects and distinct classes fewer still, so reserving per object
+  // over-allocates rather than rehashing. Memory is the cheap side of this
+  // trade.
   objects_.reserve(static_cast<size_t>(num_elements));
-  for (int32_t index = 0; index < num_elements; ++index) {
+  by_name_.reserve(static_cast<size_t>(num_elements));
+  by_class_.reserve(static_cast<size_t>(num_elements) / 8u + 64u);
+  return true;
+}
+
+Universe::Step Universe::StepBuild(uint32_t budget_us, uint32_t max_objects,
+                                   Failure* failure) {
+  // The array is re-read every slice, not trusted from BeginBuild. A walk
+  // spread over frames is a walk during which the engine may restructure the
+  // very thing being walked, and the two cheap signals for that are the element
+  // count going DOWN (objects were destroyed, so what is already accumulated is
+  // suspect) and the chunk table itself moving.
+  int32_t live_elements = 0;
+  if (!Read(guobjectarray_ + layout_.guobjectarray_num_elements,
+            &live_elements) || live_elements <= 0) {
+    failure->Set("GUObjectArray::NumElements stopped being readable mid-walk");
+    return Step::kRestartNeeded;
+  }
+  uint64_t live_objects_ptr = 0;
+  if (!ReadU64(guobjectarray_ + layout_.guobjectarray_objects,
+               &live_objects_ptr) || live_objects_ptr != objects_ptr_) {
+    return Step::kRestartNeeded;   // the chunk table moved
+  }
+  if (static_cast<uint32_t>(live_elements) < num_elements_) {
+    return Step::kRestartNeeded;   // objects were destroyed under the walk
+  }
+  // Growth is allowed: new slots appear past the cursor and get scanned. The
+  // count is NOT re-widened, though -- this attempt resolves the array it
+  // started on, and anything added after it is the next resolution's business.
+
+  const uint64_t began = QpcTicks();
+  uint32_t examined = 0;
+  while (cursor_ < num_elements_) {
+    if (examined >= max_objects || QpcMicros(began, QpcTicks()) >= budget_us) {
+      return Step::kMore;
+    }
+    const uint32_t index = cursor_++;
+    ++examined;
+
     // FChunkedFixedUObjectArray::GetObjectPtr's own arithmetic.
-    uint32_t chunk = static_cast<uint32_t>(index) >> 16;
-    uint32_t within = static_cast<uint32_t>(index) & 0xFFFFu;
+    const uint32_t chunk = index >> 16;
+    const uint32_t within = index & 0xFFFFu;
     uint64_t chunk_base = 0;
-    if (!ReadU64(objects_ptr + static_cast<uint64_t>(chunk) * 8, &chunk_base) ||
+    if (!ReadU64(objects_ptr_ + static_cast<uint64_t>(chunk) * 8, &chunk_base) ||
         chunk_base == 0) {
-      // A never-allocated chunk is normal, not an error.
-      index = ((static_cast<int32_t>(chunk) + 1) << 16) - 1;
+      // A never-allocated chunk is normal, not an error. Skip the whole chunk.
+      const uint64_t next_chunk_start = (static_cast<uint64_t>(chunk) + 1) << 16;
+      cursor_ = next_chunk_start > num_elements_
+                    ? num_elements_
+                    : static_cast<uint32_t>(next_chunk_start);
       continue;
     }
-    uint64_t item = chunk_base +
-                    static_cast<uint64_t>(within) * layout_.fuobjectitem_size;
+    const uint64_t item =
+        chunk_base + static_cast<uint64_t>(within) * layout_.fuobjectitem_size;
     uint64_t object = 0;
     if (!ReadU64(item + layout_.fuobjectitem_object, &object) || object == 0) {
       continue;   // a freed or never-used slot
@@ -197,33 +311,97 @@ bool Universe::Build(Failure* failure) {
       info.name = DecodeName(info.name_id);
       info.name_ok = !info.name.empty();
     }
-    objects_.emplace(object, info);
+    const bool inserted = objects_.emplace(object, info).second;
+    if (inserted) {
+      if (info.name_ok) {
+        by_name_[info.name].push_back(object);
+      }
+      if (info.class_ptr != 0) {
+        by_class_[info.class_ptr].push_back(object);
+      }
+    }
   }
 
   if (objects_.size() < 1000) {
     failure->Set("only " + std::to_string(objects_.size()) +
                  " objects were readable; the object array is not where the "
                  "bindings say it is");
+    return Step::kDone;   // Done, but the caller will see the failure.
+  }
+  return Step::kDone;
+}
+
+bool Universe::Build(Failure* failure) {
+  if (!BeginBuild(failure)) {
     return false;
   }
-  return true;
+  // Unbounded on purpose: this is the form for callers that are not on a frame
+  // budget. Budget and cap are set past any real array so it completes in one
+  // pass, which keeps the two forms one code path rather than two.
+  const Step step = StepBuild(0xFFFFFFFFu, 0xFFFFFFFFu, failure);
+  return step == Step::kDone && !failure->failed;
+}
+
+// ---- live re-validation ----------------------------------------------------
+//
+// Deliberately reads memory rather than consulting objects_: the whole point is
+// to ask what is true NOW, after a walk that may have taken many frames.
+bool Universe::StillIs(uint64_t address, const std::string& name,
+                       const std::string& class_name) const {
+  if (address == 0) {
+    return false;
+  }
+  uint32_t name_id = 0;
+  if (!ReadU32(address + layout_.object_name_private, &name_id)) {
+    return false;
+  }
+  if (DecodeName(name_id) != name) {
+    return false;
+  }
+  uint64_t class_ptr = 0;
+  if (!ReadU64(address + layout_.object_class_private, &class_ptr) ||
+      class_ptr == 0) {
+    return false;
+  }
+  uint32_t class_name_id = 0;
+  if (!ReadU32(class_ptr + layout_.object_name_private, &class_name_id)) {
+    return false;
+  }
+  return DecodeName(class_name_id) == class_name;
+}
+
+std::string Universe::LiveOuterClassName(uint64_t address) const {
+  uint64_t outer = 0;
+  if (address == 0 ||
+      !ReadU64(address + layout_.object_outer_private, &outer) || outer == 0) {
+    return std::string();
+  }
+  uint64_t class_ptr = 0;
+  if (!ReadU64(outer + layout_.object_class_private, &class_ptr) ||
+      class_ptr == 0) {
+    return std::string();
+  }
+  uint32_t class_name_id = 0;
+  if (!ReadU32(class_ptr + layout_.object_name_private, &class_name_id)) {
+    return std::string();
+  }
+  return DecodeName(class_name_id);
 }
 
 // -------------------------------------------------------------- lookups ----
 uint64_t Universe::One(const std::string& name, const std::string& class_name,
                        const char* label, Failure* failure) const {
   std::vector<uint64_t> hits;
-  for (const auto& entry : objects_) {
-    const ObjectInfo& info = entry.second;
-    if (!info.name_ok || info.name != name) {
-      continue;
-    }
-    if (ClassNameOf(info.address) != class_name) {
-      continue;
-    }
-    hits.push_back(info.address);
-    if (hits.size() > 4) {
-      break;   // enough to report ambiguity; no reason to keep counting
+  const auto candidates = by_name_.find(name);
+  if (candidates != by_name_.end()) {
+    for (uint64_t address : candidates->second) {
+      if (ClassNameOf(address) != class_name) {
+        continue;
+      }
+      hits.push_back(address);
+      if (hits.size() > 4) {
+        break;   // enough to report ambiguity; no reason to keep counting
+      }
     }
   }
   if (hits.empty()) {
@@ -248,12 +426,12 @@ std::vector<uint64_t> Universe::AllOfClass(uint64_t class_ptr) const {
   if (class_ptr == 0) {
     return out;
   }
-  for (const auto& entry : objects_) {
-    if (entry.second.class_ptr == class_ptr) {
-      out.push_back(entry.second.address);
-    }
+  const auto instances = by_class_.find(class_ptr);
+  if (instances != by_class_.end()) {
+    out = instances->second;
   }
-  // Sorted so a report of an ambiguous set is the same on every run.
+  // Sorted so a report of an ambiguous set is the same on every run. The index
+  // is filled in walk order, which is not a promise about anything.
   std::sort(out.begin(), out.end());
   return out;
 }
@@ -357,6 +535,15 @@ bool ResolveAnchors(const Universe& universe, const Request& request,
       return false;
     }
     *slot = found;
+    // Remember the IDENTITY, not just the address. A chunked walk selects on
+    // observations from many moments; this is what lets the address be
+    // re-checked against live memory before anything is published.
+    Anchors::Identity identity;
+    identity.address = found;
+    identity.name = name;
+    identity.class_name = class_name;
+    identity.label = label;
+    out->identities.push_back(identity);
     return true;
   };
 
@@ -432,6 +619,14 @@ bool ResolveAnchors(const Universe& universe, const Request& request,
       return;
     }
     *slot = found;
+    // A UFunction's own class is called "Function"; that is what it must still
+    // be at validation time, along with its own name.
+    Anchors::Identity identity;
+    identity.address = found;
+    identity.name = name;
+    identity.class_name = "Function";
+    identity.label = label;
+    out->identities.push_back(identity);
   };
 
   need_fn(&out->fn_spawn_object, gs_class, "SpawnObject", Phase::kStartup,
@@ -530,6 +725,15 @@ bool ResolveAnchors(const Universe& universe, const Request& request,
       out->player_inventory_present = true;
       const ObjectInfo* found = universe.At(out->player_inventory);
       out->player_inventory_outer = found != nullptr ? found->outer_ptr : 0;
+      // The only anchor whose identity is not self-contained: it is the
+      // player's because of WHO owns it, so re-validation re-checks the owner.
+      Anchors::Identity inventory;
+      inventory.address = out->player_inventory;
+      inventory.name = universe.NameOf(out->player_inventory);
+      inventory.class_name = "BP_PlayerInventory_C";
+      inventory.label = "live player inventory";
+      inventory.check_outer_class = "BP_SGKController_C";
+      out->identities.push_back(inventory);
     } else if (live.size() > 1) {
       // Two live player inventories is not a state this framework understands,
       // and picking one would be picking which player to write to.
@@ -603,6 +807,15 @@ bool ResolveAnchors(const Universe& universe, const Request& request,
   auto withhold = [&](uint64_t* slot, const char* label) {
     if (*slot != 0) {
       out->observed_out_of_phase.push_back(label);
+      // Drop its identity too. Validation checks what is being PUBLISHED, so
+      // re-checking a withheld anchor would let an object the caller never
+      // received fail a resolution it is not part of.
+      for (size_t i = 0; i < out->identities.size(); ++i) {
+        if (out->identities[i].address == *slot) {
+          out->identities.erase(out->identities.begin() + i);
+          break;
+        }
+      }
       *slot = 0;
     }
   };

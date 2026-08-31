@@ -33,9 +33,10 @@ Steam Play
 | Run | Checks | Verdict |
 |---|---|---|
 | `stage5b-resolver-oracle-crosscheck.json` — C++ resolver vs the Python oracle, same live process | 9 | **PASS** |
-| `stage5b-resolver-lifecycle.json` — 3 fresh launches, menu → load → gameplay | 72 | **PASS** |
+| `stage5b-resolver-lifecycle.json` — 3 fresh launches, menu → load → gameplay, chunked resolver | 87 | **PASS** |
 | `stage5b-bindings-acceptance.json` — 3 normal Steam launches + 5 refusals + install audit | 63 | **PASS** |
 | `stage5b-failclosed.json` — proxy-layer refusals, 5 launches | 24 | **PASS** |
+| `stage5b-gamethread-cost.json` — the measured cost curve the slice budget was sized from | — | evidence |
 
 Offline: full suite **2445 passed**, 1 skipped, 533 subtests; `tools/kb/validate.py`
 exit 0.
@@ -53,8 +54,12 @@ asserting it.** Production records both the thread that executed the walk and
 the thread that asked:
 
 ```
-runtime: resolved on thread 13888 (this thread is 18844) -- cost 6691us queued
-         + 19102us walk + 10525us anchors; 210975 reads, 3596 VirtualQuery, 207379 cached
+runtime: resolved on thread 16332 (this thread is 12408) over 25 slice(s);
+         LONGEST SLICE 2034us (slice #13) -- walk 45164us + anchors 299us
+         + validate 42us, 6866 queued; 26263 objects processed,
+         0 restart(s), 0 revalidation failure(s)
+runtime: 211201 reads, 1422 VirtualQuery, 209779 cached;
+         phase requested startup, completed startup
 ```
 
 Across the sweep, every resolution in a process — menu, mid-load and gameplay —
@@ -106,32 +111,84 @@ root (a real type error); neither is fatal in survey, neither is fatal below the
 phase that needs the class, and in both cases the anchor is reported rather than
 accepted.
 
-## The frame cost, and what is owed on it
+## The frame cost, measured and then bounded
 
-A whole walk on the game thread costs, measured and reproducible to within a
-millisecond across six runs at the menu:
+A whole walk on the game thread was measured before anything was changed, at
+both ends of the range. The extrapolation that preceded it was wrong by 3x,
+which is why the budget was sized from the measurement instead:
 
-| | |
-|---|---|
-| objects | 26 263 |
-| reads | 210 975 |
-| `VirtualQuery` issued | ~3 500 |
-| cache hit rate | 98.3 % |
-| walk | ~20 ms |
-| anchor resolution | ~10 ms |
+| | menu | gameplay |
+|---|---|---|
+| objects | 26 263 | **194 701** |
+| walk | 20.4 ms | **265.5 ms** |
+| anchor resolution | 10.3 ms | **215.7 ms** |
+| total, in ONE slice | 30.7 ms | **481.2 ms** |
+| reads | 210 975 | 1 558 765 |
+| `VirtualQuery` | 3 552 | 106 802 |
+| cache hits | 98.3 % | 93.1 % |
 
-The per-walk region cache is what makes this affordable at all: without it every
-field read is its own syscall, ~211 000 of them. It is reset at the start of
-every walk so a stale "this region is readable" answer cannot outlive one
-resolution.
+481 ms is ~29 frames at 60 fps. Two things came out of the breakdown that an
+extrapolation would never have shown: anchor resolution was 45 % of the cost,
+and it was one call — `AllOfClass`, scanning every object to find the player
+inventory — so slicing the walk alone would have left a 216 ms hitch immediately
+before publish.
 
-**~30 ms is still roughly two frames at 60 fps, and this is not yet resolved.**
-The gameplay phase carries ~208 000 objects rather than 26 000, which
-extrapolates to ~160 ms on the same per-read cost — a number that has NOT been
-measured, because the cost was only instrumented in the menu block. The next
-work is to capture that number and chunk or budget the walk across ticks. The
-rule is recorded in `ResolveOnGameThread.h`: traversal does not move back to an
-arbitrary thread to buy frame time.
+### What the chunked resolver then measured, 3 launches each
+
+| | menu (26k objects) | gameplay (~200k objects) |
+|---|---|---|
+| slices | 23–25 | 152–183 |
+| **longest slice** | **2 008 / 2 054 / 2 027 µs** | **6 460 / 6 223 / 6 204 µs** |
+| longest slice was | a walk slice (= the budget) | slice 0, the map allocation |
+| walk, summed | 41–45 ms | 301–363 ms |
+| anchor resolution | 0.25 ms | 1.2–3.4 ms |
+| live re-validation | 0.04 ms | 0.08–0.21 ms |
+| restarts | 0 | 0 |
+
+Every walk slice sits on the 2 ms budget to within 3 %. The only slice above it
+is the one-off allocation that sizes the maps for the process, reproducible to
+4 %, and it does nothing else. Production's own log shows the same machinery at
+menu counts: 25 slices, longest 2 034 µs, on thread 16332 while the requesting
+thread was 12408.
+
+**Total CPU went UP, deliberately** — 301–363 ms of walk against 265 ms
+unchunked. Indexing objects by name and by class during the walk is what costs
+that, and it is what deleted a 215.7 ms anchor step no amount of slicing could
+have hidden. Total CPU is not the property being bought; a frame nobody notices
+is.
+
+### The trade, stated
+
+* **frame time**: ≤ ~2 ms per walk slice, one ~6.5 ms setup slice at gameplay
+  object counts, against a single 481 ms stall before.
+* **latency**: ~150–200 ticks for a gameplay resolution, so ~3 s at 60 fps;
+  ~25 ticks (~0.4 s) at menu counts. Resolution happens at startup and after a
+  load, and nothing waits on it interactively.
+* **memory**: three hash maps sized for the object count, which is what the
+  setup slice spends its 6.5 ms allocating and zeroing.
+
+### Four defects found here, each by a number rather than by reasoning
+
+1. **A 3x-wrong extrapolation.** ~160 ms predicted, 481 ms measured.
+2. **Move-to-front on the region cache was blamed for a walk regression it did
+   not cause.** Replacing it barely moved the menu figure (52.0 → 50.3 ms); the
+   cost was the per-object index inserts. It was kept because it did help at
+   gameplay (425.7 → 349.9 ms).
+3. **A 14.1 ms slice** — the anchor step sharing a tick with the walk's tail.
+   Each step now gets its own tick.
+4. **Mid-walk spikes of 3.3–7.8 ms** — `by_name_`/`by_class_` rehashing, found
+   only because `max_slice_index` reported the longest slice was in the MIDDLE
+   of the walk. Reserving them took the menu maximum to the budget itself.
+
+`max_slice_index` also exposed that it was being reported 1-based, which had
+produced a confident and wrong correction about slice 0. Both are fixed.
+
+## What is owed on it
+
+Two levers are deliberately unused, because the property holds without them and
+neither is needed: `by_name_.reserve(n)` over-allocates (distinct names are well
+below object count), and the three reserves could be split across three slices to
+take slice 0 from ~6.5 ms to ~2–3 ms.
 
 ## What is NOT established
 
@@ -159,3 +216,11 @@ from the identity measurement above and has no implementation yet.
 called; the pump holds this module for the process lifetime. That is acceptable
 while the framework does not unload itself mid-game, and is a real constraint on
 any future in-game unload.
+
+**The restart and re-validation paths have never fired.** Across every live run
+— menu, mid-load and gameplay, on every launch — `restarts` and
+`revalidation_failures` were both 0. The machinery that detects the object graph
+moving under a multi-tick walk, the refusal to publish a result whose phase fell
+below the request, and the cancel/restart loop are therefore correct by
+construction and exercised by NO live evidence. They are untested, not proven.
+Provoking them needs a resolution deliberately raced against a level load.

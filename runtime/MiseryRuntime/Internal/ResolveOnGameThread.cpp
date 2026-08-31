@@ -75,8 +75,34 @@ struct Work {
   uint64_t queued_at = 0;
   std::atomic<uint32_t> done{0};
   std::atomic<uint32_t> ok{0};
-  // Two owners: the caller and the queued job. Whichever releases last frees.
+  // Two owners: the caller and the queued job CHAIN. A chain re-enqueues itself
+  // many times but is one owner throughout, releasing once when it stops.
   std::atomic<uint32_t> owners{2};
+
+  // ---- chunked-walk state, owned by the job chain -----------------------
+  // Heap-allocated because it must survive between slices, and held here so the
+  // ownership rule that protects the results protects the walk too.
+  resolve::Layout layout;
+  resolve::Universe* universe = nullptr;
+  bool begun = false;
+  // The walk is finished and the anchor step is owed its OWN slice.
+  //
+  // Without this the last walk slice and the anchor step shared a tick, and
+  // their costs added: measured at 1.5ms of walk remainder plus 12.6ms of
+  // anchors = a 14.1ms slice, which is the hitch this whole design exists to
+  // avoid. One slice now does one kind of work.
+  bool walk_done = false;
+  uint32_t restarts = 0;
+  uint64_t walk_ticks = 0;      // accumulated across slices
+  // Slots examined over the WHOLE resolution, restarts included. The cursor
+  // resets on a restart, so counting it directly would under-report exactly the
+  // runs that did the most work.
+  uint32_t processed_total = 0;
+  uint64_t carried_reads = 0;         // from attempts a restart threw away
+  uint64_t carried_vqueries = 0;
+  uint64_t carried_cache_hits = 0;
+
+  ~Work() { delete universe; }
 };
 
 void ReleaseWork(Work* work) {
@@ -85,34 +111,230 @@ void ReleaseWork(Work* work) {
   }
 }
 
-void ResolveJob(void* ctx) {
+// One slice of one resolution, on the game thread.
+//
+// The state machine, and every exit from it:
+//
+//   begin  -> scan -> scan -> ... -> anchors -> revalidate -> scope -> publish
+//               |                                   |
+//               +-- graph moved ----> restart <------+
+//                                        |
+//                                        +-- too many restarts -> refuse
+//
+// Each call does at most kSliceBudgetUs of work and then either re-enqueues
+// itself or finishes. Nothing here blocks, and nothing here runs longer than one
+// slice: the whole point is that no individual tick is a visible hitch.
+void ResolveSlice(void* ctx) {
   Work* work = static_cast<Work*>(ctx);
-  const uint64_t started = Ticks();
-
-  const resolve::Layout layout;
-  resolve::Universe universe(work->guobjectarray, work->namepool, layout);
-  bool ok = universe.Build(&work->failure);
-  const uint64_t built = Ticks();
-
-  if (ok) {
-    ok = resolve::ResolveAnchors(universe, work->request, &work->anchors,
-                                 &work->failure);
-  }
-  const uint64_t finished = Ticks();
-
-  const resolve::ReadStats stats = resolve::ReadStatsSnapshot();
-  work->cost.queued_us = Micros(work->queued_at, started);
-  work->cost.build_us = Micros(started, built);
-  work->cost.resolve_us = Micros(built, finished);
-  work->cost.objects = static_cast<uint32_t>(universe.Count());
-  work->cost.reads = static_cast<uint32_t>(stats.reads);
-  work->cost.vqueries = static_cast<uint32_t>(stats.queries);
-  work->cost.cache_hits = static_cast<uint32_t>(stats.cache_hits);
+  const uint64_t slice_began = Ticks();
   work->cost.thread_id = GetCurrentThreadId();
+  ++work->cost.slices;
 
-  work->ok.store(ok ? 1u : 0u, std::memory_order_release);
-  work->done.store(1u, std::memory_order_release);
-  ReleaseWork(work);
+  auto finish = [&](bool ok) {
+    const uint32_t slice_us = Micros(slice_began, Ticks());
+    if (slice_us > work->cost.max_slice_us) {
+      work->cost.max_slice_us = slice_us;
+      // slices was already incremented for this call, so it is a count;
+      // subtract one to report a 0-based index.
+      work->cost.max_slice_index = work->cost.slices - 1;
+    }
+    const resolve::ReadStats stats = resolve::ReadStatsSnapshot();
+    work->cost.reads =
+        static_cast<uint32_t>(work->carried_reads + stats.reads);
+    work->cost.vqueries =
+        static_cast<uint32_t>(work->carried_vqueries + stats.queries);
+    work->cost.cache_hits =
+        static_cast<uint32_t>(work->carried_cache_hits + stats.cache_hits);
+    work->cost.restarts = work->restarts;
+    work->ok.store(ok ? 1u : 0u, std::memory_order_release);
+    work->done.store(1u, std::memory_order_release);
+    ReleaseWork(work);
+  };
+
+  auto yield_slice = [&]() {
+    const uint32_t slice_us = Micros(slice_began, Ticks());
+    if (slice_us > work->cost.max_slice_us) {
+      work->cost.max_slice_us = slice_us;
+      // slices was already incremented for this call, so it is a count;
+      // subtract one to report a 0-based index.
+      work->cost.max_slice_index = work->cost.slices - 1;
+    }
+    if (!g_dispatcher->Enqueue(&ResolveSlice, work)) {
+      // The dispatcher stopped accepting: the pump is going away, so this
+      // resolution cannot continue. Reported, not silently abandoned.
+      work->failure.Set("the game-thread pump stopped before the resolution "
+                        "completed");
+      finish(false);
+    }
+  };
+
+  auto restart = [&]() -> bool {
+    // Fold the discarded attempt's read counts into the totals before
+    // BeginBuild zeroes them, or a restart would erase the evidence of the work
+    // that provoked it.
+    const resolve::ReadStats stats = resolve::ReadStatsSnapshot();
+    work->carried_reads += stats.reads;
+    work->carried_vqueries += stats.queries;
+    work->carried_cache_hits += stats.cache_hits;
+    if (++work->restarts > kMaxRestarts) {
+      work->failure.Set("the object graph kept changing under the walk (" +
+                        std::to_string(work->restarts) +
+                        " restarts); it did not hold still long enough to "
+                        "resolve");
+      return false;
+    }
+    work->begun = false;
+    work->walk_done = false;
+    work->walk_ticks = 0;
+    delete work->universe;
+    work->universe = nullptr;
+    return true;
+  };
+
+  // ---- begin, or re-begin after a restart -------------------------------
+  if (!work->begun) {
+    if (work->cost.queued_us == 0) {
+      work->cost.queued_us = Micros(work->queued_at, slice_began);
+    }
+    work->universe = new resolve::Universe(work->guobjectarray, work->namepool,
+                                          work->layout);
+    resolve::Failure local;
+    if (!work->universe->BeginBuild(&local)) {
+      work->failure.Set(local.what);
+      finish(false);
+      return;
+    }
+    work->begun = true;
+    // BeginBuild is not free: it reserves a hash bucket array sized for every
+    // object in the process, which is megabytes at gameplay counts. Doing that
+    // and then walking in the same tick made slice 0 the longest slice of the
+    // whole resolution. It gets its own tick, for the same reason the anchor
+    // step does -- one slice, one kind of work.
+    yield_slice();
+    return;
+  }
+
+  // ---- one bounded slice of the walk -----------------------------------
+  if (work->walk_done) {
+    goto anchors;   // this tick belongs to the anchor step, not the walk
+  }
+  {
+  const uint64_t walk_from = Ticks();
+  const uint32_t cursor_before = work->universe->Cursor();
+  resolve::Failure walk_failure;
+  const resolve::Universe::Step step = work->universe->StepBuild(
+      kSliceBudgetUs, kSliceMaxObjects, &walk_failure);
+  work->walk_ticks += Ticks() - walk_from;
+  work->processed_total += work->universe->Cursor() - cursor_before;
+  work->cost.objects_processed = work->processed_total;
+
+  if (step == resolve::Universe::Step::kRestartNeeded) {
+    if (!restart()) {
+      finish(false);
+      return;
+    }
+    yield_slice();
+    return;
+  }
+  if (step == resolve::Universe::Step::kMore) {
+    yield_slice();
+    return;
+  }
+  if (walk_failure.failed) {
+    work->failure.Set(walk_failure.what);
+    finish(false);
+    return;
+  }
+
+  // The walk finished. Hand the anchor step its own tick rather than doing it
+  // on the end of this one.
+  work->walk_done = true;
+  work->cost.build_us = Micros(0, work->walk_ticks);
+  yield_slice();
+  return;
+  }
+
+anchors:
+  // ---- the walk is complete: anchors, in a slice of their own -----------
+  //
+  // Cheap now. Anchor lookups used to scan the whole universe per anchor, which
+  // cost 215.7 ms in gameplay; objects are indexed by name during the walk, so
+  // this is a hash probe per anchor and stays well inside one slice. max_slice_us
+  // is the check on that claim.
+  const uint64_t anchors_from = Ticks();
+  resolve::Anchors candidate;
+  const bool resolved = resolve::ResolveAnchors(*work->universe, work->request,
+                                                &candidate, &work->failure);
+  work->cost.resolve_us = Micros(anchors_from, Ticks());
+  work->cost.objects = static_cast<uint32_t>(work->universe->Count());
+  work->cost.completed_phase = static_cast<uint32_t>(candidate.reached);
+
+  if (!resolved) {
+    work->anchors = candidate;
+    finish(false);
+    return;
+  }
+
+  // ---- final live re-validation, in ONE uninterrupted slice -------------
+  //
+  // Everything above is an observation of some earlier moment. This is the only
+  // place the result is checked against the process as it is NOW, and it is
+  // deliberately not sliced: a validation spread over ticks would have the same
+  // problem it exists to solve.
+  const uint64_t validate_from = Ticks();
+  for (const resolve::Anchors::Identity& identity : candidate.identities) {
+    if (!work->universe->StillIs(identity.address, identity.name,
+                                 identity.class_name)) {
+      ++work->cost.revalidation_failures;
+      work->cost.validate_us = Micros(validate_from, Ticks());
+      if (!restart()) {
+        work->failure.Set("'" + identity.label +
+                          "' was destroyed while the walk was in progress, and "
+                          "the graph would not hold still long enough to "
+                          "resolve again");
+        finish(false);
+        return;
+      }
+      yield_slice();
+      return;
+    }
+    if (!identity.check_outer_class.empty() &&
+        work->universe->LiveOuterClassName(identity.address) !=
+            identity.check_outer_class) {
+      ++work->cost.revalidation_failures;
+      work->cost.validate_us = Micros(validate_from, Ticks());
+      if (!restart()) {
+        work->failure.Set("'" + identity.label +
+                          "' is no longer owned by a " +
+                          identity.check_outer_class);
+        finish(false);
+        return;
+      }
+      yield_slice();
+      return;
+    }
+  }
+  work->cost.validate_us = Micros(validate_from, Ticks());
+
+  // ---- the phase must not have moved under us --------------------------
+  //
+  // A resolution that began before content existed and completed after it
+  // appeared describes neither state. Publishing it would be publishing a mixed
+  // view, so it restarts instead.
+  if (!work->request.survey &&
+      work->cost.completed_phase < work->cost.requested_phase) {
+    work->failure.Set("the process fell below the requested phase during the "
+                      "walk (asked for " +
+                      std::string(resolve::PhaseName(work->request.require)) +
+                      ", completed at " +
+                      std::string(resolve::PhaseName(candidate.reached)) + ")");
+    work->anchors = candidate;
+    finish(false);
+    return;
+  }
+
+  work->anchors = candidate;
+  finish(true);
 }
 
 }  // namespace
@@ -185,8 +407,12 @@ bool Resolve(uint64_t guobjectarray, uint64_t namepool,
   work->namepool = namepool;
   work->request = request;              // copied: the job must not need it alive
   work->queued_at = Ticks();
+  // Captured at REQUEST time, before any slice runs. The completion phase is
+  // compared against this so a walk that spanned a transition is refused rather
+  // than published as if it described one state.
+  work->cost.requested_phase = static_cast<uint32_t>(request.require);
 
-  if (!g_dispatcher->Enqueue(&ResolveJob, work)) {
+  if (!g_dispatcher->Enqueue(&ResolveSlice, work)) {
     work->owners.store(1u, std::memory_order_release);   // no job will run
     ReleaseWork(work);
     Say(error, "the dispatcher refused the job (not accepting work)");

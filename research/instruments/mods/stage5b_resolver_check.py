@@ -46,17 +46,31 @@ import nativebuild as nb                          # noqa: E402
 import p04_controller as p04                      # noqa: E402
 
 RESOLVE_MAGIC = 0x4D42504C52535600
-# Proto 2: resolution runs on the game thread, so the carrier bindings are
-# inputs and the frame cost comes back as output.
-RESOLVE_PROTO = 2
+# Proto 3: resolution runs on the game thread AND is chunked across ticks, so
+# the carrier bindings are inputs and the per-slice numbers come back as output.
+RESOLVE_PROTO = 4
 RUNTIME_DLL = "MiseryRuntimeStage5.dll"
-IO_FMT = "<QIIQQQQQ16s16s16sIIIiIIIIIIII128s1024s8192s"
+# Spelled out rather than written as one long run of letters: this struct has
+# been miscounted twice by hand, and each time the mismatch was only caught by
+# comparing sizeof() against calcsize(). The groups match the C++ declaration
+# order in ResolverDump.cpp, and the 21 is the integer block from require_phase
+# through completed_phase.
+IO_FMT = ("<"
+          "Q"          # magic
+          "II"         # proto, struct_size
+          "QQ"         # guobjectarray, namepool
+          "QQQ"        # add_ticker, get_core_ticker, fmemory_malloc
+          "16s16s16s"  # sig_add, sig_get, sig_malloc
+          "IIIi" + "I" * 17 +   # 21 ints: phase..completed_phase (rc is signed)
+          "128s"       # world_item_class
+          "1024s"      # error
+          "8192s")     # json
 IO_SIZE = struct.calcsize(IO_FMT)
 
 # How long to let the game thread drain one resolution. Generous: during a level
 # load a frame can be long, and a timeout here would be reported as a resolver
 # failure when it is really a busy engine.
-RESOLVE_TIMEOUT_MS = 30000
+RESOLVE_TIMEOUT_MS = 180000
 
 
 def carrier_from_bindings(profile, module_base):
@@ -137,6 +151,7 @@ def pack_io(guobjectarray, namepool, require_phase, world_class, carrier,
         int(require_phase), int(timeout_ms),
         0, -1, 0,
         0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0,
         world_class.encode("utf-8")[:127].ljust(128, b"\x00"),
         b"\x00" * 1024, b"\x00" * 8192)
 
@@ -147,8 +162,16 @@ def unpack_io(raw):
             "queued_us": v[16], "build_us": v[17], "resolve_us": v[18],
             "reads": v[19], "vqueries": v[20], "cache_hits": v[21],
             "game_thread_id": v[22],
-            "error": v[24].split(b"\x00", 1)[0].decode("utf-8", "replace"),
-            "json": v[25].split(b"\x00", 1)[0].decode("utf-8", "replace")}
+            # The chunking evidence. max_slice_us is the acceptance number: the
+            # property is not that the work finished but that no single
+            # game-thread slice was long enough to be seen.
+            "slices": v[23], "max_slice_us": v[24],
+            "max_slice_index": v[25],
+            "objects_processed": v[26], "restarts": v[27],
+            "revalidation_failures": v[28], "validate_us": v[29],
+            "requested_phase": v[30], "completed_phase": v[31],
+            "error": v[33].split(b"\x00", 1)[0].decode("utf-8", "replace"),
+            "json": v[34].split(b"\x00", 1)[0].decode("utf-8", "replace")}
 
 
 def run_cpp(session, runtime, guobjectarray, namepool, require_phase,
