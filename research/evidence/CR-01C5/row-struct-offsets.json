@@ -1,0 +1,66 @@
+{
+  "bool_semantics": {
+    "byte_offset": 0,
+    "field_mask": "0xff",
+    "is_bitfield": false
+  },
+  "build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "generated_at": "2026-08-31T18:03:38Z",
+  "generated_by": "research/instruments/mods/stage5b_dump_row_offsets.py",
+  "inventory": {
+    "off_delegate": 152,
+    "off_inventory_array": 336,
+    "off_invitem_in_slot": 24
+  },
+  "new_item_values": {
+    "amount": 1,
+    "decaytime": 0,
+    "durability": 100.0,
+    "inuse": 0,
+    "quickbind": -1,
+    "rotated": 0,
+    "useamount": 0
+  },
+  "note": "Resolved by live reflection with the CR-01C5 controller's own type, size and MetaClass checks. Committed so the binding profile can carry them instead of the runtime re-deriving them: a field offset inside a cooked struct is a build-specific measured fact, exactly like an RVA.",
+  "run_note": [
+    "BP_StaticMasterItem_C super chain to Actor: BP_StaticMasterItem_C -> Actor",
+    "SpawnObject: flags=0x4022403 ParmsSize=24 RVO=16 EG=null",
+    "AddItem: flags=0xcc20000 ParmsSize=120 RVO=65535 EG=null",
+    "RemoveItem: flags=0xc020000 ParmsSize=83 RVO=65535 EG=null",
+    "SGK ItemDetails: flags=0x1cc22000 ParmsSize=2336 RVO=65535 EG=null",
+    "Conv_StringToText: flags=0x14022403 ParmsSize=32 RVO=16 EG=null",
+    "Conv_TextToString: flags=0x14422403 ParmsSize=32 RVO=16 EG=null",
+    "LoadAsset_Blocking: flags=0x4022403 ParmsSize=48 RVO=40 EG=null",
+    "Conv_SoftObjectReferenceToString: flags=0x14422403 ParmsSize=56 RVO=40 EG=null",
+    "ProcessEvent slot 77 agrees across 3 unrelated CDOs -> 0x7ff6b99ec1f0",
+    "all 8 engine addresses byte-verified live==disk"
+  ],
+  "scalar_fields": {
+    "AllowStacking": 64,
+    "Height": 60,
+    "MaxStack": 68,
+    "Weight": 48,
+    "Width": 56
+  },
+  "struct": "S_ItemDetails",
+  "struct_size": 2264,
+  "text_fields": {
+    "Description": 32,
+    "Name": 0,
+    "ShortName": 16
+  },
+  "world_fields": {
+    "off_inventory_icon": 224,
+    "off_itemoffsets": 2064,
+    "off_move_icon": 232,
+    "off_override_flag": 240,
+    "off_override_sizex": 248,
+    "off_override_sizey": 244,
+    "off_rot": 0,
+    "off_scale": 64,
+    "off_staticmesh": 112,
+    "off_trans": 32,
+    "off_worldclass": 192
+  },
+  "worldclass_metaclass": "Actor"
+}

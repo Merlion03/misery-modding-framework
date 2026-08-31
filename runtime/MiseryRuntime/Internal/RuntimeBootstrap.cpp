@@ -56,6 +56,7 @@
 #include "../Public/MiseryBridge.h"
 #include "Bindings.h"
 #include "ContentGeneration.h"
+#include "ItemsBackend.h"
 #include "ResolveOnGameThread.h"
 #include "Resolver.h"
 
@@ -103,6 +104,10 @@ misery::bindings::Profile g_profile;
 uint64_t g_module_base = 0;
 uint64_t g_module_size = 0;
 
+// The items backend logs through the runtime's log, so one file tells the whole
+// story rather than two halves of it.
+void LogLine(const char* line);
+
 void Log(const char* format, ...) {
   if (g_log_path[0] == '\0') {
     return;
@@ -122,6 +127,8 @@ void Log(const char* format, ...) {
   fprintf(file, "\n");
   fclose(file);
 }
+
+void LogLine(const char* line) { Log("%s", line); }
 
 // The running executable's mapped base and size, from its own PE headers. Read
 // rather than assumed because ASLR moves the base every launch and the profile
@@ -407,6 +414,13 @@ DWORD WINAPI RuntimeThread(LPVOID) {
   // a third of a second of game thread spread over a few hundred slices, so
   // polling hard would be a permanent background drain for the whole time a
   // player sits in a menu.
+  // The items backend, installed as the bridge's. It takes the profile and the
+  // roots; it does NOT take anchors, because anchors belong to a generation and
+  // it acquires one per call.
+  misery::items::Install(g_profile, g_module_base, guobjectarray, &LogLine);
+  Log("runtime: items backend installed; it will bind to a content generation "
+      "on first use and rebind if that generation is revoked");
+
   Log("runtime: native subsystems ready; entering the content lifecycle");
   ContentLifecycle(guobjectarray, namepool);
   return 0;

@@ -107,8 +107,22 @@
       }
     }
   },
-  "generated_at": "2026-08-30T23:11:03Z",
+  "generated_at": "2026-08-31T18:06:48Z",
   "generated_by": "tools/modplatform/bindings.py 1.0.0",
+  "inventory": {
+    "off_delegate": 152,
+    "off_inventory_array": 336,
+    "off_invitem_in_slot": 24
+  },
+  "new_item_values": {
+    "amount": 1,
+    "decaytime": 0,
+    "durability": 100.0,
+    "inuse": 0,
+    "quickbind": -1,
+    "rotated": 0,
+    "useamount": 0
+  },
   "object_layout": {
     "datatable_parent_tables": 176,
     "datatable_rowstruct": 40,
@@ -132,7 +146,29 @@
     "name": "S_ItemDetails",
     "size": 2264,
     "size_source": "research/evidence/CR-01C5/retired-demo-state.json",
-    "source": "research/evidence/CR-01B/structs-defs.json"
+    "source": "research/evidence/CR-01B/structs-defs.json",
+    "write_offsets": {
+      "AllowStacking": 64,
+      "Description": 32,
+      "Height": 60,
+      "MaxStack": 68,
+      "Name": 0,
+      "ShortName": 16,
+      "Weight": 48,
+      "Width": 56,
+      "inventory_icon": 224,
+      "itemoffsets": 2064,
+      "move_icon": 232,
+      "override_flag": 240,
+      "override_sizex": 248,
+      "override_sizey": 244,
+      "rot": 0,
+      "scale": 64,
+      "staticmesh": 112,
+      "trans": 32,
+      "worldclass": 192
+    },
+    "write_offsets_source": "research/evidence/CR-01C5/row-struct-offsets.json"
   },
   "vtable_slots": {
     "datatable_add_row": {

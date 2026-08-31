@@ -272,7 +272,13 @@ def profile_for_self():
         "vtable_slots": {"process_event": {"slot": 77, "source": "n/a"}},
         "functions": {"forbid_flags": 0x0138C0C4, "gates": {}},
         "row_struct": {"name": "S_ItemDetails", "size": 2264,
-                       "fields": {"Name": 0}, "source": "n/a"},
+                       "fields": {"Name": 0},
+                       # Required by the reader, so the synthetic profile has to
+                       # carry them too -- a profile the runtime would refuse is
+                       # not a useful subject for a VerifyCode test.
+                       "write_offsets": {"Name": 0, "ShortName": 16},
+                       "source": "n/a"},
+        "inventory": {"off_inventory_array": 336, "off_delegate": 152},
         "object_layout": {"datatable_rowstruct": 40,
                           "datatable_parent_tables": 176,
                           "ustruct_properties_size": 88},

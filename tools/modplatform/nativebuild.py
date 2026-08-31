@@ -105,6 +105,8 @@ def build_dll(sources, out_name, extra="", libs=""):
 MISERY_RUNTIME_SOURCES = (
     "RuntimeBootstrap.cpp",     # the proxy's entry point and the lifecycle
     "ContentGeneration.cpp",    # published/revoked content anchors
+    "ItemsBackend.cpp",         # fills the proven path from profile+generation
+    "CR01C5ProbeDll.cpp",       # the proven registration path itself
     "BridgeTables.cpp",         # the frozen mod-facing bridge
     "Json.cpp",                 # the binding profile reader
     "Bindings.cpp",             # and its validation

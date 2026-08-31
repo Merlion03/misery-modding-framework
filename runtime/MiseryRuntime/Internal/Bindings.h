@@ -76,6 +76,13 @@ struct Profile {
   std::string row_struct_name;
   uint32_t row_struct_size = 0;
   std::map<std::string, uint32_t> row_struct_fields;
+  // Every offset the Items backend WRITES through, measured once by live
+  // reflection with the controller's own type checks and committed. Separate
+  // from row_struct_fields, which is the static reflection dump: these include
+  // members nested inside UIDetails and the Transform, which the top-level dump
+  // does not describe.
+  std::map<std::string, uint32_t> write_offsets;
+  std::map<std::string, uint32_t> inventory;
 
   std::map<std::string, uint32_t> object_layout;
 
@@ -84,6 +91,8 @@ struct Profile {
   bool Rva(const std::string& name, uint64_t* out) const;
   bool Slot(const std::string& name, uint32_t* out) const;
   bool Field(const std::string& name, uint32_t* out) const;
+  bool WriteOffset(const std::string& name, uint32_t* out) const;
+  bool InventoryOffset(const std::string& name, uint32_t* out) const;
   const FunctionGate* Gate(const std::string& qualified_name) const;
 };
 

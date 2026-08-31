@@ -135,6 +135,24 @@ bool Profile::Field(const std::string& name, uint32_t* out) const {
   return true;
 }
 
+bool Profile::WriteOffset(const std::string& name, uint32_t* out) const {
+  auto it = write_offsets.find(name);
+  if (it == write_offsets.end()) {
+    return false;
+  }
+  *out = it->second;
+  return true;
+}
+
+bool Profile::InventoryOffset(const std::string& name, uint32_t* out) const {
+  auto it = inventory.find(name);
+  if (it == inventory.end()) {
+    return false;
+  }
+  *out = it->second;
+  return true;
+}
+
 const FunctionGate* Profile::Gate(const std::string& qualified_name) const {
   auto it = function_gates.find(qualified_name);
   return it == function_gates.end() ? nullptr : &it->second;
@@ -363,6 +381,40 @@ bool Load(const char* path, const char* expected_build_key, Profile* out,
   if (out->row_struct_fields.empty()) {
     Say(error, "row_struct.fields is empty");
     return false;
+  }
+
+  // The write offsets, and the inventory members beside them. Required, not
+  // optional: a runtime that loaded a profile without them would come up and
+  // then refuse every registration, which is a worse failure than not starting.
+  const json::Value* written = Need(*row, "write_offsets", json::Kind::kObject,
+                                    "row_struct", error);
+  if (written == nullptr) {
+    return false;
+  }
+  for (const auto& entry : written->object) {
+    if (!entry.second.Is(json::Kind::kInt) || entry.second.integer < 0 ||
+        static_cast<uint64_t>(entry.second.integer) >= out->row_struct_size) {
+      Say(error, "row_struct.write_offsets.%s is not an offset inside the "
+                 "struct", entry.first.c_str());
+      return false;
+    }
+    out->write_offsets[entry.first] =
+        static_cast<uint32_t>(entry.second.integer);
+  }
+  const json::Value* inventory = Need(root, "inventory", json::Kind::kObject,
+                                      "the profile", error);
+  if (inventory == nullptr) {
+    return false;
+  }
+  for (const auto& entry : inventory->object) {
+    if (!entry.second.Is(json::Kind::kInt) || entry.second.integer < 0 ||
+        entry.second.integer > 0xFFFF) {
+      Say(error, "inventory.%s is not a plausible member offset",
+          entry.first.c_str());
+      return false;
+    }
+    out->inventory[entry.first] =
+        static_cast<uint32_t>(entry.second.integer);
   }
 
   // ---- object layout -----------------------------------------------------

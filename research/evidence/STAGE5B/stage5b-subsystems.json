@@ -1,17 +1,17 @@
 {
   "stage": "5B",
   "step": "native subsystems",
-  "runtime_log": "[20:45:09.627] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[20:45:09.628] runtime: every code address in the profile matches live memory\n[20:45:09.629] runtime: the engine is up after 0ms (26263 objects in the array)\n[20:45:09.629] runtime: the game-thread carrier is active\n[20:45:09.831] runtime: 26263 live objects\n[20:45:09.831] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[20:45:09.831] runtime: resolved on thread 6068 (this thread is 17348) over 24 slice(s); LONGEST SLICE 2020us (slice #2) -- walk 43953us + anchors 251us + validate 105us, 3451 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[20:45:09.831] runtime: 237582 reads, 1451 VirtualQuery, 236131 cached; phase requested startup, completed startup\n[20:45:09.831] runtime: game thread declared as 6068 (measured, not assumed)\n[20:45:09.831] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[20:45:09.831] runtime: native subsystems ready; entering the content lifecycle\n[20:45:10.030] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[20:46:10.944] runtime: content generation 1 published -- content, 61453 objects, 60 slice(s), longest 2045us, 30 anchor identities\n[20:46:10.944] runtime: generation 1: ItemList 0x21518736d00, MasterItemList 0x2150b254140, RowStruct 0x215790ba720 (2264 bytes)\n[20:46:30.945] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[20:46:32.498] runtime: content generation 2 published -- gameplay, 172044 objects, 182 slice(s), longest 7266us, 30 anchor identities\n[20:46:32.499] runtime: generation 2: ItemList 0x21518d5c640, MasterItemList 0x2151a3b35e0, RowStruct 0x215150da060 (2264 bytes)\n",
+  "runtime_log": "[21:21:13.534] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[21:21:13.535] runtime: every code address in the profile matches live memory\n[21:21:13.535] runtime: the engine is up after 0ms (26263 objects in the array)\n[21:21:13.535] runtime: the game-thread carrier is active\n[21:21:13.726] runtime: 26263 live objects\n[21:21:13.726] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[21:21:13.726] runtime: resolved on thread 17648 (this thread is 4536) over 23 slice(s); LONGEST SLICE 2027us (slice #14) -- walk 40800us + anchors 267us + validate 72us, 1173 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[21:21:13.726] runtime: 237580 reads, 1441 VirtualQuery, 236139 cached; phase requested startup, completed startup\n[21:21:13.726] runtime: game thread declared as 17648 (measured, not assumed)\n[21:21:13.726] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[21:21:13.726] runtime: items backend installed; it will bind to a content generation on first use and rebind if that generation is revoked\n[21:21:13.727] runtime: native subsystems ready; entering the content lifecycle\n[21:21:13.918] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[21:22:14.876] runtime: content generation 1 published -- content, 62773 objects, 67 slice(s), longest 2063us, 30 anchor identities\n[21:22:14.876] runtime: generation 1: ItemList 0x18d1e1bfd00, MasterItemList 0x18d24d99380, RowStruct 0x18d257f7ea0 (2264 bytes)\n[21:22:34.877] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[21:22:36.476] runtime: content generation 2 published -- gameplay, 200909 objects, 188 slice(s), longest 6614us, 30 anchor identities\n[21:22:36.476] runtime: generation 2: ItemList 0x18d24e04fc0, MasterItemList 0x18d2d914300, RowStruct 0x18d257fa180 (2264 bytes)\n",
   "published": [
     [
       "1",
       "content",
-      "61453"
+      "62773"
     ],
     [
       "2",
       "gameplay",
-      "172044"
+      "200909"
     ]
   ],
   "revoked": [
@@ -24,16 +24,16 @@
   "generations": [
     {
       "generation": 1,
-      "item_list": "0x21518736d00",
-      "master_item_list": "0x2150b254140",
-      "row_struct": "0x215790ba720",
+      "item_list": "0x18d1e1bfd00",
+      "master_item_list": "0x18d24d99380",
+      "row_struct": "0x18d257f7ea0",
       "row_struct_size": 2264
     },
     {
       "generation": 2,
-      "item_list": "0x21518d5c640",
-      "master_item_list": "0x2151a3b35e0",
-      "row_struct": "0x215150da060",
+      "item_list": "0x18d24e04fc0",
+      "master_item_list": "0x18d2d914300",
+      "row_struct": "0x18d257fa180",
       "row_struct_size": 2264
     }
   ],
@@ -51,32 +51,32 @@
     {
       "check": "the runtime read its profile and verified the code addresses",
       "pass": true,
-      "detail": "[20:45:09.627] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[20:45:09.628] runtime: every code address in the profile matches live memory\n[2"
+      "detail": "[21:21:13.534] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[21:21:13.535] runtime: every code address in the profile matches live memory\n[2"
     },
     {
       "check": "the startup anchors resolved",
       "pass": true,
-      "detail": "uct 0x215790ba720 (2264 bytes)\n[20:46:30.945] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[20:46:32.498] runtime: content generation 2 published -- gameplay, 172044 objects, 182 slice(s), longest 7266us, 30 anchor identities\n[20:46:32.499] runtime: generation 2: ItemList 0x21518d5c640, MasterItemList 0x2151a3b35e0, RowStruct 0x215150da060 (2264 bytes)\n"
+      "detail": "uct 0x18d257f7ea0 (2264 bytes)\n[21:22:34.877] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[21:22:36.476] runtime: content generation 2 published -- gameplay, 200909 objects, 188 slice(s), longest 6614us, 30 anchor identities\n[21:22:36.476] runtime: generation 2: ItemList 0x18d24e04fc0, MasterItemList 0x18d2d914300, RowStruct 0x18d257fa180 (2264 bytes)\n"
     },
     {
       "check": "the runtime declared a game thread",
       "pass": true,
-      "detail": "uct 0x215790ba720 (2264 bytes)\n[20:46:30.945] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[20:46:32.498] runtime: content generation 2 published -- gameplay, 172044 objects, 182 slice(s), longest 7266us, 30 anchor identities\n[20:46:32.499] runtime: generation 2: ItemList 0x21518d5c640, MasterItemList 0x2151a3b35e0, RowStruct 0x215150da060 (2264 bytes)\n"
+      "detail": "uct 0x18d257f7ea0 (2264 bytes)\n[21:22:34.877] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[21:22:36.476] runtime: content generation 2 published -- gameplay, 200909 objects, 188 slice(s), longest 6614us, 30 anchor identities\n[21:22:36.476] runtime: generation 2: ItemList 0x18d24e04fc0, MasterItemList 0x18d2d914300, RowStruct 0x18d257fa180 (2264 bytes)\n"
     },
     {
       "check": "it declared the thread the resolver actually ran on -- two independent statements that agree",
       "pass": true,
-      "detail": "declared=6068 resolved_on=6068"
+      "detail": "declared=17648 resolved_on=17648"
     },
     {
       "check": "the bridge was acquired with the frozen root",
       "pass": true,
-      "detail": "['[20:45:09.831] runtime: bridge acquired, ABI epoch 1, root 40 bytes']"
+      "detail": "['[21:21:13.726] runtime: bridge acquired, ABI epoch 1, root 40 bytes']"
     },
     {
       "check": "a content generation was PUBLISHED",
       "pass": true,
-      "detail": "s\n[20:46:10.944] runtime: generation 1: ItemList 0x21518736d00, MasterItemList 0x2150b254140, RowStruct 0x215790ba720 (2264 bytes)\n[20:46:30.945] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[20:46:32.498] runtime: content generation 2 published -- gameplay, 172044 objects, 182 slice(s), longest 7266us, 30 anchor identities\n[20:46:32.499] runtime: generation 2: ItemList 0x21518d5c640, MasterItemList 0x2151a3b35e0, RowStruct 0x215150da060 (2264 bytes)\n"
+      "detail": "s\n[21:22:14.876] runtime: generation 1: ItemList 0x18d1e1bfd00, MasterItemList 0x18d24d99380, RowStruct 0x18d257f7ea0 (2264 bytes)\n[21:22:34.877] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[21:22:36.476] runtime: content generation 2 published -- gameplay, 200909 objects, 188 slice(s), longest 6614us, 30 anchor identities\n[21:22:36.476] runtime: generation 2: ItemList 0x18d24e04fc0, MasterItemList 0x18d2d914300, RowStruct 0x18d257fa180 (2264 bytes)\n"
     },
     {
       "check": "a published generation was later REVOKED -- the world was replaced and the old anchors stopped being usable",
@@ -91,7 +91,7 @@
     {
       "check": "the new generation is a different, larger world -- not the same anchors republished",
       "pass": true,
-      "detail": "first=61453 objects, last=172044 objects"
+      "detail": "first=62773 objects, last=200909 objects"
     },
     {
       "check": "the revocation named the anchor and how it died",
@@ -106,7 +106,7 @@
     {
       "check": "the item tables of the two generations are DIFFERENT objects -- which is why the old ones had to be revoked",
       "pass": true,
-      "detail": "gen1 ItemList 0x21518736d00 vs gen2 0x21518d5c640"
+      "detail": "gen1 ItemList 0x18d1e1bfd00 vs gen2 0x18d24e04fc0"
     },
     {
       "check": "every generation's row struct is the width the binding profile records",
@@ -116,7 +116,7 @@
     {
       "check": "nothing failed closed",
       "pass": true,
-      "detail": "uct 0x215790ba720 (2264 bytes)\n[20:46:30.945] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[20:46:32.498] runtime: content generation 2 published -- gameplay, 172044 objects, 182 slice(s), longest 7266us, 30 anchor identities\n[20:46:32.499] runtime: generation 2: ItemList 0x21518d5c640, MasterItemList 0x2151a3b35e0, RowStruct 0x215150da060 (2264 bytes)\n"
+      "detail": "uct 0x18d257f7ea0 (2264 bytes)\n[21:22:34.877] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[21:22:36.476] runtime: content generation 2 published -- gameplay, 200909 objects, 188 slice(s), longest 6614us, 30 anchor identities\n[21:22:36.476] runtime: generation 2: ItemList 0x18d24e04fc0, MasterItemList 0x18d2d914300, RowStruct 0x18d257fa180 (2264 bytes)\n"
     },
     {
       "check": "the game is still running",

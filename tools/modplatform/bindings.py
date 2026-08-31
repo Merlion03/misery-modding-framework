@@ -153,6 +153,18 @@ STRUCT_DEFS = os.path.join(REPO, "research", "evidence", "CR-01B",
 ROW_STRUCT_SIZE_SOURCE = os.path.join(REPO, "research", "evidence", "CR-01C5",
                                       "retired-demo-state.json")
 
+# Every offset the Items backend WRITES through, measured once by live
+# reflection with the CR-01C5 controller's own type, size and MetaClass checks,
+# and committed rather than re-derived per run.
+#
+# They belong here for the same reason the RVAs do: a field's offset inside a
+# cooked struct is a build-specific measured fact, and Stage 5B's split puts
+# those in the profile and only per-run dynamic facts in the resolver. The
+# runtime carries them and validates the one thing that would catch a
+# mismatch -- the live row struct's total width against the width recorded here.
+WRITE_OFFSETS_SOURCE = os.path.join(REPO, "research", "evidence", "CR-01C5",
+                                    "row-struct-offsets.json")
+
 # UDataTable member offsets. UE 5.4 layout facts, restated here because the
 # runtime reads them through the profile and a version mismatch must be visible
 # in one place.
@@ -207,6 +219,45 @@ def row_struct_size():
     return size
 
 
+def write_offsets():
+    """The measured offsets, flattened, cross-checked against the CR-01B dump.
+
+    The two sources are independent -- one is a reflection walk of the live
+    process, the other a static dump committed months earlier -- so where they
+    describe the same field they must agree. A disagreement means one of them is
+    describing a different build, and guessing which would be worse than
+    refusing.
+    """
+    with open(WRITE_OFFSETS_SOURCE, encoding="utf-8") as handle:
+        measured = json.load(handle)
+    flat = {}
+    flat.update({k: int(v) for k, v in measured["text_fields"].items()})
+    flat.update({k: int(v) for k, v in measured["scalar_fields"].items()})
+    for key, value in measured["world_fields"].items():
+        flat[key[len("off_"):] if key.startswith("off_") else key] = int(value)
+
+    static = row_struct_offsets()
+    overlap = {"Name": "Name", "ShortName": "ShortName",
+               "Description": "Description", "Weight": "Weight",
+               "Width": "Width", "Height": "Height",
+               "AllowStacking": "AllowStacking", "MaxStack": "MaxStack",
+               "staticmesh": "StaticMesh", "worldclass": "WorldClass",
+               "itemoffsets": "ItemOffsets", "inventory_icon": "UIDetails"}
+    for measured_key, static_key in overlap.items():
+        if measured_key in flat and static_key in static and                 flat[measured_key] != static[static_key]:
+            raise BindingsError(
+                "the live reflection puts %s at %d but the CR-01B dump puts %s "
+                "at %d; one of them is describing a different build"
+                % (measured_key, flat[measured_key], static_key,
+                   static[static_key]))
+    if int(measured["struct_size"]) != row_struct_size():
+        raise BindingsError(
+            "the measured offsets were taken against a %d-byte struct, but the "
+            "recorded width is %d"
+            % (int(measured["struct_size"]), row_struct_size()))
+    return flat, measured
+
+
 def row_struct_offsets():
     with open(STRUCT_DEFS, encoding="utf-8") as handle:
         defs = json.load(handle)
@@ -246,6 +297,7 @@ def emit(exe_path, build_id, build_key, engine, *, generated_at=None):
                             % (exe_path, digest, build_key))
 
     code, data, slots = measured_sources()
+    written, measured = write_offsets()
     addresses = {}
     for name, (rva, source) in sorted(code.items()):
         raw = section_bytes(image, rva, 16)
@@ -284,9 +336,23 @@ def emit(exe_path, build_id, build_key, engine, *, generated_at=None):
             "name": ROW_STRUCT_NAME,
             "size": row_struct_size(),
             "fields": row_struct_offsets(),
+            "write_offsets": written,
             "source": "research/evidence/CR-01B/structs-defs.json",
             "size_source": "research/evidence/CR-01C5/retired-demo-state.json",
+            "write_offsets_source":
+                "research/evidence/CR-01C5/row-struct-offsets.json",
         },
+        # Not part of S_ItemDetails, but the same class of measured fact and
+        # used by the same registration path.
+        #
+        # new_item_values is deliberately NOT carried. Those are the values a
+        # freshly created inventory entry gets -- amount 1, no quick-bind, full
+        # durability -- which is a semantic default, not a property of this
+        # build, and it would be the same on any of them. It lives in the items
+        # backend where a reader can see it. Carrying it here also put a
+        # floating-point number in a profile whose reader accepts only integers,
+        # which the runtime correctly refused to load.
+        "inventory": {k: int(v) for k, v in measured["inventory"].items()},
         "object_layout": dict(OBJECT_LAYOUT),
     }
     return profile
