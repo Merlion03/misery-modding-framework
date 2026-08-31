@@ -1,0 +1,528 @@
+{
+  "note": [
+    "--skip-restart: reusing the live process, no teardown or launch",
+    "build identity confirmed sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+    "runtime inspectable: 26263 objects, settled over 3 readings (spread 0 <= 64)",
+    "object identity anchor OK: unique self-referential UClass at 0x216c1f35400",
+    "live PlayerController at 0x216da7aade0 (PlayerController)",
+    "possessed pawn 0x216da691c80 (BP_PlaytestBeginPlyer_C), via AController::Pawn@+720",
+    "AcknowledgedPawn agrees with Pawn -- possession has settled",
+    "ui state THANK_YOU_SCREEN -> the screen itself prompts '\u041d\u0410\u0416\u041c\u0418\u0422\u0415 [SPACE] \u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0418\u0422\u042c'; the game exposes exactly one deterministic keyboard action here, so no pointer input is used",
+    "ui state THANK_YOU_SCREEN transitioned: +['AN_Footstep_C', 'BP_AmmoCounter_C', 'BP_AreYouSureMenu_C', 'BP_AttachWeaponAttachment_C', 'BP_AttachmentSlot_C', 'BP_AudioSettings_C', 'BP_BatteryInput_C', 'BP_BatteryOutput_C', 'BP_BuildPartHealth_C', 'BP_ButtonPanel_C', 'BP_CableConnectionPointComponent_C', 'BP_CableConnectionType_C', 'BP_CableInfo_C', 'BP_ChamberWeaponAmmo_C', 'BP_CharacterComponent_C', 'BP_CharacterEquipment_C', 'BP_Chat_C', 'BP_CheckBox_C', 'BP_CircleStat_C', 'BP_ClimbLadderComponent_C', 'BP_CodeLockPanel_C', 'BP_ConsumeConsumable_C', 'BP_ControlsSettings_C', 'BP_CraftingComponent_C', 'BP_CraftingListing_C', 'BP_CraftingMenu_C', 'BP_CraftingQueue_C', 'BP_CraftingTooltipEntry_C', 'BP_DebuffIcon_C', 'BP_Debug_C', 'BP_DestroyAttachment_C', 'BP_DisableHandIks_C', 'BP_DistantEffectCheckerNormal_C', 'BP_DropBox_C', 'BP_DropZone_C', 'BP_EnableHandIks_C', 'BP_EndMeleeCollision_C', 'BP_EndWeaponReload_C', 'BP_EquipmentInventoryList_C', 'BP_EquipmentInventory_C', 'BP_EquipmentSlot_C', 'BP_ExtCharacterEquipment_C', 'BP_ExtCookingMenu_C', 'BP_ExtCraftingMenu_C', 'BP_FloatingMesh_C', 'BP_FootStep_C', 'BP_GameModeInitComponent_C', 'BP_GameSettings_C', 'BP_GroundCheckComponent_C', 'BP_GroundDetectComponent_C', 'BP_HostNewGameServer_C', 'BP_HoveredEventWidget_C', 'BP_InGameSettingsMenu_C', 'BP_InGameStartMenu_C', 'BP_InteractContextMenuEntry_C', 'BP_InteractionContextMenu_C', 'BP_InteractiveBuroviksourceComponent_C', 'BP_InteractiveCarrotResourceComponent1_C', 'BP_InteractiveCucumberResourceComponent_C', 'BP_InteractiveMuhamorsourceComponent_C', 'BP_InteractiveTomatoResourceComponent_C', 'BP_InteractiveWheatResourceComponent_C', 'BP_InventoryPanel_C', 'BP_ItemName_C', 'BP_LoadGameMenuPanel_C', 'BP_LoadGameMenu_C', 'BP_MasterInventory_C', 'BP_MasterItemInventory_C', 'BP_MasterPowerComponent_C', 'BP_MasterSegment_C', 'BP_MeleeTraceSocket_C', 'BP_MenuButton_C', 'BP_MenuPlayer_C', 'BP_MiseryMenuWheelComponent_C', 'BP_MultiplayerDynamicWeatherManager_C', 'BP_MultiplayerMenu_C', 'BP_NewGame_C', 'BP_NotificationPanel_C', 'BP_NumericalTextBox_C', 'BP_OptionsMenuSlot_C', 'BP_OverlayKey_C', 'BP_Panel_C', 'BP_PlacementControlsOverlay_C', 'BP_PlayerAIActivator_C', 'BP_PlayerBuildingComponent_C', 'BP_PlayerInventory_C', 'BP_PlayerPowerComponent_C', 'BP_PoopItemSpawner_C', 'BP_PowerGameModeComponent_C', 'BP_PowerGenerated_C', 'BP_PowerInfoPanel_C', 'BP_PowerManagerComponent_C', 'BP_PowerRequired_C', 'BP_PowerStored_C', 'BP_PowerTitleBar_C', 'BP_ProgressStat_C', 'BP_QuickSlotKey_C', 'BP_QuickSlotsPanel_C', 'BP_RemoveAttachment_C', 'BP_ResolutionSetting_C', 'BP_SaveComplete_C', 'BP_SaveGameMenuPanel_C', 'BP_SaveGameMenu_C', 'BP_SaveNameMenu_C', 'BP_ScalerSetting_C', 'BP_SelectionGridMenu_C', 'BP_ServerBrowser_C', 'BP_ServerConnecting_C', 'BP_ServerListing_C', 'BP_SettingsMenu_C', 'BP_SingleplayerMenu_C', 'BP_SittingComponent_C', 'BP_SkyBox_C', 'BP_Slider_C', 'BP_SlotPool_C', 'BP_SmartAIComponent_C', 'BP_SpawnHoldable_C', 'BP_SpawnWeaponAttachment_C', 'BP_StartMeleeCollision_C', 'BP_StartMenu_C', 'BP_StatText_C', 'BP_SupportComponent_C', 'BP_ThrowChargeEnd_C', 'BP_ThrowRelease_C', 'BP_VendorComponent_C', 'BP_VendorMenu_C', 'BP_VendorTooltipEntry_C', 'BP_VideoSettings_C', 'BP_WeaponInventory_C', 'BP_WeaponSlot_C', 'BTD_Activated_C', 'BTD_CanStrafe_C', 'BTD_CanTargetInteract_C', 'BTD_FollowDistances_C', 'BTS_CanPath_C', 'BTS_FaceDirectionAnimations_C', 'BTS_FollowChecks_C', 'BTS_IsSearchDead_C', 'BTS_MeleeAttackLocation_C', 'BTS_PerceptionCheck_C', 'BTS_RangeAttackLocation_C', 'BTT_AIInteract_C', 'BTT_AtWayPoint_C', 'BTT_BeginFlee_C', 'BTT_ClimbPath_C', 'BTT_EndFlee_C', 'BTT_EndHide_C', 'BTT_FindAIInteract_C', 'BTT_FindActionPoint_C', 'BTT_FindRoamLocation_C', 'BTT_FindWayPoint_C', 'BTT_Interact_C', 'BTT_MoveToTarget_C', 'BTT_RangeMoveTo_C', 'BTT_RoamWaitAnim_C', 'BTT_Search_C', 'BTT_StartHide_C', 'BTT_StillAnimation_C', 'BTT_StrafeLocation_C', 'C_FS_ComponentPlayer_C', 'Chameleon_C', 'Notify_BlockAttack_C', 'Notify_EmoteProp_C', 'WBP_MW_MenuButton_C', 'WD_Clocks_C'] -['BP_PlaytestBeginPlyer_C', 'PlaytestBeginPGmaemode_C', 'WD_PlaytestNote01_C']",
+    "ui state MAIN_MENU -> \u041e\u0414\u0418\u041d\u041e\u0427\u041d\u0410\u042f \u0418\u0413\u0420\u0410 then \u0417\u0410\u0413\u0420\u0423\u0417\u0418\u0422\u042c \u0418\u0413\u0420\u0423. Two clicks in one action because the runtime cannot see the panel change between them; the pair is verified by BP_SGKSaveGameMetaData_C appearing. Both points are far from \u041d\u041e\u0412\u0410\u042f \u0418\u0413\u0420\u0410 and from any delete control.",
+    "ui state MAIN_MENU transitioned: +['BP_SGKSaveGameMetaData_C'] -[]",
+    "ui state LOAD_GAME_MENU -> click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded",
+    "clicking save '123' at row 0 (2026-08-31T17:41:05Z)",
+    "ui state LOAD_GAME_MENU transitioned: +['ABP_FirstPerson_Anim_Retarget_New_C', 'ABP_ThirdPerson_Anim_Retarget_New_C', 'ABP_UnarmedAnimLayers_Retarget_New_C', 'BP_762mm_WI_C', 'BP_AIManager_C', 'BP_BomberSpawn_C', 'BP_BuildZone_C', 'BP_BunkerChunck_C', 'BP_BunkerFloor_C', 'BP_BunkerWorldGeneration_C', 'BP_BunkersVolume_C', 'BP_Cabinet1_C', 'BP_CampFireZone_C', 'BP_CarBattery_C', 'BP_ChatText_C', 'BP_CookingComponent_C', 'BP_CraftingBenchWorld_C', 'BP_DamageZone_C', 'BP_DistantEffectCheckerBunker_C', 'BP_DoorGrid_C', 'BP_DoubleDoorGrid_C', 'BP_DungeonDoor_C', 'BP_DwarfSpawn_C', 'BP_EasySnowMask_C', 'BP_ExpeditionDoor_C', 'BP_FactoryGeneration_C', 'BP_FloorGrid_C', 'BP_FoundationGrid_C', 'BP_GasolineGenerator_C', 'BP_GlobalInventoryManager_C', 'BP_GlobalManager_C', 'BP_GridComponent_C', 'BP_GridManager_C', 'BP_INCINERATOR_C', 'BP_InsanityZone_C', 'BP_InventoryHUD_C', 'BP_LighBumb_C', 'BP_LightBulbRotation_C', 'BP_LockGrid_C', 'BP_MeadowsWorldGeneration_C', 'BP_MetalDoor_C', 'BP_NetworkManager_C', 'BP_OutsideVolumeNOACTORDESTROY_C', 'BP_OutsideVolume_C', 'BP_PESHUD_C', 'BP_PaneliWorldGeneration_C', 'BP_ResourceItemSpawner_C', 'BP_ResourceManager_C', 'BP_RoofGrid_C', 'BP_SGKController_C', 'BP_SGKGameMode_C', 'BP_SGKMasterCharacter_C', 'BP_SGKSaveGame_C', 'BP_SaveSystem_C', 'BP_Spark_C', 'BP_SplitterPowerComponent_C', 'BP_Splitter_C', 'BP_StairsGrid_C', 'BP_StartClothItemSpawner_C', 'BP_StartFoodItemSpawner_C', 'BP_StartGameDoor_C', 'BP_StartHatItemSpawner_C', 'BP_StartHoldablesItemSpawner_C', 'BP_StartMedicItemSpawner_C', 'BP_StartToolslItemSpawner_C', 'BP_StartWaterItemSpawner_C', 'BP_StaticMasterItem_C', 'BP_TPHouseZone_C', 'BP_TPLocationWithTag_C', 'BP_TriangleFloorGrid_C', 'BP_TriangleFoundationGrid_C', 'BP_WallGrid_C', 'BP_WindSpeedManager_C', 'BP_WindowGrid_C', 'BP_WoodenBoxResource_C', 'LandedShake_C', 'NewMapGENTEST_C', 'WD_RadiationIcon_C'] -['BP_CheckBox_C', 'BP_DropBox_C', 'BP_FloatingMesh_C', 'BP_HostNewGameServer_C', 'BP_InteractiveBuroviksourceComponent_C', 'BP_InteractiveCarrotResourceComponent1_C', 'BP_InteractiveCucumberResourceComponent_C', 'BP_InteractiveMuhamorsourceComponent_C', 'BP_InteractiveTomatoResourceComponent_C', 'BP_InteractiveWheatResourceComponent_C', 'BP_Keybind_C', 'BP_MainMenu_C', 'BP_MenuPlayer_C', 'BP_MultiplayerMenu_C', 'BP_NewGame_C', 'BP_SGKMenuController_C', 'BP_SGKMenuGameMode_C', 'BP_ServerBrowser_C', 'BP_ServerConnecting_C', 'BP_SettingsMenu_C', 'BP_SingleplayerMenu_C', 'BP_Slider_C', 'BP_StartMenu_C']",
+    "ui state machine: gameplay reached after 3 step(s)",
+    "object identity anchor OK: unique self-referential UClass at 0x216c1f35400",
+    "live PlayerController at 0x216fa9b9ba0 (BP_SGKController_C)",
+    "possessed pawn 0x21765e095c0 (BP_SGKMasterCharacter_C), via AController::Pawn@+720",
+    "AcknowledgedPawn agrees with Pawn -- possession has settled",
+    "live player inventory 0x216a2aa89e0 is owned by the PlayerController",
+    "GAMEPLAY READY: controller 0x216fa9b9ba0 -> possessed pawn 0x21765e095c0 (BP_SGKMasterCharacter_C); inventory owned by that controller; authority=True; net=standalone",
+    "READY_FOR_PROBE",
+    "starting probe 'recon': D:\\Tools\\venv-research\\Scripts\\python.exe D:\\Dev\\MiseryFramework\\research/instruments/ipp/cr01c3_recon.py --out D:/Dev/MiseryFramework/research/instrument-runs/2026-08-31T165347Z-runner/recon.json"
+  ],
+  "phases": {
+    "address_space": {
+      "base_address": "0x7ff6b8740000",
+      "image_size_bytes": 138403840,
+      "note": "resolved in THIS process after its own build identity was confirmed; no address from any previous process is used",
+      "pid": 21088
+    },
+    "gameplay_proof": {
+      "facts": {
+        "game_modes": [
+          {
+            "address": "0x21683843340",
+            "class": "BP_SGKGameMode_C",
+            "name": "BP_SGKGameMode_C",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKGameMode_C"
+          }
+        ],
+        "has_authority": true,
+        "inventory_owner": {
+          "address": "0x216fa9b9ba0",
+          "class": "BP_SGKController_C",
+          "name": "BP_SGKController_C",
+          "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+        },
+        "net_drivers": [],
+        "net_mode_observed": "standalone",
+        "objects_total": 174465,
+        "objects_valid": 174465,
+        "player_controllers": [
+          {
+            "address": "0x216fa9b9ba0",
+            "class": "BP_SGKController_C",
+            "name": "BP_SGKController_C",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+          }
+        ],
+        "player_inventories": [
+          {
+            "address": "0x216a2aa89e0",
+            "class": "BP_PlayerInventory_C",
+            "name": "BP_PlayerInventory",
+            "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C:BP_PlayerInventory"
+          }
+        ],
+        "player_pawn": {
+          "address": "0x21765e095c0",
+          "class": "BP_SGKMasterCharacter_C",
+          "name": "BP_SGKMasterCharacter_C",
+          "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKMasterCharacter_C"
+        },
+        "playtest_hub_classes_live": [],
+        "possession": {
+          "AcknowledgedPawn": {
+            "declared_on": "PlayerController",
+            "offset": 824,
+            "raw": 2299516720576,
+            "value": "0x21765e095c0"
+          },
+          "Pawn": {
+            "declared_on": "Controller",
+            "offset": 720,
+            "raw": 2299516720576,
+            "value": "0x21765e095c0"
+          }
+        },
+        "uclass_self_reference": [
+          "0x216c1f35400"
+        ],
+        "world_count": 13,
+        "world_names": [
+          "L_BigAntenna01",
+          "L_BombCrater",
+          "L_Camp01",
+          "L_Forest05",
+          "L_ForestDeadEnd",
+          "L_Garages_ElectricBuilding",
+          "L_MainTerrain",
+          "L_Meadows01",
+          "L_Meadows_CurveRoad_Drainage",
+          "L_SafeHub",
+          "L_Store01",
+          "L_SwampVillage01",
+          "NewMapGENTEST"
+        ]
+      },
+      "ready": true,
+      "reasons": []
+    },
+    "launch": {
+      "fingerprint": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "expected_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "matches": true,
+        "observed_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+        "pid": 21088
+      },
+      "process": {
+        "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+        "pid": 21088,
+        "start_time": "2026-08-31T16:52:55Z"
+      },
+      "reused": true
+    },
+    "probe": {
+      "command": [
+        "D:\\Tools\\venv-research\\Scripts\\python.exe",
+        "D:\\Dev\\MiseryFramework\\research/instruments/ipp/cr01c3_recon.py",
+        "--out",
+        "D:/Dev/MiseryFramework/research/instrument-runs/2026-08-31T165347Z-runner/recon.json"
+      ],
+      "probe": "recon",
+      "returncode": 0,
+      "stdout_artifact": "research/instrument-runs/2026-08-31T165347Z-runner/probe-recon.stdout.txt",
+      "stdout_duplicate_of": "recon.json",
+      "what": "CR-01C3 read-only recon: inventory classes, live instances, authority"
+    },
+    "runtime_ready": {
+      "name_pool_initialized": true,
+      "namepool_live_va": 140697760964992,
+      "num_elements": 26263,
+      "objects_ptr_live_va": 2296819157120,
+      "settle_tolerance": 64,
+      "settle_window": [
+        26263,
+        26263,
+        26263
+      ]
+    },
+    "save_entry": {
+      "acted": true,
+      "final_state": "GAMEPLAY",
+      "steps": [
+        {
+          "did": [
+            {
+              "key": "space"
+            }
+          ],
+          "signature_gained": [
+            "AN_Footstep_C",
+            "BP_AmmoCounter_C",
+            "BP_AreYouSureMenu_C",
+            "BP_AttachWeaponAttachment_C",
+            "BP_AttachmentSlot_C",
+            "BP_AudioSettings_C",
+            "BP_BatteryInput_C",
+            "BP_BatteryOutput_C",
+            "BP_BuildPartHealth_C",
+            "BP_ButtonPanel_C",
+            "BP_CableConnectionPointComponent_C",
+            "BP_CableConnectionType_C",
+            "BP_CableInfo_C",
+            "BP_ChamberWeaponAmmo_C",
+            "BP_CharacterComponent_C",
+            "BP_CharacterEquipment_C",
+            "BP_Chat_C",
+            "BP_CheckBox_C",
+            "BP_CircleStat_C",
+            "BP_ClimbLadderComponent_C",
+            "BP_CodeLockPanel_C",
+            "BP_ConsumeConsumable_C",
+            "BP_ControlsSettings_C",
+            "BP_CraftingComponent_C",
+            "BP_CraftingListing_C",
+            "BP_CraftingMenu_C",
+            "BP_CraftingQueue_C",
+            "BP_CraftingTooltipEntry_C",
+            "BP_DebuffIcon_C",
+            "BP_Debug_C",
+            "BP_DestroyAttachment_C",
+            "BP_DisableHandIks_C",
+            "BP_DistantEffectCheckerNormal_C",
+            "BP_DropBox_C",
+            "BP_DropZone_C",
+            "BP_EnableHandIks_C",
+            "BP_EndMeleeCollision_C",
+            "BP_EndWeaponReload_C",
+            "BP_EquipmentInventoryList_C",
+            "BP_EquipmentInventory_C",
+            "BP_EquipmentSlot_C",
+            "BP_ExtCharacterEquipment_C",
+            "BP_ExtCookingMenu_C",
+            "BP_ExtCraftingMenu_C",
+            "BP_FloatingMesh_C",
+            "BP_FootStep_C",
+            "BP_GameModeInitComponent_C",
+            "BP_GameSettings_C",
+            "BP_GroundCheckComponent_C",
+            "BP_GroundDetectComponent_C",
+            "BP_HostNewGameServer_C",
+            "BP_HoveredEventWidget_C",
+            "BP_InGameSettingsMenu_C",
+            "BP_InGameStartMenu_C",
+            "BP_InteractContextMenuEntry_C",
+            "BP_InteractionContextMenu_C",
+            "BP_InteractiveBuroviksourceComponent_C",
+            "BP_InteractiveCarrotResourceComponent1_C",
+            "BP_InteractiveCucumberResourceComponent_C",
+            "BP_InteractiveMuhamorsourceComponent_C",
+            "BP_InteractiveTomatoResourceComponent_C",
+            "BP_InteractiveWheatResourceComponent_C",
+            "BP_InventoryPanel_C",
+            "BP_ItemName_C",
+            "BP_LoadGameMenuPanel_C",
+            "BP_LoadGameMenu_C",
+            "BP_MasterInventory_C",
+            "BP_MasterItemInventory_C",
+            "BP_MasterPowerComponent_C",
+            "BP_MasterSegment_C",
+            "BP_MeleeTraceSocket_C",
+            "BP_MenuButton_C",
+            "BP_MenuPlayer_C",
+            "BP_MiseryMenuWheelComponent_C",
+            "BP_MultiplayerDynamicWeatherManager_C",
+            "BP_MultiplayerMenu_C",
+            "BP_NewGame_C",
+            "BP_NotificationPanel_C",
+            "BP_NumericalTextBox_C",
+            "BP_OptionsMenuSlot_C",
+            "BP_OverlayKey_C",
+            "BP_Panel_C",
+            "BP_PlacementControlsOverlay_C",
+            "BP_PlayerAIActivator_C",
+            "BP_PlayerBuildingComponent_C",
+            "BP_PlayerInventory_C",
+            "BP_PlayerPowerComponent_C",
+            "BP_PoopItemSpawner_C",
+            "BP_PowerGameModeComponent_C",
+            "BP_PowerGenerated_C",
+            "BP_PowerInfoPanel_C",
+            "BP_PowerManagerComponent_C",
+            "BP_PowerRequired_C",
+            "BP_PowerStored_C",
+            "BP_PowerTitleBar_C",
+            "BP_ProgressStat_C",
+            "BP_QuickSlotKey_C",
+            "BP_QuickSlotsPanel_C",
+            "BP_RemoveAttachment_C",
+            "BP_ResolutionSetting_C",
+            "BP_SaveComplete_C",
+            "BP_SaveGameMenuPanel_C",
+            "BP_SaveGameMenu_C",
+            "BP_SaveNameMenu_C",
+            "BP_ScalerSetting_C",
+            "BP_SelectionGridMenu_C",
+            "BP_ServerBrowser_C",
+            "BP_ServerConnecting_C",
+            "BP_ServerListing_C",
+            "BP_SettingsMenu_C",
+            "BP_SingleplayerMenu_C",
+            "BP_SittingComponent_C",
+            "BP_SkyBox_C",
+            "BP_Slider_C",
+            "BP_SlotPool_C",
+            "BP_SmartAIComponent_C",
+            "BP_SpawnHoldable_C",
+            "BP_SpawnWeaponAttachment_C",
+            "BP_StartMeleeCollision_C",
+            "BP_StartMenu_C",
+            "BP_StatText_C",
+            "BP_SupportComponent_C",
+            "BP_ThrowChargeEnd_C",
+            "BP_ThrowRelease_C",
+            "BP_VendorComponent_C",
+            "BP_VendorMenu_C",
+            "BP_VendorTooltipEntry_C",
+            "BP_VideoSettings_C",
+            "BP_WeaponInventory_C",
+            "BP_WeaponSlot_C",
+            "BTD_Activated_C",
+            "BTD_CanStrafe_C",
+            "BTD_CanTargetInteract_C",
+            "BTD_FollowDistances_C",
+            "BTS_CanPath_C",
+            "BTS_FaceDirectionAnimations_C",
+            "BTS_FollowChecks_C",
+            "BTS_IsSearchDead_C",
+            "BTS_MeleeAttackLocation_C",
+            "BTS_PerceptionCheck_C",
+            "BTS_RangeAttackLocation_C",
+            "BTT_AIInteract_C",
+            "BTT_AtWayPoint_C",
+            "BTT_BeginFlee_C",
+            "BTT_ClimbPath_C",
+            "BTT_EndFlee_C",
+            "BTT_EndHide_C",
+            "BTT_FindAIInteract_C",
+            "BTT_FindActionPoint_C",
+            "BTT_FindRoamLocation_C",
+            "BTT_FindWayPoint_C",
+            "BTT_Interact_C",
+            "BTT_MoveToTarget_C",
+            "BTT_RangeMoveTo_C",
+            "BTT_RoamWaitAnim_C",
+            "BTT_Search_C",
+            "BTT_StartHide_C",
+            "BTT_StillAnimation_C",
+            "BTT_StrafeLocation_C",
+            "C_FS_ComponentPlayer_C",
+            "Chameleon_C",
+            "Notify_BlockAttack_C",
+            "Notify_EmoteProp_C",
+            "WBP_MW_MenuButton_C",
+            "WD_Clocks_C"
+          ],
+          "signature_lost": [
+            "BP_PlaytestBeginPlyer_C",
+            "PlaytestBeginPGmaemode_C",
+            "WD_PlaytestNote01_C"
+          ],
+          "state": "THANK_YOU_SCREEN",
+          "step": 0,
+          "transitioned": true,
+          "why": "the screen itself prompts '\u041d\u0410\u0416\u041c\u0418\u0422\u0415 [SPACE] \u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0418\u0422\u042c'; the game exposes exactly one deterministic keyboard action here, so no pointer input is used"
+        },
+        {
+          "did": [
+            {
+              "click": [
+                0.5039,
+                0.7708
+              ],
+              "screen": [
+                1289,
+                1109
+              ]
+            },
+            {
+              "click": [
+                0.1445,
+                0.4861
+              ],
+              "screen": [
+                369,
+                699
+              ]
+            }
+          ],
+          "signature_gained": [
+            "BP_SGKSaveGameMetaData_C"
+          ],
+          "signature_lost": [],
+          "state": "MAIN_MENU",
+          "step": 1,
+          "transitioned": true,
+          "why": "\u041e\u0414\u0418\u041d\u041e\u0427\u041d\u0410\u042f \u0418\u0413\u0420\u0410 then \u0417\u0410\u0413\u0420\u0423\u0417\u0418\u0422\u042c \u0418\u0413\u0420\u0423. Two clicks in one action because the runtime cannot see the panel change between them; the pair is verified by BP_SGKSaveGameMetaData_C appearing. Both points are far from \u041d\u041e\u0412\u0410\u042f \u0418\u0413\u0420\u0410 and from any delete control."
+        },
+        {
+          "did": [
+            {
+              "click": [
+                0.4258,
+                0.2944
+              ],
+              "save_row": {
+                "level": "NewMapGENTEST",
+                "row": 0,
+                "slot": "123",
+                "ticks": 639237948656130000,
+                "time": "2026-08-31T17:41:05Z"
+              },
+              "screen": [
+                1090,
+                423
+              ]
+            }
+          ],
+          "signature_gained": [
+            "ABP_FirstPerson_Anim_Retarget_New_C",
+            "ABP_ThirdPerson_Anim_Retarget_New_C",
+            "ABP_UnarmedAnimLayers_Retarget_New_C",
+            "BP_762mm_WI_C",
+            "BP_AIManager_C",
+            "BP_BomberSpawn_C",
+            "BP_BuildZone_C",
+            "BP_BunkerChunck_C",
+            "BP_BunkerFloor_C",
+            "BP_BunkerWorldGeneration_C",
+            "BP_BunkersVolume_C",
+            "BP_Cabinet1_C",
+            "BP_CampFireZone_C",
+            "BP_CarBattery_C",
+            "BP_ChatText_C",
+            "BP_CookingComponent_C",
+            "BP_CraftingBenchWorld_C",
+            "BP_DamageZone_C",
+            "BP_DistantEffectCheckerBunker_C",
+            "BP_DoorGrid_C",
+            "BP_DoubleDoorGrid_C",
+            "BP_DungeonDoor_C",
+            "BP_DwarfSpawn_C",
+            "BP_EasySnowMask_C",
+            "BP_ExpeditionDoor_C",
+            "BP_FactoryGeneration_C",
+            "BP_FloorGrid_C",
+            "BP_FoundationGrid_C",
+            "BP_GasolineGenerator_C",
+            "BP_GlobalInventoryManager_C",
+            "BP_GlobalManager_C",
+            "BP_GridComponent_C",
+            "BP_GridManager_C",
+            "BP_INCINERATOR_C",
+            "BP_InsanityZone_C",
+            "BP_InventoryHUD_C",
+            "BP_LighBumb_C",
+            "BP_LightBulbRotation_C",
+            "BP_LockGrid_C",
+            "BP_MeadowsWorldGeneration_C",
+            "BP_MetalDoor_C",
+            "BP_NetworkManager_C",
+            "BP_OutsideVolumeNOACTORDESTROY_C",
+            "BP_OutsideVolume_C",
+            "BP_PESHUD_C",
+            "BP_PaneliWorldGeneration_C",
+            "BP_ResourceItemSpawner_C",
+            "BP_ResourceManager_C",
+            "BP_RoofGrid_C",
+            "BP_SGKController_C",
+            "BP_SGKGameMode_C",
+            "BP_SGKMasterCharacter_C",
+            "BP_SGKSaveGame_C",
+            "BP_SaveSystem_C",
+            "BP_Spark_C",
+            "BP_SplitterPowerComponent_C",
+            "BP_Splitter_C",
+            "BP_StairsGrid_C",
+            "BP_StartClothItemSpawner_C",
+            "BP_StartFoodItemSpawner_C",
+            "BP_StartGameDoor_C",
+            "BP_StartHatItemSpawner_C",
+            "BP_StartHoldablesItemSpawner_C",
+            "BP_StartMedicItemSpawner_C",
+            "BP_StartToolslItemSpawner_C",
+            "BP_StartWaterItemSpawner_C",
+            "BP_StaticMasterItem_C",
+            "BP_TPHouseZone_C",
+            "BP_TPLocationWithTag_C",
+            "BP_TriangleFloorGrid_C",
+            "BP_TriangleFoundationGrid_C",
+            "BP_WallGrid_C",
+            "BP_WindSpeedManager_C",
+            "BP_WindowGrid_C",
+            "BP_WoodenBoxResource_C",
+            "LandedShake_C",
+            "NewMapGENTEST_C",
+            "WD_RadiationIcon_C"
+          ],
+          "signature_lost": [
+            "BP_CheckBox_C",
+            "BP_DropBox_C",
+            "BP_FloatingMesh_C",
+            "BP_HostNewGameServer_C",
+            "BP_InteractiveBuroviksourceComponent_C",
+            "BP_InteractiveCarrotResourceComponent1_C",
+            "BP_InteractiveCucumberResourceComponent_C",
+            "BP_InteractiveMuhamorsourceComponent_C",
+            "BP_InteractiveTomatoResourceComponent_C",
+            "BP_InteractiveWheatResourceComponent_C",
+            "BP_Keybind_C",
+            "BP_MainMenu_C",
+            "BP_MenuPlayer_C",
+            "BP_MultiplayerMenu_C",
+            "BP_NewGame_C",
+            "BP_SGKMenuController_C",
+            "BP_SGKMenuGameMode_C",
+            "BP_ServerBrowser_C",
+            "BP_ServerConnecting_C",
+            "BP_SettingsMenu_C",
+            "BP_SingleplayerMenu_C",
+            "BP_Slider_C",
+            "BP_StartMenu_C"
+          ],
+          "state": "LOAD_GAME_MENU",
+          "step": 2,
+          "transitioned": true,
+          "why": "click the configured save's row, at the index computed from SaveGameMetaData.sav rather than hardcoded"
+        }
+      ],
+      "strategy": "ui"
+    }
+  },
+  "probe": "recon",
+  "run_id": "2026-08-31T165347Z-runner",
+  "session_state": {
+    "carried": {
+      "base_address": 140697633292288,
+      "build_sha256": "bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+      "exe_path": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe",
+      "image_size_bytes": 138403840,
+      "loaded_probe_module": null,
+      "pid": 11652,
+      "remote_io": null,
+      "remote_module_base": null,
+      "remote_path": null,
+      "start_time": "2026-08-31T16:41:41Z"
+    },
+    "did_not_apply_because": null,
+    "path": "D:\\Dev\\MiseryFramework\\workspace\\runner\\session-state.json"
+  },
+  "tool_version": "misery-runner-0.1.0",
+  "verdict": "PROBE_STARTED"
+}

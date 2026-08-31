@@ -311,6 +311,10 @@ Universe::Step Universe::StepBuild(uint32_t budget_us, uint32_t max_objects,
       info.name = DecodeName(info.name_id);
       info.name_ok = !info.name.empty();
     }
+    // The slot is already here, so its identity is free to take. Captured now
+    // so a later liveness check has something authoritative to compare against.
+    info.internal_index = static_cast<int32_t>(index);
+    Read(item + layout_.fuobjectitem_serial, &info.serial_number);
     const bool inserted = objects_.emplace(object, info).second;
     if (inserted) {
       if (info.name_ok) {
@@ -368,6 +372,81 @@ bool Universe::StillIs(uint64_t address, const std::string& name,
     return false;
   }
   return DecodeName(class_name_id) == class_name;
+}
+
+const char* Universe::LivenessName(Liveness state) {
+  switch (state) {
+    case Liveness::kAlive: return "alive";
+    case Liveness::kIndexUnreadable: return "its InternalIndex is unreadable";
+    case Liveness::kIndexChanged: return "it no longer claims the slot it was found in";
+    case Liveness::kSlotRecycled: return "its slot now holds a different object";
+    case Liveness::kSerialChanged: return "its slot has a new serial number";
+    case Liveness::kGarbage: return "it is marked garbage";
+    case Liveness::kUnreachable: return "it is marked unreachable";
+  }
+  return "unknown";
+}
+
+Universe::Liveness Universe::CheckSlot(const AnchorIdentity& identity) const {
+  if (identity.address == 0) {
+    return Liveness::kIndexUnreadable;
+  }
+  // The object's own claim about where it lives.
+  int32_t index = -1;
+  if (!Read(identity.address + layout_.object_internal_index, &index) ||
+      index < 0) {
+    return Liveness::kIndexUnreadable;
+  }
+  if (identity.internal_index >= 0 && index != identity.internal_index) {
+    return Liveness::kIndexChanged;
+  }
+
+  // The array's answer about that slot. objects_ptr_ is the chunk table this
+  // walk was built against and StepBuild refuses to continue if it moves, so it
+  // is the right table to ask.
+  uint64_t chunk_base = 0;
+  if (!ReadU64(objects_ptr_ +
+                   (static_cast<uint64_t>(index) >> 16) * 8, &chunk_base) ||
+      chunk_base == 0) {
+    return Liveness::kIndexUnreadable;
+  }
+  const uint64_t item =
+      chunk_base + (static_cast<uint64_t>(index) & 0xFFFFu) *
+                       layout_.fuobjectitem_size;
+  uint64_t occupant = 0;
+  if (!ReadU64(item + layout_.fuobjectitem_object, &occupant)) {
+    return Liveness::kIndexUnreadable;
+  }
+  if (occupant != identity.address) {
+    return Liveness::kSlotRecycled;
+  }
+  int32_t serial = 0;
+  if (!Read(item + layout_.fuobjectitem_serial, &serial)) {
+    return Liveness::kIndexUnreadable;
+  }
+  if (serial != identity.serial_number) {
+    return Liveness::kSerialChanged;
+  }
+
+  // Marked-but-not-yet-collected. The slot survives destruction until the next
+  // GC, so without this an object the game has already destroyed still reads as
+  // present in every other respect.
+  int32_t slot_flags = 0;
+  if (!Read(item + layout_.fuobjectitem_flags, &slot_flags)) {
+    return Liveness::kIndexUnreadable;
+  }
+  if ((slot_flags & kInternalGarbage) != 0) {
+    return Liveness::kGarbage;
+  }
+  if ((slot_flags & kInternalUnreachable) != 0) {
+    return Liveness::kUnreachable;
+  }
+  int32_t object_flags = 0;
+  if (Read(identity.address + layout_.object_flags, &object_flags) &&
+      (object_flags & kObjectFlagsGarbage) != 0) {
+    return Liveness::kGarbage;
+  }
+  return Liveness::kAlive;
 }
 
 std::string Universe::LiveOuterClassName(uint64_t address) const {
@@ -538,11 +617,15 @@ bool ResolveAnchors(const Universe& universe, const Request& request,
     // Remember the IDENTITY, not just the address. A chunked walk selects on
     // observations from many moments; this is what lets the address be
     // re-checked against live memory before anything is published.
-    Anchors::Identity identity;
+    AnchorIdentity identity;
     identity.address = found;
     identity.name = name;
     identity.class_name = class_name;
     identity.label = label;
+    if (const ObjectInfo* slot = universe.At(identity.address)) {
+      identity.internal_index = slot->internal_index;
+      identity.serial_number = slot->serial_number;
+    }
     out->identities.push_back(identity);
     return true;
   };
@@ -621,11 +704,15 @@ bool ResolveAnchors(const Universe& universe, const Request& request,
     *slot = found;
     // A UFunction's own class is called "Function"; that is what it must still
     // be at validation time, along with its own name.
-    Anchors::Identity identity;
+    AnchorIdentity identity;
     identity.address = found;
     identity.name = name;
     identity.class_name = "Function";
     identity.label = label;
+    if (const ObjectInfo* slot = universe.At(identity.address)) {
+      identity.internal_index = slot->internal_index;
+      identity.serial_number = slot->serial_number;
+    }
     out->identities.push_back(identity);
   };
 
@@ -727,12 +814,16 @@ bool ResolveAnchors(const Universe& universe, const Request& request,
       out->player_inventory_outer = found != nullptr ? found->outer_ptr : 0;
       // The only anchor whose identity is not self-contained: it is the
       // player's because of WHO owns it, so re-validation re-checks the owner.
-      Anchors::Identity inventory;
+      AnchorIdentity inventory;
       inventory.address = out->player_inventory;
       inventory.name = universe.NameOf(out->player_inventory);
       inventory.class_name = "BP_PlayerInventory_C";
       inventory.label = "live player inventory";
       inventory.check_outer_class = "BP_SGKController_C";
+      if (found != nullptr) {
+        inventory.internal_index = found->internal_index;
+        inventory.serial_number = found->serial_number;
+      }
       out->identities.push_back(inventory);
     } else if (live.size() > 1) {
       // Two live player inventories is not a state this framework understands,

@@ -282,7 +282,29 @@ anchors:
   // deliberately not sliced: a validation spread over ticks would have the same
   // problem it exists to solve.
   const uint64_t validate_from = Ticks();
-  for (const resolve::Anchors::Identity& identity : candidate.identities) {
+  for (const resolve::AnchorIdentity& identity : candidate.identities) {
+    // LIVENESS FIRST, from the engine's own bookkeeping. StillIs re-reads the
+    // object's name and class, and both survive destruction untouched until the
+    // memory is reused -- so on its own it detects RECYCLED memory, not FREED
+    // memory, and would publish a destroyed object as live. The slot check is
+    // the authoritative one; StillIs stays as a second, independent identity
+    // check on top of it.
+    const resolve::Universe::Liveness liveness =
+        work->universe->CheckSlot(identity);
+    if (liveness != resolve::Universe::Liveness::kAlive) {
+      ++work->cost.revalidation_failures;
+      work->cost.validate_us = Micros(validate_from, Ticks());
+      if (!restart()) {
+        work->failure.Set("'" + identity.label + "' is not publishable: " +
+                          resolve::Universe::LivenessName(liveness) +
+                          ", and the graph would not hold still long enough to "
+                          "resolve again");
+        finish(false);
+        return;
+      }
+      yield_slice();
+      return;
+    }
     if (!work->universe->StillIs(identity.address, identity.name,
                                  identity.class_name)) {
       ++work->cost.revalidation_failures;

@@ -62,11 +62,18 @@ struct Layout {
   uint32_t guobjectarray_num_elements = 0x24;
   uint32_t fuobjectitem_size = 0x18;
   uint32_t fuobjectitem_object = 0x00;
+  // FUObjectItem, UObjectArray.h:42-50: Object, Flags, ClusterRootIndex,
+  // SerialNumber, in that order, 20 bytes padded to the 0x18 stride above.
+  // Same offsets research/instruments/lifecycle/resolver.py already uses.
+  uint32_t fuobjectitem_flags = 0x08;
+  uint32_t fuobjectitem_serial = 0x10;
 
   // UObjectBase
   uint32_t object_class_private = 0x10;
   uint32_t object_name_private = 0x18;
   uint32_t object_outer_private = 0x20;
+  uint32_t object_flags = 0x08;
+  uint32_t object_internal_index = 0x0C;
 
   // UStruct
   uint32_t ustruct_super = 0x40;
@@ -94,6 +101,22 @@ struct Layout {
   uint32_t datatable_parent_tables = 176;
 };
 
+// Flags that mean an object is no longer a thing to hand anybody.
+//
+// Taken from what prior lifecycle work already established with citations, not
+// from a fresh reading: EInternalObjectFlags in ObjectMacros.h:616 and :643 for
+// the FUObjectItem flags, and the mirrored garbage bit in UObject::ObjectFlags
+// at ObjectMacros.h:576.
+//
+// This matters because DESTRUCTION DOES NOT REMOVE THE SLOT. DestroyActor marks
+// an object and its FUObjectItem survives until the next GC, so a walk that
+// only asks "is there a pointer here" counts destroyed objects as live. That is
+// documented in research/instruments/lifecycle/resolver.py as the defect that
+// once made "exactly one live PlayerController" true of a graph holding two.
+constexpr int32_t kInternalGarbage = 1 << 21;       // ObjectMacros.h:616
+constexpr int32_t kInternalUnreachable = 1 << 28;   // ObjectMacros.h:643
+constexpr int32_t kObjectFlagsGarbage = 0x40000000; // ObjectMacros.h:576
+
 // One live object, as this resolver sees it.
 struct ObjectInfo {
   uint64_t address = 0;
@@ -102,6 +125,11 @@ struct ObjectInfo {
   uint32_t name_id = 0;
   std::string name;      // empty when the name could not be decoded
   bool name_ok = false;
+  // Slot identity, captured while the slot is under the cursor anyway. This is
+  // what makes a later liveness check authoritative rather than a guess about
+  // whether some bytes still look right.
+  int32_t internal_index = -1;
+  int32_t serial_number = 0;
 };
 
 // What went wrong, in words a log line can carry.
@@ -115,6 +143,24 @@ struct Failure {
       what = text;
     }
   }
+};
+
+// What one selected anchor must still be, checked two independent ways.
+//
+// Declared here rather than inside Anchors because Universe needs it: the
+// liveness check lives with the object graph, and the anchor set lives with the
+// result.
+struct AnchorIdentity {
+  uint64_t address = 0;
+  std::string name;
+  std::string class_name;
+  std::string label;
+  std::string check_outer_class;   // empty when the Outer is not part of it
+  // The authoritative half. Name and class are what the object CLAIMS to be and
+  // survive its destruction, because freed UObject memory keeps its bytes until
+  // something reuses them. The slot is what the engine SAYS about it.
+  int32_t internal_index = -1;
+  int32_t serial_number = 0;
 };
 
 class Universe {
@@ -179,6 +225,30 @@ class Universe {
   // that makes a multi-tick result publishable.
   bool StillIs(uint64_t address, const std::string& name,
                const std::string& class_name) const;
+
+  // Why an anchor is not publishable. Ordered so the caller can say which of
+  // several independent checks refused it.
+  enum class Liveness {
+    kAlive,
+    kIndexUnreadable,
+    kIndexChanged,      // the object no longer claims the slot it was found in
+    kSlotRecycled,      // the slot holds a different object now
+    kSerialChanged,     // same address, different generation of the slot
+    kGarbage,           // marked destroyed; the slot outlives it until GC
+    kUnreachable,
+  };
+
+  static const char* LivenessName(Liveness state);
+
+  // Is this anchor still LIVE, by the engine's own bookkeeping?
+  //
+  // THE CHECK THAT StillIs CANNOT MAKE. StillIs re-reads the object's own name
+  // and class, and both of those survive destruction untouched until the memory
+  // is reused -- so it detects RECYCLED memory, not FREED memory. This asks the
+  // GUObjectArray instead: the object's InternalIndex must still address a slot
+  // whose Object points back at it, with the serial number it was captured
+  // with, and without the garbage or unreachable marks.
+  Liveness CheckSlot(const AnchorIdentity& identity) const;
 
   // The class name of *address*'s Outer, read live. Used to re-validate the one
   // anchor whose identity depends on its owner.
@@ -357,14 +427,7 @@ struct Anchors {
   // Populated for every anchor found by name+class. `check_outer_class` is set
   // for the one anchor whose identity depends on its owner rather than only on
   // itself: the live player inventory, discriminated by its controller.
-  struct Identity {
-    uint64_t address = 0;
-    std::string name;
-    std::string class_name;
-    std::string label;
-    std::string check_outer_class;   // empty when the Outer is not part of it
-  };
-  std::vector<Identity> identities;
+  std::vector<AnchorIdentity> identities;
 };
 
 // What the caller wants resolved.

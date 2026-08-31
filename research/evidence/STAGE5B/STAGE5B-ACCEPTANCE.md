@@ -37,8 +37,9 @@ Steam Play
 | `stage5b-bindings-acceptance.json` — 3 normal Steam launches + 5 refusals + install audit | 63 | **PASS** |
 | `stage5b-failclosed.json` — proxy-layer refusals, 5 launches | 24 | **PASS** |
 | `stage5b-gamethread-cost.json` — the measured cost curve the slice budget was sized from | — | evidence |
+| `stage5b-resolver-race.json` — resolutions fired continuously across a real transition | 8 | **PASS** |
 
-Offline: full suite **2445 passed**, 1 skipped, 533 subtests; `tools/kb/validate.py`
+Offline: full suite **2448 passed**, 1 skipped, 533 subtests; `tools/kb/validate.py`
 exit 0.
 
 ## What the launches established
@@ -217,10 +218,49 @@ called; the pump holds this module for the process lifetime. That is acceptable
 while the framework does not unload itself mid-game, and is a real constraint on
 any future in-game unload.
 
-**The restart and re-validation paths have never fired.** Across every live run
-— menu, mid-load and gameplay, on every launch — `restarts` and
-`revalidation_failures` were both 0. The machinery that detects the object graph
-moving under a multi-tick walk, the refusal to publish a result whose phase fell
-below the request, and the cancel/restart loop are therefore correct by
-construction and exercised by NO live evidence. They are untested, not proven.
-Provoking them needs a resolution deliberately raced against a level load.
+**The destruction window has never been hit live, and that is now a stated
+limitation rather than an open question.** Resolutions were fired back-to-back
+across three real menu → gameplay transitions — 253 attempts, with validation
+confirmed executing on all of them — and `restarts` and `revalidation_failures`
+were 0 every time. The reason is structural: the transition destroys the old
+generation and creates the new one with a gap between, so a resolution landing
+there sees *absent*, which is a legitimate answer, rather than *stale*.
+
+What that hunt DID expose was a real safety hole. The original post-walk check,
+`StillIs`, re-reads an object's own name and class — and both survive
+destruction untouched until the memory is reused. It therefore detected RECYCLED
+memory, not FREED memory, and would have published a destroyed object as live.
+Prior lifecycle work had already documented the same trap: *"DestroyActor does
+not remove anything from GUObjectArray; it marks the object and the slot
+survives until the next GC."*
+
+Validation now asks the engine's own bookkeeping first. For every anchor whose
+lifetime matters, the walk captures `InternalIndex` and `SerialNumber` while the
+slot is already under the cursor, and publication requires all of: the object
+still claims that index, `FUObjectItem.Object` still points back at it, the
+serial still matches, and neither `Garbage` (ObjectMacros.h:616), `Unreachable`
+(:643) nor the mirrored `RF_Garbage` (:576) is set. `StillIs` is kept as a
+second, independent identity check — no longer the liveness test.
+
+Because the timing cannot be forced, the refusal itself is proven
+deterministically instead, by `tests/test_slot_validation.py` driving the real
+`Universe` against a synthetic object array the harness owns. Every branch is
+covered, including the case that motivated the change: **a destroyed object with
+intact bytes passes the semantic check and is refused by the slot check.**
+
+So the honest split is:
+
+* **proven deterministically** — every liveness refusal branch;
+* **proven live** — validation executes; no refused attempt publishes anchors;
+  engine-lifetime anchors identical across every attempt; content generations
+  published in clean succession, never interleaved, across a real world swap;
+* **not proven** — a destruction landing inside a resolution's own walk. The
+  cancel/restart loop and the phase-fell-below refusal have still never executed
+  in a live process.
+
+**Selection may still count garbage objects as live.** The same lifecycle note
+applies to `One()` and `AllOfClass`, which look for objects without consulting
+the slot flags — so a destroyed-but-uncollected duplicate could make a lookup
+ambiguous, or put a dead instance in a candidate set. Publication is now safe
+either way, because nothing reaches a consumer without passing the slot check.
+Tightening selection was deliberately left out of scope and is unaddressed.
