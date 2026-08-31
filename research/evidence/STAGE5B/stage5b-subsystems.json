@@ -1,0 +1,74 @@
+{
+  "stage": "5B",
+  "step": "native subsystems",
+  "runtime_log": "[20:19:04.988] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[20:19:04.989] runtime: every code address in the profile matches live memory\n[20:19:04.989] runtime: the engine is up after 0ms (26263 objects in the array)\n[20:19:04.989] runtime: the game-thread carrier is active\n[20:19:05.187] runtime: 26263 live objects\n[20:19:05.187] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[20:19:05.187] runtime: resolved on thread 14748 (this thread is 19136) over 24 slice(s); LONGEST SLICE 2012us (slice #17) -- walk 42911us + anchors 248us + validate 70us, 479 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[20:19:05.188] runtime: 237582 reads, 1443 VirtualQuery, 236139 cached; phase requested startup, completed startup\n[20:19:05.188] runtime: game thread declared as 14748 (measured, not assumed)\n[20:19:05.188] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[20:19:05.388] runtime: content not available yet (attempt 1/20): ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[20:19:25.581] runtime: content not available yet (attempt 2/20): ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[20:19:45.781] runtime: content not available yet (attempt 3/20): ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[20:20:06.262] runtime: content resolved on attempt 4 -- reached content over 57 slice(s), longest 2016us, 61410 objects, 0 restart(s)\n[20:20:06.262] runtime: ItemList 0x1421f20c7c0, MasterItemList 0x1421c7e7320, RowStruct 0x1421dee3b20 (2264 bytes)\n[20:20:06.262] runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are the next step\n",
+  "item_list": "0x1421f20c7c0",
+  "master_item_list": "0x1421c7e7320",
+  "row_struct": "0x1421dee3b20",
+  "row_struct_size": 2264,
+  "checks": [
+    {
+      "check": "the game launched from Steam",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the save-entry machine reached gameplay",
+      "pass": true,
+      "detail": "\nPROBE_STARTED\n"
+    },
+    {
+      "check": "the runtime read its profile and verified the code addresses",
+      "pass": true,
+      "detail": "[20:19:04.988] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[20:19:04.989] runtime: every code address in the profile matches live memory\n[2"
+    },
+    {
+      "check": "the startup anchors resolved",
+      "pass": true,
+      "detail": "ataTable' exists in this process [content phase]\n[20:20:06.262] runtime: content resolved on attempt 4 -- reached content over 57 slice(s), longest 2016us, 61410 objects, 0 restart(s)\n[20:20:06.262] runtime: ItemList 0x1421f20c7c0, MasterItemList 0x1421c7e7320, RowStruct 0x1421dee3b20 (2264 bytes)\n[20:20:06.262] runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are the next step\n"
+    },
+    {
+      "check": "the runtime declared a game thread",
+      "pass": true,
+      "detail": "ataTable' exists in this process [content phase]\n[20:20:06.262] runtime: content resolved on attempt 4 -- reached content over 57 slice(s), longest 2016us, 61410 objects, 0 restart(s)\n[20:20:06.262] runtime: ItemList 0x1421f20c7c0, MasterItemList 0x1421c7e7320, RowStruct 0x1421dee3b20 (2264 bytes)\n[20:20:06.262] runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are the next step\n"
+    },
+    {
+      "check": "it declared the thread the resolver actually ran on -- two independent statements that agree",
+      "pass": true,
+      "detail": "declared=14748 resolved_on=14748"
+    },
+    {
+      "check": "the bridge was acquired with the frozen root",
+      "pass": true,
+      "detail": "['[20:19:05.188] runtime: bridge acquired, ABI epoch 1, root 40 bytes']"
+    },
+    {
+      "check": "the CONTENT phase resolved -- not skipped, not assumed",
+      "pass": true,
+      "detail": " runtime: content not available yet (attempt 3/20): ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[20:20:06.262] runtime: content resolved on attempt 4 -- reached content over 57 slice(s), longest 2016us, 61410 objects, 0 restart(s)\n[20:20:06.262] runtime: ItemList 0x1421f20c7c0, MasterItemList 0x1421c7e7320, RowStruct 0x1421dee3b20 (2264 bytes)\n[20:20:06.262] runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are the next step\n"
+    },
+    {
+      "check": "it published the item tables and the row struct",
+      "pass": true,
+      "detail": "ataTable' exists in this process [content phase]\n[20:20:06.262] runtime: content resolved on attempt 4 -- reached content over 57 slice(s), longest 2016us, 61410 objects, 0 restart(s)\n[20:20:06.262] runtime: ItemList 0x1421f20c7c0, MasterItemList 0x1421c7e7320, RowStruct 0x1421dee3b20 (2264 bytes)\n[20:20:06.262] runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are the next step\n"
+    },
+    {
+      "check": "the live row struct is the width the binding profile records",
+      "pass": true,
+      "detail": "live=2264 profile=2264"
+    },
+    {
+      "check": "nothing failed closed",
+      "pass": true,
+      "detail": "ataTable' exists in this process [content phase]\n[20:20:06.262] runtime: content resolved on attempt 4 -- reached content over 57 slice(s), longest 2016us, 61410 objects, 0 restart(s)\n[20:20:06.262] runtime: ItemList 0x1421f20c7c0, MasterItemList 0x1421c7e7320, RowStruct 0x1421dee3b20 (2264 bytes)\n[20:20:06.262] runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are the next step\n"
+    },
+    {
+      "check": "the game is still running",
+      "pass": true,
+      "detail": "the game died"
+    }
+  ],
+  "passed": 12,
+  "failed": 0,
+  "verdict": "PASS"
+}

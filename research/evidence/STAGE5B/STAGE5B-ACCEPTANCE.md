@@ -1,11 +1,11 @@
 # STAGE 5B — Production launch path (in progress)
 
-**Status: the launch path and the resolver are proven; the stage is NOT closed.**
-An ordinary Steam launch now starts the framework with no research controller,
-no injection step and no manual action, and the in-process C++ resolver has
-replaced the Python oracle for every fact the Items backend needs. Steps 2–5 of
-the stage plan — native subsystems, CoreCLR, the Stage 4 load-plan port, and C#
-mod execution on this path — have not been done.
+**Status: steps 1 and 2 are proven; the stage is NOT closed.** An ordinary Steam
+launch starts the framework with no research controller, no injection step and no
+manual action; the in-process C++ resolver has replaced the Python oracle; and
+the runtime now declares the game thread, acquires the frozen bridge root, and
+reaches the CONTENT phase by itself. Steps 3–5 — CoreCLR, the Stage 4 load-plan
+port, and C# mod execution on this path — have not been done.
 
 **Build:** `misery-24953925-ue5.4.4-bace50f7185d`, UE **5.4.4** CL **35576357**,
 Shipping x64. **Bindings profile version:** 1.
@@ -38,6 +38,7 @@ Steam Play
 | `stage5b-failclosed.json` — proxy-layer refusals, 5 launches | 24 | **PASS** |
 | `stage5b-gamethread-cost.json` — the measured cost curve the slice budget was sized from | — | evidence |
 | `stage5b-resolver-race.json` — resolutions fired continuously across a real transition | 8 | **PASS** |
+| `stage5b-subsystems.json` — step 2: game thread, bridge, content phase, on a Steam launch driven to gameplay | 12 | **PASS** |
 
 Offline: full suite **2448 passed**, 1 skipped, 533 subtests; `tools/kb/validate.py`
 exit 0.
@@ -191,6 +192,46 @@ neither is needed: `by_name_.reserve(n)` over-allocates (distinct names are well
 below object count), and the three reserves could be split across three slices to
 take slice 0 from ~6.5 ms to ~2–3 ms.
 
+## Step 2 — the proven native subsystems, started by the runtime
+
+Verified on a Steam launch driven into gameplay, because content does not exist
+at a main menu and a run that settled there would prove nothing about it:
+
+```
+runtime: game thread declared as 14748 (measured, not assumed)
+runtime: bridge acquired, ABI epoch 1, root 40 bytes
+runtime: content not available yet (attempt 1/20): ItemList: no object named
+         'ItemList' of class 'DataTable' exists in this process [content phase]
+runtime: content not available yet (attempt 2/20) ...
+runtime: content not available yet (attempt 3/20) ...
+runtime: content resolved on attempt 4 -- reached content over 57 slice(s),
+         longest 2016us, 61410 objects, 0 restart(s)
+runtime: ItemList 0x1421f20c7c0, MasterItemList 0x1421c7e7320,
+         RowStruct 0x1421dee3b20 (2264 bytes)
+runtime: native subsystems ready
+```
+
+**The game thread is declared from a measurement.** Every bridge call is
+thread-checked, so a wrong declaration would refuse every legitimate call and
+admit every illegitimate one, silently. The runtime declares the thread the
+resolver reported actually running the walk, and the acceptance requires those
+two independent log statements to name the same id.
+
+**Waiting for content ASKS rather than infers.** Presence could be guessed from
+the live object count — measured, the menu sits at ~26k and content at ~63k —
+but a threshold between two measurements is a tuned constant standing in for an
+answer the resolver already gives authoritatively. Three attempts refused with a
+named reason and the fourth resolved, which is the wait working rather than
+succeeding by luck.
+
+**Never reaching content is not a failure.** A player who stays at the main menu
+is an ordinary process; the framework logs that it stopped asking and remains
+loaded and harmless. Only a *wrong* answer is fail-closed, never an absent one.
+
+The chunking holds here too: 57 slices, longest 2 016 µs at 61 410 objects, and
+the live row struct is 2 264 bytes — the width the binding profile records, so
+the resolved content and the profile describe the same build.
+
 ## What is NOT established
 
 **The launch-3 process death is unexplained.** During an earlier run a game
@@ -203,10 +244,16 @@ and the dereference of an address in it cannot be one atomic step — and not
 because this death was accounted for. It should not be cited as evidence that
 the change was necessary.
 
-**Steps 2–5 of the stage plan are not done.** The runtime consumes bindings and
-resolves; it does not yet start the native subsystems, CoreCLR, the Stage 4 load
+**Steps 3–5 of the stage plan are not done.** The runtime consumes bindings,
+resolves, declares the game thread, acquires the bridge and reaches content. It
+does not yet install the items backend, start CoreCLR, port the Stage 4 load
 plan, or run C# mods on this path. The final Stage 5B acceptance — Steam Play to
 a C# item the game's own SGK lookup resolves, with no controller — remains open.
+
+**Content is resolved ONCE and not re-resolved after a later load.** The runtime
+holds no load signal, so a second transition would leave anything derived from
+those anchors dangling. Nothing consumes them yet, which is why this is a
+constraint on step 3 rather than a defect today.
 
 **Content and gameplay anchors have never been resolved on this path.** The
 production runtime asks only for the startup phase. Whatever consumes content

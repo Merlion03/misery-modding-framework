@@ -53,9 +53,18 @@
 
 #include <string>
 
+#include "../Public/MiseryBridge.h"
 #include "Bindings.h"
 #include "ResolveOnGameThread.h"
 #include "Resolver.h"
+
+// Declared here because they are INTERNAL exports of BridgeTables.cpp, not part
+// of the mod-facing header. MiseryBridge.h is the surface a mod compiles
+// against, and "tell the bridge which thread is the game thread" is a thing only
+// the runtime that owns the process may do -- so it deliberately does not appear
+// there.
+extern "C" void MiseryBridgeSetGameThread(unsigned long thread_id);
+extern "C" unsigned long MiseryBridgeGameThread(void);
 
 namespace {
 
@@ -74,6 +83,16 @@ constexpr DWORD kEnginePollMs = 250;
 // being finite, because a pump that never runs must be reported rather than
 // waited on forever.
 constexpr uint32_t kResolveTimeoutMs = 180000;
+
+// How the runtime waits for content to exist. Slow on purpose: a content-phase
+// resolution is a few hundred game-thread slices, so a tight poll would be a
+// permanent drain on a player sitting in a menu. Twenty attempts twenty seconds
+// apart covers a leisurely main-menu visit and then stops asking.
+constexpr DWORD kContentPollMs = 20000;
+constexpr int kContentAttempts = 20;
+
+const MbRoot* g_root = nullptr;
+MbHandle g_host_handle = MB_INVALID_HANDLE;
 
 char g_log_path[MAX_PATH] = {0};
 std::string g_framework_dir;
@@ -167,6 +186,54 @@ bool WaitForEngine(std::string* why) {
               "the engine was still not up after %lums",
               static_cast<unsigned long>(kEngineReadyTimeoutMs));
   *why = buffer;
+  return false;
+}
+
+// Ask, on a slow cadence, until content resolves or the attempts run out.
+//
+// ASKING rather than inferring. Content presence could be guessed from the live
+// object count -- measured, the menu sits at ~26k and content at ~63k -- but a
+// threshold between two measurements is a tuned constant standing in for the
+// answer the resolver already gives authoritatively.
+//
+// A failure here is NOT fail-closed. There is nothing wrong with a process that
+// never leaves the main menu, and the framework must not refuse to run on one.
+bool WaitForContent(uint64_t guobjectarray, uint64_t namepool) {
+  for (int attempt = 1; attempt <= kContentAttempts; ++attempt) {
+    misery::resolve::Request request;
+    request.require = misery::resolve::Phase::kContent;
+    misery::resolve::Anchors anchors;
+    misery::resolve::Failure failure;
+    misery::gamethread::Cost cost;
+    std::string error;
+    if (misery::gamethread::Resolve(guobjectarray, namepool, request, &anchors,
+                                    &failure, kResolveTimeoutMs, &cost,
+                                    &error)) {
+      Log("runtime: content resolved on attempt %d -- reached %s over %u "
+          "slice(s), longest %uus, %u objects, %u restart(s)",
+          attempt, misery::resolve::PhaseName(anchors.reached), cost.slices,
+          cost.max_slice_us, cost.objects, cost.restarts);
+      Log("runtime: ItemList 0x%llx, MasterItemList 0x%llx, RowStruct 0x%llx "
+          "(%u bytes)",
+          static_cast<unsigned long long>(anchors.item_list),
+          static_cast<unsigned long long>(anchors.master_item_list),
+          static_cast<unsigned long long>(anchors.row_struct),
+          anchors.row_struct_size);
+      // Held for the next step, and deliberately NOT cached beyond it: measured
+      // on this build, every one of these is destroyed and recreated when the
+      // world is replaced, so whatever consumes them must re-resolve after a
+      // load rather than keep these.
+      return true;
+    }
+    Log("runtime: content not available yet (attempt %d/%d): %s", attempt,
+        kContentAttempts, failure.failed ? failure.what.c_str() : error.c_str());
+    Sleep(kContentPollMs);
+  }
+  // Not a refusal. A player who never loads a save is a perfectly ordinary
+  // process, and the framework stays loaded and harmless on one.
+  Log("runtime: content never became available in %d attempts; the process "
+      "stayed out of gameplay. Nothing is wrong and nothing is loaded.",
+      kContentAttempts);
   return false;
 }
 
@@ -265,12 +332,58 @@ DWORD WINAPI RuntimeThread(LPVOID) {
       misery::resolve::PhaseName(
           static_cast<misery::resolve::Phase>(cost.completed_phase)));
 
-  // ---- the seam ---------------------------------------------------------
-  // Next: the game-thread carrier, then the items backend, then CoreCLR and the
-  // Stage 4 load plan. Each attaches here, and each keeps this property: it
-  // runs only after the bindings above verified, so nothing downstream ever has
-  // to re-ask whether this build is the one we were built against.
-  Log("runtime: bindings consumed; subsystem start is the next step");
+  // ---- step 2: the proven native subsystems -----------------------------
+  //
+  // Order matters and is not arbitrary. The game thread must be DECLARED before
+  // the bridge is acquired, because every bridge call is thread-checked against
+  // it and a bridge acquired first would spend its first moments unable to say
+  // whether a caller was legitimate.
+  //
+  // The thread declared is the one the resolution ACTUALLY ran on, reported by
+  // the resolver rather than assumed by this code. That is the whole reason the
+  // cost record carries a thread id: this is the consumer that needed it.
+  MiseryBridgeSetGameThread(cost.thread_id);
+  Log("runtime: game thread declared as %u (measured, not assumed)",
+      cost.thread_id);
+
+  const MbRoot* root = nullptr;
+  MbHandle host_handle = MB_INVALID_HANDLE;
+  MbError bridge_error = {};
+  if (MiseryBridgeAcquire(MB_ABI_EPOCH, &root, &host_handle, &bridge_error) !=
+          MB_STATUS_OK || root == nullptr) {
+    Log("FAIL CLOSED: MiseryBridgeAcquire refused: %.*s",
+        static_cast<int>(bridge_error.detail.length),
+        bridge_error.detail.data ? bridge_error.detail.data : "");
+    return 7;
+  }
+  if (root->struct_size != MB_ROOT_EXPECTED_SIZE) {
+    // The frozen root is the one thing that cannot be fixed later, so a size
+    // that is not the expected one is refused rather than read.
+    Log("FAIL CLOSED: the bridge root is %u bytes, expected %u",
+        root->struct_size, MB_ROOT_EXPECTED_SIZE);
+    return 8;
+  }
+  g_root = root;
+  g_host_handle = host_handle;
+  Log("runtime: bridge acquired, ABI epoch %u, root %u bytes",
+      static_cast<unsigned>(MB_ABI_EPOCH), root->struct_size);
+
+  // ---- reaching the content phase ---------------------------------------
+  //
+  // Everything item-shaped needs content, and content does not exist at the
+  // main menu on a launch that goes straight there. So the runtime waits for
+  // it, by ASKING rather than by guessing from an object count: the resolver is
+  // the authority on whether content is present, and a threshold on the number
+  // of live objects would be a tuned constant standing in for a real answer.
+  //
+  // The cadence is deliberately slow. A content-phase resolution costs roughly
+  // a third of a second of game thread spread over a few hundred slices, so
+  // polling hard would be a permanent background drain for the whole time a
+  // player sits in a menu.
+  WaitForContent(guobjectarray, namepool);
+
+  Log("runtime: native subsystems ready; CoreCLR and the Stage 4 load plan are "
+      "the next step");
   return 0;
 }
 

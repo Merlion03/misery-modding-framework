@@ -106,8 +106,9 @@ def build_everything():
     # it are part of the runtime.
     runtime = nb.build_dll(
         [os.path.join(internal, name) for name in
-         ("RuntimeBootstrap.cpp", "Json.cpp", "Bindings.cpp", "Resolver.cpp",
-          "ResolveOnGameThread.cpp", "UE54TickerCarrier.cpp")],
+         ("RuntimeBootstrap.cpp", "BridgeTables.cpp", "Json.cpp",
+          "Bindings.cpp", "Resolver.cpp", "ResolveOnGameThread.cpp",
+          "UE54TickerCarrier.cpp")],
         "MiseryRuntime.dll")
     proxy_dir = os.path.join(REPO, "runtime", "MiseryBootstrap")
     # advapi32 for the CryptoAPI hash. The proxy fingerprints the executable
