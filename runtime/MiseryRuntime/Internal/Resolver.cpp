@@ -1,4 +1,5 @@
 // Resolver.cpp -- see Resolver.h for the contract this implements.
+#include <atomic>
 #include "Resolver.h"
 
 #include <string.h>
@@ -37,6 +38,35 @@ thread_local int tls_region_next = 0;
 // assignment, never by shifting.
 thread_local CachedRegion tls_hot;
 thread_local ReadStats tls_stats;
+std::atomic<uint64_t> g_guarded_faults{0};
+
+// memcpy that survives the page going away underneath it.
+//
+// Every read here has already been validated -- VirtualQuery said committed and
+// readable, or the region was validated earlier in this same walk. That is not
+// enough and cannot be made enough: the framework reads memory owned by the
+// game, from a thread the game does not know about, and the game is free to
+// release it between the answer and the copy. There is no ordering of
+// VirtualQuery and memcpy that closes that window.
+//
+// On 2026-09-01 it closed on us: during a content->gameplay transition a read
+// of a freed anchor faulted and took MISERY down with an access violation whose
+// entire call stack was MiseryRuntime. A framework that inspects a live game
+// must not be able to kill it, so a faulting read becomes a refused read --
+// `false`, which is a value ReadBytes already returns and every caller already
+// handles -- and is counted so it can never pass unnoticed.
+//
+// Separate function because __try cannot live in a frame that needs C++ unwind.
+bool CopyGuarded(void* out, const void* src, size_t size) {
+  __try {
+    memcpy(out, src, size);
+    return true;
+  } __except (GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION
+                  ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) {
+    g_guarded_faults.fetch_add(1, std::memory_order_relaxed);
+    return false;
+  }
+}
 
 // ONE HOT ENTRY, THEN A FLAT TABLE. Measured, and the second design here.
 //
@@ -98,6 +128,10 @@ uint64_t QpcMicros(uint64_t from, uint64_t to) {
 
 ReadStats ReadStatsSnapshot() { return tls_stats; }
 
+uint64_t GuardedFaultCount() {
+  return g_guarded_faults.load(std::memory_order_relaxed);
+}
+
 void ResetReadCache() {
   tls_region_count = 0;
   tls_region_next = 0;
@@ -115,7 +149,10 @@ bool ReadBytes(uint64_t address, void* out, size_t size) {
   // end, so a read that would run off it falls through to a fresh query.
   if (InCachedRegion(address, size)) {
     ++tls_stats.cache_hits;
-    memcpy(out, reinterpret_cast<const void*>(address), size);
+    if (!CopyGuarded(out, reinterpret_cast<const void*>(address), size)) {
+      ++tls_stats.rejected;
+      return false;
+    }
     return true;
   }
 
@@ -144,7 +181,10 @@ bool ReadBytes(uint64_t address, void* out, size_t size) {
     return false;
   }
   RememberRegion(region_begin, region_end);
-  memcpy(out, reinterpret_cast<const void*>(address), size);
+  if (!CopyGuarded(out, reinterpret_cast<const void*>(address), size)) {
+    ++tls_stats.rejected;
+    return false;
+  }
   return true;
 }
 
@@ -398,15 +438,27 @@ Liveness CheckSlotIdentity(uint64_t objects_ptr, const Layout& layout,
   if (identity.address == 0) {
     return Liveness::kIndexUnreadable;
   }
-  // The object's own claim about where it lives.
-  int32_t index = -1;
-  if (!Read(identity.address + layout_.object_internal_index, &index) ||
-      index < 0) {
+  // THE ARRAY IS ASKED FIRST, AND THE OBJECT IS NOT TOUCHED UNTIL IT VOUCHES.
+  //
+  // This function used to begin by reading the object's own InternalIndex --
+  // which meant the check for "has this object been freed" started by
+  // dereferencing the object it was asking about. During a content transition
+  // the game thread frees exactly these objects, and on 2026-09-01 that read
+  // faulted inside a live MISERY and took the game down: an access violation
+  // at the ItemList anchor + 0x0C, with the whole stack in MiseryRuntime.
+  //
+  // The dereference was never necessary. The index was already remembered when
+  // the anchor was captured, and GUObjectArray's chunks are stable for the life
+  // of the process, so the slot can be read with no risk at all. Only once the
+  // slot still names THIS address is the object's own memory known to be ours
+  // to read -- and by then the interesting questions are already answered.
+  //
+  // Without a remembered index there is no safe way to find the slot, so the
+  // honest answer is that liveness cannot be established, not a guess.
+  if (identity.internal_index < 0) {
     return Liveness::kIndexUnreadable;
   }
-  if (identity.internal_index >= 0 && index != identity.internal_index) {
-    return Liveness::kIndexChanged;
-  }
+  const int32_t index = identity.internal_index;
 
   // The array's answer about that slot. objects_ptr_ is the chunk table this
   // walk was built against and StepBuild refuses to continue if it moves, so it
@@ -448,6 +500,18 @@ Liveness CheckSlotIdentity(uint64_t objects_ptr, const Layout& layout,
   if ((slot_flags & kInternalUnreachable) != 0) {
     return Liveness::kUnreachable;
   }
+  // NOW the object's own claim, as an independent cross-check. The slot has
+  // vouched for this address, so this read is no longer a gamble -- and a
+  // disagreement here is still worth catching, because it would mean the engine
+  // and the object disagree about where the object lives.
+  int32_t index_claimed = -1;
+  if (!Read(identity.address + layout_.object_internal_index, &index_claimed)) {
+    return Liveness::kIndexUnreadable;
+  }
+  if (index_claimed != index) {
+    return Liveness::kIndexChanged;
+  }
+
   int32_t object_flags = 0;
   if (Read(identity.address + layout_.object_flags, &object_flags) &&
       (object_flags & kObjectFlagsGarbage) != 0) {

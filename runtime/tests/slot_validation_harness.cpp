@@ -63,6 +63,15 @@ struct FakeGraph {
   }
 
   template <typename T>
+  T ReadItem(uint32_t index, uint32_t offset) {
+    T value{};
+    memcpy(&value, items.data() +
+                       static_cast<size_t>(index) * layout.fuobjectitem_size +
+                       offset,
+           sizeof(T));
+    return value;
+  }
+  template <typename T>
   void PokeItem(uint32_t index, uint32_t offset, T value) {
     *reinterpret_cast<T*>(ItemAddress(index) + offset) = value;
   }
@@ -109,6 +118,14 @@ void Expect(const char* what, Universe::Liveness got, Universe::Liveness want) {
   }
   printf("  [%s] %-46s got=%s\n", ok ? "PASS" : "FAIL", what,
          Universe::LivenessName(got));
+}
+
+void ExpectTrue(const char* what, bool got) {
+  if (!got) {
+    ++g_failures;
+  }
+  printf("  [%s] %-46s got=%s\n", got ? "PASS" : "FAIL", what,
+         got ? "yes" : "no");
 }
 
 }  // namespace
@@ -171,9 +188,17 @@ int main() {
                               static_cast<int32_t>(subject));
   }
   {
+    // -1 USED TO BE SPECIAL AND IS NOT ANY MORE.
+    //
+    // The check no longer asks the object where it lives -- it uses the index
+    // remembered when the anchor was captured -- so a -1 in the object is not
+    // "the index could not be established" (kIndexUnreadable), it is the object
+    // disagreeing with the slot, exactly like the 7 in the case above. Still
+    // refused, which is what this harness exists to prove; refused for the
+    // reason that is now true.
     graph.PokeObject<int32_t>(subject, graph.layout.object_internal_index, -1);
     Expect("a negative InternalIndex -> refused",
-           universe.CheckSlot(identity), Universe::Liveness::kIndexUnreadable);
+           universe.CheckSlot(identity), Universe::Liveness::kIndexChanged);
     graph.PokeObject<int32_t>(subject, graph.layout.object_internal_index,
                               static_cast<int32_t>(subject));
   }
@@ -219,6 +244,101 @@ int main() {
            bytes_still_look_right ? "passes" : "refuses",
            Universe::LivenessName(liveness));
     graph.PokeItem<int32_t>(subject, graph.layout.fuobjectitem_flags, 0);
+  }
+
+  {
+    // An anchor with no remembered index cannot have its slot found at all, and
+    // the only honest answer is that liveness could not be established. This is
+    // the case kIndexUnreadable now means.
+    AnchorIdentity unindexed = identity;
+    unindexed.internal_index = -1;
+    Expect("an anchor with no remembered index -> refused",
+           universe.CheckSlot(unindexed), Universe::Liveness::kIndexUnreadable);
+  }
+
+  {
+    // THE ORDERING, PINNED.
+    //
+    // The regression this guards against killed a real game: the check began by
+    // dereferencing the object it was asking about, so an object freed during a
+    // content transition faulted the read and took MISERY down. The property
+    // that prevents it is that the ARRAY decides, and the object's memory is not
+    // touched to reach that decision.
+    //
+    // So: put an object on a page of this harness's own, make the page
+    // completely unreadable, and mark its slot Garbage. A checker that consults
+    // the array reports kGarbage. A checker that reads the object first cannot
+    // -- it never gets that far.
+    void* page = VirtualAlloc(nullptr, 0x1000, MEM_COMMIT | MEM_RESERVE,
+                              PAGE_READWRITE);
+    if (page == nullptr) {
+      ++g_failures;
+      printf("  [FAIL] %-46s got=no page\n", "ordering: VirtualAlloc");
+    } else {
+      const uint64_t address = reinterpret_cast<uint64_t>(page);
+      *reinterpret_cast<int32_t*>(
+          static_cast<uint8_t*>(page) + graph.layout.object_internal_index) =
+          static_cast<int32_t>(subject);
+      *reinterpret_cast<int32_t*>(
+          static_cast<uint8_t*>(page) + graph.layout.object_flags) = 0;
+
+      const uint64_t original = graph.ReadItem<uint64_t>(
+          subject, graph.layout.fuobjectitem_object);
+      graph.PokeItem<uint64_t>(subject, graph.layout.fuobjectitem_object,
+                               address);
+      AnchorIdentity offsite = identity;
+      offsite.address = address;
+      Expect("an object on its own page is alive", universe.CheckSlot(offsite),
+             Universe::Liveness::kAlive);
+
+      DWORD previous = 0;
+      VirtualProtect(page, 0x1000, PAGE_NOACCESS, &previous);
+      graph.PokeItem<int32_t>(subject, graph.layout.fuobjectitem_flags,
+                              misery::resolve::kInternalGarbage);
+      Expect("the slot decides with the object unreadable",
+             universe.CheckSlot(offsite), Universe::Liveness::kGarbage);
+
+      graph.PokeItem<int32_t>(subject, graph.layout.fuobjectitem_flags, 0);
+      VirtualProtect(page, 0x1000, previous, &previous);
+      graph.PokeItem<uint64_t>(subject, graph.layout.fuobjectitem_object,
+                               original);
+      VirtualFree(page, 0, MEM_RELEASE);
+    }
+  }
+
+  {
+    // THE FAULT GUARD, EXERCISED FOR REAL.
+    //
+    // This reproduces the crash's mechanism exactly: a region validated by an
+    // earlier read, then released by somebody else, then read again through the
+    // region cache -- which does not re-query, because re-querying would not
+    // help. Before CopyGuarded this sequence terminated the process. It must now
+    // be an ordinary refused read.
+    void* page = VirtualAlloc(nullptr, 0x1000, MEM_COMMIT | MEM_RESERVE,
+                              PAGE_READWRITE);
+    if (page == nullptr) {
+      ++g_failures;
+      printf("  [FAIL] %-46s got=no page\n", "fault guard: VirtualAlloc");
+    } else {
+      *static_cast<uint32_t*>(page) = 0xC0FFEEu;
+      const uint64_t address = reinterpret_cast<uint64_t>(page);
+      uint32_t value = 0;
+      ExpectTrue("a committed page reads, and caches its region",
+                 misery::resolve::ReadBytes(address, &value, sizeof(value)) &&
+                     value == 0xC0FFEEu);
+
+      // Decommitted but still RESERVED, so the address stays inside the region
+      // the cache remembers and the copy is attempted.
+      VirtualFree(page, 0x1000, MEM_DECOMMIT);
+      const uint64_t faults_before = misery::resolve::GuardedFaultCount();
+      const bool refused =
+          !misery::resolve::ReadBytes(address, &value, sizeof(value));
+      ExpectTrue("a page freed under a cached region is refused", refused);
+      ExpectTrue("and the fault was counted, not swallowed",
+                 misery::resolve::GuardedFaultCount() == faults_before + 1);
+      VirtualFree(page, 0, MEM_RELEASE);
+      misery::resolve::ResetReadCache();
+    }
   }
 
   Expect("the graph was left as it started", universe.CheckSlot(identity),

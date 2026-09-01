@@ -517,6 +517,18 @@ struct ReadStats {
 
 ReadStats ReadStatsSnapshot();
 
+// Reads that FAULTED despite passing validation.
+//
+// VirtualQuery's answer is stale the instant it returns: the framework reads
+// memory the game thread is free to release, so a validated read can still hit
+// a page that is gone by the time the copy runs. CopyGuarded turns that into a
+// refused read instead of a dead game, and counts it here.
+//
+// Process-wide and monotonic, so a non-zero value is a fact about the session
+// rather than about one walk. Non-zero is not normal: it means the framework
+// raced the game and lost, and the run should be read in that light.
+uint64_t GuardedFaultCount();
+
 // Clear the per-walk region cache and zero the counters.
 //
 // WHY THE CACHE IS PER-WALK AND NOT LONGER-LIVED

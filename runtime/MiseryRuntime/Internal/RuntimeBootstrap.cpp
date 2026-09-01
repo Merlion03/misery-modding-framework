@@ -54,6 +54,9 @@
 #include <string>
 
 #include "../Public/MiseryBridge.h"
+
+extern "C" int MiseryBridgeRaiseFrameworkEvent(
+    const char* name, const char* payload_json);
 #include "Bindings.h"
 #include "ContentGeneration.h"
 #include "ItemsBackend.h"
@@ -230,6 +233,11 @@ struct ApplyOutcome {
   uint64_t generation = 0;
   unsigned live = 0;
   std::string why;
+  // When set, the framework event to raise once the applying is done. Null on
+  // the ordinary polling path: a mod is told a generation is ready ONCE, when
+  // it becomes ready, not every twenty seconds for as long as it stays so.
+  const char* notify = nullptr;
+  int notified = 0;
 };
 
 void ApplyPendingJob(void* ctx) {
@@ -242,16 +250,40 @@ void ApplyPendingJob(void* ctx) {
   out->generation = snapshot.generation;
   misery::items::OnGenerationPublished(snapshot);
   out->live = misery::items::LiveCount(snapshot.generation);
+
+  // TELL THE MODS, HERE, ON THE GAME THREAD.
+  //
+  // Two reasons this is inside the job rather than after it.
+  //
+  // A handler will call back into the framework, and the useful things it can
+  // call -- adding an item to an inventory, anything touching the world -- are
+  // game-thread only. Raising this from the lifecycle's own worker meant every
+  // handler was refused the instant it tried to do the thing it woke up for,
+  // which is what the first run with this event showed: one subscriber
+  // notified, nothing granted, no error anywhere that named the cause.
+  //
+  // And the ordering the event promises -- published, then applied, THEN
+  // announced -- becomes structural here instead of a convention two call sites
+  // have to keep agreeing about.
+  if (out->notify != nullptr) {
+    char payload[160];
+    _snprintf_s(payload, sizeof(payload), _TRUNCATE,
+                "{\"generation\":%llu,\"phase\":\"%s\"}",
+                static_cast<unsigned long long>(snapshot.generation),
+                misery::resolve::PhaseName(snapshot.anchors.reached));
+    out->notified = MiseryBridgeRaiseFrameworkEvent(out->notify, payload);
+  }
 }
 
 // Returns the number of declarations live in the current generation. Cheap and
 // a no-op when every declaration is already applied, so it is safe to call on
 // every poll.
-unsigned ApplyPendingItems() {
+unsigned ApplyPendingItems(const char* notify = nullptr) {
   if (misery::items::DeclaredCount() == 0) {
     return 0;
   }
   ApplyOutcome outcome;
+  outcome.notify = notify;
   std::string error;
   if (!misery::gamethread::RunBlocking(&ApplyPendingJob, &outcome,
                                        kResolveTimeoutMs, &error)) {
@@ -267,6 +299,11 @@ unsigned ApplyPendingItems() {
     Log("runtime: %u declared item(s) not applied -- %s",
         misery::items::DeclaredCount(), outcome.why.c_str());
     return 0;
+  }
+  if (outcome.notified > 0) {
+    Log("runtime: %s -> %d subscriber(s) for generation %llu", notify,
+        outcome.notified,
+        static_cast<unsigned long long>(outcome.generation));
   }
   return outcome.live;
 }
@@ -351,6 +388,17 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
         misery::resolve::PhaseName(anchors.reached), cost.objects, cost.slices,
         cost.max_slice_us,
         static_cast<unsigned>(anchors.identities.size()));
+    // A guarded fault means the framework read memory the game freed underneath
+    // it and CopyGuarded caught the access violation. Nothing is broken by the
+    // time this prints -- the read was refused and the walk carried on -- but it
+    // is the signature of the crash of 2026-09-01 being survived rather than
+    // avoided, and a run that reports one should be read in that light.
+    const unsigned long long faults =
+        static_cast<unsigned long long>(misery::resolve::GuardedFaultCount());
+    if (faults != 0) {
+      Log("runtime: %llu guarded read fault(s) so far -- the framework raced "
+          "the game for freed memory and the read was refused", faults);
+    }
     Log("runtime: generation %llu: ItemList 0x%llx, MasterItemList 0x%llx, "
         "RowStruct 0x%llx (%u bytes)",
         static_cast<unsigned long long>(generation),
@@ -380,7 +428,7 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
     // are written into the new one without the mod being told anything
     // happened -- which is why proving a transition needs no invented event.
     if (misery::items::DeclaredCount() > 0) {
-      const unsigned live = ApplyPendingItems();
+      const unsigned live = ApplyPendingItems(MB_EVENT_CONTENT_READY);
       Log("runtime: %u of %u declared item(s) live in generation %llu", live,
           misery::items::DeclaredCount(),
           static_cast<unsigned long long>(generation));
