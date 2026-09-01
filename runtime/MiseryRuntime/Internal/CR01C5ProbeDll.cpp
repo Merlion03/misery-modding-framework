@@ -731,6 +731,10 @@ bool IsAvailable() { return g_disp && g_disp->stats().state.load() == GameThread
 bool Enqueue(JobFn fn, void* ctx) { return g_disp && g_disp->Enqueue(fn, ctx); }
 }}
 
+// Names the input field that made Init refuse. Static because the refusal
+// happens before any state exists to hang it on.
+static const char* g_init_missing = nullptr;
+
 extern "C" __declspec(dllexport) unsigned long Init(void* param) {
     C5Io* io = static_cast<C5Io*>(param);
     if (!io || io->magic != kC5Magic || io->proto != kC5Proto) return 0xFFFFFFFFu;
@@ -747,20 +751,54 @@ extern "C" __declspec(dllexport) unsigned long Init(void* param) {
         io->err = MERR(SUB_INIT, 1);
         return 0xFFFFFFFAu;
     }
-    if (!io->process_event || !io->cdo_stringlib || !io->fn_conv_str_to_name ||
-        !io->cdo_gameplaystatics || !io->fn_spawn_object || !io->cdo_textlib ||
-        !io->fn_str_to_text || !io->fn_text_to_str || !io->cdo_syslib ||
-        !io->fn_load_asset_blocking || !io->fn_soft_to_string || !io->texture2d_class ||
-        !io->datatable_class || !io->transient_package || !io->row_struct || !io->item_list ||
-        !io->master_item_list || !io->expected_plain_vtable || !io->expected_composite_vtable ||
-        !io->master_class || !io->add_row || !io->remove_row || !io->initialize_struct ||
-        !io->destroy_struct || !io->set_root_flags || !io->clear_root_flags ||
-        !io->guobjectarray_objects_ptr || !io->player_inventory || !io->fn_additem ||
-        !io->fn_removeitem || !io->fn_sgk_itemdetails || !io->cdo_sgkfunctions ||
-        !io->fmemory_malloc || !io->fmemory_free || !io->off_parent_tables ||
-        !io->off_rowstruct || !io->off_inventory_icon || !io->off_move_icon ||
-        !io->off_worldclass || !io->off_staticmesh || !io->off_itemoffsets ||
-        !io->staticmesh_class || !io->world_class) return 0xFFFFFFFDu;
+    // Every input the CR-01C5 path needs, checked by name.
+    //
+    // This was one 43-way `if` returning a single code. It refused a real
+    // registration during Step 3 and the code alone could not say which of the
+    // 43 was missing -- the answer (player_inventory, absent because the mod was
+    // registering at the main menu) had to be reasoned out rather than read off.
+    // Same fields, same first-null-wins order, same return code; the only change
+    // is that the refusal now names the field.
+    static const char* const kRequired[] = {
+        "process_event", "cdo_stringlib", "fn_conv_str_to_name",
+        "cdo_gameplaystatics", "fn_spawn_object", "cdo_textlib",
+        "fn_str_to_text", "fn_text_to_str", "cdo_syslib",
+        "fn_load_asset_blocking", "fn_soft_to_string", "texture2d_class",
+        "datatable_class", "transient_package", "row_struct",
+        "item_list", "master_item_list", "expected_plain_vtable",
+        "expected_composite_vtable", "master_class", "add_row",
+        "remove_row", "initialize_struct", "destroy_struct",
+        "set_root_flags", "clear_root_flags", "guobjectarray_objects_ptr",
+        "player_inventory", "fn_additem", "fn_removeitem",
+        "fn_sgk_itemdetails", "cdo_sgkfunctions", "fmemory_malloc",
+        "fmemory_free", "off_parent_tables", "off_rowstruct",
+        "off_inventory_icon", "off_move_icon", "off_worldclass",
+        "off_staticmesh", "off_itemoffsets", "staticmesh_class",
+        "world_class",
+    };
+    const unsigned long long values[] = {
+        (unsigned long long)io->process_event, (unsigned long long)io->cdo_stringlib, (unsigned long long)io->fn_conv_str_to_name,
+        (unsigned long long)io->cdo_gameplaystatics, (unsigned long long)io->fn_spawn_object, (unsigned long long)io->cdo_textlib,
+        (unsigned long long)io->fn_str_to_text, (unsigned long long)io->fn_text_to_str, (unsigned long long)io->cdo_syslib,
+        (unsigned long long)io->fn_load_asset_blocking, (unsigned long long)io->fn_soft_to_string, (unsigned long long)io->texture2d_class,
+        (unsigned long long)io->datatable_class, (unsigned long long)io->transient_package, (unsigned long long)io->row_struct,
+        (unsigned long long)io->item_list, (unsigned long long)io->master_item_list, (unsigned long long)io->expected_plain_vtable,
+        (unsigned long long)io->expected_composite_vtable, (unsigned long long)io->master_class, (unsigned long long)io->add_row,
+        (unsigned long long)io->remove_row, (unsigned long long)io->initialize_struct, (unsigned long long)io->destroy_struct,
+        (unsigned long long)io->set_root_flags, (unsigned long long)io->clear_root_flags, (unsigned long long)io->guobjectarray_objects_ptr,
+        (unsigned long long)io->player_inventory, (unsigned long long)io->fn_additem, (unsigned long long)io->fn_removeitem,
+        (unsigned long long)io->fn_sgk_itemdetails, (unsigned long long)io->cdo_sgkfunctions, (unsigned long long)io->fmemory_malloc,
+        (unsigned long long)io->fmemory_free, (unsigned long long)io->off_parent_tables, (unsigned long long)io->off_rowstruct,
+        (unsigned long long)io->off_inventory_icon, (unsigned long long)io->off_move_icon, (unsigned long long)io->off_worldclass,
+        (unsigned long long)io->off_staticmesh, (unsigned long long)io->off_itemoffsets, (unsigned long long)io->staticmesh_class,
+        (unsigned long long)io->world_class,
+    };
+    for (size_t i = 0; i < sizeof(values) / sizeof(values[0]); ++i) {
+        if (!values[i]) {
+            g_init_missing = kRequired[i];
+            return 0xFFFFFFFDu;
+        }
+    }
     g_io = io;
     g_malloc = reinterpret_cast<MallocFn>(static_cast<uintptr_t>(io->fmemory_malloc));
     g_free = reinterpret_cast<FreeFn>(static_cast<uintptr_t>(io->fmemory_free));
@@ -900,6 +938,78 @@ bool SplitPackage(const char* path, char* package, int pcap, char* asset, int ac
 static unsigned long g_stage5_resolve_attempts = 0;
 static unsigned long g_stage5_resolve_found = 0;
 
+// The row name a declaration will occupy, derived without touching the game.
+//
+// Split out because a mod is told its row name the moment it registers, which
+// is not necessarily the moment the row can exist: item rows live in a world,
+// and a mod that loads at the main menu has no world to write into yet. The
+// name is a pure function of (mod_id, local_id), so it is knowable immediately
+// and stays the same each time the declaration is applied to a new world.
+//
+// One definition, two callers. Stage5RegisterItem derives through this too --
+// a second copy of the rule is a second chance to disagree about what a mod's
+// row is called, and the row name is the mod's identity in the table.
+extern "C" __declspec(dllexport) int Stage5DeriveRowName(
+        const char* mod_id, const char* declaration_json, char* out,
+        int capacity) {
+    if (mod_id == nullptr || declaration_json == nullptr || out == nullptr)
+        return 2;
+    char local[96];
+    if (!JsonString(declaration_json, "local_id", local, sizeof(local)))
+        return 3;
+    // The mod_id comes from the bridge, separately from the declaration. The
+    // declaration cannot name a namespace, so a mod cannot register into
+    // another's.
+    if (_snprintf_s(out, capacity, _TRUNCATE, "%s__%s", mod_id, local) < 0)
+        return 9;
+    return 0;
+}
+
+// Ask the game's own lookup whether it can find a row, WITHOUT registering it.
+//
+// Registration already asks once, in the same tick as the write. That answer is
+// not the whole story: the aggregate is attached to a composite table, and a
+// composite does not necessarily rebuild within the tick that changed one of
+// its parents. A same-tick "not found" therefore means "not yet", and until
+// something asks again there is no way to tell that from "never".
+//
+// So the question is separable and asked again later. Only the lookup runs
+// here; nothing is written, no asset is loaded, and no row is created.
+//
+// Returns 0 when the game found the row, 36 when it did not, and the usual
+// step codes when the lookup could not be performed at all.
+extern "C" __declspec(dllexport) int Stage5VerifyRow(
+        const char* mod_id, const char* declaration_json) {
+    C5Io* io = g_io;
+    if (io == nullptr || g_disp == nullptr) return 1;   // Init has not run
+    if (mod_id == nullptr || declaration_json == nullptr) return 2;
+
+    char row[192];
+    const int derived = Stage5DeriveRowName(mod_id, declaration_json, row,
+                                            static_cast<int>(sizeof(row)));
+    if (derived != 0) return derived;
+
+    // Re-interned rather than reusing whatever the last registration left in
+    // row_fname: this may run many registrations later, and asking about the
+    // wrong row would answer a question nobody asked.
+    //
+    // Interning an EXISTING name, which is what this is, does not create one:
+    // the name was interned when the row was written and this returns the same
+    // entry. FName has no "look up without adding" that is worth reaching for
+    // here, and adding a name that is already there is a no-op.
+    uint16_t wide[kNameMax];
+    if (!PutUtf16(wide, kNameMax, row)) return 13;
+    const uint64_t interned = InternName(wide);
+    if (!interned) return 10;
+    io->row_fname = interned;
+
+    io->resolve_ran = 0;
+    io->resolve_found = 0;
+    JobResolve(nullptr);
+    if (io->resolve_ran != 1u) return 35;
+    return io->resolve_found ? 0 : 36;
+}
+
 // Returns 0 on success. Non-zero is a refusal the bridge turns into a
 // structured error; the IO block's own err/err_step carry the detail.
 extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
@@ -910,9 +1020,8 @@ extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
     if (io == nullptr || g_disp == nullptr) return 1;   // Init has not run
     if (mod_id == nullptr || declaration_json == nullptr) return 2;
 
-    char local[96], display[256], shortname[256], description[512];
+    char display[256], shortname[256], description[512];
     char mesh_path[256], icon_path[256];
-    if (!JsonString(declaration_json, "local_id", local, sizeof(local))) return 3;
     if (!JsonString(declaration_json, "display_name", display, sizeof(display)))
         return 4;
     if (!JsonString(declaration_json, "short_name", shortname, sizeof(shortname)))
@@ -924,12 +1033,10 @@ extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
     if (!JsonString(declaration_json, "icon", icon_path, sizeof(icon_path)))
         return 8;
 
-    // The row name is DERIVED here, from the mod_id the bridge passed
-    // separately. The declaration cannot name a namespace, so a mod cannot
-    // register into another's.
     char row[192];
-    int written = _snprintf_s(row, sizeof(row), _TRUNCATE, "%s__%s", mod_id, local);
-    if (written < 0) return 9;
+    const int derived =
+        Stage5DeriveRowName(mod_id, declaration_json, row, sizeof(row));
+    if (derived != 0) return derived;
     char trigger[224];
     if (_snprintf_s(trigger, sizeof(trigger), _TRUNCATE, "%s__neutral_trigger",
                     row) < 0) return 10;
@@ -960,6 +1067,40 @@ extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
     io->val_height = static_cast<int32_t>(height);
     io->val_maxstack = 1;
     io->val_allowstacking = 0;
+
+    // The aggregate table, built once per Init.
+    //
+    // Every job below assumes it exists; JobInternRow refuses outright without
+    // it. Stage 5A's controller knew to call RunCreate after Init and before
+    // the first registration, and that ordering lived nowhere but in the
+    // controller. The production backend did not know it, so the first real
+    // registration failed at step 30 with the table absent.
+    //
+    // Ensured here instead of documented: a caller cannot forget a step this
+    // function takes itself. Build() zeroes the block per generation, so
+    // create_ran is 0 again for each new world and the table is rebuilt for it.
+    if (io->create_ran != 1u) {
+        JobCreate(nullptr);
+        if (io->create_ran != 1u) return 29;
+    }
+
+    // ...and ATTACHED to the game's composite, which is a separate step and the
+    // one that actually makes a row visible.
+    //
+    // Create builds the aggregate and roots it. Attach makes it MasterItemList's
+    // second parent and fires the neutral trigger that forces the composite to
+    // rebuild. Without it every write lands in a table the game's own lookup has
+    // never been told about -- which is precisely what was observed: rows written
+    // successfully into generation 2, and SGK ItemDetails unable to find them
+    // through five attempts over a minute.
+    //
+    // Ensured here for the same reason Create is: this ordering lived only in
+    // Stage 5A's controller, and a caller cannot forget a step this function
+    // takes itself.
+    if (io->attach_ran != 1u) {
+        JobAttach(nullptr);
+        if (io->attach_ran != 1u) return 28;
+    }
 
     // The same four jobs, in the same order, that the proven path runs. Called
     // directly because this already IS the game thread.
@@ -1028,6 +1169,11 @@ extern "C" __declspec(dllexport) int Stage5UnregisterItem(const char* mod_id,
 
 // The IO block, so a caller in this DLL can report what the last job recorded.
 extern "C" __declspec(dllexport) void* Stage5IoPointer() { return g_io; }
+
+// The input field that made Init refuse, or nullptr.
+extern "C" __declspec(dllexport) const char* Stage5InitMissing() {
+    return g_init_missing;
+}
 
 // (found << 16) | attempts -- one DWORD, because that is what the remote-call
 // helper returns and a second export for a second number is not worth it.

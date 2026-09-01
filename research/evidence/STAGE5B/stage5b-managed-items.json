@@ -1,0 +1,100 @@
+{
+  "stage": "5B",
+  "step": "managed items",
+  "managed_built": [
+    "Misery.ModAPI",
+    "Misery.ModHost",
+    "fixtures\\AlphaManagedMod"
+  ],
+  "installed": [
+    "Misery.ModAPI.dll",
+    "Misery.ModHost.deps.json",
+    "Misery.ModHost.dll",
+    "Misery.ModHost.runtimeconfig.json",
+    "MiseryRuntime.dll",
+    "Mods\\AlphaManagedMod\\Code\\AlphaManagedMod.deps.json",
+    "Mods\\AlphaManagedMod\\Code\\AlphaManagedMod.dll",
+    "Mods\\AlphaManagedMod\\Code\\AlphaManagedMod.runtimeconfig.json",
+    "Mods\\AlphaManagedMod\\mod.json",
+    "nethost.dll"
+  ],
+  "save_entry_attempts": [
+    {
+      "attempt": 0,
+      "returncode": 0,
+      "blocked_reason": ""
+    }
+  ],
+  "runtime_log": "[12:14:33.646] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[12:14:33.647] runtime: every code address in the profile matches live memory\n[12:14:33.648] runtime: the engine is up after 0ms (26263 objects in the array)\n[12:14:33.648] runtime: the game-thread carrier is active\n[12:14:33.835] runtime: 26263 live objects\n[12:14:33.835] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[12:14:33.835] runtime: resolved on thread 14820 (this thread is 18600) over 22 slice(s); LONGEST SLICE 2037us (slice #3) -- walk 39755us + anchors 261us + validate 70us, 5946 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[12:14:33.835] runtime: 237578 reads, 1444 VirtualQuery, 236134 cached; phase requested startup, completed startup\n[12:14:33.836] runtime: game thread declared as 14820 (measured, not assumed)\n[12:14:33.836] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[12:14:33.836] runtime: items backend installed; it will bind to a content generation on first use and rebind if that generation is revoked\n[12:14:33.836] runtime: native subsystems ready; entering the content lifecycle\n[12:14:34.027] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[12:15:35.002] runtime: content generation 1 published -- content, 61458 objects, 68 slice(s), longest 2084us, 30 anchor identities\n[12:15:35.003] runtime: generation 1: ItemList 0x1b230c143c0, MasterItemList 0x1b22c862460, RowStruct 0x1b22671a3c0 (2264 bytes)\n[12:15:35.003] managed: 1 mod(s) to load: alphamod\n[12:15:35.094] items: 'alphamod__managedshape' declared; deferred until a world exists to hold it (generation 1 reached content)\n[12:15:35.096] managed: 1 of 1 planned mod(s) loaded, 0 failed\n[12:15:35.096] runtime: managed host started against content generation 1\n[12:15:55.645] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[12:15:57.595] runtime: content generation 2 published -- gameplay, 198153 objects, 218 slice(s), longest 7053us, 31 anchor identities\n[12:15:57.595] runtime: generation 2: ItemList 0x1b2308a7600, MasterItemList 0x1b23152caa0, RowStruct 0x1b22d6da2a0 (2264 bytes)\n[12:15:57.598] items: backend bound to content generation 2\n[12:15:57.610] items: 'alphamod__managedshape' is live in generation 2; the game's own SGK ItemDetails resolved it\n[12:15:57.610] items: 1 declaration(s) applied to generation 2\n[12:15:57.611] runtime: 1 of 1 declared item(s) live in generation 2\n",
+  "load_summary": "managed: 1 of 1 planned mod(s) loaded, 0 failed",
+  "deferred": "items: 'alphamod__managedshape' declared; deferred until a world exists to hold it (generation 1 reached content)",
+  "sgk": "items: 'alphamod__managedshape' is live in generation 2; the game's own SGK ItemDetails resolved it",
+  "live_generation": 2,
+  "row_name": "alphamod__managedshape",
+  "revocations": [
+    {
+      "generation": 1,
+      "why": "'ItemList' it no longer claims the slot it was found in"
+    }
+  ],
+  "checks": [
+    {
+      "check": "the game launched from Steam",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the save-entry machine reached gameplay",
+      "pass": true,
+      "detail": "\nPROBE_STARTED\n"
+    },
+    {
+      "check": "the managed host started",
+      "pass": true,
+      "detail": ": ItemList 0x1b2308a7600, MasterItemList 0x1b23152caa0, RowStruct 0x1b22d6da2a0 (2264 bytes)\n[12:15:57.598] items: backend bound to content generation 2\n[12:15:57.610] items: 'alphamod__managedshape' is live in generation 2; the game's own SGK ItemDetails resolved it\n[12:15:57.610] items: 1 declaration(s) applied to generation 2\n[12:15:57.611] runtime: 1 of 1 declared item(s) live in generation 2\n"
+    },
+    {
+      "check": "discovery planned the installed mod",
+      "pass": true,
+      "detail": ": ItemList 0x1b2308a7600, MasterItemList 0x1b23152caa0, RowStruct 0x1b22d6da2a0 (2264 bytes)\n[12:15:57.598] items: backend bound to content generation 2\n[12:15:57.610] items: 'alphamod__managedshape' is live in generation 2; the game's own SGK ItemDetails resolved it\n[12:15:57.610] items: 1 declaration(s) applied to generation 2\n[12:15:57.611] runtime: 1 of 1 declared item(s) live in generation 2\n"
+    },
+    {
+      "check": "no mod was refused by discovery",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the mod in the plan actually loaded",
+      "pass": true,
+      "detail": "managed: 1 of 1 planned mod(s) loaded, 0 failed"
+    },
+    {
+      "check": "the item was declared at the menu and deferred, not written",
+      "pass": true,
+      "detail": "items: 'alphamod__managedshape' declared; deferred until a world exists to hold it (generation 1 reached content)"
+    },
+    {
+      "check": "the game's own SGK ItemDetails resolved the C#-registered item",
+      "pass": true,
+      "detail": "[12:15:35.094] items: 'alphamod__managedshape' declared; deferred until a world exists to hold it (generation 1 reached content)\n[12:15:57.598] items: backend bound to content generation 2\n[12:15:57.610] items: 'alphamod__managedshape' is live in generation 2; the game's own SGK ItemDetails resolved it\n[12:15:57.610] items: 1 declaration(s) applied to generation 2"
+    },
+    {
+      "check": "the row is namespaced to the mod that declared it",
+      "pass": true,
+      "detail": "alphamod__managedshape"
+    },
+    {
+      "check": "the item became live in a later generation than it was declared in",
+      "pass": true,
+      "detail": "declared in 1, live in 2"
+    },
+    {
+      "check": "the pre-gameplay generation was revoked by the load",
+      "pass": true,
+      "detail": "no revocation was logged"
+    }
+  ],
+  "passed": 11,
+  "failed": 0,
+  "verdict": "PASS"
+}

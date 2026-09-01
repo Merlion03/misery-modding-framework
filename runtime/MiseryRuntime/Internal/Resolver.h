@@ -473,6 +473,21 @@ struct Anchors {
 // precisely what it is for -- and it is how the phase column was measured.
 struct Request {
   Phase require = Phase::kGameplay;
+  // Try for a GAMEPLAY-scoped result, and fall back to `require` when the
+  // process is not in gameplay.
+  //
+  // For a caller whose work needs gameplay anchors when they exist but which
+  // must still function without them -- the runtime's content lifecycle is the
+  // one that does. It cannot simply ask for kContent: scoping would then clear
+  // the player inventory even in gameplay, and item rows could never be
+  // written. Nor can it simply ask for kGameplay: that fails at the main menu,
+  // where there is still content worth publishing.
+  //
+  // Costs a second pass of hash probes, NOT a second walk. ResolveAnchors is a
+  // pure function of the already-built universe, so both attempts read the same
+  // one. The phase contract is untouched: whichever attempt succeeds, the result
+  // is still physically scoped to the phase it was granted.
+  bool prefer_gameplay = false;
   // Resolve everything, fail nothing, report presence per anchor. Used to
   // MEASURE which anchor belongs to which phase.
   bool survey = false;

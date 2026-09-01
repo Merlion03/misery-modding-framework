@@ -39,6 +39,7 @@
 
 #include <mutex>
 #include <string>
+#include <vector>
 
 #include "Bindings.h"
 #include "C5Io.h"
@@ -50,10 +51,21 @@
 // proven path, it does not reimplement it.
 // Same module, so plain extern "C" -- not dllimport.
 extern "C" unsigned long Init(void* param);
+extern "C" unsigned long Shutdown(void* param);
+// (found << 16) | attempts, tallied across every registration.
+extern "C" unsigned long Stage5ResolveStats(void);
+// Which required input was absent when Init last refused, or nullptr.
+extern "C" const char* Stage5InitMissing(void);
 extern "C" int Stage5RegisterItem(const char* mod_id,
                                   const char* declaration_json,
                                   char* out_row_name, int out_capacity);
 extern "C" int Stage5UnregisterItem(const char* mod_id, const char* row_name);
+extern "C" int Stage5DeriveRowName(const char* mod_id,
+                                   const char* declaration_json, char* out,
+                                   int capacity);
+// 0 = the game's own SGK lookup found the row, 36 = it did not.
+extern "C" int Stage5VerifyRow(const char* mod_id,
+                               const char* declaration_json);
 extern "C" void MiseryBridgeInstallItemsBackend(
     int (*register_item)(const char*, const char*, char*, int),
     int (*unregister_item)(const char*, const char*));
@@ -62,7 +74,59 @@ namespace misery {
 namespace items {
 namespace {
 
+// WHAT A MOD'S REGISTRATION ACTUALLY IS
+// -------------------------------------
+// A DECLARATION, not a write. The write is a consequence.
+//
+// A row lives in a DataTable that belongs to one content generation, i.e. to
+// one loaded world. Two facts follow, and the first draft of this file honoured
+// neither:
+//
+//   1. A mod calls Register from OnLoad, and OnLoad happens when the managed
+//      host starts -- at the main menu. There is no player inventory there, so
+//      the CR-01C5 path cannot even initialise, and every mod died on load with
+//      an error that said nothing about the mod.
+//   2. When the world is replaced, that table goes with it. A registration
+//      applied once would vanish at the first level transition and never come
+//      back, which no player would call working.
+//
+// So a mod declares an item once and the framework owns applying it: to the
+// current world if there is one that can hold it, and to each world that
+// follows. The mod is told its row name immediately, because the name is
+// derived from (mod_id, local_id) and does not depend on a world existing.
+//
+// This is also why no gameplay event has to be invented to prove a transition
+// works. The mod says nothing at transition time; the framework re-applies.
+struct Declaration {
+  std::string mod_id;
+  std::string json;
+  std::string row_name;
+  // The generation this declaration's row is currently live in. Zero means it
+  // is declared but not present in any world -- either not applied yet, or the
+  // world it was in is gone. Compared against the current generation rather
+  // than cleared on revocation, so a missed revocation cannot leave it looking
+  // applied.
+  uint64_t applied_in = 0;
+  // The generation this declaration last failed to apply to. Without it a
+  // permanently unwritable declaration is retried on every poll, forever,
+  // filling the log with the same line every 20 seconds -- which is how this
+  // was noticed.
+  uint64_t failed_in = 0;
+  // Whether the game's own lookup has found this row in `applied_in`, and how
+  // many times it has been asked. Separate from applied_in because the write
+  // succeeding and the game being able to find the result are different
+  // claims, and only the second is the one a player would notice.
+  bool confirmed = false;
+  unsigned asked = 0;
+};
+
+// How many polls a row gets to become findable before the answer is final.
+// Five polls is a hundred seconds, which is far longer than any table rebuild
+// and short enough that a genuinely absent row is reported the same session.
+constexpr unsigned kMaxVerifyAttempts = 5;
+
 std::mutex g_mutex;
+std::vector<Declaration> g_declared;
 C5Io g_io;                       // the block the proven path reads
 uint64_t g_built_for = 0;        // which generation g_io describes; 0 = none
 bool g_initialised = false;
@@ -279,14 +343,34 @@ bool EnsureForGeneration(const content::Snapshot& snapshot, std::string* why) {
   if (g_initialised && g_built_for == snapshot.generation) {
     return true;
   }
+  // The previous world's state goes first, or Init refuses.
+  //
+  // Init guards against being run twice over live state and returns
+  // 0xFFFFFFFA. Until a registration actually succeeded there was never any
+  // live state to trip it, so this path looked fine while being unreachable --
+  // and the first thing that would have exercised it is the level transition
+  // this backend exists to survive. Shutdown releases the rooted assets, stops
+  // the dispatcher and clears the binding, which is what lets a later Init
+  // through; it says so itself.
+  if (g_initialised) {
+    Shutdown(&g_io);
+    g_initialised = false;
+  }
   if (!Build(snapshot, why)) {
     return false;
   }
   const unsigned long rc = Init(&g_io);
   if (rc != 0) {
-    char buffer[128];
-    _snprintf_s(buffer, sizeof(buffer), _TRUNCATE,
-                "the CR-01C5 path refused its input block (0x%lx)", rc);
+    const char* missing = Stage5InitMissing();
+    char buffer[192];
+    if (missing != nullptr) {
+      _snprintf_s(buffer, sizeof(buffer), _TRUNCATE,
+                  "the CR-01C5 path refused its input block (0x%lx): '%s' is "
+                  "not available", rc, missing);
+    } else {
+      _snprintf_s(buffer, sizeof(buffer), _TRUNCATE,
+                  "the CR-01C5 path refused its input block (0x%lx)", rc);
+    }
     *why = buffer;
     return false;
   }
@@ -297,42 +381,254 @@ bool EnsureForGeneration(const content::Snapshot& snapshot, std::string* why) {
   return true;
 }
 
+// Write one declaration's row into the generation the block is already built
+// for. Caller holds g_mutex and has confirmed the generation can host items.
+bool ApplyLocked(Declaration* declaration, uint64_t generation) {
+  // Bracketed by the SGK tally so the log can state the only thing that finally
+  // matters: not "the engine accepted our write", but "the game can find it".
+  //
+  // Stage5RegisterItem already asks BP_SGKFunctions::"SGK ItemDetails" -- the
+  // game's own lookup -- on every registration, and deliberately does not fail
+  // a registration when the answer is no, because that lookup needs a live
+  // player inventory. The counters are therefore the only place the answer
+  // exists, and a proof nobody records is not a proof.
+  const unsigned long before = Stage5ResolveStats();
+  char row[192];
+  const int rc = Stage5RegisterItem(declaration->mod_id.c_str(),
+                                    declaration->json.c_str(), row,
+                                    static_cast<int>(sizeof(row)));
+  if (rc != 0) {
+    Say("items: '%s' could not be written into generation %llu (step %d)",
+        declaration->row_name.c_str(),
+        static_cast<unsigned long long>(generation), rc);
+    return false;
+  }
+  declaration->applied_in = generation;
+  declaration->confirmed = false;
+  declaration->asked = 1;
+  const unsigned long after = Stage5ResolveStats();
+  if ((after >> 16) != (before >> 16)) {
+    declaration->confirmed = true;
+    Say("items: '%s' is live in generation %llu; the game's own SGK "
+        "ItemDetails resolved it", row,
+        static_cast<unsigned long long>(generation));
+  } else {
+    // Not a failure yet. See Stage5VerifyRow: a composite table need not
+    // rebuild within the tick that changed one of its parents, so the row is
+    // asked about again on later polls before anything is concluded.
+    Say("items: '%s' is live in generation %llu; the game's own SGK "
+        "ItemDetails has not found it yet", row,
+        static_cast<unsigned long long>(generation));
+  }
+  return true;
+}
+
+// True when this generation is a world that can hold item rows.
+//
+// Phrased as a phase rather than as "player_inventory is non-zero" on purpose.
+// The resolver DEFINES reached == kGameplay as player_inventory_present, so the
+// two are the same fact today, and saying it in the resolver's own vocabulary
+// keeps this correct if what constitutes gameplay is ever refined.
+bool CanHostItems(const content::Snapshot& snapshot) {
+  return snapshot.anchors.reached == resolve::Phase::kGameplay;
+}
+
+// Ask the game's own lookup about a row that is already written.
+//
+// Called on later polls rather than only at write time, because the answer can
+// legitimately change from no to yes once a frame has passed -- see
+// Stage5VerifyRow. Gives up after kMaxVerifyAttempts so a row that really is
+// unfindable produces one clear verdict instead of a line every poll forever.
+void VerifyLocked(Declaration* declaration, uint64_t generation) {
+  if (declaration->confirmed || declaration->asked >= kMaxVerifyAttempts) {
+    return;
+  }
+  ++declaration->asked;
+  const int rc = Stage5VerifyRow(declaration->mod_id.c_str(),
+                                 declaration->json.c_str());
+  if (rc == 0) {
+    declaration->confirmed = true;
+    Say("items: '%s' in generation %llu: the game's own SGK ItemDetails "
+        "resolved it (attempt %u)", declaration->row_name.c_str(),
+        static_cast<unsigned long long>(generation), declaration->asked);
+    return;
+  }
+  if (declaration->asked >= kMaxVerifyAttempts) {
+    Say("items: '%s' is written into generation %llu but the game's own SGK "
+        "ItemDetails still cannot find it after %u attempts (last code %d)",
+        declaration->row_name.c_str(),
+        static_cast<unsigned long long>(generation), declaration->asked, rc);
+  }
+}
+
+// Apply every declaration not already live in *snapshot*. Caller holds g_mutex.
+void ApplyPendingLocked(const content::Snapshot& snapshot) {
+  if (g_declared.empty() || !CanHostItems(snapshot)) {
+    return;
+  }
+  std::string why;
+  if (!EnsureForGeneration(snapshot, &why)) {
+    Say("items: %u declaration(s) cannot be applied to generation %llu -- %s",
+        static_cast<unsigned>(g_declared.size()),
+        static_cast<unsigned long long>(snapshot.generation), why.c_str());
+    return;
+  }
+  unsigned applied = 0;
+  for (Declaration& declaration : g_declared) {
+    if (declaration.applied_in == snapshot.generation) {
+      VerifyLocked(&declaration, snapshot.generation);
+      continue;
+    }
+    if (declaration.failed_in == snapshot.generation) {
+      continue;
+    }
+    if (ApplyLocked(&declaration, snapshot.generation)) {
+      ++applied;
+    } else {
+      declaration.failed_in = snapshot.generation;
+    }
+  }
+  if (applied > 0) {
+    Say("items: %u declaration(s) applied to generation %llu", applied,
+        static_cast<unsigned long long>(snapshot.generation));
+  }
+}
+
 int RegisterItem(const char* mod_id, const char* declaration_json,
                  char* out_row_name, int out_capacity) {
   std::lock_guard<std::mutex> lock(g_mutex);
+  if (mod_id == nullptr || declaration_json == nullptr) {
+    return 2;
+  }
+  char row[192];
+  const int derived = Stage5DeriveRowName(mod_id, declaration_json, row,
+                                          static_cast<int>(sizeof(row)));
+  if (derived != 0) {
+    return derived;
+  }
+  // A mod cannot declare the same row twice, and two mods cannot collide here:
+  // the row name carries the mod id, so a collision is a mod against itself.
+  // Collision with a VANILLA row is a different question and stays where it
+  // was -- inside the CR-01C5 path, against the canonical row list.
+  for (const Declaration& existing : g_declared) {
+    if (existing.row_name == row) {
+      Say("items: '%s' is already declared", row);
+      return kItemsAlreadyDeclared;
+    }
+  }
+  if (out_row_name != nullptr &&
+      _snprintf_s(out_row_name, out_capacity, _TRUNCATE, "%s", row) < 0) {
+    return 9;
+  }
+
+  Declaration declaration;
+  declaration.mod_id = mod_id;
+  declaration.json = declaration_json;
+  declaration.row_name = row;
+  g_declared.push_back(declaration);
+
+  // Applied now if a world exists that can hold it, and otherwise left for the
+  // next one. NOT an error either way: a mod loading at the main menu is the
+  // ordinary case, and failing it there would make every mod fail on every
+  // launch for a reason that has nothing to do with the mod.
   content::Snapshot snapshot;
   std::string why;
-  // THE GATE. Not a courtesy check at the top of the function -- it is the only
-  // way the anchors below are obtainable at all.
   if (!content::Acquire(&snapshot, &why)) {
-    Say("items: registration refused -- %s", why.c_str());
-    return kItemsNoContent;
+    Say("items: '%s' declared; deferred -- %s", row, why.c_str());
+    return 0;
+  }
+  if (!CanHostItems(snapshot)) {
+    Say("items: '%s' declared; deferred until a world exists to hold it "
+        "(generation %llu reached %s)", row,
+        static_cast<unsigned long long>(snapshot.generation),
+        resolve::PhaseName(snapshot.anchors.reached));
+    return 0;
   }
   if (!EnsureForGeneration(snapshot, &why)) {
-    Say("items: registration refused -- %s", why.c_str());
-    return kItemsBackendUnavailable;
+    // The declaration STAYS: the backend could not be brought up against this
+    // world, and the next one gets another go.
+    Say("items: '%s' declared; deferred -- %s", row, why.c_str());
+    return 0;
   }
-  return Stage5RegisterItem(mod_id, declaration_json, out_row_name,
-                            out_capacity);
+  if (!ApplyLocked(&g_declared.back(), snapshot.generation)) {
+    g_declared.back().failed_in = snapshot.generation;
+  }
+  return 0;
 }
 
 int UnregisterItem(const char* mod_id, const char* row_name) {
   std::lock_guard<std::mutex> lock(g_mutex);
+  if (mod_id == nullptr || row_name == nullptr) {
+    return 2;
+  }
+  // The declaration goes first, and unconditionally. Whatever then happens to
+  // the row, the mod has withdrawn the item; leaving the declaration behind
+  // would re-apply a withdrawn item to the next world, which is the one way a
+  // failure here could resurrect something a mod asked to remove.
+  bool was_applied = false;
+  bool found = false;
+  for (size_t i = 0; i < g_declared.size(); ++i) {
+    if (g_declared[i].row_name != row_name) {
+      continue;
+    }
+    if (g_declared[i].mod_id != mod_id) {
+      // Not this mod's row to withdraw. The row name carries its owner, so
+      // this is only reachable by a caller bypassing the bridge.
+      return kItemsNotOwned;
+    }
+    was_applied = g_declared[i].applied_in != 0;
+    g_declared.erase(g_declared.begin() + static_cast<ptrdiff_t>(i));
+    found = true;
+    break;
+  }
+  if (!found) {
+    return kItemsNotDeclared;
+  }
+  if (!was_applied) {
+    // Declared but never written into any world. Nothing to remove, and that
+    // is a success: the caller asked for the item to be gone, and it is.
+    return 0;
+  }
+
   content::Snapshot snapshot;
   std::string why;
   if (!content::Acquire(&snapshot, &why)) {
-    // A row belonging to a world that no longer exists went with that world.
-    // Reporting success would be a lie; reporting the reason is not.
-    Say("items: unregister refused -- %s", why.c_str());
-    return kItemsNoContent;
+    // The row belonged to a world that no longer exists, so it went with that
+    // world. The declaration is withdrawn either way, which is what was asked.
+    Say("items: '%s' withdrawn; its row went with its world -- %s", row_name,
+        why.c_str());
+    return 0;
   }
   if (!EnsureForGeneration(snapshot, &why)) {
+    Say("items: '%s' withdrawn, but its row could not be removed -- %s",
+        row_name, why.c_str());
     return kItemsBackendUnavailable;
   }
   return Stage5UnregisterItem(mod_id, row_name);
 }
 
 }  // namespace
+
+void OnGenerationPublished(const content::Snapshot& snapshot) {
+  std::lock_guard<std::mutex> lock(g_mutex);
+  ApplyPendingLocked(snapshot);
+}
+
+unsigned DeclaredCount() {
+  std::lock_guard<std::mutex> lock(g_mutex);
+  return static_cast<unsigned>(g_declared.size());
+}
+
+unsigned LiveCount(uint64_t generation) {
+  std::lock_guard<std::mutex> lock(g_mutex);
+  unsigned live = 0;
+  for (const Declaration& declaration : g_declared) {
+    if (declaration.applied_in == generation && generation != 0) {
+      ++live;
+    }
+  }
+  return live;
+}
 
 void Install(const bindings::Profile& profile, uint64_t module_base,
              uint64_t guobjectarray, LogFn log) {

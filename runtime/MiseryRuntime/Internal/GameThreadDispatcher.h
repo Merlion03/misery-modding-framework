@@ -29,7 +29,14 @@
 #include "IGameThreadCarrier.h"
 #include "../Public/MiseryGameThread.h"
 
-extern "C" unsigned long __stdcall GetCurrentThreadId(void);  // avoid <windows.h> here
+// Declared by hand to keep <windows.h> out of a header this widely included.
+//
+// `dllimport` is not decoration: the SDK declares this as an import, and a
+// translation unit that saw <windows.h> first got two declarations that
+// disagreed about linkage (C4273). It resolved to the same function anyway,
+// which is why it went unnoticed -- the warning was being printed into output
+// that only appeared when a build failed.
+extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId(void);
 
 namespace Misery {
 namespace Internal {

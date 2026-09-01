@@ -16,6 +16,7 @@
 #include <stdint.h>
 
 #include "Bindings.h"
+#include "ContentGeneration.h"
 
 namespace misery {
 namespace items {
@@ -25,6 +26,9 @@ namespace items {
 // "the registration itself went wrong"; these mean it never started.
 constexpr int kItemsNoContent = 100;          // no live generation to register into
 constexpr int kItemsBackendUnavailable = 101; // the path could not be brought up
+constexpr int kItemsAlreadyDeclared = 102;    // this mod already declared that row
+constexpr int kItemsNotDeclared = 103;        // nothing to withdraw
+constexpr int kItemsNotOwned = 104;           // another mod's row
 
 using LogFn = void (*)(const char* line);
 
@@ -33,6 +37,22 @@ using LogFn = void (*)(const char* line);
 // caller's copy staying alive.
 void Install(const bindings::Profile& profile, uint64_t module_base,
              uint64_t guobjectarray, LogFn log);
+
+// Apply every declaration that is not already live in *snapshot*.
+//
+// Called by the runtime each time a generation is published. This is what makes
+// a mod's item survive a level transition: the rows died with the previous
+// world, and this puts them into the new one without the mod being told
+// anything happened. Does nothing for a generation that cannot hold items --
+// see CanHostItems in the .cpp.
+//
+// Must be called on the game thread: it writes DataTable rows.
+void OnGenerationPublished(const content::Snapshot& snapshot);
+
+// How many declarations exist, and how many are live in *generation*. Reported
+// so a run can show re-application happening rather than infer it.
+unsigned DeclaredCount();
+unsigned LiveCount(uint64_t generation);
 
 // Which content generation the backend is currently bound to, or 0 if none.
 // Reported so a run can show the binding FOLLOWED a revocation rather than

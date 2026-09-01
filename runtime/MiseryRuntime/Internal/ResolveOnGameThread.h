@@ -190,6 +190,19 @@ bool Resolve(uint64_t guobjectarray, uint64_t namepool,
              resolve::Failure* failure, uint32_t timeout_ms, Cost* cost,
              std::string* error);
 
+// Run one arbitrary job on the game thread and wait for it.
+//
+// The resolver is not the only thing that must run there. Stage 5A established
+// that the managed host records "the game thread" as whichever thread calls
+// Bootstrap, so starting CoreCLR from a worker would give every threading
+// guarantee in the bridge a thread the engine has never heard of.
+//
+// Same ownership rule as Resolve: the job owns what it touches, and a caller
+// that times out drops its reference rather than freeing memory a late drain
+// would write into.
+bool RunBlocking(void (*job)(void* ctx), void* ctx, uint32_t timeout_ms,
+                 std::string* error);
+
 // Stop the pump and wait until no carrier resource can re-enter this module.
 // Must complete before the module is unloaded.
 void Teardown(uint32_t timeout_ms);

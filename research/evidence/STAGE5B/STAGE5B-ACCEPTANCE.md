@@ -311,3 +311,102 @@ the slot flags — so a destroyed-but-uncollected duplicate could make a lookup
 ambiguous, or put a dead instance in a candidate set. Publication is now safe
 either way, because nothing reaches a consumer without passing the slot check.
 Tightening selection was deliberately left out of scope and is unaddressed.
+
+## Step 3 — a C# mod registers an item a player could find
+
+The chain, with no controller anywhere in it:
+
+    Steam Play
+      -> MiseryBootstrap (dwmapi proxy)   -> exact build fingerprint
+      -> MiseryRuntime                    -> binding profile verified against live code
+      -> content generation 1 published   -> CoreCLR + Misery.ModHost
+      -> alphamod OnLoad                  -> ctx.Items.Register(...)
+      -> a real world                     -> the game's own SGK ItemDetails resolves the row
+
+`research/evidence/STAGE5B/stage5b-managed-items.json`, 11 of 11.
+
+### A registration is a declaration, not a write
+
+The first design wrote the row inside `Register`. That is wrong twice over, and
+the live run showed both:
+
+* A mod's `OnLoad` runs when the managed host starts, which is when the first
+  content generation exists — the **main menu**. There is no player inventory
+  there, so the registration path cannot even initialise, and every mod died on
+  load with an error that said nothing about the mod.
+* An item row lives in a DataTable belonging to one world. Written once, it
+  would vanish at the first level load and never return.
+
+So a mod declares an item once and the framework owns applying it: to the
+current world if one can hold it, and to each world that follows. The row name
+is derived from `(mod_id, local_id)`, so the mod is told its name immediately
+even when the row cannot exist yet.
+
+This is also why proving a transition needs no invented gameplay event. The mod
+says nothing at transition time; the framework re-applies.
+
+    generation 1 published -- content, 61458 objects
+    'alphamod__managedshape' declared; deferred until a world exists to hold it
+    generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in
+    generation 2 published -- gameplay, 198153 objects, 218 slice(s), longest 7053us
+    items: backend bound to content generation 2
+    'alphamod__managedshape' is live in generation 2; the game's own SGK ItemDetails resolved it
+
+### Phase scoping nearly defeated this, and was not weakened
+
+The content lifecycle asked for `kContent`, and a phase request is a lifetime
+contract: anchors above it are **physically cleared**. A generation whose
+`reached` was gameplay therefore carried no player inventory, and no declared
+item could ever have been written.
+
+The fix is `Request::prefer_gameplay` — try for the higher scope, fall back to
+what the caller requires. It costs a second pass of hash probes, not a second
+walk, because `ResolveAnchors` is a pure function of the already-built universe.
+Whichever attempt succeeds, the result is still physically scoped to the phase
+it was granted.
+
+### Four defects, each reachable only once the previous was fixed
+
+1. **Discovery invented a layout.** Directory name as both mod id and assembly
+   stem, when Stage 4 had long since established `mod.json` + `Code/`. It
+   rejected the framework's own fixture, whose id (`alphamod`) and assembly
+   (`AlphaManagedMod.dll`) legitimately differ. Now reads Stage 4's own layout;
+   `tests/test_mod_discovery.py` covers it, including an ambiguous id loading
+   nothing rather than letting enumeration order pick a winner.
+2. **The host reported success having loaded nothing.** `{"ok":true}` with an
+   empty `loaded` list, and the acceptance's `"ok":true` check passed on it.
+   `ok` now means the host is up; `all_loaded` and the counts answer the
+   question a caller actually has.
+3. **A 43-way null check returning one code.** `0xfffffffd` said nothing about
+   which input was absent. It names the field now — `player_inventory`, which is
+   what exposed the menu problem above.
+4. **Two ordering rules that lived only in Stage 5A's controller.**
+   `Init -> RunCreate -> RunAttach -> register`. Production knew none of it.
+   Create builds the aggregate table; **Attach** makes it `MasterItemList`'s
+   second parent and fires the neutral trigger that rebuilds the composite.
+   Without Attach the rows were written correctly into a table the game's own
+   lookup had never been told about — five verification attempts over a minute
+   all returned not-found. Both steps are now ensured inside the registration
+   itself: a caller cannot forget a step the function takes for itself.
+
+And `EnsureForGeneration` re-`Init`ed without `Shutdown`, which `Init` refuses.
+That path had never executed, because nothing had ever succeeded before it; its
+first execution would have been the level transition this backend exists to
+survive.
+
+### The write and the lookup are different claims
+
+`Stage5VerifyRow` asks the game's own lookup about a row without registering
+anything, on later polls, up to five times. It earned itself immediately: by
+returning not-found five times over a minute it ruled out composite-rebuild
+latency and forced the search for a structural cause, which was Attach.
+
+### Two guards that were missing, not wrong
+
+* The offline harnesses had no build recipe — they were compiled by hand, so
+  `tests/` skipped silently wherever nobody had run the right command from
+  memory. `nativebuild.build_harnesses` now records all three.
+* `build_exe` never called `_check_warnings`. `FATAL_WARNINGS` existed and
+  covered only DLL builds, so `discovery_harness.cpp` compiled with a dropped
+  `\*` escape — the exact C4129 the project already treats as fatal, for the
+  exact reason it was made fatal. Verified the guard now fires.

@@ -127,7 +127,26 @@ class MiseryHost {
               L"FetchReport", reinterpret_cast<void**>(&fetch_), error)) {
       return false;
     }
+    // The PRODUCTION entry, bound alongside the acceptance one.
+    //
+    // Bootstrap runs Misery.ModHost's acceptance suite: it asserts across a
+    // fixed set of fixtures, requires at least two of them, and deliberately
+    // breaks things to prove failure isolation. Right for the Stage 5A gate,
+    // wrong for a player's machine. Load just loads what the plan names.
+    //
+    // Both are bound because both callers exist -- the off-game harness still
+    // wants the suite -- and a caller picks by which one it invokes.
+    if (!Bind(assembly, L"Misery.ModHost.HostEntry, Misery.ModHost",
+              L"Load", reinterpret_cast<void**>(&load_), error)) {
+      return false;
+    }
     return true;
+  }
+
+  // Load the plan's mods and nothing else. See the note in Start().
+  int Load(const MbRoot* root, MbHandle host_handle, const char* plan) {
+    const int length = plan != nullptr ? static_cast<int>(strlen(plan)) : 0;
+    return load_(root, static_cast<uint64_t>(host_handle), plan, length);
   }
 
   int Bootstrap(const MbRoot* root, MbHandle host_handle,
@@ -201,5 +220,6 @@ class MiseryHost {
   hostfxr_close_fn close_ = nullptr;
   load_assembly_and_get_function_pointer_fn load_assembly_ = nullptr;
   BootstrapFn bootstrap_ = nullptr;
+  BootstrapFn load_ = nullptr;
   FetchReportFn fetch_ = nullptr;
 };

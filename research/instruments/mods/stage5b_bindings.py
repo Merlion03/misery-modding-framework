@@ -101,7 +101,7 @@ def build_everything():
     """
     # One list, in nativebuild. See MISERY_RUNTIME_SOURCES for why it is not
     # written out here.
-    runtime = nb.build_dll(nb.runtime_sources(REPO), "MiseryRuntime.dll")
+    runtime = nb.build_runtime(REPO)
     proxy_dir = os.path.join(REPO, "runtime", "MiseryBootstrap")
     # advapi32 for the CryptoAPI hash. The proxy fingerprints the executable
     # itself, which is the whole basis of the fail-closed gate, so this is not an

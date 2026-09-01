@@ -54,6 +54,39 @@ def _run_batch(name, lines, cwd=None):
     return result
 
 
+# Compiler warnings that are treated as build failures.
+#
+# Not a style list. Each of these means the compiler silently produced something
+# other than what the source says, so a "successful" build is a build that did
+# the wrong thing quietly.
+#
+# C4129 earned its place: five path literals in ManagedHost.cpp were written
+# with single backslashes ("\Mods"), MSVC dropped each unrecognised escape, the
+# DLL linked, and the runtime looked for its mods in a directory whose name had
+# no separator in it. The compiler did warn. Nobody saw it, because output was
+# shown only when a build FAILED.
+FATAL_WARNINGS = {
+    "C4129": "unrecognised escape sequence -- the compiler dropped a backslash",
+}
+
+
+def _check_warnings(out_name, result):
+    """Surface compiler warnings from a build that otherwise succeeded."""
+    warnings = [line for line in (result.stdout or "").splitlines()
+                if ": warning C" in line]
+    if not warnings:
+        return
+    fatal = [line for line in warnings
+             if any(code in line for code in FATAL_WARNINGS)]
+    for line in warnings:
+        print("  build warning: " + line.strip())
+    if fatal:
+        raise BuildError(
+            "%s compiled, but with %d warning(s) meaning the compiler did not "
+            "build what the source says:\n%s"
+            % (out_name, len(fatal), "\n".join(fatal)))
+
+
 def build_exe(sources, out_name, extra=""):
     """A standalone host-side test executable."""
     out = os.path.join(BUILD_DIR, out_name)
@@ -70,6 +103,16 @@ def build_exe(sources, out_name, extra=""):
     if not os.path.isfile(out):
         raise BuildError("%s did not build:\n%s\n%s"
                          % (out_name, result.stdout[-4000:], result.stderr[-2000:]))
+    # Test executables are held to the same standard as the DLL.
+    #
+    # They were not, and that cost exactly what FATAL_WARNINGS exists to
+    # prevent: discovery_harness.cpp wrote a path as "\\*" with one backslash,
+    # MSVC dropped the unrecognised escape, and the harness's cleanup silently
+    # swept a directory that did not exist. C4129 WAS emitted. Nobody saw it,
+    # because this was the one build path that never looked. A guard covering
+    # some of the builds is a guard that will be missing from the one that
+    # matters.
+    _check_warnings(out_name, result)
     return out
 
 
@@ -90,6 +133,7 @@ def build_dll(sources, out_name, extra="", libs=""):
     if not os.path.isfile(out):
         raise BuildError("%s did not build:\n%s\n%s"
                          % (out_name, result.stdout[-6000:], result.stderr[-2000:]))
+    _check_warnings(out_name, result)
     return out
 
 
@@ -113,13 +157,56 @@ MISERY_RUNTIME_SOURCES = (
     "Resolver.cpp",             # the object walk
     "ResolveOnGameThread.cpp",  # which runs it in bounded game-thread slices
     "UE54TickerCarrier.cpp",    # the build-specific way onto that thread
+    "ManagedHost.cpp",          # CoreCLR, started from the installation
+    "ModDiscovery.cpp",         # which mods that installation holds
 )
+
+
+# The offline test harnesses, and what each links against.
+#
+# Recorded here for the same reason the proxy's link line is: until now these
+# were built by hand, so tests/ skipped silently on any machine where nobody had
+# run the right cl.exe invocation from memory. A test that quietly does not run
+# is worse than no test, because the suite still reports green.
+MISERY_TEST_HARNESSES = {
+    # Resolver.cpp for ReadBytes: VerifyCode compares the profile's recorded
+    # bytes against live memory, and that read is the resolver's.
+    "bindings_harness.exe": ("bindings_harness.cpp",
+                             ("Bindings.cpp", "Json.cpp", "Resolver.cpp")),
+    "slot_validation_harness.exe": ("slot_validation_harness.cpp",
+                                    ("Resolver.cpp",)),
+    "discovery_harness.exe": ("discovery_harness.cpp",
+                              ("ModDiscovery.cpp", "Json.cpp")),
+}
+
+
+def build_harnesses(repo_root):
+    """Build every offline harness. Returns {exe_name: path}."""
+    internal = os.path.join(repo_root, "runtime", "MiseryRuntime", "Internal")
+    tests = os.path.join(repo_root, "runtime", "tests")
+    built = {}
+    for out_name, (main_source, deps) in sorted(MISERY_TEST_HARNESSES.items()):
+        sources = [os.path.join(tests, main_source)]
+        sources += [os.path.join(internal, name) for name in deps]
+        built[out_name] = build_exe(sources, out_name)
+    return built
 
 
 def runtime_sources(repo_root):
     """Absolute paths for MISERY_RUNTIME_SOURCES."""
     internal = os.path.join(repo_root, "runtime", "MiseryRuntime", "Internal")
     return [os.path.join(internal, name) for name in MISERY_RUNTIME_SOURCES]
+
+
+def build_runtime(repo_root, out_name="MiseryRuntime.dll"):
+    """The production runtime, with the nethost include and import library.
+
+    One function so the flags cannot drift from the source list the way the
+    source list already drifted from its callers three times.
+    """
+    return build_dll(runtime_sources(repo_root), out_name,
+                     extra='/I"%s"' % DOTNET_PACK,
+                     libs='"%s"' % os.path.join(DOTNET_PACK, "libnethost.lib"))
 
 
 def build_proxy(boot_dir, out_name, sources, def_file, asm_file, libs=""):
@@ -147,6 +234,7 @@ def build_proxy(boot_dir, out_name, sources, def_file, asm_file, libs=""):
     if not os.path.isfile(out) or os.path.getsize(out) == 0:
         raise BuildError("%s did not build:\n%s\n%s"
                          % (out_name, result.stdout[-6000:], result.stderr[-2000:]))
+    _check_warnings(out_name, result)
     return out
 
 

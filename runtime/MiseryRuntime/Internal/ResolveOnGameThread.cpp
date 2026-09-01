@@ -263,8 +263,22 @@ anchors:
   // is the check on that claim.
   const uint64_t anchors_from = Ticks();
   resolve::Anchors candidate;
-  const bool resolved = resolve::ResolveAnchors(*work->universe, work->request,
-                                                &candidate, &work->failure);
+  resolve::Request attempt = work->request;
+  if (attempt.prefer_gameplay && attempt.require < resolve::Phase::kGameplay) {
+    attempt.require = resolve::Phase::kGameplay;
+  }
+  bool resolved = resolve::ResolveAnchors(*work->universe, attempt, &candidate,
+                                          &work->failure);
+  if (!resolved && attempt.require != work->request.require) {
+    // Not in gameplay. Fall back to what the caller actually requires, against
+    // the same universe -- see Request::prefer_gameplay. Both outputs are reset
+    // rather than reused: a failed attempt's partial anchors and its failure
+    // text must not survive into the result that gets published.
+    candidate = resolve::Anchors();
+    work->failure = resolve::Failure();
+    resolved = resolve::ResolveAnchors(*work->universe, work->request,
+                                       &candidate, &work->failure);
+  }
   work->cost.resolve_us = Micros(anchors_from, Ticks());
   work->cost.objects = static_cast<uint32_t>(work->universe->Count());
   work->cost.objects_ptr = work->universe->ObjectsPointer();
@@ -478,6 +492,59 @@ bool Resolve(uint64_t guobjectarray, uint64_t namepool,
     Say(error, "resolution ran on the game thread and failed: %s", why.c_str());
   }
   return ok;
+}
+
+namespace {
+
+// One arbitrary job, with the same two-owner rule Work uses.
+struct Blocking {
+  void (*job)(void*) = nullptr;
+  void* ctx = nullptr;
+  std::atomic<uint32_t> done{0};
+  std::atomic<uint32_t> owners{2};
+};
+
+void ReleaseBlocking(Blocking* work) {
+  if (work->owners.fetch_sub(1, std::memory_order_acq_rel) == 1) {
+    delete work;
+  }
+}
+
+void BlockingThunk(void* ctx) {
+  Blocking* work = static_cast<Blocking*>(ctx);
+  work->job(work->ctx);
+  work->done.store(1u, std::memory_order_release);
+  ReleaseBlocking(work);
+}
+
+}  // namespace
+
+bool RunBlocking(void (*job)(void* ctx), void* ctx, uint32_t timeout_ms,
+                 std::string* error) {
+  if (!g_ready || g_dispatcher == nullptr || job == nullptr) {
+    Say(error, "the game-thread carrier is not active");
+    return false;
+  }
+  Blocking* work = new Blocking();
+  work->job = job;
+  work->ctx = ctx;
+  if (!g_dispatcher->Enqueue(&BlockingThunk, work)) {
+    work->owners.store(1u, std::memory_order_release);
+    ReleaseBlocking(work);
+    Say(error, "the dispatcher refused the job");
+    return false;
+  }
+  const DWORD deadline = GetTickCount() + timeout_ms;
+  while (work->done.load(std::memory_order_acquire) == 0) {
+    if (GetTickCount() > deadline) {
+      ReleaseBlocking(work);
+      Say(error, "the game thread did not run the job within the timeout");
+      return false;
+    }
+    Sleep(1);
+  }
+  ReleaseBlocking(work);
+  return true;
 }
 
 void Teardown(uint32_t timeout_ms) {

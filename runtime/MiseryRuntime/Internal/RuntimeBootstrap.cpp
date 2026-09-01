@@ -57,6 +57,7 @@
 #include "Bindings.h"
 #include "ContentGeneration.h"
 #include "ItemsBackend.h"
+#include "ManagedHost.h"
 #include "ResolveOnGameThread.h"
 #include "Resolver.h"
 
@@ -94,6 +95,7 @@ constexpr DWORD kContentPollMs = 20000;
 constexpr int kContentAttempts = 20;
 
 const MbRoot* g_root = nullptr;
+bool g_managed_started = false;
 MbHandle g_host_handle = MB_INVALID_HANDLE;
 
 char g_log_path[MAX_PATH] = {0};
@@ -216,16 +218,89 @@ bool WaitForEngine(std::string* why) {
 //
 // This loop's own Acquire is what drives revocation when nothing else is asking,
 // so a generation cannot sit stale-but-unnoticed while no mods are loaded.
+// Apply any declared-but-not-live items, on the game thread.
+//
+// The Acquire happens INSIDE the job, not before it. Acquiring on this loop's
+// own thread and handing the snapshot to a game-thread job would leave a window
+// where the generation is revoked between the two, and the job would then write
+// rows into a world that had just been thrown away. Doing both on the game
+// thread makes "the generation is live" and "the rows are written" one step.
+struct ApplyOutcome {
+  bool acquired = false;
+  uint64_t generation = 0;
+  unsigned live = 0;
+  std::string why;
+};
+
+void ApplyPendingJob(void* ctx) {
+  ApplyOutcome* out = static_cast<ApplyOutcome*>(ctx);
+  misery::content::Snapshot snapshot;
+  if (!misery::content::Acquire(&snapshot, &out->why)) {
+    return;
+  }
+  out->acquired = true;
+  out->generation = snapshot.generation;
+  misery::items::OnGenerationPublished(snapshot);
+  out->live = misery::items::LiveCount(snapshot.generation);
+}
+
+// Returns the number of declarations live in the current generation. Cheap and
+// a no-op when every declaration is already applied, so it is safe to call on
+// every poll.
+unsigned ApplyPendingItems() {
+  if (misery::items::DeclaredCount() == 0) {
+    return 0;
+  }
+  ApplyOutcome outcome;
+  std::string error;
+  if (!misery::gamethread::RunBlocking(&ApplyPendingJob, &outcome,
+                                       kResolveTimeoutMs, &error)) {
+    Log("runtime: items could not be applied on the game thread: %s",
+        error.c_str());
+    return 0;
+  }
+  if (!outcome.acquired) {
+    // The window between a world being torn down and the next generation being
+    // published. Logged rather than passed over: this is the production Items
+    // path declining to touch a revoked generation, and it is the property the
+    // whole content-generation mechanism exists to provide.
+    Log("runtime: %u declared item(s) not applied -- %s",
+        misery::items::DeclaredCount(), outcome.why.c_str());
+    return 0;
+  }
+  return outcome.live;
+}
+
 void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
   int consecutive_failures = 0;
   while (true) {
     std::string why;
     misery::content::Snapshot snapshot;
     if (misery::content::Acquire(&snapshot, &why)) {
-      // Still good. Nothing to do but check again later.
       consecutive_failures = 0;
-      Sleep(kContentPollMs);
-      continue;
+      const unsigned declared = misery::items::DeclaredCount();
+      const unsigned live = ApplyPendingItems();
+      if (declared == 0 || live == declared ||
+          snapshot.anchors.reached == misery::resolve::Phase::kGameplay) {
+        // Either nothing is waiting, or everything that can be applied has
+        // been. Check again later.
+        Sleep(kContentPollMs);
+        continue;
+      }
+      // Declarations are waiting for a world that can hold them, and this
+      // generation is not one -- a mod declared an item at the main menu.
+      //
+      // Falling through to re-resolve is the safety net for a case revocation
+      // alone does not cover: entering a world normally destroys the menu's
+      // ItemList, which revokes the generation and takes the path below, but
+      // nothing GUARANTEES that. Without this, a menu generation that happened
+      // to stay valid would leave every declared item unapplied forever.
+      //
+      // The cost is one chunked walk per poll -- 20s apart, ~400ms of work in
+      // slices of at most 2ms, so no frame hitch -- and only in the window
+      // between a mod declaring an item and the player entering a world. The
+      // result is published only if it reaches gameplay, so a player sitting at
+      // the menu does not churn a new generation every poll.
     }
     if (misery::content::CurrentGeneration() == 0 &&
         misery::content::RevokeCount() > 0) {
@@ -234,6 +309,11 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
 
     misery::resolve::Request request;
     request.require = misery::resolve::Phase::kContent;
+    // Content is the minimum worth publishing; gameplay is what item rows need.
+    // Asking for content alone would scope the player inventory away even in
+    // gameplay, and no declared item could ever be written. See
+    // Request::prefer_gameplay -- this does not cost a second walk.
+    request.prefer_gameplay = true;
     misery::resolve::Anchors anchors;
     misery::resolve::Failure failure;
     misery::gamethread::Cost cost;
@@ -253,6 +333,16 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
     }
     consecutive_failures = 0;
 
+    // A generation still current is only replaced by one that can do more.
+    // Reached here from the safety net above, this discards a re-resolve that
+    // found the player still at the menu instead of publishing a fresh, equally
+    // itemless generation every 20 seconds.
+    if (misery::content::CurrentGeneration() != 0 &&
+        anchors.reached != misery::resolve::Phase::kGameplay) {
+      Sleep(kContentPollMs);
+      continue;
+    }
+
     const uint64_t generation = misery::content::Publish(
         cost.objects_ptr, misery::resolve::Layout(), anchors);
     Log("runtime: content generation %llu published -- %s, %u objects, %u "
@@ -268,6 +358,43 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
         static_cast<unsigned long long>(anchors.master_item_list),
         static_cast<unsigned long long>(anchors.row_struct),
         anchors.row_struct_size);
+
+    // The new world gets the declared items. This is what makes a mod's item
+    // survive a transition: the rows died with the previous world, and these
+    // are written into the new one without the mod being told anything
+    // happened -- which is why proving a transition needs no invented event.
+    if (misery::items::DeclaredCount() > 0) {
+      const unsigned live = ApplyPendingItems();
+      Log("runtime: %u of %u declared item(s) live in generation %llu", live,
+          misery::items::DeclaredCount(),
+          static_cast<unsigned long long>(generation));
+    }
+
+    // CoreCLR starts AFTER the first generation exists, and only once.
+    //
+    // A mod registers items from OnLoad, and waiting for a generation means the
+    // bridge is answering real questions by the time it does.
+    //
+    // It does NOT mean the item can be written yet. The first generation is
+    // usually the main menu, which has no world to hold item rows, so a
+    // registration there is recorded as a declaration and applied when a world
+    // arrives. Waiting for a GAMEPLAY generation instead would be the wrong
+    // fix: mods would not load until the player entered a save, and a mod
+    // platform that cannot run at the main menu cannot host a settings screen.
+    if (!g_managed_started) {
+      std::string managed_error;
+      if (misery::managed::Start(g_framework_dir, g_root, g_host_handle,
+                                 &LogLine, &managed_error)) {
+        g_managed_started = true;
+        Log("runtime: managed host started against content generation %llu",
+            static_cast<unsigned long long>(generation));
+      } else {
+        // Not fail-closed. An install with no mods, or a managed host that
+        // refuses, leaves the native side running and the game playable.
+        Log("runtime: managed host not started -- %s", managed_error.c_str());
+        g_managed_started = true;   // do not retry every poll
+      }
+    }
   }
 }
 
