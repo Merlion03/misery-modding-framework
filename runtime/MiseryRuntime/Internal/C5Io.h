@@ -102,7 +102,17 @@ struct C5Io {
     double resolve_scale_x, resolve_scale_y, resolve_scale_z;
     uint64_t row_staticmesh_pkg, row_staticmesh_asset;
     uint64_t resolve_staticmesh_pkg, resolve_staticmesh_asset;
-    uint64_t reserved[2];
+    // The UClass* actually written into the row's WorldClass field.
+    //
+    // Defaults to the game's own world item class, which is what every row
+    // carried before a mod could ship one. A mod that declares its own world
+    // class -- proven possible by E-3c -- has it validated and put here, and
+    // JobPopulate writes THIS rather than the anchor.
+    //
+    // Taken from `reserved`, so the wire format and every existing field offset
+    // are unchanged and cr01c5_controller's size assert still holds.
+    uint64_t row_worldclass_write;
+    uint64_t reserved[1];
 };
 #pragma pack(pop)
 static_assert(sizeof(C5Io) == C5IO_EXPECTED_SIZE, "C5Io layout must match the controller");

@@ -60,6 +60,8 @@ extern "C" int Stage5RegisterItem(const char* mod_id,
                                   const char* declaration_json,
                                   char* out_row_name, int out_capacity);
 extern "C" int Stage5UnregisterItem(const char* mod_id, const char* row_name);
+extern "C" int Stage5AddItem(const char* row_name, int amount,
+                             int* out_added);
 extern "C" int Stage5DeriveRowName(const char* mod_id,
                                    const char* declaration_json, char* out,
                                    int capacity);
@@ -70,7 +72,8 @@ extern "C" int Stage5VerifyRow(const char* mod_id,
 extern "C" int Stage5DetachAggregate(void);
 extern "C" void MiseryBridgeInstallItemsBackend(
     int (*register_item)(const char*, const char*, char*, int),
-    int (*unregister_item)(const char*, const char*));
+    int (*unregister_item)(const char*, const char*),
+    int (*grant_item)(const char*, const char*, int, int*));
 
 namespace misery {
 namespace items {
@@ -607,6 +610,51 @@ int RegisterItem(const char* mod_id, const char* declaration_json,
   return 0;
 }
 
+int GrantItem(const char* mod_id, const char* row_name, int amount,
+              int* out_added) {
+  std::lock_guard<std::mutex> lock(g_mutex);
+  if (mod_id == nullptr || row_name == nullptr) {
+    return 2;
+  }
+  // The declaration must be this mod's, and must actually be live in the
+  // current world. Granting a row that was declared but never applied would
+  // put an id into an inventory that no table can resolve.
+  const Declaration* owned = nullptr;
+  for (const Declaration& declaration : g_declared) {
+    if (declaration.row_name == row_name && declaration.mod_id == mod_id) {
+      owned = &declaration;
+      break;
+    }
+  }
+  if (owned == nullptr) {
+    return kItemsNotOwned;
+  }
+
+  content::Snapshot snapshot;
+  std::string why;
+  if (!content::Acquire(&snapshot, &why)) {
+    Say("items: grant refused -- %s", why.c_str());
+    return kItemsNoContent;
+  }
+  if (owned->applied_in != snapshot.generation) {
+    Say("items: grant refused -- '%s' is not live in generation %llu",
+        row_name, static_cast<unsigned long long>(snapshot.generation));
+    return kItemsNotLive;
+  }
+  if (!EnsureForGeneration(snapshot, &why)) {
+    return kItemsBackendUnavailable;
+  }
+  const int rc = Stage5AddItem(row_name, amount, out_added);
+  if (rc == 0) {
+    Say("items: '%s' -- %d of %d added to the player's inventory", row_name,
+        out_added != nullptr ? *out_added : -1, amount);
+  } else {
+    Say("items: '%s' could not be added to the inventory (step %d)", row_name,
+        rc);
+  }
+  return rc;
+}
+
 int UnregisterItem(const char* mod_id, const char* row_name) {
   std::lock_guard<std::mutex> lock(g_mutex);
   if (mod_id == nullptr || row_name == nullptr) {
@@ -690,7 +738,8 @@ void Install(const bindings::Profile& profile, uint64_t module_base,
   g_log = log;
   g_built_for = 0;
   g_initialised = false;
-  MiseryBridgeInstallItemsBackend(&RegisterItem, &UnregisterItem);
+  MiseryBridgeInstallItemsBackend(&RegisterItem, &UnregisterItem,
+                                  &GrantItem);
 }
 
 uint64_t BoundGeneration() {

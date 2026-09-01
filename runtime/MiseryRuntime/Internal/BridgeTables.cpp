@@ -98,11 +98,14 @@ extern "C" {
 typedef int (*MbItemsRegisterFn)(const char* mod_id, const char* declaration_json,
                                  char* out_row_name, int out_capacity);
 typedef int (*MbItemsUnregisterFn)(const char* mod_id, const char* row_name);
+typedef int (*MbItemsGrantFn)(const char* mod_id, const char* row_name,
+                              int amount, int* out_added);
 }
 
 struct ItemsBackend {
   MbItemsRegisterFn register_item = nullptr;
   MbItemsUnregisterFn unregister_item = nullptr;
+  MbItemsGrantFn grant_item = nullptr;
 };
 
 static ItemsBackend& Items() {
@@ -389,6 +392,53 @@ static MbStatus ItemsRegister(MbHandle mod_handle, MbStr declaration_json,
                                body, 0);
   if (out_row_name != nullptr) {
     *out_row_name = ThreadArena().Put(body->row_name);
+  }
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+static MbStatus ItemsGrant(MbHandle item, int32_t amount,
+                           int32_t* out_added, MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  if (out_added != nullptr) {
+    *out_added = 0;
+  }
+  if (amount <= 0) {
+    return Fail(out_error, MB_SUB_ITEMS, MB_E_INVALID_ARGUMENT,
+                "the amount to grant must be positive");
+  }
+  // Resolving the ITEM handle is the ownership rule. A mod holds handles only
+  // for items it registered, so there is no path here for granting a vanilla
+  // row or another mod's -- not as a check that could be forgotten, but
+  // because no such handle exists to pass.
+  Slot* slot = P().core.Resolve(item, kKindItem);
+  if (slot == nullptr) {
+    return Fail(out_error, MB_SUB_ITEMS, MB_E_OWNER_DISPOSED,
+                "the item handle is not live");
+  }
+  ItemBody* body = static_cast<ItemBody*>(slot->body);
+  if (body == nullptr) {
+    return Fail(out_error, MB_SUB_ITEMS, MB_E_OWNER_DISPOSED,
+                "the item handle has no body");
+  }
+  if (Items().grant_item == nullptr) {
+    return Fail(out_error, MB_SUB_ITEMS, MB_E_NOT_FOUND,
+                "no items backend is installed; granting needs the live game",
+                body->mod_id);
+  }
+  int added = 0;
+  const int rc = Items().grant_item(body->mod_id.c_str(),
+                                    body->row_name.c_str(),
+                                    static_cast<int>(amount), &added);
+  if (rc != 0) {
+    return Fail(out_error, MB_SUB_ITEMS, MB_E_INVALID_ARGUMENT,
+                "the items backend refused the grant (code " +
+                    std::to_string(rc) + ")",
+                body->mod_id);
+  }
+  if (out_added != nullptr) {
+    *out_added = added;
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
@@ -739,8 +789,8 @@ static MbLogTable g_log = {sizeof(MbLogTable), 1, 0, LogWrite};
 static MbEventsTable g_events = {sizeof(MbEventsTable), 1, 0, EventsDeclare,
                                  EventsSubscribe, EventsUnsubscribe,
                                  EventsPublish};
-static MbItemsTable g_items = {sizeof(MbItemsTable), 1, 0, ItemsRegister,
-                               ItemsUnregister};
+static MbItemsTable g_items = {sizeof(MbItemsTable), 2, 0, ItemsRegister,
+                               ItemsUnregister, ItemsGrant};
 static MbDiagnosticsTable g_diag = {sizeof(MbDiagnosticsTable), 1, 0,
                                     DiagSnapshot, DiagModState,
                                     DiagReclaimable};
@@ -846,9 +896,11 @@ extern "C" MB_EXPORT MbStatus MiseryBridgeAcquire(
 // the proven Stage 2 registration, the standalone harness installs a recorder.
 extern "C" __declspec(dllexport) void MiseryBridgeInstallItemsBackend(
     misery::bridge::MbItemsRegisterFn register_item,
-    misery::bridge::MbItemsUnregisterFn unregister_item) {
+    misery::bridge::MbItemsUnregisterFn unregister_item,
+    misery::bridge::MbItemsGrantFn grant_item) {
   misery::bridge::Items().register_item = register_item;
   misery::bridge::Items().unregister_item = unregister_item;
+  misery::bridge::Items().grant_item = grant_item;
 }
 
 // Declares which thread the engine's game thread is. Until this is called the

@@ -210,7 +210,16 @@ namespace Misery.ModHost
                           ",\"width\":" + declaration.Width +
                           ",\"height\":" + declaration.Height +
                           ",\"mesh\":\"" + Json.Escape(declaration.WorldMesh) +
-                          "\",\"icon\":\"" + Json.Escape(declaration.InventoryIcon) + "\"}";
+                          "\",\"icon\":\"" + Json.Escape(declaration.InventoryIcon) +
+                          // Omitted entirely when unset, rather than sent as an
+                          // empty string: the native side treats absence as "the
+                          // game's own class", and an empty path is a different
+                          // thing that should fail rather than mean a default.
+                          (string.IsNullOrEmpty(declaration.WorldClass)
+                              ? "\""
+                              : "\",\"world_class\":\"" +
+                                Json.Escape(declaration.WorldClass) + "\"") +
+                          "}";
 
             using var payload = new NativeBridge.Utf8(json);
             NativeBridge.MbError error = default;
@@ -228,6 +237,47 @@ namespace Misery.ModHost
         }
 
         // ---- services ---------------------------------------------------
+        internal int ItemsGrant(ModContextImpl context, IModResource item,
+                                int amount)
+        {
+            RequireGameThread("adding an item to the inventory", context.Id);
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(amount), "the amount to add must be positive");
+            }
+            // The resource must be one WE handed out, and still alive. A
+            // foreign IModResource implementation would otherwise be a way to
+            // present an arbitrary handle to the bridge.
+            if (item is not NativeResource native || !native.IsAlive)
+            {
+                throw new ArgumentException(
+                    "the item must be a live resource returned by Register",
+                    nameof(item));
+            }
+            // Both checks, not either: a table that reports v2 but was
+            // compiled without the entry, or one large enough to hold it
+            // but still reporting v1, are both a caller reaching past
+            // what the provider promised.
+            if (_items->VersionMajor < 2 || _items->GrantItem == null)
+            {
+                throw new ModException(
+                    ModSubsystem.Items, ModErrorCode.NotFound,
+                    "this framework's items table does not provide inventory " +
+                    "grants", context.Id);
+            }
+
+            NativeBridge.MbError error = default;
+            int added = 0;
+            int status = _items->GrantItem(native.Handle, amount, &added, &error);
+            NativeBridge.Check(status, error, "add item to inventory");
+            return added;
+        }
+
         internal IModResource ServicesPublish(ModContextImpl context, string name,
                                               string version,
                                               IReadOnlyDictionary<string, Func<string, string>> methods)

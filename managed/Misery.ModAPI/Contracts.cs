@@ -359,6 +359,28 @@ namespace Misery.ModAPI
         /// collide with a vanilla row or another mod's.
         /// </summary>
         IModResource Register(ItemDeclaration declaration, out string rowName);
+
+        /// <summary>
+        /// Put an item this mod registered into the live player's inventory.
+        /// </summary>
+        /// <param name="item">The resource <see cref="Register"/> returned.</param>
+        /// <param name="amount">How many to try to add. Must be positive.</param>
+        /// <returns>How many the inventory actually took.</returns>
+        /// <remarks>
+        /// The item is identified by the resource, not by name, and that is the
+        /// ownership rule rather than a check: a mod holds resources only for
+        /// items it registered, so there is no way to express "grant a vanilla
+        /// row" or "grant another mod's item".
+        ///
+        /// The return value is what the inventory took, which need not be what
+        /// was asked. Weight, free slots and stack limits are the game's to
+        /// enforce; asking for five when one fits adds one and says so.
+        ///
+        /// Requires a live world holding this mod's row. Between a world being
+        /// torn down and the next one resolving there is nothing to add to, and
+        /// the call fails rather than waiting.
+        /// </remarks>
+        int AddToPlayerInventory(IModResource item, int amount);
     }
 
     /// <summary>What a mod says about an item. No engine concepts.</summary>
@@ -414,6 +436,26 @@ namespace Misery.ModAPI
 
         /// <summary>Inventory grid height.</summary>
         public int Height { get; set; }
+
+        /// <summary>
+        /// Optional. A Blueprint class this mod ships, to be the item's
+        /// representation in the world.
+        /// </summary>
+        /// <remarks>
+        /// A Mod Kit package path with its class suffix, e.g.
+        /// "/Game/Mods/&lt;id&gt;/BP_Thing.BP_Thing_C".
+        ///
+        /// Leave it null and the item uses the game's own world item actor with
+        /// this declaration's mesh, which is what every item did before mods
+        /// could ship a class. Set it and the item is your actor.
+        ///
+        /// The class MUST derive from the game's world item class. That is not
+        /// a convention: the framework walks the ancestry of what it loads and
+        /// refuses to register the item otherwise, because the value ends up in
+        /// a row the game later constructs actors from, and an unrelated class
+        /// there is the game building something nobody agreed to build.
+        /// </remarks>
+        public string WorldClass { get; set; }
     }
 
     /// <summary>What a mod actually got at load time.</summary>

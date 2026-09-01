@@ -99,6 +99,9 @@ namespace Misery.ModHost
             public uint VersionMinor;
             public delegate* unmanaged[Cdecl]<ulong, MbStr, MbStr*, ulong*, MbError*, int> RegisterItem;
             public delegate* unmanaged[Cdecl]<ulong, MbError*, int> UnregisterItem;
+            // v2. Present only when the table reports version >= 2, which
+            // is why the caller checks before reaching past UnregisterItem.
+            public delegate* unmanaged[Cdecl]<ulong, int, int*, MbError*, int> GrantItem;
         }
 
         [StructLayout(LayoutKind.Sequential)]

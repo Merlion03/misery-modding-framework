@@ -349,6 +349,18 @@ typedef struct MbItemsTable {
                               MbStr* out_row_name, MbHandle* out_item,
                               MbError* out_error);
     MbStatus (*unregister_item)(MbHandle item, MbError* out_error);
+    /* v2. Put an item into the live player's inventory.
+     *
+     * Takes the ITEM handle, not a row name, and that is the whole ownership
+     * rule: a mod holds handles only for items it registered itself, so it
+     * cannot grant a vanilla row or another mod's. The bound is structural
+     * rather than checked.
+     *
+     * *out_added is how many the inventory actually took, which is not always
+     * what was asked: weight, slots and stack limits are the game's to enforce
+     * and it reports what it did. */
+    MbStatus (*grant_item)(MbHandle item, int32_t amount, int32_t* out_added,
+                           MbError* out_error);
 } MbItemsTable;
 
 typedef struct MbConsoleTable {

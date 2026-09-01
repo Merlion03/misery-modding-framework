@@ -29,6 +29,7 @@ constexpr int kItemsBackendUnavailable = 101; // the path could not be brought u
 constexpr int kItemsAlreadyDeclared = 102;    // this mod already declared that row
 constexpr int kItemsNotDeclared = 103;        // nothing to withdraw
 constexpr int kItemsNotOwned = 104;           // another mod's row
+constexpr int kItemsNotLive = 105;            // declared, not in this world
 
 using LogFn = void (*)(const char* line);
 

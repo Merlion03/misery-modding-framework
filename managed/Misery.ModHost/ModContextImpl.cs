@@ -221,6 +221,9 @@ namespace Misery.ModHost
 
         public IModResource Register(ItemDeclaration declaration, out string rowName) =>
             _host.ItemsRegister(_context, declaration, out rowName);
+
+        public int AddToPlayerInventory(IModResource item, int amount) =>
+            _host.ItemsGrant(_context, item, amount);
     }
 
     internal sealed class ModServicesImpl : IModServices

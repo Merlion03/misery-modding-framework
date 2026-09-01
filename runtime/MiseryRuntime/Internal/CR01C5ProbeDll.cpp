@@ -64,6 +64,7 @@ static constexpr int OFF_DATA = 0, OFF_NUM = 8, OFF_MAX = 12;
 static constexpr int OFF_INTERNAL_INDEX = 0x0C;
 static constexpr int OFF_CLASS_PRIVATE = 0x10;
 static constexpr int OFF_OUTER_PRIVATE = 0x20;
+static constexpr int OFF_SUPER_STRUCT = 0x40;   // UStruct::SuperStruct
 static constexpr int SIZEOF_FUOBJECTITEM = 0x18;
 static constexpr int FTEXT_SIZE = 16;
 static constexpr int CONV_PARMS = 32, CONV_IN = 0, CONV_RET = 16;
@@ -457,7 +458,13 @@ void JobPopulate(void*) {
 
     // WorldClass: a plain UClass* store into an FClassProperty. Without it
     // SpawnDroppedItem prints its "no World Item class" error and spawns nothing.
-    *reinterpret_cast<uint64_t*>(temp + io->off_worldclass) = io->world_class;
+    //
+    // row_worldclass_write is the game's own class unless a mod declared one of
+    // its own and it passed validation. Falling back here rather than trusting
+    // the caller to have set it: a zero would write a null class into a row the
+    // game will later construct from.
+    *reinterpret_cast<uint64_t*>(temp + io->off_worldclass) =
+        io->row_worldclass_write ? io->row_worldclass_write : io->world_class;
 
     // StaticMesh: only the two FNames of the FSoftObjectPath are written; the
     // FWeakObjectPtr stays null (an unresolved soft pointer) and the
@@ -1002,6 +1009,45 @@ extern "C" __declspec(dllexport) int Stage5DetachAggregate() {
     return 0;
 }
 
+// Put a row into the live player's inventory, through the game's own AddItem.
+//
+// The path is BP_MasterInventory_C::AddItem on the resolved player inventory --
+// the same call Stage 3 exercised with differential verification of the
+// inventory before and after. Nothing new is being discovered here; what is new
+// is only that a mod can reach it.
+//
+// Returns 0 on success. *out_added is what the inventory took: the game applies
+// weight, slot and stack rules and reports the remainder, and a mod asking for
+// five when one fits should be told one.
+extern "C" __declspec(dllexport) int Stage5AddItem(const char* row_name,
+                                                   int amount,
+                                                   int* out_added) {
+    C5Io* io = g_io;
+    if (io == nullptr || g_disp == nullptr) return 1;
+    if (row_name == nullptr || amount <= 0) return 2;
+    if (out_added != nullptr) *out_added = 0;
+
+    uint16_t wide[kNameMax];
+    if (!PutUtf16(wide, kNameMax, row_name)) return 13;
+    const uint64_t interned = InternName(wide);
+    if (!interned) return 10;
+    io->row_fname = interned;
+    io->inv_amount = amount;
+
+    io->additem_ran = 0;
+    JobAddItem(nullptr);
+    if (io->additem_ran != 1u) return 50;
+
+    // out_remaining_item is what would NOT fit. Added is the difference, and
+    // reporting it rather than the request is what makes a partial add
+    // legible instead of silently short.
+    const int remaining = static_cast<int>(io->out_remaining_item);
+    if (out_added != nullptr) {
+        *out_added = amount - remaining;
+    }
+    return 0;
+}
+
 // Ask the game's own lookup whether it can find a row, WITHOUT registering it.
 //
 // Registration already asks once, in the same tick as the write. That answer is
@@ -1047,6 +1093,78 @@ extern "C" __declspec(dllexport) int Stage5VerifyRow(
     return io->resolve_found ? 0 : 36;
 }
 
+// A mod-shipped world representation class, loaded and checked.
+//
+// THE CHECK IS THE POINT, NOT THE LOAD
+// ------------------------------------
+// This writes a UClass* into a row the game later constructs actors from. An
+// unrelated class there is not a broken mod, it is the game building something
+// it never agreed to build. So the class must descend from the world item class
+// the production resolver found ON ITS OWN -- walked link by link, not matched
+// by name -- and anything else is refused with the row unwritten.
+//
+// The path is the mod's own packaged content, loaded through the same
+// LoadAsset_Blocking the icon and mesh already use. Nothing about which mod, or
+// which class, is known here: the path arrives in the declaration.
+//
+// Returns 0 and sets *out on success.
+int LoadWorldClass(const char* object_path, uint64_t* out) {
+    C5Io* io = g_io;
+    *out = 0;
+    char package[224], asset[96];
+    if (!SplitPackage(object_path, package, sizeof(package), asset,
+                      sizeof(asset))) {
+        return 40;
+    }
+    uint16_t wide_pkg[kNameMax], wide_asset[kNameMax];
+    if (!PutUtf16(wide_pkg, kNameMax, package) ||
+        !PutUtf16(wide_asset, kNameMax, asset)) {
+        return 41;
+    }
+    const uint64_t pkg_name = InternName(wide_pkg);
+    const uint64_t asset_name = InternName(wide_asset);
+    if (!pkg_name || !asset_name) {
+        return 42;
+    }
+
+    alignas(8) uint8_t soft[SOFTPTR_SIZE] = {};
+    *reinterpret_cast<uint64_t*>(soft + SOFTPTR_PATH + SOFTPATH_PKG) = pkg_name;
+    *reinterpret_cast<uint64_t*>(soft + SOFTPTR_PATH + SOFTPATH_ASSET) = asset_name;
+    alignas(8) uint8_t lp[LOAD_PARMS] = {};
+    for (int i = 0; i < SOFTPTR_SIZE; ++i) lp[LOAD_IN + i] = soft[i];
+    PE(io->cdo_syslib, io->fn_load_asset_blocking, lp);
+    const uint64_t loaded = *reinterpret_cast<uint64_t*>(lp + LOAD_RET);
+    if (!loaded) {
+        return 43;   // the content did not resolve; nothing else is knowable
+    }
+
+    // It must be the same KIND of thing as the game's world item class -- a
+    // BlueprintGeneratedClass. Asked by comparing ClassPrivate against
+    // io->world_class's rather than against a name or a stored pointer: the
+    // game's own class is right there and is definitionally the right answer,
+    // so no new input has to be plumbed in and none can be plumbed in wrong.
+    //
+    // Without this a Texture2D at a class path would reach the ancestry walk
+    // and be refused for the wrong reason.
+    if (RD64(loaded + OFF_CLASS_PRIVATE) !=
+        RD64(io->world_class + OFF_CLASS_PRIVATE)) {
+        return 44;
+    }
+
+    // ANCESTRY, walked. io->world_class is the production resolver's own
+    // answer for the game's world item class; a bounded walk is what makes
+    // "derives from" a measurement rather than a hope.
+    uint64_t cursor = loaded;
+    for (int depth = 0; cursor != 0 && depth < 24; ++depth) {
+        if (cursor == io->world_class) {
+            *out = loaded;
+            return 0;
+        }
+        cursor = RD64(cursor + OFF_SUPER_STRUCT);
+    }
+    return 45;   // a real class, and not one of the game's world items
+}
+
 // Returns 0 on success. Non-zero is a refusal the bridge turns into a
 // structured error; the IO block's own err/err_step carry the detail.
 extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
@@ -1077,6 +1195,20 @@ extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
     char trigger[224];
     if (_snprintf_s(trigger, sizeof(trigger), _TRUNCATE, "%s__neutral_trigger",
                     row) < 0) return 10;
+
+    // An OPTIONAL world class. Absent means the game's own, which is what
+    // every row carried before this existed, so old declarations are unchanged.
+    io->row_worldclass_write = 0;
+    char world_class_path[256];
+    if (JsonString(declaration_json, "world_class", world_class_path,
+                   sizeof(world_class_path)) && world_class_path[0] != 0) {
+        uint64_t resolved = 0;
+        const int rc = LoadWorldClass(world_class_path, &resolved);
+        if (rc != 0) {
+            return rc;   // refused: the row is not written
+        }
+        io->row_worldclass_write = resolved;
+    }
 
     char mesh_pkg[224], mesh_asset[96], icon_pkg[224], icon_asset[96];
     if (!SplitPackage(mesh_path, mesh_pkg, sizeof(mesh_pkg), mesh_asset,
