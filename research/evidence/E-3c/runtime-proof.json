@@ -1,0 +1,145 @@
+{
+  "experiment": "E-3c",
+  "phase": "runtime",
+  "pid": 13528,
+  "resolver_anchor": {
+    "generation": 2,
+    "index": 42252,
+    "serial": 13960,
+    "address": 1729869148288
+  },
+  "objects_walked_before": 142045,
+  "child_before": [],
+  "probe_inputs": {
+    "add_ticker": "0x7ff60619ded0",
+    "get_core_ticker": "0x7ff6061a3370",
+    "fmemory_malloc": "0x7ff6061fb790",
+    "fmemory_free": "0x7ff6061f0090",
+    "cdo_stringlib": "0x192ffc27cc0",
+    "cdo_syslib": "0x192ffc27d80",
+    "cdo_gameplaystatics": "0x192ffc28650",
+    "transient_package": "0x192ea0f3480",
+    "process_event": "0x7ff6064fc1f0",
+    "fn_conv_str_to_name": "0x19291364060",
+    "fn_load_asset_blocking": "0x192fff276a0",
+    "fn_spawn_object": "0x192912abca0"
+  },
+  "probe_io": {
+    "package_fname": 2222711,
+    "asset_fname": 2222733,
+    "loaded": 1731858776320,
+    "child_class": 1731858776320,
+    "constructed": 1731455954432,
+    "constructed_class": 1731858776320,
+    "child_super_struct": 1729869148288,
+    "child_properties_size": 856,
+    "parent_properties_size": 856,
+    "member_fname": 1702073,
+    "member_owner": 1729869148288,
+    "member_offset": 688,
+    "child_own_member_found": 0,
+    "chain": [
+      1731858776320,
+      1729869148288,
+      1730532597760,
+      1730497351168
+    ],
+    "registered_ok": 1,
+    "worker_tid": 13700,
+    "ran": 1,
+    "callback_tid": 2036,
+    "callback_count": 1,
+    "step": 5,
+    "export_codes": {
+      "Init": "0x0",
+      "Run": "0x0"
+    }
+  },
+  "child_class": "0x1933ad3c100",
+  "constructed_chain": [
+    "0x1933ad3c100",
+    "0x192c43c7080",
+    "0x192ebc7e000",
+    "0x192e9ae0e00"
+  ],
+  "inherited_member": {
+    "name": "ItemAmount",
+    "owner": "0x192c43c7080",
+    "offset": 688,
+    "declared_by_child": false
+  },
+  "properties_size": {
+    "child": 856,
+    "parent": 856
+  },
+  "checks": [
+    {
+      "check": "the production resolver resolved the real parent class",
+      "pass": true,
+      "detail": "no 'world item class' anchor in the runtime log"
+    },
+    {
+      "check": "the child class is ABSENT before the load request",
+      "pass": true,
+      "detail": "found 0 already loaded -- a later 'present' would prove nothing"
+    },
+    {
+      "check": "the probe ran one callback on the game thread",
+      "pass": true,
+      "detail": "{'package_fname': 2222711, 'asset_fname': 2222733, 'loaded': 1731858776320, 'child_class': 1731858776320, 'constructed': 1731455954432, 'constructed_class': 1731858776320, 'child_super_struct': 1729869148288, 'child_properties_size': 856, 'parent_properties_size': 856, 'member_fname': 1702073, 'member_owner': 1729869148288, 'member_offset': 688, 'child_own_member_found': 0, 'chain': [1731858776320, 1729869148288, 1730532597760, 1730497351168], 'registered_ok': 1, 'worker_tid': 13700, 'ran': 1, 'callback_tid': 2036, 'callback_count': 1, 'step': 5, 'export_codes': {'Init': '0x0', 'Run': '0x0'}}"
+    },
+    {
+      "check": "LoadAsset_Blocking returned an object for the child path",
+      "pass": true,
+      "detail": "step 5 -- 0 means the engine did not resolve the path"
+    },
+    {
+      "check": "the child class is PRESENT after the load request",
+      "pass": true,
+      "detail": "LoadAsset_Blocking returned nothing at step 5"
+    },
+    {
+      "check": "the child's SuperStruct IS the resolver's parent UClass (pointer identity)",
+      "pass": true,
+      "detail": "0x192c43c7080 vs 0x192c43c7080"
+    },
+    {
+      "check": "the child was constructed through UGameplayStatics::SpawnObject",
+      "pass": true,
+      "detail": "step 5"
+    },
+    {
+      "check": "the constructed object's class is the child class",
+      "pass": true,
+      "detail": "0x1933ad3c100 vs child 0x1933ad3c100"
+    },
+    {
+      "check": "the constructed instance's ancestry reaches the real parent",
+      "pass": true,
+      "detail": "['0x1933ad3c100', '0x192c43c7080', '0x192ebc7e000', '0x192e9ae0e00']"
+    },
+    {
+      "check": "the inherited member resolves through the child",
+      "pass": true,
+      "detail": "ItemAmount was not found on the child's chain"
+    },
+    {
+      "check": "it is owned by the REAL parent, not declared by the child",
+      "pass": true,
+      "detail": "owner 0x192c43c7080, parent 0x192c43c7080, child-declared False"
+    },
+    {
+      "check": "the member sits at the offset CR-01 measured on the real parent",
+      "pass": true,
+      "detail": "688 vs 688"
+    },
+    {
+      "check": "the child inherited a real layout, not an empty surrogate's",
+      "pass": true,
+      "detail": "child 856, parent 856"
+    }
+  ],
+  "passed": 13,
+  "failed": 0,
+  "verdict": "PASS"
+}

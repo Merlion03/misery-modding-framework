@@ -1,0 +1,112 @@
+{
+  "experiment": "E-3c",
+  "phase": "package",
+  "mod_id": "e3cprobe",
+  "package": {
+    "exit": 0,
+    "out_dir": "D:\\UEScratch\\E3C\\package\\container",
+    "entries": 1,
+    "produced": [
+      "Mod_e3cprobe_P.ucas",
+      "Mod_e3cprobe_P.utoc",
+      "global.ucas",
+      "global.utoc"
+    ],
+    "response": "D:\\UEScratch\\E3C\\package\\response.txt",
+    "commands": "D:\\UEScratch\\E3C\\package\\commands.txt",
+    "unresolved": [],
+    "implicit_files": 1
+  },
+  "anchor": {
+    "exit": 0,
+    "pak": "D:\\UEScratch\\E3C\\package\\container\\Mod_e3cprobe_P.pak",
+    "bytes": 759,
+    "modinfo": "D:\\UEScratch\\E3C\\package\\anchor\\e3cprobe.modinfo"
+  },
+  "container": {
+    "utoc": "D:\\UEScratch\\E3C\\package\\container\\Mod_e3cprobe_P.utoc",
+    "utoc_bytes": 399,
+    "ucas_bytes": 1584,
+    "toc_version": 6,
+    "entry_count": 2,
+    "chunk_types": {
+      "1": 1,
+      "6": 1
+    },
+    "chunk_ids": [
+      "87191a242d37c3fa00000001",
+      "832de1b791046ddb00000006"
+    ],
+    "container_id": "0xdb6d0491b7e12d83",
+    "mount_point": "../../../MISERY/Content/Mods/e3cprobe/",
+    "package_paths": [
+      "/Game/Mods/e3cprobe/BP_MiseryTestWorldItem"
+    ],
+    "non_package_files": [],
+    "warnings": []
+  },
+  "mod_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MiseryFramework\\Mods\\E3cProbe",
+  "staging": {
+    "removed": [
+      "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_e3cprobe_P.utoc",
+      "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_e3cprobe_P.ucas"
+    ],
+    "staged": [
+      {
+        "src": "D:\\UEScratch\\E3C\\package\\container\\Mod_e3cprobe_P.utoc",
+        "dst": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_e3cprobe_P.utoc",
+        "bytes": 399,
+        "sha256": "000d46140d7dd1a2d3e29cbd1f67d9633c593bb9e36db634237d709869205468"
+      },
+      {
+        "src": "D:\\UEScratch\\E3C\\package\\container\\Mod_e3cprobe_P.ucas",
+        "dst": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_e3cprobe_P.ucas",
+        "bytes": 1584,
+        "sha256": "dea7c37b6b4d0b1ec2b10c4b73eae1a009777d0f493fd036cd52cb22d52281c0"
+      },
+      {
+        "src": "D:\\UEScratch\\E3C\\package\\container\\Mod_e3cprobe_P.pak",
+        "dst": "C:\\Users\\Anton\\AppData\\Local\\MISERY\\Saved\\Paks\\Mod_e3cprobe_P.pak",
+        "bytes": 759,
+        "sha256": "58e7bd072d71535fecab443d8afbe8cfcb81a42f888b4f5fa68acd157e9cd2d0"
+      }
+    ],
+    "skipped": [],
+    "dry_run": false
+  },
+  "checks": [
+    {
+      "check": "IoStore packaged the child",
+      "pass": true,
+      "detail": "see D:\\UEScratch\\E3C\\package.log"
+    },
+    {
+      "check": "the anchor pak was created",
+      "pass": true,
+      "detail": "{'exit': 0, 'pak': 'D:\\\\UEScratch\\\\E3C\\\\package\\\\container\\\\Mod_e3cprobe_P.pak', 'bytes': 759, 'modinfo': 'D:\\\\UEScratch\\\\E3C\\\\package\\\\anchor\\\\e3cprobe.modinfo'}"
+    },
+    {
+      "check": "the container holds the child package",
+      "pass": true,
+      "detail": "['/Game/Mods/e3cprobe/BP_MiseryTestWorldItem']"
+    },
+    {
+      "check": "the surrogate parent package is NOT in the container",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "nothing outside this mod's namespace is in the container",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "the container was staged for the engine",
+      "pass": true,
+      "detail": "{'removed': ['C:\\\\Users\\\\Anton\\\\AppData\\\\Local\\\\MISERY\\\\Saved\\\\Paks\\\\Mod_e3cprobe_P.utoc', 'C:\\\\Users\\\\Anton\\\\AppData\\\\Local\\\\MISERY\\\\Saved\\\\Paks\\\\Mod_e3cprobe_P.ucas'], 'staged': [{'src': 'D:\\\\UEScratch\\\\E3C\\\\package\\\\container\\\\Mod_e3cprobe_P.utoc', 'dst': 'C:\\\\Users\\\\Anton\\\\AppData\\\\Local\\\\MISERY\\\\Saved\\\\Paks\\\\Mod_e3cprobe_P.utoc', 'bytes': 399, 'sha256': '000d46140d7dd1a2d3e29cbd1f67d9633c593bb9e36db634237d709869205468'}, {'src': 'D:\\\\UEScratch\\\\E3C\\\\package\\\\container\\\\Mod_e3cprobe_P.ucas', 'dst': 'C:\\\\Users\\\\Anton\\\\AppData\\\\Local\\\\MISERY\\\\Saved\\\\Paks\\\\Mod_e3cprobe_P.ucas', 'bytes': 1584, 'sha256': 'dea7c37b6b4d0b1ec2b10c4b73eae1a009777d0f493fd036cd52cb22d52281c0'}, {'src': 'D:\\\\UEScratch\\\\E3C\\\\package\\\\container\\\\Mod_e3cprobe_P.pak', 'dst': 'C:\\\\Users\\\\Anton\\\\AppData\\\\Local\\\\MISERY\\\\Saved\\\\Paks\\\\Mod_e3cprobe_P.pak', 'bytes': 759, 'sha256': '58e7bd072d71535fecab443d8afbe8cfcb81a42f888b4f5fa68acd157e9cd2d0'}], 'skipped': [], 'dry_run': False}"
+    }
+  ],
+  "passed": 6,
+  "failed": 0,
+  "verdict": "PASS"
+}
