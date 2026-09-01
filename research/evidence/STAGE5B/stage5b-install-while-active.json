@@ -1,0 +1,109 @@
+{
+  "baseline_build_id": "misery-24953925-ue5.4.4-bace50f7185d",
+  "baseline_build_key": "sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331",
+  "benign_count": 0,
+  "checked_at": "2026-09-01T10:08:55Z",
+  "findings": [
+    {
+      "actual_size": 15872,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Misery.ModAPI.dll",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 825,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Misery.ModHost.deps.json",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 43520,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Misery.ModHost.dll",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 303,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Misery.ModHost.runtimeconfig.json",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 670208,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/MiseryRuntime.dll",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 437,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Mods/AlphaManagedMod/Code/AlphaManagedMod.deps.json",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 6656,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Mods/AlphaManagedMod/Code/AlphaManagedMod.dll",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 303,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Mods/AlphaManagedMod/Code/AlphaManagedMod.runtimeconfig.json",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 177,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/Mods/AlphaManagedMod/mod.json",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 5043,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/bindings.json",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 9624,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/bootstrap.log",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 799,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/install-manifest.json",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 106,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/installed-by-mbpl.txt",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 115464,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/nethost.dll",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 13174,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/MiseryFramework/runtime.log",
+      "severity": "serious"
+    },
+    {
+      "actual_size": 164864,
+      "kind": "added",
+      "path": "MISERY/Binaries/Win64/dwmapi.dll",
+      "severity": "serious"
+    }
+  ],
+  "install_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "inventory": "D:\\Dev\\MiseryFramework\\research\\builds\\misery-24953925-ue5.4.4-bace50f7185d\\install-inventory.json",
+  "mode": "full",
+  "serious_count": 16,
+  "strict": false
+}

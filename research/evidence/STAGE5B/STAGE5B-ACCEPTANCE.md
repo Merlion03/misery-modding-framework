@@ -410,3 +410,89 @@ latency and forced the search for a structural cause, which was Attach.
   covered only DLL builds, so `discovery_harness.cpp` compiled with a dropped
   `\*` escape — the exact C4129 the project already treats as fatal, for the
   exact reason it was made fatal. Verified the guard now fires.
+
+### Step 3, second acceptance — a real transition, survived
+
+    gameplay generation N   item live, the game's own SGK lookup resolves it
+      -> one controlled REAL transition
+    generation N revoked    'live player inventory' no longer claims its slot
+      -> a production consumer is refused by the gate
+    gameplay generation N+1 fresh anchors, declaration reapplied, resolvable again
+
+`research/evidence/STAGE5B/stage5b-transition.json`, 15 of 15.
+
+    research probe        CAUSES the transition, and nothing else
+    production runtime    detects / revokes / resolves / reapplies
+
+The probe registers one ticker callback and makes one ProcessEvent call to
+`APlayerController::RestartLevel` -- zero parameters, measured on this build and
+re-measured live before the call, because a wild call into the engine is not a
+thing to discover empirically. It contains no code that can read an anchor,
+write a row, reach the items backend, or learn that content generations exist.
+Its recorded effect is exactly `called: 1, callback_count: 1`, on the game
+thread. Everything after that is the production runtime's own doing, read out of
+its own log.
+
+#### An address is not an identity, and this transition proves it
+
+The first version of the "N and N+1 are genuinely different" check compared the
+three table addresses and required all three to differ. It failed, and it
+deserved to:
+
+    N    ItemList 0x19e8b0b1d80  MasterItemList 0x19e91f04680  RowStruct 0x19ed5b6aba0
+    N+1  ItemList 0x19e8b0b1d80  MasterItemList 0x19e91f04680  RowStruct 0x19ed5b6aba0
+
+A RestartLevel replaces the world while leaving those persistent tables exactly
+where they were. The engine's own slot is where the truth lives, which is
+precisely why the resolver validates `InternalIndex` and `SerialNumber` rather
+than pointers -- so the runtime now logs them, and the check reads them:
+
+    31 anchors compared, exactly 1 changed
+    live player inventory  N   index 76537,  serial 21977,  0x19e923f3b20
+                           N+1 index 183902, serial 102664, 0x19f484bc4f0
+
+and the revocation names that same anchor. The other 30 legitimately survived.
+
+#### The bug this found: a dangling parent in a live object
+
+`EnsureForGeneration` tore down for a new generation by calling `Shutdown`,
+which releases the aggregate table's root. That was written believing the old
+world's `MasterItemList` was gone. It is not: the measurement above shows it
+surviving. So the sequence left a live composite holding `parent[1]` to a table
+nothing rooted any more -- a crash waiting for the next rebuild.
+
+Teardown now detaches first, and only after asking the engine whether the old
+`MasterItemList` is still alive, by slot: if it genuinely died, reading it to
+detach would itself be the use-after-free. The address cannot answer that
+question, for the reason above.
+
+Detaching turned out to be two operations, not one. `JobDetach` shrinks
+ParentTables from 2 to 1 and leaves the dropped element still pointing at the
+old table; `Attach` refuses a non-zero slot. The first fix reported a clean
+detach and the next generation's attach still failed. `JobZeroSlot` is the other
+half, and leaving that slot populated would have been the very dangling
+reference the teardown exists to remove.
+
+Both were reachable only because the earlier `Stage5RegisterItem` change made a
+missing attach a NAMED refusal (step 28) instead of a silent corruption.
+
+#### What the gate refusal rests on
+
+The revoke-to-republish window measured under four seconds and the Items
+backend polls every twenty, so catching that backend mid-window is luck, not
+evidence, and the check does not pretend otherwise. The consumer that
+necessarily meets a revoked generation is the lifecycle's own `content::Acquire`
+-- its failure is what emits the revocation line. The properties that must hold
+are then checked structurally: the backend rebound to N+1 before writing
+anything, no row was ever applied to the revoked generation, and the
+declaration count stayed at 1 of 1 rather than becoming 2.
+
+#### The installation
+
+While the framework is active, verified against this build's recorded vanilla
+inventory: 16 findings, all `added`, none modified and none removed. Fifteen are
+inside `MiseryFramework/`; the sixteenth is the `dwmapi.dll` proxy. After
+`uninstall`, a full re-hash of all 52 baseline files reports **MATCH --
+installation is identical to the baseline**.
+
+`stage5b-install-while-active.json`, `stage5b-install-after-uninstall.json`.

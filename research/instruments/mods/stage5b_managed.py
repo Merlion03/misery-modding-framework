@@ -202,6 +202,13 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--install-root", default=installer.DEFAULT_INSTALL)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--keep-open", action="store_true",
+                    help="leave the game running in gameplay afterwards, for a "
+                         "follow-on instrument such as stage5b_transition")
+    ap.add_argument("--find-transition", action="store_true",
+                    help="before closing, report which level-transition "
+                         "functions this build exposes and what could "
+                         "receive them")
     ap.add_argument("--probe-pause", action="store_true",
                     help="before closing, ask what one Escape does from "
                          "gameplay -- reconnaissance for the transition test")
@@ -413,7 +420,29 @@ def main(argv=None):
             with open(probe_out, encoding="utf-8") as handle:
                 report["pause_probe"] = json.load(handle)
 
-    sb.fc.close_game()
+    if a.find_transition:
+        print("\n=== how could this build be made to load a level? ===")
+        find_out = os.path.join(scratch, "transition-functions.json")
+        found = subprocess.run(
+            [sys.executable,
+             os.path.join(REPO, "research", "instruments", "mods",
+                          "stage5b_find_transition.py"), "--out", find_out],
+            capture_output=True, text=True, timeout=900)
+        print((found.stdout or "").strip()[-2500:])
+        if found.returncode != 0:
+            print("  lookup failed: %s" % (found.stderr or "")[-500:])
+        if os.path.isfile(find_out):
+            with open(find_out, encoding="utf-8") as handle:
+                report["transition_functions"] = json.load(handle)
+
+    # Left running on request. The transition acceptance needs this exact
+    # process, in this exact gameplay session, with the item already live --
+    # relaunching would throw away the generation N whose survival is the thing
+    # being tested.
+    if not a.keep_open:
+        sb.fc.close_game()
+    else:
+        print("\n(the game is left running in gameplay, as asked)")
     report["checks"] = checks
     report["passed"] = sum(1 for c in checks if c["pass"])
     report["failed"] = sum(1 for c in checks if not c["pass"])

@@ -359,6 +359,22 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
         static_cast<unsigned long long>(anchors.row_struct),
         anchors.row_struct_size);
 
+    // The authoritative identity of every anchor, not just where it lives.
+    //
+    // An address is not an identity, and this build proves it: a measured
+    // RestartLevel left ItemList, MasterItemList and RowStruct at byte-identical
+    // addresses while destroying the world around them. Two generations can only
+    // be told apart -- and a revocation can only be justified -- by the slot the
+    // engine itself keeps: InternalIndex and SerialNumber. Logging them makes
+    // "these are different generations" a readable fact rather than an inference
+    // from an address that may well be reused.
+    for (const misery::resolve::AnchorIdentity& identity : anchors.identities) {
+      Log("runtime: generation %llu anchor %s: index %d, serial %d, 0x%llx",
+          static_cast<unsigned long long>(generation), identity.label.c_str(),
+          identity.internal_index, identity.serial_number,
+          static_cast<unsigned long long>(identity.address));
+    }
+
     // The new world gets the declared items. This is what makes a mod's item
     // survive a transition: the rows died with the previous world, and these
     // are written into the new one without the mod being told anything

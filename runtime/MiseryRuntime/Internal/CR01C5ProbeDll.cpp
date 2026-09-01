@@ -965,6 +965,43 @@ extern "C" __declspec(dllexport) int Stage5DeriveRowName(
     return 0;
 }
 
+// Detach the aggregate from the game's composite, and say whether it worked.
+//
+// The counterpart to the Attach that Stage5RegisterItem ensures. It exists
+// because a level transition does NOT necessarily destroy MasterItemList: a
+// RestartLevel was measured tearing down the player inventory while leaving the
+// item tables in place, at the same addresses. Shutdown then released the
+// aggregate's root while MasterItemList was still holding it as parent[1] --
+// a live object pointing at a table nothing roots any more.
+//
+// Returns 0 when the aggregate was detached, 27 when the detach job refused.
+// The CALLER is responsible for having established that MasterItemList is still
+// alive; this reads it, and reading a freed object is not something a return
+// code can rescue.
+extern "C" __declspec(dllexport) int Stage5DetachAggregate() {
+    C5Io* io = g_io;
+    if (io == nullptr || g_disp == nullptr) return 1;   // Init has not run
+    if (io->attach_ran != 1u) return 0;                 // never attached
+    io->detach_ran = 0;
+    JobDetach(nullptr);
+    if (io->detach_ran != 1u) return 27;
+
+    // Detach shrinks ParentTables from 2 to 1. It does NOT clear the element it
+    // dropped, so slot 1 still holds the old table pointer -- and Attach refuses
+    // to overwrite a non-zero slot, which is how this was found: the detach
+    // reported clean and the next generation's attach still failed.
+    //
+    // Zeroing it is the other half of the same operation, and leaving the slot
+    // holding a pointer to a table nothing roots any more would be the very
+    // dangling reference this teardown exists to prevent.
+    io->zero_ran = 0;
+    JobZeroSlot(nullptr);
+    if (io->zero_ran != 1u) return 26;
+
+    io->attach_ran = 0;
+    return 0;
+}
+
 // Ask the game's own lookup whether it can find a row, WITHOUT registering it.
 //
 // Registration already asks once, in the same tick as the write. That answer is

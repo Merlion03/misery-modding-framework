@@ -66,6 +66,8 @@ extern "C" int Stage5DeriveRowName(const char* mod_id,
 // 0 = the game's own SGK lookup found the row, 36 = it did not.
 extern "C" int Stage5VerifyRow(const char* mod_id,
                                const char* declaration_json);
+// Detach the aggregate from MasterItemList. Only safe while it is still alive.
+extern "C" int Stage5DetachAggregate(void);
 extern "C" void MiseryBridgeInstallItemsBackend(
     int (*register_item)(const char*, const char*, char*, int),
     int (*unregister_item)(const char*, const char*));
@@ -127,6 +129,17 @@ constexpr unsigned kMaxVerifyAttempts = 5;
 
 std::mutex g_mutex;
 std::vector<Declaration> g_declared;
+// MasterItemList's slot identity in the generation the block was built for.
+//
+// Kept because tearing down for a NEW generation has to know whether the OLD
+// generation's MasterItemList still exists: if it does, our aggregate must be
+// detached from it first, and if it does not, touching it would be a read of a
+// freed object. The address alone cannot answer that -- a transition was
+// measured leaving ItemList, MasterItemList and RowStruct at exactly the same
+// addresses while the world around them was replaced -- so the authoritative
+// slot identity is what gets kept.
+resolve::AnchorIdentity g_master_identity;
+bool g_have_master_identity = false;
 C5Io g_io;                       // the block the proven path reads
 uint64_t g_built_for = 0;        // which generation g_io describes; 0 = none
 bool g_initialised = false;
@@ -218,6 +231,14 @@ bool Build(const content::Snapshot& snapshot, std::string* why) {
   g_io.row_struct = a.row_struct;
   g_io.item_list = a.item_list;
   g_io.master_item_list = a.master_item_list;
+  g_have_master_identity = false;
+  for (const resolve::AnchorIdentity& identity : a.identities) {
+    if (identity.address == a.master_item_list) {
+      g_master_identity = identity;
+      g_have_master_identity = true;
+      break;
+    }
+  }
   g_io.expected_plain_vtable = a.plain_vtable;
   g_io.expected_composite_vtable = a.composite_vtable;
   g_io.master_class = a.composite_class;
@@ -353,8 +374,38 @@ bool EnsureForGeneration(const content::Snapshot& snapshot, std::string* why) {
   // the dispatcher and clears the binding, which is what lets a later Init
   // through; it says so itself.
   if (g_initialised) {
+    // Detach BEFORE Shutdown, and only if there is still something to detach
+    // from. Shutdown releases the aggregate's root; if MasterItemList outlived
+    // the transition it would then be holding parent[1] to a table nothing
+    // roots, which is a dangling pointer inside a live object and a crash the
+    // next time the composite rebuilds.
+    //
+    // Whether it outlived the transition is decided by the slot, not the
+    // address: a measured RestartLevel left all three table anchors at
+    // identical addresses while replacing the world. Asking the engine's own
+    // bookkeeping is the only answer that distinguishes "still there" from
+    // "something else is there now".
+    if (g_have_master_identity) {
+      uint64_t objects_ptr = 0;
+      const resolve::Layout& layout = resolve::Layout();
+      if (resolve::Read(g_guobjectarray + layout.guobjectarray_objects,
+                        &objects_ptr) && objects_ptr != 0) {
+        const resolve::Liveness state =
+            resolve::CheckSlotIdentity(objects_ptr, layout, g_master_identity);
+        if (state == resolve::Liveness::kAlive) {
+          const int rc = Stage5DetachAggregate();
+          Say("items: MasterItemList survived the transition; the aggregate "
+              "was detached from it (%s)",
+              rc == 0 ? "clean" : "REFUSED -- see the IO block");
+        } else {
+          Say("items: MasterItemList did not survive the transition (%s); "
+              "nothing to detach", resolve::LivenessName(state));
+        }
+      }
+    }
     Shutdown(&g_io);
     g_initialised = false;
+    g_have_master_identity = false;
   }
   if (!Build(snapshot, why)) {
     return false;

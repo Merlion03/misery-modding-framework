@@ -1,0 +1,845 @@
+{
+  "stage": "5B",
+  "step": "controlled transition",
+  "generation_n": {
+    "generation": 2,
+    "phase": "gameplay",
+    "objects": 205238,
+    "item_list": "0x19e8b0b1d80",
+    "master_item_list": "0x19e91f04680",
+    "row_struct": "0x19ed5b6aba0",
+    "identities": {
+      "transient package": {
+        "index": 4131,
+        "serial": 0,
+        "address": "0x19ea2513480"
+      },
+      "UDataTable": {
+        "index": 1645,
+        "serial": 0,
+        "address": "0x19ea4179800"
+      },
+      "UCompositeDataTable": {
+        "index": 1751,
+        "serial": 0,
+        "address": "0x19ea418c400"
+      },
+      "UTexture2D": {
+        "index": 1046,
+        "serial": 0,
+        "address": "0x19ea40eca00"
+      },
+      "UStaticMesh": {
+        "index": 2045,
+        "serial": 0,
+        "address": "0x19ea45aee00"
+      },
+      "AActor": {
+        "index": 248,
+        "serial": 1201,
+        "address": "0x19ea407e000"
+      },
+      "GameplayStatics CDO": {
+        "index": 22166,
+        "serial": 0,
+        "address": "0x19eb7595f50"
+      },
+      "StringLibrary CDO": {
+        "index": 22204,
+        "serial": 0,
+        "address": "0x19eb7597b40"
+      },
+      "TextLibrary CDO": {
+        "index": 21221,
+        "serial": 0,
+        "address": "0x19eb7599cd0"
+      },
+      "SystemLibrary CDO": {
+        "index": 22206,
+        "serial": 0,
+        "address": "0x19eb7597ba0"
+      },
+      "GameplayStatics": {
+        "index": 1850,
+        "serial": 0,
+        "address": "0x19ea4307800"
+      },
+      "KismetStringLibrary": {
+        "index": 1884,
+        "serial": 0,
+        "address": "0x19ea430b800"
+      },
+      "KismetTextLibrary": {
+        "index": 1037,
+        "serial": 0,
+        "address": "0x19ea40ede00"
+      },
+      "KismetSystemLibrary": {
+        "index": 1886,
+        "serial": 0,
+        "address": "0x19ea430b400"
+      },
+      "ItemList": {
+        "index": 35396,
+        "serial": 0,
+        "address": "0x19e8b0b1d80"
+      },
+      "MasterItemList": {
+        "index": 43892,
+        "serial": 14378,
+        "address": "0x19e91f04680"
+      },
+      "world item class": {
+        "index": 43710,
+        "serial": 14394,
+        "address": "0x19e824ba500"
+      },
+      "SGK CDO": {
+        "index": 43896,
+        "serial": 0,
+        "address": "0x19e88526460"
+      },
+      "BP_SGKFunctions": {
+        "index": 43940,
+        "serial": 0,
+        "address": "0x19e824b5100"
+      },
+      "BP_MasterInventory_C": {
+        "index": 44170,
+        "serial": 11008,
+        "address": "0x19eed9fa500"
+      },
+      "BP_PlayerInventory_C": {
+        "index": 44168,
+        "serial": 10975,
+        "address": "0x19eed9fdd00"
+      },
+      "GameplayStatics::SpawnObject": {
+        "index": 15132,
+        "serial": 0,
+        "address": "0x19eb857da60"
+      },
+      "KismetStringLibrary::Conv_StringToName": {
+        "index": 16178,
+        "serial": 0,
+        "address": "0x19eb8635e20"
+      },
+      "KismetTextLibrary::Conv_StringToText": {
+        "index": 13450,
+        "serial": 0,
+        "address": "0x19eb8400860"
+      },
+      "KismetTextLibrary::Conv_TextToString": {
+        "index": 13451,
+        "serial": 0,
+        "address": "0x19eb8400780"
+      },
+      "KismetSystemLibrary::LoadAsset_Blocking": {
+        "index": 4673,
+        "serial": 0,
+        "address": "0x19eb7a99460"
+      },
+      "KismetSystemLibrary::Conv_SoftObjectReferenceToString": {
+        "index": 4514,
+        "serial": 0,
+        "address": "0x19eb7a936c0"
+      },
+      "BP_SGKFunctions::SGK ItemDetails": {
+        "index": 43927,
+        "serial": 13893,
+        "address": "0x19e91f02b60"
+      },
+      "BP_MasterInventory_C::AddItem": {
+        "index": 43995,
+        "serial": 14716,
+        "address": "0x19e91f035e0"
+      },
+      "BP_MasterInventory_C::RemoveItem": {
+        "index": 44021,
+        "serial": 14762,
+        "address": "0x19e91f058e0"
+      },
+      "live player inventory": {
+        "index": 76537,
+        "serial": 21977,
+        "address": "0x19e923f3b20"
+      }
+    }
+  },
+  "row_name": "alphamod__managedshape",
+  "gameplay_before": {
+    "ready": true,
+    "reasons": []
+  },
+  "controller": {
+    "address": "0x19eed0b6e00",
+    "name": "BP_SGKController_C",
+    "class": "BP_SGKController_C",
+    "object_path": "/Game/NewMapGENTEST.NewMapGENTEST:PersistentLevel:BP_SGKController_C"
+  },
+  "controller_ancestry": [
+    "/Game/SurvivalGameKitV2/Blueprints/Characters/BP_SGKController.BP_SGKController_C",
+    "/Script/Engine.PlayerController",
+    "/Script/Engine.Controller",
+    "/Script/Engine.Actor",
+    "/Script/CoreUObject.Object"
+  ],
+  "function": {
+    "name": "RestartLevel",
+    "class": "/Script/Engine.PlayerController",
+    "address": "0x19eb85190e0",
+    "num_parms": 0,
+    "parms_size": 0
+  },
+  "process_event": "0x7ff7abf0a430",
+  "probe_base": "0x7ffb6aed0000",
+  "init_rc": "0x0",
+  "fire_rc": "0x0",
+  "probe_io": {
+    "registered_ok": 1,
+    "worker_tid": 18224,
+    "called": 1,
+    "callback_tid": 16892,
+    "callback_count": 1
+  },
+  "runtime_log_tail": "[13:07:22.889] runtime: generation 2 is revoked: 'live player inventory' it no longer claims the slot it was found in\n[13:07:27.541] runtime: content generation 3 published -- gameplay, 142482 objects, 168 slice(s), longest 5864us, 31 anchor identities\n[13:07:27.541] runtime: generation 3: ItemList 0x19e8b0b1d80, MasterItemList 0x19e91f04680, RowStruct 0x19ed5b6aba0 (2264 bytes)\n[13:07:27.541] runtime: generation 3 anchor transient package: index 4131, serial 0, 0x19ea2513480\n[13:07:27.541] runtime: generation 3 anchor UDataTable: index 1645, serial 0, 0x19ea4179800\n[13:07:27.541] runtime: generation 3 anchor UCompositeDataTable: index 1751, serial 0, 0x19ea418c400\n[13:07:27.541] runtime: generation 3 anchor UTexture2D: index 1046, serial 0, 0x19ea40eca00\n[13:07:27.541] runtime: generation 3 anchor UStaticMesh: index 2045, serial 0, 0x19ea45aee00\n[13:07:27.542] runtime: generation 3 anchor AActor: index 248, serial 1201, 0x19ea407e000\n[13:07:27.542] runtime: generation 3 anchor GameplayStatics CDO: index 22166, serial 0, 0x19eb7595f50\n[13:07:27.542] runtime: generation 3 anchor StringLibrary CDO: index 22204, serial 0, 0x19eb7597b40\n[13:07:27.542] runtime: generation 3 anchor TextLibrary CDO: index 21221, serial 0, 0x19eb7599cd0\n[13:07:27.542] runtime: generation 3 anchor SystemLibrary CDO: index 22206, serial 0, 0x19eb7597ba0\n[13:07:27.542] runtime: generation 3 anchor GameplayStatics: index 1850, serial 0, 0x19ea4307800\n[13:07:27.542] runtime: generation 3 anchor KismetStringLibrary: index 1884, serial 0, 0x19ea430b800\n[13:07:27.542] runtime: generation 3 anchor KismetTextLibrary: index 1037, serial 0, 0x19ea40ede00\n[13:07:27.542] runtime: generation 3 anchor KismetSystemLibrary: index 1886, serial 0, 0x19ea430b400\n[13:07:27.542] runtime: generation 3 anchor ItemList: index 35396, serial 0, 0x19e8b0b1d80\n[13:07:27.542] runtime: generation 3 anchor MasterItemList: index 43892, serial 14378, 0x19e91f04680\n[13:07:27.542] runtime: generation 3 anchor world item class: index 43710, serial 14394, 0x19e824ba500\n[13:07:27.542] runtime: generation 3 anchor SGK CDO: index 43896, serial 0, 0x19e88526460\n[13:07:27.542] runtime: generation 3 anchor BP_SGKFunctions: index 43940, serial 0, 0x19e824b5100\n[13:07:27.542] runtime: generation 3 anchor BP_MasterInventory_C: index 44170, serial 11008, 0x19eed9fa500\n[13:07:27.542] runtime: generation 3 anchor BP_PlayerInventory_C: index 44168, serial 10975, 0x19eed9fdd00\n[13:07:27.542] runtime: generation 3 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x19eb857da60\n[13:07:27.542] runtime: generation 3 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x19eb8635e20\n[13:07:27.542] runtime: generation 3 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x19eb8400860\n[13:07:27.542] runtime: generation 3 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x19eb8400780\n[13:07:27.542] runtime: generation 3 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x19eb7a99460\n[13:07:27.542] runtime: generation 3 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x19eb7a936c0\n[13:07:27.542] runtime: generation 3 anchor BP_SGKFunctions::SGK ItemDetails: index 43927, serial 13893, 0x19e91f02b60\n[13:07:27.542] runtime: generation 3 anchor BP_MasterInventory_C::AddItem: index 43995, serial 14716, 0x19e91f035e0\n[13:07:27.542] runtime: generation 3 anchor BP_MasterInventory_C::RemoveItem: index 44021, serial 14762, 0x19e91f058e0\n[13:07:27.542] runtime: generation 3 anchor live player inventory: index 183902, serial 102664, 0x19f484bc4f0\n[13:07:27.587] items: MasterItemList survived the transition; the aggregate was detached from it (clean)\n[13:07:32.588] items: backend bound to content generation 3\n[13:07:32.599] items: 'alphamod__managedshape' is live in generation 3; the game's own SGK ItemDetails resolved it\n[13:07:32.600] items: 1 declaration(s) applied to generation 3\n[13:07:32.601] runtime: 1 of 1 declared item(s) live in generation 3\n",
+  "runtime_log": "[13:05:19.072] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[13:05:19.073] runtime: every code address in the profile matches live memory\n[13:05:19.073] runtime: the engine is up after 0ms (26263 objects in the array)\n[13:05:19.073] runtime: the game-thread carrier is active\n[13:05:19.289] runtime: 26263 live objects\n[13:05:19.289] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[13:05:19.289] runtime: resolved on thread 16892 (this thread is 3992) over 26 slice(s); LONGEST SLICE 2011us (slice #2) -- walk 47172us + anchors 263us + validate 81us, 832 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[13:05:19.289] runtime: 237586 reads, 1453 VirtualQuery, 236133 cached; phase requested startup, completed startup\n[13:05:19.289] runtime: game thread declared as 16892 (measured, not assumed)\n[13:05:19.289] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[13:05:19.289] runtime: items backend installed; it will bind to a content generation on first use and rebind if that generation is revoked\n[13:05:19.289] runtime: native subsystems ready; entering the content lifecycle\n[13:05:19.526] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[13:06:20.523] runtime: content generation 1 published -- content, 62775 objects, 66 slice(s), longest 2055us, 30 anchor identities\n[13:06:20.523] runtime: generation 1: ItemList 0x19e928a0580, MasterItemList 0x19e918e9380, RowStruct 0x19ef2237ea0 (2264 bytes)\n[13:06:20.523] runtime: generation 1 anchor transient package: index 4131, serial 0, 0x19ea2513480\n[13:06:20.523] runtime: generation 1 anchor UDataTable: index 1645, serial 0, 0x19ea4179800\n[13:06:20.523] runtime: generation 1 anchor UCompositeDataTable: index 1751, serial 0, 0x19ea418c400\n[13:06:20.523] runtime: generation 1 anchor UTexture2D: index 1046, serial 0, 0x19ea40eca00\n[13:06:20.523] runtime: generation 1 anchor UStaticMesh: index 2045, serial 0, 0x19ea45aee00\n[13:06:20.523] runtime: generation 1 anchor AActor: index 248, serial 1201, 0x19ea407e000\n[13:06:20.524] runtime: generation 1 anchor GameplayStatics CDO: index 22166, serial 0, 0x19eb7595f50\n[13:06:20.524] runtime: generation 1 anchor StringLibrary CDO: index 22204, serial 0, 0x19eb7597b40\n[13:06:20.524] runtime: generation 1 anchor TextLibrary CDO: index 21221, serial 0, 0x19eb7599cd0\n[13:06:20.524] runtime: generation 1 anchor SystemLibrary CDO: index 22206, serial 0, 0x19eb7597ba0\n[13:06:20.524] runtime: generation 1 anchor GameplayStatics: index 1850, serial 0, 0x19ea4307800\n[13:06:20.524] runtime: generation 1 anchor KismetStringLibrary: index 1884, serial 0, 0x19ea430b800\n[13:06:20.524] runtime: generation 1 anchor KismetTextLibrary: index 1037, serial 0, 0x19ea40ede00\n[13:06:20.524] runtime: generation 1 anchor KismetSystemLibrary: index 1886, serial 0, 0x19ea430b400\n[13:06:20.524] runtime: generation 1 anchor ItemList: index 53288, serial 0, 0x19e928a0580\n[13:06:20.524] runtime: generation 1 anchor MasterItemList: index 44990, serial 5905, 0x19e918e9380\n[13:06:20.524] runtime: generation 1 anchor world item class: index 45172, serial 5921, 0x19e91962380\n[13:06:20.524] runtime: generation 1 anchor SGK CDO: index 44986, serial 0, 0x19e907a2230\n[13:06:20.524] runtime: generation 1 anchor BP_SGKFunctions: index 44942, serial 0, 0x19e9133fc80\n[13:06:20.524] runtime: generation 1 anchor BP_MasterInventory_C: index 44712, serial 2380, 0x19e9133d980\n[13:06:20.524] runtime: generation 1 anchor BP_PlayerInventory_C: index 44714, serial 2344, 0x19e9133d280\n[13:06:20.524] runtime: generation 1 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x19eb857da60\n[13:06:20.524] runtime: generation 1 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x19eb8635e20\n[13:06:20.524] runtime: generation 1 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x19eb8400860\n[13:06:20.524] runtime: generation 1 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x19eb8400780\n[13:06:20.525] runtime: generation 1 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x19eb7a99460\n[13:06:20.525] runtime: generation 1 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x19eb7a936c0\n[13:06:20.525] runtime: generation 1 anchor BP_SGKFunctions::SGK ItemDetails: index 44955, serial 5418, 0x19e918e74e0\n[13:06:20.525] runtime: generation 1 anchor BP_MasterInventory_C::AddItem: index 44887, serial 6243, 0x19e918e6de0\n[13:06:20.525] runtime: generation 1 anchor BP_MasterInventory_C::RemoveItem: index 44861, serial 6289, 0x19e918e4ae0\n[13:06:20.525] managed: 1 mod(s) to load: alphamod\n[13:06:20.597] items: 'alphamod__managedshape' declared; deferred until a world exists to hold it (generation 1 reached content)\n[13:06:20.599] managed: 1 of 1 planned mod(s) loaded, 0 failed\n[13:06:20.599] runtime: managed host started against content generation 1\n[13:06:41.149] runtime: generation 1 is revoked: 'ItemList' it no longer claims the slot it was found in\n[13:06:42.862] runtime: content generation 2 published -- gameplay, 205238 objects, 198 slice(s), longest 6218us, 31 anchor identities\n[13:06:42.862] runtime: generation 2: ItemList 0x19e8b0b1d80, MasterItemList 0x19e91f04680, RowStruct 0x19ed5b6aba0 (2264 bytes)\n[13:06:42.862] runtime: generation 2 anchor transient package: index 4131, serial 0, 0x19ea2513480\n[13:06:42.862] runtime: generation 2 anchor UDataTable: index 1645, serial 0, 0x19ea4179800\n[13:06:42.862] runtime: generation 2 anchor UCompositeDataTable: index 1751, serial 0, 0x19ea418c400\n[13:06:42.862] runtime: generation 2 anchor UTexture2D: index 1046, serial 0, 0x19ea40eca00\n[13:06:42.862] runtime: generation 2 anchor UStaticMesh: index 2045, serial 0, 0x19ea45aee00\n[13:06:42.862] runtime: generation 2 anchor AActor: index 248, serial 1201, 0x19ea407e000\n[13:06:42.862] runtime: generation 2 anchor GameplayStatics CDO: index 22166, serial 0, 0x19eb7595f50\n[13:06:42.862] runtime: generation 2 anchor StringLibrary CDO: index 22204, serial 0, 0x19eb7597b40\n[13:06:42.862] runtime: generation 2 anchor TextLibrary CDO: index 21221, serial 0, 0x19eb7599cd0\n[13:06:42.862] runtime: generation 2 anchor SystemLibrary CDO: index 22206, serial 0, 0x19eb7597ba0\n[13:06:42.862] runtime: generation 2 anchor GameplayStatics: index 1850, serial 0, 0x19ea4307800\n[13:06:42.862] runtime: generation 2 anchor KismetStringLibrary: index 1884, serial 0, 0x19ea430b800\n[13:06:42.862] runtime: generation 2 anchor KismetTextLibrary: index 1037, serial 0, 0x19ea40ede00\n[13:06:42.862] runtime: generation 2 anchor KismetSystemLibrary: index 1886, serial 0, 0x19ea430b400\n[13:06:42.862] runtime: generation 2 anchor ItemList: index 35396, serial 0, 0x19e8b0b1d80\n[13:06:42.862] runtime: generation 2 anchor MasterItemList: index 43892, serial 14378, 0x19e91f04680\n[13:06:42.862] runtime: generation 2 anchor world item class: index 43710, serial 14394, 0x19e824ba500\n[13:06:42.863] runtime: generation 2 anchor SGK CDO: index 43896, serial 0, 0x19e88526460\n[13:06:42.863] runtime: generation 2 anchor BP_SGKFunctions: index 43940, serial 0, 0x19e824b5100\n[13:06:42.863] runtime: generation 2 anchor BP_MasterInventory_C: index 44170, serial 11008, 0x19eed9fa500\n[13:06:42.863] runtime: generation 2 anchor BP_PlayerInventory_C: index 44168, serial 10975, 0x19eed9fdd00\n[13:06:42.863] runtime: generation 2 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x19eb857da60\n[13:06:42.863] runtime: generation 2 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x19eb8635e20\n[13:06:42.863] runtime: generation 2 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x19eb8400860\n[13:06:42.863] runtime: generation 2 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x19eb8400780\n[13:06:42.863] runtime: generation 2 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x19eb7a99460\n[13:06:42.863] runtime: generation 2 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x19eb7a936c0\n[13:06:42.863] runtime: generation 2 anchor BP_SGKFunctions::SGK ItemDetails: index 43927, serial 13893, 0x19e91f02b60\n[13:06:42.863] runtime: generation 2 anchor BP_MasterInventory_C::AddItem: index 43995, serial 14716, 0x19e91f035e0\n[13:06:42.863] runtime: generation 2 anchor BP_MasterInventory_C::RemoveItem: index 44021, serial 14762, 0x19e91f058e0\n[13:06:42.863] runtime: generation 2 anchor live player inventory: index 76537, serial 21977, 0x19e923f3b20\n[13:06:42.866] items: backend bound to content generation 2\n[13:06:42.880] items: 'alphamod__managedshape' is live in generation 2; the game's own SGK ItemDetails resolved it\n[13:06:42.880] items: 1 declaration(s) applied to generation 2\n[13:06:42.881] runtime: 1 of 1 declared item(s) live in generation 2\n[13:07:22.889] runtime: generation 2 is revoked: 'live player inventory' it no longer claims the slot it was found in\n[13:07:27.541] runtime: content generation 3 published -- gameplay, 142482 objects, 168 slice(s), longest 5864us, 31 anchor identities\n[13:07:27.541] runtime: generation 3: ItemList 0x19e8b0b1d80, MasterItemList 0x19e91f04680, RowStruct 0x19ed5b6aba0 (2264 bytes)\n[13:07:27.541] runtime: generation 3 anchor transient package: index 4131, serial 0, 0x19ea2513480\n[13:07:27.541] runtime: generation 3 anchor UDataTable: index 1645, serial 0, 0x19ea4179800\n[13:07:27.541] runtime: generation 3 anchor UCompositeDataTable: index 1751, serial 0, 0x19ea418c400\n[13:07:27.541] runtime: generation 3 anchor UTexture2D: index 1046, serial 0, 0x19ea40eca00\n[13:07:27.541] runtime: generation 3 anchor UStaticMesh: index 2045, serial 0, 0x19ea45aee00\n[13:07:27.542] runtime: generation 3 anchor AActor: index 248, serial 1201, 0x19ea407e000\n[13:07:27.542] runtime: generation 3 anchor GameplayStatics CDO: index 22166, serial 0, 0x19eb7595f50\n[13:07:27.542] runtime: generation 3 anchor StringLibrary CDO: index 22204, serial 0, 0x19eb7597b40\n[13:07:27.542] runtime: generation 3 anchor TextLibrary CDO: index 21221, serial 0, 0x19eb7599cd0\n[13:07:27.542] runtime: generation 3 anchor SystemLibrary CDO: index 22206, serial 0, 0x19eb7597ba0\n[13:07:27.542] runtime: generation 3 anchor GameplayStatics: index 1850, serial 0, 0x19ea4307800\n[13:07:27.542] runtime: generation 3 anchor KismetStringLibrary: index 1884, serial 0, 0x19ea430b800\n[13:07:27.542] runtime: generation 3 anchor KismetTextLibrary: index 1037, serial 0, 0x19ea40ede00\n[13:07:27.542] runtime: generation 3 anchor KismetSystemLibrary: index 1886, serial 0, 0x19ea430b400\n[13:07:27.542] runtime: generation 3 anchor ItemList: index 35396, serial 0, 0x19e8b0b1d80\n[13:07:27.542] runtime: generation 3 anchor MasterItemList: index 43892, serial 14378, 0x19e91f04680\n[13:07:27.542] runtime: generation 3 anchor world item class: index 43710, serial 14394, 0x19e824ba500\n[13:07:27.542] runtime: generation 3 anchor SGK CDO: index 43896, serial 0, 0x19e88526460\n[13:07:27.542] runtime: generation 3 anchor BP_SGKFunctions: index 43940, serial 0, 0x19e824b5100\n[13:07:27.542] runtime: generation 3 anchor BP_MasterInventory_C: index 44170, serial 11008, 0x19eed9fa500\n[13:07:27.542] runtime: generation 3 anchor BP_PlayerInventory_C: index 44168, serial 10975, 0x19eed9fdd00\n[13:07:27.542] runtime: generation 3 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x19eb857da60\n[13:07:27.542] runtime: generation 3 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x19eb8635e20\n[13:07:27.542] runtime: generation 3 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x19eb8400860\n[13:07:27.542] runtime: generation 3 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x19eb8400780\n[13:07:27.542] runtime: generation 3 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x19eb7a99460\n[13:07:27.542] runtime: generation 3 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x19eb7a936c0\n[13:07:27.542] runtime: generation 3 anchor BP_SGKFunctions::SGK ItemDetails: index 43927, serial 13893, 0x19e91f02b60\n[13:07:27.542] runtime: generation 3 anchor BP_MasterInventory_C::AddItem: index 43995, serial 14716, 0x19e91f035e0\n[13:07:27.542] runtime: generation 3 anchor BP_MasterInventory_C::RemoveItem: index 44021, serial 14762, 0x19e91f058e0\n[13:07:27.542] runtime: generation 3 anchor live player inventory: index 183902, serial 102664, 0x19f484bc4f0\n[13:07:27.587] items: MasterItemList survived the transition; the aggregate was detached from it (clean)\n[13:07:32.588] items: backend bound to content generation 3\n[13:07:32.599] items: 'alphamod__managedshape' is live in generation 3; the game's own SGK ItemDetails resolved it\n[13:07:32.600] items: 1 declaration(s) applied to generation 3\n[13:07:32.601] runtime: 1 of 1 declared item(s) live in generation 3\n",
+  "revocations": [
+    {
+      "generation": 2,
+      "why": "'live player inventory' it no longer claims the slot it was found in"
+    }
+  ],
+  "opportunistic_refusals": [],
+  "generation_n_plus_1": {
+    "generation": 3,
+    "phase": "gameplay",
+    "objects": 142482,
+    "item_list": "0x19e8b0b1d80",
+    "master_item_list": "0x19e91f04680",
+    "row_struct": "0x19ed5b6aba0",
+    "identities": {
+      "transient package": {
+        "index": 4131,
+        "serial": 0,
+        "address": "0x19ea2513480"
+      },
+      "UDataTable": {
+        "index": 1645,
+        "serial": 0,
+        "address": "0x19ea4179800"
+      },
+      "UCompositeDataTable": {
+        "index": 1751,
+        "serial": 0,
+        "address": "0x19ea418c400"
+      },
+      "UTexture2D": {
+        "index": 1046,
+        "serial": 0,
+        "address": "0x19ea40eca00"
+      },
+      "UStaticMesh": {
+        "index": 2045,
+        "serial": 0,
+        "address": "0x19ea45aee00"
+      },
+      "AActor": {
+        "index": 248,
+        "serial": 1201,
+        "address": "0x19ea407e000"
+      },
+      "GameplayStatics CDO": {
+        "index": 22166,
+        "serial": 0,
+        "address": "0x19eb7595f50"
+      },
+      "StringLibrary CDO": {
+        "index": 22204,
+        "serial": 0,
+        "address": "0x19eb7597b40"
+      },
+      "TextLibrary CDO": {
+        "index": 21221,
+        "serial": 0,
+        "address": "0x19eb7599cd0"
+      },
+      "SystemLibrary CDO": {
+        "index": 22206,
+        "serial": 0,
+        "address": "0x19eb7597ba0"
+      },
+      "GameplayStatics": {
+        "index": 1850,
+        "serial": 0,
+        "address": "0x19ea4307800"
+      },
+      "KismetStringLibrary": {
+        "index": 1884,
+        "serial": 0,
+        "address": "0x19ea430b800"
+      },
+      "KismetTextLibrary": {
+        "index": 1037,
+        "serial": 0,
+        "address": "0x19ea40ede00"
+      },
+      "KismetSystemLibrary": {
+        "index": 1886,
+        "serial": 0,
+        "address": "0x19ea430b400"
+      },
+      "ItemList": {
+        "index": 35396,
+        "serial": 0,
+        "address": "0x19e8b0b1d80"
+      },
+      "MasterItemList": {
+        "index": 43892,
+        "serial": 14378,
+        "address": "0x19e91f04680"
+      },
+      "world item class": {
+        "index": 43710,
+        "serial": 14394,
+        "address": "0x19e824ba500"
+      },
+      "SGK CDO": {
+        "index": 43896,
+        "serial": 0,
+        "address": "0x19e88526460"
+      },
+      "BP_SGKFunctions": {
+        "index": 43940,
+        "serial": 0,
+        "address": "0x19e824b5100"
+      },
+      "BP_MasterInventory_C": {
+        "index": 44170,
+        "serial": 11008,
+        "address": "0x19eed9fa500"
+      },
+      "BP_PlayerInventory_C": {
+        "index": 44168,
+        "serial": 10975,
+        "address": "0x19eed9fdd00"
+      },
+      "GameplayStatics::SpawnObject": {
+        "index": 15132,
+        "serial": 0,
+        "address": "0x19eb857da60"
+      },
+      "KismetStringLibrary::Conv_StringToName": {
+        "index": 16178,
+        "serial": 0,
+        "address": "0x19eb8635e20"
+      },
+      "KismetTextLibrary::Conv_StringToText": {
+        "index": 13450,
+        "serial": 0,
+        "address": "0x19eb8400860"
+      },
+      "KismetTextLibrary::Conv_TextToString": {
+        "index": 13451,
+        "serial": 0,
+        "address": "0x19eb8400780"
+      },
+      "KismetSystemLibrary::LoadAsset_Blocking": {
+        "index": 4673,
+        "serial": 0,
+        "address": "0x19eb7a99460"
+      },
+      "KismetSystemLibrary::Conv_SoftObjectReferenceToString": {
+        "index": 4514,
+        "serial": 0,
+        "address": "0x19eb7a936c0"
+      },
+      "BP_SGKFunctions::SGK ItemDetails": {
+        "index": 43927,
+        "serial": 13893,
+        "address": "0x19e91f02b60"
+      },
+      "BP_MasterInventory_C::AddItem": {
+        "index": 43995,
+        "serial": 14716,
+        "address": "0x19e91f035e0"
+      },
+      "BP_MasterInventory_C::RemoveItem": {
+        "index": 44021,
+        "serial": 14762,
+        "address": "0x19e91f058e0"
+      },
+      "live player inventory": {
+        "index": 183902,
+        "serial": 102664,
+        "address": "0x19f484bc4f0"
+      }
+    }
+  },
+  "anchor_identity": {
+    "N": {
+      "generation": 2,
+      "phase": "gameplay",
+      "item_list": "0x19e8b0b1d80",
+      "master_item_list": "0x19e91f04680",
+      "row_struct": "0x19ed5b6aba0"
+    },
+    "N+1": {
+      "generation": 3,
+      "phase": "gameplay",
+      "item_list": "0x19e8b0b1d80",
+      "master_item_list": "0x19e91f04680",
+      "row_struct": "0x19ed5b6aba0"
+    }
+  },
+  "identity_delta": {
+    "compared": [
+      "AActor",
+      "BP_MasterInventory_C",
+      "BP_MasterInventory_C::AddItem",
+      "BP_MasterInventory_C::RemoveItem",
+      "BP_PlayerInventory_C",
+      "BP_SGKFunctions",
+      "BP_SGKFunctions::SGK ItemDetails",
+      "GameplayStatics",
+      "GameplayStatics CDO",
+      "GameplayStatics::SpawnObject",
+      "ItemList",
+      "KismetStringLibrary",
+      "KismetStringLibrary::Conv_StringToName",
+      "KismetSystemLibrary",
+      "KismetSystemLibrary::Conv_SoftObjectReferenceToString",
+      "KismetSystemLibrary::LoadAsset_Blocking",
+      "KismetTextLibrary",
+      "KismetTextLibrary::Conv_StringToText",
+      "KismetTextLibrary::Conv_TextToString",
+      "MasterItemList",
+      "SGK CDO",
+      "StringLibrary CDO",
+      "SystemLibrary CDO",
+      "TextLibrary CDO",
+      "UCompositeDataTable",
+      "UDataTable",
+      "UStaticMesh",
+      "UTexture2D",
+      "live player inventory",
+      "transient package",
+      "world item class"
+    ],
+    "changed": [
+      "live player inventory"
+    ],
+    "changed_at_the_same_address": [],
+    "N": {
+      "transient package": {
+        "index": 4131,
+        "serial": 0,
+        "address": "0x19ea2513480"
+      },
+      "UDataTable": {
+        "index": 1645,
+        "serial": 0,
+        "address": "0x19ea4179800"
+      },
+      "UCompositeDataTable": {
+        "index": 1751,
+        "serial": 0,
+        "address": "0x19ea418c400"
+      },
+      "UTexture2D": {
+        "index": 1046,
+        "serial": 0,
+        "address": "0x19ea40eca00"
+      },
+      "UStaticMesh": {
+        "index": 2045,
+        "serial": 0,
+        "address": "0x19ea45aee00"
+      },
+      "AActor": {
+        "index": 248,
+        "serial": 1201,
+        "address": "0x19ea407e000"
+      },
+      "GameplayStatics CDO": {
+        "index": 22166,
+        "serial": 0,
+        "address": "0x19eb7595f50"
+      },
+      "StringLibrary CDO": {
+        "index": 22204,
+        "serial": 0,
+        "address": "0x19eb7597b40"
+      },
+      "TextLibrary CDO": {
+        "index": 21221,
+        "serial": 0,
+        "address": "0x19eb7599cd0"
+      },
+      "SystemLibrary CDO": {
+        "index": 22206,
+        "serial": 0,
+        "address": "0x19eb7597ba0"
+      },
+      "GameplayStatics": {
+        "index": 1850,
+        "serial": 0,
+        "address": "0x19ea4307800"
+      },
+      "KismetStringLibrary": {
+        "index": 1884,
+        "serial": 0,
+        "address": "0x19ea430b800"
+      },
+      "KismetTextLibrary": {
+        "index": 1037,
+        "serial": 0,
+        "address": "0x19ea40ede00"
+      },
+      "KismetSystemLibrary": {
+        "index": 1886,
+        "serial": 0,
+        "address": "0x19ea430b400"
+      },
+      "ItemList": {
+        "index": 35396,
+        "serial": 0,
+        "address": "0x19e8b0b1d80"
+      },
+      "MasterItemList": {
+        "index": 43892,
+        "serial": 14378,
+        "address": "0x19e91f04680"
+      },
+      "world item class": {
+        "index": 43710,
+        "serial": 14394,
+        "address": "0x19e824ba500"
+      },
+      "SGK CDO": {
+        "index": 43896,
+        "serial": 0,
+        "address": "0x19e88526460"
+      },
+      "BP_SGKFunctions": {
+        "index": 43940,
+        "serial": 0,
+        "address": "0x19e824b5100"
+      },
+      "BP_MasterInventory_C": {
+        "index": 44170,
+        "serial": 11008,
+        "address": "0x19eed9fa500"
+      },
+      "BP_PlayerInventory_C": {
+        "index": 44168,
+        "serial": 10975,
+        "address": "0x19eed9fdd00"
+      },
+      "GameplayStatics::SpawnObject": {
+        "index": 15132,
+        "serial": 0,
+        "address": "0x19eb857da60"
+      },
+      "KismetStringLibrary::Conv_StringToName": {
+        "index": 16178,
+        "serial": 0,
+        "address": "0x19eb8635e20"
+      },
+      "KismetTextLibrary::Conv_StringToText": {
+        "index": 13450,
+        "serial": 0,
+        "address": "0x19eb8400860"
+      },
+      "KismetTextLibrary::Conv_TextToString": {
+        "index": 13451,
+        "serial": 0,
+        "address": "0x19eb8400780"
+      },
+      "KismetSystemLibrary::LoadAsset_Blocking": {
+        "index": 4673,
+        "serial": 0,
+        "address": "0x19eb7a99460"
+      },
+      "KismetSystemLibrary::Conv_SoftObjectReferenceToString": {
+        "index": 4514,
+        "serial": 0,
+        "address": "0x19eb7a936c0"
+      },
+      "BP_SGKFunctions::SGK ItemDetails": {
+        "index": 43927,
+        "serial": 13893,
+        "address": "0x19e91f02b60"
+      },
+      "BP_MasterInventory_C::AddItem": {
+        "index": 43995,
+        "serial": 14716,
+        "address": "0x19e91f035e0"
+      },
+      "BP_MasterInventory_C::RemoveItem": {
+        "index": 44021,
+        "serial": 14762,
+        "address": "0x19e91f058e0"
+      },
+      "live player inventory": {
+        "index": 76537,
+        "serial": 21977,
+        "address": "0x19e923f3b20"
+      }
+    },
+    "N+1": {
+      "transient package": {
+        "index": 4131,
+        "serial": 0,
+        "address": "0x19ea2513480"
+      },
+      "UDataTable": {
+        "index": 1645,
+        "serial": 0,
+        "address": "0x19ea4179800"
+      },
+      "UCompositeDataTable": {
+        "index": 1751,
+        "serial": 0,
+        "address": "0x19ea418c400"
+      },
+      "UTexture2D": {
+        "index": 1046,
+        "serial": 0,
+        "address": "0x19ea40eca00"
+      },
+      "UStaticMesh": {
+        "index": 2045,
+        "serial": 0,
+        "address": "0x19ea45aee00"
+      },
+      "AActor": {
+        "index": 248,
+        "serial": 1201,
+        "address": "0x19ea407e000"
+      },
+      "GameplayStatics CDO": {
+        "index": 22166,
+        "serial": 0,
+        "address": "0x19eb7595f50"
+      },
+      "StringLibrary CDO": {
+        "index": 22204,
+        "serial": 0,
+        "address": "0x19eb7597b40"
+      },
+      "TextLibrary CDO": {
+        "index": 21221,
+        "serial": 0,
+        "address": "0x19eb7599cd0"
+      },
+      "SystemLibrary CDO": {
+        "index": 22206,
+        "serial": 0,
+        "address": "0x19eb7597ba0"
+      },
+      "GameplayStatics": {
+        "index": 1850,
+        "serial": 0,
+        "address": "0x19ea4307800"
+      },
+      "KismetStringLibrary": {
+        "index": 1884,
+        "serial": 0,
+        "address": "0x19ea430b800"
+      },
+      "KismetTextLibrary": {
+        "index": 1037,
+        "serial": 0,
+        "address": "0x19ea40ede00"
+      },
+      "KismetSystemLibrary": {
+        "index": 1886,
+        "serial": 0,
+        "address": "0x19ea430b400"
+      },
+      "ItemList": {
+        "index": 35396,
+        "serial": 0,
+        "address": "0x19e8b0b1d80"
+      },
+      "MasterItemList": {
+        "index": 43892,
+        "serial": 14378,
+        "address": "0x19e91f04680"
+      },
+      "world item class": {
+        "index": 43710,
+        "serial": 14394,
+        "address": "0x19e824ba500"
+      },
+      "SGK CDO": {
+        "index": 43896,
+        "serial": 0,
+        "address": "0x19e88526460"
+      },
+      "BP_SGKFunctions": {
+        "index": 43940,
+        "serial": 0,
+        "address": "0x19e824b5100"
+      },
+      "BP_MasterInventory_C": {
+        "index": 44170,
+        "serial": 11008,
+        "address": "0x19eed9fa500"
+      },
+      "BP_PlayerInventory_C": {
+        "index": 44168,
+        "serial": 10975,
+        "address": "0x19eed9fdd00"
+      },
+      "GameplayStatics::SpawnObject": {
+        "index": 15132,
+        "serial": 0,
+        "address": "0x19eb857da60"
+      },
+      "KismetStringLibrary::Conv_StringToName": {
+        "index": 16178,
+        "serial": 0,
+        "address": "0x19eb8635e20"
+      },
+      "KismetTextLibrary::Conv_StringToText": {
+        "index": 13450,
+        "serial": 0,
+        "address": "0x19eb8400860"
+      },
+      "KismetTextLibrary::Conv_TextToString": {
+        "index": 13451,
+        "serial": 0,
+        "address": "0x19eb8400780"
+      },
+      "KismetSystemLibrary::LoadAsset_Blocking": {
+        "index": 4673,
+        "serial": 0,
+        "address": "0x19eb7a99460"
+      },
+      "KismetSystemLibrary::Conv_SoftObjectReferenceToString": {
+        "index": 4514,
+        "serial": 0,
+        "address": "0x19eb7a936c0"
+      },
+      "BP_SGKFunctions::SGK ItemDetails": {
+        "index": 43927,
+        "serial": 13893,
+        "address": "0x19e91f02b60"
+      },
+      "BP_MasterInventory_C::AddItem": {
+        "index": 43995,
+        "serial": 14716,
+        "address": "0x19e91f035e0"
+      },
+      "BP_MasterInventory_C::RemoveItem": {
+        "index": 44021,
+        "serial": 14762,
+        "address": "0x19e91f058e0"
+      },
+      "live player inventory": {
+        "index": 183902,
+        "serial": 102664,
+        "address": "0x19f484bc4f0"
+      }
+    }
+  },
+  "revoked_anchor": "live player inventory",
+  "reapplied": [
+    [
+      "alphamod__managedshape",
+      3
+    ]
+  ],
+  "declaration_counts": [
+    [
+      1,
+      1,
+      3
+    ]
+  ],
+  "rebound_to": [
+    3
+  ],
+  "checks": [
+    {
+      "check": "generation N is a gameplay generation",
+      "pass": true,
+      "detail": "gameplay"
+    },
+    {
+      "check": "the C# mod's declaration is applied in generation N",
+      "pass": true,
+      "detail": "alphamod__managedshape"
+    },
+    {
+      "check": "the game's own SGK ItemDetails resolved it in generation N",
+      "pass": true,
+      "detail": "alphamod__managedshape"
+    },
+    {
+      "check": "the probe ran one callback on the game thread",
+      "pass": true,
+      "detail": "{'registered_ok': 1, 'worker_tid': 18224, 'called': 1, 'callback_tid': 16892, 'callback_count': 1}"
+    },
+    {
+      "check": "generation N was revoked by the transition",
+      "pass": true,
+      "detail": "[{'generation': 2, 'why': \"'live player inventory' it no longer claims the slot it was found in\"}]"
+    },
+    {
+      "check": "a production consumer was refused by the generation gate while the world was gone",
+      "pass": true,
+      "detail": "no consumer met the revoked generation"
+    },
+    {
+      "check": "a later generation was published",
+      "pass": true,
+      "detail": "[1, 2, 3]"
+    },
+    {
+      "check": "N and N+1 are genuinely different content generations",
+      "pass": true,
+      "detail": "no anchor identity changed between N and N+1: {'transient package': {'index': 4131, 'serial': 0, 'address': '0x19ea2513480'}, 'UDataTable': {'index': 1645, 'serial': 0, 'address': '0x19ea4179800'}, 'UCompositeDataTable': {'index': 1751, 'serial': 0, 'address': '0x19ea418c400'}, 'UTexture2D': {'index': 1046, 'serial': 0, 'address': '0x19ea40eca00'}, 'UStaticMesh': {'index': 2045, 'serial': 0, 'address': '0x19ea45aee00'}, 'AActor': {'index': 248, 'serial': 1201, 'address': '0x19ea407e000'}, 'GameplayStatics CDO': {'index': 22166, 'serial': 0, 'address': '0x19eb7595f50'}, 'StringLibrary CDO': {'index': 22204, 'serial': 0, 'address': '0x19eb7597b40'}, 'TextLibrary CDO': {'index': 21221, 'serial': 0, 'address': '0x19eb7599cd0'}, 'SystemLibrary CDO': {'index': 22206, 'serial': 0, 'address': '0x19eb7597ba0'}, 'GameplayStatics': {'index': 1850, 'serial': 0, 'address': '0x19ea4307800'}, 'KismetStringLibrary': {'index': 1884, 'serial': 0, 'address': '0x19ea430b800'}, 'KismetTextLibrary': {'index': 1037, 'serial': 0, 'address': '0x19ea40ede00'}, 'KismetSystemLibrary': {'index': 1886, 'serial': 0, 'address': '0x19ea430b400'}, 'ItemList': {'index': 35396, 'serial': 0, 'address': '0x19e8b0b1d80'}, 'MasterItemList': {'index': 43892, 'serial': 14378, 'address': '0x19e91f04680'}, 'world item class': {'index': 43710, 'serial': 14394, 'address': '0x19e824ba500'}, 'SGK CDO': {'index': 43896, 'serial': 0, 'address': '0x19e88526460'}, 'BP_SGKFunctions': {'index': 43940, 'serial': 0, 'address': '0x19e824b5100'}, 'BP_MasterInventory_C': {'index': 44170, 'serial': 11008, 'address': '0x19eed9fa500'}, 'BP_PlayerInventory_C': {'index': 44168, 'serial': 10975, 'address': '0x19eed9fdd00'}, 'GameplayStatics::SpawnObject': {'index': 15132, 'serial': 0, 'address': '0x19eb857da60'}, 'KismetStringLibrary::Conv_StringToName': {'index': 16178, 'serial': 0, 'address': '0x19eb8635e20'}, 'KismetTextLibrary::Conv_StringToText': {'index': 13450, 'serial': 0, 'address': '0x19eb8400860'}, 'KismetTextLibrary::Conv_TextToString': {'index': 13451, 'serial': 0, 'address': '0x19eb8400780'}, 'KismetSystemLibrary::LoadAsset_Blocking': {'index': 4673, 'serial': 0, 'address': '0x19eb7a99460'}, 'KismetSystemLibrary::Conv_SoftObjectReferenceToString': {'index': 4514, 'serial': 0, 'address': '0x19eb7a936c0'}, 'BP_SGKFunctions::SGK ItemDetails': {'index': 43927, 'serial': 13893, 'address': '0x19e91f02b60'}, 'BP_MasterInventory_C::AddItem': {'index': 43995, 'serial': 14716, 'address': '0x19e91f035e0'}, 'BP_MasterInventory_C::RemoveItem': {'index': 44021, 'serial': 14762, 'address': '0x19e91f058e0'}, 'live player inventory': {'index': 76537, 'serial': 21977, 'address': '0x19e923f3b20'}}"
+    },
+    {
+      "check": "the revocation names an anchor whose identity actually changed",
+      "pass": true,
+      "detail": "revoked on 'live player inventory'; changed: ['live player inventory']"
+    },
+    {
+      "check": "generation N+1 is a gameplay generation",
+      "pass": true,
+      "detail": "gameplay"
+    },
+    {
+      "check": "the existing declaration was reapplied automatically",
+      "pass": true,
+      "detail": "[('alphamod__managedshape', 3)]"
+    },
+    {
+      "check": "the game's own SGK ItemDetails resolves the same semantic item again",
+      "pass": true,
+      "detail": "expected alphamod__managedshape, saw [('alphamod__managedshape', 3)]"
+    },
+    {
+      "check": "the declaration was not duplicated",
+      "pass": true,
+      "detail": "[(1, 1, 3)]"
+    },
+    {
+      "check": "no row was applied to the revoked generation after revocation",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "the Items backend rebound to the new generation before writing anything",
+      "pass": true,
+      "detail": "bound to ['3'], expected 3"
+    }
+  ],
+  "passed": 15,
+  "failed": 0,
+  "verdict": "PASS"
+}
