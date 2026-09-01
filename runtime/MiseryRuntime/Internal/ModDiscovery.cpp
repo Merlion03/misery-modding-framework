@@ -1,147 +1,247 @@
-// ModDiscovery.cpp -- reading the installation, and nothing else.
+// ModDiscovery.cpp -- find the mod folders under Mods/. Nothing else.
 //
-// THE MOD LIST IS A PLACEHOLDER, BUT NOT AN INVENTED ONE
-// -------------------------------------------------------
-// Step 3 needs "a real C# mod loads and registers an item"; it does not need
-// dependency resolution, conflict arbitration, version satisfaction or
-// deterministic load ordering, all of which Stage 4 already implements and Step
-// 4 will port. So this reads the smallest true subset of what Stage 4 reads:
-// mod_id, and the first code artifact.
+// A port of tools/modframework/discovery.py. See ModPlan.h.
 //
-// It reads them from Stage 4's OWN layout -- mod.json beside a Code/ directory,
-// with the id in mod_id -- rather than a shorter convention of its own. The
-// first version of this file did invent one (directory name is both the id and
-// the assembly stem), and that was a mistake twice over: it rejected the
-// framework's own fixture, whose id and assembly name legitimately differ, and
-// it would have left Step 4 migrating away from a layout that never should have
-// existed. A placeholder may read less than the real thing. It should not
-// disagree with it.
+// WHY DISCOVERY IS ITS OWN LAYER
+// ------------------------------
+// It is the only part of planning that touches the filesystem, and therefore
+// the only part whose answer can depend on the machine. Isolating it means
+// validation and resolution can be tested by handing them a list -- no temp
+// directories, no ordering tricks, no game.
 //
-// What is still missing is deliberate: no dependency is honoured, no version is
-// checked, no conflict is detected, and load order is whatever the filesystem
-// enumerates. Step 4 supplies all of it.
+// DETERMINISM IS NOT "THE DIRECTORY HAPPENED TO ENUMERATE CONVENIENTLY"
+// ---------------------------------------------------------------------
+// FindFirstFile returns entries in whatever order the filesystem hands back. On
+// NTFS that is usually alphabetical, and after enough renames it is not. Code
+// that works today because a directory enumerated conveniently is code that
+// reorders someone's mods after they rename a folder. So the result is sorted
+// explicitly, and the sort key is the mod_id wherever one exists -- the folder
+// name only orders things that could not be parsed and therefore have no id.
+//
+// WHAT REPLACED WHAT
+// ------------------
+// The first version of this file invented a convention of its own: a mod's
+// directory name was both its id and its assembly's stem, with no manifest read
+// at all. It rejected the framework's own fixture and would have left Step 4
+// migrating away from a layout that never should have existed. Stage 4 had
+// already decided all of this; this is that decision, where the game can reach
+// it.
 #include <windows.h>
 
+#include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
 
 #include "Json.h"
 #include "ModDiscovery.h"
+#include "ModPlan.h"
 
 namespace misery {
+namespace modplan {
+namespace {
+
+constexpr size_t kMaxManifestBytes = 1u << 20;
+const char kManifestFilename[] = "mod.json";
+
+std::string Lowered(const std::string& text) {
+  std::string out = text;
+  std::transform(out.begin(), out.end(), out.begin(), [](unsigned char c) {
+    return static_cast<char>(tolower(c));
+  });
+  return out;
+}
+
+}  // namespace
+
+std::vector<Discovered> Discover(const std::string& mods_root) {
+  // Every immediate subdirectory holding a mod.json, sorted by name.
+  //
+  // A subdirectory WITHOUT a manifest is not a candidate and is not reported:
+  // users keep notes, backups and screenshots beside their mods, and a
+  // discovery layer that called every stray folder a broken mod would train
+  // them to ignore its output. A folder WITH one that cannot be parsed is a
+  // different matter entirely, and is reported loudly.
+  std::vector<std::pair<std::string, std::string>> candidates;
+  WIN32_FIND_DATAA entry;
+  HANDLE search = FindFirstFileA((mods_root + "\\*").c_str(), &entry);
+  if (search != INVALID_HANDLE_VALUE) {
+    do {
+      if ((entry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+        continue;
+      }
+      const std::string name = entry.cFileName;
+      if (name == "." || name == "..") {
+        continue;
+      }
+      const std::string root = mods_root + "\\" + name;
+      const DWORD manifest =
+          GetFileAttributesA((root + "\\" + kManifestFilename).c_str());
+      if (manifest == INVALID_FILE_ATTRIBUTES ||
+          (manifest & FILE_ATTRIBUTE_DIRECTORY) != 0) {
+        continue;
+      }
+      candidates.push_back({name, root});
+    } while (FindNextFileA(search, &entry) != 0);
+    FindClose(search);
+  }
+  std::sort(candidates.begin(), candidates.end());
+
+  // Case-insensitive folder collisions are settled BEFORE anything is parsed,
+  // and they refuse EVERY member of the colliding group.
+  //
+  // Refusing only the folder met second would leave the first accepted -- so on
+  // a case-sensitive filesystem the mod that loaded would be whichever folder
+  // name sorted first by codepoint, and renaming `alphamod/` to `Alphamod/`
+  // would flip which of two unrelated mods reached the live plan. That is the
+  // folder name deciding identity, and it fails OPEN. The duplicate-mod_id rule
+  // drops both claimants for exactly this reason; so does this.
+  std::map<std::string, std::vector<std::string>> by_key;
+  for (const auto& candidate : candidates) {
+    by_key[Lowered(candidate.first)].push_back(candidate.first);
+  }
+
+  std::vector<Discovered> found;
+  for (const auto& candidate : candidates) {
+    Discovered discovered;
+    discovered.folder = candidate.first;
+    discovered.root = candidate.second;
+
+    std::vector<std::string>& siblings = by_key[Lowered(candidate.first)];
+    std::string text;
+    std::string why;
+    const std::string manifest_path =
+        discovered.root + "\\" + kManifestFilename;
+    if (!json::ReadFile(manifest_path.c_str(), kMaxManifestBytes, &text,
+                        &why)) {
+      Diagnostic d;
+      d.code = kMalformedManifest;
+      d.subject = discovered.root;
+      d.detail = "the manifest could not be read: " + why;
+      discovered.diagnostics.push_back(d);
+    } else {
+      discovered.accepted =
+          ParseManifest(text, discovered.root, &discovered.manifest,
+                        &discovered.diagnostics, &discovered.declared_mod_id);
+    }
+
+    if (siblings.size() > 1) {
+      std::vector<std::string> others;
+      for (const std::string& name : siblings) {
+        if (name != candidate.first) {
+          others.push_back(name);
+        }
+      }
+      std::sort(others.begin(), others.end());
+      std::string list;
+      for (size_t i = 0; i < others.size(); ++i) {
+        list += (i ? ", " : "") + others[i];
+      }
+      Diagnostic d;
+      d.code = kMalformedManifest;
+      d.subject = discovered.root;
+      d.detail =
+          "the folder name collides case-insensitively with " + list +
+          ". On Windows these are one folder and on Linux they are two, so "
+          "which mod this is would depend on the machine reading the "
+          "directory. EVERY folder in the group is refused: keeping the one "
+          "whose name happens to sort first would let a rename decide which "
+          "mod loads.";
+      discovered.diagnostics.push_back(d);
+      discovered.accepted = false;
+    }
+
+    if (discovered.accepted) {
+      std::vector<Diagnostic> artifact_problems;
+      CheckArtifacts(discovered.manifest, &artifact_problems);
+      for (const Diagnostic& d : artifact_problems) {
+        discovered.diagnostics.push_back(d);
+        if (IsFatal(d.code)) {
+          // A mod missing a declared artifact is not partially loadable.
+          // Dropping the manifest here is what stops a half-present mod from
+          // reaching the resolver as if it were whole.
+          discovered.accepted = false;
+        }
+      }
+    }
+    found.push_back(discovered);
+  }
+
+  // Accepted mods by mod_id, then unparseable folders by folder name. Ordering
+  // by mod_id rather than folder name is what makes renaming `AlphaMod` to
+  // `ZZZ_AlphaMod` a cosmetic act.
+  std::sort(found.begin(), found.end(),
+            [](const Discovered& a, const Discovered& b) {
+              const bool a_none = !a.accepted;
+              const bool b_none = !b.accepted;
+              if (a_none != b_none) {
+                return b_none;
+              }
+              const std::string& a_id = a.accepted ? a.manifest.mod_id
+                                                   : std::string();
+              const std::string& b_id = b.accepted ? b.manifest.mod_id
+                                                   : std::string();
+              if (a_id != b_id) {
+                return a_id < b_id;
+              }
+              return a.folder < b.folder;
+            });
+  return found;
+}
+
+}  // namespace modplan
+
 namespace managed {
 
 std::string DiscoverPlan(const std::string& framework_dir,
                          std::vector<std::string>* found,
                          std::vector<std::string>* skipped) {
-  // Stage 4's layout, read shallowly. See the header comment.
-  const std::string mods = framework_dir + "\\Mods";
-  WIN32_FIND_DATAA entry;
-  HANDLE search = FindFirstFileA((mods + "\\*").c_str(), &entry);
-  if (search == INVALID_HANDLE_VALUE) {
-    return std::string();
+  // The managed host's slice of the plan: the mods that load AND carry an
+  // assembly, in the planned order.
+  //
+  // Order is the plan's, not the filesystem's, and not sorted again here: a
+  // mod's dependencies load before it, which is the whole point of having
+  // computed an order. Content-only mods are in the plan and simply have
+  // nothing for this host to do.
+  const modplan::Plan plan =
+      modplan::PlanFromRoot(framework_dir + "\\Mods");
+
+  std::string text;
+  for (const std::string& mod_id : plan.load_order) {
+    const modplan::Manifest& manifest = plan.manifests.at(mod_id);
+    for (const std::string& assembly : manifest.code) {
+      if (!text.empty()) {
+        text += ";";
+      }
+      text += mod_id + "=" + manifest.root + "\\Code\\" + assembly;
+    }
+    if (!manifest.code.empty()) {
+      found->push_back(mod_id);
+    }
   }
-  // (mod_id, assembly, directory) for every directory that claimed to be a
-  // mod and was otherwise acceptable. Collected before the plan string is
-  // built, because the duplicate rule below has to be able to reject an id
-  // already accepted -- which a string being appended to cannot do.
-  struct Candidate {
-    std::string id;
-    std::string assembly;
-    std::string dir;
-  };
-  std::vector<Candidate> candidates;
-  do {
-    if ((entry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0) {
-      continue;
-    }
-    const std::string dir = entry.cFileName;
-    if (dir == "." || dir == "..") {
-      continue;
-    }
-    const std::string root = mods + "\\" + dir;
 
-    // No manifest means not a mod. Stage 4 treats such a directory as invisible
-    // rather than malformed -- authors keep scratch folders under Mods/ -- so
-    // it is not reported as skipped either.
-    const std::string manifest_path = root + "\\mod.json";
-    std::string text;
-    std::string why;
-    if (!json::ReadFile(manifest_path.c_str(), 1u << 20, &text, &why)) {
-      continue;
-    }
-
-    // From here on the directory CLAIMED to be a mod, so every refusal is
-    // reported. A manifest that cannot be read is not silently skipped: that is
-    // how a mod goes missing without anyone learning why.
-    json::Value manifest;
-    if (!json::Parse(text, &manifest, &why)) {
-      skipped->push_back(dir + " (its mod.json could not be read: " + why + ")");
-      continue;
-    }
-    const json::Value* id = manifest.Member("mod_id");
-    if (id == nullptr || !id->Is(json::Kind::kString) || id->text.empty()) {
-      skipped->push_back(dir + " (its mod.json declares no mod_id)");
-      continue;
-    }
-    const json::Value* code = manifest.Member("code");
-    if (code == nullptr || !code->Is(json::Kind::kArray) ||
-        code->array.empty() || !code->array[0].Is(json::Kind::kString)) {
-      // Content-only mods are perfectly legitimate and Stage 4 loads them. They
-      // have nothing for a MANAGED host to do, so they are not an error here.
-      continue;
-    }
-
-    const std::string assembly = root + "\\Code\\" + code->array[0].text;
-    if (GetFileAttributesA(assembly.c_str()) == INVALID_FILE_ATTRIBUTES) {
-      skipped->push_back(dir + " (its declared assembly " + code->array[0].text +
-                         " is not present under Code\\)");
-      continue;
-    }
-    // The id is NOT validated here. Misery.ModAPI's ModId owns that rule, it is
-    // stricter than anything worth restating in C++, and a second copy of a
-    // validation rule is a second chance to disagree with the first.
-    Candidate candidate;
-    candidate.id = id->text;
-    candidate.assembly = assembly;
-    candidate.dir = dir;
-    candidates.push_back(candidate);
-  } while (FindNextFileA(search, &entry) != 0);
-  FindClose(search);
-
-  // AN AMBIGUOUS ID LOADS NOTHING.
+  // Everything the plan refused, named with the reason IN FULL.
   //
-  // Two directories declaring the same mod_id is not a thing to arbitrate.
-  // Loading the first and reporting the second would make the outcome depend
-  // on the order the filesystem happened to enumerate, and would silently pick
-  // a winner between two copies of a mod that may well differ. Neither is
-  // loaded, and both are named.
-  //
-  // Seen for real: an installation still holding an older copy of a mod under
-  // its previous directory name, which produced two plan entries and a
-  // confusing "'alphamod' is already loaded" from the host.
-  std::string plan;
-  for (const Candidate& candidate : candidates) {
-    std::string clash;
-    for (const Candidate& other : candidates) {
-      if (&other != &candidate && other.id == candidate.id) {
-        clash = other.dir;
-        break;
+  // The code alone is not enough for the person whose mod did not load.
+  // "alphamod (duplicate_mod_id)" does not say which two folders claimed the
+  // id, and finding that out would mean guessing at a directory listing. Stage
+  // 4 writes a sentence for every refusal precisely so it can be read; carrying
+  // the code and discarding the sentence would keep the machinery and throw
+  // away the part a user acts on.
+  for (const auto& entry : plan.excluded) {
+    std::string codes;
+    for (const std::string& code : entry.second) {
+      codes += (codes.empty() ? "" : ", ") + code;
+    }
+    std::string line = entry.first + " (" + codes + ")";
+    for (const modplan::Diagnostic& d : plan.diagnostics) {
+      if (d.subject == entry.first && modplan::IsFatal(d.code)) {
+        line += " -- " + d.detail;
       }
     }
-    if (!clash.empty()) {
-      skipped->push_back(candidate.dir + " (it and " + clash +
-                         " both declare mod_id '" + candidate.id +
-                         "'; neither is loaded)");
-      continue;
-    }
-    if (!plan.empty()) {
-      plan += ";";
-    }
-    plan += candidate.id + "=" + candidate.assembly;
-    found->push_back(candidate.id);
+    skipped->push_back(line);
   }
-  return plan;
+  return text;
 }
 
 }  // namespace managed

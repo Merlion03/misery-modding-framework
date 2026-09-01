@@ -183,7 +183,14 @@ int main() {
   // Five directories claimed to be mods and were refused -- three malformed,
   // and both halves of the ambiguous pair. Two more were legitimately not
   // planned without being refusals.
-  Report("five directories are reported skipped", "5",
+  // FOUR refusals, not five, and the difference is the point.
+  //
+  // The two folders claiming `alphamod` are refused as ONE subject -- the
+  // mod_id -- because that is the identity in dispute. Stage 4 reports a
+  // duplicate against the id and names the folders in the sentence; reporting
+  // it per folder would suggest two independent problems rather than one
+  // contested name.
+  Report("four subjects are reported refused", "4",
          std::to_string(skipped.size()));
   std::string reasons;
   for (const std::string& why : skipped) {
@@ -203,10 +210,15 @@ int main() {
   Report("a declared but absent assembly is reported", "1",
          std::to_string(reasons.find("missingcode") != std::string::npos
                             ? 1 : 0));
-  Report("both directories of a duplicated id are named", "11",
+  // The refusal is filed under the id, and the sentence names both folders so
+  // the user knows which two to look at.
+  Report("the ambiguous id is refused under the id itself", "1",
+         std::to_string(reasons.find("alphamod (duplicate_mod_id)") !=
+                                std::string::npos ? 1 : 0));
+  Report("both colliding folders are named in the reason", "11",
          std::to_string(reasons.find("alphamod-old") != std::string::npos
                             ? 1 : 0) +
-             std::to_string(reasons.find("AlphaManagedMod (") !=
+             std::to_string(reasons.find("AlphaManagedMod") !=
                                     std::string::npos ? 1 : 0));
 
   // The same tree with the stale copy removed: the mod loads, under the id its

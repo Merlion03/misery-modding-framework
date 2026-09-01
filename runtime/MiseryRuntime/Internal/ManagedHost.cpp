@@ -107,9 +107,20 @@ void Summarise(const std::string& report, size_t planned, LogFn log) {
     log(("managed: report " + report).c_str());
     return;
   }
+  // The names, not just the count. "2 of 2 loaded" does not say WHICH two, and
+  // on a path whose whole job is deciding which mods load, that is the part
+  // worth writing down.
+  std::string names;
+  const json::Value* loaded_ids = parsed.Member("loaded");
+  if (loaded_ids != nullptr && loaded_ids->Is(json::Kind::kArray)) {
+    for (const json::Value& entry : loaded_ids->array) {
+      names += (names.empty() ? "" : " ") + entry.text;
+    }
+  }
   log(("managed: " + std::to_string(loaded->integer) + " of " +
        std::to_string(planned) + " planned mod(s) loaded, " +
-       std::to_string(failed->integer) + " failed").c_str());
+       std::to_string(failed->integer) + " failed" +
+       (names.empty() ? "" : ": " + names)).c_str());
 
   const json::Value* failures = parsed.Member("failed");
   if (failures != nullptr && failures->Is(json::Kind::kArray)) {

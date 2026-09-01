@@ -67,12 +67,20 @@ FIXTURE_ASSEMBLY = FIXTURE + ".dll"
 # runtime's discovery assumed they matched and refused this fixture outright.
 FIXTURE_MOD_ID = "alphamod"
 
+# A second real mod, so the plan has something to order. It is installed under
+# a folder name that sorts BEFORE alphamod's while its manifest says it must
+# load AFTER -- which is how "the order came from the manifests, not the
+# directory" gets tested rather than asserted.
+SECOND_FIXTURE = "BetaManagedMod"
+SECOND_MOD_ID = "betamod"
+
 
 def build_managed():
     """The contracts, the host, and the one fixture this step needs."""
     built = []
     for project in ("Misery.ModAPI", "Misery.ModHost",
-                    os.path.join("fixtures", FIXTURE)):
+                    os.path.join("fixtures", FIXTURE),
+                    os.path.join("fixtures", SECOND_FIXTURE)):
         path = os.path.join(MANAGED, project)
         result = subprocess.run(["dotnet", "build", "-v", "quiet", "--nologo"],
                                 capture_output=True, text=True, cwd=path,
@@ -125,7 +133,7 @@ def write_manifest(mod_root):
     return body
 
 
-def write_manifest(mod_dir, assembly):
+def write_manifest(mod_dir, assembly, mod_id, **extra):
     """Write the fixture's mod.json, and prove Stage 4 would accept it.
 
     The runtime's discovery reads mod_id and the first code artifact out of this
@@ -137,12 +145,13 @@ def write_manifest(mod_dir, assembly):
     """
     manifest = {
         "manifest_version": 1,
-        "mod_id": FIXTURE_MOD_ID,
-        "name": "Alpha Managed Mod",
+        "mod_id": mod_id,
+        "name": mod_id,
         "version": "1.0.0",
         "framework_api": "^0.4.0",
         "code": [assembly],
     }
+    manifest.update(extra)
     path = os.path.join(mod_dir, "mod.json")
     with open(path, "w", encoding="utf-8", newline="\n") as handle:
         json.dump(manifest, handle, indent=2)
@@ -155,7 +164,7 @@ def write_manifest(mod_dir, assembly):
     if parsed is None:
         raise SystemExit("Stage 4 would reject the fixture's mod.json: %s"
                          % "; ".join(str(d) for d in diagnostics))
-    if parsed.mod_id != FIXTURE_MOD_ID or claimed != FIXTURE_MOD_ID:
+    if parsed.mod_id != mod_id or claimed != mod_id:
         raise SystemExit("the manifest parsed to mod_id %r" % parsed.mod_id)
     if list(parsed.code) != [assembly]:
         raise SystemExit("the manifest's code list parsed to %r" % (parsed.code,))
@@ -165,19 +174,26 @@ def write_manifest(mod_dir, assembly):
 def managed_payload(staging):
     """Everything the runtime needs to host managed code, laid out as installed.
 
-    Assembled into a staging directory rather than passed as a dozen payload
-    entries, so the installer writes ONE tree and the install audit has one
-    shape to check.
+    FOUR mod folders, not one, because Step 4's acceptance is about the PLAN and
+    a plan over a single mod proves nothing about ordering, dependencies or
+    arbitration:
 
-    The fixture goes in as a real mod: mod.json at its root, assemblies under
-    Code/. Installing it any other way would test a layout no mod will ever
-    actually have.
+        AlphaManagedMod   alphamod   loads
+        BetaManagedMod    betamod    loads, and only AFTER alphamod
+        GhostDependent    ghostdep   REFUSED: depends on a mod nobody installed
+        BrokenJson        --         REFUSED: its manifest cannot be read
+
+    The two refusals are the interesting half. `ghostdep` carries a real
+    assembly, so if the plan ever let it through it would show up as a loaded
+    mod rather than as nothing at all; and `BrokenJson` is there to prove one
+    unreadable manifest cannot poison the scan around it.
+
+    Nothing here is hardcoded into the runtime: every id, folder name, assembly
+    name and dependency is read from the manifests at run time.
     """
     if os.path.isdir(staging):
         shutil.rmtree(staging)
-    mod_dir = os.path.join(staging, "Mods", FIXTURE)
-    code_dir = os.path.join(mod_dir, "Code")
-    os.makedirs(code_dir)
+    os.makedirs(staging)
 
     host_dir = os.path.dirname(newest_output("Misery.ModHost",
                                              "Misery.ModHost.dll"))
@@ -188,13 +204,37 @@ def managed_payload(staging):
     shutil.copyfile(os.path.join(nb.DOTNET_PACK, "nethost.dll"),
                     os.path.join(staging, "nethost.dll"))
 
-    fixture_dir = os.path.dirname(
-        newest_output(os.path.join("fixtures", FIXTURE), FIXTURE + ".dll"))
-    for name in os.listdir(fixture_dir):
-        if name.endswith((".dll", ".json")):
-            shutil.copyfile(os.path.join(fixture_dir, name),
-                            os.path.join(code_dir, name))
-    write_manifest(mod_dir, FIXTURE + ".dll")
+    def install_mod(folder, mod_id, fixture, **manifest_extra):
+        mod_dir = os.path.join(staging, "Mods", folder)
+        code_dir = os.path.join(mod_dir, "Code")
+        os.makedirs(code_dir)
+        source = os.path.dirname(
+            newest_output(os.path.join("fixtures", fixture), fixture + ".dll"))
+        for name in os.listdir(source):
+            if name.endswith((".dll", ".json")):
+                shutil.copyfile(os.path.join(source, name),
+                                os.path.join(code_dir, name))
+        write_manifest(mod_dir, fixture + ".dll", mod_id, **manifest_extra)
+        return mod_dir
+
+    install_mod(FIXTURE, FIXTURE_MOD_ID, FIXTURE)
+    # betamod must load AFTER alphamod, and the ONLY thing saying so is this
+    # dependency. Its folder is named to sort first precisely so that folder
+    # order and plan order disagree: if the runtime ever fell back to reading
+    # the directory, this is the mod that would come out in front.
+    install_mod("00_BetaSortsFirstOnDisk", SECOND_MOD_ID, SECOND_FIXTURE,
+                dependencies=[{"mod_id": FIXTURE_MOD_ID, "version": "^1.0.0"}])
+    # Depends on something nobody installed. Must be refused, and must not load.
+    install_mod("GhostDependent", "ghostdep", FIXTURE,
+                dependencies=[{"mod_id": "nobodyhasthis", "version": "^1.0.0"}])
+
+    # An unreadable manifest, beside the others. Must not take them down.
+    broken = os.path.join(staging, "Mods", "BrokenJson")
+    os.makedirs(broken)
+    with open(os.path.join(broken, "mod.json"), "w", encoding="utf-8",
+              newline="\n") as handle:
+        handle.write('{"manifest_version": 1, "mod_id": "brokenmod",\n')
+
     return staging
 
 
@@ -340,16 +380,59 @@ def main(argv=None):
     check("the managed host started", "managed host started" in log, log[-400:])
     check("discovery planned the installed mod",
           FIXTURE_MOD_ID in log, log[-400:])
-    check("no mod was refused by discovery", "managed: skipped" not in log,
-          "\n".join(l for l in log.splitlines() if "skipped" in l))
+    # Exactly the ones that SHOULD be refused, and nothing else. The
+    # earlier form asserted nothing was refused at all, which was right
+    # when the install held one healthy mod and is wrong now that it
+    # deliberately holds two broken ones.
+    refused_subjects = set(re.findall(r"managed: skipped (\S+) \(", log))
+    report["refused_subjects"] = sorted(refused_subjects)
+    unexpected = {x for x in refused_subjects
+                  if x != "ghostdep" and "BrokenJson" not in x}
+    check("no healthy mod was refused", not unexpected, sorted(unexpected))
+
+    # ---- the plan, as the runtime computed it in-process ------------------
+    #
+    # Step 4's acceptance is about WHICH mods load and IN WHAT ORDER, decided
+    # from manifests at run time. Nothing below names a folder or an assembly:
+    # the ids come from the mod.json files, and the order comes from a
+    # dependency the folder names contradict.
+    planned = re.search(r"managed: (\d+) mod\(s\) to load: (.+)", log)
+    report["planned"] = planned.group(2).split() if planned else []
+    check("the plan is in dependency order, not folder order",
+          report["planned"] == [FIXTURE_MOD_ID, SECOND_MOD_ID],
+          "planned %s, expected %s"
+          % (report["planned"], [FIXTURE_MOD_ID, SECOND_MOD_ID]))
+
+    refusals = re.findall(r"managed: skipped (\S+) \(([^)]*)\)", log)
+    report["refused"] = {subject: codes for subject, codes in refusals}
+    check("a mod whose dependency is not installed is refused",
+          any(s == "ghostdep" and "missing_dependency" in c
+              for s, c in refusals), refusals)
+    check("an unreadable manifest is refused",
+          any("malformed_manifest" in c and "BrokenJson" in s
+              for s, c in refusals), refusals)
+    check("the unreadable manifest did not poison the scan",
+          report["planned"] == [FIXTURE_MOD_ID, SECOND_MOD_ID], refusals)
 
     plan_line = re.search(r"managed: (\d+) of (\d+) planned mod\(s\) loaded, "
                           r"(\d+) failed", log)
     report["load_summary"] = plan_line.group(0) if plan_line else None
-    check("the mod in the plan actually loaded",
+    check("every planned mod actually loaded",
           bool(plan_line) and plan_line.group(1) == plan_line.group(2) and
           plan_line.group(3) == "0",
           plan_line.group(0) if plan_line else "no load summary was logged")
+
+    # ONLY the planned mods. A refused mod carries a real assembly, so this
+    # would catch it loading rather than merely not being listed.
+    # From the summary line, which is logged on EVERY run. The full JSON
+    # report is logged only when something failed, so reading the loaded
+    # list out of that made this check silently vacuous on a clean run --
+    # it "passed" by comparing two empty lists.
+    loaded = re.search(r"planned mod\(s\) loaded, \d+ failed: (.+)", log)
+    report["loaded"] = loaded.group(1).split() if loaded else []
+    check("only the planned mods loaded",
+          sorted(report["loaded"]) == sorted([FIXTURE_MOD_ID, SECOND_MOD_ID]),
+          report["loaded"])
 
     # THE MENU CASE. A mod loads at the main menu, where no world exists to hold
     # an item row. The registration must be RECORDED, not performed and not

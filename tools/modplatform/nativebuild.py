@@ -159,6 +159,8 @@ MISERY_RUNTIME_SOURCES = (
     "UE54TickerCarrier.cpp",    # the build-specific way onto that thread
     "ManagedHost.cpp",          # CoreCLR, started from the installation
     "ModDiscovery.cpp",         # which mods that installation holds
+    "ModManifest.cpp",          # Stage 4 ids, versions, manifests
+    "ModResolve.cpp",           # and its deterministic load plan
 )
 
 
@@ -176,7 +178,13 @@ MISERY_TEST_HARNESSES = {
     "slot_validation_harness.exe": ("slot_validation_harness.cpp",
                                     ("Resolver.cpp",)),
     "discovery_harness.exe": ("discovery_harness.cpp",
-                              ("ModDiscovery.cpp", "Json.cpp")),
+                              ("ModDiscovery.cpp", "ModManifest.cpp",
+                               "ModResolve.cpp", "Json.cpp")),
+    # The differential against Stage 4's Python planner. See
+    # tests/test_mod_plan.py: this is what makes "a port, not a fork" checkable.
+    "mod_plan_harness.exe": ("mod_plan_harness.cpp",
+                             ("ModDiscovery.cpp", "ModManifest.cpp",
+                              "ModResolve.cpp", "Json.cpp")),
 }
 
 

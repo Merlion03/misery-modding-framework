@@ -52,7 +52,7 @@ class DiscoveryReadsTheInstalledLayout(unittest.TestCase):
 
     def test_the_harness_ran_every_case(self):
         # A harness that crashed after two cases must not look like two passes.
-        self.assertEqual(14, len(self.cases), self.result.stdout)
+        self.assertEqual(15, len(self.cases), self.result.stdout)
         self.assertIn("PASS", self.result.stdout.splitlines()[-1],
                       self.result.stdout)
         self.assertEqual(0, self.result.returncode, self.result.stderr[-2000:])
@@ -75,7 +75,7 @@ class DiscoveryReadsTheInstalledLayout(unittest.TestCase):
         self.case("a content-only mod is not reported as skipped")
 
     def test_every_malformed_claim_is_reported(self):
-        self.case("five directories are reported skipped")
+        self.case("four subjects are reported refused")
         self.case("an unreadable manifest is reported")
         self.case("a manifest with no mod_id is reported")
         self.case("a declared but absent assembly is reported")
@@ -87,7 +87,8 @@ class DiscoveryReadsTheInstalledLayout(unittest.TestCase):
     def test_an_ambiguous_id_loads_nothing_and_names_both(self):
         self.case("an ambiguous id plans nothing at all")
         self.case("no mod is planned while an id is ambiguous")
-        self.case("both directories of a duplicated id are named")
+        self.case("the ambiguous id is refused under the id itself")
+        self.case("both colliding folders are named in the reason")
 
     # ...and the ambiguity is the only thing stopping it. With the stale copy
     # gone the mod loads normally, so the rule above cannot be masking a

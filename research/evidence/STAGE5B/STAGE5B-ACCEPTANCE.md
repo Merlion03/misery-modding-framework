@@ -515,3 +515,69 @@ Wanted as a later lifecycle regression. Recorded here rather than attempted
 now: Step 4 does not depend on it, and the transition gate it would strengthen
 has already passed on the evidence available.
 
+### Step 4 -- Stage 4's discovery and load plan, in the runtime
+
+    Steam Play
+      -> MiseryRuntime
+      -> discover real mod folders from Mods/
+      -> validate manifests
+      -> canonical ModId / semver
+      -> dependencies + conflicts + deterministic arbitration
+      -> deterministic load plan
+      -> CoreCLR
+      -> only planned C# mods load
+
+`research/evidence/STAGE5B/stage5b-step4-loadplan.json`, 16 of 16.
+
+    managed: skipped .../Mods/BrokenJson (malformed_manifest) -- the manifest could not be read
+    managed: skipped ghostdep (missing_dependency) -- requires 'nobodyhasthis' ^1.0.0, ...
+    managed: 2 mod(s) to load: alphamod betamod
+    managed: 2 of 2 planned mod(s) loaded, 0 failed: alphamod betamod
+
+Nothing in the runtime names a mod. Every id, folder, assembly, dependency and
+version came out of a mod.json at run time. `betamod`'s folder is deliberately
+named to sort FIRST on disk while its manifest says it loads SECOND, so folder
+order and plan order disagree and only one of them can be the one being used.
+
+#### A port, and a checkable claim that it is one
+
+tools/modframework/ is the source of truth. Where the two could disagree, the
+Python is right. That is not left as an intention: `tests/test_mod_plan.py`
+builds mod trees with Stage 4's OWN fixture builders, runs both planners over
+them, and requires the load order and every exclusion to match. Stage 4's
+`ALL_NEGATIVE` is iterated rather than listed, so a failure class added there
+later is demanded of the port automatically.
+
+The differential was verified to be capable of failing: injecting the single
+most tempting wrong behaviour -- a duplicate mod_id keeping the first claimant
+instead of refusing both -- turned four tests red, including the Stage 4
+fixture subtest. A differential that has never failed is one nobody knows works.
+
+It caught two places where the port had already drifted, both of them the port
+being STRICTER than the thing it was porting, which is still a fork:
+
+* a version requirement was demanded only of required dependencies; Stage 4
+  demands one on every entry, optional included;
+* every path separator in `content`/`code` was refused; Stage 4 permits a
+  relative path and refuses only absolute paths, drive letters and `..`
+  components.
+
+#### The adversarial properties, preserved
+
+Proven against both planners on the same trees: a duplicate id refuses BOTH
+claimants; a case-collision refuses every member of the group; a broken folder
+cannot evict an unrelated mod; an unreadable manifest does not poison the scan;
+dependency, version, conflict and cycle failures all fail closed and propagate
+transitively; and shuffling the creation order of folders whose names sort
+against their ids changes nothing.
+
+The live run adds the half a unit test cannot: `ghostdep` carries a real
+assembly, so a plan that wrongly admitted it would show it LOADED rather than
+merely listed, and the run asserts the loaded set is exactly the planned set.
+
+#### One thing the summary was not saying
+
+"2 of 2 planned mod(s) loaded" does not say WHICH two, and the check meant to
+assert that read the loaded list from a JSON report the host logs only when
+something has failed -- so on a clean run it compared nothing to nothing and
+passed vacuously. The runtime now names the mods it loaded on every run.
