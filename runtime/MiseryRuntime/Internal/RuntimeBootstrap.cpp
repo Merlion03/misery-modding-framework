@@ -279,7 +279,19 @@ void ApplyPendingJob(void* ctx) {
 // a no-op when every declaration is already applied, so it is safe to call on
 // every poll.
 unsigned ApplyPendingItems(const char* notify = nullptr) {
-  if (misery::items::DeclaredCount() == 0) {
+  // NOTHING TO APPLY IS NOT NOTHING TO ANNOUNCE.
+  //
+  // This used to return here whenever no items were declared, and the readiness
+  // event is raised inside the job below -- so a generic lifecycle notification
+  // was in fact only delivered to mods that had registered an ITEM. A mod that
+  // subscribes in order to spawn an actor, read the player, or hook a
+  // subsystem, and registers nothing, would have waited forever; and a mod that
+  // did register would have been notified only because of a subsystem it
+  // happens to share. That is precisely the coupling this event must not have.
+  //
+  // So the announcement runs on its own account. With no declarations the job
+  // acquires the generation, applies nothing, and raises the event.
+  if (misery::items::DeclaredCount() == 0 && notify == nullptr) {
     return 0;
   }
   ApplyOutcome outcome;
@@ -427,11 +439,11 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
     // survive a transition: the rows died with the previous world, and these
     // are written into the new one without the mod being told anything
     // happened -- which is why proving a transition needs no invented event.
-    if (misery::items::DeclaredCount() > 0) {
-      const unsigned live = ApplyPendingItems(MB_EVENT_CONTENT_READY);
+    const unsigned declared_now = misery::items::DeclaredCount();
+    const unsigned live = ApplyPendingItems(MB_EVENT_CONTENT_READY);
+    if (declared_now > 0) {
       Log("runtime: %u of %u declared item(s) live in generation %llu", live,
-          misery::items::DeclaredCount(),
-          static_cast<unsigned long long>(generation));
+          declared_now, static_cast<unsigned long long>(generation));
     }
 
     // CoreCLR starts AFTER the first generation exists, and only once.

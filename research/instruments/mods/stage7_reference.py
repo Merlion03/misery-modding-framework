@@ -84,6 +84,9 @@ def build_managed():
 # SaveGameMetaData.sav is shared by every slot and decides the row the entry
 # machine clicks, so it belongs to the controlled state too.
 CONFIGURED_SLOT = "123"
+# How long each pass stays in the world before its inventory is read. Equal on
+# every side by construction, so the comparison is between like and like.
+DWELL_SECONDS = 90.0
 SNAPSHOT_DIR = os.path.join(WORK, "save-snapshot")
 BACKUP_DIR = os.path.join(WORK, "save-backup-original")
 
@@ -138,6 +141,44 @@ def restore_saves(source):
         shutil.copy2(os.path.join(source, name), target)
         written.append(name)
     return written
+
+
+# Mods installed BESIDE the reference mod, to prove it is unaffected by them.
+#
+# Both are Stage 5A fixtures in the sense that matters: they are real mods, in
+# real mod folders, that the production discovery admits and the host tries to
+# load. ThrowOnLoadMod fails during OnLoad. ThrowOnContentReadyMod loads and then
+# throws from inside misery:content_ready -- the dispatch path Stage 7 itself
+# added, where a second subscriber could otherwise deny the first its event.
+# The readiness adversary's id sorts BEFORE "refmod" deliberately. Mods load in
+# mod_id order, subscribers are dispatched in registration order, so an id after
+# "refmod" would put the throwing handler last and the test would prove nothing:
+# the reference mod would already have been notified before anything went wrong.
+BROKEN_NEIGHBOURS = (
+    ("brokenreadymod", "ThrowOnContentReadyMod"),
+    ("throwonloadmod", "ThrowOnLoadMod"),
+)
+
+
+def tree_manifest(root):
+    """{relative path: sha256} for every file under root.
+
+    The installation is supposed to come back to exactly what it was. "Supposed
+    to" is what a manifest is for: the framework writes into the game's own
+    Binaries directory, and that is the one place this project has promised to
+    leave alone apart from a single named bootstrap file.
+    """
+    out = {}
+    for base, _dirs, files in os.walk(root):
+        for name in files:
+            path = os.path.join(base, name)
+            try:
+                with open(path, "rb") as handle:
+                    digest = hashlib.sha256(handle.read()).hexdigest()
+            except OSError as failure:                             # noqa: PERF203
+                digest = "unreadable: %s" % failure
+            out[os.path.relpath(path, root).replace(os.sep, "/")] = digest
+    return out
 
 
 def mod_spec():
@@ -214,6 +255,37 @@ def newest(root, filename, beside=()):
                          % (filename, root,
                             (" beside %s" % ", ".join(beside)) if beside else ""))
     return max(found, key=os.path.getmtime)
+
+
+def install_neighbours(install_root):
+    """Add the broken mods beside the reference mod, as real mod folders.
+
+    Written into the SAME Mods tree the production discovery scans, with their
+    own mod.json and their own Code directory, so nothing about how they are
+    found differs from the reference mod.
+    """
+    added = []
+    for mod_id, assembly in BROKEN_NEIGHBOURS:
+        source = os.path.join(REPO, "managed", "fixtures", assembly)
+        built = os.path.dirname(newest(source, assembly + ".dll",
+                                       beside=(assembly + ".runtimeconfig.json",)))
+        mod_dir = sb.fc.framework_path(install_root,
+                                       os.path.join("Mods", assembly))
+        code_dir = os.path.join(mod_dir, "Code")
+        os.makedirs(code_dir, exist_ok=True)
+        for name in os.listdir(built):
+            if name.endswith((".dll", ".json")) and not name.startswith("Misery."):
+                shutil.copyfile(os.path.join(built, name),
+                                os.path.join(code_dir, name))
+        manifest = {"manifest_version": 1, "mod_id": mod_id,
+                    "name": assembly, "version": "1.0.0",
+                    "framework_api": "^0.4.0", "code": [assembly + ".dll"]}
+        with open(os.path.join(mod_dir, "mod.json"), "w",
+                  encoding="utf-8", newline="\n") as handle:
+            json.dump(manifest, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+        added.append(mod_id)
+    return sorted(added)
 
 
 def install_everything(install_root):
@@ -327,6 +399,11 @@ def read_inventory(inv):
         count = eri._read_u32(api, handle, array + 8)
         if not data or count <= 0 or count > 4096:
             return None
+        # The inventory's OWN item counter, for corroboration. Its exact
+        # semantics are unmeasured -- whether it counts stacks, cells or items
+        # is not something this project has established -- so it is recorded
+        # rather than asserted on.
+        report_count = eri._read_u32(api, handle, address + 192)
         counts = {}
         # Not guessed: CR-01C5's JobRemoveItem already encodes this layout and
         # is exercised in the live game -- an 80-byte slot, an occupied flag in
@@ -346,6 +423,22 @@ def read_inventory(inv):
                 row = row.get("name_text") or row.get("text")
             row = row or ("entry:%d" % entry_id)
             counts[row] = counts.get(row, 0) + 1
+
+        # AN EMPTY PACK IS NOT A READING.
+        #
+        # The docstring above promises that "empty" and "could not be read" stay
+        # distinct, and returning {} here broke that promise everywhere it
+        # mattered: every consumer tests `is not None`, and the settle rule
+        # compares {} to {} and declares the inventory stable. Two reads taken
+        # before the save had restored anything would therefore have settled
+        # immediately, on both sides, and the differential would have compared
+        # two inventories containing none of the save's own rows -- and passed.
+        #
+        # From outside the process an all-empty pack cannot be told apart from
+        # one the game has not filled yet, so the honest answer is that no
+        # reading was obtained.
+        if not counts:
+            return None
         return counts
     finally:
         try:
@@ -367,6 +460,10 @@ def main(argv=None):
     ap.add_argument("--install-root", default=installer.DEFAULT_INSTALL)
     ap.add_argument("--out", required=True)
     ap.add_argument("--keep-open", action="store_true")
+    ap.add_argument("--no-neighbours", dest="with_neighbours",
+                    action="store_false", default=True,
+                    help="skip the third pass that installs broken mods beside "
+                         "the reference mod")
     ap.add_argument("--fresh-snapshot", action="store_true",
                     help="re-take the save snapshot from what is on disk now "
                          "instead of reusing the recorded one")
@@ -416,8 +513,26 @@ def main(argv=None):
             print("  save entry did not reach gameplay: %s"
                   % (attempts[-1]["blocked_reason"] or (err or "").strip())[:200])
         report.setdefault("save_entry_attempts", {})[tag] = attempts
+        report.setdefault("entered_at", {})[tag] = time.time()
         return (entry.returncode == 0,
                 (attempts[-1]["blocked_reason"] or (err or ""))[:220])
+
+    def dwell(label, since):
+        """Hold both passes in the world for the same time before reading.
+
+        The vanilla side read its inventory the moment gameplay was provable;
+        the modded side first waited for a log line. When that wait was short
+        the two sides differed by seconds, and when it was not they differed by
+        minutes -- in a survival game whose own harness warns that a parked
+        character starves. Any row the game consumed or spawned in the
+        difference would have landed in the delta and been charged to the mod.
+        """
+        waited = max(0.0, DWELL_SECONDS - (time.time() - since))
+        if waited > 0:
+            print("  holding %s in the world for %.0fs, as the other side is"
+                  % (label, waited))
+            time.sleep(waited)
+        report["dwell_%s" % label] = round(time.time() - since, 1)
 
     def read_settled(label, tries=14, gap=3.0):
         """Read the player's inventory until it stops changing.
@@ -504,15 +619,30 @@ def main(argv=None):
     # time: the same save and the same entry machine, without the mod and then
     # with it. That comparison is sound, and it doubles as the vanilla baseline
     # the acceptance needs anyway.
+    # CRITERION 10, first half: what the installation looks like untouched.
+    # Taken after uninstall so a previous run cannot be part of the baseline.
+    # The game's OWN Win64 directory, not the framework's subdirectory of it:
+    # the bootstrap proxy is installed directly beside the executable, and a
+    # manifest that missed it would call the installation clean while a DLL of
+    # ours sat next to MISERY-Win64-Shipping.exe.
+    binaries = installer.binaries_dir(a.install_root)
+    report["binaries_dir"] = binaries
+
     print()
     print("=== the same save, entered WITHOUT the mod ===")
     sb.fc.close_game()
     installer.uninstall(a.install_root)
     restore_and_hash("vanilla")
+    vanilla_tree = tree_manifest(binaries)
+    report["binaries_files_vanilla"] = len(vanilla_tree)
+    print("  the installation, uninstalled: %d file(s) under %s"
+          % (len(vanilla_tree), os.path.basename(binaries)))
     ok, detail = drive_into_gameplay("vanilla")
+    entered_at = report["entered_at"]["vanilla"]
     if not check("the save could be entered with no framework installed",
                  ok, detail):
         return finish(report, checks, a.out)
+    dwell("vanilla", entered_at)
     baseline = read_settled("vanilla")
     report["inventory_vanilla"] = baseline
     print("  %s" % describe(baseline))
@@ -593,6 +723,7 @@ def main(argv=None):
                                            report["save_hashes_modded"])):
         return finish(report, checks, a.out)
     ok, detail = drive_into_gameplay("modded")
+    entered_at = report["entered_at"]["modded"]
     if not check("the save-entry machine reached gameplay", ok, detail):
         # Everything after this reads a world that was never entered, and a
         # cascade of failures caused by one blocked click reads like a broken
@@ -600,7 +731,18 @@ def main(argv=None):
         return finish(report, checks, a.out)
 
     print("\n=== waiting for the mod to reach a world ===")
-    live = re.compile(r"items: '(\S+)' is live in generation (\d+); "
+    # BOTH wordings, because the framework has two.
+    #
+    # ApplyLocked says "is live in generation N; ... resolved it" when the
+    # game's lookup succeeds in the same tick as the write. Its own comment
+    # records that the usual case is the other branch -- a composite table need
+    # not rebuild within that tick -- and VerifyLocked confirms the row on a
+    # later poll with different words: "in generation N: ... resolved it
+    # (attempt K)". Matching only the first turned the framework's documented
+    # slow path into a FAIL on a working run, and left the wait loop below
+    # spinning its full 450 seconds while the player stood in a live world.
+    live = re.compile(r"items: '(\S+)' (?:is live in generation (\d+); "
+                      r"|in generation (\d+): )"
                       r"the game's own SGK ItemDetails resolved it")
     log = ""
     for _ in range(90):
@@ -638,6 +780,7 @@ def main(argv=None):
     # the check that has to be RIGHT. In the run that produced this revision the
     # framework reported "1 of 1 added" and it was true, but the reading meant
     # to confirm it was looking at 1683 crates instead of at the player.
+    dwell("modded", entered_at)
     modded = read_settled("modded")
     report["inventory_modded"] = modded
     print("  %s" % describe(modded))
@@ -702,6 +845,107 @@ def main(argv=None):
           "changed: %s" % sorted(
               n for n, h in report["save_hashes_modded_after"].items()
               if report["save_hashes_modded"].get(n) != h))
+
+    # ---------------------------------------------------------------- 11 ----
+    if a.with_neighbours:
+        print()
+        print("=== the same save again, with broken mods installed beside it ===")
+        sb.fc.close_game()
+        report["neighbours"] = install_neighbours(a.install_root)
+        print("  installed beside it: %s" % ", ".join(report["neighbours"]))
+        log_path = sb.fc.framework_path(a.install_root, "runtime.log")
+        if os.path.isfile(log_path):
+            os.remove(log_path)
+        restore_and_hash("neighbours")
+        if check("the third pass starts from the same save files too",
+                 report["save_hashes_neighbours"] == report["save_hashes_vanilla"],
+                 "differs"):
+            ok, detail = drive_into_gameplay("neighbours")
+            entered_at = report["entered_at"]["neighbours"]
+            if check("the save-entry machine reached gameplay with neighbours",
+                     ok, detail):
+                live = re.compile(r"items: '(\S+)' is live in generation (\d+)")
+                log = ""
+                for _ in range(90):
+                    log = read_log(a.install_root)
+                    if live.search(log):
+                        break
+                    time.sleep(5)
+                report["runtime_log_neighbours"] = log
+
+                planned = re.search(r"managed: (\d+) mod\(s\) to load: (.+)", log)
+                names = sorted(planned.group(2).split()) if planned else []
+                report["planned_neighbours"] = names
+                check("the plan admits every mod, broken ones included",
+                      names == sorted([MOD_ID] + list(report["neighbours"])),
+                      names)
+
+                loaded = re.search(r"planned mod\(s\) loaded, (\d+) failed: (.+)",
+                                   log)
+                report["loaded_neighbours"] = loaded.group(2).split() if loaded else []
+                check("the reference mod still loaded",
+                      MOD_ID in report["loaded_neighbours"],
+                      report["loaded_neighbours"])
+                # The broken load-time mod must be REPORTED as failed, not
+                # quietly dropped: a mod that vanishes without a word is
+                # indistinguishable from one that was never there.
+                check("the mod that throws on load is reported as failed",
+                      bool(loaded) and int(loaded.group(1)) >= 1,
+                      loaded.group(1) if loaded else None)
+
+                # The readiness event must have reached more than one mod, and
+                # one of those declared no items at all -- which is the whole
+                # point of it not being keyed to the items subsystem.
+                subs = re.search(r"misery:content_ready -> (\d+) subscriber\(s\)",
+                                 log)
+                report["content_ready_subscribers"] = (
+                    int(subs.group(1)) if subs else None)
+                check("the readiness event reached a mod that declared no items",
+                      bool(subs) and int(subs.group(1)) >= 2,
+                      report["content_ready_subscribers"])
+
+                granted = re.search(r"items: '(\S+)' -- (\d+) of (\d+) added to "
+                                    r"the player's inventory", log)
+                report["granted_neighbours"] = granted.groups() if granted else None
+                # And it must have been notified DESPITE an earlier subscriber
+                # throwing from its handler.
+                check("the reference mod was still notified and still granted",
+                      bool(granted) and granted.group(1) == EXPECTED_ROW,
+                      report["granted_neighbours"])
+
+                dwell("neighbours", entered_at)
+                with_neighbours = read_settled("neighbours")
+                report["inventory_neighbours"] = with_neighbours
+                print("  %s" % describe(with_neighbours))
+                if with_neighbours is not None:
+                    delta = {row: with_neighbours.get(row, 0) - baseline.get(row, 0)
+                             for row in set(baseline) | set(with_neighbours)}
+                    delta = {row: n for row, n in delta.items() if n != 0}
+                    report["inventory_delta_neighbours"] = delta
+                    print("  delta vs vanilla: %s" % (delta or "nothing changed"))
+                    check("a broken mod beside it changed nothing",
+                          delta == {EXPECTED_ROW: 1},
+                          "expected {%r: 1}, got %s" % (EXPECTED_ROW, delta))
+
+    # ---------------------------------------------------------------- 10 ----
+    print()
+    print("=== after uninstall ===")
+    sb.fc.close_game()
+    report["uninstalled"] = installer.uninstall(a.install_root)
+    after_tree = tree_manifest(binaries)
+    report["binaries_files_after"] = len(after_tree)
+    added = sorted(set(after_tree) - set(vanilla_tree))
+    removed = sorted(set(vanilla_tree) - set(after_tree))
+    changed = sorted(p for p in set(after_tree) & set(vanilla_tree)
+                     if after_tree[p] != vanilla_tree[p])
+    report["tree_added"] = added
+    report["tree_removed"] = removed
+    report["tree_changed"] = changed
+    print("  %d file(s); added=%d removed=%d changed=%d"
+          % (len(after_tree), len(added), len(removed), len(changed)))
+    check("uninstall leaves nothing of the framework behind", added == [], added)
+    check("uninstall removes nothing that was the game's", removed == [], removed)
+    check("uninstall changes no file of the game's", changed == [], changed)
 
     if not a.keep_open:
         sb.fc.close_game()

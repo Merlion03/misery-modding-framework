@@ -45,7 +45,14 @@ namespace {
 
 // The framework's own API version, which every mod's framework_api is tested
 // against. MAJOR is the promise: a bump says old mods stop working.
-const Version kFrameworkApiVersion = {0, 4, 0};
+// 0.5.0, matching capabilities.API_VERSION and the value Contracts.cs
+// documents. It said 0.4.0 while both of those said 0.5.0, so a mod author who
+// read the public contract and wrote "framework_api": "^0.5.0" -- the string
+// the ModCapabilities attribute already defaults to -- was refused by the
+// native gate with a message saying the framework was older than it is.
+// Caret here is "at least this, same major", so mods declaring ^0.4.0 are
+// unaffected.
+const Version kFrameworkApiVersion = {0, 5, 0};
 constexpr int64_t kSupportedManifestVersion = 1;
 constexpr size_t kMaxModIdLength = 48;
 constexpr size_t kMaxNameLength = 96;

@@ -1,7 +1,7 @@
 # Stage 7 — what the reference mod actually demonstrated
 
 Instrument: `research/instruments/mods/stage7_reference.py`
-Evidence: `acceptance-run.log`, `acceptance-run.json` (20 checks, 0 failures)
+Evidence: `acceptance-run.log`, `acceptance-run.json` (31 checks, 0 failures)
 
 ## The shape of the measurement
 
@@ -16,9 +16,13 @@ So the differential is across configurations, from a pinned input:
 
 ```
 snapshot the configured save's files (one-time backup of the originals kept)
-  → restore + sha256 → vanilla pass (no framework installed) → settled read → sha256
-  → restore + sha256 → modded pass                           → settled read → sha256
+  → restore + sha256 → vanilla pass (no framework installed) → dwell → settled read → sha256
+  → restore + sha256 → modded pass                           → dwell → settled read → sha256
+  → restore + sha256 → modded pass + two broken mods beside it → dwell → settled read
 ```
+
+Each pass holds the world for the same fixed dwell before it is read, so the
+comparison is between like and like.
 
 Both sides are required to start from byte-identical files, and each side is
 checked for the game having rewritten the save during the pass. In the recorded
@@ -33,7 +37,8 @@ modded:   Holdable_Flashlight x1, None x1, refmod__sample x1
 delta:    {'refmod__sample': 1}
 ```
 
-Reproduced across two independent controlled runs.
+Reproduced across three independent controlled runs, and again in the
+third pass with two broken mods installed beside the reference mod.
 
 ## Criteria, and how each was answered
 
@@ -48,8 +53,8 @@ Reproduced across two independent controlled runs.
 | 7 | the item registers and SGK `ItemDetails` resolves it | the game's own lookup, in the runtime log |
 | 8 | the world class inherits the game's class | `BP_WorldItem_C → SuperStruct 0x1451d04b300 = BP_StaticMasterItem_C` — pointer identity, read out of process |
 | 9 | the item reaches the player | the differential above |
-| 10 | unload is clean; vanilla baseline after uninstall | **not yet demonstrated** |
-| 11 | one broken mod beside it changes none of the above | **not yet demonstrated** |
+| 10 | unload is clean; vanilla baseline after uninstall | every file under the game's `Win64` hashed before install and after uninstall: 8 → 8, added=0 removed=0 changed=0 |
+| 11 | one broken mod beside it changes none of the above | a third pass with two broken mods installed; same delta |
 
 Criterion 6's check is conservative and worth naming as such: it scans the
 assembly's ASCII strings rather than decoding the `AssemblyRef` table, so it can
@@ -58,6 +63,67 @@ over-report but cannot miss a reference.
 Criterion 8's parent class is read from the mod's own `modkit.json` — the value
 the Mod Kit cooked against — rather than written a second time in the
 instrument, which could otherwise agree with nothing and still look right.
+
+## Criterion 11, and what it actually adversarially tests
+
+Two broken mods are installed beside the reference mod as real mod folders:
+
+- `throwonloadmod` — an existing Stage 5A fixture that throws during `OnLoad`.
+- `brokenreadymod` (`ThrowOnContentReadyMod`) — **new**, and aimed at a gap
+  Stage 7 created itself: it subscribes to `misery:content_ready` and throws
+  from the handler. Its mod id sorts before `refmod` on purpose, because mods
+  load in id order and subscribers are dispatched in registration order; an id
+  after `refmod` would put the throwing handler last and prove nothing.
+
+Results with both installed:
+
+```
+plan admits every mod, broken ones included   ['brokenreadymod','refmod','throwonloadmod']
+the reference mod still loaded
+the mod that throws on load is reported as failed      (not silently dropped)
+the readiness event reached a mod that declared no items   2 subscriber(s)
+the reference mod was still notified and still granted
+delta vs vanilla: {'refmod__sample': 1}
+```
+
+## What the adversarial audit found
+
+An audit of this instrument and the crash fix returned 7 confirmed findings
+against 17 refuted. Four mattered:
+
+**`misery:content_ready` was keyed to the items subsystem.** It is raised inside
+`ApplyPendingItems`, which returned early when no items were declared — so a
+"generic lifecycle event" reached only mods that had registered an *item*. A mod
+subscribing in order to spawn an actor or read the player would have waited
+forever, and the reference mod was notified only because of a subsystem it
+happens to use. That is the exact coupling the primitive was specified not to
+have. The announcement now runs on its own account, and the run above proves it
+in the live game: the event reached a mod that declared nothing.
+
+**An all-empty pack read as a good measurement.** `read_inventory` promised to
+keep "empty" and "could not be read" distinct and returned `{}` for a pack with
+zero occupied slots. Every consumer tests `is not None`, and the settle rule
+compares `{} == {}` and calls it stable — so two reads taken before the save had
+restored would have settled instantly on *both* sides, and the differential
+would have passed green having observed none of the save's own rows. This is
+also a mechanism for the earlier 0-row vanilla reading that does not require any
+manual interaction.
+
+**The success regex matched one of two wordings.** `ApplyLocked` logs "is live
+in generation N; … resolved it" only when the game's lookup succeeds in the same
+tick; its own comment says the usual case is the other branch, confirmed later
+by `VerifyLocked` with different words. On that documented path the check FAILED
+on a working run and the wait loop spun its full 450 s.
+
+**Dwell was wildly asymmetric.** The vanilla side read immediately; the modded
+side read after its log wait. Both sides now hold a fixed 90 s (`dwell_vanilla`,
+`dwell_modded`, `dwell_neighbours` all exactly 90.0), so anything the game
+itself consumes or spawns applies equally.
+
+Separately, the native `framework_api` gate said `0.4.0` while
+`capabilities.API_VERSION` and `Contracts.cs` both said `0.5.0`, so a mod written
+against the documented contract was refused. Aligned to `0.5.0`; caret here is
+"at least this, same major", so mods declaring `^0.4.0` are unaffected.
 
 ## Two claims withdrawn
 
@@ -87,7 +153,7 @@ Three defects, none of them in the mod:
    see `research/evidence/CRASH-2026-09-01`. Found because a run failed.
 2. The **missing lifecycle primitive**: a mod had no way to learn its
    declarations were live. Now `misery:content_ready`.
-3. Two instrument defects that produced false verdicts — an inventory reader
+3. Several instrument defects that produced false verdicts — an inventory reader
    that matched a class by name and so counted 1683 world containers while
    excluding the player's, and a build-output selector that picked a reference
    assembly out of `obj/` and silently shipped an install missing three files.

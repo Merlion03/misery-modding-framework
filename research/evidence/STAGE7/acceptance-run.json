@@ -6,11 +6,13 @@
     "123_Auto.sav",
     "SaveGameMetaData.sav"
   ],
+  "binaries_dir": "D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64",
   "save_hashes_vanilla": {
     "123.sav": "13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d",
     "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
     "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
   },
+  "binaries_files_vanilla": 8,
   "save_entry_attempts": {
     "vanilla": [
       {
@@ -25,8 +27,21 @@
         "returncode": 0,
         "blocked_reason": ""
       }
+    ],
+    "neighbours": [
+      {
+        "attempt": 0,
+        "returncode": 0,
+        "blocked_reason": ""
+      }
     ]
   },
+  "entered_at": {
+    "vanilla": 1788275830.8384006,
+    "modded": 1788276089.7255595,
+    "neighbours": 1788276339.3129065
+  },
+  "dwell_vanilla": 90.0,
   "vanilla_reads": [
     {
       "Holdable_Flashlight": 1,
@@ -79,7 +94,7 @@
     "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
     "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
   },
-  "runtime_log": "[17:57:18.499] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:57:18.499] runtime: every code address in the profile matches live memory\n[17:57:18.499] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:57:18.501] runtime: the game-thread carrier is active\n[17:57:18.701] runtime: 26263 live objects\n[17:57:18.701] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:57:18.701] runtime: resolved on thread 22928 (this thread is 5988) over 24 slice(s); LONGEST SLICE 2026us (slice #15) -- walk 43467us + anchors 250us + validate 63us, 2326 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[17:57:18.701] runtime: 237582 reads, 1424 VirtualQuery, 236158 cached; phase requested startup, completed startup\n[17:57:18.701] runtime: game thread declared as 22928 (measured, not assumed)\n[17:57:18.702] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[17:57:18.702] runtime: items backend installed; it will bind to a content generation on first use and rebind if that generation is revoked\n[17:57:18.702] runtime: native subsystems ready; entering the content lifecycle\n[17:57:18.926] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[17:58:19.839] runtime: content generation 1 published -- content, 61659 objects, 61 slice(s), longest 2037us, 30 anchor identities\n[17:58:19.839] runtime: generation 1: ItemList 0x1452f7e3880, MasterItemList 0x1451b724760, RowStruct 0x1451eaa4ae0 (2264 bytes)\n[17:58:19.839] runtime: generation 1 anchor transient package: index 4131, serial 0, 0x145526b0c80\n[17:58:19.839] runtime: generation 1 anchor UDataTable: index 1645, serial 0, 0x14554359800\n[17:58:19.839] runtime: generation 1 anchor UCompositeDataTable: index 1751, serial 0, 0x1455436c400\n[17:58:19.839] runtime: generation 1 anchor UTexture2D: index 1046, serial 0, 0x145542cca00\n[17:58:19.839] runtime: generation 1 anchor UStaticMesh: index 2045, serial 0, 0x145543aee00\n[17:58:19.839] runtime: generation 1 anchor AActor: index 248, serial 1201, 0x1455425e000\n[17:58:19.839] runtime: generation 1 anchor GameplayStatics CDO: index 22166, serial 0, 0x145677e68b0\n[17:58:19.839] runtime: generation 1 anchor StringLibrary CDO: index 22204, serial 0, 0x145677e78a0\n[17:58:19.839] runtime: generation 1 anchor TextLibrary CDO: index 21221, serial 0, 0x145677e9af0\n[17:58:19.839] runtime: generation 1 anchor SystemLibrary CDO: index 22206, serial 0, 0x145677e7a80\n[17:58:19.839] runtime: generation 1 anchor GameplayStatics: index 1850, serial 0, 0x14554377800\n[17:58:19.839] runtime: generation 1 anchor KismetStringLibrary: index 1884, serial 0, 0x1455437b800\n[17:58:19.839] runtime: generation 1 anchor KismetTextLibrary: index 1037, serial 0, 0x145542cde00\n[17:58:19.839] runtime: generation 1 anchor KismetSystemLibrary: index 1886, serial 0, 0x1455437b400\n[17:58:19.839] runtime: generation 1 anchor ItemList: index 52718, serial 0, 0x1452f7e3880\n[17:58:19.839] runtime: generation 1 anchor MasterItemList: index 44420, serial 5901, 0x1451b724760\n[17:58:19.840] runtime: generation 1 anchor world item class: index 44602, serial 5917, 0x1451d045b80\n[17:58:19.840] runtime: generation 1 anchor SGK CDO: index 44416, serial 0, 0x1451b5470c0\n[17:58:19.840] runtime: generation 1 anchor BP_SGKFunctions: index 44372, serial 0, 0x1451cefa500\n[17:58:19.840] runtime: generation 1 anchor BP_MasterInventory_C: index 44142, serial 2376, 0x1451cef2700\n[17:58:19.840] runtime: generation 1 anchor BP_PlayerInventory_C: index 44144, serial 2340, 0x1451cef2000\n[17:58:19.840] runtime: generation 1 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x145687dd8a0\n[17:58:19.840] runtime: generation 1 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x145688b5c60\n[17:58:19.840] runtime: generation 1 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x145686806a0\n[17:58:19.840] runtime: generation 1 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x145686805c0\n[17:58:19.840] runtime: generation 1 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x14567a592a0\n[17:58:19.840] runtime: generation 1 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x14567a53500\n[17:58:19.840] runtime: generation 1 anchor BP_SGKFunctions::SGK ItemDetails: index 44385, serial 5414, 0x1451b7228c0\n[17:58:19.840] runtime: generation 1 anchor BP_MasterInventory_C::AddItem: index 44317, serial 6239, 0x1451c58ebe0\n[17:58:19.840] runtime: generation 1 anchor BP_MasterInventory_C::RemoveItem: index 44291, serial 6285, 0x1451c58cd40\n[17:58:19.840] managed: 1 mod(s) to load: refmod\n[17:58:20.456] items: 'refmod__sample' declared; deferred until a world exists to hold it (generation 1 reached content)\n[17:58:20.459] managed: 1 of 1 planned mod(s) loaded, 0 failed: refmod\n[17:58:20.459] runtime: managed host started against content generation 1\n[17:58:41.000] runtime: generation 1 is revoked: 'ItemList' its slot now holds a different object\n[17:58:43.168] runtime: content generation 2 published -- gameplay, 179421 objects, 168 slice(s), longest 7241us, 31 anchor identities\n[17:58:43.168] runtime: generation 2: ItemList 0x145641846c0, MasterItemList 0x1451d5a05c0, RowStruct 0x1451eaa1840 (2264 bytes)\n[17:58:43.168] runtime: generation 2 anchor transient package: index 4131, serial 0, 0x145526b0c80\n[17:58:43.168] runtime: generation 2 anchor UDataTable: index 1645, serial 0, 0x14554359800\n[17:58:43.168] runtime: generation 2 anchor UCompositeDataTable: index 1751, serial 0, 0x1455436c400\n[17:58:43.168] runtime: generation 2 anchor UTexture2D: index 1046, serial 0, 0x145542cca00\n[17:58:43.168] runtime: generation 2 anchor UStaticMesh: index 2045, serial 0, 0x145543aee00\n[17:58:43.168] runtime: generation 2 anchor AActor: index 248, serial 1201, 0x1455425e000\n[17:58:43.168] runtime: generation 2 anchor GameplayStatics CDO: index 22166, serial 0, 0x145677e68b0\n[17:58:43.168] runtime: generation 2 anchor StringLibrary CDO: index 22204, serial 0, 0x145677e78a0\n[17:58:43.168] runtime: generation 2 anchor TextLibrary CDO: index 21221, serial 0, 0x145677e9af0\n[17:58:43.168] runtime: generation 2 anchor SystemLibrary CDO: index 22206, serial 0, 0x145677e7a80\n[17:58:43.169] runtime: generation 2 anchor GameplayStatics: index 1850, serial 0, 0x14554377800\n[17:58:43.169] runtime: generation 2 anchor KismetStringLibrary: index 1884, serial 0, 0x1455437b800\n[17:58:43.169] runtime: generation 2 anchor KismetTextLibrary: index 1037, serial 0, 0x145542cde00\n[17:58:43.169] runtime: generation 2 anchor KismetSystemLibrary: index 1886, serial 0, 0x1455437b400\n[17:58:43.169] runtime: generation 2 anchor ItemList: index 34258, serial 0, 0x145641846c0\n[17:58:43.169] runtime: generation 2 anchor MasterItemList: index 42716, serial 14038, 0x1451d5a05c0\n[17:58:43.169] runtime: generation 2 anchor world item class: index 42534, serial 14054, 0x1451d04b300\n[17:58:43.169] runtime: generation 2 anchor SGK CDO: index 42720, serial 0, 0x1451b9e9af0\n[17:58:43.169] runtime: generation 2 anchor BP_SGKFunctions: index 42764, serial 0, 0x1451cefc100\n[17:58:43.169] runtime: generation 2 anchor BP_MasterInventory_C: index 42994, serial 10668, 0x1451cef5100\n[17:58:43.169] runtime: generation 2 anchor BP_PlayerInventory_C: index 42992, serial 10635, 0x1451cef8c80\n[17:58:43.169] runtime: generation 2 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x145687dd8a0\n[17:58:43.169] runtime: generation 2 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x145688b5c60\n[17:58:43.169] runtime: generation 2 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x145686806a0\n[17:58:43.169] runtime: generation 2 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x145686805c0\n[17:58:43.169] runtime: generation 2 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x14567a592a0\n[17:58:43.169] runtime: generation 2 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x14567a53500\n[17:58:43.169] runtime: generation 2 anchor BP_SGKFunctions::SGK ItemDetails: index 42751, serial 13553, 0x1451d5a3a40\n[17:58:43.169] runtime: generation 2 anchor BP_MasterInventory_C::AddItem: index 42819, serial 14376, 0x1451d5a8120\n[17:58:43.169] runtime: generation 2 anchor BP_MasterInventory_C::RemoveItem: index 42845, serial 14422, 0x1451d5a6a60\n[17:58:43.169] runtime: generation 2 anchor live player inventory: index 76537, serial 21636, 0x1451d9b2770\n[17:58:43.173] items: backend bound to content generation 2\n[17:58:43.184] items: 'refmod__sample' is live in generation 2; the game's own SGK ItemDetails resolved it\n[17:58:43.184] items: 1 declaration(s) applied to generation 2\n[17:58:43.187] items: 'refmod__sample' -- 1 of 1 added to the player's inventory\n[17:58:43.189] runtime: misery:content_ready -> 1 subscriber(s) for generation 2\n[17:58:43.189] runtime: 1 of 1 declared item(s) live in generation 2\n",
+  "runtime_log": "[18:19:28.963] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:19:28.964] runtime: every code address in the profile matches live memory\n[18:19:28.964] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:19:28.964] runtime: the game-thread carrier is active\n[18:19:29.205] runtime: 26263 live objects\n[18:19:29.205] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[18:19:29.205] runtime: resolved on thread 22740 (this thread is 17936) over 28 slice(s); LONGEST SLICE 2038us (slice #9) -- walk 51026us + anchors 334us + validate 112us, 7552 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:19:29.205] runtime: 237590 reads, 1455 VirtualQuery, 236135 cached; phase requested startup, completed startup\n[18:19:29.205] runtime: game thread declared as 22740 (measured, not assumed)\n[18:19:29.205] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[18:19:29.205] runtime: items backend installed; it will bind to a content generation on first use and rebind if that generation is revoked\n[18:19:29.205] runtime: native subsystems ready; entering the content lifecycle\n[18:19:29.421] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[18:20:30.500] runtime: content generation 1 published -- content, 61659 objects, 73 slice(s), longest 2228us, 30 anchor identities\n[18:20:30.501] runtime: generation 1: ItemList 0x21b330e1540, MasterItemList 0x21b2c042a80, RowStruct 0x21b235e25c0 (2264 bytes)\n[18:20:30.501] runtime: generation 1 anchor transient package: index 4131, serial 0, 0x21b57870c80\n[18:20:30.501] runtime: generation 1 anchor UDataTable: index 1645, serial 0, 0x21b59529800\n[18:20:30.501] runtime: generation 1 anchor UCompositeDataTable: index 1751, serial 0, 0x21b5953c400\n[18:20:30.501] runtime: generation 1 anchor UTexture2D: index 1046, serial 0, 0x21b5949ca00\n[18:20:30.501] runtime: generation 1 anchor UStaticMesh: index 2045, serial 0, 0x21b5995ee00\n[18:20:30.501] runtime: generation 1 anchor AActor: index 248, serial 1201, 0x21b5942e000\n[18:20:30.501] runtime: generation 1 anchor GameplayStatics CDO: index 22166, serial 0, 0x21b6c978710\n[18:20:30.501] runtime: generation 1 anchor StringLibrary CDO: index 22204, serial 0, 0x21b6c977000\n[18:20:30.501] runtime: generation 1 anchor TextLibrary CDO: index 21221, serial 0, 0x21b6c979df0\n[18:20:30.501] runtime: generation 1 anchor SystemLibrary CDO: index 22206, serial 0, 0x21b6c977120\n[18:20:30.501] runtime: generation 1 anchor GameplayStatics: index 1850, serial 0, 0x21b596b7800\n[18:20:30.501] runtime: generation 1 anchor KismetStringLibrary: index 1884, serial 0, 0x21b596bb800\n[18:20:30.501] runtime: generation 1 anchor KismetTextLibrary: index 1037, serial 0, 0x21b5949de00\n[18:20:30.501] runtime: generation 1 anchor KismetSystemLibrary: index 1886, serial 0, 0x21b596bb400\n[18:20:30.501] runtime: generation 1 anchor ItemList: index 52718, serial 0, 0x21b330e1540\n[18:20:30.501] runtime: generation 1 anchor MasterItemList: index 44420, serial 5901, 0x21b2c042a80\n[18:20:30.501] runtime: generation 1 anchor world item class: index 44602, serial 5917, 0x21b2bfdc100\n[18:20:30.501] runtime: generation 1 anchor SGK CDO: index 44416, serial 0, 0x21b1f866d60\n[18:20:30.501] runtime: generation 1 anchor BP_SGKFunctions: index 44372, serial 0, 0x21b2bfd3c00\n[18:20:30.501] runtime: generation 1 anchor BP_MasterInventory_C: index 44142, serial 2376, 0x21b23038c80\n[18:20:30.501] runtime: generation 1 anchor BP_PlayerInventory_C: index 44144, serial 2340, 0x21b23038580\n[18:20:30.501] runtime: generation 1 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x21b6d90bbc0\n[18:20:30.501] runtime: generation 1 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x21b6d9d3f80\n[18:20:30.501] runtime: generation 1 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x21b6d76eda0\n[18:20:30.501] runtime: generation 1 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x21b6d76ecc0\n[18:20:30.501] runtime: generation 1 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x21b6caf75c0\n[18:20:30.501] runtime: generation 1 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x21b6caf1820\n[18:20:30.501] runtime: generation 1 anchor BP_SGKFunctions::SGK ItemDetails: index 44385, serial 5414, 0x21b2c040be0\n[18:20:30.501] runtime: generation 1 anchor BP_MasterInventory_C::AddItem: index 44317, serial 6239, 0x21b1fb2d360\n[18:20:30.501] runtime: generation 1 anchor BP_MasterInventory_C::RemoveItem: index 44291, serial 6285, 0x21b1fb2b060\n[18:20:30.510] managed: 1 mod(s) to load: refmod\n[18:20:30.590] items: 'refmod__sample' declared; deferred until a world exists to hold it (generation 1 reached content)\n[18:20:30.593] managed: 1 of 1 planned mod(s) loaded, 0 failed: refmod\n[18:20:30.593] runtime: managed host started against content generation 1\n[18:20:51.246] runtime: generation 1 is revoked: 'ItemList' its slot now holds a different object\n[18:20:53.596] runtime: content generation 2 published -- gameplay, 167010 objects, 224 slice(s), longest 8457us, 31 anchor identities\n[18:20:53.596] runtime: generation 2: ItemList 0x21b2f173700, MasterItemList 0x21b2e4b22a0, RowStruct 0x21b2c0bfb80 (2264 bytes)\n[18:20:53.596] runtime: generation 2 anchor transient package: index 4131, serial 0, 0x21b57870c80\n[18:20:53.596] runtime: generation 2 anchor UDataTable: index 1645, serial 0, 0x21b59529800\n[18:20:53.596] runtime: generation 2 anchor UCompositeDataTable: index 1751, serial 0, 0x21b5953c400\n[18:20:53.596] runtime: generation 2 anchor UTexture2D: index 1046, serial 0, 0x21b5949ca00\n[18:20:53.596] runtime: generation 2 anchor UStaticMesh: index 2045, serial 0, 0x21b5995ee00\n[18:20:53.596] runtime: generation 2 anchor AActor: index 248, serial 1201, 0x21b5942e000\n[18:20:53.596] runtime: generation 2 anchor GameplayStatics CDO: index 22166, serial 0, 0x21b6c978710\n[18:20:53.596] runtime: generation 2 anchor StringLibrary CDO: index 22204, serial 0, 0x21b6c977000\n[18:20:53.596] runtime: generation 2 anchor TextLibrary CDO: index 21221, serial 0, 0x21b6c979df0\n[18:20:53.596] runtime: generation 2 anchor SystemLibrary CDO: index 22206, serial 0, 0x21b6c977120\n[18:20:53.596] runtime: generation 2 anchor GameplayStatics: index 1850, serial 0, 0x21b596b7800\n[18:20:53.596] runtime: generation 2 anchor KismetStringLibrary: index 1884, serial 0, 0x21b596bb800\n[18:20:53.596] runtime: generation 2 anchor KismetTextLibrary: index 1037, serial 0, 0x21b5949de00\n[18:20:53.596] runtime: generation 2 anchor KismetSystemLibrary: index 1886, serial 0, 0x21b596bb400\n[18:20:53.596] runtime: generation 2 anchor ItemList: index 34234, serial 0, 0x21b2f173700\n[18:20:53.596] runtime: generation 2 anchor MasterItemList: index 42711, serial 14038, 0x21b2e4b22a0\n[18:20:53.596] runtime: generation 2 anchor world item class: index 42529, serial 14054, 0x21b250dd600\n[18:20:53.596] runtime: generation 2 anchor SGK CDO: index 42715, serial 0, 0x21b2ce39b50\n[18:20:53.598] runtime: generation 2 anchor BP_SGKFunctions: index 42759, serial 0, 0x21b250d0e80\n[18:20:53.598] runtime: generation 2 anchor BP_MasterInventory_C: index 42989, serial 10668, 0x21b250d4680\n[18:20:53.598] runtime: generation 2 anchor BP_PlayerInventory_C: index 42987, serial 10635, 0x21b250d4300\n[18:20:53.598] runtime: generation 2 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x21b6d90bbc0\n[18:20:53.598] runtime: generation 2 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x21b6d9d3f80\n[18:20:53.598] runtime: generation 2 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x21b6d76eda0\n[18:20:53.598] runtime: generation 2 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x21b6d76ecc0\n[18:20:53.598] runtime: generation 2 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x21b6caf75c0\n[18:20:53.598] runtime: generation 2 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x21b6caf1820\n[18:20:53.598] runtime: generation 2 anchor BP_SGKFunctions::SGK ItemDetails: index 42746, serial 13553, 0x21b2e4b0860\n[18:20:53.598] runtime: generation 2 anchor BP_MasterInventory_C::AddItem: index 42814, serial 14376, 0x21b2e4b5560\n[18:20:53.599] runtime: generation 2 anchor BP_MasterInventory_C::RemoveItem: index 42840, serial 14422, 0x21b2e4b7e80\n[18:20:53.599] runtime: generation 2 anchor live player inventory: index 76537, serial 21636, 0x21b31c2ec50\n[18:20:53.604] items: backend bound to content generation 2\n[18:20:53.624] items: 'refmod__sample' is live in generation 2; the game's own SGK ItemDetails resolved it\n[18:20:53.625] items: 1 declaration(s) applied to generation 2\n[18:20:53.628] items: 'refmod__sample' -- 1 of 1 added to the player's inventory\n[18:20:53.628] runtime: misery:content_ready -> 1 subscriber(s) for generation 2\n[18:20:53.628] runtime: 1 of 1 declared item(s) live in generation 2\n",
   "planned": [
     "refmod"
   ],
@@ -92,6 +107,7 @@
     "1",
     "1"
   ],
+  "dwell_modded": 90.0,
   "modded_reads": [
     {
       "Holdable_Flashlight": 1,
@@ -113,17 +129,73 @@
     "refmod__sample": 1
   },
   "child_class": [
-    "0x186fb4d3f80"
+    "0x21b331f2700"
   ],
   "parent_class": [
-    "0x1451d04b300"
+    "0x21b250dd600"
   ],
-  "child_super": "0x1451d04b300",
+  "child_super": "0x21b250dd600",
   "save_hashes_modded_after": {
     "123.sav": "13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d",
     "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
     "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
   },
+  "neighbours": [
+    "brokenreadymod",
+    "throwonloadmod"
+  ],
+  "save_hashes_neighbours": {
+    "123.sav": "13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d",
+    "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
+    "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
+  },
+  "runtime_log_neighbours": "[18:23:47.608] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[18:23:47.609] runtime: every code address in the profile matches live memory\n[18:23:47.610] runtime: the engine is up after 0ms (26263 objects in the array)\n[18:23:47.611] runtime: the game-thread carrier is active\n[18:23:47.874] runtime: 26263 live objects\n[18:23:47.874] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[18:23:47.875] runtime: resolved on thread 7008 (this thread is 21496) over 31 slice(s); LONGEST SLICE 2032us (slice #21) -- walk 57120us + anchors 294us + validate 81us, 2861 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[18:23:47.875] runtime: 237596 reads, 1443 VirtualQuery, 236153 cached; phase requested startup, completed startup\n[18:23:47.875] runtime: game thread declared as 7008 (measured, not assumed)\n[18:23:47.875] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[18:23:47.875] runtime: items backend installed; it will bind to a content generation on first use and rebind if that generation is revoked\n[18:23:47.875] runtime: native subsystems ready; entering the content lifecycle\n[18:23:48.121] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[18:24:49.211] runtime: content generation 1 published -- content, 61658 objects, 75 slice(s), longest 2087us, 30 anchor identities\n[18:24:49.211] runtime: generation 1: ItemList 0x21aa7b49f40, MasterItemList 0x21a9c6521c0, RowStruct 0x21a929425c0 (2264 bytes)\n[18:24:49.211] runtime: generation 1 anchor transient package: index 4131, serial 0, 0x21ac8cc0c80\n[18:24:49.211] runtime: generation 1 anchor UDataTable: index 1645, serial 0, 0x21aca969800\n[18:24:49.211] runtime: generation 1 anchor UCompositeDataTable: index 1751, serial 0, 0x21acaaec400\n[18:24:49.211] runtime: generation 1 anchor UTexture2D: index 1046, serial 0, 0x21aca8dca00\n[18:24:49.211] runtime: generation 1 anchor UStaticMesh: index 2045, serial 0, 0x21acad9ee00\n[18:24:49.211] runtime: generation 1 anchor AActor: index 248, serial 1201, 0x21aca86e000\n[18:24:49.211] runtime: generation 1 anchor GameplayStatics CDO: index 22166, serial 0, 0x21addd08740\n[18:24:49.211] runtime: generation 1 anchor StringLibrary CDO: index 22204, serial 0, 0x21addd07090\n[18:24:49.211] runtime: generation 1 anchor TextLibrary CDO: index 21221, serial 0, 0x21addd09fa0\n[18:24:49.211] runtime: generation 1 anchor SystemLibrary CDO: index 22206, serial 0, 0x21addd070f0\n[18:24:49.211] runtime: generation 1 anchor GameplayStatics: index 1850, serial 0, 0x21acab17800\n[18:24:49.211] runtime: generation 1 anchor KismetStringLibrary: index 1884, serial 0, 0x21acab1b800\n[18:24:49.211] runtime: generation 1 anchor KismetTextLibrary: index 1037, serial 0, 0x21aca8dde00\n[18:24:49.211] runtime: generation 1 anchor KismetSystemLibrary: index 1886, serial 0, 0x21acab1b400\n[18:24:49.211] runtime: generation 1 anchor ItemList: index 52220, serial 0, 0x21aa7b49f40\n[18:24:49.211] runtime: generation 1 anchor MasterItemList: index 44442, serial 5902, 0x21a9c6521c0\n[18:24:49.211] runtime: generation 1 anchor world item class: index 44634, serial 5918, 0x21a9c660b00\n[18:24:49.211] runtime: generation 1 anchor SGK CDO: index 44438, serial 0, 0x21a96aa6ca0\n[18:24:49.211] runtime: generation 1 anchor BP_SGKFunctions: index 44394, serial 0, 0x21a9c667080\n[18:24:49.211] runtime: generation 1 anchor BP_MasterInventory_C: index 44164, serial 2383, 0x21a9c2ac100\n[18:24:49.211] runtime: generation 1 anchor BP_PlayerInventory_C: index 44166, serial 2347, 0x21a9c2aba00\n[18:24:49.211] runtime: generation 1 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x21adeccbbc0\n[18:24:49.211] runtime: generation 1 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x21adeda3f80\n[18:24:49.211] runtime: generation 1 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x21adeb3eda0\n[18:24:49.211] runtime: generation 1 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x21adeb3ecc0\n[18:24:49.212] runtime: generation 1 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x21ade2275c0\n[18:24:49.212] runtime: generation 1 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x21ade221820\n[18:24:49.212] runtime: generation 1 anchor BP_SGKFunctions::SGK ItemDetails: index 44407, serial 5340, 0x21a9c650320\n[18:24:49.212] runtime: generation 1 anchor BP_MasterInventory_C::AddItem: index 44339, serial 6240, 0x21a96d5caa0\n[18:24:49.212] runtime: generation 1 anchor BP_MasterInventory_C::RemoveItem: index 44313, serial 6286, 0x21a96d5e160\n[18:24:49.217] managed: 3 mod(s) to load: brokenreadymod refmod throwonloadmod\n[18:24:49.308] items: 'refmod__sample' declared; deferred until a world exists to hold it (generation 1 reached content)\n[18:24:49.322] managed: 2 of 3 planned mod(s) loaded, 1 failed: brokenreadymod refmod\n[18:24:49.322] managed: mod 'throwonloadmod' did not load: InvalidOperationException: this mod fails on purpose\n[18:24:49.322] managed: full report {\"ok\":true,\"all_loaded\":false,\"loaded_count\":2,\"failed_count\":1,\"loaded\":[\"brokenreadymod\",\"refmod\"],\"failed\":[{\"mod\":\"throwonloadmod\",\"error\":\"InvalidOperationException: this mod fails on purpose\"}],\"native\":{\"mods\":[{\"mod_id\":\"brokenreadymod\",\"state\":2,\"epoch\":1,\"owned\":1,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"refmod\",\"state\":2,\"epoch\":1,\"owned\":2,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"throwonloadmod\",\"state\":5,\"epoch\":2,\"owned\":0,\"released\":0,\"revoked\":2,\"faults\":0,\"active_frames\":0,\"reclaimable\":true}],\"live_slots\":3,\"slot_capacity\":5,\"events\":1,\"services\":0,\"commands\":0,\"dispatches\":1,\"trampoline_calls\":0,\"handler_faults\":0,\"log_records\":3}}\n[18:24:49.322] runtime: managed host started against content generation 1\n[18:25:09.965] runtime: generation 1 is revoked: 'ItemList' its slot now holds a different object\n[18:25:11.736] runtime: content generation 2 published -- gameplay, 172495 objects, 204 slice(s), longest 7815us, 31 anchor identities\n[18:25:11.736] runtime: generation 2: ItemList 0x21add358080, MasterItemList 0x21aa1f1ff20, RowStruct 0x21a9e189400 (2264 bytes)\n[18:25:11.736] runtime: generation 2 anchor transient package: index 4131, serial 0, 0x21ac8cc0c80\n[18:25:11.736] runtime: generation 2 anchor UDataTable: index 1645, serial 0, 0x21aca969800\n[18:25:11.736] runtime: generation 2 anchor UCompositeDataTable: index 1751, serial 0, 0x21acaaec400\n[18:25:11.736] runtime: generation 2 anchor UTexture2D: index 1046, serial 0, 0x21aca8dca00\n[18:25:11.736] runtime: generation 2 anchor UStaticMesh: index 2045, serial 0, 0x21acad9ee00\n[18:25:11.736] runtime: generation 2 anchor AActor: index 248, serial 1201, 0x21aca86e000\n[18:25:11.736] runtime: generation 2 anchor GameplayStatics CDO: index 22166, serial 0, 0x21addd08740\n[18:25:11.736] runtime: generation 2 anchor StringLibrary CDO: index 22204, serial 0, 0x21addd07090\n[18:25:11.736] runtime: generation 2 anchor TextLibrary CDO: index 21221, serial 0, 0x21addd09fa0\n[18:25:11.736] runtime: generation 2 anchor SystemLibrary CDO: index 22206, serial 0, 0x21addd070f0\n[18:25:11.736] runtime: generation 2 anchor GameplayStatics: index 1850, serial 0, 0x21acab17800\n[18:25:11.736] runtime: generation 2 anchor KismetStringLibrary: index 1884, serial 0, 0x21acab1b800\n[18:25:11.736] runtime: generation 2 anchor KismetTextLibrary: index 1037, serial 0, 0x21aca8dde00\n[18:25:11.736] runtime: generation 2 anchor KismetSystemLibrary: index 1886, serial 0, 0x21acab1b400\n[18:25:11.737] runtime: generation 2 anchor ItemList: index 34204, serial 0, 0x21add358080\n[18:25:11.737] runtime: generation 2 anchor MasterItemList: index 42725, serial 14038, 0x21aa1f1ff20\n[18:25:11.737] runtime: generation 2 anchor world item class: index 42543, serial 14054, 0x21affc8c800\n[18:25:11.737] runtime: generation 2 anchor SGK CDO: index 42729, serial 0, 0x21ae0317720\n[18:25:11.737] runtime: generation 2 anchor BP_SGKFunctions: index 42773, serial 0, 0x21ae007a500\n[18:25:11.737] runtime: generation 2 anchor BP_MasterInventory_C: index 43003, serial 10668, 0x21a9ad6cf00\n[18:25:11.737] runtime: generation 2 anchor BP_PlayerInventory_C: index 43001, serial 10635, 0x21a9ad6d600\n[18:25:11.738] runtime: generation 2 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x21adeccbbc0\n[18:25:11.738] runtime: generation 2 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x21adeda3f80\n[18:25:11.738] runtime: generation 2 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x21adeb3eda0\n[18:25:11.738] runtime: generation 2 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x21adeb3ecc0\n[18:25:11.738] runtime: generation 2 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x21ade2275c0\n[18:25:11.738] runtime: generation 2 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x21ade221820\n[18:25:11.738] runtime: generation 2 anchor BP_SGKFunctions::SGK ItemDetails: index 42760, serial 13553, 0x21aa1f12000\n[18:25:11.738] runtime: generation 2 anchor BP_MasterInventory_C::AddItem: index 42828, serial 14376, 0x21aa1f16a60\n[18:25:11.738] runtime: generation 2 anchor BP_MasterInventory_C::RemoveItem: index 42854, serial 14422, 0x21aa1f153a0\n[18:25:11.738] runtime: generation 2 anchor live player inventory: index 76537, serial 21636, 0x21aa1faec50\n[18:25:11.742] items: backend bound to content generation 2\n[18:25:11.759] items: 'refmod__sample' is live in generation 2; the game's own SGK ItemDetails resolved it\n[18:25:11.759] items: 1 declaration(s) applied to generation 2\n[18:25:11.763] items: 'refmod__sample' -- 1 of 1 added to the player's inventory\n[18:25:11.763] runtime: misery:content_ready -> 2 subscriber(s) for generation 2\n[18:25:11.763] runtime: 1 of 1 declared item(s) live in generation 2\n",
+  "planned_neighbours": [
+    "brokenreadymod",
+    "refmod",
+    "throwonloadmod"
+  ],
+  "loaded_neighbours": [
+    "brokenreadymod",
+    "refmod"
+  ],
+  "content_ready_subscribers": 2,
+  "granted_neighbours": [
+    "refmod__sample",
+    "1",
+    "1"
+  ],
+  "dwell_neighbours": 90.0,
+  "neighbours_reads": [
+    {
+      "Holdable_Flashlight": 1,
+      "None": 1,
+      "refmod__sample": 1
+    },
+    {
+      "Holdable_Flashlight": 1,
+      "None": 1,
+      "refmod__sample": 1
+    }
+  ],
+  "inventory_neighbours": {
+    "Holdable_Flashlight": 1,
+    "None": 1,
+    "refmod__sample": 1
+  },
+  "inventory_delta_neighbours": {
+    "refmod__sample": 1
+  },
+  "uninstalled": {
+    "removed": [
+      "dwmapi.dll",
+      "MiseryFramework\\"
+    ]
+  },
+  "binaries_files_after": 8,
+  "tree_added": [],
+  "tree_removed": [],
+  "tree_changed": [],
   "checks": [
     {
       "check": "the save could be entered with no framework installed",
@@ -213,20 +285,75 @@
     {
       "check": "exactly one BP_WorldItem_C and one BP_StaticMasterItem_C are live",
       "pass": true,
-      "detail": "child=['0x186fb4d3f80'] parent=['0x1451d04b300']"
+      "detail": "child=['0x21b331f2700'] parent=['0x21b250dd600']"
     },
     {
       "check": "the mod's class inherits the game's class by pointer identity",
       "pass": true,
-      "detail": "super=0x1451d04b300 parent=0x1451d04b300"
+      "detail": "super=0x21b250dd600 parent=0x21b250dd600"
     },
     {
       "check": "the game did not rewrite the save during the modded pass",
       "pass": true,
       "detail": "changed: []"
+    },
+    {
+      "check": "the third pass starts from the same save files too",
+      "pass": true,
+      "detail": "differs"
+    },
+    {
+      "check": "the save-entry machine reached gameplay with neighbours",
+      "pass": true,
+      "detail": "\nPROBE_STARTED\n"
+    },
+    {
+      "check": "the plan admits every mod, broken ones included",
+      "pass": true,
+      "detail": "['brokenreadymod', 'refmod', 'throwonloadmod']"
+    },
+    {
+      "check": "the reference mod still loaded",
+      "pass": true,
+      "detail": "['brokenreadymod', 'refmod']"
+    },
+    {
+      "check": "the mod that throws on load is reported as failed",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "check": "the readiness event reached a mod that declared no items",
+      "pass": true,
+      "detail": "2"
+    },
+    {
+      "check": "the reference mod was still notified and still granted",
+      "pass": true,
+      "detail": "('refmod__sample', '1', '1')"
+    },
+    {
+      "check": "a broken mod beside it changed nothing",
+      "pass": true,
+      "detail": "expected {'refmod__sample': 1}, got {'refmod__sample': 1}"
+    },
+    {
+      "check": "uninstall leaves nothing of the framework behind",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "uninstall removes nothing that was the game's",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "uninstall changes no file of the game's",
+      "pass": true,
+      "detail": "[]"
     }
   ],
-  "passed": 20,
+  "passed": 31,
   "failed": 0,
   "verdict": "PASS"
 }

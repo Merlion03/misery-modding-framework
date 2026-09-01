@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A fixture mod that fails inside the FRAMEWORK's own readiness event.
+
+    The other broken fixtures fail at load, at unload, or inside an event they
+    declared themselves. This one subscribes to misery:content_ready, the
+    primitive Stage 7 added, and throws from the handler. That is a dispatch
+    path nothing else exercises. If one mod's exception there could deny
+    another mod its notification, every mod that grants on readiness would be
+    at the mercy of every other mod installed beside it.
+
+    Like every fixture it references the public contract assembly and nothing
+    else.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>ThrowOnContentReadyMod</AssemblyName>
+    <RootNamespace>ThrowOnContentReadyMod</RootNamespace>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Misery.ModAPI\Misery.ModAPI.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

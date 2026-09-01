@@ -3,7 +3,9 @@
 
 === the same save, entered WITHOUT the mod ===
   vanilla starts from: 123.sav 13f0ba879e7f, 123_Auto.sav 6cc7e37e4659, SaveGameMetaData.sav 30dcf6cebae3
+  the installation, uninstalled: 8 file(s) under Win64
   [PASS] the save could be entered with no framework installed
+  holding vanilla in the world for 90s, as the other side is
   2 distinct row(s), 2 item(s): Holdable_Flashlight x1, None x1
   [PASS] the vanilla player inventory could be read
   [PASS] the vanilla inventory settled before it was read
@@ -31,6 +33,7 @@
   [PASS] the mod loaded
   [PASS] the item registered and the game's own SGK ItemDetails resolved it
   [PASS] the framework reports the grant
+  holding modded in the world for 90s, as the other side is
   3 distinct row(s), 3 item(s): Holdable_Flashlight x1, None x1, refmod__sample x1
   [PASS] the modded player inventory could be read
   [PASS] the modded inventory settled before it was read
@@ -39,8 +42,29 @@
 
 === the mod's class, and what it really inherits ===
   [PASS] exactly one BP_WorldItem_C and one BP_StaticMasterItem_C are live
-  BP_WorldItem_C @0x186fb4d3f80  ->  SuperStruct 0x1451d04b300  (BP_StaticMasterItem_C @0x1451d04b300)
+  BP_WorldItem_C @0x21b331f2700  ->  SuperStruct 0x21b250dd600  (BP_StaticMasterItem_C @0x21b250dd600)
   [PASS] the mod's class inherits the game's class by pointer identity
   [PASS] the game did not rewrite the save during the modded pass
 
-PASS -- 20 passed, 0 failed -> D:/UEScratch/Stage7/stage7.json
+=== the same save again, with broken mods installed beside it ===
+  installed beside it: brokenreadymod, throwonloadmod
+  neighbours starts from: 123.sav 13f0ba879e7f, 123_Auto.sav 6cc7e37e4659, SaveGameMetaData.sav 30dcf6cebae3
+  [PASS] the third pass starts from the same save files too
+  [PASS] the save-entry machine reached gameplay with neighbours
+  [PASS] the plan admits every mod, broken ones included
+  [PASS] the reference mod still loaded
+  [PASS] the mod that throws on load is reported as failed
+  [PASS] the readiness event reached a mod that declared no items
+  [PASS] the reference mod was still notified and still granted
+  holding neighbours in the world for 90s, as the other side is
+  3 distinct row(s), 3 item(s): Holdable_Flashlight x1, None x1, refmod__sample x1
+  delta vs vanilla: {'refmod__sample': 1}
+  [PASS] a broken mod beside it changed nothing
+
+=== after uninstall ===
+  8 file(s); added=0 removed=0 changed=0
+  [PASS] uninstall leaves nothing of the framework behind
+  [PASS] uninstall removes nothing that was the game's
+  [PASS] uninstall changes no file of the game's
+
+PASS -- 31 passed, 0 failed -> D:/UEScratch/Stage7/stage7.json
