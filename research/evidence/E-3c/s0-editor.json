@@ -1,0 +1,41 @@
+{
+  "stage": "S0",
+  "steps": [
+    {
+      "step": "the surrogate parent was created at the real object path",
+      "ok": true,
+      "detail": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem"
+    },
+    {
+      "step": "the surrogate compiled and produced a generated class",
+      "ok": true,
+      "detail": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C"
+    },
+    {
+      "step": "the surrogate's generated class carries the expected object path",
+      "ok": true,
+      "detail": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C vs expected /Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C"
+    },
+    {
+      "step": "the child Blueprint was created",
+      "ok": true,
+      "detail": "/Game/Mods/e3cprobe/BP_MiseryTestWorldItem"
+    },
+    {
+      "step": "the child compiled against the surrogate parent",
+      "ok": true,
+      "detail": "/Game/Mods/e3cprobe/BP_MiseryTestWorldItem.BP_MiseryTestWorldItem_C"
+    },
+    {
+      "step": "the child's serialised parent is the surrogate's class path",
+      "ok": true,
+      "detail": "/Script/Engine.BlueprintGeneratedClass'/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C'"
+    }
+  ],
+  "ok": true,
+  "surrogate_path": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem",
+  "child_path": "/Game/Mods/e3cprobe/BP_MiseryTestWorldItem",
+  "surrogate_class_path": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C",
+  "child_class_path": "/Game/Mods/e3cprobe/BP_MiseryTestWorldItem.BP_MiseryTestWorldItem_C",
+  "child_parent_class_tag": "/Script/Engine.BlueprintGeneratedClass'/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C'"
+}

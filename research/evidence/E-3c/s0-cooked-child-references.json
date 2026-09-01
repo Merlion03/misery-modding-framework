@@ -1,0 +1,279 @@
+{
+  "child": "D:/UEScratch/MBPLKit/Saved/Cooked/Windows/MISERY/Content/Mods/e3cprobe/BP_MiseryTestWorldItem.uasset",
+  "names": [
+    "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem",
+    "BlueprintType",
+    "DefaultSceneRoot",
+    "Engine",
+    "None",
+    "/Game/Mods/e3cprobe/BP_MiseryTestWorldItem",
+    "/Script/CoreUObject",
+    "/Script/Engine",
+    "BlueprintGeneratedClass",
+    "BP_MiseryTestWorldItem_C",
+    "BP_StaticMasterItem_C",
+    "Class",
+    "Default__BlueprintGeneratedClass",
+    "Default__BP_MiseryTestWorldItem_C",
+    "Default__BP_StaticMasterItem_C",
+    "Default__SceneComponent",
+    "Default__SCS_Node",
+    "Default__SimpleConstructionScript",
+    "DefaultSceneRoot_GEN_VARIABLE",
+    "Object",
+    "Package",
+    "SceneComponent",
+    "SCS_Node",
+    "SimpleConstructionScript"
+  ],
+  "imports": [
+    {
+      "index": 0,
+      "class_package": "/Script/Engine",
+      "class_name": "BlueprintGeneratedClass",
+      "outer_index": -9,
+      "object_name": "BP_StaticMasterItem_C",
+      "import_optional": false
+    },
+    {
+      "index": 1,
+      "class_package": "/Script/Engine",
+      "class_name": "BlueprintGeneratedClass",
+      "outer_index": -11,
+      "object_name": "Default__BlueprintGeneratedClass",
+      "import_optional": false
+    },
+    {
+      "index": 2,
+      "class_package": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem",
+      "class_name": "BP_StaticMasterItem_C",
+      "outer_index": -9,
+      "object_name": "Default__BP_StaticMasterItem_C",
+      "import_optional": false
+    },
+    {
+      "index": 3,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Class",
+      "outer_index": -10,
+      "object_name": "Object",
+      "import_optional": false
+    },
+    {
+      "index": 4,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Class",
+      "outer_index": -11,
+      "object_name": "BlueprintGeneratedClass",
+      "import_optional": false
+    },
+    {
+      "index": 5,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Class",
+      "outer_index": -11,
+      "object_name": "SceneComponent",
+      "import_optional": false
+    },
+    {
+      "index": 6,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Class",
+      "outer_index": -11,
+      "object_name": "SCS_Node",
+      "import_optional": false
+    },
+    {
+      "index": 7,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Class",
+      "outer_index": -11,
+      "object_name": "SimpleConstructionScript",
+      "import_optional": false
+    },
+    {
+      "index": 8,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Package",
+      "outer_index": 0,
+      "object_name": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem",
+      "import_optional": false
+    },
+    {
+      "index": 9,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Package",
+      "outer_index": 0,
+      "object_name": "/Script/CoreUObject",
+      "import_optional": false
+    },
+    {
+      "index": 10,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Package",
+      "outer_index": 0,
+      "object_name": "/Script/Engine",
+      "import_optional": false
+    },
+    {
+      "index": 11,
+      "class_package": "/Script/Engine",
+      "class_name": "SceneComponent",
+      "outer_index": -1,
+      "object_name": "DefaultSceneRoot_GEN_VARIABLE",
+      "import_optional": false
+    },
+    {
+      "index": 12,
+      "class_package": "/Script/Engine",
+      "class_name": "SceneComponent",
+      "outer_index": -11,
+      "object_name": "Default__SceneComponent",
+      "import_optional": false
+    },
+    {
+      "index": 13,
+      "class_package": "/Script/Engine",
+      "class_name": "SCS_Node",
+      "outer_index": -11,
+      "object_name": "Default__SCS_Node",
+      "import_optional": false
+    },
+    {
+      "index": 14,
+      "class_package": "/Script/Engine",
+      "class_name": "SimpleConstructionScript",
+      "outer_index": -11,
+      "object_name": "Default__SimpleConstructionScript",
+      "import_optional": false
+    }
+  ],
+  "exports": [
+    {
+      "object_name": "BP_MiseryTestWorldItem_C",
+      "class_name": null,
+      "super_index": -1,
+      "class_index": -5,
+      "outer_index": 0
+    },
+    {
+      "object_name": "Default__BP_MiseryTestWorldItem_C",
+      "class_name": null,
+      "super_index": 0,
+      "class_index": 1,
+      "outer_index": 0
+    },
+    {
+      "object_name": "DefaultSceneRoot_GEN_VARIABLE",
+      "class_name": null,
+      "super_index": 0,
+      "class_index": -6,
+      "outer_index": 1
+    },
+    {
+      "object_name": "SCS_Node_0",
+      "class_name": null,
+      "super_index": 0,
+      "class_index": -7,
+      "outer_index": 5
+    },
+    {
+      "object_name": "SimpleConstructionScript_0",
+      "class_name": null,
+      "super_index": 0,
+      "class_index": -8,
+      "outer_index": 1
+    }
+  ],
+  "parent_imports": [
+    {
+      "index": 0,
+      "class_package": "/Script/Engine",
+      "class_name": "BlueprintGeneratedClass",
+      "outer_index": -9,
+      "object_name": "BP_StaticMasterItem_C",
+      "import_optional": false
+    },
+    {
+      "index": 2,
+      "class_package": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem",
+      "class_name": "BP_StaticMasterItem_C",
+      "outer_index": -9,
+      "object_name": "Default__BP_StaticMasterItem_C",
+      "import_optional": false
+    },
+    {
+      "index": 8,
+      "class_package": "/Script/CoreUObject",
+      "class_name": "Package",
+      "outer_index": 0,
+      "object_name": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem",
+      "import_optional": false
+    }
+  ],
+  "child_super": {
+    "raw": -1,
+    "kind": "import[0]",
+    "name": "BP_StaticMasterItem_C",
+    "entry": {
+      "index": 0,
+      "class_package": "/Script/Engine",
+      "class_name": "BlueprintGeneratedClass",
+      "outer_index": -9,
+      "object_name": "BP_StaticMasterItem_C",
+      "import_optional": false
+    }
+  },
+  "super_outer_chain": [
+    "BP_StaticMasterItem_C",
+    "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem"
+  ],
+  "super_full_path": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C",
+  "exports_with_super": [
+    {
+      "object_name": "BP_MiseryTestWorldItem_C",
+      "super_index": -1,
+      "super_resolved": null
+    }
+  ],
+  "checks": [
+    {
+      "check": "the parent package path appears in the child's name map",
+      "pass": true,
+      "detail": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem"
+    },
+    {
+      "check": "the parent class name appears in the child's name map",
+      "pass": true,
+      "detail": "BP_StaticMasterItem_C"
+    },
+    {
+      "check": "the child imports the parent by name",
+      "pass": true,
+      "detail": "no import names BP_StaticMasterItem_C"
+    },
+    {
+      "check": "the child's super is an IMPORT, not something in our package",
+      "pass": true,
+      "detail": "import[0] -- a positive index would mean it inherits from what we ship"
+    },
+    {
+      "check": "the child's super names the real parent class",
+      "pass": true,
+      "detail": "BP_StaticMasterItem_C"
+    },
+    {
+      "check": "the super import is a BlueprintGeneratedClass",
+      "pass": true,
+      "detail": "BlueprintGeneratedClass"
+    },
+    {
+      "check": "the super resolves to the real parent's FULL object path",
+      "pass": true,
+      "detail": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C vs /Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C"
+    }
+  ],
+  "passed": 7,
+  "failed": 0,
+  "verdict": "PASS"
+}
