@@ -496,3 +496,22 @@ inside `MiseryFramework/`; the sixteenth is the `dwmapi.dll` proxy. After
 installation is identical to the baseline**.
 
 `stage5b-install-while-active.json`, `stage5b-install-after-uninstall.json`.
+
+#### Deferred: a stronger lifecycle test than RestartLevel
+
+RestartLevel replaces the world and the player but leaves the persistent item
+tables alive -- the measurement above shows all three surviving at identical
+addresses. The generation machinery handled that partial case correctly, and it
+is a real transition, but it is not the hardest one.
+
+The harder one is the game's own:
+
+    New Game -> preparation/start area -> the game's natural transfer to the
+    generated main zone
+
+That is a map-to-map transfer the game performs by itself, and it should
+replace the item tables too, exercising the anchors this run saw survive.
+Wanted as a later lifecycle regression. Recorded here rather than attempted
+now: Step 4 does not depend on it, and the transition gate it would strengthen
+has already passed on the evidence available.
+
