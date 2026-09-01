@@ -172,6 +172,52 @@ class MeshSpec(object):
                 "uniform_scale": self.uniform_scale, "slots": list(self.slots)}
 
 
+class BlueprintSpec(object):
+    """One Blueprint class the mod ships, derived from a class the GAME owns.
+
+    The parent is named by object path and is NOT packaged. The Mod Kit authors
+    a stand-in for it so the editor has something to compile against, and the
+    packager never sees that stand-in because it lives outside the mod's
+    namespace. At runtime the cooked child's import resolves to the game's real
+    class -- which is the E-3c result, generalised into a build step.
+
+    Nothing here knows which parent. A mod names one; the Kit derives from it.
+    """
+
+    __slots__ = ("name", "parent", "index")
+
+    def __init__(self, mod_id, raw, index):
+        where = "$.blueprints[%d]" % index
+        self.index = index
+        self.name = _require(raw, "name", str, where)
+        ns.check_asset_name(self.name)
+        # A full object path, class suffix included: the editor needs the CLASS
+        # to derive from, not the asset that generated it.
+        self.parent = _require(raw, "parent", str, where)
+        if not self.parent.startswith("/Game/"):
+            raise SpecError("bad_parent", where,
+                            "%r must be a /Game/ object path" % self.parent)
+        if "." not in self.parent.rsplit("/", 1)[-1]:
+            raise SpecError(
+                "bad_parent", where,
+                "%r must name the CLASS, e.g. '/Game/X/BP_Y.BP_Y_C'. A package "
+                "path alone names the asset, and a Blueprint cannot derive "
+                "from an asset." % self.parent)
+        unknown = sorted(set(raw) - {"name", "parent"})
+        if unknown:
+            raise SpecError("unknown_keys", where,
+                            "unknown key(s) %s" % unknown)
+
+    @property
+    def surrogate_package(self):
+        """The parent's package -- where the authoring stand-in is created."""
+        return self.parent.rsplit(".", 1)[0]
+
+    def as_dict(self):
+        return {"name": self.name, "parent": self.parent,
+                "surrogate_package": self.surrogate_package}
+
+
 class ModSpec(object):
     """A whole mod's build input, validated on construction."""
 
@@ -181,7 +227,7 @@ class ModSpec(object):
     REQUIRED_UNREAL = "5.4.4"
 
     __slots__ = ("mod_id", "source_root", "unreal_version", "textures", "materials",
-                 "meshes", "diagnostics")
+                 "meshes", "blueprints", "diagnostics")
 
     def __init__(self, raw, source_root):
         self.mod_id = ns.check_mod_id(_require(raw, "mod_id", str, "$"))
@@ -199,6 +245,8 @@ class ModSpec(object):
                           for i, m in enumerate(raw.get("materials") or [])]
         self.meshes = [MeshSpec(self.mod_id, m, i)
                        for i, m in enumerate(raw.get("meshes") or [])]
+        self.blueprints = [BlueprintSpec(self.mod_id, b, i)
+                           for i, b in enumerate(raw.get("blueprints") or [])]
         self.diagnostics = []
         for material in self.materials:
             self.diagnostics.extend(material.diagnostics)
@@ -212,6 +260,14 @@ class ModSpec(object):
 
     def mesh_path(self, name):
         return ns.package_path(self.mod_id, "mesh", name)
+
+    def blueprint_path(self, name):
+        return ns.package_path(self.mod_id, "blueprint", name)
+
+    def blueprint_class_path(self, name):
+        """What a cooked reference holds: <package>.BP_<Name>_C."""
+        package = self.blueprint_path(name)
+        return "%s.%s_C" % (package, package.rsplit("/", 1)[-1])
 
     def container_name(self):
         return ns.container_name(self.mod_id)
@@ -227,6 +283,7 @@ class ModSpec(object):
                 "textures": [t.as_dict() for t in self.textures],
                 "materials": [m.as_dict() for m in self.materials],
                 "meshes": [m.as_dict() for m in self.meshes],
+                "blueprints": [b.as_dict() for b in self.blueprints],
                 "diagnostics": list(self.diagnostics)}
 
     @classmethod

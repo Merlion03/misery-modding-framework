@@ -1,0 +1,32 @@
+{
+  "mod_id": "refmod",
+  "unreal_version": "5.4.4",
+  "textures": [
+    {"name": "Icon", "source": "textures/icon.png", "usage": "color"},
+    {"name": "ShapeBase", "source": "textures/basecolor.png", "usage": "color"}
+  ],
+  "materials": [
+    {
+      "name": "Shape",
+      "parent": "/Game/PlayerElectricitySystem/Materials/M_BasicMaterial",
+      "base_color": {"texture": "ShapeBase"},
+      "ao": 1.0,
+      "roughness": 0.55,
+      "metallic": 0.05
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Shape",
+      "source": "meshes/shape.glb",
+      "uniform_scale": 1.0,
+      "slots": [{"material": "Shape"}, {"material": "Shape"}]
+    }
+  ],
+  "blueprints": [
+    {
+      "name": "WorldItem",
+      "parent": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C"
+    }
+  ]
+}

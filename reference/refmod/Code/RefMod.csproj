@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The Stage 7 reference mod.
+
+    It references the public contract assembly and NOTHING else. That is not a
+    tidiness preference: if this project needed anything from Misery.ModHost or
+    the runtime, the public API would by definition not be sufficient to write a
+    mod against, and the whole platform claim would be false.
+
+    It also lives outside managed/ and outside tools/, because it is not part of
+    the framework. tests/test_no_mod_specific_core.py enforces the other half of
+    that boundary: the framework knows nothing about it either.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>RefMod</AssemblyName>
+    <RootNamespace>RefMod</RootNamespace>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\managed\Misery.ModAPI\Misery.ModAPI.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

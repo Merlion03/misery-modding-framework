@@ -1,0 +1,46 @@
+=== the input save state ===
+  snapshot: 123.sav, 123_Auto.sav, SaveGameMetaData.sav
+
+=== the same save, entered WITHOUT the mod ===
+  vanilla starts from: 123.sav 13f0ba879e7f, 123_Auto.sav 6cc7e37e4659, SaveGameMetaData.sav 30dcf6cebae3
+  [PASS] the save could be entered with no framework installed
+  2 distinct row(s), 2 item(s): Holdable_Flashlight x1, None x1
+  [PASS] the vanilla player inventory could be read
+  [PASS] the vanilla inventory settled before it was read
+  [PASS] the mod's row is absent from the vanilla inventory
+  [PASS] the game did not rewrite the save during the vanilla pass
+
+=== building and installing ===
+  13 file(s) installed
+
+=== what the mod actually ships ===
+  7 package(s): /Game/Mods/refmod/Blueprints/BP_WorldItem, /Game/Mods/refmod/Materials/MI_Shape, /Game/Mods/refmod/Meshes/SM_Shape, /Game/Mods/refmod/Textures/T_Icon, /Game/Mods/refmod/Textures/T_NeutralNormal, /Game/Mods/refmod/Textures/T_ShapeBase, /Game/Mods/refmod/Textures/T_ShapeMask
+  [PASS] the surrogate parent is not in the shipped container
+  [PASS] the mod's own blueprint is in the shipped container
+  [PASS] no framework assembly other than Misery.ModAPI is named in the mod's assembly
+
+=== the same save, entered WITH the mod ===
+  modded starts from: 123.sav 13f0ba879e7f, 123_Auto.sav 6cc7e37e4659, SaveGameMetaData.sav 30dcf6cebae3
+  [PASS] both passes start from byte-identical save files
+  [PASS] the save-entry machine reached gameplay
+
+=== waiting for the mod to reach a world ===
+
+=== what happened ===
+  [PASS] the production plan admitted the mod on its manifest alone
+  [PASS] the mod loaded
+  [PASS] the item registered and the game's own SGK ItemDetails resolved it
+  [PASS] the framework reports the grant
+  3 distinct row(s), 3 item(s): Holdable_Flashlight x1, None x1, refmod__sample x1
+  [PASS] the modded player inventory could be read
+  [PASS] the modded inventory settled before it was read
+  delta vs vanilla: {'refmod__sample': 1}
+  [PASS] the player's inventory differs from vanilla by exactly the granted row
+
+=== the mod's class, and what it really inherits ===
+  [PASS] exactly one BP_WorldItem_C and one BP_StaticMasterItem_C are live
+  BP_WorldItem_C @0x186fb4d3f80  ->  SuperStruct 0x1451d04b300  (BP_StaticMasterItem_C @0x1451d04b300)
+  [PASS] the mod's class inherits the game's class by pointer identity
+  [PASS] the game did not rewrite the save during the modded pass
+
+PASS -- 20 passed, 0 failed -> D:/UEScratch/Stage7/stage7.json

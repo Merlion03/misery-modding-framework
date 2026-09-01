@@ -1,0 +1,232 @@
+{
+  "stage": 7,
+  "mod_id": "refmod",
+  "save_snapshot": [
+    "123.sav",
+    "123_Auto.sav",
+    "SaveGameMetaData.sav"
+  ],
+  "save_hashes_vanilla": {
+    "123.sav": "13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d",
+    "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
+    "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
+  },
+  "save_entry_attempts": {
+    "vanilla": [
+      {
+        "attempt": 0,
+        "returncode": 0,
+        "blocked_reason": ""
+      }
+    ],
+    "modded": [
+      {
+        "attempt": 0,
+        "returncode": 0,
+        "blocked_reason": ""
+      }
+    ]
+  },
+  "vanilla_reads": [
+    {
+      "Holdable_Flashlight": 1,
+      "None": 1
+    },
+    {
+      "Holdable_Flashlight": 1,
+      "None": 1
+    }
+  ],
+  "inventory_vanilla": {
+    "Holdable_Flashlight": 1,
+    "None": 1
+  },
+  "save_hashes_vanilla_after": {
+    "123.sav": "13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d",
+    "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
+    "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
+  },
+  "installed": [
+    "Misery.ModAPI.dll",
+    "Misery.ModHost.deps.json",
+    "Misery.ModHost.dll",
+    "Misery.ModHost.runtimeconfig.json",
+    "MiseryRuntime.dll",
+    "Mods\\ReferenceMod\\Code\\RefMod.deps.json",
+    "Mods\\ReferenceMod\\Code\\RefMod.dll",
+    "Mods\\ReferenceMod\\Code\\RefMod.runtimeconfig.json",
+    "Mods\\ReferenceMod\\Content\\Mod_refmod_P.pak",
+    "Mods\\ReferenceMod\\Content\\Mod_refmod_P.ucas",
+    "Mods\\ReferenceMod\\Content\\Mod_refmod_P.utoc",
+    "Mods\\ReferenceMod\\mod.json",
+    "nethost.dll"
+  ],
+  "declared_parent": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem.BP_StaticMasterItem_C",
+  "container_packages": [
+    "/Game/Mods/refmod/Blueprints/BP_WorldItem",
+    "/Game/Mods/refmod/Materials/MI_Shape",
+    "/Game/Mods/refmod/Meshes/SM_Shape",
+    "/Game/Mods/refmod/Textures/T_Icon",
+    "/Game/Mods/refmod/Textures/T_NeutralNormal",
+    "/Game/Mods/refmod/Textures/T_ShapeBase",
+    "/Game/Mods/refmod/Textures/T_ShapeMask"
+  ],
+  "framework_names_in_assembly": [
+    "Misery.ModAPI"
+  ],
+  "save_hashes_modded": {
+    "123.sav": "13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d",
+    "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
+    "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
+  },
+  "runtime_log": "[17:57:18.499] runtime: profile for misery-24953925-ue5.4.4-bace50f7185d loaded (engine 5.4.4 CL 35576357, 9 addresses)\n[17:57:18.499] runtime: every code address in the profile matches live memory\n[17:57:18.499] runtime: the engine is up after 0ms (26263 objects in the array)\n[17:57:18.501] runtime: the game-thread carrier is active\n[17:57:18.701] runtime: 26263 live objects\n[17:57:18.701] runtime: startup anchors resolved (reached startup, 11 not present, 0 observed but out of phase)\n[17:57:18.701] runtime: resolved on thread 22928 (this thread is 5988) over 24 slice(s); LONGEST SLICE 2026us (slice #15) -- walk 43467us + anchors 250us + validate 63us, 2326 queued; 26263 objects processed, 0 restart(s), 0 revalidation failure(s)\n[17:57:18.701] runtime: 237582 reads, 1424 VirtualQuery, 236158 cached; phase requested startup, completed startup\n[17:57:18.701] runtime: game thread declared as 22928 (measured, not assumed)\n[17:57:18.702] runtime: bridge acquired, ABI epoch 1, root 40 bytes\n[17:57:18.702] runtime: items backend installed; it will bind to a content generation on first use and rebind if that generation is revoked\n[17:57:18.702] runtime: native subsystems ready; entering the content lifecycle\n[17:57:18.926] runtime: content not available: ItemList: no object named 'ItemList' of class 'DataTable' exists in this process [content phase]\n[17:58:19.839] runtime: content generation 1 published -- content, 61659 objects, 61 slice(s), longest 2037us, 30 anchor identities\n[17:58:19.839] runtime: generation 1: ItemList 0x1452f7e3880, MasterItemList 0x1451b724760, RowStruct 0x1451eaa4ae0 (2264 bytes)\n[17:58:19.839] runtime: generation 1 anchor transient package: index 4131, serial 0, 0x145526b0c80\n[17:58:19.839] runtime: generation 1 anchor UDataTable: index 1645, serial 0, 0x14554359800\n[17:58:19.839] runtime: generation 1 anchor UCompositeDataTable: index 1751, serial 0, 0x1455436c400\n[17:58:19.839] runtime: generation 1 anchor UTexture2D: index 1046, serial 0, 0x145542cca00\n[17:58:19.839] runtime: generation 1 anchor UStaticMesh: index 2045, serial 0, 0x145543aee00\n[17:58:19.839] runtime: generation 1 anchor AActor: index 248, serial 1201, 0x1455425e000\n[17:58:19.839] runtime: generation 1 anchor GameplayStatics CDO: index 22166, serial 0, 0x145677e68b0\n[17:58:19.839] runtime: generation 1 anchor StringLibrary CDO: index 22204, serial 0, 0x145677e78a0\n[17:58:19.839] runtime: generation 1 anchor TextLibrary CDO: index 21221, serial 0, 0x145677e9af0\n[17:58:19.839] runtime: generation 1 anchor SystemLibrary CDO: index 22206, serial 0, 0x145677e7a80\n[17:58:19.839] runtime: generation 1 anchor GameplayStatics: index 1850, serial 0, 0x14554377800\n[17:58:19.839] runtime: generation 1 anchor KismetStringLibrary: index 1884, serial 0, 0x1455437b800\n[17:58:19.839] runtime: generation 1 anchor KismetTextLibrary: index 1037, serial 0, 0x145542cde00\n[17:58:19.839] runtime: generation 1 anchor KismetSystemLibrary: index 1886, serial 0, 0x1455437b400\n[17:58:19.839] runtime: generation 1 anchor ItemList: index 52718, serial 0, 0x1452f7e3880\n[17:58:19.839] runtime: generation 1 anchor MasterItemList: index 44420, serial 5901, 0x1451b724760\n[17:58:19.840] runtime: generation 1 anchor world item class: index 44602, serial 5917, 0x1451d045b80\n[17:58:19.840] runtime: generation 1 anchor SGK CDO: index 44416, serial 0, 0x1451b5470c0\n[17:58:19.840] runtime: generation 1 anchor BP_SGKFunctions: index 44372, serial 0, 0x1451cefa500\n[17:58:19.840] runtime: generation 1 anchor BP_MasterInventory_C: index 44142, serial 2376, 0x1451cef2700\n[17:58:19.840] runtime: generation 1 anchor BP_PlayerInventory_C: index 44144, serial 2340, 0x1451cef2000\n[17:58:19.840] runtime: generation 1 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x145687dd8a0\n[17:58:19.840] runtime: generation 1 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x145688b5c60\n[17:58:19.840] runtime: generation 1 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x145686806a0\n[17:58:19.840] runtime: generation 1 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x145686805c0\n[17:58:19.840] runtime: generation 1 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x14567a592a0\n[17:58:19.840] runtime: generation 1 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x14567a53500\n[17:58:19.840] runtime: generation 1 anchor BP_SGKFunctions::SGK ItemDetails: index 44385, serial 5414, 0x1451b7228c0\n[17:58:19.840] runtime: generation 1 anchor BP_MasterInventory_C::AddItem: index 44317, serial 6239, 0x1451c58ebe0\n[17:58:19.840] runtime: generation 1 anchor BP_MasterInventory_C::RemoveItem: index 44291, serial 6285, 0x1451c58cd40\n[17:58:19.840] managed: 1 mod(s) to load: refmod\n[17:58:20.456] items: 'refmod__sample' declared; deferred until a world exists to hold it (generation 1 reached content)\n[17:58:20.459] managed: 1 of 1 planned mod(s) loaded, 0 failed: refmod\n[17:58:20.459] runtime: managed host started against content generation 1\n[17:58:41.000] runtime: generation 1 is revoked: 'ItemList' its slot now holds a different object\n[17:58:43.168] runtime: content generation 2 published -- gameplay, 179421 objects, 168 slice(s), longest 7241us, 31 anchor identities\n[17:58:43.168] runtime: generation 2: ItemList 0x145641846c0, MasterItemList 0x1451d5a05c0, RowStruct 0x1451eaa1840 (2264 bytes)\n[17:58:43.168] runtime: generation 2 anchor transient package: index 4131, serial 0, 0x145526b0c80\n[17:58:43.168] runtime: generation 2 anchor UDataTable: index 1645, serial 0, 0x14554359800\n[17:58:43.168] runtime: generation 2 anchor UCompositeDataTable: index 1751, serial 0, 0x1455436c400\n[17:58:43.168] runtime: generation 2 anchor UTexture2D: index 1046, serial 0, 0x145542cca00\n[17:58:43.168] runtime: generation 2 anchor UStaticMesh: index 2045, serial 0, 0x145543aee00\n[17:58:43.168] runtime: generation 2 anchor AActor: index 248, serial 1201, 0x1455425e000\n[17:58:43.168] runtime: generation 2 anchor GameplayStatics CDO: index 22166, serial 0, 0x145677e68b0\n[17:58:43.168] runtime: generation 2 anchor StringLibrary CDO: index 22204, serial 0, 0x145677e78a0\n[17:58:43.168] runtime: generation 2 anchor TextLibrary CDO: index 21221, serial 0, 0x145677e9af0\n[17:58:43.168] runtime: generation 2 anchor SystemLibrary CDO: index 22206, serial 0, 0x145677e7a80\n[17:58:43.169] runtime: generation 2 anchor GameplayStatics: index 1850, serial 0, 0x14554377800\n[17:58:43.169] runtime: generation 2 anchor KismetStringLibrary: index 1884, serial 0, 0x1455437b800\n[17:58:43.169] runtime: generation 2 anchor KismetTextLibrary: index 1037, serial 0, 0x145542cde00\n[17:58:43.169] runtime: generation 2 anchor KismetSystemLibrary: index 1886, serial 0, 0x1455437b400\n[17:58:43.169] runtime: generation 2 anchor ItemList: index 34258, serial 0, 0x145641846c0\n[17:58:43.169] runtime: generation 2 anchor MasterItemList: index 42716, serial 14038, 0x1451d5a05c0\n[17:58:43.169] runtime: generation 2 anchor world item class: index 42534, serial 14054, 0x1451d04b300\n[17:58:43.169] runtime: generation 2 anchor SGK CDO: index 42720, serial 0, 0x1451b9e9af0\n[17:58:43.169] runtime: generation 2 anchor BP_SGKFunctions: index 42764, serial 0, 0x1451cefc100\n[17:58:43.169] runtime: generation 2 anchor BP_MasterInventory_C: index 42994, serial 10668, 0x1451cef5100\n[17:58:43.169] runtime: generation 2 anchor BP_PlayerInventory_C: index 42992, serial 10635, 0x1451cef8c80\n[17:58:43.169] runtime: generation 2 anchor GameplayStatics::SpawnObject: index 15132, serial 0, 0x145687dd8a0\n[17:58:43.169] runtime: generation 2 anchor KismetStringLibrary::Conv_StringToName: index 16178, serial 0, 0x145688b5c60\n[17:58:43.169] runtime: generation 2 anchor KismetTextLibrary::Conv_StringToText: index 13450, serial 0, 0x145686806a0\n[17:58:43.169] runtime: generation 2 anchor KismetTextLibrary::Conv_TextToString: index 13451, serial 0, 0x145686805c0\n[17:58:43.169] runtime: generation 2 anchor KismetSystemLibrary::LoadAsset_Blocking: index 4673, serial 0, 0x14567a592a0\n[17:58:43.169] runtime: generation 2 anchor KismetSystemLibrary::Conv_SoftObjectReferenceToString: index 4514, serial 0, 0x14567a53500\n[17:58:43.169] runtime: generation 2 anchor BP_SGKFunctions::SGK ItemDetails: index 42751, serial 13553, 0x1451d5a3a40\n[17:58:43.169] runtime: generation 2 anchor BP_MasterInventory_C::AddItem: index 42819, serial 14376, 0x1451d5a8120\n[17:58:43.169] runtime: generation 2 anchor BP_MasterInventory_C::RemoveItem: index 42845, serial 14422, 0x1451d5a6a60\n[17:58:43.169] runtime: generation 2 anchor live player inventory: index 76537, serial 21636, 0x1451d9b2770\n[17:58:43.173] items: backend bound to content generation 2\n[17:58:43.184] items: 'refmod__sample' is live in generation 2; the game's own SGK ItemDetails resolved it\n[17:58:43.184] items: 1 declaration(s) applied to generation 2\n[17:58:43.187] items: 'refmod__sample' -- 1 of 1 added to the player's inventory\n[17:58:43.189] runtime: misery:content_ready -> 1 subscriber(s) for generation 2\n[17:58:43.189] runtime: 1 of 1 declared item(s) live in generation 2\n",
+  "planned": [
+    "refmod"
+  ],
+  "loaded": [
+    "refmod"
+  ],
+  "row": "refmod__sample",
+  "granted": [
+    "refmod__sample",
+    "1",
+    "1"
+  ],
+  "modded_reads": [
+    {
+      "Holdable_Flashlight": 1,
+      "None": 1,
+      "refmod__sample": 1
+    },
+    {
+      "Holdable_Flashlight": 1,
+      "None": 1,
+      "refmod__sample": 1
+    }
+  ],
+  "inventory_modded": {
+    "Holdable_Flashlight": 1,
+    "None": 1,
+    "refmod__sample": 1
+  },
+  "inventory_delta": {
+    "refmod__sample": 1
+  },
+  "child_class": [
+    "0x186fb4d3f80"
+  ],
+  "parent_class": [
+    "0x1451d04b300"
+  ],
+  "child_super": "0x1451d04b300",
+  "save_hashes_modded_after": {
+    "123.sav": "13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d",
+    "123_Auto.sav": "6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27",
+    "SaveGameMetaData.sav": "30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558"
+  },
+  "checks": [
+    {
+      "check": "the save could be entered with no framework installed",
+      "pass": true,
+      "detail": "\nPROBE_STARTED\n"
+    },
+    {
+      "check": "the vanilla player inventory could be read",
+      "pass": true,
+      "detail": "no live player inventory"
+    },
+    {
+      "check": "the vanilla inventory settled before it was read",
+      "pass": true,
+      "detail": "2 reading(s), still changing"
+    },
+    {
+      "check": "the mod's row is absent from the vanilla inventory",
+      "pass": true,
+      "detail": "['Holdable_Flashlight', 'None']"
+    },
+    {
+      "check": "the game did not rewrite the save during the vanilla pass",
+      "pass": true,
+      "detail": "changed: []"
+    },
+    {
+      "check": "the surrogate parent is not in the shipped container",
+      "pass": true,
+      "detail": "/Game/SurvivalGameKitV2/Blueprints/Items/WorldItems/BP_StaticMasterItem"
+    },
+    {
+      "check": "the mod's own blueprint is in the shipped container",
+      "pass": true,
+      "detail": "['/Game/Mods/refmod/Blueprints/BP_WorldItem', '/Game/Mods/refmod/Materials/MI_Shape', '/Game/Mods/refmod/Meshes/SM_Shape', '/Game/Mods/refmod/Textures/T_Icon', '/Game/Mods/refmod/Textures/T_NeutralNormal', '/Game/Mods/refmod/Textures/T_ShapeBase', '/Game/Mods/refmod/Textures/T_ShapeMask']"
+    },
+    {
+      "check": "no framework assembly other than Misery.ModAPI is named in the mod's assembly",
+      "pass": true,
+      "detail": "['Misery.ModAPI']"
+    },
+    {
+      "check": "both passes start from byte-identical save files",
+      "pass": true,
+      "detail": "vanilla={'123.sav': '13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d', '123_Auto.sav': '6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27', 'SaveGameMetaData.sav': '30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558'} modded={'123.sav': '13f0ba879e7fb6113c56baa9aa4e38cd1e0ccafc99b696cd0106eb3b46192c0d', '123_Auto.sav': '6cc7e37e465905626bb2c40cd9aad0cb53061f72ee10126155bfacc9dc4e4a27', 'SaveGameMetaData.sav': '30dcf6cebae315cf8049710062e5ba51635a9622238a67fa19e46fcccaad8558'}"
+    },
+    {
+      "check": "the save-entry machine reached gameplay",
+      "pass": true,
+      "detail": "\nPROBE_STARTED\n"
+    },
+    {
+      "check": "the production plan admitted the mod on its manifest alone",
+      "pass": true,
+      "detail": "['refmod']"
+    },
+    {
+      "check": "the mod loaded",
+      "pass": true,
+      "detail": "['refmod']"
+    },
+    {
+      "check": "the item registered and the game's own SGK ItemDetails resolved it",
+      "pass": true,
+      "detail": "refmod__sample"
+    },
+    {
+      "check": "the framework reports the grant",
+      "pass": true,
+      "detail": "('refmod__sample', '1', '1')"
+    },
+    {
+      "check": "the modded player inventory could be read",
+      "pass": true,
+      "detail": "no live player inventory"
+    },
+    {
+      "check": "the modded inventory settled before it was read",
+      "pass": true,
+      "detail": "2 reading(s), still changing"
+    },
+    {
+      "check": "the player's inventory differs from vanilla by exactly the granted row",
+      "pass": true,
+      "detail": "expected {'refmod__sample': 1}, got {'refmod__sample': 1}"
+    },
+    {
+      "check": "exactly one BP_WorldItem_C and one BP_StaticMasterItem_C are live",
+      "pass": true,
+      "detail": "child=['0x186fb4d3f80'] parent=['0x1451d04b300']"
+    },
+    {
+      "check": "the mod's class inherits the game's class by pointer identity",
+      "pass": true,
+      "detail": "super=0x1451d04b300 parent=0x1451d04b300"
+    },
+    {
+      "check": "the game did not rewrite the save during the modded pass",
+      "pass": true,
+      "detail": "changed: []"
+    }
+  ],
+  "passed": 20,
+  "failed": 0,
+  "verdict": "PASS"
+}

@@ -276,7 +276,7 @@ static MbStatus EventsUnsubscribe(MbHandle subscription, MbError* out_error) {
 }
 
 // Dispatch. The shape of this loop IS the lifecycle guarantee.
-static int32_t DispatchEvent(const std::string& full, const std::string& payload) {
+int32_t DispatchEvent(const std::string& full, const std::string& payload) {
   auto it = P().events.find(full);
   if (it == P().events.end()) {
     return 0;
@@ -319,6 +319,27 @@ static int32_t DispatchEvent(const std::string& full, const std::string& payload
   }
   P().dispatches += 1;
   return ran;
+}
+
+// The framework's own events, declared once and owned by nobody.
+//
+// Declared eagerly rather than on first publish so a mod can subscribe during
+// OnLoad -- which is the only time it CAN subscribe and is strictly before the
+// first generation is ready. An event that came into existence at publish time
+// would be unsubscribable exactly when subscribing matters.
+//
+// There is no mod handle here, and that is the point: these are not any mod's
+// to declare, publish or release, and the namespace is reserved so none can
+// claim them.
+void DeclareFrameworkEvents() {
+  static const char* const kNames[] = {MB_EVENT_CONTENT_READY};
+  for (const char* name : kNames) {
+    if (P().events.count(name) == 0) {
+      EventDeclaration declaration;
+      declaration.owner = MB_EVENT_NS;
+      P().events[name] = declaration;
+    }
+  }
 }
 
 static MbStatus EventsPublish(MbHandle mod_handle, MbStr name, MbStr payload,
@@ -880,6 +901,14 @@ extern "C" MB_EXPORT MbStatus MiseryBridgeAcquire(
                                 MB_E_INVALID_ARGUMENT,
                                 "out_root and out_host are required");
   }
+  // The framework's events exist before the first mod does.
+  //
+  // Subscribing requires the event to be declared, and a mod can only subscribe
+  // during OnLoad -- which is strictly before the first content generation is
+  // ready. Declaring these lazily at publish time would make them
+  // unsubscribable exactly when subscribing matters.
+  misery::bridge::DeclareFrameworkEvents();
+
   // The host handle is minted here, in-process. There is no discovery path and
   // nothing on disk a mod could read to obtain one.
   if (misery::bridge::P().host_handle == MB_INVALID_HANDLE) {
@@ -894,6 +923,23 @@ extern "C" MB_EXPORT MbStatus MiseryBridgeAcquire(
 
 // Installed by whoever owns the real item path: the in-game runtime installs
 // the proven Stage 2 registration, the standalone harness installs a recorder.
+// Raise a framework event. Called by the runtime, never by a mod.
+//
+// Dispatch goes through the same DispatchEvent every mod publish uses, so it
+// inherits the lifecycle guarantees rather than restating them: subscribers are
+// captured before the loop, each subscription is re-resolved immediately before
+// its call so a mod unloaded mid-dispatch is skipped, and a fault is attributed
+// to its owner instead of unwinding a game frame.
+extern "C" __declspec(dllexport) int MiseryBridgeRaiseFrameworkEvent(
+    const char* name, const char* payload_json) {
+  if (name == nullptr) {
+    return 0;
+  }
+  misery::bridge::DeclareFrameworkEvents();
+  return misery::bridge::DispatchEvent(
+      name, payload_json != nullptr ? payload_json : "{}");
+}
+
 extern "C" __declspec(dllexport) void MiseryBridgeInstallItemsBackend(
     misery::bridge::MbItemsRegisterFn register_item,
     misery::bridge::MbItemsUnregisterFn unregister_item,

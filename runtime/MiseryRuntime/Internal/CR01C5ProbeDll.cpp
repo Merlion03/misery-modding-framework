@@ -1111,11 +1111,27 @@ extern "C" __declspec(dllexport) int Stage5VerifyRow(
 int LoadWorldClass(const char* object_path, uint64_t* out) {
     C5Io* io = g_io;
     *out = 0;
-    char package[224], asset[96];
-    if (!SplitPackage(object_path, package, sizeof(package), asset,
-                      sizeof(asset))) {
-        return 40;
+    // Split on the last '.', not with SplitPackage.
+    //
+    // SplitPackage takes a PACKAGE path and derives the object name from its
+    // last SEGMENT -- "/Game/A/SM_Shape" becomes ("/Game/A/SM_Shape",
+    // "SM_Shape"), which is right for a mesh or a texture. A class path already
+    // carries its object after a dot, so handing it to SplitPackage produced a
+    // package with ".BP_X_C" glued on the end and an asset name of
+    // "BP_X.BP_X_C". Both were wrong, the load resolved nothing, and the item
+    // was refused with a code that only said "the content did not resolve".
+    const char* dot = strrchr(object_path, '.');
+    if (dot == nullptr || dot == object_path || dot[1] == 0) {
+        return 40;   // not <package>.<Class>
     }
+    char package[224], asset[96];
+    const int plen = static_cast<int>(dot - object_path);
+    if (plen <= 0 || plen >= static_cast<int>(sizeof(package))) return 40;
+    memcpy(package, object_path, static_cast<size_t>(plen));
+    package[plen] = 0;
+    const int alen = static_cast<int>(strlen(dot + 1));
+    if (alen <= 0 || alen >= static_cast<int>(sizeof(asset))) return 40;
+    memcpy(asset, dot + 1, static_cast<size_t>(alen) + 1);
     uint16_t wide_pkg[kNameMax], wide_asset[kNameMax];
     if (!PutUtf16(wide_pkg, kNameMax, package) ||
         !PutUtf16(wide_asset, kNameMax, asset)) {

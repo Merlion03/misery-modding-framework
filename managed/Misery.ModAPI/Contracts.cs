@@ -152,6 +152,34 @@ namespace Misery.ModAPI
         bool IsAlive { get; }
     }
 
+    /// <summary>Events the framework itself raises.</summary>
+    /// <remarks>
+    /// They live in the reserved <c>misery</c> namespace, which no mod may
+    /// declare into, so these names cannot collide with a mod's own.
+    /// A mod subscribes to them exactly as it subscribes to anything else.
+    /// </remarks>
+    public static class FrameworkEvents
+    {
+        /// <summary>
+        /// A content generation is ready to be acted on.
+        /// </summary>
+        /// <remarks>
+        /// Raised once per generation, AFTER that generation is published and
+        /// after the framework has applied this mod's declarations to it. Until
+        /// it arrives, a mod's items are declared but not present in any world,
+        /// and operations that need a live world will refuse.
+        ///
+        /// This is the answer to a question a mod cannot answer for itself:
+        /// <c>OnLoad</c> runs when the host starts, which is typically a main
+        /// menu with no world at all.
+        ///
+        /// Raised AGAIN after every later transition, with a new generation, so
+        /// a mod that must act per-world acts here rather than once at load.
+        /// The payload is <c>{"generation":&lt;n&gt;,"phase":"&lt;phase&gt;"}</c>.
+        /// </remarks>
+        public const string ContentReady = "misery:content_ready";
+    }
+
     /// <summary>Namespaced events. Platform lifecycle only in this version.</summary>
     /// <remarks>
     /// This framework ships no gameplay events, because the engine paths behind

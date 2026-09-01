@@ -128,3 +128,9 @@ desktop.ini
 # otherwise commit a compiled assembly plus a NuGet lock graph on every build.
 managed/**/bin/
 managed/**/obj/
+
+# The reference mod is a real mod built from its own sources, so its build
+# output is regenerated exactly like the framework's own and stays out for the
+# same reason.
+reference/**/bin/
+reference/**/obj/

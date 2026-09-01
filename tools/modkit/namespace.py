@@ -50,6 +50,9 @@ CATEGORIES = {
     "mesh": ("Meshes", "SM"),
     "texture": ("Textures", "T"),
     "material": ("Materials", "MI"),
+    # A Blueprint class the mod ships. Its generated class takes the usual `_C`
+    # suffix, so the cooked object path is <package>.BP_<Name>_C.
+    "blueprint": ("Blueprints", "BP"),
 }
 
 # Same rule as the runtime ItemId: lowercase, starts with a letter. FName

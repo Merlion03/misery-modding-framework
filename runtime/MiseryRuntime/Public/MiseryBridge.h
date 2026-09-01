@@ -262,6 +262,21 @@ typedef void (*MbTrampoline)(int32_t kind, MbHandle subscription,
 #define MB_CAP_INPUT_REGISTRY "core.input_registry"
 #define MB_CAP_SERVICES       "core.services"
 #define MB_CAP_ITEMS          "core.items"
+
+/* The framework's own event namespace.
+ *
+ * `misery` is a RESERVED ModId, so no mod can declare an event under it and
+ * none of these names can ever collide with a mod's. A mod subscribes to them
+ * exactly as it subscribes to anything else. */
+#define MB_EVENT_NS           "misery"
+/* Raised once per content generation, AFTER that generation is published and
+ * after every declaration the framework owns has been applied to it.
+ *
+ * This is the answer to "when may a mod act on the world?", which a mod cannot
+ * work out for itself: OnLoad runs when the managed host starts, which is
+ * typically a main menu where no world exists and a mod's own declarations are
+ * recorded but not yet live. Payload: {"generation":<n>,"phase":"<phase>"}. */
+#define MB_EVENT_CONTENT_READY "misery:content_ready"
 #define MB_CAP_CONSOLE        "core.console"
 #define MB_CAP_DIAGNOSTICS    "core.diagnostics"
 /* Host-only. acquire_capability refuses this to any owner that is not the host

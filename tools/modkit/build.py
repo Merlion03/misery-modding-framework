@@ -142,17 +142,29 @@ def make_plan(spec, work_dir):
                        "slot_name": slot.get("slot_name")}
                       for slot in mesh.slots]})
 
+    blueprints = [
+        {"name": b.name, "parent": b.parent,
+         "surrogate_package": b.surrogate_package,
+         "package": spec.blueprint_path(b.name),
+         "class_path": spec.blueprint_class_path(b.name)}
+        for b in spec.blueprints]
+
     # Every product, including the textures generated above. The spec-derived
     # list would miss them, and anything not in this list is pruned before the
     # cook -- so leaving them out deletes assets the materials depend on.
+    # Blueprints are products too, so they survive the prune that removes
+    # anything the plan did not declare. Omitting them here would have the
+    # editor build a class and the cook then delete it.
     produced = sorted({e["package"] for e in textures}
                       | {e["package"] for e in materials}
-                      | {e["package"] for e in meshes})
+                      | {e["package"] for e in meshes}
+                      | {e["package"] for e in blueprints})
     return {"mod_id": spec.mod_id,
             "mod_root": ns.mod_root(spec.mod_id),
             "container": spec.container_name(),
             "unreal_version": spec.unreal_version,
             "textures": textures, "materials": materials, "meshes": meshes,
+            "blueprints": blueprints,
             "declared_object_paths": V.expected_object_paths(spec),
             "expected_object_paths": ["%s.%s" % (p, p.rsplit("/", 1)[-1])
                                       for p in produced]}
