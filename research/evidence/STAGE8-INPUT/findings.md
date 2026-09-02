@@ -293,3 +293,33 @@ leave an author to discover the silence at runtime — the exact failure
   container was unstaged during this work to get past the runner's consistency
   gate. That is reversed in the staging plan for the next run and is not a
   framework regression.
+
+## A sixth discrepancy with the reference, classified not resolved
+
+`console.py`'s `input` builtin answers with `InputRegistry.summary()`, which
+carries `"engine_input_wired": false` and a note saying nothing in the game
+delivers input. The native builtin now answers with something else.
+
+**Why it differs.** The reference's statement was true when it was written and
+is now half false: an engine input path exists and the console runs on it. But
+the *other* half is still true — a mod cannot bind a key to a declared action.
+Reporting `engine_input_wired: false` would now be a lie, and reporting it true
+would be a worse one, because a mod author would read it as "I can have key
+events" and get silence.
+
+**What was chosen, and on what ground.** The native builtin reports the source's
+real state (`attached`, message counters, window re-arms, whether the console is
+open) **and** `mod_bindings: false` with a note naming exactly what is missing.
+That preserves the reference's *purpose* — tell the author what is not available
+rather than let them discover it at runtime — in a world where the single
+boolean it used to say that with no longer has a single answer.
+
+**Not resolved by changing the reference.** `input_actions.py` is untouched, per
+the standing rule; the reference platform still describes a registry with no
+delivery, which is what it is. The two disagree, deliberately, and this is the
+record of it.
+
+The console differential (`tests/test_console.py`) compares the empty line,
+whitespace, an unknown command, and the envelope shapes — not this builtin's
+body — so it neither catches nor hides the difference. Saying so here is the
+point: an unexamined green suite is not evidence about a field no test reads.
