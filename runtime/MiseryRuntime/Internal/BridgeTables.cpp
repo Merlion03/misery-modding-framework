@@ -27,6 +27,7 @@
 // same inversion the Python platform used, for the same reason -- most of the
 // guarantees are checkable without MISERY, and they should be checked there.
 #include "BridgeCore.h"
+#include "Json.h"
 
 #include <string.h>
 
@@ -587,19 +588,12 @@ static MbStatus SettingsDeclare(MbHandle mod_handle, MbStr schema_json,
 }
 
 // ---------------------------------------------------------- diagnostics ----
+// The one escaper, in the JSON module. This used to be a local implementation
+// that handled '"', '\\' and '\n' and passed every other control byte through
+// raw, which produced documents no conforming parser accepts. See
+// misery::json::EscapeString.
 static std::string Escape(const std::string& text) {
-  std::string out;
-  for (char c : text) {
-    if (c == '"' || c == '\\') {
-      out += '\\';
-      out += c;
-    } else if (c == '\n') {
-      out += "\\n";
-    } else {
-      out += c;
-    }
-  }
-  return out;
+  return misery::json::EscapeString(text);
 }
 
 static MbStatus DiagSnapshot(MbStr* out_json, MbError* out_error) {

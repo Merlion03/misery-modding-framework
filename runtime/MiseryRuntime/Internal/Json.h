@@ -63,5 +63,36 @@ bool Parse(const std::string& text, Value* out, std::string* error);
 bool ReadFile(const char* path, size_t max_bytes, std::string* out,
               std::string* error);
 
+// Escapes *text* for placing INSIDE a JSON string. The surrounding quotes are
+// the caller's; this returns the body.
+//
+// WHY A WRITER LIVES IN A FILE THAT ANNOUNCES ITSELF AS A READER
+// --------------------------------------------------------------
+// The warning at the top of this header is about the PARSER's input surface and
+// it stands. This exists for the opposite reason. The runtime already had an
+// escaper, hand-rolled at its call site in BridgeTables.cpp, and it was wrong:
+// it escaped only '"', '\' and '\n' and passed every other control byte through
+// raw. RFC 8259 requires every U+0000..U+001F to be escaped, so a tab or a
+// carriage return anywhere in a mod id, a log message or an error detail
+// produced a document no conforming parser accepts -- and the diagnostics
+// snapshot has been rendering caller-supplied text through it.
+//
+// One correct implementation in the JSON module beats a second hand-rolled one
+// per call site, which is precisely the arrangement that produced the defect.
+//
+// WHAT IT GUARANTEES
+// ------------------
+// The result cannot make a document malformed. The two mandatory escapes are
+// applied, the five shorthands RFC 8259 names are used where they apply and
+// \u00XX otherwise, and DEL (0x7F) is left alone because it is legal unescaped.
+// Input that is not valid UTF-8 is not passed through either: an ill-formed
+// byte becomes U+FFFD. A string returned from here is about to be concatenated
+// into a document somebody else has to parse, and "malformed in, malformed out"
+// is not an acceptable contract for that.
+//
+// Matches Python's json.dumps(text, ensure_ascii=False) for every input that is
+// valid UTF-8; tests/test_json_escape.py holds it to that differentially.
+std::string EscapeString(const std::string& text);
+
 }  // namespace json
 }  // namespace misery

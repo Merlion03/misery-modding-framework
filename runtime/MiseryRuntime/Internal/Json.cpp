@@ -326,5 +326,103 @@ bool ReadFile(const char* path, size_t max_bytes, std::string* out,
   return true;
 }
 
+namespace {
+
+// How many bytes the UTF-8 sequence starting at *p* occupies, or 0 if what is
+// there is not a well-formed sequence.
+//
+// The ranges are the ones RFC 3629 actually permits, not the naive
+// "lead byte says how many continuations" version: over-long encodings
+// (0xC0/0xC1), surrogates (ED A0..BF), and anything past U+10FFFF (0xF5..0xFF)
+// are all rejected. A decoder that accepts them is how a string smuggles a NUL
+// or a quote past exactly the kind of escaping this file exists to perform.
+int Utf8SequenceLength(const unsigned char* p, size_t available) {
+  const unsigned char c = p[0];
+  auto cont = [&](size_t i) {
+    return i < available && (p[i] & 0xC0) == 0x80;
+  };
+  if (c < 0x80) {
+    return 1;
+  }
+  if (c >= 0xC2 && c <= 0xDF) {
+    return cont(1) ? 2 : 0;
+  }
+  if (c == 0xE0) {
+    return (available > 1 && p[1] >= 0xA0 && p[1] <= 0xBF && cont(2)) ? 3 : 0;
+  }
+  if ((c >= 0xE1 && c <= 0xEC) || c == 0xEE || c == 0xEF) {
+    return (cont(1) && cont(2)) ? 3 : 0;
+  }
+  if (c == 0xED) {   // exclude the UTF-16 surrogate range
+    return (available > 1 && p[1] >= 0x80 && p[1] <= 0x9F && cont(2)) ? 3 : 0;
+  }
+  if (c == 0xF0) {
+    return (available > 1 && p[1] >= 0x90 && p[1] <= 0xBF && cont(2) &&
+            cont(3)) ? 4 : 0;
+  }
+  if (c >= 0xF1 && c <= 0xF3) {
+    return (cont(1) && cont(2) && cont(3)) ? 4 : 0;
+  }
+  if (c == 0xF4) {   // up to U+10FFFF and no further
+    return (available > 1 && p[1] >= 0x80 && p[1] <= 0x8F && cont(2) &&
+            cont(3)) ? 4 : 0;
+  }
+  return 0;
+}
+
+}  // namespace
+
+std::string EscapeString(const std::string& text) {
+  static const char kHex[] = "0123456789abcdef";
+  std::string out;
+  out.reserve(text.size() + 8);
+  const unsigned char* p =
+      reinterpret_cast<const unsigned char*>(text.data());
+  const size_t n = text.size();
+  size_t i = 0;
+  while (i < n) {
+    const unsigned char c = p[i];
+    if (c == '"') {
+      out += "\\\"";
+      ++i;
+    } else if (c == '\\') {
+      out += "\\\\";
+      ++i;
+    } else if (c >= 0x20) {
+      if (c < 0x80) {
+        out += static_cast<char>(c);
+        ++i;
+      } else {
+        // Multi-byte: emit it whole, or emit U+FFFD and step ONE byte so a
+        // truncated sequence cannot swallow the bytes that follow it.
+        const int len = Utf8SequenceLength(p + i, n - i);
+        if (len == 0) {
+          out += "\xEF\xBF\xBD";
+          ++i;
+        } else {
+          out.append(text, i, static_cast<size_t>(len));
+          i += static_cast<size_t>(len);
+        }
+      }
+    } else {
+      // Control characters. The five RFC 8259 names, then the general form.
+      switch (c) {
+        case '\b': out += "\\b"; break;
+        case '\f': out += "\\f"; break;
+        case '\n': out += "\\n"; break;
+        case '\r': out += "\\r"; break;
+        case '\t': out += "\\t"; break;
+        default:
+          out += "\\u00";
+          out += kHex[(c >> 4) & 0xF];
+          out += kHex[c & 0xF];
+          break;
+      }
+      ++i;
+    }
+  }
+  return out;
+}
+
 }  // namespace json
 }  // namespace misery

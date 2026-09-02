@@ -171,6 +171,10 @@ MISERY_RUNTIME_SOURCES = (
 # run the right cl.exe invocation from memory. A test that quietly does not run
 # is worse than no test, because the suite still reports green.
 MISERY_TEST_HARNESSES = {
+    # The JSON escaper, exposed for a differential against Python's own writer.
+    # Registered here as well as built by its own test, so neither "nobody ran
+    # build_harnesses" nor "the test skipped" can hide it.
+    "json_escape_harness.exe": ("json_escape_harness.cpp", ("Json.cpp",)),
     # Resolver.cpp for ReadBytes: VerifyCode compares the profile's recorded
     # bytes against live memory, and that read is the resolver's.
     "bindings_harness.exe": ("bindings_harness.cpp",
