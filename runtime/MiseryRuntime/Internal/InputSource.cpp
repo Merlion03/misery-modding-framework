@@ -24,6 +24,11 @@ HWND g_window = nullptr;
 WNDPROC g_previous = nullptr;
 Consumer g_consumer = nullptr;
 void* g_consumer_context = nullptr;
+Watcher g_watcher = nullptr;
+void* g_watcher_context = nullptr;
+
+std::atomic<bool> g_application_active{true};
+std::atomic<bool> g_minimised{false};
 
 std::atomic<uint64_t> g_seen{0};
 std::atomic<uint64_t> g_suppressed{0};
@@ -55,11 +60,42 @@ Census FindWindow() {
   return census;
 }
 
+void Notify(WindowEvent event) {
+  Watcher watcher = g_watcher;
+  if (watcher == nullptr) return;
+  // Same containment as the keyboard consumer: a throw escaping here would
+  // unwind through the engine's own message pump.
+  try {
+    watcher(g_watcher_context, event);
+  } catch (...) {
+  }
+}
+
+// Observed, never consumed. Every one of these is passed on to the game
+// untouched -- the framework is watching the window's state, not taking part
+// in it.
+void ObserveWindowState(UINT message, WPARAM wparam) {
+  if (message == WM_ACTIVATEAPP) {
+    const bool active = wparam != FALSE;
+    if (g_application_active.exchange(active) != active) {
+      Notify(active ? WindowEvent::kActivated : WindowEvent::kDeactivated);
+    }
+    return;
+  }
+  if (message == WM_SIZE) {
+    const bool minimised = (wparam == SIZE_MINIMIZED);
+    if (g_minimised.exchange(minimised) != minimised) {
+      Notify(minimised ? WindowEvent::kMinimised : WindowEvent::kRestored);
+    }
+  }
+}
+
 LRESULT CALLBACK SourceProc(HWND window, UINT message, WPARAM wparam,
                             LPARAM lparam) {
   g_any_message.fetch_add(1, std::memory_order_relaxed);
 
   if (!IsKeyboardMessage(static_cast<uint32_t>(message))) {
+    ObserveWindowState(message, wparam);
     return CallWindowProcW(g_previous, window, message, wparam, lparam);
   }
   g_seen.fetch_add(1, std::memory_order_relaxed);
@@ -107,6 +143,13 @@ bool AttachLocked(std::string* why) {
   }
   g_window = census.window;
   g_previous = reinterpret_cast<WNDPROC>(previous);
+  // WM_ACTIVATEAPP only arrives on a CHANGE, so a fresh attach has to read the
+  // current state rather than assume the game is in front. It often is not: the
+  // re-arm path runs when the window was recreated, which can happen while the
+  // user is looking at something else entirely.
+  const bool active = (GetForegroundWindow() == census.window);
+  g_application_active.store(active, std::memory_order_relaxed);
+  g_minimised.store(IsIconic(census.window) != FALSE, std::memory_order_relaxed);
   return true;
 }
 
@@ -184,6 +227,24 @@ void Tick() {
     attached = g_window;
   }
   if (attached == nullptr) return;
+
+  // RE-READ THE OS, do not re-read our own flag.
+  //
+  // WM_ACTIVATEAPP only arrives on a CHANGE. If the framework attached while
+  // the game was already in front -- which is the ordinary case, since it
+  // attaches during loading -- no activation message ever arrives and a cached
+  // flag seeded at attach time stays wrong forever. The first version of this
+  // "reconciliation" compared the console's copy of the flag against the
+  // source's copy of the same flag, so both were stale together and it could
+  // not correct anything. This asks the OS.
+  const bool active_now = (GetForegroundWindow() == attached);
+  const bool minimised_now = (IsIconic(attached) != FALSE);
+  if (g_application_active.exchange(active_now) != active_now) {
+    Notify(active_now ? WindowEvent::kActivated : WindowEvent::kDeactivated);
+  }
+  if (g_minimised.exchange(minimised_now) != minimised_now) {
+    Notify(minimised_now ? WindowEvent::kMinimised : WindowEvent::kRestored);
+  }
   // Two ways to lose the window: it is destroyed (a display-mode change
   // rebuilds it), or our procedure is replaced. Both are observable, so neither
   // is answered with a timer.
@@ -211,6 +272,12 @@ void SetConsumer(Consumer consumer, void* context) {
   g_consumer = consumer;               // written last; the context must be up first
 }
 
+void SetWatcher(Watcher watcher, void* context) {
+  std::lock_guard<std::mutex> guard(g_mutex);
+  g_watcher_context = context;
+  g_watcher = watcher;                 // written last, for the same reason
+}
+
 Status Read() {
   std::lock_guard<std::mutex> guard(g_mutex);
   Status status;
@@ -221,6 +288,8 @@ Status Read() {
   status.messages_seen = g_seen.load(std::memory_order_relaxed);
   status.messages_suppressed = g_suppressed.load(std::memory_order_relaxed);
   status.rearms = g_rearms.load(std::memory_order_relaxed);
+  status.application_active = g_application_active.load(std::memory_order_relaxed);
+  status.minimised = g_minimised.load(std::memory_order_relaxed);
   status.last_refusal = g_last_refusal;
   return status;
 }

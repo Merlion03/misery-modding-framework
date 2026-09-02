@@ -100,14 +100,51 @@ class KeyRouter {
 
   bool IsOpen() const { return open_; }
 
-  // Closing from outside the key path -- the window lost focus, the module is
-  // shutting down. Every key still marked stays marked, so the ups the engine
-  // never saw a down for are still swallowed.
+  // Closing from outside the key path -- the module is shutting down. Every key
+  // still marked stays marked, so the ups the engine never saw a down for are
+  // still swallowed.
   void ForceClose() { open_ = false; }
+
+  // Whether MISERY is the active application.
+  //
+  // NOT the same as closing. Losing activation must not throw away what a
+  // developer typed, so `open_` and everything behind it survive; the console
+  // simply stops reading keys and stops being shown until the game is in front
+  // again.
+  //
+  // WHY DEACTIVATING CLEARS EVERY MARK. A key whose down we swallowed will have
+  // its UP delivered to whichever application now has focus, not to us. The
+  // mark would then still be set the next time that key is pressed -- and if
+  // the console were closed by then, its down would reach the game and its up
+  // would be swallowed by the stale mark, leaving that key held down inside the
+  // game forever. Clearing risks the opposite and far milder thing: a key-up
+  // the engine never saw a down for, which is a no-op in every input stack this
+  // project has looked at.
+  void SetActive(bool active) {
+    if (active_ == active) return;
+    active_ = active;
+    if (!active_) {
+      for (int i = 0; i < 256; ++i) marked_[i] = false;
+      swallow_char_ = false;
+    }
+  }
+
+  bool IsActive() const { return active_; }
 
   Decision Route(uint32_t message, uint32_t wparam) {
     Decision decision;
     if (!IsKeyboardMessage(message)) {
+      return decision;
+    }
+
+    // Inactive: the game gets everything and the console reads nothing, even
+    // if the console is open. It stays open -- the line, the history and the
+    // scrollback are all still there -- it is just not listening, and Tick will
+    // not show it. A message arriving at all while inactive means somebody
+    // posted it directly, since the OS routes real keystrokes to whoever has
+    // focus; forwarding it is the same answer the game would have got without
+    // us here.
+    if (!active_) {
       return decision;
     }
 
@@ -214,6 +251,7 @@ class KeyRouter {
 
   uint32_t toggle_ = kVkOem3;
   bool open_ = false;
+  bool active_ = true;
   bool swallow_char_ = false;
   bool marked_[256] = {};
 };

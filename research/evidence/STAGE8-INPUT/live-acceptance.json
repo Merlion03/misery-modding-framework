@@ -1,75 +1,124 @@
 {
   "install_root": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "label": "menu",
+  "command": "misery:caps",
+  "install": {
+    "payload": [
+      "Misery.ModAPI.dll",
+      "Misery.ModHost.deps.json",
+      "Misery.ModHost.dll",
+      "Misery.ModHost.runtimeconfig.json",
+      "MiseryRuntime.dll",
+      "Mods\\ReferenceMod\\Code\\RefMod.deps.json",
+      "Mods\\ReferenceMod\\Code\\RefMod.dll",
+      "Mods\\ReferenceMod\\Code\\RefMod.runtimeconfig.json",
+      "Mods\\ReferenceMod\\Content\\Mod_refmod_P.pak",
+      "Mods\\ReferenceMod\\Content\\Mod_refmod_P.ucas",
+      "Mods\\ReferenceMod\\Content\\Mod_refmod_P.utoc",
+      "Mods\\ReferenceMod\\mod.json",
+      "nethost.dll"
+    ],
+    "neighbours": [
+      "brokenreadymod",
+      "throwonloadmod"
+    ]
+  },
+  "launch": {
+    "pid": 6124,
+    "log": "[15:02:15.828] bootstrap: exe=D:\\Games\\Steam\\steamapps\\common\\MISERY\\MISERY\\Binaries\\Win64\\MISERY-Win64-Shipping.exe\n[15:02:15.925] bootstrap: fingerprint sha256=bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\n[15:02:15.926] bootstrap: bindings match this build\n[15:02:15.929] bootstrap: handing over to the runtime\n[15:02:15.930] bootstrap: runtime returned 0\n",
+    "alive": true,
+    "runtime_loaded": true,
+    "proxy_loaded": true
+  },
+  "console_log_lines": [
+    "[15:02:15.937] runtime: developer console ready on window 0x5f0820 (thread 12044); toggle key 0xC0",
+    "[15:02:57.223] managed: full report {\"ok\":true,\"all_loaded\":false,\"loaded_count\":2,\"failed_count\":1,\"loaded\":[\"brokenreadymod\",\"refmod\"],\"failed\":[{\"mod\":\"throwonloadmod\",\"error\":\"InvalidOperationException: this mod fails on purpose\"}],\"native\":{\"mods\":[{\"mod_id\":\"brokenreadymod\",\"state\":2,\"epoch\":1,\"owned\":1,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"refmod\",\"state\":2,\"epoch\":1,\"owned\":3,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"throwonloadmod\",\"state\":5,\"epoch\":2,\"owned\":0,\"released\":0,\"revoked\":2,\"faults\":0,\"active_frames\":0,\"reclaimable\":true}],\"live_slots\":4,\"slot_capacity\":6,\"events\":1,\"services\":0,\"commands\":15,\"dispatches\":1,\"trampoline_calls\":0,\"handler_faults\":0,\"log_records\":4},\"bundle\":{\"schema\":1,\"build\":{\"build_key\":\"sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\",\"engine_version\":\"5.4.4\",\"engine_cl\":35576357},\"framework\":{\"api_major\":0,\"api_minor\":5,\"abi_epoch\":1},\"generation\":{\"attached\":true,\"generation\":1,\"published\":true,\"phase\":\"content\"},\"mods\":[{\"mod_id\":\"brokenreadymod\",\"state\":\"loaded\",\"epoch\":1,\"owned\":1,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"refmod\",\"state\":\"loaded\",\"epoch\":1,\"owned\":3,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"throwonloadmod\",\"state\":\"failed\",\"epoch\":2,\"owned\":0,\"released\":0,\"revoked\":2,\"faults\":0,\"active_frames\":0,\"reclaimable\":true}],\"capabilities\":[{\"name\":\"core.log\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.events\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.settings\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.input_registry\",\"available\":false},{\"name\":\"core.services\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.items\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.console\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.diagnostics\",\"available\":true,\"major\":1,\"minor\":0}],\"resources\":{\"live_slots\":4,\"slot_capacity\":6},\"events\":{\"declared\":1,\"subscribers\":2},\"services\":[],\"commands\":[{\"name\":\"misery:caps\",\"owner\":\"platform\"},{\"name\":\"misery:errors\",\"owner\":\"platform\"},{\"name\":\"misery:events\",\"owner\":\"platform\"},{\"name\":\"misery:generations\",\"owner\":\"platform\"},{\"name\":\"misery:help\",\"owner\":\"platform\"},{\"name\":\"misery:input\",\"owner\":\"platform\"},{\"name\":\"misery:items\",\"owner\":\"platform\"},{\"name\":\"misery:loadorder\",\"owner\":\"platform\"},{\"name\":\"misery:log\",\"owner\":\"platform\"},{\"name\":\"misery:mods\",\"owner\":\"platform\"},{\"name\":\"misery:owned\",\"owner\":\"platform\"},{\"name\":\"misery:services\",\"owner\":\"platform\"},{\"name\":\"misery:settings\",\"owner\":\"platform\"},{\"name\":\"misery:why\",\"owner\":\"platform\"},{\"name\":\"refmod:status\",\"owner\":\"refmod\"}],\"items\":{\"declared\":1,\"live\":0},\"recent_errors\":{\"capacity\":64,\"recorded\":0,\"dropped\":0,\"errors\":[]},\"counters\":{\"dispatches\":1,\"trampoline_calls\":0,\"handler_faults\":0,\"log_records\":4}}}"
+  ],
+  "managed_log_lines": [
+    "[15:02:57.143] managed: 3 mod(s) to load: brokenreadymod refmod throwonloadmod",
+    "[15:02:57.222] managed: 2 of 3 planned mod(s) loaded, 1 failed: brokenreadymod refmod",
+    "[15:02:57.223] managed: mod 'throwonloadmod' did not load: InvalidOperationException: this mod fails on purpose",
+    "[15:02:57.223] managed: full report {\"ok\":true,\"all_loaded\":false,\"loaded_count\":2,\"failed_count\":1,\"loaded\":[\"brokenreadymod\",\"refmod\"],\"failed\":[{\"mod\":\"throwonloadmod\",\"error\":\"InvalidOperationException: this mod fails on purpose\"}],\"native\":{\"mods\":[{\"mod_id\":\"brokenreadymod\",\"state\":2,\"epoch\":1,\"owned\":1,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"refmod\",\"state\":2,\"epoch\":1,\"owned\":3,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"throwonloadmod\",\"state\":5,\"epoch\":2,\"owned\":0,\"released\":0,\"revoked\":2,\"faults\":0,\"active_frames\":0,\"reclaimable\":true}],\"live_slots\":4,\"slot_capacity\":6,\"events\":1,\"services\":0,\"commands\":15,\"dispatches\":1,\"trampoline_calls\":0,\"handler_faults\":0,\"log_records\":4},\"bundle\":{\"schema\":1,\"build\":{\"build_key\":\"sha256:bace50f7185d095d03ee18a2fea701c747810c31f2037bda21ea57a81f013331\",\"engine_version\":\"5.4.4\",\"engine_cl\":35576357},\"framework\":{\"api_major\":0,\"api_minor\":5,\"abi_epoch\":1},\"generation\":{\"attached\":true,\"generation\":1,\"published\":true,\"phase\":\"content\"},\"mods\":[{\"mod_id\":\"brokenreadymod\",\"state\":\"loaded\",\"epoch\":1,\"owned\":1,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"refmod\",\"state\":\"loaded\",\"epoch\":1,\"owned\":3,\"released\":0,\"revoked\":0,\"faults\":0,\"active_frames\":0,\"reclaimable\":false},{\"mod_id\":\"throwonloadmod\",\"state\":\"failed\",\"epoch\":2,\"owned\":0,\"released\":0,\"revoked\":2,\"faults\":0,\"active_frames\":0,\"reclaimable\":true}],\"capabilities\":[{\"name\":\"core.log\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.events\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.settings\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.input_registry\",\"available\":false},{\"name\":\"core.services\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.items\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.console\",\"available\":true,\"major\":1,\"minor\":0},{\"name\":\"core.diagnostics\",\"available\":true,\"major\":1,\"minor\":0}],\"resources\":{\"live_slots\":4,\"slot_capacity\":6},\"events\":{\"declared\":1,\"subscribers\":2},\"services\":[],\"commands\":[{\"name\":\"misery:caps\",\"owner\":\"platform\"},{\"name\":\"misery:errors\",\"owner\":\"platform\"},{\"name\":\"misery:events\",\"owner\":\"platform\"},{\"name\":\"misery:generations\",\"owner\":\"platform\"},{\"name\":\"misery:help\",\"owner\":\"platform\"},{\"name\":\"misery:input\",\"owner\":\"platform\"},{\"name\":\"misery:items\",\"owner\":\"platform\"},{\"name\":\"misery:loadorder\",\"owner\":\"platform\"},{\"name\":\"misery:log\",\"owner\":\"platform\"},{\"name\":\"misery:mods\",\"owner\":\"platform\"},{\"name\":\"misery:owned\",\"owner\":\"platform\"},{\"name\":\"misery:services\",\"owner\":\"platform\"},{\"name\":\"misery:settings\",\"owner\":\"platform\"},{\"name\":\"misery:why\",\"owner\":\"platform\"},{\"name\":\"refmod:status\",\"owner\":\"refmod\"}],\"items\":{\"declared\":1,\"live\":0},\"recent_errors\":{\"capacity\":64,\"recorded\":0,\"dropped\":0,\"errors\":[]},\"counters\":{\"dispatches\":1,\"trampoline_calls\":0,\"handler_faults\":0,\"log_records\":4}}}",
+    "[15:02:57.223] runtime: managed host started against content generation 1"
+  ],
   "window": {
-    "hwnd": "0x35007da",
-    "rect": {
+    "hwnd": "0x5f0820",
+    "window_rect": {
+      "left": 432,
+      "top": 140,
+      "right": 2128,
+      "bottom": 1229,
+      "width": 1696,
+      "height": 1089
+    },
+    "client_rect": {
       "left": 0,
       "top": 0,
-      "right": 2560,
-      "bottom": 1440,
-      "width": 2560,
-      "height": 1440
+      "right": 1680,
+      "bottom": 1050,
+      "width": 1680,
+      "height": 1050
     }
   },
   "foreground_is_game": true,
   "baseline": {
     "ink": {
-      "prompt": 4,
-      "notice": 14981,
-      "output": 76672,
+      "prompt": 1,
+      "notice": 10000,
+      "output": 20642,
       "echo": 0,
       "error": 0,
-      "background": 1425173,
-      "total": 1546240,
-      "ink": 91657
+      "background": 0,
+      "total": 740880,
+      "ink": 30643
     },
-    "digest": "0e60bf546048c0ca"
+    "digest": "e9e270a9cc251f62"
   },
   "after_toggle": {
     "ink": {
-      "prompt": 44,
-      "notice": 682,
-      "output": 9,
-      "echo": 330,
-      "error": 582,
-      "background": 1535609,
-      "total": 1546240,
-      "ink": 1647
+      "prompt": 7,
+      "notice": 914,
+      "output": 1,
+      "echo": 2,
+      "error": 0,
+      "background": 735802,
+      "total": 740880,
+      "ink": 924
     },
-    "digest": "ca1f9803fa6f2b9f"
+    "digest": "e36da2d9282a80f3"
   },
   "after_command": {
     "ink": {
-      "prompt": 44,
-      "notice": 675,
+      "prompt": 7,
+      "notice": 945,
       "output": 0,
-      "echo": 492,
-      "error": 873,
-      "background": 1533137,
-      "total": 1546240,
-      "ink": 2084
+      "echo": 166,
+      "error": 452,
+      "background": 733140,
+      "total": 740880,
+      "ink": 1570
     },
-    "digest": "def41174dfe46d08"
+    "digest": "b3c4cb355d2f7012"
   },
   "after_close": {
     "ink": {
-      "prompt": 4,
-      "notice": 14981,
-      "output": 76672,
+      "prompt": 1,
+      "notice": 9869,
+      "output": 20632,
       "echo": 0,
       "error": 0,
-      "background": 1425173,
-      "total": 1546240,
-      "ink": 91657
+      "background": 0,
+      "total": 740880,
+      "ink": 30502
     },
-    "digest": "0e60bf546048c0ca"
+    "digest": "bb635a8b5081e241"
   },
   "measured": {
-    "game_text_pixels_before": 76672,
-    "game_text_pixels_with_console_open": 9,
-    "game_text_pixels_after_close": 76672,
-    "console_ink_open": 1647,
-    "console_ink_after_command": 2084
+    "game_text_pixels_before": 20642,
+    "game_text_pixels_with_console_open": 1,
+    "game_text_pixels_after_close": 20632,
+    "console_ink_open": 924,
+    "console_ink_after_command": 1570
   },
   "checks": {
     "the game's own screen is what is showing to begin with": true,

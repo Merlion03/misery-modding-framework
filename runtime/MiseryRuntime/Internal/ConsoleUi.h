@@ -49,7 +49,14 @@ void Announce(const std::string& text);
 
 struct Status {
   bool started = false;
+  // OPEN is the developer's intent and survives Alt+Tab. VISIBLE is whether it
+  // is on screen right now, which also needs MISERY to be the active
+  // application and not minimised. They are reported separately because
+  // conflating them is precisely the bug this pair exists to prevent.
   bool open = false;
+  bool visible = false;
+  bool application_active = true;
+  bool minimised = false;
   uint64_t commands_run = 0;
   uint32_t toggle_key = 0;
   std::string last_refusal;

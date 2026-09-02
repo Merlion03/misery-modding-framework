@@ -66,6 +66,18 @@ int main(int argc, char** argv) {
     printf("[\n");
     bool first = true;
     while (scanf("%u %u", &message, &wparam) == 2) {
+      // 0 is not a keyboard message and never reaches Route as one, so it is
+      // free to mean "set activation" in the script: `0 1` activates, `0 0`
+      // deactivates. Real WM_NULL would be forwarded and mean nothing anyway.
+      if (message == 0) {
+        router.SetActive(wparam != 0);
+        printf("%s{\"message\":0,\"wparam\":%u,\"action\":\"set_active\","
+               "\"character\":0,\"forward\":true,\"open\":%s,\"held\":%d}",
+               first ? "" : ",\n", wparam, router.IsOpen() ? "true" : "false",
+               router.HeldCount());
+        first = false;
+        continue;
+      }
       const Decision decision = router.Route(message, wparam);
       printf("%s{\"message\":%u,\"wparam\":%u,\"action\":\"%s\","
              "\"character\":%u,\"forward\":%s,\"open\":%s,\"held\":%d}",
@@ -240,6 +252,80 @@ int main(int argc, char** argv) {
           router.Route(mi::kKeyDown, mi::kVkOem3).forward_to_game);
     Check("  ...and the configured key is",
           router.Route(mi::kKeyDown, 0x77).action == Action::kOpen);
+  }
+
+  // ---- ACTIVATION: a separate state from open --------------------------
+  // Alt+Tab left a topmost console sitting over whatever the user switched to,
+  // because nothing tracked activation at all. These are the rules that fixed
+  // it, and the first of them is the one a later "simplification" would break:
+  // losing activation must not throw away what a developer typed.
+  {
+    KeyRouter router;
+    router.Route(mi::kKeyDown, mi::kVkOem3);          // open
+    router.Route(mi::kChar, 0x60);
+    router.Route(mi::kKeyUp, mi::kVkOem3);
+    Check("the console is open", router.IsOpen());
+
+    router.SetActive(false);
+    Check("losing activation does NOT close the console", router.IsOpen(),
+          "the line, the history and the scrollback all hang off this");
+    Check("  ...and the router says it is inactive", !router.IsActive());
+
+    const Decision typed = router.Route(mi::kChar, 'x');
+    Check("an inactive console reads nothing", typed.action == Action::kNothing);
+    Check("  ...and the game gets the message instead", typed.forward_to_game);
+
+    const Decision toggle = router.Route(mi::kKeyDown, mi::kVkOem3);
+    Check("the toggle does nothing while inactive",
+          toggle.action == Action::kNothing && toggle.forward_to_game);
+    Check("  ...and the console is STILL open", router.IsOpen());
+
+    router.SetActive(true);
+    const Decision back = router.Route(mi::kChar, 'y');
+    Check("activation restores reading", back.action == Action::kText &&
+                                             back.character == 'y');
+    Check("  ...and the console never stopped being open", router.IsOpen());
+  }
+
+  // ---- deactivating cannot strand a key --------------------------------
+  // A key whose down we swallowed has its UP delivered to whoever has focus
+  // now. If the mark survived, the next press of that key with the console
+  // CLOSED would send its down to the game and have its up swallowed by the
+  // stale mark -- that key held down inside the game forever.
+  {
+    KeyRouter router;
+    router.Route(mi::kKeyDown, mi::kVkOem3);
+    router.Route(mi::kChar, 0x60);
+    router.Route(mi::kKeyUp, mi::kVkOem3);
+    router.Route(mi::kKeyDown, 'W');                  // swallowed and marked
+    Check("a key held when the console is open is marked",
+          router.HeldCount() == 1);
+
+    router.SetActive(false);
+    Check("deactivating clears every mark", router.HeldCount() == 0,
+          "its key-up is going to another application, not to us");
+
+    router.SetActive(true);
+    router.Route(mi::kKeyDown, mi::kVkOem3);          // close
+    router.Route(mi::kChar, 0x60);
+    router.Route(mi::kKeyUp, mi::kVkOem3);
+    Check("with the console closed the key reaches the game again",
+          router.Route(mi::kKeyDown, 'W').forward_to_game);
+    Check("  ...and so does its up, which a stale mark would have eaten",
+          router.Route(mi::kKeyUp, 'W').forward_to_game);
+  }
+
+  // ---- a closed console is unaffected by activation ---------------------
+  {
+    KeyRouter router;
+    router.SetActive(false);
+    Check("an inactive, closed console forwards everything",
+          router.Route(mi::kKeyDown, 'W').forward_to_game &&
+              router.Route(mi::kChar, 'w').forward_to_game &&
+              router.Route(mi::kKeyUp, 'W').forward_to_game);
+    router.SetActive(true);
+    Check("  ...and the toggle works again once active",
+          router.Route(mi::kKeyDown, mi::kVkOem3).action == Action::kOpen);
   }
 
   // ---- non-keyboard messages are none of our business ------------------

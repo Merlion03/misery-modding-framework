@@ -60,6 +60,10 @@ struct State {
   bool dirty = true;
   bool caret_on = true;
   DWORD caret_at = 0;
+  // The two window states, kept apart because they are two facts. `open` lives
+  // in the router and is the developer's intent; these are the game's.
+  bool active = true;
+  bool minimised = false;
 };
 
 State& S() {
@@ -347,6 +351,29 @@ void Hide() {
   if (S().window != nullptr) ShowWindow(S().window, SW_HIDE);
 }
 
+// The whole visibility rule, in one place.
+//
+// Three independent facts, and the console is on screen only when all three
+// agree: the developer opened it, MISERY is the active application, and it is
+// not minimised. Losing activation hides the PRESENTATION and nothing else --
+// the line being typed, the history and the scrollback are untouched, so
+// Alt+Tab away and back leaves the console exactly as it was.
+//
+// This exists as one function because the bug it fixes was the absence of one.
+// Minimise appeared to work while activation did not, and the reason was that
+// nothing was deciding visibility at all: the overlay follows the game's client
+// rect, a minimised window's rect collapses, and the overlay went with it. A
+// rule that is an accident of geometry holds for the case that happens to
+// collapse a rect and fails for every other one.
+void ApplyVisibility() {
+  const bool should_show = S().router.IsOpen() && S().active && !S().minimised;
+  if (should_show) {
+    Show();
+    return;
+  }
+  Hide();
+}
+
 void Submit() {
   std::string command;
   if (!S().line.Submit(&command)) return;
@@ -375,6 +402,32 @@ void CompleteNow() {
   }
 }
 
+// The input source's watcher. Runs inside the window procedure, synchronously
+// with the state change -- not from the frame pump, because a background or
+// minimised game may not be getting frames, and a console that waited for one
+// to hide itself would still be on screen over whatever the user switched to.
+void OnWindowEvent(void*, misery::input::WindowEvent event) {
+  switch (event) {
+    case misery::input::WindowEvent::kActivated:
+      S().active = true;
+      break;
+    case misery::input::WindowEvent::kDeactivated:
+      S().active = false;
+      break;
+    case misery::input::WindowEvent::kMinimised:
+      S().minimised = true;
+      break;
+    case misery::input::WindowEvent::kRestored:
+      S().minimised = false;
+      break;
+  }
+  // The router stops reading keys while the game is not the active application,
+  // and keeps everything it already holds.
+  S().router.SetActive(S().active && !S().minimised);
+  ApplyVisibility();
+  S().dirty = true;
+}
+
 // The input source's consumer. Returns whether the game gets the message.
 bool OnMessage(void*, uint32_t message, uint32_t wparam, uint32_t) {
   using misery::input::Action;
@@ -384,10 +437,8 @@ bool OnMessage(void*, uint32_t message, uint32_t wparam, uint32_t) {
     case Action::kSwallowedChar:
       break;
     case Action::kOpen:
-      Show();
-      break;
     case Action::kClose:
-      Hide();
+      ApplyVisibility();
       break;
     case Action::kText:
       S().line.InsertCharacter(decision.character);
@@ -429,6 +480,16 @@ bool Start(std::string* why) {
     return false;
   }
   misery::input::SetConsumer(&OnMessage, nullptr);
+  misery::input::SetWatcher(&OnWindowEvent, nullptr);
+  {
+    // WM_ACTIVATEAPP only arrives on a change, so the starting state is read
+    // rather than assumed -- the framework starts while the game is loading,
+    // which is a time a user may well be looking at something else.
+    const misery::input::Status source = misery::input::Read();
+    S().active = source.application_active;
+    S().minimised = source.minimised;
+    S().router.SetActive(S().active && !S().minimised);
+  }
   S().started = true;
   S().line.Write("MISERY developer console. Tab completes, PageUp scrolls, "
                  "Escape closes.", Severity::kNotice);
@@ -441,6 +502,7 @@ bool Stop(std::string* why) {
   S().router.ForceClose();
   Hide();
   misery::input::SetConsumer(nullptr, nullptr);
+  misery::input::SetWatcher(nullptr, nullptr);
   std::string reason;
   if (!misery::input::Detach(&reason)) {
     S().last_refusal = reason;
@@ -468,7 +530,28 @@ bool Stop(std::string* why) {
 
 void Tick() {
   misery::input::Tick();
-  if (!S().started || S().window == nullptr || !S().router.IsOpen()) return;
+  if (!S().started) return;
+
+  // Reconcile against the source, which refreshed itself from the OS in the
+  // Tick above. The watcher is the primary path and is synchronous; this is the
+  // backstop for a state that produced no message we saw -- the framework
+  // attaching while the game is ALREADY in front, so no WM_ACTIVATEAPP ever
+  // arrives, or a re-arm onto a freshly created window.
+  const misery::input::Status source = misery::input::Read();
+  if (source.attached &&
+      (source.application_active != S().active ||
+       source.minimised != S().minimised)) {
+    S().active = source.application_active;
+    S().minimised = source.minimised;
+    S().router.SetActive(S().active && !S().minimised);
+    ApplyVisibility();
+    S().dirty = true;
+  }
+
+  if (S().window == nullptr || !S().router.IsOpen() || !S().active ||
+      S().minimised) {
+    return;
+  }
 
   // The overlay follows the game's client rect. A window that stayed where it
   // was after a resolution change would be a console hanging off the screen.
@@ -509,6 +592,9 @@ Status Read() {
   Status status;
   status.started = S().started;
   status.open = S().router.IsOpen();
+  status.visible = S().router.IsOpen() && S().active && !S().minimised;
+  status.application_active = S().active;
+  status.minimised = S().minimised;
   status.commands_run = S().commands_run;
   status.toggle_key = S().router.ToggleKey();
   status.last_refusal = S().last_refusal;

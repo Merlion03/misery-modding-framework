@@ -39,8 +39,36 @@ namespace input {
 using Consumer = bool (*)(void* context, uint32_t message, uint32_t wparam,
                           uint32_t lparam);
 
+// Window states a consumer has to know about, because they are not keyboard and
+// cannot be inferred from keyboard.
+//
+// ACTIVATION AND MINIMISE ARE SEPARATE, deliberately. They were conflated once
+// and it produced a real bug: minimising appeared to work only because the
+// overlay follows the game's client rect and a minimised window's rect
+// collapses, so nothing was ever tracking activation and Alt+Tab left a topmost
+// console sitting over whatever the user switched to. A window can be inactive
+// and not minimised, minimised and not inactive (briefly, mid-transition), or
+// both, and a consumer that wants "is the game in front of the user" has to be
+// told each independently rather than handed one flag that means neither.
+enum class WindowEvent : int32_t {
+  kActivated = 1,     // WM_ACTIVATEAPP, wParam TRUE
+  kDeactivated = 2,   // WM_ACTIVATEAPP, wParam FALSE -- Alt+Tab lands here
+  kMinimised = 3,     // WM_SIZE, SIZE_MINIMIZED
+  kRestored = 4,      // WM_SIZE, anything else, after having been minimised
+};
+
+// Delivered from inside the window procedure, synchronously with the state
+// change. NOT polled from the frame pump: a minimised or background game may
+// have its tick throttled by the engine or the OS, and a console that waited
+// for a frame to hide itself would still be on screen while the user was
+// looking at something else -- which is exactly the shape of the bug this
+// exists to fix.
+using Watcher = void (*)(void* context, WindowEvent event);
+
 struct Status {
   bool attached = false;
+  bool application_active = true;   // WM_ACTIVATEAPP says MISERY is in front
+  bool minimised = false;           // WM_SIZE said SIZE_MINIMIZED
   uint64_t window = 0;
   uint32_t window_thread_id = 0;
   uint64_t messages_seen = 0;     // keyboard messages only
@@ -70,6 +98,7 @@ bool WaitQuiescent(uint32_t settle_ms, uint32_t timeout_ms);
 void Tick();
 
 void SetConsumer(Consumer consumer, void* context);
+void SetWatcher(Watcher watcher, void* context);
 Status Read();
 
 }  // namespace input

@@ -323,3 +323,90 @@ The console differential (`tests/test_console.py`) compares the empty line,
 whitespace, an unknown command, and the envelope shapes — not this builtin's
 body — so it neither catches nor hides the difference. Saying so here is the
 point: an unexamined green suite is not evidence about a field no test reads.
+
+---
+
+# Part three: the focus lifecycle, found in manual acceptance
+
+Reported from the manual pass: minimising MISERY hid the console overlay,
+**Alt+Tab did not**, and a topmost console was left sitting over whatever the
+user switched to.
+
+## The cause, which is not what the symptom suggests
+
+Nothing was tracking window state at all. There was no `WM_ACTIVATEAPP` handler,
+no `SIZE_MINIMIZED` handler, no `IsIconic` call — the words did not appear in the
+source. Minimise *appeared* to work for an entirely incidental reason: the
+overlay is positioned each frame over the game's client rect, and a minimised
+window's client rect collapses, so the overlay collapsed with it.
+
+That is the shape of the finding worth keeping. **A rule that is an accident of
+geometry holds for the one case that happens to collapse a rect and fails for
+every other one.** Activation loss does not resize anything, so nothing hid the
+overlay, and the two cases looked like one working feature and one bug when in
+fact neither was implemented.
+
+## What replaced it
+
+Three independent facts, and the console is on screen only when all three agree:
+the developer opened it, MISERY is the active application, and it is not
+minimised. `ConsoleUi`'s `ApplyVisibility()` is the single place that decides,
+because the absence of a single place is what the bug was.
+
+* **`open` and `visible` are now separate**, in the state and in `Status`.
+  Losing activation suppresses the presentation and the input; the line being
+  typed, the history and the scrollback are untouched, which is what the brief
+  asked for and what the round-trip check measures.
+* **Delivery is synchronous, from the window procedure**, not polled from the
+  frame pump. A background or minimised game may not be getting frames, and a
+  console that waited for one to hide itself would still be on screen while the
+  user was looking at something else — the same failure by a different route.
+* **Deactivating clears every held-key mark.** A key whose down was swallowed
+  has its up delivered to whoever has focus now, so the mark would survive; the
+  next press of that key with the console *closed* would send its down to the
+  game and have its up eaten by the stale mark, holding that key down inside the
+  game forever. Clearing risks the opposite and far milder thing — a key-up the
+  engine never saw a down for.
+
+## A second bug, in the fix
+
+The first reconciliation compared the console's copy of the activation flag
+against the **input source's copy of the same flag**. Both were stale together,
+so it could not correct anything — and it mattered immediately: `WM_ACTIVATEAPP`
+only arrives on a *change*, and the framework attaches while the game is
+already in front, so no activation message ever arrives and a flag seeded at
+attach time stays wrong for the whole session. The source now re-reads the OS
+(`GetForegroundWindow`, `IsIconic`) once a frame and fires the watcher on a
+change, which makes the console's reconciliation mean something.
+
+## Measured
+
+`research/evidence/STAGE8-INPUT/live-focus.json`. The claim is about a window's
+state, so it is measured on the overlay window's own `IsWindowVisible`, found
+from outside by class name — no palette, no tolerance, no dependence on what is
+behind it.
+
+| state | overlay visible | game minimised |
+|---|---|---|
+| open, active | **yes** | no |
+| **activation lost, not minimised** | **no** | **no** |
+| reactivated | **yes** | no |
+| minimised | **no** | **yes** |
+| restored | **yes** | no |
+| closed | **no** | no |
+
+The typed line survived the Alt+Tab round trip: 52,640 ink pixels before, 52,638
+after — a two-pixel difference, which is the caret blinking.
+
+## Two acceptance defects found on the way, both mine
+
+* **The screen acceptance did not fail closed on the foreground.** One run
+  measured a browser's pixels: the game never came forward, the sampled region
+  was half the size, and "the game's own screen is showing" failed against
+  another application's content. It now refuses and reports BLOCKED rather than
+  producing numbers.
+* **It sampled the window rect, not the client rect.** This session's game
+  launched *windowed* at 1680×1050, so the window rect included a title bar the
+  overlay never covers, and the console read as not opening. Fixed — and the
+  windowed launch is worth having: the console is now proven in both display
+  modes rather than only the borderless one.

@@ -41,17 +41,38 @@ the thing most worth checking by hand.
    Try Cyrillic if you have the layout — the line is UTF-8 and a Backspace
    removes a whole letter, not half of one.
 
+## Focus and minimise — the bug you found, and what replaced it
+
+You reported that minimising hid the overlay but Alt+Tab did not, leaving a
+topmost console over whatever you switched to. The cause is worth knowing:
+**nothing was tracking window state at all.** Minimise only appeared to work
+because the overlay follows the game's client rect and a minimised window's rect
+collapses. Activation and minimise are now two separate states, both observed
+from the game's own window procedure.
+
+The rule is one line: the console is on screen only when **you opened it, MISERY
+is the active application, and it is not minimised.**
+
+9. Open the console and type something — do not press Enter, leave it in the line.
+10. **Alt+Tab away without minimising.** The overlay must disappear immediately,
+    not on the next frame the game happens to draw.
+11. **Alt+Tab back.** It must come back, still open, **with what you typed still
+    there** — losing focus suppresses the presentation and nothing else.
+12. **Minimise and restore.** Same result, by the separate path.
+13. While MISERY is in the background, type into the other application. Nothing
+    should reach the console, and nothing should reach the game.
+
 ## Across a transition
 
-9. With the console **open**, load a different save or restart the level.
+14. With the console **open**, load a different save or restart the level.
    The console can be left open through it; the runtime should log a new
    generation and the game should not stall.
-10. Afterwards, open the console and run `misery:generations` again — the
+15. Afterwards, open the console and run `misery:generations` again — the
     generation number must have **changed**.
 
 ## At the main menu
 
-11. Quit to the main menu (or restart the game) and open the console **before
+16. Quit to the main menu (or restart the game) and open the console **before
     loading anything**. `misery:help`, `misery:caps` and `misery:mods` must all
     work with no world loaded. `misery:generations` will correctly say nothing
     is attached — that is the honest answer at a menu, not a failure.
@@ -66,6 +87,13 @@ the thing most worth checking by hand.
   the game.
 * With the console open a posted movement key moved the character 0.0 uu against
   an idle drift of 0.0; closed, the same key moved it.
+* **The focus lifecycle, all seven checks**, measured on the overlay window's own
+  `IsWindowVisible` rather than on pixels: visible when open and active; hidden
+  when activation is lost *with the game not minimised*; back on reactivation
+  with the typed line intact (52,640 → 52,638 ink pixels, a two-pixel caret
+  blink); hidden when minimised; back when restored; hidden when closed.
+* The console in a **windowed** game as well as a borderless one — this session
+  launched windowed at 1680×1050 and the overlay tracked the client area.
 
 ## Known limits, stated rather than left to be found
 

@@ -166,6 +166,13 @@ def game_window():
     return pids[0], windows[0]
 
 
+def client_origin(hwnd):
+    """Where the client area starts on screen."""
+    point = wt.POINT(0, 0)
+    user32.ClientToScreen(wt.HWND(hwnd), ctypes.byref(point))
+    return int(point.x), int(point.y)
+
+
 def read_runtime_log(install_root):
     path = sb.fc.framework_path(install_root, "runtime.log")
     if not os.path.isfile(path):
@@ -184,9 +191,21 @@ def screen_acceptance(hwnd_record, report):
     hwnd = hwnd_record["hwnd"]
     rect = hwnd_record["window_rect"]
 
-    probe.bring_to_foreground(hwnd, attempts=8)
+    got_it = probe.bring_to_foreground(hwnd, attempts=10)
     time.sleep(1.0)
     report["foreground_is_game"] = int(user32.GetForegroundWindow() or 0) == hwnd
+    # FAIL CLOSED. A run that cannot bring the game forward samples whatever
+    # else is on screen, and the numbers look like results. One run did exactly
+    # that -- a browser held the foreground, the sampled region was half the
+    # size, and "the game's own screen is showing" failed against another
+    # application's pixels.
+    if not (got_it and report["foreground_is_game"]):
+        report["verdict"] = "BLOCKED"
+        report["checks"] = {}
+        report["blocked"] = ("MISERY could not be brought to the foreground; "
+                             "every pixel below would have been some other "
+                             "application's, so nothing was sampled")
+        return report
 
     def step(label):
         counts, sha = ink_counts(rect)
@@ -274,8 +293,21 @@ def main(argv=None):
                                        or "mod " in line][:20]
 
     _pid, window = game_window()
+    # The CLIENT rect, in screen coordinates. The overlay covers the client
+    # area, and this session's game is windowed -- a window rect would include a
+    # title bar and borders the console never covers, which reads as "the
+    # console did not open".
     report["window"] = {"hwnd": "0x%x" % window["hwnd"],
-                        "rect": window["window_rect"]}
+                        "window_rect": window["window_rect"],
+                        "client_rect": window["client_rect"]}
+    client = window["client_rect"]
+    origin = client_origin(window["hwnd"])
+    window = dict(window)
+    window["window_rect"] = {"left": origin[0], "top": origin[1],
+                             "right": origin[0] + client["width"],
+                             "bottom": origin[1] + client["height"],
+                             "width": client["width"],
+                             "height": client["height"]}
     screen_acceptance(window, report)
 
     text = json.dumps(report, indent=2)

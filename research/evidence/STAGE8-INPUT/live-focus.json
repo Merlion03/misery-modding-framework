@@ -1,0 +1,45 @@
+{
+  "claim": "the console's focus lifecycle",
+  "pid": 6124,
+  "game_hwnd": "0x5f0820",
+  "console_hwnd": "0x35307da",
+  "window_classes": [
+    "IME",
+    "MSCTFIME UI",
+    "MiseryDeveloperConsole",
+    "UnrealWindow"
+  ],
+  "open_and_active": {
+    "overlay_visible": true,
+    "ink": 52640
+  },
+  "inactive": {
+    "overlay_visible": false,
+    "game_minimised": false,
+    "foreground_is_game": false
+  },
+  "reactivated": {
+    "overlay_visible": true,
+    "ink": 52638
+  },
+  "minimised": {
+    "overlay_visible": false,
+    "game_minimised": true
+  },
+  "restored": {
+    "overlay_visible": true
+  },
+  "closed_again": {
+    "overlay_visible": false
+  },
+  "checks": {
+    "open and active: the overlay is on screen": true,
+    "activation lost WITHOUT minimising: the overlay is hidden": true,
+    "reactivating brings it back": true,
+    "and what was typed survived the round trip": true,
+    "minimised: the overlay is hidden": true,
+    "restoring brings it back": true,
+    "closing it hides it again": true
+  },
+  "verdict": "PASS"
+}

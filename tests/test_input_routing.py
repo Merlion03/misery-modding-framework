@@ -137,5 +137,74 @@ class ShiftIsPreservedWhereSlateWouldHaveLostIt(unittest.TestCase):
         self.assertNotEqual(decisions[-2]["character"], decisions[-1]["character"])
 
 
+
+class ActivationIsSeparateFromOpen(unittest.TestCase):
+    """The Alt+Tab bug: a topmost console left over another application.
+
+    Minimising appeared to work and activation loss did not, and the reason was
+    that nothing tracked activation at all -- the overlay follows the game's
+    client rect, and a minimised window's rect collapses, so it went with it by
+    accident. These pin the rules that replaced the accident.
+
+    In the trace script, message id 0 means "set activation": `0 1` active,
+    `0 0` inactive. WM_NULL is not a keyboard message and never reaches the
+    routing path, so the id is free.
+    """
+
+    def test_losing_activation_does_not_close_the_console(self):
+        decisions = trace([
+            (WM_KEYDOWN, VK_OEM_3), (WM_CHAR, 0x60), (WM_KEYUP, VK_OEM_3),
+            (0, 0),                       # deactivate
+        ])
+        self.assertTrue(decisions[-1]["open"],
+                        "the line, history and scrollback all hang off this")
+
+    def test_an_inactive_console_reads_nothing_and_the_game_gets_it(self):
+        decisions = trace([
+            (WM_KEYDOWN, VK_OEM_3), (WM_CHAR, 0x60), (WM_KEYUP, VK_OEM_3),
+            (0, 0),
+            (WM_CHAR, ord("x")),
+            (WM_KEYDOWN, ord("W")),
+        ])
+        for decision in decisions[-2:]:
+            with self.subTest(message=decision["message"]):
+                self.assertEqual("nothing", decision["action"])
+                self.assertTrue(decision["forward"])
+
+    def test_the_toggle_is_inert_while_inactive(self):
+        decisions = trace([(0, 0), (WM_KEYDOWN, VK_OEM_3)])
+        self.assertEqual("nothing", decisions[-1]["action"])
+        self.assertFalse(decisions[-1]["open"])
+
+    def test_reactivating_restores_reading_without_reopening(self):
+        decisions = trace([
+            (WM_KEYDOWN, VK_OEM_3), (WM_CHAR, 0x60), (WM_KEYUP, VK_OEM_3),
+            (0, 0), (0, 1),
+            (WM_CHAR, ord("y")),
+        ])
+        self.assertEqual("text", decisions[-1]["action"])
+        self.assertEqual(ord("y"), decisions[-1]["character"])
+        self.assertTrue(decisions[-1]["open"], "it never stopped being open")
+
+    def test_deactivating_cannot_strand_a_held_key(self):
+        """The stale mark that would hold a key down inside the game forever."""
+        decisions = trace([
+            (WM_KEYDOWN, VK_OEM_3), (WM_CHAR, 0x60), (WM_KEYUP, VK_OEM_3),
+            (WM_KEYDOWN, ord("W")),       # swallowed and marked
+            (0, 0),                       # its up is going to another app now
+        ])
+        self.assertEqual(0, decisions[-1]["held"])
+
+        after = trace([
+            (WM_KEYDOWN, VK_OEM_3), (WM_CHAR, 0x60), (WM_KEYUP, VK_OEM_3),
+            (WM_KEYDOWN, ord("W")),
+            (0, 0), (0, 1),
+            (WM_KEYDOWN, VK_OEM_3), (WM_CHAR, 0x60), (WM_KEYUP, VK_OEM_3),
+            (WM_KEYDOWN, ord("W")), (WM_KEYUP, ord("W")),
+        ])
+        self.assertTrue(after[-2]["forward"], "the down reaches the game")
+        self.assertTrue(after[-1]["forward"],
+                        "and so must the up, or that key stays held down")
+
 if __name__ == "__main__":
     unittest.main()
