@@ -28,6 +28,7 @@
 // guarantees are checkable without MISERY, and they should be checked there.
 #include "BridgeCore.h"
 #include "Json.h"
+#include "ModPlan.h"
 
 #include <string.h>
 
@@ -515,6 +516,21 @@ static MbStatus ServicesPublish(MbHandle mod_handle, MbStr name, MbStr version,
     return Fail(out_error, MB_SUB_SERVICES, MB_E_ALREADY_EXISTS,
                 "'" + full + "' is already published", mod->mod_id);
   }
+  // The version must parse HERE. Storing whatever string arrived would push
+  // the failure to bind time, where it would surface as somebody else's mod
+  // failing to bind against a provider that published nonsense -- the wrong
+  // mod named in the wrong error. The reference refuses at publish for the
+  // same reason (services.py: semver.Version(version) raises).
+  misery::modplan::Version parsed_version;
+  std::string version_error;
+  if (!misery::modplan::ParseVersion(ToStd(version), &parsed_version,
+                                  &version_error)) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_INVALID_ARGUMENT,
+                "'" + full + "' cannot be published with version '" +
+                    ToStd(version) + "': " + version_error,
+                mod->mod_id);
+  }
+
   ServiceRecord record;
   record.provider = mod->mod_id;
   record.version = ToStd(version);
@@ -530,7 +546,6 @@ static MbStatus ServicesBind(MbHandle mod_handle, MbStr name, MbStr requirement,
                              MbHandle* out_binding, MbError* out_error) {
   BRIDGE_ENTER(out_error);
   BRIDGE_TRY
-  (void)requirement;
   ModRecord* mod = P().core.ResolveMod(mod_handle);
   if (mod == nullptr) {
     return Fail(out_error, MB_SUB_SERVICES, MB_E_OWNER_DISPOSED,
@@ -541,6 +556,47 @@ static MbStatus ServicesBind(MbHandle mod_handle, MbStr name, MbStr requirement,
   if (it == P().services.end()) {
     return Fail(out_error, MB_SUB_SERVICES, MB_E_NOT_FOUND,
                 "no service '" + full + "' is published", mod->mod_id);
+  }
+
+  // THE REQUIREMENT IS ENFORCED, WHICH IT PREVIOUSLY WAS NOT.
+  //
+  // This function used to open with `(void)requirement;`. A mod could bind
+  // ">=2.0.0" against a 1.0.0 provider and be told it had succeeded. That is
+  // not a missing feature, it is the API answering a question it never asked:
+  // the consumer stated a compatibility range and the framework agreed to it
+  // without looking. The reference has always enforced it
+  // (tools/modplatform/services.py Registry.bind).
+  //
+  // Refused HERE rather than at call time, because a mod that discovers the
+  // mismatch mid-frame has no good options -- the reference's wording, and its
+  // reasoning.
+  const std::string requirement_text = ToStd(requirement);
+  misery::modplan::Requirement want;
+  std::string requirement_error;
+  if (!misery::modplan::ParseRequirement(requirement_text, &want,
+                                      &requirement_error)) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_INVALID_ARGUMENT,
+                "the requirement '" + requirement_text +
+                    "' is not a version requirement: " + requirement_error,
+                mod->mod_id);
+  }
+  misery::modplan::Version published;
+  std::string published_error;
+  if (!misery::modplan::ParseVersion(it->second.version, &published,
+                                  &published_error)) {
+    // Unreachable while publish validates, and stated rather than assumed.
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_INVALID_ARGUMENT,
+                "'" + full + "' is published with an unreadable version '" +
+                    it->second.version + "'",
+                mod->mod_id);
+  }
+  if (!want.Matches(published)) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_INVALID_ARGUMENT,
+                "service '" + full + "' is version " + it->second.version +
+                    ", which the requirement " + requirement_text +
+                    " excludes. Refused now rather than at call time, because "
+                    "a mod that finds out mid-frame has no good options.",
+                mod->mod_id);
   }
   // The binding is owned by the CONSUMER, so a consumer that unloads stops
   // holding a reference into the provider.

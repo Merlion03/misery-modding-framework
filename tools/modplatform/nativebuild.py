@@ -178,6 +178,13 @@ MISERY_TEST_HARNESSES = {
     # StringArena is header-only, so the harness needs no translation unit but
     # its own. It pins that an oversized reply is refused rather than answered.
     "arena_harness.exe": ("arena_harness.cpp", ()),
+    # The bridge's own tables, driven off the game: MiseryBridgeAcquire hands
+    # back the real root and the cases call the same function pointers a mod
+    # reaches. BridgeTables needs the mod-plan port for semver, which is why
+    # the list is this long.
+    "services_harness.exe": ("services_harness.cpp",
+                             ("BridgeTables.cpp", "Json.cpp", "ModManifest.cpp",
+                              "ModResolve.cpp", "ModDiscovery.cpp")),
     # Resolver.cpp for ReadBytes: VerifyCode compares the profile's recorded
     # bytes against live memory, and that read is the resolver's.
     "bindings_harness.exe": ("bindings_harness.cpp",
