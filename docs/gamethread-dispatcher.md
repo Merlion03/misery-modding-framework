@@ -2,8 +2,16 @@
 
 Production foundation for running work on the Unreal game thread from
 worker/mod threads, built on the proven FTSTicker carrier (LOG-0075, commit
-`9596b12`). Live-proven at LOG-0076. **POD jobs only at this stage — no
-UObject/gameplay operations** (that is a separate, later gate).
+`9596b12`). Live-proven at LOG-0076.
+
+> **Updated after Stage 7.** This document originally read "POD jobs only at
+> this stage -- no UObject/gameplay operations (that is a separate, later gate)".
+> That gate has since been passed: item registration runs on this dispatcher and
+> does real UObject work (`ProcessEvent`, `UDataTable::AddRow`) through
+> `gamethread::RunBlocking`, and the developer console's per-frame tick runs on
+> its frame callback. The **public** surface below is still POD-only by design --
+> `JobFn = void(*)(void*)`, with no UE type crossing it -- and that has not
+> changed.
 
 ```
 worker / mod threads

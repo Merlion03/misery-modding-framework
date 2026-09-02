@@ -1,5 +1,11 @@
 # STAGE 5B — Production launch path (in progress)
 
+> **Historical. Stage 5B was closed after this was written** — see
+> `STAGE5B-CLOSURE.md` beside this file, and `README.md` for the current state
+> of the platform. The status line below ("the stage is NOT closed") was true on
+> the day it was recorded and is left exactly as it was: this document is the
+> record of what steps 1 and 2 proved, not a status board.
+
 **Status: steps 1 and 2 are proven; the stage is NOT closed.** An ordinary Steam
 launch starts the framework with no research controller, no injection step and no
 manual action; the in-process C++ resolver has replaced the Python oracle; and
