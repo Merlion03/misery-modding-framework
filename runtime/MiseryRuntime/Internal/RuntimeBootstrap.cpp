@@ -71,6 +71,11 @@ extern "C" int MiseryBridgeRaiseFrameworkEvent(
 // there.
 extern "C" void MiseryBridgeSetGameThread(unsigned long thread_id);
 extern "C" void MiseryBridgeSetSettingsRoot(const char* root);
+extern "C" void MiseryBridgeSetBuildIdentity(const char* build_key,
+                                            const char* engine_version,
+                                            long long engine_cl);
+extern "C" void MiseryBridgeSetItemsCounters(
+    unsigned (*declared)(), unsigned (*live)(unsigned long long));
 extern "C" void MiseryBridgeSetGenerationSource(
     unsigned long long (*current)(), int (*published)(),
     const char* (*phase)(), const char* (*last_revoke)());
@@ -584,6 +589,21 @@ DWORD WINAPI RuntimeThread(LPVOID) {
   // the resolver rather than assumed by this code. That is the whole reason the
   // cost record carries a thread id: this is the consumer that needed it.
   MiseryBridgeSetGameThread(cost.thread_id);
+
+  // THE GAME'S IDENTITY, for the support bundle. The executable's digest and
+  // the engine build -- what a bug report needs to say which MISERY this was --
+  // and nothing about the machine it ran on. Pushed once; it cannot change.
+  MiseryBridgeSetBuildIdentity(g_build_key.c_str(),
+                               g_profile.engine_version.c_str(),
+                               static_cast<long long>(g_profile.engine_cl));
+
+  // Item counts for the bundle: accessors, not a copy, pulled on the game
+  // thread when the bundle is built. The bridge holds only these pointers.
+  MiseryBridgeSetItemsCounters(
+      []() -> unsigned { return misery::items::DeclaredCount(); },
+      [](unsigned long long generation) -> unsigned {
+        return misery::items::LiveCount(generation);
+      });
 
   // WHERE A MOD'S SETTINGS LIVE.
   //

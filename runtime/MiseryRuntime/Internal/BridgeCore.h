@@ -151,6 +151,87 @@ class StringArena {
 
 StringArena& ThreadArena();
 
+// ---------------------------------------------------------- error ring ----
+//
+// The last 64 structured failures, for the support bundle and misery:errors.
+//
+// WRITTEN FROM Fail(), WHICH RUNS ON ANY THREAD. BRIDGE_ENTER's own wrong-thread
+// branch calls Fail() from the offending thread, and AcquireCapability is not
+// thread-gated at all. A ring written without a lock here would be the
+// 2026-09-01 defect class exactly -- a worker racing the game thread over
+// shared memory -- so every write and every read takes the mutex, and the
+// critical section is one record copy.
+//
+// REDACTED AT WRITE TIME. A detail can carry a file path: the settings save
+// error names the file it could not write, which lives under the user's
+// profile. So the user's directory segment is replaced before the record is
+// stored, and the ring never holds a user path to leak. Structural, not a
+// filter applied when somebody remembers.
+//
+// A function-local static behind an inline accessor, because this header is
+// also included by two header-only test executables that do not link
+// BridgeTables.cpp; a symbol defined there would fail their link.
+struct ErrorRecord {
+  uint64_t seq = 0;
+  int32_t subsystem = 0;
+  int32_t code = 0;
+  std::string detail;
+  std::string mod_id;
+};
+
+struct ErrorRing {
+  static const size_t kCapacity = 64;
+  std::mutex lock;
+  std::vector<ErrorRecord> records;   // oldest first, at most kCapacity
+  uint64_t next_seq = 1;
+  uint64_t recorded = 0;              // total ever recorded, for "dropped"
+};
+
+inline ErrorRing& TheErrorRing() {
+  static ErrorRing ring;
+  return ring;
+}
+
+// "<drive>:\Users\<name>\..." and the forward-slash form become
+// "<drive>:\Users\<user>\...". Nothing else in a detail identifies a person;
+// mod ids, service names, keys and codes are what the ring is for.
+inline std::string RedactUserPaths(const std::string& text) {
+  std::string out = text;
+  const char* markers[] = {":\\Users\\", ":/Users/"};
+  for (const char* marker : markers) {
+    const size_t marker_len = strlen(marker);
+    size_t at = 0;
+    while ((at = out.find(marker, at)) != std::string::npos) {
+      const size_t name_begin = at + marker_len;
+      size_t name_end = name_begin;
+      while (name_end < out.size() && out[name_end] != '\\' &&
+             out[name_end] != '/') {
+        ++name_end;
+      }
+      out.replace(name_begin, name_end - name_begin, "<user>");
+      at = name_begin + 6;
+    }
+  }
+  return out;
+}
+
+inline void RecordError(int32_t subsystem, int32_t code,
+                        const std::string& detail, const std::string& mod_id) {
+  ErrorRing& ring = TheErrorRing();
+  ErrorRecord record;
+  record.subsystem = subsystem;
+  record.code = code;
+  record.detail = RedactUserPaths(detail);
+  record.mod_id = mod_id;
+  std::lock_guard<std::mutex> guard(ring.lock);
+  record.seq = ring.next_seq++;
+  ring.recorded += 1;
+  if (ring.records.size() >= ErrorRing::kCapacity) {
+    ring.records.erase(ring.records.begin());
+  }
+  ring.records.push_back(record);
+}
+
 // Fills an MbError and returns a non-zero status. Every failing path in the
 // bridge goes through here, so no failure can leave the out-parameter stale.
 inline MbStatus Fail(MbError* out_error, int32_t subsystem, int32_t code,
@@ -162,6 +243,7 @@ inline MbStatus Fail(MbError* out_error, int32_t subsystem, int32_t code,
     out_error->mod_id =
       mod_id.empty() ? MbStr{"", 0} : ThreadArena().PutOrSentinel(mod_id);
   }
+  RecordError(subsystem, code, detail, mod_id);
   return static_cast<MbStatus>((subsystem << 16) | code);
 }
 

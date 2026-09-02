@@ -189,6 +189,11 @@ MISERY_TEST_HARNESSES = {
     # trampoline for the managed dispatcher.
     # Settings persist to a directory the harness supplies, so it is the one
     # harness that touches disk -- a temporary directory it creates and removes.
+    # The error ring and the support bundle. Induces failures from a second
+    # thread on purpose: the ring is written from Fail(), which runs anywhere.
+    "diagnostics_harness.exe": ("diagnostics_harness.cpp",
+                                ("BridgeTables.cpp", "Json.cpp", "ModManifest.cpp",
+                                 "ModResolve.cpp", "ModDiscovery.cpp")),
     "settings_harness.exe": ("settings_harness.cpp",
                              ("BridgeTables.cpp", "Json.cpp", "ModManifest.cpp",
                               "ModResolve.cpp", "ModDiscovery.cpp")),

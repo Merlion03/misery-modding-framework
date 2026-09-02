@@ -660,6 +660,21 @@ namespace Misery.ModHost
             return json.ToString();
         }
 
+        /// <summary>
+        /// The support bundle: the closed document a bug report can carry. Built
+        /// natively field by field; this only fetches it. Host-only -- it is not
+        /// on any mod-facing interface, and the console's host-only run() is the
+        /// other way to reach its parts.
+        /// </summary>
+        internal string Bundle()
+        {
+            NativeBridge.MbError error = default;
+            NativeBridge.MbStr json = default;
+            int status = _diag->Bundle(&json, &error);
+            NativeBridge.Check(status, error, "support bundle");
+            return json.ToString();
+        }
+
         internal bool IsReclaimableNative(string modId, out string reason)
         {
             using var id = new NativeBridge.Utf8(modId);

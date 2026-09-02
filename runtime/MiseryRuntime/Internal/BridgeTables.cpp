@@ -181,6 +181,10 @@ static Platform& P() {
   return platform;
 }
 Platform& PlatformForExports() { return P(); }
+struct BuildIdentity;
+BuildIdentity& BuildForExports();
+struct ItemsCounters;
+ItemsCounters& ItemsCountersForExports();
 
 // Helpers defined further down the file and used across its subsystems: the
 // console renders JSON and Python repr() text, the settings block validates
@@ -189,6 +193,11 @@ Platform& PlatformForExports() { return P(); }
 static std::string Quoted(const std::string& text);
 static std::string PyRepr(const std::string& text);
 static bool CheckSettingKey(const std::string& key);
+// Console builtins the support bundle reuses, so the bundle and the console
+// answer the same question the same way rather than drifting apart.
+static std::string BuiltinGenerations();
+static std::string BuiltinCaps();
+static std::string BuiltinServices();
 
 // The injected items backend. See the header comment.
 extern "C" {
@@ -229,6 +238,43 @@ struct GenerationSource {
   MbGenerationPhaseFn phase = nullptr;
   MbGenerationLastRevokeFn last_revoke = nullptr;
 };
+
+// The game's build identity, pushed ONCE at bootstrap. Pushing is safe here
+// where it was not for the generation: this never changes after the profile is
+// loaded, and it is set before the bridge answers anything, so there is no
+// stale copy to race. It identifies the GAME -- the executable's digest and the
+// engine build -- and nothing about the machine running it.
+struct BuildIdentity {
+  std::string build_key;
+  std::string engine_version;
+  long long engine_cl = 0;
+};
+
+static BuildIdentity& Build() {
+  static BuildIdentity identity;
+  return identity;
+}
+
+// Item counts for the bundle, through accessors the runtime injects -- the same
+// arrangement as the generation source, for the same reason: the bridge must
+// stay buildable and testable without the items backend behind it.
+extern "C" {
+typedef unsigned (*MbItemsDeclaredFn)();
+typedef unsigned (*MbItemsLiveFn)(unsigned long long generation);
+}
+
+struct ItemsCounters {
+  MbItemsDeclaredFn declared = nullptr;
+  MbItemsLiveFn live = nullptr;
+};
+
+static ItemsCounters& ItemsCountersSource() {
+  static ItemsCounters counters;
+  return counters;
+}
+
+BuildIdentity& BuildForExports() { return Build(); }
+ItemsCounters& ItemsCountersForExports() { return ItemsCountersSource(); }
 
 static GenerationSource& Generations() {
   static GenerationSource source;
@@ -1594,6 +1640,208 @@ static std::string Escape(const std::string& text) {
   return misery::json::EscapeString(text);
 }
 
+// The dotted name of a (subsystem, code) pair -- "settings.not_found".
+//
+// A PROJECTION of the numeric pair, derived when displayed and never stored or
+// carried on the wire, so there is one identity and one rendering rather than
+// two that can drift. Ported from tools/modplatform/errors.py, which is its
+// oracle: tests/test_diagnostics_bundle.py compares every pair.
+static const char* SubsystemName(int32_t subsystem) {
+  switch (subsystem) {
+    case MB_SUB_PLATFORM: return "platform";
+    case MB_SUB_LIFECYCLE: return "lifecycle";
+    case MB_SUB_LOG: return "log";
+    case MB_SUB_EVENTS: return "events";
+    case MB_SUB_SETTINGS: return "settings";
+    case MB_SUB_INPUT: return "input";
+    case MB_SUB_SERVICES: return "services";
+    case MB_SUB_ITEMS: return "items";
+    case MB_SUB_CAPABILITIES: return "capabilities";
+    case MB_SUB_CONSOLE: return "console";
+    default: return nullptr;
+  }
+}
+
+static std::string CodeName(int32_t subsystem, int32_t code) {
+  // The lifecycle subsystem reuses the low numbers with its own meanings, so it
+  // is consulted first -- exactly as the reference special-cases it.
+  if (subsystem == MB_SUB_LIFECYCLE) {
+    switch (code) {
+      case MB_E_UNKNOWN_MOD: return "unknown_mod";
+      case MB_E_MOD_ALREADY_LOADED: return "mod_already_loaded";
+      case MB_E_MOD_NOT_LOADED: return "mod_not_loaded";
+      case MB_E_OWNER_DISPOSED: return "owner_disposed";
+      case MB_E_LOAD_FAILED: return "load_failed";
+      case MB_E_REENTRANT_UNLOAD: return "reentrant_unload";
+      default: break;
+    }
+  }
+  switch (code) {
+    case 0: return "ok";
+    case MB_E_NOT_INITIALISED: return "not_initialised";
+    case MB_E_ALREADY_INITIALISED: return "already_initialised";
+    case MB_E_SHUTTING_DOWN: return "shutting_down";
+    case MB_E_INVALID_ARGUMENT: return "invalid_argument";
+    case MB_E_NOT_FOUND: return "not_found";
+    case MB_E_ALREADY_EXISTS: return "already_exists";
+    case MB_E_NOT_OWNED: return "not_owned";
+    case MB_E_WRONG_THREAD: return "wrong_thread";
+    case MB_E_CAPABILITY_NOT_GRANTED: return "capability_not_granted";
+    case MB_E_LIMIT_EXCEEDED: return "limit_exceeded";
+    case MB_E_HANDLER_FAULTED: return "handler_faulted";
+    default: return "code_" + std::to_string(code);
+  }
+}
+
+static std::string DottedName(int32_t subsystem, int32_t code) {
+  const char* sub = SubsystemName(subsystem);
+  return std::string(sub == nullptr ? ("subsystem_" + std::to_string(subsystem))
+                                    : std::string(sub)) +
+         "." + CodeName(subsystem, code);
+}
+
+static std::string RecentErrorsJson() {
+  ErrorRing& ring = TheErrorRing();
+  std::vector<ErrorRecord> copy;
+  uint64_t recorded = 0;
+  {
+    std::lock_guard<std::mutex> guard(ring.lock);
+    copy = ring.records;
+    recorded = ring.recorded;
+  }
+  std::string json = "{\"capacity\":" + std::to_string(ErrorRing::kCapacity) +
+                     ",\"recorded\":" + std::to_string(recorded) +
+                     ",\"dropped\":" +
+                     std::to_string(recorded > copy.size() ? recorded - copy.size() : 0) +
+                     ",\"errors\":[";
+  bool first = true;
+  for (const ErrorRecord& record : copy) {
+    if (!first) json += ",";
+    first = false;
+    json += "{\"seq\":" + std::to_string(record.seq) + ",\"subsystem\":" +
+            std::to_string(record.subsystem) + ",\"code\":" +
+            std::to_string(record.code) + ",\"name\":" +
+            Quoted(DottedName(record.subsystem, record.code)) + ",\"detail\":" +
+            Quoted(record.detail) + ",\"mod_id\":" + Quoted(record.mod_id) + "}";
+  }
+  return json + "]}";
+}
+
+static const char* ModStateName(int32_t state) {
+  switch (state) {
+    case MB_MODSTATE_DISCOVERED: return "discovered";
+    case MB_MODSTATE_LOADING: return "loading";
+    case MB_MODSTATE_LOADED: return "loaded";
+    case MB_MODSTATE_UNLOADING: return "unloading";
+    case MB_MODSTATE_UNLOADED: return "unloaded";
+    case MB_MODSTATE_FAILED: return "failed";
+    case MB_MODSTATE_LEAKED: return "leaked";
+    default: return "?";
+  }
+}
+
+// THE SUPPORT BUNDLE. Every field is named here; nothing is serialised
+// wholesale. Adding a field means adding a line, and the test that pins the
+// field list fails until the addition is acknowledged there too.
+static std::string BundleJson() {
+  std::string json = "{\"schema\":1";
+
+  json += ",\"build\":{\"build_key\":" + Quoted(Build().build_key) +
+          ",\"engine_version\":" + Quoted(Build().engine_version) +
+          ",\"engine_cl\":" + std::to_string(Build().engine_cl) + "}";
+
+  json += ",\"framework\":{\"api_major\":" + std::to_string(MB_API_MAJOR) +
+          ",\"api_minor\":" + std::to_string(MB_API_MINOR) + ",\"abi_epoch\":" +
+          std::to_string(MB_ABI_EPOCH) + "}";
+
+  json += ",\"generation\":" + BuiltinGenerations();
+
+  json += ",\"mods\":[";
+  bool first = true;
+  for (ModRecord& mod : P().core.mods()) {
+    if (!first) json += ",";
+    first = false;
+    std::string reason;
+    const bool reclaimable = P().core.IsReclaimable(mod, &reason);
+    json += "{\"mod_id\":" + Quoted(mod.mod_id) + ",\"state\":" +
+            Quoted(ModStateName(mod.state)) + ",\"epoch\":" +
+            std::to_string(mod.epoch) + ",\"owned\":" +
+            std::to_string(mod.owned_count) + ",\"released\":" +
+            std::to_string(mod.released_count) + ",\"revoked\":" +
+            std::to_string(mod.revoked_count) + ",\"faults\":" +
+            std::to_string(mod.fault_count) + ",\"active_frames\":" +
+            std::to_string(mod.active_frames) + ",\"reclaimable\":" +
+            (reclaimable ? "true" : "false") + "}";
+  }
+  json += "]";
+
+  json += ",\"capabilities\":" + BuiltinCaps().substr(
+      BuiltinCaps().find("\"capabilities\":") + 15);
+  // BuiltinCaps() returns {"api":..,"abi_epoch":..,"capabilities":[...]}; the
+  // array is taken as-is and the closing brace it carries is dropped below.
+  if (!json.empty() && json.back() == '}') json.pop_back();
+
+  json += ",\"resources\":{\"live_slots\":" + std::to_string(P().core.LiveSlotCount()) +
+          ",\"slot_capacity\":" + std::to_string(P().core.SlotCapacity()) + "}";
+
+  size_t subscribers = 0;
+  for (const auto& entry : P().events) subscribers += entry.second.subscribers.size();
+  json += ",\"events\":{\"declared\":" + std::to_string(P().events.size()) +
+          ",\"subscribers\":" + std::to_string(subscribers) + "}";
+
+  json += ",\"services\":" + BuiltinServices().substr(
+      BuiltinServices().find("\"services\":") + 11);
+  if (!json.empty() && json.back() == '}') json.pop_back();
+
+  json += ",\"commands\":[";
+  first = true;
+  for (const auto& entry : P().commands) {
+    if (!first) json += ",";
+    first = false;
+    json += "{\"name\":" + Quoted(entry.first) + ",\"owner\":" +
+            Quoted(entry.second.owner.empty() ? "platform" : entry.second.owner) + "}";
+  }
+  json += "]";
+
+  // Counts, because the items backend exposes counts; a listing would be a
+  // claim this document cannot back. Through injected accessors, like the
+  // generation, so the bridge stays buildable without the items backend and
+  // the harnesses keep linking; "not attached" is null, never zero.
+  {
+    ItemsCounters& counters = ItemsCountersSource();
+    GenerationSource& source = Generations();
+    json += ",\"items\":{\"declared\":";
+    json += counters.declared != nullptr ? std::to_string(counters.declared())
+                                         : std::string("null");
+    json += ",\"live\":";
+    json += (counters.live != nullptr && source.current != nullptr)
+                ? std::to_string(counters.live(source.current()))
+                : std::string("null");
+    json += "}";
+  }
+
+  json += ",\"recent_errors\":" + RecentErrorsJson();
+
+  json += ",\"counters\":{\"dispatches\":" + std::to_string(P().dispatches) +
+          ",\"trampoline_calls\":" + std::to_string(P().trampoline_calls) +
+          ",\"handler_faults\":" + std::to_string(P().handler_faults) +
+          ",\"log_records\":" + std::to_string(P().log_records) + "}";
+  return json + "}";
+}
+
+static MbStatus DiagBundle(MbStr* out_json, MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  if (!ThreadArena().TryPut(BundleJson(), out_json)) {
+    return Fail(out_error, MB_SUB_PLATFORM, MB_E_LIMIT_EXCEEDED,
+                "the support bundle did not fit the reply buffer; refusing "
+                "rather than returning a truncated document under a "
+                "successful status");
+  }
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
 static MbStatus DiagSnapshot(MbStr* out_json, MbError* out_error) {
   BRIDGE_ENTER(out_error);
   BRIDGE_TRY
@@ -2111,10 +2359,7 @@ static std::string RunBuiltin(const std::string& name,
   if (name == "misery:items") {
     return NotAttached("the items backend does not expose a listing yet");
   }
-  if (name == "misery:errors") {
-    return NotAttached("the structured error history arrives with the support "
-                       "bundle");
-  }
+  if (name == "misery:errors") return RecentErrorsJson();
   if (name == "misery:input") {
     return NotAttached("core.input_registry is declared and not dispatched");
   }
@@ -2312,9 +2557,9 @@ static MbEventsTable g_events = {sizeof(MbEventsTable), 1, 0, EventsDeclare,
                                  EventsPublish};
 static MbItemsTable g_items = {sizeof(MbItemsTable), 2, 0, ItemsRegister,
                                ItemsUnregister, ItemsGrant};
-static MbDiagnosticsTable g_diag = {sizeof(MbDiagnosticsTable), 1, 0,
+static MbDiagnosticsTable g_diag = {sizeof(MbDiagnosticsTable), 1, 1,
                                     DiagSnapshot, DiagModState,
-                                    DiagReclaimable};
+                                    DiagReclaimable, DiagBundle};
 static MbHostTable g_host = {sizeof(MbHostTable), 1, 0, HostSetTrampoline,
                              HostModBegin, HostModLoaded, HostModFailed,
                              HostModUnload, HostShutdown};
@@ -2465,6 +2710,22 @@ extern "C" __declspec(dllexport) void MiseryBridgeInstallItemsBackend(
 // Where settings files live. Injected by the runtime, which resolves it from
 // the user's profile; set by the harness to a temporary directory. Empty means
 // nowhere, and Save() refuses rather than pretending.
+extern "C" __declspec(dllexport) void MiseryBridgeSetBuildIdentity(
+    const char* build_key, const char* engine_version, long long engine_cl) {
+  misery::bridge::BuildIdentity& identity = misery::bridge::BuildForExports();
+  identity.build_key = build_key == nullptr ? "" : build_key;
+  identity.engine_version = engine_version == nullptr ? "" : engine_version;
+  identity.engine_cl = engine_cl;
+}
+
+extern "C" __declspec(dllexport) void MiseryBridgeSetItemsCounters(
+    misery::bridge::MbItemsDeclaredFn declared,
+    misery::bridge::MbItemsLiveFn live) {
+  misery::bridge::ItemsCounters& counters = misery::bridge::ItemsCountersForExports();
+  counters.declared = declared;
+  counters.live = live;
+}
+
 extern "C" __declspec(dllexport) void MiseryBridgeSetSettingsRoot(
     const char* root) {
   misery::bridge::PlatformForExports().settings.root =

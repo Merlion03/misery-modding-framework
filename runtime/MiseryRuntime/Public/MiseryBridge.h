@@ -432,6 +432,17 @@ typedef struct MbDiagnosticsTable {
      * managed host reimplementing the ownership model. */
     MbStatus (*mod_is_reclaimable)(MbStr mod_id, int32_t* out_reclaimable,
                                    MbStr* out_reason_json, MbError* out_error);
+    /* ---- appended at 1.1 ------------------------------------------------ */
+    /* THE SUPPORT BUNDLE: what a bug report can state. A CLOSED document -- an
+     * allowlist of fields, built by naming each one, never by serialising an
+     * internal structure and redacting afterwards. It carries the game's build
+     * fingerprint (which identifies the GAME), the framework's version, every
+     * mod's state, the live generation, capabilities, resource counts, services,
+     * commands, item counts, and the recent structured errors. It carries NO
+     * path, NO user name and NO machine or account identifier: the runtime has
+     * published those once already, by committing a raw engine crash file, and
+     * the fix for that is structural. Host-only, like snapshot_json. */
+    MbStatus (*bundle_json)(MbStr* out_json, MbError* out_error);
 } MbDiagnosticsTable;
 
 /* ---- the host table: for a MANAGED HOST, not for a mod ---------------- */

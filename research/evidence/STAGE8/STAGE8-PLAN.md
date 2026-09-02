@@ -231,6 +231,38 @@ matter:
 - `record_error` cannot record the wrong-thread error it names, because it sits
   behind `BRIDGE_ENTER` itself.
 
+**At implementation (8.7).** There is no Python oracle for the bundle: the
+reference has console builtins answering the same questions but no bundle
+document, so D6 is the specification and the test pins it as an ALLOWLIST
+checked for exact equality at every level -- top-level fields, the build block,
+each mod record, each error record. A field that is not on the list fails the
+test; nothing is serialised wholesale and redacted afterwards.
+
+The error NAMES do have an oracle. errors.py defines the dotted
+"<subsystem>.<code_name>" projection, and every record the bundle carries is
+compared against SUBSYSTEM_NAMES and code_name(), lifecycle special case
+included.
+
+Push versus pull, resolved per value. The game's build identity is pushed once
+at bootstrap: it is immutable and set before the bridge answers anything, so
+there is no stale copy to race. The generation and the item counts are PULLED on
+the game thread through accessors the runtime injects, so the bridge holds
+pointers rather than copies and stays buildable and testable without the
+resolver or the items backend behind it -- "not attached" is null, never zero.
+
+The ring is written from Fail(), which runs on whatever thread the caller is
+on, under a mutex; the harness induces four hundred failures from eight threads
+concurrently. Redaction is at write time: a detail naming a file under a user
+profile has the user's directory segment replaced before the record is stored,
+so the ring never holds a user path to leak. The remainder of such a path names
+an OS layout and a mod, neither of which identifies a person.
+
+One vacuous pass was caught and fixed. The harness first induced the
+path-bearing failure and THEN flooded the ring, which scrolled that record out,
+after which "no user path survives" passed for the wrong reason. The floods now
+run first and the checked failures last, and the test requires the redacted
+segment to be PRESENT, not merely the original to be absent.
+
 ## 3. Public API shape
 
 Deliberately small. Most of Stage 8 is implementation behind contracts that

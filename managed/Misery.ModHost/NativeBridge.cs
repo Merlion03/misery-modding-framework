@@ -147,6 +147,8 @@ namespace Misery.ModHost
             public delegate* unmanaged[Cdecl]<MbStr*, MbError*, int> Snapshot;
             public delegate* unmanaged[Cdecl]<MbStr, int*, MbError*, int> ModState;
             public delegate* unmanaged[Cdecl]<MbStr, int*, MbStr*, MbError*, int> ModIsReclaimable;
+            // Appended at 1.1. The host checks StructSize before touching it.
+            public delegate* unmanaged[Cdecl]<MbStr*, MbError*, int> Bundle;
         }
 
         [StructLayout(LayoutKind.Sequential)]

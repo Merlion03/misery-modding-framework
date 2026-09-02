@@ -169,7 +169,8 @@ namespace Misery.ModHost
                               ",\"failed_count\":" + failed.Count +
                               ",\"loaded\":[" + string.Join(",", loaded) +
                               "],\"failed\":[" + string.Join(",", failed) +
-                              "],\"native\":" + _controller.Snapshot() + "}";
+                              "],\"native\":" + _controller.Snapshot() +
+                              ",\"bundle\":" + _controller.Bundle() + "}";
                 return 0;
             }
             catch (Exception failure)
