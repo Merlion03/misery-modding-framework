@@ -113,8 +113,11 @@ namespace Misery.ModHost
             public delegate* unmanaged[Cdecl]<ulong, MbStr, MbStr, MbStr, ulong*, MbError*, int> Publish;
             public delegate* unmanaged[Cdecl]<ulong, MbStr, MbStr, ulong*, MbError*, int> Bind;
             public delegate* unmanaged[Cdecl]<ulong, int*, MbError*, int> IsAvailable;
-            public IntPtr Call;
-            public IntPtr Release;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, MbStr, MbStr*, MbError*, int> Call;
+            public delegate* unmanaged[Cdecl]<ulong, MbError*, int> Release;
+            // Appended at 1.1. The host checks StructSize before touching them.
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, MbError*, int> CompleteCall;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr*, MbError*, int> Describe;
         }
 
         [StructLayout(LayoutKind.Sequential)]

@@ -61,6 +61,15 @@ namespace Misery.ModHost
         internal const int DispatchEvent = 1;
         internal const int DispatchInput = 2;
         internal const int DispatchCommand = 3;
+        /// <summary>A service method: `a` is the method, `b` the argument JSON.</summary>
+        internal const int DispatchService = 4;
+
+        /// <summary>
+        /// How a service handler's result reaches native. Set once by the host,
+        /// which owns the services table; a static hook because Dispatch is a
+        /// static unmanaged entry and cannot reach the controller otherwise.
+        /// </summary>
+        internal static Func<ulong, string, bool> CompleteCall;
 
         /// <summary>Total dispatches that reached a live registration.</summary>
         internal static long Delivered;
@@ -188,6 +197,23 @@ namespace Misery.ModHost
                     case DispatchCommand:
                         ((Action<string>)registration.Callback)(second);
                         break;
+                    case DispatchService:
+                    {
+                        // The registration is ONE closure per service, keyed by
+                        // the service handle; it selects the method by name. If
+                        // the handler throws, the catch below counts it and no
+                        // result is delivered -- which native reports to the
+                        // consumer as HANDLER_FAULTED, structurally, since no
+                        // exception may cross this boundary.
+                        string result = ((Func<string, string, string>)registration.Callback)(first, second);
+                        Func<ulong, string, bool> complete = CompleteCall;
+                        if (complete != null)
+                        {
+                            complete(subscription, result ?? "null");
+                        }
+
+                        break;
+                    }
                     default:
                         return;
                 }

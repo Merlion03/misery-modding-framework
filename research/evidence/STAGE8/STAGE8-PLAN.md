@@ -127,6 +127,36 @@ Critique amendment adopted: no `MB_E_VERSION_MISMATCH`. Reuse
 `E_INVALID_ARGUMENT` as the Python reference already does, and do not introduce a
 services-local code `1`, which `code_name` would render as `not_initialised`.
 
+**At implementation (8.6).** The draft above re-signatured the declared `call`
+slot as `call_begin`. Not done: `call` and `release` keep their declared shape,
+and `complete_call` and `describe` are **appended** at table 1.1 — the same
+additive route the console took. The frame brackets the trampoline *inside*
+native `call`, which gives `active_frames` exactly the accounting the draft
+wanted with no change to an existing slot. Frames are a **stack**, not a single
+in-flight slot: a provider may call a service from its own handler, and a nested
+result must land in the inner frame.
+
+The binding holds the **service handle**. `is_available` used to count the
+service's *name* in the map, which is worse than a race: a different mod
+republishing the same name would have made a stale binding read as available
+against a service its consumer never bound to. The harness proves a republished
+name does not revive a stale binding.
+
+Method names are validated at publish as the reference validates them —
+non-empty, at most 64, identifiers — and **sorted**, because the reference's
+`as_dict()` and `published()` report them sorted and the differential compares
+`describe` against it.
+
+Two discrepancies, classified and not ported:
+- **A provider handler that throws.** The reference's `Token.invoke` lets the
+  raw exception propagate into the consumer. Production contains every managed
+  exception at the trampoline, so the consumer gets `SERVICES × HANDLER_FAULTED`
+  with the service and method named. State agrees; surfacing differs; the
+  frozen boundary — nothing crosses the ABI — takes precedence.
+- **Nesting depth.** The reference has no bound. Native refuses at 16 with
+  `LIMIT_EXCEEDED`, inside the chain, so a mod that recurses without end is
+  stopped before the game is. An addition, recorded as such.
+
 ### D5 — Settings: per-mod JSON outside the installation
 
 Location `%LOCALAPPDATA%\MISERY\Saved\MiseryFramework\Settings\`, resolved once

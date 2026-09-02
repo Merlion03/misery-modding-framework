@@ -283,16 +283,54 @@ namespace Misery.ModHost
                                               IReadOnlyDictionary<string, Func<string, string>> methods)
         {
             RequireGameThread("publishing a service", context.Id);
-            var names = new List<string>(methods?.Keys ?? (IEnumerable<string>)Array.Empty<string>());
+
+            // THE HANDLERS ARE KEPT. The previous version sent the method names
+            // and dropped the delegates on the floor, so nothing could ever be
+            // invoked; Call then returned string.Empty as though something had.
+            // They live in the trampoline's table, keyed by the SERVICE handle,
+            // as one closure that selects the method by name -- the same place
+            // event handlers live, and forgotten by the same unload path, which
+            // is what lets the provider's context collect.
+            var handlers = new Dictionary<string, Func<string, string>>(StringComparer.Ordinal);
+            var names = new List<string>();
+            foreach (KeyValuePair<string, Func<string, string>> entry in
+                     methods ?? new Dictionary<string, Func<string, string>>())
+            {
+                if (entry.Value == null)
+                {
+                    throw new ModException(ModSubsystem.Services, ModErrorCode.InvalidArgument,
+                                           "method '" + entry.Key + "' of service '" + name +
+                                           "' has no handler", context.Id);
+                }
+
+                handlers[entry.Key] = entry.Value;
+                names.Add("\"" + Json.Escape(entry.Key) + "\"");
+            }
+
             using var n = new NativeBridge.Utf8(name);
             using var v = new NativeBridge.Utf8(version);
-            using var m = new NativeBridge.Utf8(string.Join(",", names));
+            using var m = new NativeBridge.Utf8("[" + string.Join(",", names) + "]");
             NativeBridge.MbError error = default;
             ulong handle = 0;
             int status = _services->Publish(context.ModHandle, n.Str, v.Str, m.Str,
                                             &handle, &error);
             NativeBridge.Check(status, error, "publish service");
-            return new NativeResource(this, handle, null);
+
+            Func<string, string, string> shim = (method, argumentsJson) =>
+                handlers.TryGetValue(method, out Func<string, string> handler)
+                    ? handler(argumentsJson)
+                    : throw new ModException(ModSubsystem.Services, ModErrorCode.NotFound,
+                                             "service '" + name + "' has no method '" +
+                                             method + "'", context.Id);
+            Trampoline.Remember(handle, context.Id.Value, Trampoline.DispatchService, shim);
+            if (_mods.TryGetValue(context.Id.Value, out LoadedMod mod))
+            {
+                mod.Subscriptions.Add(handle);
+            }
+
+            // Disposing early forgets the handlers; the slot itself is released
+            // by the mod's teardown, as every owned resource is.
+            return new NativeResource(this, handle, h => Trampoline.Forget(h));
         }
 
         internal IModService ServicesBind(ModContextImpl context, string name,
@@ -306,7 +344,19 @@ namespace Misery.ModHost
             int status = _services->Bind(context.ModHandle, n.Str, r.Str, &handle,
                                          &error);
             NativeBridge.Check(status, error, "bind service");
-            return new BoundService(this, name, handle);
+            return new BoundService(this, context.Id, name, handle);
+        }
+
+        internal void InstallServiceCompletion()
+        {
+            // The trampoline's static hook, pointed at THIS table's slot.
+            NativeBridge.MbServicesTable* services = _services;
+            Trampoline.CompleteCall = (service, result) =>
+            {
+                using var text = new NativeBridge.Utf8(result);
+                NativeBridge.MbError e = default;
+                return services->CompleteCall(service, text.Str, &e) == 0;
+            };
         }
 
         internal bool ServiceAvailable(ulong binding)
@@ -317,35 +367,99 @@ namespace Misery.ModHost
             return available != 0;
         }
 
+        internal string ServiceCall(ulong binding, string method, string argumentsJson,
+                                    ModId consumer)
+        {
+            RequireGameThread("calling a service", consumer);
+            using var m = new NativeBridge.Utf8(method ?? string.Empty);
+            using var a = new NativeBridge.Utf8(argumentsJson ?? "null");
+            NativeBridge.MbError error = default;
+            NativeBridge.MbStr result = default;
+            int status = _services->Call(binding, m.Str, a.Str, &result, &error);
+            NativeBridge.Check(status, error, "call service method '" + method + "'");
+            return result.ToString();
+        }
+
+        internal string ServiceDescribe(ulong binding)
+        {
+            NativeBridge.MbError error = default;
+            NativeBridge.MbStr json = default;
+            int status = _services->Describe(binding, &json, &error);
+            NativeBridge.Check(status, error, "describe service");
+            return json.ToString();
+        }
+
         private sealed class BoundService : IModService
         {
             private readonly HostController _host;
+            private readonly ModId _consumer;
             private readonly ulong _binding;
+            private string _version;
 
-            internal BoundService(HostController host, string name, ulong binding)
+            internal BoundService(HostController host, ModId consumer, string name,
+                                  ulong binding)
             {
                 _host = host;
+                _consumer = consumer;
                 Name = name;
                 _binding = binding;
             }
 
             public string Name { get; }
 
-            public string Version => "1.0.0";
+            // Read from native on first use rather than hardcoded. It used to be
+            // the literal "1.0.0" for every service.
+            public string Version
+            {
+                get
+                {
+                    if (_version == null)
+                    {
+                        string json = _host.ServiceDescribe(_binding);
+                        _version = ExtractString(json, "version");
+                    }
+
+                    return _version;
+                }
+            }
 
             public bool IsAvailable => _host.ServiceAvailable(_binding);
 
-            public string Call(string method, string argumentsJson = null)
+            public string Call(string method, string argumentsJson = null) =>
+                _host.ServiceCall(_binding, method, argumentsJson, _consumer);
+
+            // The describe document is small and framework-authored; a targeted
+            // extraction avoids a JSON dependency the host does not otherwise
+            // have. Not a general parser and not used for mod-supplied text.
+            private static string ExtractString(string json, string key)
             {
-                if (!IsAvailable)
+                string marker = "\"" + key + "\":\"";
+                int at = json.IndexOf(marker, StringComparison.Ordinal);
+                if (at < 0)
                 {
-                    throw new ModException(ModSubsystem.Services,
-                                           ModErrorCode.NotFound,
-                                           "service '" + Name + "' is no longer " +
-                                           "available: its provider was unloaded");
+                    return string.Empty;
                 }
 
-                return string.Empty;
+                at += marker.Length;
+                var builder = new System.Text.StringBuilder();
+                for (int i = at; i < json.Length; i++)
+                {
+                    char c = json[i];
+                    if (c == '\\' && i + 1 < json.Length)
+                    {
+                        builder.Append(json[++i]);
+                        continue;
+                    }
+
+                    if (c == '"')
+                    {
+                        break;
+                    }
+
+                    builder.Append(c);
+                }
+
+                return builder.ToString();
             }
         }
 
@@ -562,6 +676,7 @@ namespace Misery.ModHost
         // ---- lifecycle --------------------------------------------------
         internal void SetTrampoline()
         {
+            InstallServiceCompletion();
             NativeBridge.MbError error = default;
             int status = _host->SetTrampoline(&Trampoline.Dispatch, &error);
             NativeBridge.Check(status, error, "set trampoline");

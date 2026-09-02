@@ -233,6 +233,13 @@ typedef enum MbModState {
 #define MB_DISPATCH_EVENT   1
 #define MB_DISPATCH_INPUT   2
 #define MB_DISPATCH_COMMAND 3
+/* A service method: `subscription` is the SERVICE handle, `a` the method name,
+ * `b` the argument JSON. The handler delivers its result through
+ * MbServicesTable.complete_call before returning. */
+#define MB_DISPATCH_SERVICE 4
+
+/* The reference's cap (services.py MAX_METHODS), mirrored. */
+#define MB_SERVICES_MAX_METHODS 64
 
 /* THE ONE managed entry point native ever holds. Registered once, at process
  * start, by the managed host -- never per mod and never per subscription. It
@@ -353,6 +360,19 @@ typedef struct MbServicesTable {
     MbStatus (*call)(MbHandle binding, MbStr method, MbStr args_json,
                      MbStr* out_result_json, MbError* out_error);
     MbStatus (*release)(MbHandle binding, MbError* out_error);
+    /* ---- appended at 1.1; call and release keep their declared shape ---- */
+    /* How a provider's RESULT gets back. MbTrampoline returns void, so the
+     * managed handler calls this from inside its MB_DISPATCH_SERVICE dispatch,
+     * naming the SERVICE handle it was dispatched with. Refused (MB_E_NOT_OWNED)
+     * for any handle but the one whose call is innermost on the stack: calls
+     * nest, because a provider may call another service, and a result must land
+     * in the frame that asked for it. */
+    MbStatus (*complete_call)(MbHandle service, MbStr result_json,
+                              MbError* out_error);
+    /* The reference's ServiceHandle.as_dict(): {name, version, provider,
+     * consumer, available, methods}. What IModService.Version and IsAvailable
+     * are answered from, and what misery:services lists. */
+    MbStatus (*describe)(MbHandle binding, MbStr* out_json, MbError* out_error);
 } MbServicesTable;
 
 typedef struct MbItemsTable {

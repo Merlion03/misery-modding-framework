@@ -71,7 +71,20 @@ struct EventDeclaration {
 struct ServiceRecord {
   std::string provider;
   std::string version;
-  std::vector<std::string> methods;
+  std::vector<std::string> methods;    // the declared method names, validated
+  MbHandle handle = MB_INVALID_HANDLE; // the service's own slot; what bindings hold
+};
+
+// What a CONSUMER's binding slot carries. The SERVICE HANDLE, not the name:
+// resolving by name at call time is the re-lookup that reopens the race the
+// ownership model exists to close -- and it is worse than a race, because a
+// different mod republishing the same name would make a stale binding read as
+// available against a service its consumer never bound to. The handle is
+// epoch-tagged, so the provider's unload invalidates it retroactively and by
+// itself.
+struct BindingBody {
+  std::string name;
+  MbHandle service = MB_INVALID_HANDLE;
 };
 
 // A console command. `owner` is empty and `handle` is 0 for the framework's
@@ -168,6 +181,14 @@ static Platform& P() {
   return platform;
 }
 Platform& PlatformForExports() { return P(); }
+
+// Helpers defined further down the file and used across its subsystems: the
+// console renders JSON and Python repr() text, the settings block validates
+// identifiers, and services need all three before either block is reached.
+// Declared once here so ordering within the file is not a constraint on it.
+static std::string Quoted(const std::string& text);
+static std::string PyRepr(const std::string& text);
+static bool CheckSettingKey(const std::string& key);
 
 // The injected items backend. See the header comment.
 extern "C" {
@@ -597,7 +618,7 @@ static void ReleaseService(void* body, uint64_t payload) {
 
 static void ReleaseBinding(void* body, uint64_t payload) {
   (void)payload;
-  delete static_cast<std::string*>(body);
+  delete static_cast<BindingBody*>(body);
 }
 
 static MbStatus ServicesPublish(MbHandle mod_handle, MbStr name, MbStr version,
@@ -635,13 +656,55 @@ static MbStatus ServicesPublish(MbHandle mod_handle, MbStr name, MbStr version,
                 mod->mod_id);
   }
 
+  // The methods, as the reference validates them: a non-empty list, at most
+  // MAX_METHODS, each an identifier. They arrive as a JSON array of names --
+  // never as delegates, and never as managed Types, which is what keeps a
+  // service immune to cross-ALC type identity problems.
+  misery::json::Value names;
+  std::string parse_error;
+  if (!misery::json::Parse(ToStd(methods_json), &names, &parse_error) ||
+      names.kind != misery::json::Kind::kArray) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_INVALID_ARGUMENT,
+                "a service's methods must be a JSON array of names: " +
+                    parse_error,
+                mod->mod_id);
+  }
+  if (names.array.empty()) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_INVALID_ARGUMENT,
+                "a service must expose at least one method", mod->mod_id);
+  }
+  if (names.array.size() > MB_SERVICES_MAX_METHODS) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_LIMIT_EXCEEDED,
+                "a service may expose at most " +
+                    std::to_string(MB_SERVICES_MAX_METHODS) + " methods",
+                mod->mod_id);
+  }
   ServiceRecord record;
   record.provider = mod->mod_id;
   record.version = ToStd(version);
-  record.methods.push_back(ToStd(methods_json));
+  for (const misery::json::Value& entry : names.array) {
+    if (entry.kind != misery::json::Kind::kString ||
+        !CheckSettingKey(entry.text)) {   // the same identifier rule
+      return Fail(out_error, MB_SUB_SERVICES, MB_E_INVALID_ARGUMENT,
+                  "method name " +
+                      PyRepr(entry.kind == misery::json::Kind::kString
+                                 ? entry.text : "") +
+                      " must match ^[a-z][a-z0-9_]*$",
+                  mod->mod_id);
+    }
+    record.methods.push_back(entry.text);
+  }
+  // Sorted, because the reference reports methods sorted -- as_dict() and
+  // published() both do -- and the differential compares describe() against
+  // it. Declaration order is not a property a mod may rely on; lookup by name
+  // is unaffected.
+  std::sort(record.methods.begin(), record.methods.end());
+  // Acquired BEFORE the record is stored, so the record carries its own handle
+  // and a binding can hold that rather than the name.
+  record.handle = P().core.Acquire(*mod, kKindService, full, ReleaseService,
+                                   new std::string(full), 0);
   P().services[full] = record;
-  *out_service = P().core.Acquire(*mod, kKindService, full, ReleaseService,
-                                  new std::string(full), 0);
+  *out_service = record.handle;
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
@@ -703,9 +766,13 @@ static MbStatus ServicesBind(MbHandle mod_handle, MbStr name, MbStr requirement,
                 mod->mod_id);
   }
   // The binding is owned by the CONSUMER, so a consumer that unloads stops
-  // holding a reference into the provider.
+  // holding a reference into the provider. It carries the service's HANDLE,
+  // resolved once, here -- see BindingBody.
+  BindingBody* body = new BindingBody;
+  body->name = full;
+  body->service = it->second.handle;
   *out_binding = P().core.Acquire(*mod, kKindServiceBinding, full,
-                                  ReleaseBinding, new std::string(full), 0);
+                                  ReleaseBinding, body, 0);
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
@@ -720,11 +787,204 @@ static MbStatus ServicesIsAvailable(MbHandle binding, int32_t* out_available,
     if (out_available != nullptr) *out_available = 0;
     return MB_STATUS_OK;
   }
-  // A binding is available only while the PROVIDER's service is still
-  // published -- which its own teardown removes.
-  const std::string* name = static_cast<const std::string*>(slot->body);
+  // Available only while the PROVIDER's service slot still resolves. That is
+  // the handle the binding captured at bind time, epoch-tagged: the provider's
+  // unload bumps its epoch and this resolve fails on its own. This used to
+  // count the service's NAME in the map, which a different mod republishing
+  // the same name would have satisfied.
+  const BindingBody* body = static_cast<const BindingBody*>(slot->body);
   if (out_available != nullptr) {
-    *out_available = P().services.count(*name) != 0 ? 1 : 0;
+    *out_available =
+        P().core.Resolve(body->service, kKindService) != nullptr ? 1 : 0;
+  }
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+// ---- the call frame -------------------------------------------------------
+//
+// Calls NEST: a provider's handler may itself call a service. So the in-flight
+// state is a stack, and complete_call must name the innermost frame's service.
+// A single "current dispatch" slot, which is what the console uses, would let a
+// nested call's result land in its caller's frame.
+struct ServiceFrame {
+  MbHandle service = MB_INVALID_HANDLE;
+  std::string result;
+  bool completed = false;
+};
+static std::vector<ServiceFrame> g_service_frames;
+
+// A bound on nesting. The reference has none -- Python's own recursion limit
+// stands in for one -- so this is a native addition rather than a port, and is
+// recorded as such. A service that recurses without end is a bug in a mod; the
+// game should not be the thing that finds out.
+static const size_t kMaxServiceCallDepth = 16;
+
+static MbStatus ServicesCall(MbHandle binding, MbStr method, MbStr args_json,
+                             MbStr* out_result_json, MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  Slot* slot = P().core.Resolve(binding, kKindServiceBinding);
+  if (slot == nullptr) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_OWNER_DISPOSED,
+                "the binding is not live: its consumer was unloaded or the "
+                "binding was released");
+  }
+  ModRecord* consumer = P().core.FindModBySlot(slot->owner_slot);
+  const BindingBody* body = static_cast<const BindingBody*>(slot->body);
+  const std::string consumer_id = consumer == nullptr ? "" : consumer->mod_id;
+
+  // THE PROVIDER, BY HANDLE. Re-resolved immediately before the call and
+  // nowhere earlier: the reference re-checks the token's liveness at exactly
+  // this point, and the epoch-tagged handle is that check.
+  Slot* service_slot = P().core.Resolve(body->service, kKindService);
+  auto record = P().services.find(body->name);
+  if (service_slot == nullptr || record == P().services.end() ||
+      record->second.handle != body->service) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_NOT_FOUND,
+                "service " + PyRepr(body->name) +
+                    " is no longer available: its provider has been unloaded",
+                consumer_id);
+  }
+  ModRecord* provider = P().core.FindModBySlot(service_slot->owner_slot);
+  if (provider == nullptr || P().trampoline == nullptr) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_NOT_FOUND,
+                "service " + PyRepr(body->name) +
+                    " is no longer available: its provider has been unloaded",
+                consumer_id);
+  }
+  const std::string method_name = ToStd(method);
+  bool known = false;
+  for (const std::string& name : record->second.methods) {
+    if (name == method_name) { known = true; break; }
+  }
+  if (!known) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_NOT_FOUND,
+                "service " + PyRepr(body->name) + " has no method " +
+                    PyRepr(method_name),
+                consumer_id);
+  }
+  if (g_service_frames.size() >= kMaxServiceCallDepth) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_LIMIT_EXCEEDED,
+                "service calls are nested " +
+                    std::to_string(kMaxServiceCallDepth) +
+                    " deep; refusing rather than letting a mod recurse the "
+                    "game off its stack",
+                consumer_id);
+  }
+
+  // THE FRAME. active_frames is what IsReclaimable refuses to reclaim across,
+  // so a provider cannot be collected while one of its handlers is running.
+  ServiceFrame frame;
+  frame.service = body->service;
+  g_service_frames.push_back(frame);
+  provider->active_frames += 1;
+  const std::string args = ToStd(args_json);
+  try {
+    P().trampoline_calls += 1;
+    P().trampoline(MB_DISPATCH_SERVICE, body->service,
+                   MbStr{method_name.c_str(),
+                         static_cast<int32_t>(method_name.size())},
+                   MbStr{args.c_str(), static_cast<int32_t>(args.size())}, 0);
+  } catch (...) {
+    // Contained here as a last line; the managed trampoline contains its own.
+    P().handler_faults += 1;
+    provider->fault_count += 1;
+  }
+  provider->active_frames -= 1;
+  P().dispatches += 1;
+  ServiceFrame finished = g_service_frames.back();
+  g_service_frames.pop_back();
+
+  if (!finished.completed) {
+    // The handler never delivered a result. On the managed side every
+    // exception is contained and counted before it can reach here, so this is
+    // what a faulted handler looks like from native -- and it is reported as
+    // one, structurally. The reference lets the provider's raw exception
+    // propagate into the consumer; nothing may cross this boundary, so the
+    // consumer gets a code and a reason instead. Classified in the plan.
+    provider->fault_count += 1;
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_HANDLER_FAULTED,
+                "service " + PyRepr(body->name) + " method " +
+                    PyRepr(method_name) +
+                    " faulted in the provider and delivered no result",
+                consumer_id);
+  }
+  if (!ThreadArena().TryPut(finished.result, out_result_json)) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_LIMIT_EXCEEDED,
+                "the service result did not fit the reply buffer; refusing "
+                "rather than returning a truncated document under a "
+                "successful status",
+                consumer_id);
+  }
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+static MbStatus ServicesCompleteCall(MbHandle service, MbStr result_json,
+                                     MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  if (g_service_frames.empty() || g_service_frames.back().service != service) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_NOT_OWNED,
+                "complete_call is only valid for the service call currently "
+                "innermost on the stack");
+  }
+  g_service_frames.back().result = ToStd(result_json);
+  g_service_frames.back().completed = true;
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+static MbStatus ServicesRelease(MbHandle binding, MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  if (P().core.Resolve(binding, kKindServiceBinding) == nullptr) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_NOT_OWNED,
+                "that is not a live service binding");
+  }
+  P().core.ReleaseOne(binding);
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+// The reference's ServiceHandle.as_dict().
+static MbStatus ServicesDescribe(MbHandle binding, MbStr* out_json,
+                                 MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  Slot* slot = P().core.Resolve(binding, kKindServiceBinding);
+  if (slot == nullptr) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_OWNER_DISPOSED,
+                "the binding is not live");
+  }
+  ModRecord* consumer = P().core.FindModBySlot(slot->owner_slot);
+  const BindingBody* body = static_cast<const BindingBody*>(slot->body);
+  const bool available =
+      P().core.Resolve(body->service, kKindService) != nullptr;
+  auto record = P().services.find(body->name);
+  std::string json = "{\"name\":" + Quoted(body->name) + ",\"version\":" +
+                     Quoted(record == P().services.end() ? ""
+                                                          : record->second.version) +
+                     ",\"provider\":" +
+                     Quoted(record == P().services.end() ? ""
+                                                          : record->second.provider) +
+                     ",\"consumer\":" +
+                     Quoted(consumer == nullptr ? "" : consumer->mod_id) +
+                     ",\"available\":" + (available ? "true" : "false") +
+                     ",\"methods\":[";
+  if (available && record != P().services.end()) {
+    bool first = true;
+    for (const std::string& name : record->second.methods) {
+      if (!first) json += ",";
+      first = false;
+      json += Quoted(name);
+    }
+  }
+  json += "]}";
+  if (!ThreadArena().TryPut(json, out_json)) {
+    return Fail(out_error, MB_SUB_SERVICES, MB_E_LIMIT_EXCEEDED,
+                "the service description did not fit the reply buffer");
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
@@ -737,6 +997,9 @@ static MbStatus ServicesIsAvailable(MbHandle binding, int32_t* out_available,
 // repr() text the same way, so one definition serves both.
 static std::string Quoted(const std::string& text);
 static std::string PyRepr(const std::string& text);
+// Defined with the settings, further down. Service method names are held to
+// the same identifier rule as setting keys, so one validator serves both.
+static bool CheckSettingKey(const std::string& key);
 
 static const char* SettingTypeName(int type) {
   switch (type) {
@@ -1683,7 +1946,14 @@ static std::string BuiltinServices() {
     first = false;
     json += "{\"name\":" + Quoted(entry.first) + ",\"version\":" +
             Quoted(entry.second.version) + ",\"provider\":" +
-            Quoted(entry.second.provider) + "}";
+            Quoted(entry.second.provider) + ",\"methods\":[";
+    bool first_method = true;
+    for (const std::string& method : entry.second.methods) {
+      if (!first_method) json += ",";
+      first_method = false;
+      json += Quoted(method);
+    }
+    json += "]}";
   }
   return json + "]}";
 }
@@ -2064,9 +2334,11 @@ static MbStatus QueryCapability(const char* name, int32_t name_len,
   return static_cast<MbStatus>(MB_E_CAPABILITY_NOT_GRANTED);
 }
 
-static MbServicesTable g_services = {sizeof(MbServicesTable), 1, 0,
+static MbServicesTable g_services = {sizeof(MbServicesTable), 1, 1,
                                      ServicesPublish, ServicesBind,
-                                     ServicesIsAvailable, nullptr, nullptr};
+                                     ServicesIsAvailable, ServicesCall,
+                                     ServicesRelease, ServicesCompleteCall,
+                                     ServicesDescribe};
 static MbSettingsTable g_settings = {sizeof(MbSettingsTable), 1, 0,
                                      SettingsDeclare,
                                      SettingsGetBool, SettingsGetInt,
