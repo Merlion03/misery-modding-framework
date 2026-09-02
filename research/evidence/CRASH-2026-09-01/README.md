@@ -19,7 +19,13 @@ MiseryRuntime  +2c36
 KERNEL32       +2e8d7
 ```
 
-The full context is in `CrashContext.runtime-xml`.
+The engine's raw `CrashContext.runtime-xml` is deliberately NOT kept here. It
+carries persistent machine and account identifiers -- `MachineId`, `LoginId`,
+`EpicAccountId` -- alongside the useful fields, and this repository is public.
+Everything of technical value from it is transcribed above: the exception type
+and faulting address, the module-relative stack, the engine build, and the
+symbolisation method. `tests/test_engine_version.py` shows the placeholder
+convention this project already used for such fields.
 
 ## Symbolising it
 
