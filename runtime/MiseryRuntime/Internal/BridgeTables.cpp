@@ -413,7 +413,12 @@ static MbStatus ItemsRegister(MbHandle mod_handle, MbStr declaration_json,
   *out_item = P().core.Acquire(*mod, kKindItem, body->row_name, ReleaseItem,
                                body, 0);
   if (out_row_name != nullptr) {
-    *out_row_name = ThreadArena().Put(body->row_name);
+    if (!ThreadArena().TryPut(body->row_name, out_row_name)) {
+      return Fail(out_error, MB_SUB_ITEMS, MB_E_LIMIT_EXCEEDED,
+                  "the registered row name did not fit the reply buffer; refusing rather "
+                  "than returning a truncated document under a "
+                  "successful status");
+    }
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
@@ -627,7 +632,12 @@ static MbStatus DiagSnapshot(MbStr* out_json, MbError* out_error) {
   json += ",\"log_records\":" + std::to_string(P().log_records);
   json += "}";
   if (out_json != nullptr) {
-    *out_json = ThreadArena().Put(json);
+    if (!ThreadArena().TryPut(json, out_json)) {
+      return Fail(out_error, MB_SUB_PLATFORM, MB_E_LIMIT_EXCEEDED,
+                  "the diagnostics snapshot did not fit the reply buffer; refusing rather "
+                  "than returning a truncated document under a "
+                  "successful status");
+    }
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
@@ -660,7 +670,12 @@ static MbStatus DiagReclaimable(MbStr mod_id, int32_t* out_reclaimable,
   bool ok = P().core.IsReclaimable(*mod, &reason);
   if (out_reclaimable != nullptr) *out_reclaimable = ok ? 1 : 0;
   if (out_reason != nullptr) {
-    *out_reason = ThreadArena().Put("{\"reason\":\"" + Escape(reason) + "\"}");
+    if (!ThreadArena().TryPut("{\"reason\":\"" + Escape(reason) + "\"}", out_reason)) {
+      return Fail(out_error, MB_SUB_PLATFORM, MB_E_LIMIT_EXCEEDED,
+                  "the reclaim reason did not fit the reply buffer; refusing rather "
+                  "than returning a truncated document under a "
+                  "successful status");
+    }
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
@@ -711,8 +726,14 @@ static MbStatus HostModBegin(MbStr mod_id, MbStr api_requirement,
   mod.last_error.clear();
   *out_mod = P().core.ModHandle(mod);
   if (out_grant != nullptr) {
-    *out_grant = ThreadArena().Put("{\"granted\":\"" +
-                                   Escape(ToStd(required_caps)) + "\"}");
+    if (!ThreadArena().TryPut("{\"granted\":\"" +
+                                  Escape(ToStd(required_caps)) + "\"}",
+                              out_grant)) {
+      return Fail(out_error, MB_SUB_CAPABILITIES, MB_E_LIMIT_EXCEEDED,
+                  "the capability grant did not fit the reply buffer; "
+                  "refusing rather than returning a truncated document "
+                  "under a successful status");
+    }
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
@@ -771,7 +792,12 @@ static MbStatus HostModUnload(MbHandle mod_handle, MbStr* out_teardown,
                        std::to_string(report.faults) + ",\"total\":" +
                        std::to_string(report.total) + ",\"reentered\":" +
                        (report.reentered ? "true" : "false") + "}";
-    *out_teardown = ThreadArena().Put(json);
+    if (!ThreadArena().TryPut(json, out_teardown)) {
+      return Fail(out_error, MB_SUB_LIFECYCLE, MB_E_LIMIT_EXCEEDED,
+                  "the teardown report did not fit the reply buffer; refusing rather "
+                  "than returning a truncated document under a "
+                  "successful status");
+    }
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
@@ -790,10 +816,16 @@ static MbStatus HostShutdown(MbStr* out_report, MbError* out_error) {
   }
   P().shutting_down = false;
   if (out_report != nullptr) {
-    *out_report = ThreadArena().Put("{\"unloaded\":" + std::to_string(unloaded) +
-                                    ",\"live_slots\":" +
-                                    std::to_string(P().core.LiveSlotCount()) +
-                                    "}");
+    if (!ThreadArena().TryPut("{\"unloaded\":" + std::to_string(unloaded) +
+                                  ",\"live_slots\":" +
+                                  std::to_string(P().core.LiveSlotCount()) +
+                                  "}",
+                              out_report)) {
+      return Fail(out_error, MB_SUB_LIFECYCLE, MB_E_LIMIT_EXCEEDED,
+                  "the shutdown report did not fit the reply buffer; "
+                  "refusing rather than returning a truncated document "
+                  "under a successful status");
+    }
   }
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)

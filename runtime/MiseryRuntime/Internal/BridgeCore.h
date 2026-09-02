@@ -102,16 +102,45 @@ class StringArena {
  public:
   void Reset() { used_ = 0; }
 
-  MbStr Put(const std::string& text) {
+  // Places *text* in the arena. Returns false, and leaves *out untouched, when
+  // it does not fit.
+  //
+  // WHY THIS REPLACED A FUNCTION THAT RETURNED A SENTINEL
+  // ----------------------------------------------------
+  // The previous Put returned the literal "<detail too long>" on exhaustion and
+  // had no way to tell the caller. Every caller was a SUCCESS path: it stored
+  // that string into an out-parameter and returned MB_STATUS_OK. So an
+  // oversized result did not produce an error, it produced a call that claimed
+  // to succeed and handed back seventeen bytes that are not the JSON document
+  // the signature promises. That is the failure mode this project cares about
+  // most -- not a crash, a confident wrong answer.
+  //
+  // Nothing is consumed on failure, so a caller can refuse with a short
+  // structured detail immediately afterwards and that detail will fit.
+  bool TryPut(const std::string& text, MbStr* out) {
     if (used_ + text.size() + 1 > kCapacity) {
-      // Refusing to truncate silently: a half message is a misleading message.
-      return MbStr{"<detail too long>", 17};
+      return false;
     }
-    char* out = buffer_ + used_;
-    memcpy(out, text.data(), text.size());
-    out[text.size()] = '\0';
+    char* dst = buffer_ + used_;
+    memcpy(dst, text.data(), text.size());
+    dst[text.size()] = '\0';
     used_ += text.size() + 1;
-    return MbStr{out, static_cast<int32_t>(text.size())};
+    *out = MbStr{dst, static_cast<int32_t>(text.size())};
+    return true;
+  }
+
+  // For the one caller that cannot report a failure because it IS the failure
+  // report. Fail() is already returning a non-zero status, so a truncated
+  // detail degrades the message rather than misrepresenting the outcome.
+  //
+  // Deliberately not named Put: the old name is gone so the compiler, not a
+  // grep, finds anyone still expecting the old behaviour.
+  MbStr PutOrSentinel(const std::string& text) {
+    MbStr placed;
+    if (TryPut(text, &placed)) {
+      return placed;
+    }
+    return MbStr{"<detail too long>", 17};
   }
 
  private:
@@ -129,8 +158,9 @@ inline MbStatus Fail(MbError* out_error, int32_t subsystem, int32_t code,
   if (out_error != nullptr) {
     out_error->subsystem = subsystem;
     out_error->code = code;
-    out_error->detail = ThreadArena().Put(detail);
-    out_error->mod_id = mod_id.empty() ? MbStr{"", 0} : ThreadArena().Put(mod_id);
+    out_error->detail = ThreadArena().PutOrSentinel(detail);
+    out_error->mod_id =
+      mod_id.empty() ? MbStr{"", 0} : ThreadArena().PutOrSentinel(mod_id);
   }
   return static_cast<MbStatus>((subsystem << 16) | code);
 }

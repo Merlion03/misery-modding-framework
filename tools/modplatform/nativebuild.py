@@ -175,6 +175,9 @@ MISERY_TEST_HARNESSES = {
     # Registered here as well as built by its own test, so neither "nobody ran
     # build_harnesses" nor "the test skipped" can hide it.
     "json_escape_harness.exe": ("json_escape_harness.cpp", ("Json.cpp",)),
+    # StringArena is header-only, so the harness needs no translation unit but
+    # its own. It pins that an oversized reply is refused rather than answered.
+    "arena_harness.exe": ("arena_harness.cpp", ()),
     # Resolver.cpp for ReadBytes: VerifyCode compares the profile's recorded
     # bytes against live memory, and that read is the resolver's.
     "bindings_harness.exe": ("bindings_harness.cpp",
