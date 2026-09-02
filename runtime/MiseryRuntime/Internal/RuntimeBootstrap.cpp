@@ -70,6 +70,9 @@ extern "C" int MiseryBridgeRaiseFrameworkEvent(
 // the runtime that owns the process may do -- so it deliberately does not appear
 // there.
 extern "C" void MiseryBridgeSetGameThread(unsigned long thread_id);
+extern "C" void MiseryBridgeSetGenerationSource(
+    unsigned long long (*current)(), int (*published)(),
+    const char* (*phase)(), const char* (*last_revoke)());
 extern "C" unsigned long MiseryBridgeGameThread(void);
 
 namespace {
@@ -580,6 +583,29 @@ DWORD WINAPI RuntimeThread(LPVOID) {
   // the resolver rather than assumed by this code. That is the whole reason the
   // cost record carries a thread id: this is the consumer that needed it.
   MiseryBridgeSetGameThread(cost.thread_id);
+
+  // WHERE misery:generations READS FROM.
+  //
+  // Accessors, not a copy. The console runs on the game thread, so it asks the
+  // real generation machinery at the moment it is asked, and there is no second
+  // state model to fall out of step. The bridge holds only these pointers,
+  // which is what keeps it buildable and testable without the resolver behind
+  // it -- runtime/tests/services_harness.cpp depends on that, and the console
+  // builtin says "not attached" there rather than pretending.
+  MiseryBridgeSetGenerationSource(
+      []() -> unsigned long long { return misery::content::CurrentGeneration(); },
+      []() -> int { return misery::content::IsPublished() ? 1 : 0; },
+      []() -> const char* {
+        // The phase of the generation currently published. Read from the
+        // snapshot's own anchors rather than remembered separately.
+        misery::content::Snapshot snapshot;
+        std::string why;
+        if (!misery::content::Acquire(&snapshot, &why)) {
+          return "";
+        }
+        return misery::resolve::PhaseName(snapshot.anchors.reached);
+      },
+      []() -> const char* { return misery::content::LastRevokeReason(); });
   Log("runtime: game thread declared as %u (measured, not assumed)",
       cost.thread_id);
 

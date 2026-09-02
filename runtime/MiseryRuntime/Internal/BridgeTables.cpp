@@ -68,6 +68,17 @@ struct ServiceRecord {
   std::vector<std::string> methods;
 };
 
+// A console command. `owner` is empty and `handle` is 0 for the framework's
+// own builtins, which nobody owns and nobody may release.
+// The reference's cap, mirrored: console.py MAX_COMMANDS_PER_MOD.
+static const unsigned kMaxCommandsPerMod = 32;
+
+struct CommandRecord {
+  std::string summary;
+  std::string owner;
+  MbHandle handle = MB_INVALID_HANDLE;
+};
+
 struct Platform {
   Core core;
   MbTrampoline trampoline = nullptr;
@@ -77,7 +88,7 @@ struct Platform {
   std::map<std::string, EventDeclaration> events;
   std::map<std::string, ServiceRecord> services;
   std::map<std::string, std::string> settings;      // "<mod>/<key>" -> value
-  std::map<std::string, std::string> commands;      // name -> owner
+  std::map<std::string, CommandRecord> commands;    // name -> record
 
   // Counters the acceptance reads, so "nothing was retained" is measured
   // rather than asserted.
@@ -109,6 +120,36 @@ struct ItemsBackend {
   MbItemsUnregisterFn unregister_item = nullptr;
   MbItemsGrantFn grant_item = nullptr;
 };
+
+// WHERE `misery:generations` GETS ITS ANSWER.
+//
+// Injected rather than linked, for the same reason the items backend is: the
+// bridge must stay buildable and testable without the resolver behind it, and
+// runtime/tests/services_harness.cpp already depends on that.
+//
+// It is a PULL, not a pushed copy. The console runs on the game thread, which
+// is where content::Acquire is legal, so the builtin reads the live generation
+// through these at the moment it is asked. A pushed snapshot would be a second
+// state model with its own staleness, which is exactly what the stage brief
+// says not to build.
+extern "C" {
+typedef unsigned long long (*MbGenerationCurrentFn)();
+typedef int (*MbGenerationPublishedFn)();
+typedef const char* (*MbGenerationPhaseFn)();
+typedef const char* (*MbGenerationLastRevokeFn)();
+}
+
+struct GenerationSource {
+  MbGenerationCurrentFn current = nullptr;
+  MbGenerationPublishedFn published = nullptr;
+  MbGenerationPhaseFn phase = nullptr;
+  MbGenerationLastRevokeFn last_revoke = nullptr;
+};
+
+static GenerationSource& Generations() {
+  static GenerationSource source;
+  return source;
+}
 
 static ItemsBackend& Items() {
   static ItemsBackend backend;
@@ -888,6 +929,455 @@ static MbStatus HostShutdown(MbStr* out_report, MbError* out_error) {
 }
 
 // ---------------------------------------------------------------- tables ----
+// ================================ console ==================================
+//
+// Ported from tools/modplatform/console.py, which has defined these semantics
+// since Stage 4.5. The envelope, the refusal wording, the validation order and
+// the builtin names are ITS decisions, mirrored here rather than re-invented,
+// and tests/test_console.py drives the same lines through both.
+//
+// WHAT IS DELIBERATELY NOT THE REFERENCE'S
+// ----------------------------------------
+// The namespace. Framework builtins are "misery:<name>". The reference, which
+// predates any reserved prefix, registers them bare. "mbpl" is NOT used and
+// must not be: it is an ordinary mod_id -- the one the production radio mod
+// uses -- and reserving it would invalidate existing item definitions.
+
+// Defined below, beside acquire_capability; the caps builtin asks the same
+// question a host would.
+static MbStatus QueryCapability(const char* name, int32_t name_len,
+                                uint32_t* out_major, uint32_t* out_minor);
+
+// The result a mod's handler delivered during the dispatch now in flight.
+// Empty when no dispatch is in flight, which is how complete_dispatch knows it
+// is being called from somewhere it should not be.
+static MbHandle g_dispatching_command = MB_INVALID_HANDLE;
+static std::string g_dispatch_result;
+static bool g_dispatch_completed = false;
+
+static void ReleaseCommand(void* body, uint64_t payload) {
+  (void)payload;
+  std::string* name = static_cast<std::string*>(body);
+  P().commands.erase(*name);
+  delete name;
+}
+
+// ---- the JSON the builtins answer with ------------------------------------
+static std::string Quoted(const std::string& text) {
+  return "\"" + misery::json::EscapeString(text) + "\"";
+}
+
+// Python's %r on a str, which the reference's refusal wording goes through.
+// Single quotes, so "unknown command 'foo'" matches byte for byte.
+static std::string PyRepr(const std::string& text) {
+  std::string out = "'";
+  for (char c : text) {
+    if (c == '\'' || c == '\\') out += '\\';
+    out += c;
+  }
+  return out + "'";
+}
+
+static std::string CommandsJson() {
+  std::string json = "[";
+  bool first = true;
+  for (const auto& entry : P().commands) {
+    if (!first) json += ",";
+    first = false;
+    json += "{\"name\":" + Quoted(entry.first) + ",\"summary\":" +
+            Quoted(entry.second.summary) + ",\"owner\":" +
+            Quoted(entry.second.owner.empty() ? "platform"
+                                              : entry.second.owner) + "}";
+  }
+  return json + "]";
+}
+
+static std::string BuiltinHelp() {
+  return "{\"commands\":" + CommandsJson() + "}";
+}
+
+static std::string BuiltinMods() {
+  std::string json = "{\"mods\":[";
+  bool first = true;
+  for (ModRecord& mod : P().core.mods()) {
+    if (!first) json += ",";
+    first = false;
+    json += "{\"mod_id\":" + Quoted(mod.mod_id) + ",\"state\":" +
+            std::to_string(mod.state) + ",\"epoch\":" +
+            std::to_string(mod.epoch) + ",\"faults\":" +
+            std::to_string(mod.fault_count) + "}";
+  }
+  // The reference reports how many folders discovery examined; the bridge is
+  // not the discoverer, so it says so rather than guessing a number.
+  return json + "],\"folders_examined\":null}";
+}
+
+static std::string BuiltinOwned(const std::string& wanted) {
+  std::string json = "{\"mods\":[";
+  bool first = true;
+  for (ModRecord& mod : P().core.mods()) {
+    if (!wanted.empty() && mod.mod_id != wanted) continue;
+    if (!first) json += ",";
+    first = false;
+    std::string reason;
+    json += "{\"mod_id\":" + Quoted(mod.mod_id) + ",\"owned\":" +
+            std::to_string(mod.owned_count) + ",\"released\":" +
+            std::to_string(mod.released_count) + ",\"revoked\":" +
+            std::to_string(mod.revoked_count) + ",\"active_frames\":" +
+            std::to_string(mod.active_frames) + ",\"reclaimable\":" +
+            (P().core.IsReclaimable(mod, &reason) ? "true" : "false") + "}";
+  }
+  return json + "]}";
+}
+
+static std::string BuiltinEvents() {
+  std::string json = "{\"events\":[";
+  bool first = true;
+  for (const auto& entry : P().events) {
+    if (!first) json += ",";
+    first = false;
+    json += "{\"name\":" + Quoted(entry.first) + ",\"subscribers\":" +
+            std::to_string(entry.second.subscribers.size()) + "}";
+  }
+  return json + "]}";
+}
+
+static std::string BuiltinServices() {
+  std::string json = "{\"services\":[";
+  bool first = true;
+  for (const auto& entry : P().services) {
+    if (!first) json += ",";
+    first = false;
+    json += "{\"name\":" + Quoted(entry.first) + ",\"version\":" +
+            Quoted(entry.second.version) + ",\"provider\":" +
+            Quoted(entry.second.provider) + "}";
+  }
+  return json + "]}";
+}
+
+static std::string BuiltinSettings() {
+  std::string json = "{\"settings\":[";
+  bool first = true;
+  for (const auto& entry : P().settings) {
+    if (!first) json += ",";
+    first = false;
+    json += "{\"key\":" + Quoted(entry.first) + "}";
+  }
+  return json + "]}";
+}
+
+static std::string BuiltinLog() {
+  std::string json = "{\"records\":[";
+  bool first = true;
+  for (const std::string& record : P().log_tail) {
+    if (!first) json += ",";
+    first = false;
+    json += Quoted(record);
+  }
+  return json + "],\"total\":" + std::to_string(P().log_records) + "}";
+}
+
+static std::string BuiltinCaps() {
+  std::string json = "{\"api\":{\"major\":" + std::to_string(MB_API_MAJOR) +
+                     ",\"minor\":" + std::to_string(MB_API_MINOR) +
+                     "},\"abi_epoch\":" + std::to_string(MB_ABI_EPOCH) +
+                     ",\"capabilities\":[";
+  static const char* kNames[] = {
+      MB_CAP_LOG, MB_CAP_EVENTS, MB_CAP_SETTINGS, MB_CAP_INPUT_REGISTRY,
+      MB_CAP_SERVICES, MB_CAP_ITEMS, MB_CAP_CONSOLE, MB_CAP_DIAGNOSTICS};
+  bool first = true;
+  for (const char* name : kNames) {
+    uint32_t major = 0, minor = 0;
+    const bool available =
+        QueryCapability(name, static_cast<int32_t>(strlen(name)), &major,
+                        &minor) == MB_STATUS_OK;
+    if (!first) json += ",";
+    first = false;
+    json += "{\"name\":" + Quoted(name) + ",\"available\":" +
+            (available ? "true" : "false");
+    if (available) {
+      json += ",\"major\":" + std::to_string(major) + ",\"minor\":" +
+              std::to_string(minor);
+    }
+    json += "}";
+  }
+  return json + "]}";
+}
+
+// THE ONE NEW BUILTIN. Derived from the generation machinery through the
+// injected accessors, not from a state model of its own.
+static std::string BuiltinGenerations() {
+  GenerationSource& source = Generations();
+  if (source.current == nullptr) {
+    return "{\"attached\":false,\"reason\":\"no generation source is attached; "
+           "the bridge is running without the content runtime behind it\"}";
+  }
+  const unsigned long long current = source.current();
+  const bool published =
+      source.published != nullptr && source.published() != 0;
+  std::string json = "{\"attached\":true,\"generation\":" +
+                     std::to_string(current) + ",\"published\":" +
+                     (published ? "true" : "false");
+  if (source.phase != nullptr) {
+    const char* phase = source.phase();
+    json += ",\"phase\":" + Quoted(phase == nullptr ? "" : phase);
+  }
+  if (!published && source.last_revoke != nullptr) {
+    const char* why = source.last_revoke();
+    json += ",\"last_revoke\":" + Quoted(why == nullptr ? "" : why);
+  }
+  return json + "}";
+}
+
+// Subsystems whose data does not exist in this epoch answer with the shape the
+// reference already uses for a missing load plan: an explicit statement that it
+// is not attached, naming what would attach it. Silence, or an empty list that
+// looks like "there are none", would both be worse than saying so.
+static std::string NotAttached(const std::string& what) {
+  return "{\"attached\":false,\"reason\":" + Quoted(what) + "}";
+}
+
+// ---- the registry ---------------------------------------------------------
+static const char* kBuiltins[][2] = {
+    {"misery:help", "list commands"},
+    {"misery:mods", "loaded mods and their state"},
+    {"misery:loadorder", "the resolved load order"},
+    {"misery:why", "why a mod is not loaded"},
+    {"misery:owned", "what a mod owns"},
+    {"misery:items", "registered items, by mod"},
+    {"misery:errors", "structured subsystem errors"},
+    {"misery:caps", "API version and capabilities"},
+    {"misery:events", "declared events and subscriber counts"},
+    {"misery:services", "published services and their providers"},
+    {"misery:input", "registered input actions"},
+    {"misery:settings", "declared settings, by mod"},
+    {"misery:log", "recent log records"},
+    {"misery:generations", "the live content generation"},
+};
+
+static void DeclareBuiltins() {
+  if (!P().commands.empty()) return;
+  for (const auto& entry : kBuiltins) {
+    CommandRecord record;
+    record.summary = entry[1];
+    P().commands[entry[0]] = record;
+  }
+}
+
+static std::string RunBuiltin(const std::string& name,
+                              const std::string& args) {
+  if (name == "misery:help") return BuiltinHelp();
+  if (name == "misery:mods") return BuiltinMods();
+  if (name == "misery:owned") return BuiltinOwned(args);
+  if (name == "misery:events") return BuiltinEvents();
+  if (name == "misery:services") return BuiltinServices();
+  if (name == "misery:settings") return BuiltinSettings();
+  if (name == "misery:log") return BuiltinLog();
+  if (name == "misery:caps") return BuiltinCaps();
+  if (name == "misery:generations") return BuiltinGenerations();
+  if (name == "misery:loadorder" || name == "misery:why") {
+    return NotAttached("no load plan is attached to the bridge; discovery and "
+                       "resolution run in the runtime, which does not hand its "
+                       "plan to the console yet");
+  }
+  if (name == "misery:items") {
+    return NotAttached("the items backend does not expose a listing yet");
+  }
+  if (name == "misery:errors") {
+    return NotAttached("the structured error history arrives with the support "
+                       "bundle");
+  }
+  if (name == "misery:input") {
+    return NotAttached("core.input_registry is declared and not dispatched");
+  }
+  return NotAttached("unimplemented builtin");
+}
+
+static MbStatus ConsoleRegister(MbHandle mod_handle, MbStr name, MbStr summary,
+                                MbHandle* out_command, MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  DeclareBuiltins();
+  ModRecord* mod = P().core.ResolveMod(mod_handle);
+  if (mod == nullptr) {
+    return Fail(out_error, MB_SUB_CONSOLE, MB_E_OWNER_DISPOSED,
+                "the mod handle is not live");
+  }
+  const std::string full = ToStd(name);
+  // The reference's validation, in its order, so the same input is refused for
+  // the same reason with the same code.
+  std::string local;
+  if (!NamespaceMatches(full, mod->mod_id, &local)) {
+    return Fail(out_error, MB_SUB_CONSOLE, MB_E_INVALID_ARGUMENT,
+                PyRepr(mod->mod_id) + " may only register commands under " +
+                    PyRepr(mod->mod_id + ":"),
+                mod->mod_id);
+  }
+  if (P().commands.count(full) != 0) {
+    return Fail(out_error, MB_SUB_CONSOLE, MB_E_ALREADY_EXISTS,
+                "command " + PyRepr(full) + " already exists", mod->mod_id);
+  }
+  unsigned owned_commands = 0;
+  for (const auto& entry : P().commands) {
+    if (entry.second.owner == mod->mod_id) ++owned_commands;
+  }
+  if (owned_commands >= kMaxCommandsPerMod) {
+    return Fail(out_error, MB_SUB_CONSOLE, MB_E_LIMIT_EXCEEDED,
+                "a mod may register at most " +
+                    std::to_string(kMaxCommandsPerMod) + " commands",
+                mod->mod_id);
+  }
+  CommandRecord record;
+  record.summary = ToStd(summary);
+  record.owner = mod->mod_id;
+  record.handle = P().core.Acquire(*mod, kKindCommand, full, ReleaseCommand,
+                                   new std::string(full), 0);
+  P().commands[full] = record;
+  *out_command = record.handle;
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+static MbStatus ConsoleUnregister(MbHandle command, MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  // Resolved WITH the kind first, so a handle of some other kind is refused
+  // rather than released: ReleaseOne does not check what it is being handed.
+  if (P().core.Resolve(command, kKindCommand) == nullptr) {
+    return Fail(out_error, MB_SUB_CONSOLE, MB_E_NOT_OWNED,
+                "that is not a live command handle");
+  }
+  P().core.ReleaseOne(command);
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+static MbStatus ConsoleCompleteDispatch(MbHandle command, MbStr result_json,
+                                        MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  if (g_dispatching_command == MB_INVALID_HANDLE ||
+      command != g_dispatching_command) {
+    return Fail(out_error, MB_SUB_CONSOLE, MB_E_NOT_OWNED,
+                "complete_dispatch is only valid for the command dispatch "
+                "currently in flight");
+  }
+  g_dispatch_result = ToStd(result_json);
+  g_dispatch_completed = true;
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+static MbStatus ConsoleRun(MbStr line, MbStr* out_result_json,
+                           MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  DeclareBuiltins();
+
+  // run() NEVER FAILS FOR A COMMAND'S SAKE.
+  //
+  // The reference's contract is "never raises; returns a result structure", so
+  // an unknown command, an empty line and a handler that threw are all
+  // MB_STATUS_OK with ok:false in the envelope. A non-zero status here means
+  // the console itself could not run -- wrong thread, or the reply did not fit.
+  // Callers that conflate the two would report a mod's bad command as a
+  // framework failure.
+  const std::string text = ToStd(line);
+  std::string name, args;
+  {
+    size_t begin = text.find_first_not_of(" \t\r\n");
+    if (begin == std::string::npos) {
+      const std::string envelope = "{\"ok\":false,\"error\":\"empty command\"}";
+      if (!ThreadArena().TryPut(envelope, out_result_json)) {
+        return Fail(out_error, MB_SUB_CONSOLE, MB_E_LIMIT_EXCEEDED,
+                    "the console reply did not fit the reply buffer");
+      }
+      return MB_STATUS_OK;
+    }
+    size_t end = text.find_first_of(" \t\r\n", begin);
+    name = text.substr(begin, end == std::string::npos ? std::string::npos
+                                                       : end - begin);
+    if (end != std::string::npos) {
+      const size_t rest = text.find_first_not_of(" \t\r\n", end);
+      if (rest != std::string::npos) {
+        args = text.substr(rest);
+        while (!args.empty() && (args.back() == ' ' || args.back() == '\t' ||
+                                 args.back() == '\r' || args.back() == '\n')) {
+          args.pop_back();
+        }
+      }
+    }
+  }
+
+  auto it = P().commands.find(name);
+  std::string envelope;
+  if (it == P().commands.end()) {
+    envelope = "{\"ok\":false,\"error\":\"unknown command " +
+               misery::json::EscapeString(PyRepr(name)) +
+               "\",\"hint\":\"try 'help'\"}";
+  } else if (it->second.owner.empty()) {
+    envelope = "{\"ok\":true,\"command\":" + Quoted(name) + ",\"result\":" +
+               RunBuiltin(name, args) + "}";
+  } else {
+    // A MOD's command. Re-resolved immediately before the call, never from the
+    // record captured above: the mod may have been unloaded since the map was
+    // read, and the reference reports exactly that case.
+    const MbHandle handle = it->second.handle;
+    Slot* slot = P().core.Resolve(handle, kKindCommand);
+    ModRecord* owner =
+        slot == nullptr ? nullptr : P().core.FindModBySlot(slot->owner_slot);
+    if (slot == nullptr || owner == nullptr || P().trampoline == nullptr) {
+      envelope = "{\"ok\":false,\"error\":\"command " +
+                 misery::json::EscapeString(PyRepr(name)) +
+                 " is no longer available: its mod was unloaded\"}";
+    } else {
+      g_dispatching_command = handle;
+      g_dispatch_result.clear();
+      g_dispatch_completed = false;
+      owner->active_frames += 1;
+      bool faulted = false;
+      try {
+        P().trampoline_calls += 1;
+        P().trampoline(MB_DISPATCH_COMMAND, handle,
+                       MbStr{name.c_str(), static_cast<int32_t>(name.size())},
+                       MbStr{args.c_str(), static_cast<int32_t>(args.size())},
+                       0);
+      } catch (...) {
+        P().handler_faults += 1;
+        owner->fault_count += 1;
+        faulted = true;
+      }
+      owner->active_frames -= 1;
+      g_dispatching_command = MB_INVALID_HANDLE;
+      P().dispatches += 1;
+      if (faulted) {
+        envelope = "{\"ok\":false,\"command\":" + Quoted(name) +
+                   ",\"error\":{\"detail\":\"the command handler faulted\"}}";
+      } else if (!g_dispatch_completed) {
+        envelope = "{\"ok\":false,\"command\":" + Quoted(name) +
+                   ",\"error\":{\"detail\":\"the command handler returned no "
+                   "result\"}}";
+      } else {
+        envelope = "{\"ok\":true,\"command\":" + Quoted(name) + ",\"result\":" +
+                   g_dispatch_result + "}";
+      }
+      g_dispatch_result.clear();
+    }
+  }
+
+  if (!ThreadArena().TryPut(envelope, out_result_json)) {
+    return Fail(out_error, MB_SUB_CONSOLE, MB_E_LIMIT_EXCEEDED,
+                "the console reply did not fit the reply buffer; refusing "
+                "rather than returning a truncated document under a "
+                "successful status");
+  }
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+static MbConsoleTable g_console = {sizeof(MbConsoleTable), 1, 0,
+                                   ConsoleRegister, ConsoleUnregister,
+                                   ConsoleRun, ConsoleCompleteDispatch};
 static MbLogTable g_log = {sizeof(MbLogTable), 1, 0, LogWrite};
 static MbEventsTable g_events = {sizeof(MbEventsTable), 1, 0, EventsDeclare,
                                  EventsSubscribe, EventsUnsubscribe,
@@ -904,7 +1394,8 @@ static MbHostTable g_host = {sizeof(MbHostTable), 1, 0, HostSetTrampoline,
 static MbStatus QueryCapability(const char* name, int32_t name_len,
                                 uint32_t* out_major, uint32_t* out_minor) {
   std::string wanted(name ? name : "", name_len > 0 ? name_len : 0);
-  if (wanted == MB_CAP_LOG || wanted == MB_CAP_EVENTS ||
+  if (wanted == MB_CAP_CONSOLE || wanted == MB_CAP_LOG ||
+      wanted == MB_CAP_EVENTS ||
       wanted == MB_CAP_ITEMS || wanted == MB_CAP_DIAGNOSTICS ||
       wanted == MB_CAP_SERVICES || wanted == MB_CAP_SETTINGS ||
       wanted == MB_CAP_HOST) {
@@ -942,6 +1433,10 @@ static MbStatus AcquireCapability(MbHandle owner, const char* name,
                   "core.host is reachable only by the managed host");
     }
     *out_table = &g_host;
+    return MB_STATUS_OK;
+  }
+  if (wanted == MB_CAP_CONSOLE) {
+    *out_table = &g_console;
     return MB_STATUS_OK;
   }
   if (wanted == MB_CAP_LOG) { *out_table = &g_log; return MB_STATUS_OK; }
@@ -1034,6 +1529,18 @@ extern "C" __declspec(dllexport) void MiseryBridgeInstallItemsBackend(
 // Declares which thread the engine's game thread is. Until this is called the
 // thread check is inert, which is what lets the standalone harness run on its
 // own main thread without pretending to be a game.
+extern "C" __declspec(dllexport) void MiseryBridgeSetGenerationSource(
+    misery::bridge::MbGenerationCurrentFn current,
+    misery::bridge::MbGenerationPublishedFn published,
+    misery::bridge::MbGenerationPhaseFn phase,
+    misery::bridge::MbGenerationLastRevokeFn last_revoke) {
+  misery::bridge::GenerationSource& source = misery::bridge::Generations();
+  source.current = current;
+  source.published = published;
+  source.phase = phase;
+  source.last_revoke = last_revoke;
+}
+
 extern "C" __declspec(dllexport) void MiseryBridgeSetGameThread(
     unsigned long thread_id) {
   misery::bridge::P().game_thread = thread_id;

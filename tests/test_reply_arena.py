@@ -81,15 +81,26 @@ class NoSuccessPathCanReturnTheSentinel(unittest.TestCase):
                          fail_body.count("PutOrSentinel(") + 1)  # +1 definition
 
     def test_every_bridge_success_path_checks_the_arena(self):
-        """Each TryPut in the tables is guarded and refuses with the limit code."""
+        """Each TryPut is guarded, and each refusal reports the limit code.
+
+        Deliberately NOT "the file mentions MB_E_LIMIT_EXCEEDED exactly as many
+        times as it calls TryPut". That held until the console arrived with a
+        per-mod command cap, which reports the same code for a reason that has
+        nothing to do with the arena -- and the test failed on a correct
+        change. The property is per-call-site, so it is checked per call site.
+        """
         tables = self.sources["BridgeTables.cpp"]
         calls = tables.count("ThreadArena().TryPut(")
         self.assertGreater(calls, 0, "no success path uses TryPut")
         guarded = tables.count("if (!ThreadArena().TryPut(")
         self.assertEqual(calls, guarded,
                          "an unguarded TryPut ignores its own refusal")
-        self.assertEqual(calls, tables.count("MB_E_LIMIT_EXCEEDED"),
-                         "a refusal that does not report MB_E_LIMIT_EXCEEDED")
+        for match in re.finditer(r"if \(!ThreadArena\(\)\.TryPut\(", tables):
+            following = tables[match.start():match.start() + 900]
+            body = following[:following.find("\n    }")]
+            self.assertIn("MB_E_LIMIT_EXCEEDED", body,
+                          "an arena refusal that does not report the limit "
+                          "code:\n" + body[:300])
 
 
 if __name__ == "__main__":

@@ -185,6 +185,11 @@ MISERY_TEST_HARNESSES = {
     "services_harness.exe": ("services_harness.cpp",
                              ("BridgeTables.cpp", "Json.cpp", "ModManifest.cpp",
                               "ModResolve.cpp", "ModDiscovery.cpp")),
+    # The console, driven through the real MbConsoleTable with a stand-in
+    # trampoline for the managed dispatcher.
+    "console_harness.exe": ("console_harness.cpp",
+                            ("BridgeTables.cpp", "Json.cpp", "ModManifest.cpp",
+                             "ModResolve.cpp", "ModDiscovery.cpp")),
     # Resolver.cpp for ReadBytes: VerifyCode compares the profile's recorded
     # bytes against live memory, and that read is the resolver's.
     "bindings_harness.exe": ("bindings_harness.cpp",

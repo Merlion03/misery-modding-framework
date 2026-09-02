@@ -384,6 +384,21 @@ typedef struct MbConsoleTable {
                                  MbHandle* out_command, MbError* out_error);
     MbStatus (*unregister_command)(MbHandle command, MbError* out_error);
     MbStatus (*run)(MbStr line, MbStr* out_result_json, MbError* out_error);
+    /* How a mod's command RESULT gets back.
+     *
+     * MbTrampoline returns void, because events never needed an answer. A
+     * command does: its handler produces the `result` the envelope carries. So
+     * the managed handler calls this from inside its dispatch, before returning
+     * through the trampoline, and run() picks the value up afterwards.
+     *
+     * Appended rather than changing MbTrampoline, which is shared with events
+     * and input and is frozen. This table is safe to extend because nothing has
+     * ever acquired it: MB_CAP_CONSOLE was declared in this header and never
+     * dispatched, so there is no build in the world that reads its old shape.
+     *
+     * Calling it outside a dispatch of *command* is MB_E_NOT_OWNED. */
+    MbStatus (*complete_dispatch)(MbHandle command, MbStr result_json,
+                                  MbError* out_error);
 } MbConsoleTable;
 
 typedef struct MbDiagnosticsTable {
