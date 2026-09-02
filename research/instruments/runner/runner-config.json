@@ -30,7 +30,9 @@
       "ArmProbe_P",
       "ArmProbe2_P",
       "ArmProbe3_P",
-      "Probe4_P"
+      "Probe4_P",
+      "Mod_e3cprobe_P",
+      "Mod_refmod_P"
     ],
     "stage": [
       {
