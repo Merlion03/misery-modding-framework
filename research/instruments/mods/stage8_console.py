@@ -53,6 +53,7 @@ gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)
 
 VK_OEM_3 = 0xC0
 VK_RETURN = 0x0D
+COMMAND = "misery:caps"
 
 # THE FIRST DISCRIMINATOR WAS WRONG, AND IT IS WORTH SAYING WHY.
 #
@@ -198,7 +199,7 @@ def screen_acceptance(hwnd_record, report):
     time.sleep(1.2)
     opened = step("after_toggle")
 
-    type_line(hwnd, "misery:caps")
+    type_line(hwnd, COMMAND)
     post_key(hwnd, VK_RETURN, character="\r")
     time.sleep(1.8)
     after_command = step("after_command")
@@ -244,9 +245,14 @@ def main(argv=None):
     parser.add_argument("--launch", action="store_true")
     parser.add_argument("--settle-s", type=float, default=70.0)
     parser.add_argument("--out")
+    parser.add_argument("--command", default=COMMAND,
+                        help="the command the screen acceptance types")
+    parser.add_argument("--label", default="menu")
     args = parser.parse_args(argv)
 
-    report = {"install_root": args.install_root}
+    globals()["COMMAND"] = args.command
+    report = {"install_root": args.install_root, "label": args.label,
+              "command": args.command}
 
     if args.install:
         s7.build_managed()

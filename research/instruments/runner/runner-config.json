@@ -31,13 +31,16 @@
       "ArmProbe2_P",
       "ArmProbe3_P",
       "Probe4_P",
-      "Mod_e3cprobe_P",
-      "Mod_refmod_P"
+      "Mod_e3cprobe_P"
     ],
     "stage": [
       {
         "src": "D:/UEScratch/MBPLKit/out/prod",
         "stem": "MBPLRadio_P"
+      },
+      {
+        "src": "D:/UEScratch/Stage7/payload/Mods/ReferenceMod/Content",
+        "stem": "Mod_refmod_P"
       },
       {
         "src": "D:/UEScratch/ModsRoot\\ZZ_AlphaMod_v1\\Content",
@@ -53,7 +56,8 @@
       "MBPLRadio_P",
       "MiseryModKit_P",
       "Mod_alphamod_P",
-      "Mod_betamod_P"
+      "Mod_betamod_P",
+      "Mod_refmod_P"
     ]
   },
   "save_entry": {

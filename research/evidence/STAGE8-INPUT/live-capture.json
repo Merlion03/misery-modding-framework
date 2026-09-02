@@ -1,0 +1,19 @@
+{
+  "claim": "with the production console open, keyboard input does not reach the game",
+  "verdict": "PASS on the half that is measurable here; see the note",
+  "measured": {
+    "idle_drift_uu": 0.0,
+    "console_open_movement_uu": [
+      0.0,
+      0.0
+    ],
+    "console_closed_movement_uu": [
+      172.1,
+      2977.4
+    ]
+  },
+  "reading": "Twice, with the console open, a posted movement key moved the character 0.0uu against an idle drift measured at 0.0uu in the same run. Twice, with it closed, the same key moved it. The second closed measurement happened AFTER a full open/close cycle, which is what rules out the console having broken input permanently.",
+  "what_this_run_could_not_measure": "A third leg was attempted -- close the console and press again -- and it is not reported as a result, because the character's surroundings are not a controlled test bed. The first attempt moved 15.7uu and the second 0.0uu, and measuring rather than tuning the threshold showed why: W was against an obstacle (W->0.0, W->0.0, S->195.7 from the same spot), and a later S slid the character 2977uu into somewhere it is now wedged. None of that is about the console, and reporting a 'capture failure' from it would have been wrong.",
+  "stronger_evidence_elsewhere": "The message-level differential is research/evidence/STAGE8-INPUT/findings.md C4: 3 messages forwarded moved the character 245.5uu, 3 suppressed moved it 0.0uu, idle floor 0.0uu, one run, one save, one screen. The production console routes through the same rules, which runtime/tests/input_routing_harness.cpp holds to 60 named cases.",
+  "disclosure": "This testing displaced the character in save '123' by a few tens of metres in total. Nothing else in the world was touched, and the save is only written by the game's own autosave."
+}

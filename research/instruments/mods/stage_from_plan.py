@@ -38,11 +38,21 @@ RUNNER_CONFIG = os.path.join(REPO, "research", "instruments", "runner",
 # Not produced by any Stage 4 mod. Each is here for a stated reason.
 LEGACY_STAGE = [
     {"src": "D:/UEScratch/MBPLKit/out/prod", "stem": "MBPLRadio_P"},
+    # The Stage 7 reference mod's content. It is NOT under the discovery root --
+    # it is installed into the framework's own Mods tree by
+    # stage7_reference.install_everything -- but the engine mounts containers
+    # from the staging directory, so its row cannot be written without this.
+    # Unstaging it (which a Stage 8 run did, to get past the consistency gate)
+    # leaves refmod loading its code and failing to place its item, which reads
+    # like a framework regression and is not one.
+    {"src": "D:/UEScratch/Stage7/payload/Mods/ReferenceMod/Content",
+     "stem": "Mod_refmod_P"},
 ]
 LEGACY_EXPECT = [
     "MBPLRadio_P",              # Stage 3 regression coverage
     "MiseryModKit_P",           # predates the gate, left in place
     "CT03Probe20260828_P",      # bare .pak: the "packages registered" control
+    "Mod_refmod_P",             # the Stage 7 reference mod's content
 ]
 
 

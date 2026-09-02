@@ -195,3 +195,101 @@ with the game in front.
   quiescent, and the overlay window is destroyed. They are not unloaded because
   the standing rule is that an unproven unload is a BLOCKED report, not an
   attempt; they die with the process.
+
+---
+
+# Part two: the production console, live
+
+Written after the implementation, against the same build, through a **normal
+Steam launch** with the framework installed — not a probe, not a research
+harness. `research/evidence/STAGE8-INPUT/live-acceptance.json`,
+`live-acceptance-gameplay.json`, `live-capture.json`.
+
+## What the runtime log says on its own
+
+```
+runtime: the game-thread carrier is active
+runtime: developer console ready on window 0x35007da (thread 5652); toggle key 0xC0
+...
+runtime: game thread declared as 5652 (measured, not assumed)
+```
+
+C2, re-measured in production and from two independent directions: the window
+the console attached to is dispatched by thread 5652, and the runtime's own
+carrier declared the game thread to be 5652. The console line is printed
+**before** the first content generation is published, which is the lifetime
+claim stated as a log ordering rather than as an intention.
+
+## What the screen says
+
+A log line proves code ran; it does not prove anything is drawn. So the
+acceptance reads the screen back, counting the console's own colours over the
+whole region rather than sampling a grid.
+
+| | at the main menu | in gameplay |
+|---|---|---|
+| the game's own text, before | 76,672 px | 10,770 px |
+| the same, with the console open | **9 px** | **9 px** |
+| the console's ink, open | 1,647 px | 2,104 px |
+| after typing a command and Enter | 2,084 px | 2,722 px |
+| the game's own text, after closing | 76,672 px | 10,581 px |
+
+Both states pass all four checks: the game's screen is what shows to begin with,
+the toggle covers it, a command adds text, the toggle gives it back. The command
+typed in gameplay was `misery:generations`; at the menu, `misery:caps`.
+
+**Two thresholds were wrong before this was right, and both were the metric
+rather than the console.** The first counted pixels near the console's
+background colour — but MISERY's menu is nearly black, so 57 of 63 sampled
+points matched it *before* the console opened. The second required 200
+prompt-coloured pixels, and `"> "` plus a blinking caret at an 18px font is
+about 44 of them, half the time. What discriminates by four orders of magnitude
+is the game's own content vanishing behind the overlay, and that is what the
+check now reads.
+
+## Capture, in production
+
+| | |
+|---|---|
+| idle drift, measured in the same run | 0.0 uu |
+| console **open**, a posted movement key | 0.0 uu, twice |
+| console **closed**, the same key | 172.1 uu, then 2977.4 uu |
+
+The second closed measurement came *after* a full open/close cycle, which is
+what rules out the console having broken input permanently.
+
+A third leg — close, press again, expect movement — is **not** reported as a
+result. It read 15.7 uu and then 0.0, and measuring rather than adjusting the
+threshold showed why: `W` was against an obstacle in that spot (`W→0.0`,
+`W→0.0`, `S→195.7` from the same position), and a later `S` slid the character
+2977 uu into somewhere it is now wedged. None of that is about the console, and
+calling it a capture failure would have been wrong. The message-level
+differential in Part one — 3 forwarded → 245.5 uu, 3 suppressed → 0.0 uu — is
+the stronger evidence, and the production console routes through the same rules.
+
+## What the implementation added beyond the input path
+
+`IModConsole` was in the accepted Stage 8 public API (§3) and had **no managed
+half at all**. The trampoline's `DispatchCommand` invoked an `Action<string>`
+and completed nothing, so a mod's command would have run and then been reported
+as "the command handler returned no result". It now mirrors the services path
+exactly, and the reference mod registers `refmod:status` through the ordinary
+public API with no framework knowledge of it.
+
+`misery:input` no longer says "declared and not dispatched". It reports the
+source's real counters **and** `mod_bindings: false`, because a mod still cannot
+bind a key to a declared action, and reporting "input works" without that would
+leave an author to discover the silence at runtime — the exact failure
+`engine_input_wired` exists to prevent.
+
+## Still not proven, still not claimed
+
+* Nothing here was typed by a human. Keys were posted to the window queue, which
+  is the real path but not a real keystroke: the OS key state is not updated and
+  `TranslateMessage` does not run, so the `WM_CHAR` was posted deliberately. The
+  manual checklist is where a keyboard settles it.
+* Exclusive fullscreen remains untested and cannot work; it is stated as a limit.
+* The reference mod's **item** is not live in this session, because its content
+  container was unstaged during this work to get past the runner's consistency
+  gate. That is reversed in the staging plan for the next run and is not a
+  framework regression.
