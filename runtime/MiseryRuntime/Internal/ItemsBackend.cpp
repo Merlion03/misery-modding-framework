@@ -348,8 +348,11 @@ bool Build(const content::Snapshot& snapshot, std::string* why) {
   // rather than a measurement, so it is written where a reader will see that.
   g_io.want_scale_x = g_io.want_scale_y = g_io.want_scale_z = 1.0;
   g_io.want_trans_x = g_io.want_trans_y = g_io.want_trans_z = 0.0;
-  g_io.want_sizex = 1;
-  g_io.want_sizey = 1;
+  // want_sizex/want_sizey are NOT set here. They are pixel dimensions for the
+  // drag image and are derived per declaration from its grid footprint, beside
+  // the width and height they come from. They used to be set to 1 in this
+  // block, which reads naturally next to the identity scale above and produced
+  // a one-pixel drag ghost for every item any mod ever registered.
 
   // ---- the values a freshly created inventory item carries -------------
   g_io.inv_amount = 1;
@@ -437,6 +440,32 @@ bool EnsureForGeneration(const content::Snapshot& snapshot, std::string* why) {
 
 // Write one declaration's row into the generation the block is already built
 // for. Caller holds g_mutex and has confirmed the generation can host items.
+// What the game's own lookup says this row carries for its TWO images.
+//
+// A mod declares one icon and expects it in two places: the inventory grid, and
+// the ghost that follows the cursor while the item is dragged. Those read
+// DIFFERENT fields of the row -- CR-01C4B established that BP_MoveIcon_C's
+// SetMoveIcon is the sole consumer of MoveIcon -- so "the icon appeared" says
+// nothing about the second one. That is exactly how a one-pixel drag ghost
+// survived a passing acceptance and had to be reported by someone looking at
+// the screen.
+//
+// Read from the resolver rather than from the row we wrote: the same route
+// C4B verified through, and it answers what the GAME will hand the widget.
+// Only meaningful once the lookup has succeeded, so every caller states it
+// only there.
+void SayRowImages(const char* row) {
+  Say("items: '%s' images: inventory 0x%llx, drag 0x%llx (%s), size override "
+      "%s %ux%u", row,
+      static_cast<unsigned long long>(g_io.resolve_icon_ptr),
+      static_cast<unsigned long long>(g_io.resolve_move_icon),
+      g_io.resolve_move_icon != 0 &&
+              g_io.resolve_move_icon == g_io.resolve_icon_ptr
+          ? "the same texture" : "DIFFERENT",
+      g_io.resolve_override ? "on" : "off",
+      g_io.resolve_sizex, g_io.resolve_sizey);
+}
+
 bool ApplyLocked(Declaration* declaration, uint64_t generation) {
   // Bracketed by the SGK tally so the log can state the only thing that finally
   // matters: not "the engine accepted our write", but "the game can find it".
@@ -460,12 +489,14 @@ bool ApplyLocked(Declaration* declaration, uint64_t generation) {
   declaration->applied_in = generation;
   declaration->confirmed = false;
   declaration->asked = 1;
+
   const unsigned long after = Stage5ResolveStats();
   if ((after >> 16) != (before >> 16)) {
     declaration->confirmed = true;
     Say("items: '%s' is live in generation %llu; the game's own SGK "
         "ItemDetails resolved it", row,
         static_cast<unsigned long long>(generation));
+    SayRowImages(row);
   } else {
     // Not a failure yet. See Stage5VerifyRow: a composite table need not
     // rebuild within the tick that changed one of its parents, so the row is
@@ -502,6 +533,7 @@ void VerifyLocked(Declaration* declaration, uint64_t generation) {
                                  declaration->json.c_str());
   if (rc == 0) {
     declaration->confirmed = true;
+    SayRowImages(declaration->row_name.c_str());
     Say("items: '%s' in generation %llu: the game's own SGK ItemDetails "
         "resolved it (attempt %u)", declaration->row_name.c_str(),
         static_cast<unsigned long long>(generation), declaration->asked);

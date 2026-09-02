@@ -87,6 +87,9 @@ CONFIGURED_SLOT = "123"
 # How long each pass stays in the world before its inventory is read. Equal on
 # every side by construction, so the comparison is between like and like.
 DWELL_SECONDS = 90.0
+# The reference item is 1x1, so CR-01C4B's measured convention puts its drag
+# image at exactly the 100x100 that investigation confirmed on screen.
+DRAG_PIXELS_PER_CELL = 100
 SNAPSHOT_DIR = os.path.join(WORK, "save-snapshot")
 BACKUP_DIR = os.path.join(WORK, "save-backup-original")
 
@@ -767,6 +770,31 @@ def main(argv=None):
     check("the item registered and the game's own SGK ItemDetails resolved it",
           bool(resolved) and resolved.group(1) == EXPECTED_ROW,
           report["row"])
+
+    # THE DRAG IMAGE, WHICH THE INVENTORY IMAGE DOES NOT VOUCH FOR.
+    #
+    # A mod declares one icon; the grid and the drag ghost read different fields
+    # of the row. The item drew correctly in the grid for weeks while its drag
+    # ghost was one pixel square, because nothing checked the second field and
+    # the first looked right. CR-01C4B measured ~100px per grid cell and its
+    # owner-confirmed visual used 100x100 on a 1x1 item.
+    images = re.search(r"items: '(\S+)' images: inventory 0x([0-9a-f]+), "
+                       r"drag 0x([0-9a-f]+) \((.+?)\), size override (\w+) "
+                       r"(\d+)x(\d+)", log)
+    report["row_images"] = images.groups() if images else None
+    if check("the row's image fields could be read", bool(images),
+             report["row_images"]):
+        inventory_icon = int(images.group(2), 16)
+        drag_icon = int(images.group(3), 16)
+        size = (int(images.group(6)), int(images.group(7)))
+        check("the drag image is the same texture as the inventory image",
+              drag_icon != 0 and drag_icon == inventory_icon,
+              "inventory=0x%x drag=0x%x" % (inventory_icon, drag_icon))
+        # 1x1 is the specific regression: an override that is on, with a size
+        # that renders nothing.
+        check("the drag image has a usable size, not the 1x1 that renders "
+              "nothing", size == (DRAG_PIXELS_PER_CELL, DRAG_PIXELS_PER_CELL),
+              "%dx%d" % size)
 
     granted = re.search(r"items: '(\S+)' -- (\d+) of (\d+) added to the "
                         r"player's inventory", log)

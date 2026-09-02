@@ -117,3 +117,21 @@ exercised.
 
 The stronger natural map-to-map lifecycle regression from Stage 5B (`9f778df`).
 Stage 7 does not block on it.
+
+### The row verification is computed and not load-bearing
+
+`JobVerifyRow` (`CR01C5ProbeDll.cpp`) reads the written row back and forms a
+verdict -- `verifyicon_ran`, `verifymesh_ran` -- that **nothing consumes**. The
+production registration sequence is InternRow, LoadIcon, LoadMesh, Populate,
+Resolve; it never calls the job at all, so those `row_*` fields stay zero and the
+verdict is never reached, let alone read.
+
+That is how a one-pixel drag image shipped: the row's *pointer* fields had a
+check nobody ran, and its *size* fields had no check at all.
+
+Deliberately NOT fixed as part of the drag-image change. Wiring the existing
+verdict in would refuse the reference mod outright, because
+`verifymesh_ran` still asserts `row_worldclass == io->world_class` -- the game's
+own class -- and P1 now lets a mod supply its own. The predicate is stale with
+respect to a capability that shipped after it was written, and repairing it is a
+separate piece of work with its own evidence, not a rider on a narrow fix.

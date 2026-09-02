@@ -63,7 +63,8 @@ struct C5Io {
     uint64_t our_textdata[3];
     uint64_t row_textdata[3];
     uint64_t icon_object, icon_item_ptr, icon_class, icon_outer;
-    uint64_t icon_store_handle, row_icon_ptr, resolve_icon_ptr, icon_reserved;
+    uint64_t icon_store_handle, row_icon_ptr, resolve_icon_ptr,
+             resolve_move_icon;   // was icon_reserved; same width, same layout
     uint32_t icon_size_x, icon_size_y, icon_rooted_after_acquire, icon_rooted_after_release;
     uint32_t loadicon_ran, verifyicon_ran, releaseicon_ran, soft_roundtrip_ok;
     // --- CR-01C5 world representation inputs ---

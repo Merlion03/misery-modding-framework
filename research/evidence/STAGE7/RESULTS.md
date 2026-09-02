@@ -1,7 +1,7 @@
 # Stage 7 — what the reference mod actually demonstrated
 
 Instrument: `research/instruments/mods/stage7_reference.py`
-Evidence: `acceptance-run.log`, `acceptance-run.json` (31 checks, 0 failures)
+Evidence: `acceptance-run.log`, `acceptance-run.json` (34 checks, 0 failures)
 
 ## The shape of the measurement
 
@@ -124,6 +124,52 @@ Separately, the native `framework_api` gate said `0.4.0` while
 `capabilities.API_VERSION` and `Contracts.cs` both said `0.5.0`, so a mod written
 against the documented contract was refused. Aligned to `0.5.0`; caret here is
 "at least this, same major", so mods declaring `^0.4.0` are unaffected.
+
+## The drag image, found by looking at the screen
+
+After Stage 7 was accepted, the owner reported that the item drew correctly in
+the inventory grid but its image did not follow the cursor while being dragged.
+
+The materialization did write `MoveIcon` -- that half of CR-01C4B's fix survived
+the port. What did not was the size. `want_sizex`/`want_sizey` are PIXELS, and
+they were initialised to `1` in the backend's Init, in the same block as the
+world-transform identity defaults, where `1` is exactly right for a scale factor
+and meaningless for a pixel dimension. Every mod item was therefore registered
+as "override the drag image size, and make it one pixel square". The grid image
+was unaffected because it does not read the override, which is precisely why
+this could look correct and be broken.
+
+The size is now derived per declaration from the item's grid footprint at
+`kDragPixelsPerCell = 100`, the convention C4B measured and the size its
+owner-confirmed visual used. For the 1x1 reference item that is exactly 100x100.
+Only the 1x1 case has ever been confirmed on screen; the per-cell scaling is
+this project's generalisation of the convention and is commented as such.
+
+The game's own `SGK ItemDetails` now returns, for the reference item:
+
+```
+inventory 0x237922b3700, drag 0x237922b3700 (the same texture), override on 100x100
+```
+
+which matches C4B's recorded verification field for field. The owner confirmed
+visually that the drag image follows the cursor.
+
+`MoveIcon` remains invisible to mod authors: one `ItemDefinition.Icon` still
+feeds both representations, and no drag-image field was added to the public API.
+
+### The first version of this proof read dead memory
+
+The regression check initially reported from `JobVerifyRow`'s read-back fields.
+Production never calls that job, so those fields are always zero, and the check
+duly announced a null inventory icon for an item that visibly renders. It failed
+on a run where the truth was independently known, which is the good case; a
+proof reading an unwritten buffer would otherwise go green the first time the
+zeros happened to look plausible.
+
+Reporting now comes from the resolver -- the same route C4B verified through --
+so the log states what the game will hand the widget rather than what the
+framework believes it wrote. See the deferred note in `STAGE7-ACCEPTANCE.md`
+about the verification that exists and is not wired in.
 
 ## Two claims withdrawn
 

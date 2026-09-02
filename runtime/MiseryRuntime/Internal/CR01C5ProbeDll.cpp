@@ -76,6 +76,12 @@ static constexpr int SOFTPTR_SIZE = 40, SOFTPTR_PATH = 8,
 static constexpr int LOAD_PARMS = 48, LOAD_IN = 0, LOAD_RET = 40;
 static constexpr int S2S_PARMS = 56, S2S_IN = 0, S2S_RET = 40;
 
+// Pixels per inventory grid cell for the drag image, from CR-01C4B: the
+// convention it measured, and the size its owner-confirmed visual used. Only
+// the 1x1 case was confirmed visually; the per-cell scaling is this project's
+// generalisation of the convention, and is recorded as such.
+static constexpr int32_t kDragPixelsPerCell = 100;
+
 static constexpr int IV_ID = 0, IV_AMOUNT = 8, IV_MASTERINV = 16, IV_QUICKBIND = 24,
                      IV_ROTATED = 28, IV_USEAMOUNT = 32, IV_INUSE = 36,
                      IV_DURABILITY = 40, IV_DECAYTIME = 44;
@@ -585,6 +591,10 @@ void JobResolve(void*) {
     io->resolve_maxstack = static_cast<uint32_t>(*reinterpret_cast<const int32_t*>(d + io->off_maxstack));
     io->resolve_allowstacking = d[io->off_allowstacking];
     io->resolve_icon_ptr = *reinterpret_cast<const uint64_t*>(d + io->off_inventory_icon);
+    // The drag ghost's texture, as the GAME reports it. The inventory icon and
+    // this are different fields (CR-01C4B), so reading only the first says
+    // nothing about whether an item can be dragged.
+    io->resolve_move_icon = *reinterpret_cast<const uint64_t*>(d + io->off_move_icon);
     io->resolve_worldclass = *reinterpret_cast<const uint64_t*>(d + io->off_worldclass);
     io->resolve_staticmesh_pkg = *reinterpret_cast<const uint64_t*>(
         d + io->off_staticmesh + SOFTPTR_PATH + SOFTPATH_PKG);
@@ -1250,6 +1260,29 @@ extern "C" __declspec(dllexport) int Stage5RegisterItem(const char* mod_id,
     io->val_weight = weight;
     io->val_width = static_cast<int32_t>(width);
     io->val_height = static_cast<int32_t>(height);
+
+    // THE DRAG IMAGE'S SIZE, IN PIXELS, DERIVED FROM THE GRID FOOTPRINT.
+    //
+    // These are pixels. They were previously fixed at 1 in the backend's Init,
+    // in the same block as the world-transform identity defaults -- where 1 is
+    // exactly right for a scale factor and meaningless for a pixel dimension.
+    // The row therefore said "override the drag image size, and make it one
+    // pixel square", which is why the item drew correctly in the grid (the grid
+    // does not read the override) and vanished the moment it was dragged.
+    //
+    // CR-01C4B measured the convention as about 100 pixels per grid cell and
+    // confirmed the visual with 100x100 on a 1x1 item; 100x100 is also the most
+    // common override in the game's own data, 35 of the 61 rows that use one.
+    // Scaling it by the declared footprint is the smallest generalisation that
+    // keeps a 1x1 item at exactly the size C4B proved.
+    //
+    // Derived from the DECLARATION rather than from the texture: a mod's icon
+    // may be any resolution, and the ghost should match the space the item
+    // occupies, not the file the author happened to export.
+    const int32_t cells_x = io->val_width > 0 ? io->val_width : 1;
+    const int32_t cells_y = io->val_height > 0 ? io->val_height : 1;
+    io->want_sizex = static_cast<uint32_t>(kDragPixelsPerCell * cells_x);
+    io->want_sizey = static_cast<uint32_t>(kDragPixelsPerCell * cells_y);
     io->val_maxstack = 1;
     io->val_allowstacking = 0;
 
