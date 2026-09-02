@@ -187,6 +187,11 @@ MISERY_TEST_HARNESSES = {
                               "ModResolve.cpp", "ModDiscovery.cpp")),
     # The console, driven through the real MbConsoleTable with a stand-in
     # trampoline for the managed dispatcher.
+    # Settings persist to a directory the harness supplies, so it is the one
+    # harness that touches disk -- a temporary directory it creates and removes.
+    "settings_harness.exe": ("settings_harness.cpp",
+                             ("BridgeTables.cpp", "Json.cpp", "ModManifest.cpp",
+                              "ModResolve.cpp", "ModDiscovery.cpp")),
     "console_harness.exe": ("console_harness.cpp",
                             ("BridgeTables.cpp", "Json.cpp", "ModManifest.cpp",
                              "ModResolve.cpp", "ModDiscovery.cpp")),

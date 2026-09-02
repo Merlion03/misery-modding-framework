@@ -134,11 +134,39 @@ at bootstrap and injected the way the items backend already is — never
 hardcoded, and never under the installation, which is read-only except the
 bootstrap surface.
 
-Framework-owned envelope carrying `format` plus nested `values`; per-mod
-namespacing on disk; **per-key type validation instead of migrations**, so a
-stored value whose type no longer matches its declaration is refused and the
-default used, with a structured warning. Atomic replace on save. Typed
+Per-mod namespacing on disk; **per-key type validation instead of migrations**,
+so a stored value whose type no longer matches its declaration is refused and
+the default used, with a structured warning. Atomic replace on save. Typed
 `get_*`/`set_*` pairs are kept over a JSON blob, matching the existing table.
+
+**Correction at implementation (8.5).** This section originally specified a
+framework-owned envelope (`format` plus nested `values`). It was written before
+`tools/modplatform/settings.py` had been found — the initial survey missed it —
+and that reference writes a **flat** `{key: value}` document whose own tests
+read `json.load(handle)["threshold"]` directly. The reference is the behavioural
+oracle, so the envelope is dropped and the file is flat, sorted, indent 2,
+trailing newline, merged over existing keys on save. Atomic replace is kept as
+this port's one addition: the bytes on disk afterwards are identical.
+
+The root is resolved from `LOCALAPPDATA` via the environment, as every
+instrument in this repository resolves it, which needs kernel32 alone; the
+shell known-folder API would have added two link dependencies for the same
+answer.
+
+The parser gained `kDouble` for the settings file's `float` type. The promise
+that the *binding profile* carries only integers did not change; it moved from
+the parser to the profile reader (`Bindings.cpp` `Need()`), which now refuses a
+fractional number by name.
+
+Two discrepancies with the reference, classified and not ported:
+- **Key length.** The reference accepts keys to `MAX_KEY = 64`; the public C#
+  contract refuses over 48 at construction. Native mirrors the reference; no
+  valid C# input can observe the difference.
+- **Typed read.** The reference's `get` is untyped and returns the stored value
+  whatever the caller wanted; the C# `T Get<T>(SettingKey<T>)` and the ABI's
+  four typed `get_*` slots cannot express that, so a read through the wrong
+  type is `SETTINGS × INVALID_ARGUMENT`. Stored state agrees; surfacing differs;
+  the frozen production boundary takes precedence.
 
 Critique amendments adopted — both were genuine faults:
 - "Do not offer `core.settings`" would **take down the whole managed host**:

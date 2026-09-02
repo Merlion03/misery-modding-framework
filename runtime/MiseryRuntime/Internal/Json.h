@@ -30,12 +30,19 @@
 namespace misery {
 namespace json {
 
-enum class Kind { kNull, kBool, kInt, kString, kArray, kObject };
+// kDouble is the one addition since the header's warning was written, and it
+// exists for one reader: a mod's settings file, where the reference defines a
+// `float` type and writes it as a JSON number. The binding profile still
+// carries no floats and its reader still refuses them where it always did;
+// this only lets the SAME parser serve the second document instead of a second
+// parser being written for it.
+enum class Kind { kNull, kBool, kInt, kDouble, kString, kArray, kObject };
 
 struct Value {
   Kind kind = Kind::kNull;
   bool boolean = false;
   int64_t integer = 0;
+  double number = 0.0;      // kDouble only
   std::string text;
   std::vector<Value> array;
   std::map<std::string, Value> object;

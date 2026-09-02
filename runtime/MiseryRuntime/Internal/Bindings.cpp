@@ -39,6 +39,20 @@ const json::Value* Need(const json::Value& parent, const char* key,
     return nullptr;
   }
   if (!member->Is(kind)) {
+    // THE PROFILE CARRIES ONLY INTEGERS, and this is where that is enforced.
+    //
+    // It used to be enforced one layer down: the JSON parser refused any
+    // fractional number outright. The parser now reads floats, because a mod's
+    // settings file has a float type (Stage 8.5) and one parser serves both
+    // documents. The promise about the PROFILE did not change, so it moved to
+    // the reader that made it -- and it names the reason, because "not of the
+    // expected type" would hide that a number was written where an integer
+    // belongs.
+    if (kind == json::Kind::kInt && member->Is(json::Kind::kDouble)) {
+      Say(error, "%s.%s is a fractional number; the profile carries only "
+                 "integers", where, key);
+      return nullptr;
+    }
     Say(error, "%s.%s is not of the expected type", where, key);
     return nullptr;
   }

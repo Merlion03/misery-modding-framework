@@ -138,8 +138,45 @@ class Reader {
     }
     if (at_ < text_.size() &&
         (text_[at_] == '.' || text_[at_] == 'e' || text_[at_] == 'E')) {
-      return Fail("a fractional or exponent number appeared; the profile "
-                  "carries only integers");
+      // A fraction or exponent: the settings reader's float. Consumed to the
+      // end of the RFC 8259 number grammar and converted once, by strtod on
+      // exactly those bytes, so a malformed tail is a parse failure here and
+      // not a silent zero.
+      if (text_[at_] == '.') {
+        ++at_;
+        size_t frac = at_;
+        while (at_ < text_.size() && text_[at_] >= '0' && text_[at_] <= '9') {
+          ++at_;
+        }
+        if (at_ == frac) {
+          return Fail("a decimal point with no digits after it");
+        }
+      }
+      if (at_ < text_.size() && (text_[at_] == 'e' || text_[at_] == 'E')) {
+        ++at_;
+        if (at_ < text_.size() && (text_[at_] == '-' || text_[at_] == '+')) {
+          ++at_;
+        }
+        size_t exp = at_;
+        while (at_ < text_.size() && text_[at_] >= '0' && text_[at_] <= '9') {
+          ++at_;
+        }
+        if (at_ == exp) {
+          return Fail("an exponent with no digits");
+        }
+      }
+      const std::string token = text_.substr(start, at_ - start);
+      if (token.size() > 64) {
+        return Fail("a number is too long to be read as a double");
+      }
+      char* end = nullptr;
+      const double value = strtod(token.c_str(), &end);
+      if (end == nullptr || *end != '\0') {
+        return Fail("a number could not be read as a double");
+      }
+      out->kind = Kind::kDouble;
+      out->number = value;
+      return true;
     }
     std::string token = text_.substr(start, at_ - start);
     // Bounded by hand rather than by strtoll's errno dance: a profile with a

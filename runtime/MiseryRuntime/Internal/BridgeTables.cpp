@@ -26,10 +26,13 @@
 // with no game at all, and the in-game runtime installs the real one. It is the
 // same inversion the Python platform used, for the same reason -- most of the
 // guarantees are checkable without MISERY, and they should be checked there.
+#include <windows.h>
+
 #include "BridgeCore.h"
 #include "Json.h"
 #include "ModPlan.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include <algorithm>
@@ -37,7 +40,10 @@
 #include <string>
 #include <vector>
 
-extern "C" unsigned long __stdcall GetCurrentThreadId(void);
+// GetCurrentThreadId used to be declared by hand here so this file could avoid
+// <windows.h>. Settings persistence needs the file APIs, so the header is now
+// included above and the hand-rolled prototype -- which the compiler flagged as
+// inconsistent DLL linkage against the real one -- is gone.
 
 namespace misery {
 namespace bridge {
@@ -70,6 +76,62 @@ struct ServiceRecord {
 
 // A console command. `owner` is empty and `handle` is 0 for the framework's
 // own builtins, which nobody owns and nobody may release.
+// ================================ settings =================================
+//
+// Ported from tools/modplatform/settings.py, whose docstring is the design:
+// declared not free-form, four types that survive every boundary, one file per
+// mod named by ModId, and a stored value that no longer fits its declaration
+// falls back to the default and is REPORTED rather than either refusing the mod
+// or staying silent.
+//
+// The file is flat -- {"key": value} -- because that is what the reference
+// writes and what its tests read back. An earlier plan for this stage
+// specified a framework envelope around it; that plan was written before the
+// reference was found, and the reference wins on behaviour.
+
+struct SettingSchema {
+  int type = 0;                 // MB_SETTING_*
+  bool default_bool = false;
+  int64_t default_int = 0;
+  double default_float = 0.0;
+  std::string default_string;
+  std::string description;
+};
+
+struct SettingValue {
+  int type = 0;
+  bool b = false;
+  int64_t i = 0;
+  double f = 0.0;
+  std::string s;
+};
+
+struct ModSettings {
+  std::map<std::string, SettingSchema> schema;   // key -> declaration
+  std::map<std::string, SettingValue> values;    // key -> current value
+  bool dirty = false;
+};
+
+struct Substitution {
+  std::string mod_id;
+  std::string key;                // empty when the whole file was unusable
+  std::string detail;
+};
+
+struct SettingsStore {
+  std::string root;               // injected; empty means "nowhere to persist"
+  std::map<std::string, ModSettings> mods;
+  std::vector<Substitution> substitutions;
+};
+
+// The reference's limits, mirrored. MAX_KEY is 64 there; the public C# contract
+// refuses keys over 48 at construction (ModId.MaxLength), so no key in the
+// 49..64 range can reach here from a mod written in C#. Native mirrors the
+// reference so the differential compares like with like; the C# contract is
+// the stricter of the two and stays so.
+static const size_t kMaxSettingKey = 64;
+static const size_t kMaxSettingString = 4096;
+
 // The reference's cap, mirrored: console.py MAX_COMMANDS_PER_MOD.
 static const unsigned kMaxCommandsPerMod = 32;
 
@@ -87,7 +149,7 @@ struct Platform {
 
   std::map<std::string, EventDeclaration> events;
   std::map<std::string, ServiceRecord> services;
-  std::map<std::string, std::string> settings;      // "<mod>/<key>" -> value
+  SettingsStore settings;
   std::map<std::string, CommandRecord> commands;    // name -> record
 
   // Counters the acceptance reads, so "nothing was retained" is measured
@@ -105,6 +167,7 @@ static Platform& P() {
   static Platform platform;
   return platform;
 }
+Platform& PlatformForExports() { return P(); }
 
 // The injected items backend. See the header comment.
 extern "C" {
@@ -668,9 +731,243 @@ static MbStatus ServicesIsAvailable(MbHandle binding, int32_t* out_available,
 }
 
 // ------------------------------------------------------------- settings ----
+// ---- helpers ---------------------------------------------------------------
+
+// Defined with the console, further down; both blocks render JSON and Python
+// repr() text the same way, so one definition serves both.
+static std::string Quoted(const std::string& text);
+static std::string PyRepr(const std::string& text);
+
+static const char* SettingTypeName(int type) {
+  switch (type) {
+    case MB_SETTING_BOOL: return "bool";
+    case MB_SETTING_INT: return "int";
+    case MB_SETTING_FLOAT: return "float";
+    case MB_SETTING_STRING: return "string";
+    default: return "?";
+  }
+}
+
+static int SettingTypeFromName(const std::string& name) {
+  if (name == "bool") return MB_SETTING_BOOL;
+  if (name == "int") return MB_SETTING_INT;
+  if (name == "float") return MB_SETTING_FLOAT;
+  if (name == "string") return MB_SETTING_STRING;
+  return 0;
+}
+
+// The reference's key rule: the identifier pattern, at most MAX_KEY. NOT
+// CheckModId, which also refuses "__" and the reserved ids -- a setting key is
+// namespaced by the mod that declared it, so neither restriction applies.
+static bool CheckSettingKey(const std::string& key) {
+  if (key.empty() || key.size() > kMaxSettingKey) return false;
+  if (!(key[0] >= 'a' && key[0] <= 'z')) return false;
+  for (char c : key) {
+    if (!((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '_')) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// The reference's _coerce, over a parsed JSON value. bool is checked before
+// int throughout because a bool must never satisfy an int or float setting.
+static bool CoerceJson(const misery::json::Value& in, int type, SettingValue* out,
+                       std::string* why) {
+  out->type = type;
+  switch (type) {
+    case MB_SETTING_BOOL:
+      if (in.kind != misery::json::Kind::kBool) { *why = "expected bool"; return false; }
+      out->b = in.boolean;
+      return true;
+    case MB_SETTING_INT:
+      if (in.kind != misery::json::Kind::kInt) { *why = "expected int"; return false; }
+      out->i = in.integer;
+      return true;
+    case MB_SETTING_FLOAT:
+      if (in.kind == misery::json::Kind::kInt) { out->f = static_cast<double>(in.integer); return true; }
+      if (in.kind != misery::json::Kind::kDouble) { *why = "expected float"; return false; }
+      out->f = in.number;
+      return true;
+    case MB_SETTING_STRING:
+      if (in.kind != misery::json::Kind::kString) { *why = "expected string"; return false; }
+      if (in.text.size() > kMaxSettingString) {
+        *why = "string longer than " + std::to_string(kMaxSettingString);
+        return false;
+      }
+      out->s = in.text;
+      return true;
+    default:
+      *why = "unknown setting type";
+      return false;
+  }
+}
+
+static SettingValue DefaultValue(const SettingSchema& schema) {
+  SettingValue v;
+  v.type = schema.type;
+  v.b = schema.default_bool;
+  v.i = schema.default_int;
+  v.f = schema.default_float;
+  v.s = schema.default_string;
+  return v;
+}
+
+static bool SameValue(const SettingValue& a, const SettingValue& b) {
+  if (a.type != b.type) return false;
+  switch (a.type) {
+    case MB_SETTING_BOOL: return a.b == b.b;
+    case MB_SETTING_INT: return a.i == b.i;
+    case MB_SETTING_FLOAT: return a.f == b.f;
+    case MB_SETTING_STRING: return a.s == b.s;
+    default: return false;
+  }
+}
+
+// A JSON rendering of one value. Doubles are rendered the way Python's
+// json.dump renders them -- repr(), the shortest round-tripping form -- so the
+// file the runtime writes is the file the reference writes. "%.17g" round-trips
+// but is not shortest; the loop below tries increasing precision until the
+// value survives a round trip, which is what repr() guarantees.
+static std::string RenderDouble(double value) {
+  char buffer[64];
+  for (int precision = 1; precision <= 17; ++precision) {
+    _snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "%.*g", precision, value);
+    if (strtod(buffer, nullptr) == value) break;
+  }
+  std::string text(buffer);
+  // Python writes 0.5 as "0.5" and 1.0 as "1.0"; %g writes "1". A double that
+  // rendered with no '.', 'e' or "inf"/"nan" gets ".0" so the reader sees a
+  // float and the file matches the reference byte for byte.
+  if (text.find_first_of(".eEn") == std::string::npos) text += ".0";
+  return text;
+}
+
+static std::string RenderValue(const SettingValue& v) {
+  switch (v.type) {
+    case MB_SETTING_BOOL: return v.b ? "true" : "false";
+    case MB_SETTING_INT: return std::to_string(v.i);
+    case MB_SETTING_FLOAT: return RenderDouble(v.f);
+    case MB_SETTING_STRING: return Quoted(v.s);
+    default: return "null";
+  }
+}
+
+static std::string SettingsPath(const std::string& mod_id) {
+  return P().settings.root + "\\" + mod_id + ".json";
+}
+
+static bool ReadWholeFile(const std::string& path, std::string* out) {
+  std::string error;
+  return misery::json::ReadFile(path.c_str(), 4u * 1024u * 1024u, out, &error);
+}
+
+// A WARN attributed to the mod, in the same record shape LogWrite produces, so
+// misery:log and the bundle show it beside the mod's own lines.
+static void ReportSubstitution(const std::string& mod_id, const std::string& key,
+                               const std::string& detail) {
+  Substitution sub;
+  sub.mod_id = mod_id;
+  sub.key = key;
+  sub.detail = detail;
+  P().settings.substitutions.push_back(sub);
+  std::string line = mod_id + "|" + std::to_string(MB_LOG_WARN) + "|" + detail;
+  if (!key.empty()) line += "|{\"key\":" + Quoted(key) + "}";
+  P().log_records += 1;
+  P().log_tail.push_back(line);
+  if (P().log_tail.size() > 512) P().log_tail.erase(P().log_tail.begin());
+}
+
+// The reference's _load_values: defaults, overlaid by whatever on disk still
+// fits its declaration. Keys the mod no longer declares are left on disk and
+// not exposed; a value that no longer fits falls back and is reported.
+static void LoadValues(const std::string& mod_id, ModSettings* mod) {
+  mod->values.clear();
+  for (const auto& entry : mod->schema) {
+    mod->values[entry.first] = DefaultValue(entry.second);
+  }
+  if (P().settings.root.empty()) return;
+  const std::string path = SettingsPath(mod_id);
+  std::string text;
+  if (!ReadWholeFile(path, &text)) return;      // no file: defaults
+  misery::json::Value stored;
+  std::string error;
+  if (!misery::json::Parse(text, &stored, &error)) {
+    ReportSubstitution(mod_id, "",
+                       "settings file could not be read (" + error +
+                           "); defaults are in use for every key");
+    return;
+  }
+  if (stored.kind != misery::json::Kind::kObject) {
+    ReportSubstitution(mod_id, "",
+                       "settings file is not a JSON object; defaults are in use");
+    return;
+  }
+  for (const auto& entry : stored.object) {
+    auto declared = mod->schema.find(entry.first);
+    if (declared == mod->schema.end()) continue;   // kept on disk, not exposed
+    SettingValue value;
+    std::string why;
+    if (CoerceJson(entry.second, declared->second.type, &value, &why)) {
+      mod->values[entry.first] = value;
+    } else {
+      ReportSubstitution(
+          mod_id, entry.first,
+          "stored value for " + PyRepr(entry.first) +
+              " does not fit declared type " +
+              PyRepr(SettingTypeName(declared->second.type)) + " (" + why +
+              "); the default is in use");
+    }
+  }
+}
+
+// FORGET, DO NOT FLUSH.
+//
+// This runs from Core::Dispose, which is the same teardown for an unload and
+// for a mod that FAILED to load. Writing to disk from here would persist the
+// settings of a mod that never worked, from a path that also runs when the
+// process is being torn down. The reference's release() discards the schema,
+// the values and the dirty flag and touches no file; so does this. Unsaved
+// changes are lost on unload -- deliberately, and Save() is how a mod keeps
+// them.
 static void ReleaseSettings(void* body, uint64_t payload) {
   (void)payload;
-  delete static_cast<std::string*>(body);
+  std::string* mod_id = static_cast<std::string*>(body);
+  P().settings.mods.erase(*mod_id);
+  delete mod_id;
+}
+
+// Resolves the mod, its declared settings and one key. Returns MB_STATUS_OK
+// with every out-param set, or the status Fail() produced -- which callers
+// return as-is, so the refusal reaches the caller with the code and detail
+// intact rather than being re-described a second time here.
+static MbStatus SettingsFor(MbHandle mod_handle, const std::string& key,
+                            MbError* out_error, ModRecord** out_mod,
+                            ModSettings** out_settings,
+                            std::map<std::string, SettingSchema>::iterator* out_schema) {
+  ModRecord* mod = P().core.ResolveMod(mod_handle);
+  if (mod == nullptr) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_OWNER_DISPOSED,
+                "the mod handle is not live");
+  }
+  *out_mod = mod;
+  auto it = P().settings.mods.find(mod->mod_id);
+  if (it == P().settings.mods.end()) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_NOT_FOUND,
+                PyRepr(mod->mod_id) + " has declared no settings", mod->mod_id);
+  }
+  auto schema = it->second.schema.find(key);
+  if (schema == it->second.schema.end()) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_NOT_FOUND,
+                PyRepr(key) + " is not a declared setting of " +
+                    PyRepr(mod->mod_id) +
+                    ". Undeclared keys are refused so that a typo cannot read "
+                    "as a default forever.",
+                mod->mod_id);
+  }
+  *out_settings = &it->second;
+  *out_schema = schema;
+  return MB_STATUS_OK;
 }
 
 static MbStatus SettingsDeclare(MbHandle mod_handle, MbStr schema_json,
@@ -682,9 +979,345 @@ static MbStatus SettingsDeclare(MbHandle mod_handle, MbStr schema_json,
     return Fail(out_error, MB_SUB_SETTINGS, MB_E_OWNER_DISPOSED,
                 "the mod handle is not live");
   }
-  P().settings[mod->mod_id + "/__schema"] = ToStd(schema_json);
+  if (P().settings.mods.count(mod->mod_id) != 0) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_ALREADY_EXISTS,
+                "settings for " + PyRepr(mod->mod_id) + " are already declared",
+                mod->mod_id);
+  }
+
+  // The schema arrives as the reference's shape: a JSON array of
+  // {key, type, default, description}. Validated in the reference's order so
+  // the same input is refused for the same reason with the same code.
+  misery::json::Value parsed;
+  std::string error;
+  if (!misery::json::Parse(ToStd(schema_json), &parsed, &error) ||
+      parsed.kind != misery::json::Kind::kArray) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                "the settings schema must be a JSON array: " + error,
+                mod->mod_id);
+  }
+  ModSettings fresh;
+  for (size_t index = 0; index < parsed.array.size(); ++index) {
+    const misery::json::Value& raw = parsed.array[index];
+    const std::string where = "settings[" + std::to_string(index) + "]";
+    if (raw.kind != misery::json::Kind::kObject) {
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                  where + " must be a dict", mod->mod_id);
+    }
+    for (const auto& member : raw.object) {
+      if (member.first != "key" && member.first != "type" &&
+          member.first != "default" && member.first != "description") {
+        return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                    where + " has unknown key(s) [" + PyRepr(member.first) + "]",
+                    mod->mod_id);
+      }
+    }
+    const misery::json::Value* key = raw.Member("key");
+    if (key == nullptr || key->kind != misery::json::Kind::kString ||
+        !CheckSettingKey(key->text)) {
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                  where + " key " +
+                      PyRepr(key != nullptr && key->kind == misery::json::Kind::kString
+                                 ? key->text : "") +
+                      " must match ^[a-z][a-z0-9_]*$ and be at most " +
+                      std::to_string(kMaxSettingKey) + " characters",
+                  mod->mod_id);
+    }
+    if (fresh.schema.count(key->text) != 0) {
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_ALREADY_EXISTS,
+                  where + " declares " + PyRepr(key->text) + " twice",
+                  mod->mod_id);
+    }
+    const misery::json::Value* type = raw.Member("type");
+    const int type_code =
+        (type != nullptr && type->kind == misery::json::Kind::kString)
+            ? SettingTypeFromName(type->text) : 0;
+    if (type_code == 0) {
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                  where + " type " +
+                      PyRepr(type != nullptr && type->kind == misery::json::Kind::kString
+                                 ? type->text : "") +
+                      " is not one of ['bool', 'int', 'float', 'string']",
+                  mod->mod_id);
+    }
+    const misery::json::Value* deflt = raw.Member("default");
+    if (deflt == nullptr) {
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                  where + " has no default; a setting with no default has no "
+                          "value before the user sets one",
+                  mod->mod_id);
+    }
+    SettingSchema schema;
+    schema.type = type_code;
+    SettingValue coerced;
+    std::string why;
+    if (!CoerceJson(*deflt, type_code, &coerced, &why)) {
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                  where + " default does not match type " +
+                      PyRepr(SettingTypeName(type_code)) + ": " + why,
+                  mod->mod_id);
+    }
+    schema.default_bool = coerced.b;
+    schema.default_int = coerced.i;
+    schema.default_float = coerced.f;
+    schema.default_string = coerced.s;
+    const misery::json::Value* description = raw.Member("description");
+    if (description != nullptr &&
+        description->kind == misery::json::Kind::kString) {
+      schema.description = description->text;
+    }
+    fresh.schema[key->text] = schema;
+  }
+
+  LoadValues(mod->mod_id, &fresh);
+  P().settings.mods[mod->mod_id] = fresh;
   P().core.Acquire(*mod, kKindSettingsSchema, mod->mod_id, ReleaseSettings,
                    new std::string(mod->mod_id), 0);
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+// ---- typed access ------------------------------------------------------------
+
+#define SETTINGS_GET(NAME, CTYPE, TYPECODE, FIELD)                              \
+  static MbStatus NAME(MbHandle mod_handle, MbStr key, CTYPE* out_value,       \
+                       MbError* out_error) {                                   \
+    BRIDGE_ENTER(out_error);                                                   \
+    BRIDGE_TRY                                                                 \
+    ModRecord* mod = nullptr;                                                  \
+    std::map<std::string, SettingSchema>::iterator schema;                     \
+    ModSettings* settings = nullptr;                                          \
+    {                                                                          \
+      const MbStatus rc = SettingsFor(mod_handle, ToStd(key), out_error, &mod, \
+                                      &settings, &schema);                     \
+      if (rc != MB_STATUS_OK) return rc;                                       \
+    }                                                                          \
+    if (schema->second.type != TYPECODE) {                                     \
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,           \
+                  PyRepr(ToStd(key)) + " is declared as " +                    \
+                      SettingTypeName(schema->second.type) +                   \
+                      ", not " + SettingTypeName(TYPECODE),                    \
+                  mod->mod_id);                                                \
+    }                                                                          \
+    *out_value = settings->values[ToStd(key)].FIELD;                           \
+    return MB_STATUS_OK;                                                       \
+    BRIDGE_CATCH(out_error)                                                    \
+  }
+
+static MbStatus SettingsGetBool(MbHandle mod_handle, MbStr key, int32_t* out_value,
+                                MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  ModRecord* mod = nullptr;
+  std::map<std::string, SettingSchema>::iterator schema;
+  ModSettings* settings = nullptr;
+  {
+    const MbStatus rc = SettingsFor(mod_handle, ToStd(key), out_error, &mod,
+                                    &settings, &schema);
+    if (rc != MB_STATUS_OK) return rc;
+  }
+  if (schema->second.type != MB_SETTING_BOOL) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                PyRepr(ToStd(key)) + " is declared as " +
+                    SettingTypeName(schema->second.type) + ", not bool",
+                mod->mod_id);
+  }
+  *out_value = settings->values[ToStd(key)].b ? 1 : 0;
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+SETTINGS_GET(SettingsGetInt, int64_t, MB_SETTING_INT, i)
+SETTINGS_GET(SettingsGetFloat, double, MB_SETTING_FLOAT, f)
+
+static MbStatus SettingsGetString(MbHandle mod_handle, MbStr key, MbStr* out_value,
+                                  MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  ModRecord* mod = nullptr;
+  std::map<std::string, SettingSchema>::iterator schema;
+  ModSettings* settings = nullptr;
+  {
+    const MbStatus rc = SettingsFor(mod_handle, ToStd(key), out_error, &mod,
+                                    &settings, &schema);
+    if (rc != MB_STATUS_OK) return rc;
+  }
+  if (schema->second.type != MB_SETTING_STRING) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                PyRepr(ToStd(key)) + " is declared as " +
+                    SettingTypeName(schema->second.type) + ", not string",
+                mod->mod_id);
+  }
+  if (!ThreadArena().TryPut(settings->values[ToStd(key)].s, out_value)) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_LIMIT_EXCEEDED,
+                "the setting's value did not fit the reply buffer; refusing "
+                "rather than returning a truncated value under a successful "
+                "status", mod->mod_id);
+  }
+  return MB_STATUS_OK;
+  BRIDGE_CATCH(out_error)
+}
+
+// The reference's set(): coerce, refuse a mismatch, dirty only on change.
+static MbStatus SettingsStore_Set(MbHandle mod_handle, MbStr key,
+                                  const SettingValue& incoming, MbError* out_error) {
+  ModRecord* mod = nullptr;
+  std::map<std::string, SettingSchema>::iterator schema;
+  ModSettings* settings = nullptr;
+  {
+    const MbStatus rc = SettingsFor(mod_handle, ToStd(key), out_error, &mod,
+                                    &settings, &schema);
+    if (rc != MB_STATUS_OK) return rc;
+  }
+  if (schema->second.type != incoming.type) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                PyRepr(ToStd(key)) + " expects " +
+                    SettingTypeName(schema->second.type) + ": expected " +
+                    SettingTypeName(schema->second.type),
+                mod->mod_id);
+  }
+  if (incoming.type == MB_SETTING_STRING && incoming.s.size() > kMaxSettingString) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                PyRepr(ToStd(key)) + " expects string: string longer than " +
+                    std::to_string(kMaxSettingString),
+                mod->mod_id);
+  }
+  SettingValue& current = settings->values[ToStd(key)];
+  if (!SameValue(current, incoming)) {
+    current = incoming;
+    settings->dirty = true;
+  }
+  return MB_STATUS_OK;
+}
+
+static MbStatus SettingsSetBool(MbHandle mod_handle, MbStr key, int32_t value,
+                                MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  SettingValue v; v.type = MB_SETTING_BOOL; v.b = value != 0;
+  return SettingsStore_Set(mod_handle, key, v, out_error);
+  BRIDGE_CATCH(out_error)
+}
+static MbStatus SettingsSetInt(MbHandle mod_handle, MbStr key, int64_t value,
+                               MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  SettingValue v; v.type = MB_SETTING_INT; v.i = value;
+  return SettingsStore_Set(mod_handle, key, v, out_error);
+  BRIDGE_CATCH(out_error)
+}
+static MbStatus SettingsSetFloat(MbHandle mod_handle, MbStr key, double value,
+                                 MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  SettingValue v; v.type = MB_SETTING_FLOAT; v.f = value;
+  return SettingsStore_Set(mod_handle, key, v, out_error);
+  BRIDGE_CATCH(out_error)
+}
+static MbStatus SettingsSetString(MbHandle mod_handle, MbStr key, MbStr value,
+                                  MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  SettingValue v; v.type = MB_SETTING_STRING; v.s = ToStd(value);
+  return SettingsStore_Set(mod_handle, key, v, out_error);
+  BRIDGE_CATCH(out_error)
+}
+
+// ---- persistence -----------------------------------------------------------
+//
+// The reference's save(): only a dirty mod is written; the payload is merged
+// over whatever is already on disk so keys the mod no longer declares survive
+// a downgrade; keys are sorted so a diff shows real changes.
+//
+// ATOMIC REPLACE is this port's one addition. The reference opens the file for
+// writing in place; a crash mid-write there leaves a truncated file, which the
+// next load reports and defaults around, so nothing is lost but the settings.
+// Writing beside and renaming over closes even that window at no cost to the
+// observable result: the bytes on disk afterwards are identical.
+static MbStatus SettingsSave(MbHandle mod_handle, MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  ModRecord* mod = P().core.ResolveMod(mod_handle);
+  if (mod == nullptr) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_OWNER_DISPOSED,
+                "the mod handle is not live");
+  }
+  auto it = P().settings.mods.find(mod->mod_id);
+  if (it == P().settings.mods.end()) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_NOT_FOUND,
+                PyRepr(mod->mod_id) + " has declared no settings", mod->mod_id);
+  }
+  if (!it->second.dirty) {
+    return MB_STATUS_OK;          // nothing changed: nothing written
+  }
+  if (P().settings.root.empty()) {
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_NOT_INITIALISED,
+                "no settings root is attached, so there is nowhere to persist "
+                "to; refusing rather than reporting a save that did not happen",
+                mod->mod_id);
+  }
+
+  // Merge over the existing file's keys, when it is readable.
+  std::map<std::string, std::string> rendered;     // key -> JSON text
+  {
+    std::string text;
+    misery::json::Value existing;
+    std::string error;
+    if (ReadWholeFile(SettingsPath(mod->mod_id), &text) &&
+        misery::json::Parse(text, &existing, &error) &&
+        existing.kind == misery::json::Kind::kObject) {
+      for (const auto& entry : existing.object) {
+        // Re-rendered from the parsed value so the file stays canonical.
+        SettingValue keep;
+        std::string why;
+        const misery::json::Value& v = entry.second;
+        if (v.kind == misery::json::Kind::kBool) { keep.type = MB_SETTING_BOOL; keep.b = v.boolean; }
+        else if (v.kind == misery::json::Kind::kInt) { keep.type = MB_SETTING_INT; keep.i = v.integer; }
+        else if (v.kind == misery::json::Kind::kDouble) { keep.type = MB_SETTING_FLOAT; keep.f = v.number; }
+        else if (v.kind == misery::json::Kind::kString) { keep.type = MB_SETTING_STRING; keep.s = v.text; }
+        else continue;             // a shape this store never writes; dropped
+        rendered[entry.first] = RenderValue(keep);
+      }
+    }
+  }
+  for (const auto& entry : it->second.values) {
+    rendered[entry.first] = RenderValue(entry.second);
+  }
+
+  std::string document = "{";
+  bool first = true;
+  for (const auto& entry : rendered) {            // std::map: sorted keys
+    document += first ? "\n" : ",\n";
+    first = false;
+    document += "  " + Quoted(entry.first) + ": " + entry.second;
+  }
+  document += first ? "}\n" : "\n}\n";
+
+  CreateDirectoryA(P().settings.root.c_str(), nullptr);
+  const std::string path = SettingsPath(mod->mod_id);
+  const std::string temp = path + ".tmp";
+  {
+    FILE* handle = nullptr;
+    if (fopen_s(&handle, temp.c_str(), "wb") != 0 || handle == nullptr) {
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                  "the settings file could not be opened for writing: " + temp,
+                  mod->mod_id);
+    }
+    const size_t written = fwrite(document.data(), 1, document.size(), handle);
+    fclose(handle);
+    if (written != document.size()) {
+      DeleteFileA(temp.c_str());
+      return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                  "the settings file could not be written completely: " + temp,
+                  mod->mod_id);
+    }
+  }
+  if (!MoveFileExA(temp.c_str(), path.c_str(),
+                   MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
+    DeleteFileA(temp.c_str());
+    return Fail(out_error, MB_SUB_SETTINGS, MB_E_INVALID_ARGUMENT,
+                "the settings file could not be replaced: " + path, mod->mod_id);
+  }
+  it->second.dirty = false;
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
@@ -1055,13 +1688,38 @@ static std::string BuiltinServices() {
   return json + "]}";
 }
 
+// The reference's _cmd_settings: declared settings by mod, with type, default
+// and current value, plus every substitution that was reported.
 static std::string BuiltinSettings() {
-  std::string json = "{\"settings\":[";
+  std::string json = "{\"mods\":[";
+  bool first_mod = true;
+  for (const auto& mod : P().settings.mods) {
+    if (!first_mod) json += ",";
+    first_mod = false;
+    json += "{\"mod_id\":" + Quoted(mod.first) + ",\"dirty\":" +
+            (mod.second.dirty ? "true" : "false") + ",\"settings\":[";
+    bool first = true;
+    for (const auto& entry : mod.second.schema) {
+      if (!first) json += ",";
+      first = false;
+      auto value = mod.second.values.find(entry.first);
+      json += "{\"key\":" + Quoted(entry.first) + ",\"type\":" +
+              Quoted(SettingTypeName(entry.second.type)) + ",\"default\":" +
+              RenderValue(DefaultValue(entry.second)) + ",\"value\":" +
+              (value == mod.second.values.end() ? std::string("null")
+                                                 : RenderValue(value->second)) +
+              ",\"description\":" + Quoted(entry.second.description) + "}";
+    }
+    json += "]}";
+  }
+  json += "],\"substitutions\":[";
   bool first = true;
-  for (const auto& entry : P().settings) {
+  for (const Substitution& sub : P().settings.substitutions) {
     if (!first) json += ",";
     first = false;
-    json += "{\"key\":" + Quoted(entry.first) + "}";
+    json += "{\"mod_id\":" + Quoted(sub.mod_id) + ",\"key\":" +
+            (sub.key.empty() ? std::string("null") : Quoted(sub.key)) +
+            ",\"detail\":" + Quoted(sub.detail) + "}";
   }
   return json + "]}";
 }
@@ -1410,9 +2068,12 @@ static MbServicesTable g_services = {sizeof(MbServicesTable), 1, 0,
                                      ServicesPublish, ServicesBind,
                                      ServicesIsAvailable, nullptr, nullptr};
 static MbSettingsTable g_settings = {sizeof(MbSettingsTable), 1, 0,
-                                     SettingsDeclare, nullptr, nullptr, nullptr,
-                                     nullptr, nullptr, nullptr, nullptr,
-                                     nullptr, nullptr};
+                                     SettingsDeclare,
+                                     SettingsGetBool, SettingsGetInt,
+                                     SettingsGetFloat, SettingsGetString,
+                                     SettingsSetBool, SettingsSetInt,
+                                     SettingsSetFloat, SettingsSetString,
+                                     SettingsSave};
 
 static MbStatus AcquireCapability(MbHandle owner, const char* name,
                                   int32_t name_len, uint32_t want_major,
@@ -1529,6 +2190,15 @@ extern "C" __declspec(dllexport) void MiseryBridgeInstallItemsBackend(
 // Declares which thread the engine's game thread is. Until this is called the
 // thread check is inert, which is what lets the standalone harness run on its
 // own main thread without pretending to be a game.
+// Where settings files live. Injected by the runtime, which resolves it from
+// the user's profile; set by the harness to a temporary directory. Empty means
+// nowhere, and Save() refuses rather than pretending.
+extern "C" __declspec(dllexport) void MiseryBridgeSetSettingsRoot(
+    const char* root) {
+  misery::bridge::PlatformForExports().settings.root =
+      root == nullptr ? "" : root;
+}
+
 extern "C" __declspec(dllexport) void MiseryBridgeSetGenerationSource(
     misery::bridge::MbGenerationCurrentFn current,
     misery::bridge::MbGenerationPublishedFn published,

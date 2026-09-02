@@ -354,11 +354,58 @@ namespace Misery.ModHost
                                               IEnumerable<SettingDeclaration> declarations)
         {
             RequireGameThread("declaring settings", context.Id);
+
+            // The FULL schema crosses: key, type, default and description. An
+            // earlier version sent only the keys, which left native nothing to
+            // type-check a stored value against -- so the reference's "a value
+            // that no longer fits falls back to the default and is reported"
+            // could not have been implemented on the other side.
+            //
+            // The type is the default's runtime type. SettingDeclaration takes an
+            // object because the contract predates this port; the four types are
+            // the four that survive JSON, the C ABI and C# unambiguously, and
+            // anything else is refused here with the reason rather than being
+            // guessed at.
             var parts = new List<string>();
             foreach (SettingDeclaration declaration in declarations ??
                      Array.Empty<SettingDeclaration>())
             {
-                parts.Add("\"" + Json.Escape(declaration.Key) + "\"");
+                string typeName;
+                string rendered;
+                object value = declaration.DefaultValue;
+                switch (value)
+                {
+                    case bool b:
+                        typeName = "bool";
+                        rendered = b ? "true" : "false";
+                        break;
+                    case int or long or short or byte or sbyte or ushort or uint:
+                        typeName = "int";
+                        rendered = Convert.ToInt64(value).ToString(
+                            System.Globalization.CultureInfo.InvariantCulture);
+                        break;
+                    case double or float:
+                        typeName = "float";
+                        rendered = RenderDouble(Convert.ToDouble(value));
+                        break;
+                    case string str:
+                        typeName = "string";
+                        rendered = "\"" + Json.Escape(str) + "\"";
+                        break;
+                    default:
+                        throw new ModException(
+                            ModSubsystem.Settings, ModErrorCode.InvalidArgument,
+                            "setting '" + declaration.Key + "' has a default of type " +
+                            (value?.GetType().Name ?? "null") +
+                            "; a setting is bool, int, float or string, because those " +
+                            "are the types that mean one thing in JSON, in C and in C#",
+                            context.Id);
+                }
+
+                parts.Add("{\"key\":\"" + Json.Escape(declaration.Key) +
+                          "\",\"type\":\"" + typeName +
+                          "\",\"default\":" + rendered +
+                          ",\"description\":\"" + Json.Escape(declaration.Description) + "\"}");
             }
 
             using var schema = new NativeBridge.Utf8("[" + string.Join(",", parts) + "]");
@@ -368,30 +415,125 @@ namespace Misery.ModHost
             return new NativeResource(this, 0, null);
         }
 
-        // Declare is native because the SCHEMA is what teardown must own. Storage
-        // is not, in this epoch: the native settings table implements Declare
-        // and nothing else, and a get/set that silently did something managed
-        // and per-process would be a setting that does not persist while looking
-        // like one that does. Refusing says so.
+        // Python's repr() for a float: the shortest text that round-trips, and
+        // always with a fraction or exponent so it reads back as a float. The
+        // native writer does the same, so a file written from either side is
+        // byte-identical to the reference's.
+        private static string RenderDouble(double value)
+        {
+            string text = value.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+            if (text.IndexOfAny(new[] { '.', 'E', 'e', 'N', 'I' }) < 0)
+            {
+                text += ".0";
+            }
+
+            return text;
+        }
+
         internal T SettingsGet<T>(ModContextImpl context, SettingKey<T> key)
         {
             RequireGameThread("reading a setting", context.Id);
-            throw new ModException(ModSubsystem.Settings, ModErrorCode.NotFound,
-                                   "setting storage is not implemented in this " +
-                                   "epoch; only Declare is", context.Id);
+            using var name = new NativeBridge.Utf8(key.Name);
+            NativeBridge.MbError error = default;
+            int status;
+
+            if (typeof(T) == typeof(bool))
+            {
+                int value = 0;
+                status = _settings->GetBool(context.ModHandle, name.Str, &value, &error);
+                NativeBridge.Check(status, error, "read setting '" + key.Name + "'");
+                return (T)(object)(value != 0);
+            }
+
+            if (typeof(T) == typeof(long) || typeof(T) == typeof(int))
+            {
+                long value = 0;
+                status = _settings->GetInt(context.ModHandle, name.Str, &value, &error);
+                NativeBridge.Check(status, error, "read setting '" + key.Name + "'");
+                if (typeof(T) == typeof(int))
+                {
+                    if (value < int.MinValue || value > int.MaxValue)
+                    {
+                        throw new ModException(
+                            ModSubsystem.Settings, ModErrorCode.InvalidArgument,
+                            "setting '" + key.Name + "' holds " + value +
+                            ", which does not fit an int; read it as a long",
+                            context.Id);
+                    }
+
+                    return (T)(object)(int)value;
+                }
+
+                return (T)(object)value;
+            }
+
+            if (typeof(T) == typeof(double) || typeof(T) == typeof(float))
+            {
+                double value = 0;
+                status = _settings->GetFloat(context.ModHandle, name.Str, &value, &error);
+                NativeBridge.Check(status, error, "read setting '" + key.Name + "'");
+                return typeof(T) == typeof(float) ? (T)(object)(float)value : (T)(object)value;
+            }
+
+            if (typeof(T) == typeof(string))
+            {
+                NativeBridge.MbStr value = default;
+                status = _settings->GetString(context.ModHandle, name.Str, &value, &error);
+                NativeBridge.Check(status, error, "read setting '" + key.Name + "'");
+                return (T)(object)value.ToString();
+            }
+
+            throw new ModException(
+                ModSubsystem.Settings, ModErrorCode.InvalidArgument,
+                "a setting is read as bool, int, long, float, double or string; not " +
+                typeof(T).Name, context.Id);
         }
 
         internal void SettingsSet<T>(ModContextImpl context, SettingKey<T> key, T value)
         {
             RequireGameThread("writing a setting", context.Id);
-            throw new ModException(ModSubsystem.Settings, ModErrorCode.NotFound,
-                                   "setting storage is not implemented in this " +
-                                   "epoch; only Declare is", context.Id);
+            using var name = new NativeBridge.Utf8(key.Name);
+            NativeBridge.MbError error = default;
+            int status;
+
+            switch (value)
+            {
+                case bool b:
+                    status = _settings->SetBool(context.ModHandle, name.Str, b ? 1 : 0, &error);
+                    break;
+                case int or long or short or byte or sbyte or ushort or uint:
+                    status = _settings->SetInt(context.ModHandle, name.Str,
+                                               Convert.ToInt64(value), &error);
+                    break;
+                case double or float:
+                    status = _settings->SetFloat(context.ModHandle, name.Str,
+                                                 Convert.ToDouble(value), &error);
+                    break;
+                case string str:
+                {
+                    using var text = new NativeBridge.Utf8(str);
+                    status = _settings->SetString(context.ModHandle, name.Str, text.Str, &error);
+                    break;
+                }
+                default:
+                    throw new ModException(
+                        ModSubsystem.Settings, ModErrorCode.InvalidArgument,
+                        "a setting is written as bool, int, long, float, double or string; not " +
+                        (value?.GetType().Name ?? "null"), context.Id);
+            }
+
+            NativeBridge.Check(status, error, "write setting '" + key.Name + "'");
         }
 
         internal void SettingsSave(ModContextImpl context)
         {
             RequireGameThread("saving settings", context.Id);
+            // This used to return after the thread check and write nothing --
+            // a Save that looked like it persisted and did not, which is exactly
+            // the shape the old comment on SettingsGet warned against.
+            NativeBridge.MbError error = default;
+            int status = _settings->Save(context.ModHandle, &error);
+            NativeBridge.Check(status, error, "save settings");
         }
 
         // ---- diagnostics ------------------------------------------------

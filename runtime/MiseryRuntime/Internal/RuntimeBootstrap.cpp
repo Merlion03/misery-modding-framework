@@ -70,6 +70,7 @@ extern "C" int MiseryBridgeRaiseFrameworkEvent(
 // the runtime that owns the process may do -- so it deliberately does not appear
 // there.
 extern "C" void MiseryBridgeSetGameThread(unsigned long thread_id);
+extern "C" void MiseryBridgeSetSettingsRoot(const char* root);
 extern "C" void MiseryBridgeSetGenerationSource(
     unsigned long long (*current)(), int (*published)(),
     const char* (*phase)(), const char* (*last_revoke)());
@@ -583,6 +584,33 @@ DWORD WINAPI RuntimeThread(LPVOID) {
   // the resolver rather than assumed by this code. That is the whole reason the
   // cost record carries a thread id: this is the consumer that needed it.
   MiseryBridgeSetGameThread(cost.thread_id);
+
+  // WHERE A MOD'S SETTINGS LIVE.
+  //
+  // %LOCALAPPDATA%\MISERY\Saved\MiseryFramework\Settings -- the user's
+  // profile, beside where this project already stages mod containers, and
+  // never under the installation, which is read-only apart from the bootstrap
+  // surface. Resolved from the environment the way every instrument in this
+  // repository resolves it, which needs nothing beyond kernel32; the shell
+  // known-folder API would add two link dependencies for the same answer.
+  //
+  // Injected once, here, so the bridge holds a path and not the knowledge of
+  // how to find one -- the harness hands it a temporary directory instead.
+  {
+    char local_appdata[MAX_PATH] = {0};
+    const DWORD length = GetEnvironmentVariableA("LOCALAPPDATA", local_appdata,
+                                                 sizeof(local_appdata));
+    if (length == 0 || length >= sizeof(local_appdata)) {
+      Log("runtime: LOCALAPPDATA is not set; settings will not persist and "
+          "Save() will say so");
+      MiseryBridgeSetSettingsRoot("");
+    } else {
+      std::string root = std::string(local_appdata) +
+                         "\\MISERY\\Saved\\MiseryFramework\\Settings";
+      MiseryBridgeSetSettingsRoot(root.c_str());
+      Log("runtime: settings root %s", root.c_str());
+    }
+  }
 
   // WHERE misery:generations READS FROM.
   //

@@ -313,6 +313,13 @@ namespace Misery.ModHost
                 return string.Empty;
             }
 
+            // RFC 8259: the two mandatory escapes, the five named shorthands,
+            // and \u00XX for every other control character. The previous
+            // version handled five characters and passed the rest through raw,
+            // which is the same defect the native escaper had (Stage 8.1) and
+            // the same consequence -- a schema or log line carrying, say, a
+            // form feed would have reached native as a document no parser
+            // accepts.
             var builder = new System.Text.StringBuilder(text.Length + 8);
             foreach (char c in text)
             {
@@ -320,10 +327,22 @@ namespace Misery.ModHost
                 {
                     case '"': builder.Append("\\\""); break;
                     case '\\': builder.Append("\\\\"); break;
+                    case '\b': builder.Append("\\b"); break;
+                    case '\f': builder.Append("\\f"); break;
                     case '\n': builder.Append("\\n"); break;
                     case '\r': builder.Append("\\r"); break;
                     case '\t': builder.Append("\\t"); break;
-                    default: builder.Append(c); break;
+                    default:
+                        if (c < 0x20)
+                        {
+                            builder.Append("\\u00").Append(((int)c).ToString("x2"));
+                        }
+                        else
+                        {
+                            builder.Append(c);
+                        }
+
+                        break;
                 }
             }
 

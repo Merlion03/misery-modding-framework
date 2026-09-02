@@ -124,15 +124,15 @@ namespace Misery.ModHost
             public uint VersionMajor;
             public uint VersionMinor;
             public delegate* unmanaged[Cdecl]<ulong, MbStr, MbError*, int> Declare;
-            public IntPtr GetBool;
-            public IntPtr GetInt;
-            public IntPtr GetFloat;
-            public IntPtr GetString;
-            public IntPtr SetBool;
-            public IntPtr SetInt;
-            public IntPtr SetFloat;
-            public IntPtr SetString;
-            public IntPtr Save;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, int*, MbError*, int> GetBool;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, long*, MbError*, int> GetInt;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, double*, MbError*, int> GetFloat;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, MbStr*, MbError*, int> GetString;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, int, MbError*, int> SetBool;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, long, MbError*, int> SetInt;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, double, MbError*, int> SetFloat;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, MbStr, MbError*, int> SetString;
+            public delegate* unmanaged[Cdecl]<ulong, MbError*, int> Save;
         }
 
         [StructLayout(LayoutKind.Sequential)]
