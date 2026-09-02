@@ -58,6 +58,14 @@
 extern "C" int MiseryBridgeRaiseFrameworkEvent(
     const char* name, const char* payload_json);
 #include "Bindings.h"
+#include "ConsoleUi.h"
+#include "InputSource.h"
+
+// Same module, so plain extern "C" -- not dllimport, which would route a
+// same-module call through an import thunk that does not exist.
+extern "C" void MiseryBridgeSetInputStatus(
+    void (*read)(int*, unsigned*, unsigned long long*, unsigned long long*,
+                 unsigned*, int*));
 #include "ContentGeneration.h"
 #include "ItemsBackend.h"
 #include "ManagedHost.h"
@@ -483,6 +491,43 @@ void ContentLifecycle(uint64_t guobjectarray, uint64_t namepool) {
   }
 }
 
+// ---- the developer console -------------------------------------------------
+//
+// It starts on the GAME THREAD, and that is not a formality. The overlay window
+// belongs to the thread that creates it and is pumped by that thread's message
+// loop; created anywhere else it would need a second pump, and its input
+// handler would then run somewhere the bridge's thread check would refuse.
+//
+// It also starts here rather than after the first content generation, because
+// the whole point is that it works before there is one. The Stage 8 input
+// research measured the FTSTicker pump running at the main menu with no world
+// loaded, and the console needs nothing else.
+void StartConsoleJob(void* ctx) {
+  std::string* why = static_cast<std::string*>(ctx);
+  misery::console_ui::Start(why);
+}
+
+void StopConsoleJob(void* ctx) {
+  std::string* why = static_cast<std::string*>(ctx);
+  misery::console_ui::Stop(why);
+}
+
+void ConsoleFrame(void*) { misery::console_ui::Tick(); }
+
+// What misery:input answers from. Pushed rather than linked, so BridgeTables
+// stays drivable by the offline harnesses without a window procedure in them.
+void ReadInputStatus(int* attached, unsigned* toggle_key,
+                     unsigned long long* seen, unsigned long long* suppressed,
+                     unsigned* rearms, int* console_open) {
+  const misery::input::Status source = misery::input::Read();
+  *attached = source.attached ? 1 : 0;
+  *seen = source.messages_seen;
+  *suppressed = source.messages_suppressed;
+  *rearms = source.rearms;
+  *toggle_key = misery::console_ui::ToggleKey();
+  *console_open = misery::console_ui::IsOpen() ? 1 : 0;
+}
+
 DWORD WINAPI RuntimeThread(LPVOID) {
   std::string why;
   if (!WaitForEngine(&why)) {
@@ -537,6 +582,28 @@ DWORD WINAPI RuntimeThread(LPVOID) {
     return 6;
   }
   Log("runtime: the game-thread carrier is active");
+
+  // The console. NOT fail-closed: a console that could not attach is a missing
+  // developer tool, not a reason to stop a game from running. It says why, in
+  // the log, and the game carries on without it.
+  {
+    std::string console_error;
+    if (!misery::gamethread::RunBlocking(&StartConsoleJob, &console_error,
+                                         kResolveTimeoutMs, &error)) {
+      Log("runtime: the console could not be started on the game thread -- %s",
+          error.c_str());
+    } else if (!console_error.empty()) {
+      Log("runtime: the console did not attach -- %s", console_error.c_str());
+    } else {
+      const misery::input::Status source = misery::input::Read();
+      Log("runtime: developer console ready on window 0x%llx (thread %u); "
+          "toggle key 0x%02X",
+          static_cast<unsigned long long>(source.window),
+          source.window_thread_id, misery::console_ui::ToggleKey());
+      misery::gamethread::SetFrameCallback(&ConsoleFrame, nullptr);
+      MiseryBridgeSetInputStatus(&ReadInputStatus);
+    }
+  }
 
   // Only the STARTUP phase here. Content the game loads with a save is not
   // guaranteed present, and -- measured -- content that IS present before

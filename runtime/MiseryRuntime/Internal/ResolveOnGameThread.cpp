@@ -547,7 +547,16 @@ bool RunBlocking(void (*job)(void* ctx), void* ctx, uint32_t timeout_ms,
   return true;
 }
 
+void SetFrameCallback(void (*fn)(void* ctx), void* ctx) {
+  if (g_dispatcher == nullptr) return;
+  g_dispatcher->SetFrameCallback(fn, ctx);
+}
+
 void Teardown(uint32_t timeout_ms) {
+  // Drop the frame callback BEFORE stopping the pump. Leaving it installed
+  // through teardown would leave one more chance for the pump to call into a
+  // module that is being taken apart.
+  if (g_dispatcher != nullptr) g_dispatcher->SetFrameCallback(nullptr, nullptr);
   if (g_dispatcher != nullptr) {
     g_dispatcher->Shutdown(timeout_ms);
     delete g_dispatcher;

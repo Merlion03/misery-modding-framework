@@ -18,7 +18,7 @@ namespace RefMod
     /// function, and could not tell you what a UClass is.
     /// </remarks>
     [ModCapabilities(Capabilities.Log, Capabilities.Items,
-                     Capabilities.Events,
+                     Capabilities.Events, Capabilities.Console,
                      FrameworkApi = "^0.5.0")]
     public sealed class ReferenceMod : IMod
     {
@@ -31,6 +31,7 @@ namespace RefMod
 
         private IModContext _context;
         private IModResource _item;
+        private IModResource _command;
 
         /// <summary>The row the framework derived. Read by the acceptance.</summary>
         public static string RegisteredRow { get; private set; }
@@ -74,6 +75,30 @@ namespace RefMod
             // than the mod being written wrong.
             context.Events.Subscribe(FrameworkEvents.ContentReady,
                                      OnContentReady);
+
+            // A console command, registered exactly as any mod would.
+            //
+            // It exists to be ORDINARY, like everything else here: the console
+            // is a capability this mod asks for and may not be granted, so the
+            // absence of one is handled rather than assumed away. What it
+            // demonstrates is that a mod's command reaches the same registry
+            // the framework's own commands live in -- it appears in
+            // misery:help, it completes on Tab, and it runs from the in-game
+            // console with no privileged path.
+            if (context.TryGetConsole(out IModConsole console))
+            {
+                _command = console.RegisterCommand(
+                    "status", "what the reference mod registered and granted",
+                    invocation => "{\"row\":\"" + (RegisteredRow ?? "") +
+                                  "\",\"granted\":" + Granted +
+                                  ",\"arguments\":\"" +
+                                  (invocation.Arguments ?? "") + "\"}");
+                context.Log.Info("registered the refmod:status command");
+            }
+            else
+            {
+                context.Log.Info("no console capability; refmod:status is not registered");
+            }
         }
 
         /// <summary>The framework says this generation is ready to be used.</summary>
@@ -104,6 +129,8 @@ namespace RefMod
 
         public void OnUnload()
         {
+            _command?.Dispose();
+            _command = null;
             _item?.Dispose();
             _item = null;
             _context?.Log.Info("reference mod stopping");

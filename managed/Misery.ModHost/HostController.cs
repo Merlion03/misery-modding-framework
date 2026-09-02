@@ -43,6 +43,7 @@ namespace Misery.ModHost
         private readonly NativeBridge.MbHostTable* _host;
         private readonly int _gameThreadId;
 
+        private readonly NativeBridge.MbConsoleTable* _console;
         private readonly Dictionary<string, LoadedMod> _mods =
             new Dictionary<string, LoadedMod>(StringComparer.Ordinal);
 
@@ -57,6 +58,7 @@ namespace Misery.ModHost
             _items = (NativeBridge.MbItemsTable*)Acquire("core.items");
             _services = (NativeBridge.MbServicesTable*)Acquire("core.services");
             _settings = (NativeBridge.MbSettingsTable*)Acquire("core.settings");
+            _console = (NativeBridge.MbConsoleTable*)Acquire("core.console");
             _diag = (NativeBridge.MbDiagnosticsTable*)Acquire("core.diagnostics");
             _host = (NativeBridge.MbHostTable*)Acquire("core.host");
         }
@@ -345,6 +347,68 @@ namespace Misery.ModHost
                                          &error);
             NativeBridge.Check(status, error, "bind service");
             return new BoundService(this, context.Id, name, handle);
+        }
+
+        /// <summary>Registers a command the console dispatches back into a mod.</summary>
+        /// <remarks>
+        /// The local name is qualified with the mod's id HERE rather than
+        /// native-side, so the name a mod sees in its own handler is the same
+        /// string misery:help prints. Native validates the namespace anyway --
+        /// this is convenience, not the check.
+        /// </remarks>
+        internal IModResource ConsoleRegister(ModContextImpl context, string localName,
+                                              string summary,
+                                              Func<ConsoleInvocation, string> handler)
+        {
+            RequireGameThread("registering a console command", context.Id);
+            if (handler == null)
+            {
+                throw new ModException(ModSubsystem.Console, ModErrorCode.InvalidArgument,
+                                       "a console command needs a handler", context.Id);
+            }
+
+            string qualified = context.Id.Value + ":" + (localName ?? string.Empty);
+            using var n = new NativeBridge.Utf8(qualified);
+            using var d = new NativeBridge.Utf8(summary ?? string.Empty);
+            NativeBridge.MbError error = default;
+            ulong handle = 0;
+            int status = _console->RegisterCommand(context.ModHandle, n.Str, d.Str,
+                                                   &handle, &error);
+            NativeBridge.Check(status, error, "register console command");
+
+            // (command, arguments) -> result JSON. Kept in the trampoline's
+            // table with the events and services handlers, and forgotten by the
+            // same unload path, so a command cannot root its mod's load context.
+            Func<string, string, string> shim =
+                (command, arguments) => handler(new ConsoleInvocation(command, arguments));
+            Trampoline.Remember(handle, context.Id.Value, Trampoline.DispatchCommand, shim);
+            if (_mods.TryGetValue(context.Id.Value, out LoadedMod mod))
+            {
+                mod.Subscriptions.Add(handle);
+            }
+
+            return new NativeResource(this, handle, h => Trampoline.Forget(h));
+        }
+
+        internal void InstallCommandCompletion()
+        {
+            NativeBridge.MbConsoleTable* console = _console;
+            Trampoline.CompleteCommand = (command, result) =>
+            {
+                using var text = new NativeBridge.Utf8(result);
+                NativeBridge.MbError e = default;
+                return console->CompleteDispatch(command, text.Str, &e) == 0;
+            };
+        }
+
+        internal string ConsoleRun(string line)
+        {
+            NativeBridge.MbError error = default;
+            NativeBridge.MbStr json = default;
+            using var text = new NativeBridge.Utf8(line ?? string.Empty);
+            int status = _console->Run(text.Str, &json, &error);
+            NativeBridge.Check(status, error, "run console command");
+            return json.ToString();
         }
 
         internal void InstallServiceCompletion()
@@ -692,6 +756,7 @@ namespace Misery.ModHost
         internal void SetTrampoline()
         {
             InstallServiceCompletion();
+            InstallCommandCompletion();
             NativeBridge.MbError error = default;
             int status = _host->SetTrampoline(&Trampoline.Dispatch, &error);
             NativeBridge.Check(status, error, "set trampoline");

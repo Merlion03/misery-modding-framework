@@ -96,7 +96,37 @@ namespace Misery.ModHost
             return true;
         }
 
+        public bool TryGetConsole(out IModConsole console)
+        {
+            if (!IsAlive || !Grant.Has(Capabilities.Console))
+            {
+                console = null;
+                return false;
+            }
+
+            console = new ModConsoleImpl(_host, this);
+            return true;
+        }
+
         internal void TrackSubscription(ulong handle) => _subscriptions.Add(handle);
+    }
+
+    internal sealed class ModConsoleImpl : IModConsole
+    {
+        private readonly HostController _host;
+        private readonly ModContextImpl _context;
+
+        internal ModConsoleImpl(HostController host, ModContextImpl context)
+        {
+            _host = host;
+            _context = context;
+        }
+
+        public IModResource RegisterCommand(string localName, string summary,
+                                            Func<ConsoleInvocation, string> handler)
+        {
+            return _host.ConsoleRegister(_context, localName, summary, handler);
+        }
     }
 
     internal sealed class CapabilityGrant : ICapabilityGrant

@@ -300,6 +300,55 @@ namespace Misery.ModAPI
         public string Description { get; }
     }
 
+    /// <summary>Commands a mod adds to the developer console.</summary>
+    /// <remarks>
+    /// The name a mod gives is LOCAL. The framework prefixes it with the mod's
+    /// own id, exactly as it does for a log record, so two mods cannot collide
+    /// and no mod can register into another's namespace by asking nicely.
+    ///
+    /// The handler returns the command's result as JSON. It is not free text:
+    /// the console's envelope is a document, the same one
+    /// <c>MbConsoleTable::run</c> answers with, and a handler that returned
+    /// prose would produce a malformed one. Returning null is the same as
+    /// returning <c>null</c> the JSON literal.
+    /// </remarks>
+    public interface IModConsole
+    {
+        /// <summary>Registers a command owned by this mod.</summary>
+        /// <param name="localName">
+        /// Without the mod id. "scan" becomes "alphamod:scan".
+        /// </param>
+        /// <param name="summary">One line, as it appears in misery:help.</param>
+        /// <param name="handler">
+        /// Runs on the game thread when the command is invoked, from the
+        /// in-game console or from any other caller of the same registry.
+        /// </param>
+        IModResource RegisterCommand(string localName, string summary,
+                                     Func<ConsoleInvocation, string> handler);
+    }
+
+    /// <summary>One console command being run.</summary>
+    public readonly struct ConsoleInvocation
+    {
+        /// <summary>Creates an invocation.</summary>
+        public ConsoleInvocation(string command, string arguments)
+        {
+            Command = command;
+            Arguments = arguments;
+        }
+
+        /// <summary>The fully qualified name, "&lt;mod_id&gt;:&lt;name&gt;".</summary>
+        public string Command { get; }
+
+        /// <summary>
+        /// Everything after the command name, verbatim and untrimmed of meaning.
+        /// The registry does not describe a command's arguments, so the
+        /// framework does not parse them either -- that would be inventing a
+        /// grammar every mod would then have to obey.
+        /// </summary>
+        public string Arguments { get; }
+    }
+
     /// <summary>Named input actions a mod declares.</summary>
     /// <remarks>
     /// Declaration and ownership only in this version. Nothing in the engine
@@ -553,5 +602,11 @@ namespace Misery.ModAPI
 
         /// <summary>Optional. See <see cref="TryGetInput"/>.</summary>
         bool TryGetServices(out IModServices services);
+
+        /// <summary>
+        /// Optional. Returns false when <see cref="Capabilities.Console"/> was
+        /// not granted. See <see cref="TryGetInput"/>.
+        /// </summary>
+        bool TryGetConsole(out IModConsole console);
     }
 }

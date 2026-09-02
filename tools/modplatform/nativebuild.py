@@ -161,6 +161,8 @@ MISERY_RUNTIME_SOURCES = (
     "ModDiscovery.cpp",         # which mods that installation holds
     "ModManifest.cpp",          # Stage 4 ids, versions, manifests
     "ModResolve.cpp",           # and its deterministic load plan
+    "InputSource.cpp",          # keyboard, from the game's own window procedure
+    "ConsoleUi.cpp",            # the developer console over that and the backend
 )
 
 
@@ -214,6 +216,21 @@ MISERY_TEST_HARNESSES = {
     "mod_plan_harness.exe": ("mod_plan_harness.cpp",
                              ("ModDiscovery.cpp", "ModManifest.cpp",
                               "ModResolve.cpp", "Json.cpp")),
+    # The key router and the console's text state: pure logic, no window, so
+    # every rule about who gets a key and what Backspace does is checkable here
+    # rather than only by a person pressing keys in a game.
+    "input_routing_harness.exe": ("input_routing_harness.cpp", ()),
+    "console_line_harness.exe": ("console_line_harness.cpp", ()),
+    # The console UI itself cannot be exercised without a game to attach to --
+    # the manual acceptance pass is where the window and the attach are tested.
+    # What IS worth checking on every build is that it still links against the
+    # REAL backend seam, so that nobody quietly satisfies the linker with a stub.
+    "console_ui_link_check.exe": ("console_ui_link_check.cpp",
+                                  ("InputSource.cpp", "ConsoleUi.cpp",
+                                   "BridgeTables.cpp", "Json.cpp",
+                                   "ModManifest.cpp", "ModResolve.cpp",
+                                   "ModDiscovery.cpp"),
+                                  "user32.lib gdi32.lib"),
 }
 
 
@@ -222,10 +239,12 @@ def build_harnesses(repo_root):
     internal = os.path.join(repo_root, "runtime", "MiseryRuntime", "Internal")
     tests = os.path.join(repo_root, "runtime", "tests")
     built = {}
-    for out_name, (main_source, deps) in sorted(MISERY_TEST_HARNESSES.items()):
+    for out_name, entry in sorted(MISERY_TEST_HARNESSES.items()):
+        main_source, deps = entry[0], entry[1]
+        extra = entry[2] if len(entry) > 2 else ""
         sources = [os.path.join(tests, main_source)]
         sources += [os.path.join(internal, name) for name in deps]
-        built[out_name] = build_exe(sources, out_name)
+        built[out_name] = build_exe(sources, out_name, extra=extra)
     return built
 
 
@@ -241,9 +260,13 @@ def build_runtime(repo_root, out_name="MiseryRuntime.dll"):
     One function so the flags cannot drift from the source list the way the
     source list already drifted from its callers three times.
     """
+    # user32/gdi32: the console UI owns a window and paints into it. They are
+    # named here rather than #pragma comment(lib) in the source so that the whole
+    # link line stays readable in one place.
     return build_dll(runtime_sources(repo_root), out_name,
                      extra='/I"%s"' % DOTNET_PACK,
-                     libs='"%s"' % os.path.join(DOTNET_PACK, "libnethost.lib"))
+                     libs='"%s" user32.lib gdi32.lib'
+                          % os.path.join(DOTNET_PACK, "libnethost.lib"))
 
 
 def build_proxy(boot_dir, out_name, sources, def_file, asm_file, libs=""):

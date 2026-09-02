@@ -29,6 +29,7 @@
 #include <windows.h>
 
 #include "BridgeCore.h"
+#include "ConsoleBackend.h"
 #include "Json.h"
 #include "ModPlan.h"
 
@@ -185,6 +186,8 @@ struct BuildIdentity;
 BuildIdentity& BuildForExports();
 struct ItemsCounters;
 ItemsCounters& ItemsCountersForExports();
+struct InputStatusSource;
+InputStatusSource& InputSourceForExports();
 
 // Helpers defined further down the file and used across its subsystems: the
 // console renders JSON and Python repr() text, the settings block validates
@@ -267,6 +270,31 @@ struct ItemsCounters {
   MbItemsDeclaredFn declared = nullptr;
   MbItemsLiveFn live = nullptr;
 };
+
+// The input source's own account of itself, injected rather than linked.
+//
+// BridgeTables is deliberately linkable on its own -- nine offline harnesses
+// drive the real tables without a game anywhere near them -- and linking
+// InputSource.cpp in would drag a window procedure into every one of them. So
+// the runtime pushes an accessor, and a harness that pushes none gets an honest
+// "not attached" rather than a zero that reads like a fact.
+extern "C" {
+typedef void (*MbInputStatusFn)(int* attached, unsigned* toggle_key,
+                                unsigned long long* seen,
+                                unsigned long long* suppressed,
+                                unsigned* rearms, int* console_open);
+}
+
+struct InputStatusSource {
+  MbInputStatusFn read = nullptr;
+};
+
+static InputStatusSource& InputSource() {
+  static InputStatusSource source;
+  return source;
+}
+
+InputStatusSource& InputSourceForExports() { return InputSource(); }
 
 static ItemsCounters& ItemsCountersSource() {
   static ItemsCounters counters;
@@ -2340,6 +2368,42 @@ static void DeclareBuiltins() {
   }
 }
 
+// What the keyboard is doing, and what is still not offered.
+//
+// Two different questions, kept apart on purpose. The SOURCE is attached and
+// delivering -- the Stage 8 input research established that and the developer
+// console runs on it. The mod-facing REGISTRY still has no way to bind a key to
+// an action, and saying "input works" without saying that would leave a mod
+// author to discover the silence at runtime, which is the exact failure
+// MbInputTable::engine_input_wired was added to prevent.
+static std::string BuiltinInput() {
+  const InputStatusSource& source = InputSource();
+  if (source.read == nullptr) {
+    return NotAttached("no input source is attached to the bridge; the runtime "
+                       "attaches one at startup, so this is either a harness or "
+                       "a runtime whose console did not start");
+  }
+  int attached = 0, console_open = 0;
+  unsigned toggle = 0, rearms = 0;
+  unsigned long long seen = 0, suppressed = 0;
+  source.read(&attached, &toggle, &seen, &suppressed, &rearms, &console_open);
+  std::string json = "{\"attached\":";
+  json += attached ? "true" : "false";
+  json += ",\"toggle_key\":" + std::to_string(toggle);
+  json += ",\"messages_seen\":" + std::to_string(seen);
+  json += ",\"messages_suppressed\":" + std::to_string(suppressed);
+  json += ",\"window_rearms\":" + std::to_string(rearms);
+  json += ",\"console_open\":";
+  json += console_open ? "true" : "false";
+  json += ",\"mod_bindings\":false";
+  json += ",\"note\":" + Quoted(
+      "the source delivers keyboard input to the framework and the developer "
+      "console consumes it; a mod still cannot bind a key to a declared action, "
+      "and until it can this reports mod_bindings false rather than implying "
+      "otherwise");
+  return json + "}";
+}
+
 static std::string RunBuiltin(const std::string& name,
                               const std::string& args) {
   if (name == "misery:help") return BuiltinHelp();
@@ -2360,9 +2424,7 @@ static std::string RunBuiltin(const std::string& name,
     return NotAttached("the items backend does not expose a listing yet");
   }
   if (name == "misery:errors") return RecentErrorsJson();
-  if (name == "misery:input") {
-    return NotAttached("core.input_registry is declared and not dispatched");
-  }
+  if (name == "misery:input") return BuiltinInput();
   return NotAttached("unimplemented builtin");
 }
 
@@ -2441,10 +2503,10 @@ static MbStatus ConsoleCompleteDispatch(MbHandle command, MbStr result_json,
   BRIDGE_CATCH(out_error)
 }
 
-static MbStatus ConsoleRun(MbStr line, MbStr* out_result_json,
-                           MbError* out_error) {
-  BRIDGE_ENTER(out_error);
-  BRIDGE_TRY
+// The command engine. Everything from splitting the line to producing the
+// envelope; nothing about how the answer is handed back, because that is the
+// only part the two callers disagree about.
+static std::string RunLineToEnvelope(const std::string& text) {
   DeclareBuiltins();
 
   // run() NEVER FAILS FOR A COMMAND'S SAKE.
@@ -2455,17 +2517,11 @@ static MbStatus ConsoleRun(MbStr line, MbStr* out_result_json,
   // the console itself could not run -- wrong thread, or the reply did not fit.
   // Callers that conflate the two would report a mod's bad command as a
   // framework failure.
-  const std::string text = ToStd(line);
   std::string name, args;
   {
     size_t begin = text.find_first_not_of(" \t\r\n");
     if (begin == std::string::npos) {
-      const std::string envelope = "{\"ok\":false,\"error\":\"empty command\"}";
-      if (!ThreadArena().TryPut(envelope, out_result_json)) {
-        return Fail(out_error, MB_SUB_CONSOLE, MB_E_LIMIT_EXCEEDED,
-                    "the console reply did not fit the reply buffer");
-      }
-      return MB_STATUS_OK;
+      return "{\"ok\":false,\"error\":\"empty command\"}";
     }
     size_t end = text.find_first_of(" \t\r\n", begin);
     name = text.substr(begin, end == std::string::npos ? std::string::npos
@@ -2538,6 +2594,14 @@ static MbStatus ConsoleRun(MbStr line, MbStr* out_result_json,
     }
   }
 
+  return envelope;
+}
+
+static MbStatus ConsoleRun(MbStr line, MbStr* out_result_json,
+                           MbError* out_error) {
+  BRIDGE_ENTER(out_error);
+  BRIDGE_TRY
+  const std::string envelope = RunLineToEnvelope(ToStd(line));
   if (!ThreadArena().TryPut(envelope, out_result_json)) {
     return Fail(out_error, MB_SUB_CONSOLE, MB_E_LIMIT_EXCEEDED,
                 "the console reply did not fit the reply buffer; refusing "
@@ -2547,6 +2611,7 @@ static MbStatus ConsoleRun(MbStr line, MbStr* out_result_json,
   return MB_STATUS_OK;
   BRIDGE_CATCH(out_error)
 }
+
 
 static MbConsoleTable g_console = {sizeof(MbConsoleTable), 1, 0,
                                    ConsoleRegister, ConsoleUnregister,
@@ -2639,6 +2704,46 @@ static const MbRoot g_root = {sizeof(MbRoot), MB_ABI_EPOCH, MB_API_MAJOR,
 }  // namespace bridge
 }  // namespace misery
 
+namespace misery {
+namespace console_backend {
+
+RunResult Run(const std::string& line) {
+  RunResult result;
+  // The same thread rule the ABI door enforces, checked here rather than
+  // inherited: the UI runs on the window procedure, which the input research
+  // measured to be the game thread -- but "measured once" is not "guaranteed
+  // forever", and a console that ran a command off the game thread would be
+  // reaching into engine state from the wrong place.
+  if (bridge::P().game_thread != 0 && GetCurrentThreadId() != bridge::P().game_thread) {
+    result.refusal = "the console must run on the game thread";
+    return result;
+  }
+  try {
+    result.envelope = bridge::RunLineToEnvelope(line);
+    result.ran = true;
+  } catch (const std::exception& error) {
+    result.refusal = std::string("the console engine threw: ") + error.what();
+  } catch (...) {
+    result.refusal = "the console engine threw a non-standard exception";
+  }
+  return result;
+}
+
+std::vector<std::string> CommandNames() {
+  bridge::DeclareBuiltins();
+  std::vector<std::string> names;
+  names.reserve(bridge::P().commands.size());
+  for (const auto& entry : bridge::P().commands) {
+    names.push_back(entry.first);
+  }
+  // bridge::P().commands is an ordered map, so this is already sorted; saying so is
+  // cheaper than a reader having to go and check.
+  return names;
+}
+
+}  // namespace console_backend
+}  // namespace misery
+
 // ------------------------------------------------------------- exports ----
 extern "C" MB_EXPORT MbStatus MiseryBridgeAcquire(
     uint32_t abi_epoch, const MbRoot** out_root, MbHandle* out_host,
@@ -2716,6 +2821,11 @@ extern "C" __declspec(dllexport) void MiseryBridgeSetBuildIdentity(
   identity.build_key = build_key == nullptr ? "" : build_key;
   identity.engine_version = engine_version == nullptr ? "" : engine_version;
   identity.engine_cl = engine_cl;
+}
+
+extern "C" __declspec(dllexport) void MiseryBridgeSetInputStatus(
+    misery::bridge::MbInputStatusFn read) {
+  misery::bridge::InputSourceForExports().read = read;
 }
 
 extern "C" __declspec(dllexport) void MiseryBridgeSetItemsCounters(

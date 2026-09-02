@@ -56,6 +56,7 @@ class GameThreadDispatcher {
     std::atomic<uint32_t> rejected{0};   // Enqueue while not accepting
     std::atomic<uint32_t> ticks{0};
     std::atomic<uint32_t> exec_thread_id{0};  // last game-thread id the pump saw
+    std::atomic<uint32_t> frame_faults{0};    // a frame callback that threw
     std::atomic<int32_t> state{kUninit};
   };
 
@@ -112,6 +113,19 @@ class GameThreadDispatcher {
   // until no carrier code can re-enter this module. Drop policy: any job still
   // queued when the pump has stopped is dropped (counted), never run during
   // shutdown.
+  // A per-frame callback, for work that is not a job: something that has to
+  // happen EVERY frame rather than once when asked. The console UI's repaint is
+  // the first, and it is deliberately not expressed as a job -- a queue entry
+  // per frame would make the queue's depth a function of the frame rate.
+  //
+  // It runs before the queue drains, so a frame callback that enqueues work
+  // gets it on the next tick rather than inside its own.
+  void SetFrameCallback(Misery::GameThread::JobFn fn, void* ctx) {
+    std::lock_guard<std::mutex> lk(mtx_);
+    frame_ctx_ = ctx;
+    frame_ = fn;                 // written last; the context must be up first
+  }
+
   void Shutdown(uint32_t timeout_ms) {
     {
       std::lock_guard<std::mutex> lk(mtx_);
@@ -146,6 +160,24 @@ class GameThreadDispatcher {
     stats_.exec_thread_id.store(GetCurrentThreadId(), std::memory_order_relaxed);
     stats_.ticks.fetch_add(1, std::memory_order_relaxed);
 
+    Misery::GameThread::JobFn frame = nullptr;
+    void* frame_ctx = nullptr;
+    {
+      std::lock_guard<std::mutex> lk(mtx_);
+      frame = frame_;
+      frame_ctx = frame_ctx_;
+    }
+    if (frame != nullptr) {
+      // A throwing frame callback must not take the engine's tick down with it;
+      // the pump has to return true or the carrier tears the registration down
+      // and every later frame is lost too.
+      try {
+        frame(frame_ctx);
+      } catch (...) {
+        stats_.frame_faults.fetch_add(1, std::memory_order_relaxed);
+      }
+    }
+
     batch_.clear();
     {
       std::lock_guard<std::mutex> lk(mtx_);
@@ -167,6 +199,8 @@ class GameThreadDispatcher {
   std::mutex mtx_;
   std::deque<Job> queue_;
   std::vector<Job> batch_;  // reused per tick (game thread only)
+  Misery::GameThread::JobFn frame_ = nullptr;
+  void* frame_ctx_ = nullptr;
   bool accepting_ = false;
   std::atomic<bool> initialized_{false};
   bool wait_stopped_ok_ = false;

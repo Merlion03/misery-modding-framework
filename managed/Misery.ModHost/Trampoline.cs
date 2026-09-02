@@ -65,6 +65,13 @@ namespace Misery.ModHost
         internal const int DispatchService = 4;
 
         /// <summary>
+        /// How a command's result gets back to native. Installed by the host
+        /// against the live console table; null before the table is acquired,
+        /// which is why the dispatch above checks rather than assumes.
+        /// </summary>
+        internal static Func<ulong, string, bool> CompleteCommand;
+
+        /// <summary>
         /// How a service handler's result reaches native. Set once by the host,
         /// which owns the services table; a static hook because Dispatch is a
         /// static unmanaged entry and cannot reach the controller otherwise.
@@ -195,8 +202,22 @@ namespace Misery.ModHost
                         ((Action<string, int>)registration.Callback)(first, phase);
                         break;
                     case DispatchCommand:
-                        ((Action<string>)registration.Callback)(second);
+                    {
+                        // Same shape as a service call, and for the same reason:
+                        // MbTrampoline returns void, so a command's RESULT goes
+                        // back through the table's complete_dispatch before this
+                        // returns. A handler that threw completes nothing, and
+                        // native reports that to the caller structurally rather
+                        // than letting an exception cross the boundary.
+                        string produced = ((Func<string, string, string>)registration.Callback)(first, second);
+                        Func<ulong, string, bool> finish = CompleteCommand;
+                        if (finish != null)
+                        {
+                            finish(subscription, produced ?? "null");
+                        }
+
                         break;
+                    }
                     case DispatchService:
                     {
                         // The registration is ONE closure per service, keyed by

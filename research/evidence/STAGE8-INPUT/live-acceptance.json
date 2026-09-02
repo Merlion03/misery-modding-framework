@@ -1,0 +1,81 @@
+{
+  "install_root": "D:\\Games\\Steam\\steamapps\\common\\MISERY",
+  "window": {
+    "hwnd": "0x35007da",
+    "rect": {
+      "left": 0,
+      "top": 0,
+      "right": 2560,
+      "bottom": 1440,
+      "width": 2560,
+      "height": 1440
+    }
+  },
+  "foreground_is_game": true,
+  "baseline": {
+    "ink": {
+      "prompt": 4,
+      "notice": 14981,
+      "output": 76672,
+      "echo": 0,
+      "error": 0,
+      "background": 1425173,
+      "total": 1546240,
+      "ink": 91657
+    },
+    "digest": "0e60bf546048c0ca"
+  },
+  "after_toggle": {
+    "ink": {
+      "prompt": 44,
+      "notice": 682,
+      "output": 9,
+      "echo": 330,
+      "error": 582,
+      "background": 1535609,
+      "total": 1546240,
+      "ink": 1647
+    },
+    "digest": "ca1f9803fa6f2b9f"
+  },
+  "after_command": {
+    "ink": {
+      "prompt": 44,
+      "notice": 675,
+      "output": 0,
+      "echo": 492,
+      "error": 873,
+      "background": 1533137,
+      "total": 1546240,
+      "ink": 2084
+    },
+    "digest": "def41174dfe46d08"
+  },
+  "after_close": {
+    "ink": {
+      "prompt": 4,
+      "notice": 14981,
+      "output": 76672,
+      "echo": 0,
+      "error": 0,
+      "background": 1425173,
+      "total": 1546240,
+      "ink": 91657
+    },
+    "digest": "0e60bf546048c0ca"
+  },
+  "measured": {
+    "game_text_pixels_before": 76672,
+    "game_text_pixels_with_console_open": 9,
+    "game_text_pixels_after_close": 76672,
+    "console_ink_open": 1647,
+    "console_ink_after_command": 2084
+  },
+  "checks": {
+    "the game's own screen is what is showing to begin with": true,
+    "the toggle key covers it with the console": true,
+    "running a command adds text to the console": true,
+    "the toggle key gives the game its screen back": true
+  },
+  "verdict": "PASS"
+}

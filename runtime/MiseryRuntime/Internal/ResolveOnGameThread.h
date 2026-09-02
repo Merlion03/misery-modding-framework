@@ -203,6 +203,17 @@ bool Resolve(uint64_t guobjectarray, uint64_t namepool,
 bool RunBlocking(void (*job)(void* ctx), void* ctx, uint32_t timeout_ms,
                  std::string* error);
 
+// Run *fn* on the game thread once per frame, for as long as the pump runs.
+//
+// Not a job. A job happens once, when it is asked for; this is for work that
+// belongs to every frame -- the console UI's repaint is the first of it -- and
+// expressing that as a job per frame would tie the queue's depth to the frame
+// rate. Passing nullptr removes it.
+//
+// The callback runs BEFORE the queue drains and must be quick: it is on the
+// game thread, in the engine's own tick.
+void SetFrameCallback(void (*fn)(void* ctx), void* ctx);
+
 // Stop the pump and wait until no carrier resource can re-enter this module.
 // Must complete before the module is unloaded.
 void Teardown(uint32_t timeout_ms);

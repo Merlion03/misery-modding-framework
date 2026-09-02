@@ -121,6 +121,20 @@ namespace Misery.ModHost
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        internal struct MbConsoleTable
+        {
+            public uint StructSize;
+            public uint VersionMajor;
+            public uint VersionMinor;
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, MbStr, ulong*, MbError*, int> RegisterCommand;
+            public delegate* unmanaged[Cdecl]<ulong, MbError*, int> UnregisterCommand;
+            public delegate* unmanaged[Cdecl]<MbStr, MbStr*, MbError*, int> Run;
+            // How a command's result gets back: MbTrampoline returns void, so
+            // the handler calls this from inside its own dispatch.
+            public delegate* unmanaged[Cdecl]<ulong, MbStr, MbError*, int> CompleteDispatch;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
         internal struct MbSettingsTable
         {
             public uint StructSize;
